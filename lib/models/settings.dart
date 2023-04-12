@@ -64,6 +64,58 @@ class Settings {
   }) {
     _settings[settingType]![settingSubType] = value;
   }
+
+// Save settings to a JSON file
+  Future<void> saveSettingsToFile(String filePath) async {
+    final File file = File(filePath);
+    final Map<String, dynamic> convertedSettings = _settings.map((key, value) {
+      return MapEntry(
+        key.toString(),
+        value.map((subKey, subValue) =>
+            MapEntry(subKey.toString(), subValue.toString())),
+      );
+    });
+    final String jsonString = jsonEncode(convertedSettings);
+    await file.writeAsString(jsonString);
+  }
+
+// Load settings from a JSON file
+  Future<void> loadSettingsFromFile(String filePath) async {
+    final File file = File(filePath);
+    if (await file.exists()) {
+      final String jsonString = await file.readAsString();
+      final Map<String, dynamic> decodedSettings = jsonDecode(jsonString);
+      decodedSettings.forEach((key, value) {
+        final settingType = _parseEnumValue(SettingType.values, key);
+        final subSettings =
+            (value as Map<String, dynamic>).map((subKey, subValue) {
+          return MapEntry(
+            _parseEnumValue(_getEnumValues(settingType), subKey),
+            _parseEnumValue(_getEnumValues(settingType), subValue),
+          );
+        });
+        _settings[settingType] = subSettings;
+      });
+    }
+  }
+
+  List<dynamic> _getEnumValues(SettingType settingType) {
+    switch (settingType) {
+      case SettingType.theme:
+        return Theme.values;
+      case SettingType.language:
+        return Language.values;
+      case SettingType.audio:
+        return Audio.values;
+      case SettingType.audioTwo:
+      default:
+        return AudioTwo.values;
+    }
+  }
+
+  T _parseEnumValue<T>(List<T> enumValues, String stringValue) {
+    return enumValues.firstWhere((e) => e.toString() == stringValue);
+  }
 }
 
 Future<void> main(List<String> args) async {
@@ -106,4 +158,18 @@ Future<void> main(List<String> args) async {
       '${initialSettings.get(settingType: SettingType.audio, settingSubType: Audio.pathLst)}');
   print(
       '${initialSettings.get(settingType: SettingType.audioTwo, settingSubType: AudioTwo.pathLst)}');
+
+  initialSettings.saveSettingsToFile('settings.json');
+
+  Settings loadedSettings = Settings();
+  loadedSettings.loadSettingsFromFile('settings.json');
+
+  print(
+      '${loadedSettings.get(settingType: SettingType.theme, settingSubType: SettingType.theme)}');
+  print(
+      '${loadedSettings.get(settingType: SettingType.audio, settingSubType: Audio.rootPath)}');
+  print(
+      '${loadedSettings.get(settingType: SettingType.audio, settingSubType: Audio.pathLst)}');
+  print(
+      '${loadedSettings.get(settingType: SettingType.audioTwo, settingSubType: AudioTwo.pathLst)}');
 }
