@@ -1,0 +1,21 @@
+{
+  "title": "Téléchargement Audio Youtube",
+  "toggleList": "Basculer la liste",
+  "delete": "Supprimer",
+  "moveItemUp": "Déplacer l'élément vers le haut",
+  "moveItemDown": "Déplacer l'élément vers le bas",
+  "language": "Langue",
+  "english": "anglais",
+  "french": "français",
+  "downloadAudio": "Télécharger Audio Youtube",
+  "translate": "Affichage {language}",
+  "@translate": {
+    "description": "Menu AppBsr de sélection de la langue.",
+    "placeholders": {
+      "language": {}
+    }
+  },
+  "audioQuality": "Qualité max",
+  "ofPreposition": "de",
+  "atPreposition": "à"
+}
