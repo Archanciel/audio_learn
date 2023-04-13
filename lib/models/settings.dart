@@ -8,8 +8,7 @@ import '../constants.dart';
 enum SettingType {
   theme,
   language,
-  audio,
-  audioTwo,
+  playlists,
 }
 
 enum Theme {
@@ -22,29 +21,56 @@ enum Language {
   french,
 }
 
-enum Audio {
+enum Playlists {
   rootPath,
   pathLst,
-  defaultQuality,
+  isMusicQualityByDefault,
+  defaultAudioSort,
 }
 
-enum AudioTwo {
-  rootPath,
-  pathLst,
-  defaultQuality,
+enum AudioSortCriterion { audioDownloadDateTime, validVideoTitle }
+
+class SettingTypeException implements Exception {
+  SettingType _settingType;
+  StackTrace _stackTrace;
+
+  SettingTypeException({
+    required SettingType settingType,
+    StackTrace? stackTrace,
+  })  : _settingType = settingType,
+        _stackTrace = stackTrace ?? StackTrace.current;
+
+  @override
+  String toString() {
+    return ('$_settingType not defined in enum ${_settingType.toString().split('.').first}.\nStack Trace:\n$_stackTrace');
+  }
+}
+
+class SettingTypeNameException implements Exception {
+  String _settingTypeName;
+  StackTrace _stackTrace;
+
+  SettingTypeNameException({
+    required String settingTypeName,
+    StackTrace? stackTrace,
+  })  : _settingTypeName = settingTypeName,
+        _stackTrace = stackTrace ?? StackTrace.current;
+
+  @override
+  String toString() {
+    return ('$_settingTypeName not defined in enum ${_settingTypeName.split('.').first}.\nStack Trace:\n$_stackTrace');
+  }
 }
 
 class Settings {
   final Map<SettingType, Map<dynamic, dynamic>> _settings = {
     SettingType.theme: {SettingType.theme: Theme.dark},
     SettingType.language: {SettingType.language: Language.english},
-    SettingType.audio: {
-      Audio.rootPath: kDownloadAppDir,
-      Audio.pathLst: ["empty", "books", "music"]
-    },
-    SettingType.audioTwo: {
-      AudioTwo.rootPath: kDownloadAppDir,
-      AudioTwo.pathLst: ["EMPTY", "BOOKS", "MUSIC"]
+    SettingType.playlists: {
+      Playlists.rootPath: kDownloadAppDir,
+      Playlists.pathLst: ["EMPTY", "BOOKS", "MUSIC"],
+      Playlists.isMusicQualityByDefault: false,
+      Playlists.defaultAudioSort: AudioSortCriterion.audioDownloadDateTime,
     },
   };
 
@@ -105,15 +131,28 @@ class Settings {
         return Theme.values;
       case SettingType.language:
         return Language.values;
-      case SettingType.audio:
-        return Audio.values;
-      case SettingType.audioTwo:
+      case SettingType.playlists:
+        return Playlists.values;
       default:
-        return AudioTwo.values;
+        throw SettingTypeException(settingType: settingType);
+    }
+  }
+
+  T _getSettingType<T>(List<T> enumValues, String settingTypeStr) {
+    switch (settingTypeStr) {
+      case 'SettingType.theme':
+        return enumValues[0];
+      case 'SettingType.language':
+        return enumValues[1];
+      case 'SettingType.playlists':
+        return enumValues[2];
+      default:
+        throw SettingTypeNameException(settingTypeName: settingTypeStr);
     }
   }
 
   T _parseEnumValue<T>(List<T> enumValues, String stringValue) {
+    // return enumValues.firstWhere((e) => e.toString() == stringValue, orElse: () => _getSettingType(enumValues, stringValue));
     return enumValues.firstWhere((e) => e.toString() == stringValue);
   }
 }
@@ -121,14 +160,20 @@ class Settings {
 Future<void> main(List<String> args) async {
   Settings initialSettings = Settings();
 
+  // print initialSettings created with Settings initial values
+  
   print(
       '${initialSettings.get(settingType: SettingType.theme, settingSubType: SettingType.theme)}');
   print(
-      '${initialSettings.get(settingType: SettingType.audio, settingSubType: Audio.rootPath)}');
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(
-      '${initialSettings.get(settingType: SettingType.audio, settingSubType: Audio.pathLst)}');
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
   print(
-      '${initialSettings.get(settingType: SettingType.audioTwo, settingSubType: AudioTwo.pathLst)}');
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
+  print(
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
+
+  // modify initialSettings values
 
   initialSettings.set(
       settingType: SettingType.theme,
@@ -136,28 +181,37 @@ Future<void> main(List<String> args) async {
       value: Theme.clear);
 
   initialSettings.set(
-      settingType: SettingType.audio,
-      settingSubType: Audio.rootPath,
+      settingType: SettingType.playlists,
+      settingSubType: Playlists.rootPath,
       value: kDownloadAppTestDirWindows);
 
   initialSettings.set(
-      settingType: SettingType.audio,
-      settingSubType: Audio.pathLst,
+      settingType: SettingType.playlists,
+      settingSubType: Playlists.pathLst,
       value: ['one', 'two']);
 
   initialSettings.set(
-      settingType: SettingType.audioTwo,
-      settingSubType: AudioTwo.pathLst,
-      value: ['ONE', 'TWO']);
+      settingType: SettingType.playlists,
+      settingSubType: Playlists.isMusicQualityByDefault,
+      value: true);
 
+  initialSettings.set(
+      settingType: SettingType.playlists,
+      settingSubType: Playlists.defaultAudioSort,
+      value: AudioSortCriterion.validVideoTitle);
+
+  // print initialSettings after modifying its values
+  
   print(
       '${initialSettings.get(settingType: SettingType.theme, settingSubType: SettingType.theme)}');
   print(
-      '${initialSettings.get(settingType: SettingType.audio, settingSubType: Audio.rootPath)}');
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(
-      '${initialSettings.get(settingType: SettingType.audio, settingSubType: Audio.pathLst)}');
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
   print(
-      '${initialSettings.get(settingType: SettingType.audioTwo, settingSubType: AudioTwo.pathLst)}');
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
+  print(
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 
   initialSettings.saveSettingsToFile('settings.json');
 
@@ -167,9 +221,11 @@ Future<void> main(List<String> args) async {
   print(
       '${loadedSettings.get(settingType: SettingType.theme, settingSubType: SettingType.theme)}');
   print(
-      '${loadedSettings.get(settingType: SettingType.audio, settingSubType: Audio.rootPath)}');
+      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(
-      '${loadedSettings.get(settingType: SettingType.audio, settingSubType: Audio.pathLst)}');
+      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
   print(
-      '${loadedSettings.get(settingType: SettingType.audioTwo, settingSubType: AudioTwo.pathLst)}');
+      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
+  print(
+      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 }

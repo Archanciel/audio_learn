@@ -7,8 +7,6 @@ import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:intl/intl.dart';
 
-enum AudioSortCriterion { audioDownloadDateTime, validVideoTitle }
-
 /// Contains informations of the audio extracted from the video
 /// referenced in the enclosing playlist. In fact, the audio is
 /// directly downloaded from Youtube.

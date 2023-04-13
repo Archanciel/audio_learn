@@ -1,5 +1,6 @@
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
+import 'package:audio_learn/models/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
