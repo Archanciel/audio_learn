@@ -30,22 +30,6 @@ enum Playlists {
 
 enum AudioSortCriterion { audioDownloadDateTime, validVideoTitle }
 
-class SettingTypeException implements Exception {
-  SettingType _settingType;
-  StackTrace _stackTrace;
-
-  SettingTypeException({
-    required SettingType settingType,
-    StackTrace? stackTrace,
-  })  : _settingType = settingType,
-        _stackTrace = stackTrace ?? StackTrace.current;
-
-  @override
-  String toString() {
-    return ('$_settingType not defined in enum ${_settingType.toString().split('.').first}.\nStack Trace:\n$_stackTrace');
-  }
-}
-
 class SettingTypeNameException implements Exception {
   String _settingTypeName;
   StackTrace _stackTrace;
@@ -58,7 +42,7 @@ class SettingTypeNameException implements Exception {
 
   @override
   String toString() {
-    return ('$_settingTypeName not defined in enum ${_settingTypeName.split('.').first}.\nStack Trace:\n$_stackTrace');
+    return ('$_settingTypeName not defined in Settings._allSettingsKeyLst.\nStack Trace:\n$_stackTrace');
   }
 }
 
@@ -83,6 +67,14 @@ class Settings {
     return _settings[settingType]![settingSubType];
   }
 
+  final List<dynamic> _allSettingsKeyLst = [
+    ...SettingType.values,
+    ...Theme.values,
+    ...Language.values,
+    ...Playlists.values,
+    ...AudioSortCriterion.values,
+  ];
+
   void set({
     required SettingType settingType,
     required dynamic settingSubType,
@@ -91,7 +83,7 @@ class Settings {
     _settings[settingType]![settingSubType] = value;
   }
 
-// Save settings to a JSON file
+  // Save settings to a JSON file
   Future<void> saveSettingsToFile(String filePath) async {
     final File file = File(filePath);
     final Map<String, dynamic> convertedSettings = _settings.map((key, value) {
@@ -105,7 +97,7 @@ class Settings {
     await file.writeAsString(jsonString);
   }
 
-// Load settings from a JSON file
+  /// Load settings from a JSON file
   Future<void> loadSettingsFromFile(String filePath) async {
     final File file = File(filePath);
     if (await file.exists()) {
@@ -116,8 +108,8 @@ class Settings {
         final subSettings =
             (value as Map<String, dynamic>).map((subKey, subValue) {
           return MapEntry(
-            _parseEnumValue(_getAllSubKeys(), subKey),
-            _parseJsonValue(subValue, _getEnumValues(settingType)),
+            _parseEnumValue(_allSettingsKeyLst, subKey),
+            _parseJsonValue(_allSettingsKeyLst, subValue),
           );
         });
         _settings[settingType] = subSettings;
@@ -125,53 +117,24 @@ class Settings {
     }
   }
 
-  List<dynamic> _getAllSubKeys() {
-    return [
-      ...SettingType.values,
-      ...Theme.values,
-      ...Language.values,
-      ...Playlists.values,
-      // ...AudioSortCriterion.values,
-    ];
-  }
-
-  List<dynamic> _getEnumValues(SettingType settingType) {
-    switch (settingType) {
-      case SettingType.theme:
-        return Theme.values;
-      case SettingType.language:
-        return Language.values;
-      case SettingType.playlists:
-        return [...Playlists.values, ...AudioSortCriterion.values];
-      default:
-        throw SettingTypeException(settingType: settingType);
-    }
-  }
-
-  T _getSettingType<T>(List<T> enumValues, String settingTypeStr) {
-    switch (settingTypeStr) {
-      case 'SettingType.theme':
-        return enumValues[0];
-      case 'SettingType.language':
-        return enumValues[1];
-      case 'SettingType.playlists':
-        return enumValues[2];
-      default:
-        throw SettingTypeNameException(settingTypeName: settingTypeStr);
-    }
-  }
-
   T _parseEnumValue<T>(List<T> enumValues, String stringValue) {
-    // return enumValues.firstWhere((e) => e.toString() == stringValue, orElse: () => _getSettingType(enumValues, stringValue));
-    return enumValues.firstWhere((e) => e.toString() == stringValue);
+    T setting = enumValues[0];
+
+    try {
+      setting = enumValues.firstWhere((e) => e.toString() == stringValue);
+    } catch (e) {
+      throw SettingTypeNameException(settingTypeName: stringValue);
+    }
+
+    return setting;
   }
 
-  dynamic _parseJsonValue(String stringValue, List<dynamic> enumValues) {
+  dynamic _parseJsonValue(List<dynamic> enumValues, String stringValue) {
     if (stringValue.startsWith('[') && stringValue.endsWith(']')) {
       List<String> stringList =
           stringValue.substring(1, stringValue.length - 1).split(', ');
       return stringList
-          .map((element) => _parseJsonValue(element, enumValues))
+          .map((element) => _parseJsonValue(enumValues, element))
           .toList();
     } else if (stringValue == 'true') {
       return true;
