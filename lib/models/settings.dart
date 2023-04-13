@@ -68,7 +68,7 @@ class Settings {
     SettingType.language: {SettingType.language: Language.english},
     SettingType.playlists: {
       Playlists.rootPath: kDownloadAppDir,
-      Playlists.pathLst: ["EMPTY", "BOOKS", "MUSIC"],
+      Playlists.pathLst: ["/EMPTY", "/BOOKS", "/MUSIC"],
       Playlists.isMusicQualityByDefault: false,
       Playlists.defaultAudioSort: AudioSortCriterion.audioDownloadDateTime,
     },
@@ -116,13 +116,23 @@ class Settings {
         final subSettings =
             (value as Map<String, dynamic>).map((subKey, subValue) {
           return MapEntry(
-            _parseEnumValue(_getEnumValues(settingType), subKey),
-            _parseEnumValue(_getEnumValues(settingType), subValue),
+            _parseEnumValue(_getAllSubKeys(), subKey),
+            _parseJsonValue(subValue, _getEnumValues(settingType)),
           );
         });
         _settings[settingType] = subSettings;
       });
     }
+  }
+
+  List<dynamic> _getAllSubKeys() {
+    return [
+      ...SettingType.values,
+      ...Theme.values,
+      ...Language.values,
+      ...Playlists.values,
+      // ...AudioSortCriterion.values,
+    ];
   }
 
   List<dynamic> _getEnumValues(SettingType settingType) {
@@ -132,7 +142,7 @@ class Settings {
       case SettingType.language:
         return Language.values;
       case SettingType.playlists:
-        return Playlists.values;
+        return [...Playlists.values, ...AudioSortCriterion.values];
       default:
         throw SettingTypeException(settingType: settingType);
     }
@@ -155,13 +165,37 @@ class Settings {
     // return enumValues.firstWhere((e) => e.toString() == stringValue, orElse: () => _getSettingType(enumValues, stringValue));
     return enumValues.firstWhere((e) => e.toString() == stringValue);
   }
+
+  dynamic _parseJsonValue(String stringValue, List<dynamic> enumValues) {
+    if (stringValue.startsWith('[') && stringValue.endsWith(']')) {
+      List<String> stringList =
+          stringValue.substring(1, stringValue.length - 1).split(', ');
+      return stringList
+          .map((element) => _parseJsonValue(element, enumValues))
+          .toList();
+    } else if (stringValue == 'true') {
+      return true;
+    } else if (stringValue == 'false') {
+      return false;
+    } else if (_isFilePath(stringValue)) {
+      return stringValue;
+    } else {
+      return _parseEnumValue(enumValues, stringValue);
+    }
+  }
+
+  bool _isFilePath(String value) {
+    // A simple check to determine if the value is a file path.
+    // You can adjust the condition as needed.
+    return value.contains('\\') || value.contains('/');
+  }
 }
 
 Future<void> main(List<String> args) async {
   Settings initialSettings = Settings();
 
   // print initialSettings created with Settings initial values
-  
+
   print(
       '${initialSettings.get(settingType: SettingType.theme, settingSubType: SettingType.theme)}');
   print(
@@ -188,7 +222,7 @@ Future<void> main(List<String> args) async {
   initialSettings.set(
       settingType: SettingType.playlists,
       settingSubType: Playlists.pathLst,
-      value: ['one', 'two']);
+      value: ['\\one', '\\two']);
 
   initialSettings.set(
       settingType: SettingType.playlists,
@@ -201,7 +235,7 @@ Future<void> main(List<String> args) async {
       value: AudioSortCriterion.validVideoTitle);
 
   // print initialSettings after modifying its values
-  
+
   print(
       '${initialSettings.get(settingType: SettingType.theme, settingSubType: SettingType.theme)}');
   print(
