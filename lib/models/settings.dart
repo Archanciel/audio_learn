@@ -46,6 +46,10 @@ class SettingTypeNameException implements Exception {
   }
 }
 
+/// ChatGPT recommanded: Use JSON serialization libraries like
+/// json_serializable to simplify the JSON encoding and decoding 
+/// process. This will also help you avoid writing manual string
+/// parsing code.
 class Settings {
   final Map<SettingType, Map<dynamic, dynamic>> _settings = {
     SettingType.theme: {SettingType.theme: Theme.dark},
