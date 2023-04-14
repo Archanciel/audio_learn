@@ -38,7 +38,7 @@ void main() {
       }
 
       final AudioDownloadVM audioDownloadVM =
-          AudioDownloadVM(testPlayListTitle: testPlaylistTitle);
+          AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
 
       expect(audioDownloadVM.listOfPlaylist, []);
       expect(audioDownloadVM.listOfPlaylist, []);
@@ -61,7 +61,7 @@ void main() {
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
           audioDownloadVM =
-              AudioDownloadVM(testPlayListTitle: testPlaylistTitle);
+              AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
           return audioDownloadVM;
         },
         child: MaterialApp(home: DownloadPlaylistPage()),
@@ -136,7 +136,7 @@ void main() {
       );
 
       AudioDownloadVM audioDownloadVMbeforeDownload =
-          AudioDownloadVM(testPlayListTitle: testPlaylistTitle);
+          AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
       Playlist downloadedPlaylistBeforeDownload =
           audioDownloadVMbeforeDownload.listOfPlaylist[0];
 
@@ -169,7 +169,7 @@ void main() {
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
           audioDownloadVM =
-              AudioDownloadVM(testPlayListTitle: testPlaylistTitle);
+              AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
           return audioDownloadVM;
         },
         child: MaterialApp(home: DownloadPlaylistPage()),
@@ -254,7 +254,7 @@ void main() {
       );
 
       AudioDownloadVM audioDownloadVMbeforeDownload =
-          AudioDownloadVM(testPlayListTitle: testPlaylistTitle);
+          AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
       Playlist downloadedPlaylistBeforeDownload =
           audioDownloadVMbeforeDownload.listOfPlaylist[0];
 
@@ -288,7 +288,7 @@ void main() {
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
           audioDownloadVM =
-              AudioDownloadVM(testPlayListTitle: testPlaylistTitle);
+              AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
           return audioDownloadVM;
         },
         child: MaterialApp(home: DownloadPlaylistPage()),
