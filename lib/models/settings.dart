@@ -88,8 +88,8 @@ class Settings {
   }
 
   // Save settings to a JSON file
-  Future<void> saveSettingsToFile(String filePath) async {
-    final File file = File(filePath);
+  Future<void> saveSettingsToFile(String filePathName) async {
+    final File file = File(filePathName);
     final Map<String, dynamic> convertedSettings = _settings.map((key, value) {
       return MapEntry(
         key.toString(),
@@ -102,8 +102,8 @@ class Settings {
   }
 
   /// Load settings from a JSON file
-  Future<void> loadSettingsFromFile(String filePath) async {
-    final File file = File(filePath);
+  Future<void> loadSettingsFromFile(String filePathName) async {
+    final File file = File(filePathName);
     if (await file.exists()) {
       final String jsonString = await file.readAsString();
       final Map<String, dynamic> decodedSettings = jsonDecode(jsonString);
