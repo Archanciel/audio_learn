@@ -43,21 +43,21 @@ class AudioDownloadVM extends ChangeNotifier {
   bool _isHighQuality = false;
   bool get isHighQuality => _isHighQuality;
 
-  /// Passing a testPlayListTitle has the effect that the windows
+  /// Passing a testPlaylistTitle has the effect that the windows
   /// test directory is used as playlist root directory. Otherwise,
   /// the windows or smartphone audio root directory is used and
   /// the value of the kUniquePlaylistTitle constant is used to
   /// load the playlist json file.
-  AudioDownloadVM({String? testPlayListTitle}) {
+  AudioDownloadVM({String? testPlaylistTitle}) {
     _playlistHomePath =
-        DirUtil.getPlaylistDownloadHomePath(isTest: testPlayListTitle != null);
+        DirUtil.getPlaylistDownloadHomePath(isTest: testPlaylistTitle != null);
     // Should load all the playlists, not only the audio_learn or to_delete
     // playlist !
-    _loadTemporaryUniquePlaylist(testPlayListTitle: testPlayListTitle);
+    _loadTemporaryUniquePlaylist(testPlaylistTitle: testPlaylistTitle);
   }
 
-  void _loadTemporaryUniquePlaylist({String? testPlayListTitle}) async {
-    String playListTitle = testPlayListTitle ?? kUniquePlaylistTitle;
+  void _loadTemporaryUniquePlaylist({String? testPlaylistTitle}) async {
+    String playListTitle = testPlaylistTitle ?? kUniquePlaylistTitle;
     String jsonPathFileName =
         '$_playlistHomePath${Platform.pathSeparator}$playListTitle${Platform.pathSeparator}$playListTitle.json';
     dynamic currentPlaylist = JsonDataService.loadFromFile(
