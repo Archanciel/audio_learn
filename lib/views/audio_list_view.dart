@@ -1,23 +1,22 @@
 // dart file located in lib\views
 
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants.dart';
-import '../models/playlist.dart';
 import '../utils/ui_util.dart';
 import '../viewmodels/playlist_edit_vm.dart';
 import 'audio_list_item_widget.dart';
-
 import '../models/audio.dart';
 import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
 
 class AudioListView extends StatefulWidget {
+  const AudioListView({super.key});
+
   @override
   State<AudioListView> createState() => _AudioListViewState();
 }

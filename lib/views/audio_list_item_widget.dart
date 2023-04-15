@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/audio.dart';
 import '../utils/ui_util.dart';
@@ -23,7 +24,7 @@ class AudioListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String subTitleStr = buildSubTitle();
+    String subTitleStr = buildSubTitle(context);
     return ListTile(
       leading: const Icon(Icons.music_note),
       title: Text(audio.originalVideoTitle),
@@ -32,7 +33,7 @@ class AudioListItemWidget extends StatelessWidget {
     );
   }
 
-  String buildSubTitle() {
+  String buildSubTitle(BuildContext context) {
     String subTitle;
 
     Duration? audioDuration = audio.audioDuration;
@@ -54,7 +55,7 @@ class AudioListItemWidget extends StatelessWidget {
       subTitle = '?';
     } else {
       subTitle =
-          '${audioDuration.HHmmss()}. Size $audioFileSizeStr. Downloaded at $audioDownloadSpeedStr';
+          '${audioDuration.HHmmss()}. ${AppLocalizations.of(context)!.size} $audioFileSizeStr. ${AppLocalizations.of(context)!.downloaded} ${AppLocalizations.of(context)!.atPreposition} $audioDownloadSpeedStr';
     }
     return subTitle;
   }

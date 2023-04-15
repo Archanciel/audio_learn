@@ -20,5 +20,7 @@
   },
   "audioQuality": "Max quality",
   "ofPreposition": "of",
-  "atPreposition": "at"
+  "atPreposition": "at",
+  "downloaded": "Downloaded",
+  "size": "Size"
 }

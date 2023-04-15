@@ -17,5 +17,7 @@
   },
   "audioQuality": "Qualité max",
   "ofPreposition": "de",
-  "atPreposition": "à"
+  "atPreposition": "à",
+  "downloaded": "Téléchargé",
+  "size": "Taille"
 }
