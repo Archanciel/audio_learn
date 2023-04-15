@@ -62,7 +62,7 @@ class MainApp extends StatelessWidget {
             // title: AppLocalizations.of(context)!.title,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            theme: themeProvider.isDarkMode
+            theme: themeProvider.currentTheme == AppTheme.dark
                 ? ThemeData.dark().copyWith(
                     colorScheme: ThemeData.dark().colorScheme.copyWith(
                           background: Colors.black,
@@ -155,8 +155,9 @@ class MyHomePage extends StatelessWidget {
             onPressed: () {
               Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
             },
-            icon: Icon(
-                themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode),
+            icon: Icon(themeProvider.currentTheme == AppTheme.dark
+                ? Icons.light_mode
+                : Icons.dark_mode),
           ),
           PopupMenuButton<String>(
             onSelected: (String languageCode) {

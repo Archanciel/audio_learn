@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
 
+import '../services/theme_service.dart';
+
+enum AppTheme { light, dark }
+
 class ThemeProvider extends ChangeNotifier {
-  bool _isDarkMode = false;
+  AppTheme _currentTheme = AppTheme.light;
+  final ThemeService _themeService = ThemeService();
 
-  bool get isDarkMode => _isDarkMode;
+  AppTheme get currentTheme => _currentTheme;
 
-  void toggleTheme() {
-    _isDarkMode = !_isDarkMode;
+  ThemeProvider() {
+    _loadTheme();
+  }
+
+  Future<void> _loadTheme() async {
+    _currentTheme = await _themeService.loadTheme();
+    notifyListeners();
+  }
+
+  void toggleTheme() async {
+    if (_currentTheme == AppTheme.light) {
+      _currentTheme = AppTheme.dark;
+    } else {
+      _currentTheme = AppTheme.light;
+    }
+    await _themeService.saveTheme(_currentTheme);
     notifyListeners();
   }
 }
