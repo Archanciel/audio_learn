@@ -12,7 +12,7 @@ import 'viewmodels/audio_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
 
-void main(List<String> args) {
+Future<void> main(List<String> args) async {
   List<String> myArgs = [];
 
   if (args.isNotEmpty) {
@@ -34,7 +34,7 @@ void main(List<String> args) {
   }
 
   if (deleteAppDir) {
-    DirUtil.createAppDirIfNotExist(isAppDirToBeDeleted: true);
+    await DirUtil.createAppDirIfNotExist(isAppDirToBeDeleted: true);
     print('***** $kDownloadAppDir mp3 files deleted *****');
   }
 
@@ -57,7 +57,7 @@ class MainApp extends StatelessWidget {
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, languageProvider, child) {
           return MaterialApp(
-            title: 'ChatGPT Audio Learn',
+            title: 'Audio Learn',
             locale: languageProvider.currentLocale,
             // title: AppLocalizations.of(context)!.title,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
