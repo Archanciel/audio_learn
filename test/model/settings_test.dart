@@ -29,9 +29,9 @@ void main() {
       // Initial values
       expect(
           settings.get(
-              settingType: SettingType.theme,
-              settingSubType: SettingType.theme),
-          Theme.dark);
+              settingType: SettingType.appTheme,
+              settingSubType: SettingType.appTheme),
+          AppTheme.light);
       expect(
           settings.get(
               settingType: SettingType.language,
@@ -60,9 +60,9 @@ void main() {
 
       // Modify values
       settings.set(
-          settingType: SettingType.theme,
-          settingSubType: SettingType.theme,
-          value: Theme.clear);
+          settingType: SettingType.appTheme,
+          settingSubType: SettingType.appTheme,
+          value: AppTheme.light);
       settings.set(
           settingType: SettingType.playlists,
           settingSubType: Playlists.rootPath,
@@ -94,9 +94,9 @@ void main() {
       // Check loaded values
       expect(
           loadedSettings.get(
-              settingType: SettingType.theme,
-              settingSubType: SettingType.theme),
-          Theme.clear);
+              settingType: SettingType.appTheme,
+              settingSubType: SettingType.appTheme),
+          AppTheme.light);
       expect(
           loadedSettings.get(
               settingType: SettingType.playlists,
@@ -123,7 +123,9 @@ void main() {
         directory.deleteSync(recursive: true);
       }
     });
-    test('throws exception when loading Settings json file containing invalid enum', () async {
+    test(
+        'throws exception when loading Settings json file containing invalid enum',
+        () async {
       final Directory directory = Directory(testSettingsDir);
 
       if (directory.existsSync()) {
@@ -137,7 +139,7 @@ void main() {
 
       // Save to file
       await DirUtil.createDirIfNotExist(pathStr: testSettingsDir);
-      
+
       final String testSettingsPathFileName =
           path.join(testSettingsDir, 'settings.json');
       await settings.saveSettingsToFile(testSettingsPathFileName);
@@ -145,10 +147,11 @@ void main() {
       // Load from file
       final Settings loadedSettings = Settings();
 
-      // without await, deleting the test data dir causes 
+      // without await, deleting the test data dir causes
       // loadSettingsFromFile to throw another exception
       // since the json file is not found
-      await expectLater(loadedSettings.loadSettingsFromFile(testSettingsPathFileName),
+      await expectLater(
+          loadedSettings.loadSettingsFromFile(testSettingsPathFileName),
           throwsA(isA<SettingTypeNameException>()));
 
       // Cleanup the test data directory

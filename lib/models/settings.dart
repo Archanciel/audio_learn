@@ -6,13 +6,13 @@ import 'dart:io';
 import '../constants.dart';
 
 enum SettingType {
-  theme,
+  appTheme,
   language,
   playlists,
 }
 
-enum Theme {
-  clear,
+enum AppTheme {
+  light,
   dark,
 }
 
@@ -47,12 +47,12 @@ class SettingTypeNameException implements Exception {
 }
 
 /// ChatGPT recommanded: Use JSON serialization libraries like
-/// json_serializable to simplify the JSON encoding and decoding 
+/// json_serializable to simplify the JSON encoding and decoding
 /// process. This will also help you avoid writing manual string
 /// parsing code.
 class Settings {
   final Map<SettingType, Map<dynamic, dynamic>> _settings = {
-    SettingType.theme: {SettingType.theme: Theme.dark},
+    SettingType.appTheme: {SettingType.appTheme: AppTheme.light},
     SettingType.language: {SettingType.language: Language.english},
     SettingType.playlists: {
       Playlists.rootPath: kDownloadAppDir,
@@ -73,7 +73,7 @@ class Settings {
 
   final List<dynamic> _allSettingsKeyLst = [
     ...SettingType.values,
-    ...Theme.values,
+    ...AppTheme.values,
     ...Language.values,
     ...Playlists.values,
     ...AudioSortCriterion.values,
@@ -105,6 +105,8 @@ class Settings {
   Future<void> loadSettingsFromFile(String filePathName) async {
     final File file = File(filePathName);
     if (await file.exists()) {
+      // if settings json file not exist, then the default Settings values
+      // set in the Settings constructor are used ...
       final String jsonString = await file.readAsString();
       final Map<String, dynamic> decodedSettings = jsonDecode(jsonString);
       decodedSettings.forEach((key, value) {
@@ -164,7 +166,7 @@ Future<void> main(List<String> args) async {
   // print initialSettings created with Settings initial values
 
   print(
-      '${initialSettings.get(settingType: SettingType.theme, settingSubType: SettingType.theme)}');
+      '${initialSettings.get(settingType: SettingType.appTheme, settingSubType: SettingType.appTheme)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(
@@ -177,9 +179,9 @@ Future<void> main(List<String> args) async {
   // modify initialSettings values
 
   initialSettings.set(
-      settingType: SettingType.theme,
-      settingSubType: SettingType.theme,
-      value: Theme.clear);
+      settingType: SettingType.appTheme,
+      settingSubType: SettingType.appTheme,
+      value: AppTheme.light);
 
   initialSettings.set(
       settingType: SettingType.playlists,
@@ -204,7 +206,7 @@ Future<void> main(List<String> args) async {
   // print initialSettings after modifying its values
 
   print(
-      '${initialSettings.get(settingType: SettingType.theme, settingSubType: SettingType.theme)}');
+      '${initialSettings.get(settingType: SettingType.appTheme, settingSubType: SettingType.appTheme)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(
@@ -214,13 +216,13 @@ Future<void> main(List<String> args) async {
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 
-  initialSettings.saveSettingsToFile('settings.json');
+  await initialSettings.saveSettingsToFile('settings.json');
 
   Settings loadedSettings = Settings();
-  loadedSettings.loadSettingsFromFile('settings.json');
+  await loadedSettings.loadSettingsFromFile('settings.json');
 
   print(
-      '${loadedSettings.get(settingType: SettingType.theme, settingSubType: SettingType.theme)}');
+      '${loadedSettings.get(settingType: SettingType.appTheme, settingSubType: SettingType.appTheme)}');
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(

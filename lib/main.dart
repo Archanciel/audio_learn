@@ -1,5 +1,8 @@
 // dart file located in lib
 
+import 'dart:io';
+
+import 'package:audio_learn/models/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,11 +41,19 @@ Future<void> main(List<String> args) async {
     print('***** $kDownloadAppDir mp3 files deleted *****');
   }
 
-  runApp(const MainApp());
+  final Settings appSettings = Settings();
+    await appSettings.loadSettingsFromFile('${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName');
+
+  runApp(MainApp(appSettings: appSettings));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  Settings _appSettings;
+
+  MainApp({
+    required Settings appSettings,
+    super.key,
+  }) : _appSettings = appSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +61,7 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AudioDownloadVM()),
         ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider(appSettings: _appSettings)),
         ChangeNotifierProvider(
             create: (_) => LanguageProvider(initialLocale: const Locale('en'))),
       ],

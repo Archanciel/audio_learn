@@ -1,22 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-import '../services/theme_service.dart';
-
-enum AppTheme { light, dark }
+import '../constants.dart';
+import '../models/settings.dart';
+import '../utils/dir_util.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  AppTheme _currentTheme = AppTheme.light;
-  final ThemeService _themeService = ThemeService();
+  final Settings _appSettings;
 
+  late AppTheme _currentTheme;
   AppTheme get currentTheme => _currentTheme;
 
-  ThemeProvider() {
-    _loadTheme();
-  }
-
-  Future<void> _loadTheme() async {
-    _currentTheme = await _themeService.loadTheme();
-    notifyListeners();
+  ThemeProvider({
+    required Settings appSettings,
+  }) : _appSettings = appSettings {
+    _currentTheme = appSettings.get(
+      settingType: SettingType.appTheme,
+      settingSubType: SettingType.appTheme,
+    );
   }
 
   void toggleTheme() async {
@@ -25,7 +27,14 @@ class ThemeProvider extends ChangeNotifier {
     } else {
       _currentTheme = AppTheme.light;
     }
-    await _themeService.saveTheme(_currentTheme);
+
+    _appSettings.set(
+        settingType: SettingType.appTheme,
+        settingSubType: SettingType.appTheme,
+        value: _currentTheme);
+
+    await _appSettings.saveSettingsToFile('${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName');
+
     notifyListeners();
   }
 }

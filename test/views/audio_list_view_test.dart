@@ -1,5 +1,6 @@
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
+import 'package:audio_learn/models/settings.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/audio_player_vm.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +103,8 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
 }
 
 void main() {
+  Settings appSettings = Settings();
+
   group('AudioListView mock downloading audios', () {
     late MockAudioDownloadVM mockAudioViewModel;
 
@@ -118,7 +121,8 @@ void main() {
               value: mockAudioViewModel,
             ),
             ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
-            ChangeNotifierProvider(create: (_) => ThemeProvider()),
+            ChangeNotifierProvider(
+                create: (_) => ThemeProvider(appSettings: appSettings)),
             ChangeNotifierProvider(
                 create: (_) =>
                     LanguageProvider(initialLocale: const Locale('en'))),
@@ -126,7 +130,7 @@ void main() {
           child: Consumer2<ThemeProvider, LanguageProvider>(
               builder: (context, themeProvider, languageProvider, child) {
             return MaterialApp(
-              theme: themeProvider.isDarkMode
+              theme: themeProvider.currentTheme  == AppTheme.dark
                   ? ThemeData.dark().copyWith(
                       colorScheme: ThemeData.dark().colorScheme.copyWith(
                             background: Colors.black,
@@ -214,9 +218,10 @@ void main() {
   group('AudioListView language selection', () {
     testWidgets('Changing language', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           home: Scaffold(
             body: MainApp(
+              appSettings: Settings(),
               key: Key('mainAppKey'),
             ),
           ),
