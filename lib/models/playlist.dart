@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:audio_learn/models/settings.dart';
+import 'package:audio_learn/services/settings_data_service.dart';
 
 import 'audio.dart';
 

@@ -1,6 +1,6 @@
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
-import 'package:audio_learn/models/settings.dart';
+import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/audio_player_vm.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +103,7 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
 }
 
 void main() {
-  Settings appSettings = Settings();
+  SettingsDataService appSettings = SettingsDataService();
 
   group('AudioListView mock downloading audios', () {
     late MockAudioDownloadVM mockAudioViewModel;
@@ -130,7 +130,7 @@ void main() {
           child: Consumer2<ThemeProvider, LanguageProvider>(
               builder: (context, themeProvider, languageProvider, child) {
             return MaterialApp(
-              theme: themeProvider.currentTheme  == AppTheme.dark
+              theme: themeProvider.currentTheme == AppTheme.dark
                   ? ThemeData.dark().copyWith(
                       colorScheme: ThemeData.dark().colorScheme.copyWith(
                             background: Colors.black,
@@ -221,7 +221,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: MainApp(
-              appSettings: Settings(),
+              appSettings: SettingsDataService(),
               key: Key('mainAppKey'),
             ),
           ),

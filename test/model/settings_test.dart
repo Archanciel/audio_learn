@@ -4,7 +4,7 @@ import 'package:path/path.dart' as path;
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:audio_learn/constants.dart';
-import 'package:audio_learn/models/settings.dart';
+import 'package:audio_learn/services/settings_data_service.dart';
 
 enum UnsupportedSettingsEnum { unsupported }
 
@@ -13,10 +13,10 @@ void main() {
       '$kDownloadAppTestDir\\audio_learn_test_settings';
 
   group('Settings', () {
-    late Settings settings;
+    late SettingsDataService settings;
 
     setUp(() {
-      settings = Settings();
+      settings = SettingsDataService();
     });
 
     test('Test initial, modified, saved and loaded values', () async {
@@ -88,7 +88,7 @@ void main() {
       await settings.saveSettingsToFile(testSettingsPathFileName);
 
       // Load from file
-      final Settings loadedSettings = Settings();
+      final SettingsDataService loadedSettings = SettingsDataService();
       await loadedSettings.loadSettingsFromFile(testSettingsPathFileName);
 
       // Check loaded values
@@ -145,7 +145,7 @@ void main() {
       await settings.saveSettingsToFile(testSettingsPathFileName);
 
       // Load from file
-      final Settings loadedSettings = Settings();
+      final SettingsDataService loadedSettings = SettingsDataService();
 
       // without await, deleting the test data dir causes
       // loadSettingsFromFile to throw another exception

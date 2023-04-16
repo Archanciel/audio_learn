@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:audio_learn/models/settings.dart';
+import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,17 +41,18 @@ Future<void> main(List<String> args) async {
     print('***** $kDownloadAppDir mp3 files deleted *****');
   }
 
-  final Settings appSettings = Settings();
-    await appSettings.loadSettingsFromFile('${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName');
+  final SettingsDataService appSettings = SettingsDataService();
+  await appSettings.loadSettingsFromFile(
+      '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName');
 
   runApp(MainApp(appSettings: appSettings));
 }
 
 class MainApp extends StatelessWidget {
-  Settings _appSettings;
+  SettingsDataService _appSettings;
 
   MainApp({
-    required Settings appSettings,
+    required SettingsDataService appSettings,
     super.key,
   }) : _appSettings = appSettings;
 
@@ -61,7 +62,8 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AudioDownloadVM()),
         ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
-        ChangeNotifierProvider(create: (_) => ThemeProvider(appSettings: _appSettings)),
+        ChangeNotifierProvider(
+            create: (_) => ThemeProvider(appSettings: _appSettings)),
         ChangeNotifierProvider(
             create: (_) => LanguageProvider(initialLocale: const Locale('en'))),
       ],

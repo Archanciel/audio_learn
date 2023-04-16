@@ -3,17 +3,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
-import '../models/settings.dart';
+import '../services/settings_data_service.dart';
 import '../utils/dir_util.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  final Settings _appSettings;
+  final SettingsDataService _appSettings;
 
   late AppTheme _currentTheme;
   AppTheme get currentTheme => _currentTheme;
 
   ThemeProvider({
-    required Settings appSettings,
+    required SettingsDataService appSettings,
   }) : _appSettings = appSettings {
     _currentTheme = appSettings.get(
       settingType: SettingType.appTheme,
@@ -33,7 +33,8 @@ class ThemeProvider extends ChangeNotifier {
         settingSubType: SettingType.appTheme,
         value: _currentTheme);
 
-    await _appSettings.saveSettingsToFile('${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName');
+    await _appSettings.saveSettingsToFile(
+        '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName');
 
     notifyListeners();
   }

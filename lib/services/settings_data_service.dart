@@ -50,7 +50,7 @@ class SettingTypeNameException implements Exception {
 /// json_serializable to simplify the JSON encoding and decoding
 /// process. This will also help you avoid writing manual string
 /// parsing code.
-class Settings {
+class SettingsDataService {
   final Map<SettingType, Map<dynamic, dynamic>> _settings = {
     SettingType.appTheme: {SettingType.appTheme: AppTheme.light},
     SettingType.language: {SettingType.language: Language.english},
@@ -161,7 +161,7 @@ class Settings {
 }
 
 Future<void> main(List<String> args) async {
-  Settings initialSettings = Settings();
+  SettingsDataService initialSettings = SettingsDataService();
 
   // print initialSettings created with Settings initial values
 
@@ -218,7 +218,7 @@ Future<void> main(List<String> args) async {
 
   await initialSettings.saveSettingsToFile('settings.json');
 
-  Settings loadedSettings = Settings();
+  SettingsDataService loadedSettings = SettingsDataService();
   await loadedSettings.loadSettingsFromFile('settings.json');
 
   print(
