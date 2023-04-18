@@ -65,9 +65,13 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AudioDownloadVM()),
         ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
         ChangeNotifierProvider(
-            create: (_) => ThemeProvider(appSettings: _appSettings)),
+            create: (_) => ThemeProvider(
+                  appSettings: _appSettings,
+                )),
         ChangeNotifierProvider(
-            create: (_) => LanguageProvider(initialLocale: const Locale('en'))),
+            create: (_) => LanguageProvider(
+                  appSettings: _appSettings,
+                )),
       ],
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, languageProvider, child) {

@@ -1,16 +1,59 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+import '../services/settings_data_service.dart';
+import '../utils/dir_util.dart';
+
 class LanguageProvider extends ChangeNotifier {
-  Locale _currentLocale;
+  final SettingsDataService _appSettings;
 
-  LanguageProvider({required Locale initialLocale})
-      : _currentLocale = initialLocale;
-
+  late Locale _currentLocale;
   Locale get currentLocale => _currentLocale;
 
-  void changeLocale(Locale newLocale) {
+  LanguageProvider({
+    required SettingsDataService appSettings,
+  }) : _appSettings = appSettings {
+    Language language = appSettings.get(
+      settingType: SettingType.language,
+      settingSubType: SettingType.language,
+    );
+
+    if (language == Language.english) {
+      _currentLocale = const Locale('en');
+    } else if (language == Language.french) {
+      _currentLocale = const Locale('fr');
+    } else {
+      // setting default language to english
+      _currentLocale = const Locale('en');
+    }
+  }
+
+  Future<void> changeLocale(Locale newLocale) async {
     _currentLocale = newLocale;
+    Language language;
+
+    if (newLocale == const Locale('en')) {
+      language = Language.english;
+    } else if (newLocale == const Locale('fr')) {
+      language = Language.french;
+    } else {
+      // setting default language to english
+      _currentLocale = const Locale('en');
+      language = Language.english;
+    }
+
+    _appSettings.set(
+        settingType: SettingType.language,
+        settingSubType: SettingType.language,
+        value: language);
 
     notifyListeners();
+
+    await _appSettings.saveSettingsToFile(
+      jsonPathFileName:
+          '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName',
+    );
   }
 }

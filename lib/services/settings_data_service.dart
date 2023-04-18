@@ -51,6 +51,8 @@ class SettingTypeNameException implements Exception {
 /// process. This will also help you avoid writing manual string
 /// parsing code.
 class SettingsDataService {
+  // default settings are set in the constructor, namely default language
+  // and default theme
   final Map<SettingType, Map<dynamic, dynamic>> _settings = {
     SettingType.appTheme: {SettingType.appTheme: AppTheme.light},
     SettingType.language: {SettingType.language: Language.english},
@@ -168,9 +170,12 @@ Future<void> main(List<String> args) async {
   SettingsDataService initialSettings = SettingsDataService();
 
   // print initialSettings created with Settings initial values
+  print('**** InitialSettings created with Settings initial values\n');
 
   print(
       '${initialSettings.get(settingType: SettingType.appTheme, settingSubType: SettingType.appTheme)}');
+  print(
+      '${initialSettings.get(settingType: SettingType.language, settingSubType: SettingType.language)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(
@@ -185,7 +190,12 @@ Future<void> main(List<String> args) async {
   initialSettings.set(
       settingType: SettingType.appTheme,
       settingSubType: SettingType.appTheme,
-      value: AppTheme.light);
+      value: AppTheme.dark);
+
+  initialSettings.set(
+      settingType: SettingType.language,
+      settingSubType: SettingType.language,
+      value: Language.french);
 
   initialSettings.set(
       settingType: SettingType.playlists,
@@ -209,8 +219,12 @@ Future<void> main(List<String> args) async {
 
   // print initialSettings after modifying its values
 
+  print('\n**** Modified initialSettings\n');
+
   print(
       '${initialSettings.get(settingType: SettingType.appTheme, settingSubType: SettingType.appTheme)}');
+  print(
+      '${initialSettings.get(settingType: SettingType.language, settingSubType: SettingType.language)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(
@@ -225,8 +239,12 @@ Future<void> main(List<String> args) async {
   SettingsDataService loadedSettings = SettingsDataService();
   await loadedSettings.loadSettingsFromFile(jsonPathFileName: 'settings.json');
 
+  print('\n**** Reloaded modified initialSettings\n');
+
   print(
       '${loadedSettings.get(settingType: SettingType.appTheme, settingSubType: SettingType.appTheme)}');
+  print(
+      '${loadedSettings.get(settingType: SettingType.language, settingSubType: SettingType.language)}');
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(

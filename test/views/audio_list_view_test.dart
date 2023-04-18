@@ -125,7 +125,7 @@ void main() {
                 create: (_) => ThemeProvider(appSettings: appSettings)),
             ChangeNotifierProvider(
                 create: (_) =>
-                    LanguageProvider(initialLocale: const Locale('en'))),
+                    LanguageProvider(appSettings: appSettings)),
           ],
           child: Consumer2<ThemeProvider, LanguageProvider>(
               builder: (context, themeProvider, languageProvider, child) {
@@ -222,7 +222,7 @@ void main() {
           home: Scaffold(
             body: MainApp(
               appSettings: SettingsDataService(),
-              key: Key('mainAppKey'),
+              key: const Key('mainAppKey'),
             ),
           ),
         ),
