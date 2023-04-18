@@ -42,7 +42,7 @@ Future<void> main(List<String> args) async {
   }
 
   final SettingsDataService appSettings = SettingsDataService();
-  await appSettings.loadSettingsFromFile(
+  appSettings.loadSettingsFromFile(
     jsonPathFileName:
         '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName',
   );

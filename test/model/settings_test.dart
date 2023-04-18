@@ -85,13 +85,13 @@ void main() {
 
       final String testSettingsPathFileName =
           path.join(testSettingsDir, 'settings.json');
-      await settings.saveSettingsToFile(
+      settings.saveSettingsToFile(
         jsonPathFileName: testSettingsPathFileName,
       );
 
       // Load from file
       final SettingsDataService loadedSettings = SettingsDataService();
-      await loadedSettings.loadSettingsFromFile(
+      loadedSettings.loadSettingsFromFile(
         jsonPathFileName: testSettingsPathFileName,
       );
 
@@ -146,21 +146,16 @@ void main() {
 
       final String testSettingsPathFileName =
           path.join(testSettingsDir, 'settings.json');
-      await settings.saveSettingsToFile(
+      settings.saveSettingsToFile(
         jsonPathFileName: testSettingsPathFileName,
       );
 
       // Load from file
       final SettingsDataService loadedSettings = SettingsDataService();
 
-      // without await, deleting the test data dir causes
-      // loadSettingsFromFile to throw another exception
-      // since the json file is not found
-      await expectLater(
-          loadedSettings.loadSettingsFromFile(
+      expect(() => loadedSettings.loadSettingsFromFile(
             jsonPathFileName: testSettingsPathFileName,
-          ),
-          throwsA(isA<SettingTypeNameException>()));
+          ), throwsA(isA<SettingTypeNameException>()));
 
       // Cleanup the test data directory
       if (directory.existsSync()) {

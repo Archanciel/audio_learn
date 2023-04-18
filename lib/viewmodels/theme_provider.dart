@@ -21,7 +21,7 @@ class ThemeProvider extends ChangeNotifier {
     );
   }
 
-  void toggleTheme() async {
+  void toggleTheme() {
     if (_currentTheme == AppTheme.light) {
       _currentTheme = AppTheme.dark;
     } else {
@@ -33,7 +33,7 @@ class ThemeProvider extends ChangeNotifier {
         settingSubType: SettingType.appTheme,
         value: _currentTheme);
 
-    await _appSettings.saveSettingsToFile(
+    _appSettings.saveSettingsToFile(
       jsonPathFileName:
           '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName',
     );

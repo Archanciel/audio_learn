@@ -30,7 +30,7 @@ class LanguageProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> changeLocale(Locale newLocale) async {
+  void changeLocale(Locale newLocale) {
     _currentLocale = newLocale;
     Language language;
 
@@ -49,11 +49,11 @@ class LanguageProvider extends ChangeNotifier {
         settingSubType: SettingType.language,
         value: language);
 
-    notifyListeners();
-
-    await _appSettings.saveSettingsToFile(
+    _appSettings.saveSettingsToFile(
       jsonPathFileName:
           '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName',
     );
+
+    notifyListeners();
   }
 }

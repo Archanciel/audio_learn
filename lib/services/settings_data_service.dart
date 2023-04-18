@@ -90,9 +90,9 @@ class SettingsDataService {
   }
 
   // Save settings to a JSON file
-  Future<void> saveSettingsToFile({
+  void saveSettingsToFile({
     required String jsonPathFileName,
-  }) async {
+  }) {
     final File file = File(jsonPathFileName);
     final Map<String, dynamic> convertedSettings = _settings.map((key, value) {
       return MapEntry(
@@ -102,18 +102,18 @@ class SettingsDataService {
       );
     });
     final String jsonString = jsonEncode(convertedSettings);
-    await file.writeAsString(jsonString);
+    file.writeAsStringSync(jsonString);
   }
 
   /// Load settings from a JSON file
-  Future<void> loadSettingsFromFile({
+  void loadSettingsFromFile({
     required String jsonPathFileName,
-  }) async {
+  }) {
     final File file = File(jsonPathFileName);
-    if (await file.exists()) {
+    if (file.existsSync()) {
       // if settings json file not exist, then the default Settings values
       // set in the Settings constructor are used ...
-      final String jsonString = await file.readAsString();
+      final String jsonString = file.readAsStringSync();
       final Map<String, dynamic> decodedSettings = jsonDecode(jsonString);
       decodedSettings.forEach((key, value) {
         final settingType = _parseEnumValue(SettingType.values, key);
@@ -166,7 +166,7 @@ class SettingsDataService {
   }
 }
 
-Future<void> main(List<String> args) async {
+void main(List<String> args) {
   SettingsDataService initialSettings = SettingsDataService();
 
   // print initialSettings created with Settings initial values
@@ -234,10 +234,10 @@ Future<void> main(List<String> args) async {
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 
-  await initialSettings.saveSettingsToFile(jsonPathFileName: 'settings.json');
+  initialSettings.saveSettingsToFile(jsonPathFileName: 'settings.json');
 
   SettingsDataService loadedSettings = SettingsDataService();
-  await loadedSettings.loadSettingsFromFile(jsonPathFileName: 'settings.json');
+  loadedSettings.loadSettingsFromFile(jsonPathFileName: 'settings.json');
 
   print('\n**** Reloaded modified initialSettings\n');
 
