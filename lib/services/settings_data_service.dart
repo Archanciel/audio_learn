@@ -81,6 +81,37 @@ class SettingsDataService {
     return _settings[settingType]![settingSubType];
   }
 
+  /// Usage examples:
+  /// 
+  /// initialSettings.set(
+  ///     settingType: SettingType.appTheme,
+  ///     settingSubType: SettingType.appTheme,
+  ///     value: AppTheme.dark);
+  /// 
+  /// initialSettings.set(
+  ///     settingType: SettingType.language,
+  ///     settingSubType: SettingType.language,
+  ///     value: Language.french);
+  /// 
+  /// initialSettings.set(
+  ///     settingType: SettingType.playlists,
+  ///     settingSubType: Playlists.rootPath,
+  ///     value: kDownloadAppTestDirWindows);
+  /// 
+  /// initialSettings.set(
+  ///     settingType: SettingType.playlists,
+  ///     settingSubType: Playlists.pathLst,
+  ///     value: ['\\one', '\\two']);
+  /// 
+  /// initialSettings.set(
+  ///     settingType: SettingType.playlists,
+  ///     settingSubType: Playlists.isMusicQualityByDefault,
+  ///     value: true);
+  /// 
+  /// initialSettings.set(
+  ///     settingType: SettingType.playlists,
+  ///     settingSubType: Playlists.defaultAudioSort,
+  ///     value: AudioSortCriterion.validVideoTitle);
   void set({
     required SettingType settingType,
     required dynamic settingSubType,
