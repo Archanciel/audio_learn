@@ -34,7 +34,9 @@ class ThemeProvider extends ChangeNotifier {
         value: _currentTheme);
 
     await _appSettings.saveSettingsToFile(
-        '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName');
+      jsonPathFileName:
+          '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName',
+    );
 
     notifyListeners();
   }

@@ -85,11 +85,15 @@ void main() {
 
       final String testSettingsPathFileName =
           path.join(testSettingsDir, 'settings.json');
-      await settings.saveSettingsToFile(testSettingsPathFileName);
+      await settings.saveSettingsToFile(
+        jsonPathFileName: testSettingsPathFileName,
+      );
 
       // Load from file
       final SettingsDataService loadedSettings = SettingsDataService();
-      await loadedSettings.loadSettingsFromFile(testSettingsPathFileName);
+      await loadedSettings.loadSettingsFromFile(
+        jsonPathFileName: testSettingsPathFileName,
+      );
 
       // Check loaded values
       expect(
@@ -142,7 +146,9 @@ void main() {
 
       final String testSettingsPathFileName =
           path.join(testSettingsDir, 'settings.json');
-      await settings.saveSettingsToFile(testSettingsPathFileName);
+      await settings.saveSettingsToFile(
+        jsonPathFileName: testSettingsPathFileName,
+      );
 
       // Load from file
       final SettingsDataService loadedSettings = SettingsDataService();
@@ -151,7 +157,9 @@ void main() {
       // loadSettingsFromFile to throw another exception
       // since the json file is not found
       await expectLater(
-          loadedSettings.loadSettingsFromFile(testSettingsPathFileName),
+          loadedSettings.loadSettingsFromFile(
+            jsonPathFileName: testSettingsPathFileName,
+          ),
           throwsA(isA<SettingTypeNameException>()));
 
       // Cleanup the test data directory

@@ -64,13 +64,6 @@ class SettingsDataService {
 
   Map<SettingType, Map<dynamic, dynamic>> get settings => _settings;
 
-  dynamic get({
-    required SettingType settingType,
-    required dynamic settingSubType,
-  }) {
-    return _settings[settingType]![settingSubType];
-  }
-
   final List<dynamic> _allSettingsKeyLst = [
     ...SettingType.values,
     ...AppTheme.values,
@@ -78,6 +71,13 @@ class SettingsDataService {
     ...Playlists.values,
     ...AudioSortCriterion.values,
   ];
+
+  dynamic get({
+    required SettingType settingType,
+    required dynamic settingSubType,
+  }) {
+    return _settings[settingType]![settingSubType];
+  }
 
   void set({
     required SettingType settingType,
@@ -88,8 +88,10 @@ class SettingsDataService {
   }
 
   // Save settings to a JSON file
-  Future<void> saveSettingsToFile(String filePathName) async {
-    final File file = File(filePathName);
+  Future<void> saveSettingsToFile({
+    required String jsonPathFileName,
+  }) async {
+    final File file = File(jsonPathFileName);
     final Map<String, dynamic> convertedSettings = _settings.map((key, value) {
       return MapEntry(
         key.toString(),
@@ -102,8 +104,10 @@ class SettingsDataService {
   }
 
   /// Load settings from a JSON file
-  Future<void> loadSettingsFromFile(String filePathName) async {
-    final File file = File(filePathName);
+  Future<void> loadSettingsFromFile({
+    required String jsonPathFileName,
+  }) async {
+    final File file = File(jsonPathFileName);
     if (await file.exists()) {
       // if settings json file not exist, then the default Settings values
       // set in the Settings constructor are used ...
@@ -216,10 +220,10 @@ Future<void> main(List<String> args) async {
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 
-  await initialSettings.saveSettingsToFile('settings.json');
+  await initialSettings.saveSettingsToFile(jsonPathFileName: 'settings.json');
 
   SettingsDataService loadedSettings = SettingsDataService();
-  await loadedSettings.loadSettingsFromFile('settings.json');
+  await loadedSettings.loadSettingsFromFile(jsonPathFileName: 'settings.json');
 
   print(
       '${loadedSettings.get(settingType: SettingType.appTheme, settingSubType: SettingType.appTheme)}');

@@ -48,7 +48,7 @@ const double kAudioDefaultSpeed = 1.25;
 const String kSecretClientCodeJsonFileName =
     'code_secret_client_923487935936-po8d733kjvrnee3l3ik3r5mebe8ebhr7.apps.googleusercontent.com.json';
 
-const kGoogleApiKey = 'AIzaSyDhywmh5EKopsNsaszzMkLJ719aQa2NHBw';
+const String kGoogleApiKey = 'AIzaSyDhywmh5EKopsNsaszzMkLJ719aQa2NHBw';
 
 /// A constant that is true if the application was compiled to run on
 /// the web. Its value determines if requesting storage permission must
