@@ -119,14 +119,6 @@ class _AudioListViewState extends State<AudioListView> {
             ),
           ],
         ),
-        ElevatedButton(
-          onPressed: () {
-            PlaylistEditVM playlistEditVM = PlaylistEditVM();
-
-            playlistEditVM.removeVideoFromPlaylist();
-          },
-          child: const Text('Remove video from playlist'),
-        ),
         // displaying the currently downloading audiodownload
         // informations.
         Consumer<AudioDownloadVM>(
