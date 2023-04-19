@@ -36,7 +36,7 @@ const String kDownloadAppTestDirWindows =
 
 // audio_learn
 const String kUniquePlaylistUrl =
-    'https://youtube.com/playlist?list=PLzwWSJNcZTMRBJuvE6vk6PMnqIBhCKUIa';
+    'https://youtube.com/playlist?list=PLzwWSJNcZTMTHOqBFxO8uBBiEFzt4tGD5';
 //
 // This constant must be available in order for AudioDownloaderVM to
 // be able to load the unique playlist json file.
