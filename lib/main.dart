@@ -51,9 +51,9 @@ Future<void> main(List<String> args) async {
 }
 
 class MainApp extends StatelessWidget {
-  SettingsDataService _appSettings;
+  final SettingsDataService _appSettings;
 
-  MainApp({
+  const MainApp({
     required SettingsDataService appSettings,
     super.key,
   }) : _appSettings = appSettings;

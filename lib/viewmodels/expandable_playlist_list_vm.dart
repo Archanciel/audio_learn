@@ -1,7 +1,8 @@
-import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
 import '../models/playlist.dart';
+import 'audio_download_vm.dart';
 
 /// List view model used in ExpandableListView
 class ExpandablePlaylistListVM extends ChangeNotifier {
@@ -18,13 +19,31 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   final AudioDownloadVM audioDownloadVM = AudioDownloadVM();
   List<Playlist> get playlistList => audioDownloadVM.listOfPlaylist;
 
+  bool _isPlaylistSelected = false;
+
+  bool get isPlaylistSelected => _isPlaylistSelected;
+  set isPlaylistSelected(bool value) => _isPlaylistSelected = value;
+
+  final List<Playlist> items = [
+    Playlist(url: kUniquePlaylistUrl),
+    Playlist(url: 'Item 2'),
+    Playlist(url: 'Item 3'),
+    Playlist(url: 'Item 4'),
+    Playlist(url: 'Item 5'),
+    Playlist(url: 'Item 6'),
+    Playlist(url: 'Item 7'),
+    Playlist(url: 'Item 8'),
+    Playlist(url: 'Item 9'),
+    Playlist(url: 'Item 10'),
+  ];
+
   void toggleList() {
     _isListExpanded = !_isListExpanded;
 
     if (!_isListExpanded) {
       _disableButtons();
     } else {
-      if (_model.isListItemSelected) {
+      if (isPlaylistSelected) {
         _enableButtons();
       } else {
         _disableButtons();
@@ -35,7 +54,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   void selectItem(BuildContext context, int index) {
-    bool isOneItemSelected = _model.selectItem(index);
+    bool isOneItemSelected = doSelectItem(index);
 
     if (!isOneItemSelected) {
       _disableButtons();
@@ -50,7 +69,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     int selectedIndex = _getSelectedIndex();
 
     if (selectedIndex != -1) {
-      _model.deleteItem(selectedIndex);
+      deleteItem(selectedIndex);
       _disableButtons();
 
       notifyListeners();
@@ -60,7 +79,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   void moveSelectedItemUp() {
     int selectedIndex = _getSelectedIndex();
     if (selectedIndex != -1) {
-      _model.moveItemUp(selectedIndex);
+      moveItemUp(selectedIndex);
       notifyListeners();
     }
   }
@@ -68,14 +87,14 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   void moveSelectedItemDown() {
     int selectedIndex = _getSelectedIndex();
     if (selectedIndex != -1) {
-      _model.moveItemDown(selectedIndex);
+      moveItemDown(selectedIndex);
       notifyListeners();
     }
   }
 
   int _getSelectedIndex() {
-    for (int i = 0; i < _model.items.length; i++) {
-      if (_model.items[i].isSelected) {
+    for (int i = 0; i < items.length; i++) {
+      if (items[i].isSelected) {
         return i;
       }
     }
@@ -92,5 +111,46 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     _isButton1Enabled = false;
     _isButton2Enabled = false;
     _isButton3Enabled = false;
+  }
+
+  bool doSelectItem(int index) {
+    for (int i = 0; i < items.length; i++) {
+      if (i == index) {
+        items[i].isSelected = !items[i].isSelected;
+      } else {
+        items[i].isSelected = false;
+      }
+    }
+
+    _isPlaylistSelected = items[index].isSelected;
+
+    return _isPlaylistSelected;
+  }
+
+  void deleteItem(int index) {
+    items.removeAt(index);
+    _isPlaylistSelected = false;
+  }
+
+  void moveItemUp(int index) {
+    if (index == 0) {
+      Playlist item = items.removeAt(index);
+      items.add(item);
+    } else {
+      Playlist item = items.removeAt(index);
+      items.insert(index - 1, item);
+    }
+    notifyListeners();
+  }
+
+  void moveItemDown(int index) {
+    if (index == items.length - 1) {
+      Playlist item = items.removeAt(index);
+      items.insert(0, item);
+    } else {
+      Playlist item = items.removeAt(index);
+      items.insert(index + 1, item);
+    }
+    notifyListeners();
   }
 }

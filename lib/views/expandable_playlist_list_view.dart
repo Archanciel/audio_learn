@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/list_model.dart';
+import '../models/playlist.dart';
 import '../viewmodels/expandable_playlist_list_vm.dart';
 
 class ExpandablePlaylistListView extends StatefulWidget {
@@ -85,11 +85,11 @@ class _ExpandablePlaylistListViewState
             if (listViewModel.isListExpanded) {
               return Expanded(
                 child: ListView.builder(
-                  itemCount: listViewModel.playlistList.length,
+                  itemCount: listViewModel.items.length,
                   itemBuilder: (context, index) {
-                    ListItem item = listViewModel.playlistList[index];
+                    Playlist item = listViewModel.items[index];
                     return ListTile(
-                      title: Text(item.name),
+                      title: Text(item.url),
                       trailing: Checkbox(
                         value: item.isSelected,
                         onChanged: (value) {
