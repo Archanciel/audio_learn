@@ -10,7 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
-import 'package:audio_learn/views/audio_list_view.dart';
+import 'package:audio_learn/views/playlist_download_view.dart';
 import 'viewmodels/audio_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
@@ -76,7 +76,7 @@ class MainApp extends StatelessWidget {
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, languageProvider, child) {
           return MaterialApp(
-            title: 'Audio Learn',
+            title: 'AudioLearn',
             locale: languageProvider.currentLocale,
             // title: AppLocalizations.of(context)!.title,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -203,7 +203,7 @@ class MyHomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: AudioListView(),
+      body: PlaylistDownloadView(),
     );
   }
 }

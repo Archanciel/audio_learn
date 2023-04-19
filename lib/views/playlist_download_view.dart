@@ -14,14 +14,14 @@ import '../models/audio.dart';
 import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
 
-class AudioListView extends StatefulWidget {
-  const AudioListView({super.key});
+class PlaylistDownloadView extends StatefulWidget {
+  const PlaylistDownloadView({super.key});
 
   @override
-  State<AudioListView> createState() => _AudioListViewState();
+  State<PlaylistDownloadView> createState() => _PlaylistDownloadViewState();
 }
 
-class _AudioListViewState extends State<AudioListView> {
+class _PlaylistDownloadViewState extends State<PlaylistDownloadView> {
   final TextEditingController _textEditingController = TextEditingController();
 
   final AudioPlayerVM _audioPlayerViwModel = AudioPlayerVM();

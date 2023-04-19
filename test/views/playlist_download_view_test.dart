@@ -105,7 +105,7 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
 void main() {
   SettingsDataService appSettings = SettingsDataService();
 
-  group('AudioListView mock downloading audios', () {
+  group('PlaylistDownloadView mock downloading audios', () {
     late MockAudioDownloadVM mockAudioViewModel;
 
     setUp(() {
@@ -215,7 +215,7 @@ void main() {
     });
   });
 
-  group('AudioListView language selection', () {
+  group('PlaylistDownloadView language selection', () {
                   testWidgets('Changing language', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
