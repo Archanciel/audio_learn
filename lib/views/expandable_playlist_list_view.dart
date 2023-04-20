@@ -68,14 +68,76 @@ class _ExpandablePlaylistListViewState
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            key: const Key('playlistUrlTextField'),
-            controller: _textEditingController,
-            decoration: const InputDecoration(
-              labelText: 'Youtube playlist link',
-              hintText: 'Enter the link to the youtube playlist',
-              border: OutlineInputBorder(),
-            ),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 4,
+                child: TextField(
+                  key: const Key('playlistUrlTextField'),
+                  controller: _textEditingController,
+                  decoration: InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context)!.ytPlaylistLinkLabel,
+                    hintText:
+                        AppLocalizations.of(context)!.ytPlaylistLinkHintText,
+                    border: const OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: kRowWidthSeparator,
+              ),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  width: kSmallButtonWidth,
+                  child: ElevatedButton(
+                    key: const Key('addPlaylistButton'),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            horizontal: kSmallButtonInsidePadding),
+                      ),
+                    ),
+                    onPressed: () {
+                      final String playlistUrl =
+                          _textEditingController.text.trim();
+                      if (playlistUrl.isNotEmpty) {
+                        Provider.of<ExpandablePlaylistListVM>(context,
+                                listen: false)
+                            .addPlaylist(playlistUrl: playlistUrl);
+                      }
+                    },
+                    child: Text(AppLocalizations.of(context)!.addPlaylist),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: kRowWidthSeparator,
+              ),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  width: kSmallButtonWidth,
+                  child: ElevatedButton(
+                    key: const Key('downloadSingleVideoButton'),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            horizontal: kSmallButtonInsidePadding),
+                      ),
+                    ),
+                    onPressed: () {
+                      audioDownloadViewModel.downloadSingleVideoAudio(
+                        videoUrl: _textEditingController.text.trim(),
+                      );
+                    },
+                    child: Text(
+                        AppLocalizations.of(context)!.downloadSingleVideoAudio),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         Row(
@@ -161,7 +223,7 @@ class _ExpandablePlaylistListViewState
                   Provider.of<ExpandablePlaylistListVM>(context, listen: false)
                       .toggleList();
                 },
-                child: const Text('Toggle List'),
+                child: const Text('Playlists'),
               ),
             ),
             Expanded(
@@ -175,7 +237,7 @@ class _ExpandablePlaylistListViewState
                             .deleteSelectedItem(context);
                       }
                     : null,
-                child: const Text('Delete'),
+                child: Text(AppLocalizations.of(context)!.deletePlaylist),
               ),
             ),
             Expanded(

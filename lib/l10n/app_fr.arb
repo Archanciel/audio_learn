@@ -1,5 +1,8 @@
 {
-  "title": "Téléchargement Audio Youtube",
+  "title": "Télécharg. Audio Youtube",
+  "@title": {
+    "description": "Le titre de la page title affiché dans l'appbar."
+  },
   "toggleList": "Basculer la liste",
   "delete": "Supprimer",
   "moveItemUp": "Déplacer l'élément vers le haut",
@@ -10,7 +13,7 @@
   "downloadAudio": "Télécharger Audio Youtube",
   "translate": "Affichage {language}",
   "@translate": {
-    "description": "Menu AppBsr de sélection de la langue.",
+    "description": "Menu AppBar de sélection de la langue.",
     "placeholders": {
       "language": {}
     }
@@ -19,5 +22,11 @@
   "ofPreposition": "de",
   "atPreposition": "à",
   "downloaded": "Téléchargé",
-  "size": "Taille"
+  "size": "Taille",
+  "ytPlaylistLinkLabel": "Lien Playlist Youtube",
+  "ytPlaylistLinkHintText": "Entrez un lien playlist Youtube",
+  "addPlaylist": "Ajout",
+  "deletePlaylist": "Supprimer",
+  "downloadSingleVideoAudio": "Téléch",
+  "downloadSelectedPlaylists": "Tout Tél"
 }

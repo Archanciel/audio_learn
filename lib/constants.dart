@@ -41,6 +41,7 @@ const String kUniquePlaylistUrl =
 // This constant must be available in order for AudioDownloaderVM to
 // be able to load the unique playlist json file.
 const String kUniquePlaylistTitle = 'audio_learn';
+const String kVariousAudiosPlaylistTitle = 'Various';
 const bool kDeleteAppDir = false;
 
 const double kAudioDefaultSpeed = 1.25;
@@ -58,6 +59,9 @@ const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 const double kVerticalFieldDistance = 23.0;
 const double kVerticalFieldDistanceAddSubScreen = 1.0;
 const double kResetButtonBottomDistance = 5.0;
+const double kRowWidthSeparator = 3.0;
+const double kSmallButtonWidth = 40.0;
+const double kSmallButtonInsidePadding = 3.0;
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");

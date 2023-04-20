@@ -68,9 +68,13 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   late YoutubeExplode youtubeExplode;
 
   @override
-  void addNewPlaylist(Playlist playlist) {
+  Future<Playlist> addPlaylist({
+    required String playlistUrl,
+  }) async {
     // TODO: implement addNewPlaylist
     int i = 0;
+
+    return Playlist(url: 'https://mockurl.com');
   }
 
   @override
@@ -100,6 +104,12 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   @override
   void setAudioQuality({required bool isHighQuality}) {
     // TODO: implement setAudioQuality
+  }
+  
+  @override
+  Future<void> downloadSingleVideoAudio({required String videoUrl}) {
+    // TODO: implement downloadSingleVideoAudio
+    throw UnimplementedError();
   }
 }
 

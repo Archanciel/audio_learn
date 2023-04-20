@@ -1,7 +1,7 @@
 {
-  "title": "Youtube Audio Downloader",
+  "title": "Youtube Audio Download",
   "@title": {
-    "description": "The app title displayed in the appbar."
+    "description": "The page title displayed in the appbar."
   },
   "toggleList": "Toggle List",
   "delete": "Delete",
@@ -22,5 +22,11 @@
   "ofPreposition": "of",
   "atPreposition": "at",
   "downloaded": "Downloaded",
-  "size": "Size"
+  "size": "Size",
+  "ytPlaylistLinkLabel": "Youtube Playlist Link",
+  "ytPlaylistLinkHintText": "Enter a Youtube playlist link",
+  "addPlaylist": "Add",
+  "deletePlaylist": "Delete",
+  "downloadSingleVideoAudio": "Down",
+  "downloadSelectedPlaylists": "Down All"
 }

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audio_learn/services/json_data_service.dart';
+import 'package:audio_learn/viewmodels/playlist_edit_vm.dart';
 import 'package:flutter/material.dart';
 
 // importing youtube_explode_dart as yt enables to name the app Model
@@ -20,6 +21,8 @@ import '../utils/dir_util.dart';
 class AudioDownloadVM extends ChangeNotifier {
   List<Playlist> _listOfPlaylist = [];
   List<Playlist> get listOfPlaylist => _listOfPlaylist;
+
+  Playlist? _variousAudiosPlaylist;
 
   late yt.YoutubeExplode _youtubeExplode;
   // setter used by test only !
@@ -51,6 +54,7 @@ class AudioDownloadVM extends ChangeNotifier {
   AudioDownloadVM({String? testPlaylistTitle}) {
     _playlistHomePath =
         DirUtil.getPlaylistDownloadHomePath(isTest: testPlaylistTitle != null);
+
     // Should load all the playlists, not only the audio_learn or to_delete
     // playlist !
     _loadTemporaryUniquePlaylist(testPlaylistTitle: testPlaylistTitle);
@@ -73,12 +77,32 @@ class AudioDownloadVM extends ChangeNotifier {
   }
 
   /// Currently not used.
-  void addNewPlaylist(Playlist playlist) async {
-    _listOfPlaylist.add(playlist);
-    JsonDataService.saveListToFile(
-        jsonPathFileName: _playlistHomePath, data: _listOfPlaylist);
+  Future<Playlist> addPlaylist({
+    required String playlistUrl,
+  }) async {
+    // get Youtube playlist
+    String? playlistId;
+    yt.Playlist youtubePlaylist;
+    _youtubeExplode = yt.YoutubeExplode();
+
+    playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
+    youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
+
+    Playlist addedPlaylist = await _addPlaylist(
+      playlistUrl: playlistUrl,
+      youtubePlaylist: youtubePlaylist,
+    );
+
+    _listOfPlaylist.add(addedPlaylist);
+
+    JsonDataService.saveToFile(
+      model: addedPlaylist,
+      path: addedPlaylist.getPlaylistDownloadFilePathName(),
+    );
 
     notifyListeners();
+
+    return addedPlaylist;
   }
 
   /// Downloads the audio of the videos referenced in the passed
@@ -89,44 +113,16 @@ class AudioDownloadVM extends ChangeNotifier {
     _youtubeExplode = yt.YoutubeExplode();
 
     // get Youtube playlist
-    Playlist currentPlaylist;
     String? playlistId;
     yt.Playlist youtubePlaylist;
 
     playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
     youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
 
-    int existingPlaylistIndex =
-        _listOfPlaylist.indexWhere((element) => element.url == playlistUrl);
-
-    if (existingPlaylistIndex == -1) {
-      // playlist was never downloaded or was deleted and recreated, which
-      // associates it to a new url
-
-      currentPlaylist = await _createPlaylist(
-        playlistUrl: playlistUrl,
-        youtubePlaylist: youtubePlaylist,
-      );
-
-      // checking if current playlist was deleted and recreated
-      existingPlaylistIndex = _listOfPlaylist
-          .indexWhere((element) => element.title == currentPlaylist.title);
-
-      if (existingPlaylistIndex != -1) {
-        // current playlist was deleted and recreated since it is referenced
-        // in the _listOfPlaylist and has the same title than the recreated
-        // polaylist
-        Playlist existingPlaylist = _listOfPlaylist[existingPlaylistIndex];
-        currentPlaylist.downloadedAudioLst =
-            existingPlaylist.downloadedAudioLst;
-        currentPlaylist.playableAudioLst = existingPlaylist.playableAudioLst;
-        _listOfPlaylist[existingPlaylistIndex] = currentPlaylist;
-      }
-    } else {
-      // playlist was already downloaded and so is stored in
-      // a playlist json file
-      currentPlaylist = _listOfPlaylist[existingPlaylistIndex];
-    }
+    Playlist currentPlaylist = await _addPlaylist(
+      playlistUrl: playlistUrl,
+      youtubePlaylist: youtubePlaylist,
+    );
 
     // get already downloaded audio file names
     String playlistDownloadFilePathName =
@@ -139,17 +135,17 @@ class AudioDownloadVM extends ChangeNotifier {
     await for (yt.Video youtubeVideo
         in _youtubeExplode.playlists.getVideos(playlistId)) {
       final Duration? audioDuration = youtubeVideo.duration;
-      DateTime? audioUploadDate =
+      DateTime? videoUploadDate =
           (await _youtubeExplode.videos.get(youtubeVideo.id.value)).uploadDate;
 
-      audioUploadDate ??= DateTime(00, 1, 1);
+      videoUploadDate ??= DateTime(00, 1, 1);
 
       final Audio audio = Audio(
         enclosingPlaylist: currentPlaylist,
         originalVideoTitle: youtubeVideo.title,
         videoUrl: youtubeVideo.url,
         audioDownloadDateTime: DateTime.now(),
-        videoUploadDate: audioUploadDate,
+        videoUploadDate: videoUploadDate,
         audioDuration: audioDuration!,
       );
 
@@ -205,13 +201,104 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<Playlist> _addPlaylist({
+    required String playlistUrl,
+    required yt.Playlist youtubePlaylist,
+  }) async {
+    Playlist addedPlaylist;
+    int existingPlaylistIndex =
+        _listOfPlaylist.indexWhere((element) => element.url == playlistUrl);
+
+    if (existingPlaylistIndex == -1) {
+      // playlist was never downloaded or was deleted and recreated, which
+      // associates it to a new url
+
+      addedPlaylist = await _createYoutubePlaylist(
+        playlistUrl: playlistUrl,
+        youtubePlaylist: youtubePlaylist,
+      );
+
+      // checking if current playlist was deleted and recreated
+      existingPlaylistIndex = _listOfPlaylist
+          .indexWhere((element) => element.title == addedPlaylist.title);
+
+      if (existingPlaylistIndex != -1) {
+        // current playlist was deleted and recreated since it is referenced
+        // in the _listOfPlaylist and has the same title than the recreated
+        // polaylist
+        Playlist existingPlaylist = _listOfPlaylist[existingPlaylistIndex];
+        addedPlaylist.downloadedAudioLst = existingPlaylist.downloadedAudioLst;
+        addedPlaylist.playableAudioLst = existingPlaylist.playableAudioLst;
+        _listOfPlaylist[existingPlaylistIndex] = addedPlaylist;
+      }
+    } else {
+      // playlist was already downloaded and so is stored in
+      // a playlist json file
+      addedPlaylist = _listOfPlaylist[existingPlaylistIndex];
+    }
+
+    return addedPlaylist;
+  }
+
   void setAudioQuality({required bool isHighQuality}) {
     _isHighQuality = isHighQuality;
 
     notifyListeners();
   }
 
-  Future<Playlist> _createPlaylist({
+  Future<void> downloadSingleVideoAudio({
+    required String videoUrl,
+  }) async {
+    _youtubeExplode = yt.YoutubeExplode();
+
+    final yt.VideoId videoId = yt.VideoId(videoUrl);
+    yt.Video youtubeVideo = await _youtubeExplode.videos.get(videoId);
+
+    final Duration? audioDuration = youtubeVideo.duration;
+    DateTime? videoUploadDate =
+        (await _youtubeExplode.videos.get(youtubeVideo.id.value)).uploadDate;
+
+    videoUploadDate ??= DateTime(00, 1, 1);
+
+    if (_variousAudiosPlaylist == null) {
+      _variousAudiosPlaylist = await _createVariousPlaylist();
+    }
+
+    final Audio audio = Audio(
+      enclosingPlaylist: _variousAudiosPlaylist,
+      originalVideoTitle: youtubeVideo.title,
+      videoUrl: youtubeVideo.url,
+      audioDownloadDateTime: DateTime.now(),
+      videoUploadDate: videoUploadDate,
+      audioDuration: audioDuration!,
+    );
+
+    audio.audioPlayer = AudioPlayer();
+
+    Stopwatch stopwatch = Stopwatch()..start();
+
+    if (!_isDownloading) {
+      _setIsDownloading(isDownloading: true);
+    }
+
+    // Download the audio file
+    await _downloadAudioFile(
+      youtubeVideoId: youtubeVideo.id,
+      audio: audio,
+    );
+
+    stopwatch.stop();
+
+    audio.downloadDuration = stopwatch.elapsed;
+
+    _setIsDownloading(isDownloading: false);
+
+    _youtubeExplode.close();
+
+    notifyListeners();
+  }
+
+  Future<Playlist> _createYoutubePlaylist({
     required String playlistUrl,
     required yt.Playlist youtubePlaylist,
   }) async {
@@ -222,6 +309,31 @@ class AudioDownloadVM extends ChangeNotifier {
 
     final String playlistTitle = youtubePlaylist.title;
     playlist.title = playlistTitle;
+
+    return await _setPlaylistPath(
+      playlistTitle: playlistTitle,
+      playlist: playlist,
+    );
+  }
+
+  Future<Playlist> _createVariousPlaylist() async {
+    Playlist playlist = Playlist(url: '');
+    _listOfPlaylist.add(playlist);
+
+    playlist.id = '';
+
+    playlist.title = kVariousAudiosPlaylistTitle;
+
+    return await _setPlaylistPath(
+      playlistTitle: kVariousAudiosPlaylistTitle,
+      playlist: playlist,
+    );
+  }
+
+  Future<Playlist> _setPlaylistPath({
+    required String playlistTitle,
+    required Playlist playlist,
+  }) async {
     final String playlistDownloadPath =
         '$_playlistHomePath${Platform.pathSeparator}$playlistTitle';
 
@@ -270,8 +382,11 @@ class AudioDownloadVM extends ChangeNotifier {
     await _youtubeDownloadAudioFile(audio, audioStreamInfo, audioFileSize);
   }
 
-  Future<void> _youtubeDownloadAudioFile(Audio audio,
-      yt.AudioOnlyStreamInfo audioStreamInfo, int audioFileSize) async {
+  Future<void> _youtubeDownloadAudioFile(
+    Audio audio,
+    yt.AudioOnlyStreamInfo audioStreamInfo,
+    int audioFileSize,
+  ) async {
     final File file = File(audio.filePathName);
     final IOSink audioFileSink = file.openWrite();
     final Stream<List<int>> audioStream =

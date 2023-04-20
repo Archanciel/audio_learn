@@ -37,6 +37,21 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     Playlist(url: 'Item 10'),
   ];
 
+  Future<void> addPlaylist({required String playlistUrl}) async {
+    final bool alreadyDownloaded =
+        items.any((playlist) => playlist.url == playlistUrl);
+
+    if (alreadyDownloaded) {
+      return;
+    }
+
+    Playlist addedPlaylist =
+        await audioDownloadVM.addPlaylist(playlistUrl: playlistUrl);
+    items.insert(0, addedPlaylist);
+
+    notifyListeners();
+  }
+
   void toggleList() {
     _isListExpanded = !_isListExpanded;
 
