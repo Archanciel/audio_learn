@@ -3,6 +3,7 @@ import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/audio_player_vm.dart';
+import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -124,8 +125,8 @@ void main() {
             ChangeNotifierProvider(
                 create: (_) => ThemeProvider(appSettings: appSettings)),
             ChangeNotifierProvider(
-                create: (_) =>
-                    LanguageProvider(appSettings: appSettings)),
+                create: (_) => LanguageProvider(appSettings: appSettings)),
+            ChangeNotifierProvider(create: (_) => ExpandablePlaylistListVM()),
           ],
           child: Consumer2<ThemeProvider, LanguageProvider>(
               builder: (context, themeProvider, languageProvider, child) {
@@ -216,7 +217,7 @@ void main() {
   });
 
   group('PlaylistDownloadView language selection', () {
-                  testWidgets('Changing language', (WidgetTester tester) async {
+    testWidgets('Changing language', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
