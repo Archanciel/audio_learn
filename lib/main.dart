@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:audio_learn/services/settings_data_service.dart';
+import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ import 'package:audio_learn/views/playlist_download_view.dart';
 import 'viewmodels/audio_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
+import 'views/expandable_playlist_list_view.dart';
 
 Future<void> main(List<String> args) async {
   List<String> myArgs = [];
@@ -72,6 +74,7 @@ class MainApp extends StatelessWidget {
             create: (_) => LanguageProvider(
                   appSettings: _appSettings,
                 )),
+        ChangeNotifierProvider(create: (_) => ExpandablePlaylistListVM()),
       ],
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, languageProvider, child) {
@@ -203,7 +206,7 @@ class MyHomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: PlaylistDownloadView(),
+      body: ExpandablePlaylistListView(),
     );
   }
 }
