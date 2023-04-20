@@ -6,11 +6,13 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants.dart';
+import '../models/audio.dart';
 import '../models/playlist.dart';
 import '../utils/ui_util.dart';
 import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/expandable_playlist_list_vm.dart';
+import 'audio_list_item_widget.dart';
 
 class ExpandablePlaylistListView extends StatefulWidget {
   @override
@@ -76,7 +78,7 @@ class _ExpandablePlaylistListViewState
             ),
           ),
         ),
-          Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Consumer<AudioDownloadVM>(
@@ -150,7 +152,7 @@ class _ExpandablePlaylistListViewState
             }
           },
         ),
-      Row(
+        Row(
           children: <Widget>[
             Expanded(
               child: ElevatedButton(
@@ -239,7 +241,33 @@ class _ExpandablePlaylistListViewState
             }
           },
         ),
-
+        Expanded(
+          child: Consumer<AudioDownloadVM>(
+            builder: (context, audioDownloadVM, child) {
+              return ListView.builder(
+                itemCount: (audioDownloadVM.listOfPlaylist.isEmpty)
+                    ? 0
+                    : audioDownloadVM.listOfPlaylist[0].playableAudioLst.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final audio =
+                      audioDownloadVM.listOfPlaylist[0].playableAudioLst[index];
+                  return AudioListItemWidget(
+                    audio: audio,
+                    onPlayPressedFunction: (Audio audio) {
+                      _audioPlayerViwModel.play(audio);
+                    },
+                    onStopPressedFunction: (Audio audio) {
+                      _audioPlayerViwModel.stop(audio);
+                    },
+                    onPausePressedFunction: (Audio audio) {
+                      _audioPlayerViwModel.pause(audio);
+                    },
+                  );
+                },
+              );
+            },
+          ),
+        ),
       ],
     );
   }
