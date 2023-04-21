@@ -28,5 +28,6 @@
   "addPlaylist": "Ajout",
   "deletePlaylist": "Supprimer",
   "downloadSingleVideoAudio": "Téléch",
-  "downloadSelectedPlaylists": "Tout Tél"
+  "downloadSelectedPlaylists": "Tout Tél",
+  "stopDownload": "Stop"
 }

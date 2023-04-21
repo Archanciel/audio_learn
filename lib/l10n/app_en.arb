@@ -28,5 +28,6 @@
   "addPlaylist": "Add",
   "deletePlaylist": "Delete",
   "downloadSingleVideoAudio": "Down",
-  "downloadSelectedPlaylists": "Down All"
+  "downloadSelectedPlaylists": "Down All",
+  "stopDownload": "Stop"
 }

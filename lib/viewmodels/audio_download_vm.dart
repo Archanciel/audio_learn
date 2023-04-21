@@ -46,6 +46,8 @@ class AudioDownloadVM extends ChangeNotifier {
   bool _isHighQuality = false;
   bool get isHighQuality => _isHighQuality;
 
+  bool _doStopDownload = false;
+
   /// Passing a testPlaylistTitle has the effect that the windows
   /// test directory is used as playlist root directory. Otherwise,
   /// the windows or smartphone audio root directory is used and
@@ -110,6 +112,7 @@ class AudioDownloadVM extends ChangeNotifier {
   Future<void> downloadPlaylistAudios({
     required String playlistUrl,
   }) async {
+    _doStopDownload = false;
     _youtubeExplode = yt.YoutubeExplode();
 
     // get Youtube playlist
@@ -161,16 +164,24 @@ class AudioDownloadVM extends ChangeNotifier {
         // informations remain displayed until all videos referenced
         // in the playlist have been handled.
         if (_isDownloading) {
-          _setIsDownloading(isDownloading: false);
+          _isDownloading = false;
+
+          notifyListeners();
         }
 
         continue;
       }
 
+      if (_doStopDownload) {
+        break;
+      }
+      
       Stopwatch stopwatch = Stopwatch()..start();
 
       if (!_isDownloading) {
-        _setIsDownloading(isDownloading: true);
+        _isDownloading = true;
+
+        notifyListeners();
       }
 
       // Download the audio file
@@ -194,11 +205,14 @@ class AudioDownloadVM extends ChangeNotifier {
       notifyListeners();
     }
 
-    _setIsDownloading(isDownloading: false);
-
+    _isDownloading = false;
     _youtubeExplode.close();
 
     notifyListeners();
+  }
+
+  void stopDownload() {
+    _doStopDownload = true;
   }
 
   Future<Playlist> _addPlaylist({
@@ -249,6 +263,7 @@ class AudioDownloadVM extends ChangeNotifier {
   Future<void> downloadSingleVideoAudio({
     required String videoUrl,
   }) async {
+    _doStopDownload = false;
     _youtubeExplode = yt.YoutubeExplode();
 
     final yt.VideoId videoId = yt.VideoId(videoUrl);
@@ -278,7 +293,9 @@ class AudioDownloadVM extends ChangeNotifier {
     Stopwatch stopwatch = Stopwatch()..start();
 
     if (!_isDownloading) {
-      _setIsDownloading(isDownloading: true);
+      _isDownloading = true;
+
+      notifyListeners();
     }
 
     // Download the audio file
@@ -290,9 +307,7 @@ class AudioDownloadVM extends ChangeNotifier {
     stopwatch.stop();
 
     audio.downloadDuration = stopwatch.elapsed;
-
-    _setIsDownloading(isDownloading: false);
-
+    _isDownloading = false;
     _youtubeExplode.close();
 
     notifyListeners();
@@ -434,12 +449,6 @@ class AudioDownloadVM extends ChangeNotifier {
   void _updateDownloadProgress(double progress, int lastSecondDownloadSpeed) {
     _downloadProgress = progress;
     _lastSecondDownloadSpeed = lastSecondDownloadSpeed;
-
-    notifyListeners();
-  }
-
-  void _setIsDownloading({required bool isDownloading}) {
-    _isDownloading = isDownloading;
 
     notifyListeners();
   }

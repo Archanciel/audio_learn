@@ -137,6 +137,29 @@ class _ExpandablePlaylistListViewState
                   ),
                 ),
               ),
+              const SizedBox(
+                width: kRowWidthSeparator,
+              ),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  width: kSmallButtonWidth,
+                  child: ElevatedButton(
+                    key: const Key('stopDownloadingButton'),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            horizontal: kSmallButtonInsidePadding),
+                      ),
+                    ),
+                    onPressed: () {
+                      audioDownloadViewModel.stopDownload();
+                    },
+                    child: Text(
+                        AppLocalizations.of(context)!.stopDownload),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
