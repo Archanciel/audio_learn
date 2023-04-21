@@ -69,9 +69,10 @@ class _ExpandablePlaylistListViewState
       child: Column(
         children: <Widget>[
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                flex: 4,
+              SizedBox(
+                width: 250,
                 child: TextField(
                   key: const Key('playlistUrlTextField'),
                   controller: _textEditingController,
@@ -84,80 +85,61 @@ class _ExpandablePlaylistListViewState
                   ),
                 ),
               ),
-              const SizedBox(
-                width: kRowWidthSeparator,
-              ),
-              Expanded(
-                flex: 1,
-                child: SizedBox(
-                  width: kSmallButtonWidth,
-                  child: ElevatedButton(
-                    key: const Key('addPlaylistButton'),
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(
-                            horizontal: kSmallButtonInsidePadding),
-                      ),
+              SizedBox(
+                width: kSmallestButtonWidth,
+                child: ElevatedButton(
+                  key: const Key('addPlaylistButton'),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      const EdgeInsets.symmetric(
+                          horizontal: kSmallButtonInsidePadding),
                     ),
-                    onPressed: () {
-                      final String playlistUrl =
-                          _textEditingController.text.trim();
-                      if (playlistUrl.isNotEmpty) {
-                        Provider.of<ExpandablePlaylistListVM>(context,
-                                listen: false)
-                            .addPlaylist(playlistUrl: playlistUrl);
-                      }
-                    },
-                    child: Text(AppLocalizations.of(context)!.addPlaylist),
                   ),
+                  onPressed: () {
+                    final String playlistUrl =
+                        _textEditingController.text.trim();
+                    if (playlistUrl.isNotEmpty) {
+                      Provider.of<ExpandablePlaylistListVM>(context,
+                              listen: false)
+                          .addPlaylist(playlistUrl: playlistUrl);
+                    }
+                  },
+                  child: Text(AppLocalizations.of(context)!.addPlaylist),
                 ),
               ),
-              const SizedBox(
-                width: kRowWidthSeparator,
-              ),
-              Expanded(
-                flex: 1,
-                child: SizedBox(
-                  width: kSmallButtonWidth,
-                  child: ElevatedButton(
-                    key: const Key('downloadSingleVideoButton'),
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(
-                            horizontal: kSmallButtonInsidePadding),
-                      ),
+              SizedBox(
+                width: kSmallButtonWidth,
+                child: ElevatedButton(
+                  key: const Key('downloadSingleVideoButton'),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      const EdgeInsets.symmetric(
+                          horizontal: kSmallButtonInsidePadding),
                     ),
-                    onPressed: () {
-                      audioDownloadViewModel.downloadSingleVideoAudio(
-                        videoUrl: _textEditingController.text.trim(),
-                      );
-                    },
-                    child: Text(
-                        AppLocalizations.of(context)!.downloadSingleVideoAudio),
                   ),
+                  onPressed: () {
+                    audioDownloadViewModel.downloadSingleVideoAudio(
+                      videoUrl: _textEditingController.text.trim(),
+                    );
+                  },
+                  child: Text(
+                      AppLocalizations.of(context)!.downloadSingleVideoAudio),
                 ),
               ),
-              const SizedBox(
-                width: kRowWidthSeparator,
-              ),
-              Expanded(
-                flex: 1,
-                child: SizedBox(
-                  width: kSmallButtonWidth,
-                  child: ElevatedButton(
-                    key: const Key('stopDownloadingButton'),
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(
-                            horizontal: kSmallButtonInsidePadding),
-                      ),
+              SizedBox(
+                width: kSmallestButtonWidth,
+                child: ElevatedButton(
+                  key: const Key('stopDownloadingButton'),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      const EdgeInsets.symmetric(
+                          horizontal: kSmallButtonInsidePadding),
                     ),
-                    onPressed: () {
-                      audioDownloadViewModel.stopDownload();
-                    },
-                    child: Text(
-                        AppLocalizations.of(context)!.stopDownload),
                   ),
+                  onPressed: () {
+                    audioDownloadViewModel.stopDownload();
+                  },
+                  child: Text(AppLocalizations.of(context)!.stopDownload),
                 ),
               ),
             ],
@@ -301,7 +283,8 @@ class _ExpandablePlaylistListViewState
                             .downloadSelectedPlaylists(context);
                       }
                     : null,
-                child: Text(AppLocalizations.of(context)!.downloadSelectedPlaylists),
+                child: Text(
+                    AppLocalizations.of(context)!.downloadSelectedPlaylists),
               ),
             ],
           ),
@@ -336,10 +319,11 @@ class _ExpandablePlaylistListViewState
                 return ListView.builder(
                   itemCount: (audioDownloadVM.listOfPlaylist.isEmpty)
                       ? 0
-                      : audioDownloadVM.listOfPlaylist[0].playableAudioLst.length,
+                      : audioDownloadVM
+                          .listOfPlaylist[0].playableAudioLst.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final audio =
-                        audioDownloadVM.listOfPlaylist[0].playableAudioLst[index];
+                    final audio = audioDownloadVM
+                        .listOfPlaylist[0].playableAudioLst[index];
                     return AudioListItemWidget(
                       audio: audio,
                       onPlayPressedFunction: (Audio audio) {

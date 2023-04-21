@@ -60,7 +60,8 @@ const double kVerticalFieldDistance = 23.0;
 const double kVerticalFieldDistanceAddSubScreen = 1.0;
 const double kResetButtonBottomDistance = 5.0;
 const double kRowWidthSeparator = 3.0;
-const double kSmallButtonWidth = 40.0;
+const double kSmallestButtonWidth = 40.0;
+const double kSmallButtonWidth = 48.0;
 const double kSmallButtonInsidePadding = 3.0;
 const double kDefaultMargin = 5.0;
 
