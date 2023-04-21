@@ -111,6 +111,11 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
     // TODO: implement downloadSingleVideoAudio
     throw UnimplementedError();
   }
+
+  @override
+  void stopDownload() {
+    // TODO: implement stopDownload
+  }
 }
 
 void main() {
