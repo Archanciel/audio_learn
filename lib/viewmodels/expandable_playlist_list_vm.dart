@@ -107,6 +107,26 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     }
   }
 
+  Future<void> downloadSelectedPlaylists(BuildContext context) async {
+    List<Playlist> selectedPlaylists = _getSelectedPlaylists();
+
+    for (Playlist playlist in selectedPlaylists) {
+      await audioDownloadVM.downloadPlaylistAudios(playlistUrl: playlist.url);
+    }
+  }
+
+  List<Playlist> _getSelectedPlaylists() {
+    List<Playlist> selectedPlaylists = [];
+
+    for (int i = 0; i < items.length; i++) {
+      if (items[i].isSelected) {
+        selectedPlaylists.add(items[i]);
+      }
+    }
+
+    return selectedPlaylists;
+  }
+
   int _getSelectedIndex() {
     for (int i = 0; i < items.length; i++) {
       if (items[i].isSelected) {
