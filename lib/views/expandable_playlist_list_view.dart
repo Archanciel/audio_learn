@@ -71,8 +71,8 @@ class _ExpandablePlaylistListViewState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                width: 250,
+              Expanded(
+                // flex: 1,
                 child: TextField(
                   key: const Key('playlistUrlTextField'),
                   controller: _textEditingController,
@@ -85,8 +85,11 @@ class _ExpandablePlaylistListViewState
                   ),
                 ),
               ),
+              const SizedBox(
+                width: kRowWidthSeparator,
+              ),
               SizedBox(
-                width: kSmallestButtonWidth,
+                width: kSmallButtonWidth,
                 child: ElevatedButton(
                   key: const Key('addPlaylistButton'),
                   style: ButtonStyle(
@@ -107,6 +110,9 @@ class _ExpandablePlaylistListViewState
                   child: Text(AppLocalizations.of(context)!.addPlaylist),
                 ),
               ),
+              const SizedBox(
+                width: kRowWidthSeparator,
+              ),
               SizedBox(
                 width: kSmallButtonWidth,
                 child: ElevatedButton(
@@ -125,6 +131,9 @@ class _ExpandablePlaylistListViewState
                   child: Text(
                       AppLocalizations.of(context)!.downloadSingleVideoAudio),
                 ),
+              ),
+              const SizedBox(
+                width: kRowWidthSeparator,
               ),
               SizedBox(
                 width: kSmallestButtonWidth,
@@ -275,12 +284,17 @@ class _ExpandablePlaylistListViewState
               ),
               ElevatedButton(
                 key: const Key('download_sel_playlists_button'),
-                onPressed: Provider.of<ExpandablePlaylistListVM>(context)
-                        .isButton1Enabled
+                onPressed: (Provider.of<ExpandablePlaylistListVM>(context)
+                            .isButton1Enabled &&
+                        !Provider.of<AudioDownloadVM>(context).isDownloading)
                     ? () {
-                        Provider.of<ExpandablePlaylistListVM>(context,
-                                listen: false)
-                            .downloadSelectedPlaylists(context);
+                        List<Playlist> selectedPlaylists =
+                            Provider.of<ExpandablePlaylistListVM>(context,
+                                    listen: false)
+                                .getSelectedPlaylists();
+                        Provider.of<AudioDownloadVM>(context, listen: false)
+                            .downloadPlaylistAudios(
+                                playlistUrl: selectedPlaylists[0].url);
                       }
                     : null,
                 child: Text(
@@ -293,11 +307,11 @@ class _ExpandablePlaylistListViewState
               if (listViewModel.isListExpanded) {
                 return Expanded(
                   child: ListView.builder(
-                    itemCount: listViewModel.items.length,
+                    itemCount: listViewModel.getPlaylists().length,
                     itemBuilder: (context, index) {
-                      Playlist item = listViewModel.items[index];
+                      Playlist item = listViewModel.getPlaylists()[index];
                       return ListTile(
-                        title: Text(item.url),
+                        title: Text(item.title),
                         trailing: Checkbox(
                           value: item.isSelected,
                           onChanged: (value) {
@@ -314,16 +328,21 @@ class _ExpandablePlaylistListViewState
             },
           ),
           Expanded(
-            child: Consumer<AudioDownloadVM>(
-              builder: (context, audioDownloadVM, child) {
+            child: Consumer<ExpandablePlaylistListVM>(
+              builder:
+                  (context, expandablePlaylistListVM, child) {
                 return ListView.builder(
-                  itemCount: (audioDownloadVM.listOfPlaylist.isEmpty)
+                  itemCount: (expandablePlaylistListVM
+                        .getSelectedPlaylists().isEmpty)
                       ? 0
-                      : audioDownloadVM
-                          .listOfPlaylist[0].playableAudioLst.length,
+                      : expandablePlaylistListVM
+                          .getSelectedPlaylists()[0]
+                          .playableAudioLst
+                          .length,
                   itemBuilder: (BuildContext context, int index) {
-                    final audio = audioDownloadVM
-                        .listOfPlaylist[0].playableAudioLst[index];
+                    final audio = expandablePlaylistListVM
+                        .getSelectedPlaylists()[0]
+                        .playableAudioLst[index];
                     return AudioListItemWidget(
                       audio: audio,
                       onPlayPressedFunction: (Audio audio) {

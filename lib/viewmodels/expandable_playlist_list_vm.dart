@@ -24,18 +24,13 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   bool get isPlaylistSelected => _isPlaylistSelected;
   set isPlaylistSelected(bool value) => _isPlaylistSelected = value;
 
-  final List<Playlist> items = [
-    Playlist(url: kUniquePlaylistUrl),
-    Playlist(url: 'Item 2'),
-    Playlist(url: 'Item 3'),
-    Playlist(url: 'Item 4'),
-    Playlist(url: 'Item 5'),
-    Playlist(url: 'Item 6'),
-    Playlist(url: 'Item 7'),
-    Playlist(url: 'Item 8'),
-    Playlist(url: 'Item 9'),
-    Playlist(url: 'Item 10'),
-  ];
+  List<Playlist> items = [];
+
+  List<Playlist> getPlaylists() {
+    items = audioDownloadVM.listOfPlaylist;
+
+    return items;
+  }
 
   Future<void> addPlaylist({required String playlistUrl}) async {
     final bool alreadyDownloaded =
@@ -108,14 +103,14 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   Future<void> downloadSelectedPlaylists(BuildContext context) async {
-    List<Playlist> selectedPlaylists = _getSelectedPlaylists();
+    List<Playlist> selectedPlaylists = getSelectedPlaylists();
 
     for (Playlist playlist in selectedPlaylists) {
       await audioDownloadVM.downloadPlaylistAudios(playlistUrl: playlist.url);
     }
   }
 
-  List<Playlist> _getSelectedPlaylists() {
+  List<Playlist> getSelectedPlaylists() {
     List<Playlist> selectedPlaylists = [];
 
     for (int i = 0; i < items.length; i++) {

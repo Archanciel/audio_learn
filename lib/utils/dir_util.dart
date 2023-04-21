@@ -73,4 +73,37 @@ class DirUtil {
 
     await sourceFile.copy(targetFilePath);
   }
+
+  static Future<List<String>> listPathFileNamesInSubDirs({
+    required String path,
+    required String extension,
+  }) async {
+    List<String> pathFileNameList = [];
+
+    final dir = Directory(path);
+    final pattern = RegExp(r'\.' + RegExp.escape(extension) + r'$');
+
+    await for (FileSystemEntity entity
+        in dir.list(recursive: true, followLinks: false)) {
+      if (entity is File && pattern.hasMatch(entity.path)) {
+        // Check if the file is not directly in the path itself
+        String relativePath = entity.path
+            .replaceFirst(RegExp(RegExp.escape(path) + r'[/\\]?'), '');
+        if (relativePath.contains(Platform.pathSeparator)) {
+          pathFileNameList.add(entity.path);
+        }
+      }
+    }
+
+    return pathFileNameList;
+  }
+}
+
+Future<void> main() async {
+  List<String> fileNames = await DirUtil.listPathFileNamesInSubDirs(
+    path: 'C:\\Users\\Jean-Pierre\\Downloads\\Audio\\',
+    extension: 'json',
+  );
+
+  print(fileNames);
 }

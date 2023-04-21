@@ -59,20 +59,21 @@ class AudioDownloadVM extends ChangeNotifier {
 
     // Should load all the playlists, not only the audio_learn or to_delete
     // playlist !
-    _loadTemporaryUniquePlaylist(testPlaylistTitle: testPlaylistTitle);
+    _loadExistingPlaylists(testPlaylistTitle: testPlaylistTitle);
   }
 
-  void _loadTemporaryUniquePlaylist({String? testPlaylistTitle}) async {
-    String playListTitle = testPlaylistTitle ?? kUniquePlaylistTitle;
-    String jsonPathFileName =
-        '$_playlistHomePath${Platform.pathSeparator}$playListTitle${Platform.pathSeparator}$playListTitle.json';
-    dynamic currentPlaylist = JsonDataService.loadFromFile(
-        jsonPathFileName: jsonPathFileName, type: Playlist);
-    if (currentPlaylist != null) {
+  void _loadExistingPlaylists({String? testPlaylistTitle}) async {
+    List<String> playlistPathFileNames =
+        await DirUtil.listPathFileNamesInSubDirs(
+      path: DirUtil.getPlaylistDownloadHomePath(),
+      extension: 'json',
+    );
+
+    for (String playlistPathFileName in playlistPathFileNames) {
+      dynamic currentPlaylist = JsonDataService.loadFromFile(
+          jsonPathFileName: playlistPathFileName, type: Playlist);
       // is null if json file not exist
       _listOfPlaylist.add(currentPlaylist);
-    } else {
-      _listOfPlaylist = [];
     }
 
     notifyListeners();
@@ -175,7 +176,7 @@ class AudioDownloadVM extends ChangeNotifier {
       if (_doStopDownload) {
         break;
       }
-      
+
       Stopwatch stopwatch = Stopwatch()..start();
 
       if (!_isDownloading) {
