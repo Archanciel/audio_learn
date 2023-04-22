@@ -234,7 +234,8 @@ class _ExpandablePlaylistListViewState
                 child: ElevatedButton(
                   key: const Key('toggle_button'),
                   onPressed: () {
-                    Provider.of<ExpandablePlaylistListVM>(context, listen: false)
+                    Provider.of<ExpandablePlaylistListVM>(context,
+                            listen: false)
                         .toggleList();
                   },
                   child: const Text('Playlists'),
@@ -304,7 +305,7 @@ class _ExpandablePlaylistListViewState
                                       listen: false)
                                   .getSelectedPlaylists();
 
-                          // currently only one playlist can be selected and 
+                          // currently only one playlist can be selected and
                           // downloaded at a time.
                           Provider.of<AudioDownloadVM>(context, listen: false)
                               .downloadPlaylistAudios(
@@ -322,9 +323,11 @@ class _ExpandablePlaylistListViewState
               if (listViewModel.isListExpanded) {
                 return Expanded(
                   child: ListView.builder(
-                    itemCount: listViewModel.getPlaylists().length,
+                    itemCount:
+                        listViewModel.getUpToDateSelectablePlaylists().length,
                     itemBuilder: (context, index) {
-                      Playlist item = listViewModel.getPlaylists()[index];
+                      Playlist item =
+                          listViewModel.getUpToDateSelectablePlaylists()[index];
                       return ListTile(
                         title: Text(item.title),
                         trailing: Checkbox(
@@ -344,16 +347,15 @@ class _ExpandablePlaylistListViewState
           ),
           Expanded(
             child: Consumer<ExpandablePlaylistListVM>(
-              builder:
-                  (context, expandablePlaylistListVM, child) {
+              builder: (context, expandablePlaylistListVM, child) {
                 return ListView.builder(
-                  itemCount: (expandablePlaylistListVM
-                        .getSelectedPlaylists().isEmpty)
-                      ? 0
-                      : expandablePlaylistListVM
-                          .getSelectedPlaylists()[0]
-                          .playableAudioLst
-                          .length,
+                  itemCount:
+                      (expandablePlaylistListVM.getSelectedPlaylists().isEmpty)
+                          ? 0
+                          : expandablePlaylistListVM
+                              .getSelectedPlaylists()[0]
+                              .playableAudioLst
+                              .length,
                   itemBuilder: (BuildContext context, int index) {
                     final audio = expandablePlaylistListVM
                         .getSelectedPlaylists()[0]
