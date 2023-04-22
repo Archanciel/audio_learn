@@ -152,45 +152,6 @@ class _ExpandablePlaylistListViewState
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Consumer<AudioDownloadVM>(
-                builder: (context, audioDownloadVM, child) {
-                  return ElevatedButton(
-                    key: const Key('downLoadButton'),
-                    onPressed: audioDownloadVM.isDownloading
-                        ? null
-                        : () {
-                            final String playlistUrl =
-                                _textEditingController.text.trim();
-                            if (playlistUrl.isNotEmpty) {
-                              audioDownloadVM.downloadPlaylistAudios(
-                                playlistUrl: playlistUrl,
-                              );
-                            }
-                          },
-                    child: Text(AppLocalizations.of(context)!.downloadAudio),
-                  );
-                },
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Checkbox(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    visualDensity: VisualDensity.compact,
-                    value: audioDownloadViewModel.isHighQuality,
-                    onChanged: (bool? value) {
-                      audioDownloadViewModel.setAudioQuality(
-                          isHighQuality: value ?? false);
-                    },
-                  ),
-                  Text(AppLocalizations.of(context)!.audioQuality),
-                ],
-              ),
-            ],
-          ),
           // displaying the currently downloading audiodownload
           // informations.
           Consumer<AudioDownloadVM>(
@@ -239,21 +200,6 @@ class _ExpandablePlaylistListViewState
                         .toggleList();
                   },
                   child: const Text('Playlists'),
-                ),
-              ),
-              SizedBox(
-                width: 70,
-                child: ElevatedButton(
-                  key: const Key('delete_button'),
-                  onPressed: Provider.of<ExpandablePlaylistListVM>(context)
-                          .isButton1Enabled
-                      ? () {
-                          Provider.of<ExpandablePlaylistListVM>(context,
-                                  listen: false)
-                              .deleteSelectedItem(context);
-                        }
-                      : null,
-                  child: Text(AppLocalizations.of(context)!.deletePlaylist),
                 ),
               ),
               Expanded(
