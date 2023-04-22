@@ -72,7 +72,6 @@ class _ExpandablePlaylistListViewState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                // flex: 1,
                 child: TextField(
                   key: const Key('playlistUrlTextField'),
                   controller: _textEditingController,
@@ -230,75 +229,88 @@ class _ExpandablePlaylistListViewState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              ElevatedButton(
-                key: const Key('toggle_button'),
-                onPressed: () {
-                  Provider.of<ExpandablePlaylistListVM>(context, listen: false)
-                      .toggleList();
-                },
-                child: const Text('Playlists'),
-              ),
-              ElevatedButton(
-                key: const Key('delete_button'),
-                onPressed: Provider.of<ExpandablePlaylistListVM>(context)
-                        .isButton1Enabled
-                    ? () {
-                        Provider.of<ExpandablePlaylistListVM>(context,
-                                listen: false)
-                            .deleteSelectedItem(context);
-                      }
-                    : null,
-                child: Text(AppLocalizations.of(context)!.deletePlaylist),
-              ),
-              IconButton(
-                key: const Key('move_up_button'),
-                onPressed: Provider.of<ExpandablePlaylistListVM>(context)
-                        .isButton2Enabled
-                    ? () {
-                        Provider.of<ExpandablePlaylistListVM>(context,
-                                listen: false)
-                            .moveSelectedItemUp();
-                      }
-                    : null,
-                padding: const EdgeInsets.all(0),
-                icon: const Icon(
-                  Icons.arrow_drop_up,
-                  size: 50,
+              SizedBox(
+                width: 87,
+                child: ElevatedButton(
+                  key: const Key('toggle_button'),
+                  onPressed: () {
+                    Provider.of<ExpandablePlaylistListVM>(context, listen: false)
+                        .toggleList();
+                  },
+                  child: const Text('Playlists'),
                 ),
               ),
-              IconButton(
-                key: const Key('move_down_button'),
-                onPressed: Provider.of<ExpandablePlaylistListVM>(context)
-                        .isButton3Enabled
-                    ? () {
-                        Provider.of<ExpandablePlaylistListVM>(context,
-                                listen: false)
-                            .moveSelectedItemDown();
-                      }
-                    : null,
-                padding: const EdgeInsets.all(0),
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  size: 50,
+              SizedBox(
+                width: 70,
+                child: ElevatedButton(
+                  key: const Key('delete_button'),
+                  onPressed: Provider.of<ExpandablePlaylistListVM>(context)
+                          .isButton1Enabled
+                      ? () {
+                          Provider.of<ExpandablePlaylistListVM>(context,
+                                  listen: false)
+                              .deleteSelectedItem(context);
+                        }
+                      : null,
+                  child: Text(AppLocalizations.of(context)!.deletePlaylist),
                 ),
               ),
-              ElevatedButton(
-                key: const Key('download_sel_playlists_button'),
-                onPressed: (Provider.of<ExpandablePlaylistListVM>(context)
-                            .isButton1Enabled &&
-                        !Provider.of<AudioDownloadVM>(context).isDownloading)
-                    ? () {
-                        List<Playlist> selectedPlaylists =
-                            Provider.of<ExpandablePlaylistListVM>(context,
-                                    listen: false)
-                                .getSelectedPlaylists();
-                        Provider.of<AudioDownloadVM>(context, listen: false)
-                            .downloadPlaylistAudios(
-                                playlistUrl: selectedPlaylists[0].url);
-                      }
-                    : null,
-                child: Text(
-                    AppLocalizations.of(context)!.downloadSelectedPlaylists),
+              Expanded(
+                child: IconButton(
+                  key: const Key('move_up_button'),
+                  onPressed: Provider.of<ExpandablePlaylistListVM>(context)
+                          .isButton2Enabled
+                      ? () {
+                          Provider.of<ExpandablePlaylistListVM>(context,
+                                  listen: false)
+                              .moveSelectedItemUp();
+                        }
+                      : null,
+                  padding: const EdgeInsets.all(0),
+                  icon: const Icon(
+                    Icons.arrow_drop_up,
+                    size: 50,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: IconButton(
+                  key: const Key('move_down_button'),
+                  onPressed: Provider.of<ExpandablePlaylistListVM>(context)
+                          .isButton3Enabled
+                      ? () {
+                          Provider.of<ExpandablePlaylistListVM>(context,
+                                  listen: false)
+                              .moveSelectedItemDown();
+                        }
+                      : null,
+                  padding: const EdgeInsets.all(0),
+                  icon: const Icon(
+                    Icons.arrow_drop_down,
+                    size: 50,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 90,
+                child: ElevatedButton(
+                  key: const Key('download_sel_playlists_button'),
+                  onPressed: (Provider.of<ExpandablePlaylistListVM>(context)
+                              .isButton1Enabled &&
+                          !Provider.of<AudioDownloadVM>(context).isDownloading)
+                      ? () {
+                          List<Playlist> selectedPlaylists =
+                              Provider.of<ExpandablePlaylistListVM>(context,
+                                      listen: false)
+                                  .getSelectedPlaylists();
+                          Provider.of<AudioDownloadVM>(context, listen: false)
+                              .downloadPlaylistAudios(
+                                  playlistUrl: selectedPlaylists[0].url);
+                        }
+                      : null,
+                  child: Text(
+                      AppLocalizations.of(context)!.downloadSelectedPlaylists),
+                ),
               ),
             ],
           ),

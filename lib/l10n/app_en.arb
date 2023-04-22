@@ -26,7 +26,7 @@
   "ytPlaylistLinkLabel": "Youtube Playlist Link",
   "ytPlaylistLinkHintText": "Enter a Youtube playlist link",
   "addPlaylist": "Add",
-  "deletePlaylist": "Delete",
+  "deletePlaylist": "Del",
   "downloadSingleVideoAudio": "Down",
   "downloadSelectedPlaylists": "Down All",
   "stopDownload": "Stop"
