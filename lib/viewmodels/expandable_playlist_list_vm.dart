@@ -16,7 +16,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   bool get isButton2Enabled => _isButton2Enabled;
   bool get isButton3Enabled => _isButton3Enabled;
 
-  final AudioDownloadVM audioDownloadVM = AudioDownloadVM();
+  final AudioDownloadVM audioDownloadVM;
   List<Playlist> get playlistList => audioDownloadVM.listOfPlaylist;
 
   bool _isPlaylistSelected = false;
@@ -24,17 +24,19 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   bool get isPlaylistSelected => _isPlaylistSelected;
   set isPlaylistSelected(bool value) => _isPlaylistSelected = value;
 
-  List<Playlist> items = [];
+  List<Playlist> selectablePlaylistLst = [];
+
+  ExpandablePlaylistListVM({required this.audioDownloadVM});
 
   List<Playlist> getPlaylists() {
-    items = audioDownloadVM.listOfPlaylist;
+    selectablePlaylistLst = audioDownloadVM.listOfPlaylist;
 
-    return items;
+    return selectablePlaylistLst;
   }
 
   Future<void> addPlaylist({required String playlistUrl}) async {
     final bool alreadyDownloaded =
-        items.any((playlist) => playlist.url == playlistUrl);
+        selectablePlaylistLst.any((playlist) => playlist.url == playlistUrl);
 
     if (alreadyDownloaded) {
       return;
@@ -42,7 +44,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
     Playlist addedPlaylist =
         await audioDownloadVM.addPlaylist(playlistUrl: playlistUrl);
-    items.insert(0, addedPlaylist);
+    // items.add(addedPlaylist);
 
     notifyListeners();
   }
@@ -64,7 +66,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   void selectItem(BuildContext context, int index) {
-    bool isOneItemSelected = doSelectItem(index);
+    bool isOneItemSelected = _doSelectItem(index);
 
     if (!isOneItemSelected) {
       _disableButtons();
@@ -113,9 +115,9 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   List<Playlist> getSelectedPlaylists() {
     List<Playlist> selectedPlaylists = [];
 
-    for (int i = 0; i < items.length; i++) {
-      if (items[i].isSelected) {
-        selectedPlaylists.add(items[i]);
+    for (int i = 0; i < selectablePlaylistLst.length; i++) {
+      if (selectablePlaylistLst[i].isSelected) {
+        selectedPlaylists.add(selectablePlaylistLst[i]);
       }
     }
 
@@ -123,8 +125,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   int _getSelectedIndex() {
-    for (int i = 0; i < items.length; i++) {
-      if (items[i].isSelected) {
+    for (int i = 0; i < selectablePlaylistLst.length; i++) {
+      if (selectablePlaylistLst[i].isSelected) {
         return i;
       }
     }
@@ -143,43 +145,44 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     _isButton3Enabled = false;
   }
 
-  bool doSelectItem(int index) {
-    for (int i = 0; i < items.length; i++) {
+  bool _doSelectItem(int index) {
+    for (int i = 0; i < selectablePlaylistLst.length; i++) {
       if (i == index) {
-        items[i].isSelected = !items[i].isSelected;
+        selectablePlaylistLst[i].isSelected =
+            !selectablePlaylistLst[i].isSelected;
       } else {
-        items[i].isSelected = false;
+        selectablePlaylistLst[i].isSelected = false;
       }
     }
 
-    _isPlaylistSelected = items[index].isSelected;
+    _isPlaylistSelected = selectablePlaylistLst[index].isSelected;
 
     return _isPlaylistSelected;
   }
 
   void deleteItem(int index) {
-    items.removeAt(index);
+    selectablePlaylistLst.removeAt(index);
     _isPlaylistSelected = false;
   }
 
   void moveItemUp(int index) {
     if (index == 0) {
-      Playlist item = items.removeAt(index);
-      items.add(item);
+      Playlist item = selectablePlaylistLst.removeAt(index);
+      selectablePlaylistLst.add(item);
     } else {
-      Playlist item = items.removeAt(index);
-      items.insert(index - 1, item);
+      Playlist item = selectablePlaylistLst.removeAt(index);
+      selectablePlaylistLst.insert(index - 1, item);
     }
     notifyListeners();
   }
 
   void moveItemDown(int index) {
-    if (index == items.length - 1) {
-      Playlist item = items.removeAt(index);
-      items.insert(0, item);
+    if (index == selectablePlaylistLst.length - 1) {
+      Playlist item = selectablePlaylistLst.removeAt(index);
+      selectablePlaylistLst.insert(0, item);
     } else {
-      Playlist item = items.removeAt(index);
-      items.insert(index + 1, item);
+      Playlist item = selectablePlaylistLst.removeAt(index);
+      selectablePlaylistLst.insert(index + 1, item);
     }
     notifyListeners();
   }

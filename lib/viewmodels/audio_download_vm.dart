@@ -96,14 +96,12 @@ class AudioDownloadVM extends ChangeNotifier {
       youtubePlaylist: youtubePlaylist,
     );
 
-    _listOfPlaylist.add(addedPlaylist);
-
     JsonDataService.saveToFile(
       model: addedPlaylist,
       path: addedPlaylist.getPlaylistDownloadFilePathName(),
     );
 
-    notifyListeners();
+    // notifyListeners();
 
     return addedPlaylist;
   }

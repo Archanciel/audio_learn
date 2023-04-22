@@ -303,6 +303,9 @@ class _ExpandablePlaylistListViewState
                               Provider.of<ExpandablePlaylistListVM>(context,
                                       listen: false)
                                   .getSelectedPlaylists();
+
+                          // currently only one playlist can be selected and 
+                          // downloaded at a time.
                           Provider.of<AudioDownloadVM>(context, listen: false)
                               .downloadPlaylistAudios(
                                   playlistUrl: selectedPlaylists[0].url);
