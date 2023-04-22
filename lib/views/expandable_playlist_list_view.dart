@@ -265,21 +265,21 @@ class _ExpandablePlaylistListViewState
             ],
           ),
           Consumer<ExpandablePlaylistListVM>(
-            builder: (context, listViewModel, child) {
-              if (listViewModel.isListExpanded) {
+            builder: (context, expandablePlaylistListViewModel, child) {
+              if (expandablePlaylistListViewModel.isListExpanded) {
                 return Expanded(
                   child: ListView.builder(
                     itemCount:
-                        listViewModel.getUpToDateSelectablePlaylists().length,
+                        expandablePlaylistListViewModel.getUpToDateSelectablePlaylists().length,
                     itemBuilder: (context, index) {
                       Playlist item =
-                          listViewModel.getUpToDateSelectablePlaylists()[index];
+                          expandablePlaylistListViewModel.getUpToDateSelectablePlaylists()[index];
                       return ListTile(
                         title: Text(item.title),
                         trailing: Checkbox(
                           value: item.isSelected,
                           onChanged: (value) {
-                            listViewModel.selectItem(context, index);
+                            expandablePlaylistListViewModel.selectItem(context, index);
                           },
                         ),
                       );
@@ -287,7 +287,7 @@ class _ExpandablePlaylistListViewState
                   ),
                 );
               } else {
-                return Container();
+                return const SizedBox.shrink();
               }
             },
           ),
