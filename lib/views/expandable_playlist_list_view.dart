@@ -145,7 +145,8 @@ class _ExpandablePlaylistListViewState
                           horizontal: kSmallButtonInsidePadding),
                     ),
                   ),
-                  onPressed: audioDownloadViewModel.isDownloading
+                  onPressed: audioDownloadViewModel.isDownloading &&
+                          !audioDownloadViewModel.isDownloadStopping
                       ? () {
                           audioDownloadViewModel.stopDownload();
                           Fluttertoast.showToast(

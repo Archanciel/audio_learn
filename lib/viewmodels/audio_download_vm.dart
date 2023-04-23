@@ -46,7 +46,8 @@ class AudioDownloadVM extends ChangeNotifier {
   bool _isHighQuality = false;
   bool get isHighQuality => _isHighQuality;
 
-  bool _doStopDownload = false;
+  bool _stopDownloadPressed = false;
+  bool get isDownloadStopping => _stopDownloadPressed;
 
   bool _audioDownloadError = false;
   bool get audioDownloadError => _audioDownloadError;
@@ -117,7 +118,7 @@ class AudioDownloadVM extends ChangeNotifier {
   Future<void> downloadPlaylistAudios({
     required String playlistUrl,
   }) async {
-    _doStopDownload = false;
+    _stopDownloadPressed = false;
     _youtubeExplode = yt.YoutubeExplode();
 
     // get Youtube playlist
@@ -178,7 +179,7 @@ class AudioDownloadVM extends ChangeNotifier {
         continue;
       }
 
-      if (_doStopDownload) {
+      if (_stopDownloadPressed) {
         break;
       }
 
@@ -197,7 +198,7 @@ class AudioDownloadVM extends ChangeNotifier {
           audio: audio,
         );
       } catch (e) {
-       _notifyDownloadError(e.toString());
+        _notifyDownloadError(e.toString());
         continue;
       }
 
@@ -233,7 +234,7 @@ class AudioDownloadVM extends ChangeNotifier {
   }
 
   void stopDownload() {
-    _doStopDownload = true;
+    _stopDownloadPressed = true;
   }
 
   Future<Playlist> _addPlaylist({
@@ -285,7 +286,7 @@ class AudioDownloadVM extends ChangeNotifier {
     required String videoUrl,
   }) async {
     _audioDownloadError = false;
-    _doStopDownload = false;
+    _stopDownloadPressed = false;
     _youtubeExplode = yt.YoutubeExplode();
 
     final yt.VideoId videoId = yt.VideoId(videoUrl);
@@ -320,16 +321,16 @@ class AudioDownloadVM extends ChangeNotifier {
       notifyListeners();
     }
 
-      try {
-        await _downloadAudioFile(
-          youtubeVideoId: youtubeVideo.id,
-          audio: audio,
-        );
-      } catch (e) {
-     _youtubeExplode.close();
-       _notifyDownloadError(e.toString());
-        return;
-      }
+    try {
+      await _downloadAudioFile(
+        youtubeVideoId: youtubeVideo.id,
+        audio: audio,
+      );
+    } catch (e) {
+      _youtubeExplode.close();
+      _notifyDownloadError(e.toString());
+      return;
+    }
 
     stopwatch.stop();
 
