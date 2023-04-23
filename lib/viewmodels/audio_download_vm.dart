@@ -48,6 +48,12 @@ class AudioDownloadVM extends ChangeNotifier {
 
   bool _doStopDownload = false;
 
+  bool _audioDownloadError = false;
+  bool get audioDownloadError => _audioDownloadError;
+
+  String _errorMessage = '';
+  String get errorMessage => _errorMessage;
+
   /// Passing a testPlaylistTitle has the effect that the windows
   /// test directory is used as playlist root directory. Otherwise,
   /// the windows or smartphone audio root directory is used and
@@ -136,6 +142,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
     await for (yt.Video youtubeVideo
         in _youtubeExplode.playlists.getVideos(playlistId)) {
+      _audioDownloadError = false;
       final Duration? audioDuration = youtubeVideo.duration;
       DateTime? videoUploadDate =
           (await _youtubeExplode.videos.get(youtubeVideo.id.value)).uploadDate;
@@ -184,10 +191,15 @@ class AudioDownloadVM extends ChangeNotifier {
       }
 
       // Download the audio file
-      await _downloadAudioFile(
-        youtubeVideoId: youtubeVideo.id,
-        audio: audio,
-      );
+      try {
+        await _downloadAudioFile(
+          youtubeVideoId: youtubeVideo.id,
+          audio: audio,
+        );
+      } catch (e) {
+       _notifyDownloadError(e.toString());
+        continue;
+      }
 
       stopwatch.stop();
 
@@ -206,6 +218,16 @@ class AudioDownloadVM extends ChangeNotifier {
 
     _isDownloading = false;
     _youtubeExplode.close();
+
+    notifyListeners();
+  }
+
+  _notifyDownloadError(String errorMessage) {
+    _isDownloading = false;
+    _downloadProgress = 0.0;
+    _lastSecondDownloadSpeed = 0;
+    _audioDownloadError = true;
+    _errorMessage = errorMessage;
 
     notifyListeners();
   }
@@ -262,6 +284,7 @@ class AudioDownloadVM extends ChangeNotifier {
   Future<void> downloadSingleVideoAudio({
     required String videoUrl,
   }) async {
+    _audioDownloadError = false;
     _doStopDownload = false;
     _youtubeExplode = yt.YoutubeExplode();
 
@@ -297,11 +320,16 @@ class AudioDownloadVM extends ChangeNotifier {
       notifyListeners();
     }
 
-    // Download the audio file
-    await _downloadAudioFile(
-      youtubeVideoId: youtubeVideo.id,
-      audio: audio,
-    );
+      try {
+        await _downloadAudioFile(
+          youtubeVideoId: youtubeVideo.id,
+          audio: audio,
+        );
+      } catch (e) {
+     _youtubeExplode.close();
+       _notifyDownloadError(e.toString());
+        return;
+      }
 
     stopwatch.stop();
 

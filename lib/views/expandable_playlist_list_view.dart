@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -144,9 +145,21 @@ class _ExpandablePlaylistListViewState
                           horizontal: kSmallButtonInsidePadding),
                     ),
                   ),
-                  onPressed: () {
-                    audioDownloadViewModel.stopDownload();
-                  },
+                  onPressed: audioDownloadViewModel.isDownloading
+                      ? () {
+                          audioDownloadViewModel.stopDownload();
+                          Fluttertoast.showToast(
+                            msg: AppLocalizations.of(context)!
+                                .audioDownloadingStopping,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.TOP_RIGHT,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.black,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
+                        }
+                      : null,
                   child: Text(AppLocalizations.of(context)!.stopDownload),
                 ),
               ),
@@ -183,6 +196,18 @@ class _ExpandablePlaylistListViewState
                   ),
                 );
               } else {
+                if (audioDownloadVM.audioDownloadError) {
+                  Fluttertoast.showToast(
+                    msg: AppLocalizations.of(context)!
+                        .audioDownloadError(audioDownloadVM.errorMessage),
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.TOP,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.black,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
+                }
                 return const SizedBox.shrink();
               }
             },
@@ -269,17 +294,19 @@ class _ExpandablePlaylistListViewState
               if (expandablePlaylistListViewModel.isListExpanded) {
                 return Expanded(
                   child: ListView.builder(
-                    itemCount:
-                        expandablePlaylistListViewModel.getUpToDateSelectablePlaylists().length,
+                    itemCount: expandablePlaylistListViewModel
+                        .getUpToDateSelectablePlaylists()
+                        .length,
                     itemBuilder: (context, index) {
-                      Playlist item =
-                          expandablePlaylistListViewModel.getUpToDateSelectablePlaylists()[index];
+                      Playlist item = expandablePlaylistListViewModel
+                          .getUpToDateSelectablePlaylists()[index];
                       return ListTile(
                         title: Text(item.title),
                         trailing: Checkbox(
                           value: item.isSelected,
                           onChanged: (value) {
-                            expandablePlaylistListViewModel.selectItem(context, index);
+                            expandablePlaylistListViewModel.selectItem(
+                                context, index);
                           },
                         ),
                       );

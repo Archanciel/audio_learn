@@ -29,5 +29,7 @@
   "deletePlaylist": "Suppr",
   "downloadSingleVideoAudio": "Téléch",
   "downloadSelectedPlaylists": "Tout Tél",
-  "stopDownload": "Stop"
+  "stopDownload": "Stop",
+  "audioDownloadingStopping": "Téléch en cessation ...",
+  "audioDownloadError": "Erreur de téléchargement: {error}"
 }

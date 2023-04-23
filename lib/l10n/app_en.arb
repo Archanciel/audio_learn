@@ -29,5 +29,7 @@
   "deletePlaylist": "Del",
   "downloadSingleVideoAudio": "Down",
   "downloadSelectedPlaylists": "Down All",
-  "stopDownload": "Stop"
+  "stopDownload": "Stop",
+  "audioDownloadingStopping": "Stopping download...",
+  "audioDownloadError": "Error downloading audio: {error}"
 }
