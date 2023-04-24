@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -149,16 +150,16 @@ class _ExpandablePlaylistListViewState
                           !audioDownloadViewModel.isDownloadStopping
                       ? () {
                           audioDownloadViewModel.stopDownload();
-                          Fluttertoast.showToast(
-                            msg: AppLocalizations.of(context)!
+                          Flushbar(
+                            flushbarPosition: FlushbarPosition.TOP,
+                            message: AppLocalizations.of(context)!
                                 .audioDownloadingStopping,
-                            toastLength: Toast.LENGTH_LONG,
-                            gravity: ToastGravity.TOP_RIGHT,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.black,
-                            textColor: Colors.white,
-                            fontSize: 16.0,
-                          );
+                            duration: const Duration(seconds: 3),
+                            backgroundColor: Colors.blue,
+                            margin: const EdgeInsets.all(15),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8)),
+                          ).show(context);
                         }
                       : null,
                   child: Text(AppLocalizations.of(context)!.stopDownload),
@@ -198,16 +199,16 @@ class _ExpandablePlaylistListViewState
                 );
               } else {
                 if (audioDownloadVM.audioDownloadError) {
-                  Fluttertoast.showToast(
-                    msg: AppLocalizations.of(context)!
+                  Flushbar(
+                    flushbarPosition: FlushbarPosition.TOP,
+                    message: AppLocalizations.of(context)!
                         .audioDownloadError(audioDownloadVM.errorMessage),
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.TOP,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                    fontSize: 16.0,
-                  );
+                    duration: const Duration(seconds: 10),
+                    backgroundColor: Colors.blue,
+                    margin: const EdgeInsets.all(15),
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  ).show(context);
+                  print('************${audioDownloadVM.errorMessage}');
                 }
                 return const SizedBox.shrink();
               }
