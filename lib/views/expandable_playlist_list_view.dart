@@ -198,18 +198,6 @@ class _ExpandablePlaylistListViewState
                   ),
                 );
               } else {
-                if (audioDownloadVM.audioDownloadError) {
-                  Flushbar(
-                    flushbarPosition: FlushbarPosition.TOP,
-                    message: AppLocalizations.of(context)!
-                        .audioDownloadError(audioDownloadVM.errorMessage),
-                    duration: const Duration(seconds: 10),
-                    backgroundColor: Colors.blue,
-                    margin: const EdgeInsets.all(15),
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  ).show(context);
-                  print('************${audioDownloadVM.errorMessage}');
-                }
                 return const SizedBox.shrink();
               }
             },
