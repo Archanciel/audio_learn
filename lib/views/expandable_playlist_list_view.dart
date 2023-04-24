@@ -285,6 +285,12 @@ class _ExpandablePlaylistListViewState
                                   playlistUrl: selectedPlaylists[0].url);
                         }
                       : null,
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      const EdgeInsets.symmetric(
+                          horizontal: kSmallButtonInsidePadding),
+                    ),
+                  ),
                   child: Text(
                       AppLocalizations.of(context)!.downloadSelectedPlaylists),
                 ),

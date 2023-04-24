@@ -28,7 +28,7 @@
   "addPlaylist": "Ajout",
   "deletePlaylist": "Suppr",
   "downloadSingleVideoAudio": "Téléch",
-  "downloadSelectedPlaylists": "Tout Tél",
+  "downloadSelectedPlaylists": "Tout Téléch",
   "stopDownload": "Stop",
   "audioDownloadingStopping": "Téléch en cessation ...",
   "audioDownloadError": "Erreur de téléchargement: {error}",
