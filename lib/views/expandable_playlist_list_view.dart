@@ -178,38 +178,40 @@ class _ExpandablePlaylistListViewState
                     '${UiUtil.formatLargeIntValue(audioDownloadVM.currentDownloadingAudio.audioFileSize)}';
                 String downloadSpeed =
                     '${UiUtil.formatLargeIntValue(audioDownloadVM.lastSecondDownloadSpeed)}/sec';
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        audioDownloadVM
-                            .currentDownloadingAudio.originalVideoTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10.0),
-                      LinearProgressIndicator(
-                          value: audioDownloadVM.downloadProgress),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        '$downloadProgressPercent ${AppLocalizations.of(context)!.ofPreposition} $downloadFileSize ${AppLocalizations.of(context)!.atPreposition} $downloadSpeed',
-                      ),
-                    ],
-                  ),
-                );
-              } else {
                 if (audioDownloadVM.audioDownloadError) {
-                  Flushbar(
+                  Flushbar fl = Flushbar(
                     flushbarPosition: FlushbarPosition.TOP,
                     message: AppLocalizations.of(context)!
                         .audioDownloadError(audioDownloadVM.errorMessage),
-                    duration: const Duration(seconds: 10),
-                    backgroundColor: Colors.blue,
+                    duration: const Duration(seconds: 3),
+                    backgroundColor: Colors.red,
                     margin: const EdgeInsets.all(15),
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  ).show(context);
-                  print('************${audioDownloadVM.errorMessage}');
+                  );
+                  fl.show(context);
+                  return fl;
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          audioDownloadVM
+                              .currentDownloadingAudio.originalVideoTitle,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10.0),
+                        LinearProgressIndicator(
+                            value: audioDownloadVM.downloadProgress),
+                        const SizedBox(height: 10.0),
+                        Text(
+                          '$downloadProgressPercent ${AppLocalizations.of(context)!.ofPreposition} $downloadFileSize ${AppLocalizations.of(context)!.atPreposition} $downloadSpeed',
+                        ),
+                      ],
+                    ),
+                  );
                 }
+              } else {
                 return const SizedBox.shrink();
               }
             },

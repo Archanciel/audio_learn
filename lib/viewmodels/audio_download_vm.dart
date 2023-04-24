@@ -224,7 +224,7 @@ class AudioDownloadVM extends ChangeNotifier {
   }
 
   _notifyDownloadError(String errorMessage) {
-    _isDownloading = false;
+    // _isDownloading = false;
     _downloadProgress = 0.0;
     _lastSecondDownloadSpeed = 0;
     _audioDownloadError = true;
