@@ -125,6 +125,15 @@ class _ExpandablePlaylistListViewState
                     ),
                   ),
                   onPressed: () {
+                    Flushbar(
+                      flushbarPosition: FlushbarPosition.TOP,
+                      message: AppLocalizations.of(context)!
+                          .singleVideoAudioDownload,
+                      duration: const Duration(seconds: 5),
+                      backgroundColor: Colors.green,
+                      margin: kFlushbarEdgeInsets,
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    ).show(context);
                     audioDownloadViewModel.downloadSingleVideoAudio(
                       videoUrl: _textEditingController.text.trim(),
                     );
@@ -149,17 +158,20 @@ class _ExpandablePlaylistListViewState
                   onPressed: audioDownloadViewModel.isDownloading &&
                           !audioDownloadViewModel.isDownloadStopping
                       ? () {
-                          audioDownloadViewModel.stopDownload();
+                          // Flushbar creation must be located before calling
+                          // the stopDownload method, otherwise the flushbar
+                          // will be located higher.
                           Flushbar(
                             flushbarPosition: FlushbarPosition.TOP,
                             message: AppLocalizations.of(context)!
                                 .audioDownloadingStopping,
-                            duration: const Duration(seconds: 3),
-                            backgroundColor: Colors.blue,
-                            margin: const EdgeInsets.all(15),
+                            duration: const Duration(seconds: 8),
+                            backgroundColor: Colors.green,
+                            margin: kFlushbarEdgeInsets,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(8)),
                           ).show(context);
+                          audioDownloadViewModel.stopDownload();
                         }
                       : null,
                   child: Text(AppLocalizations.of(context)!.stopDownload),

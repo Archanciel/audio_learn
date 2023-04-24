@@ -31,5 +31,6 @@
   "downloadSelectedPlaylists": "Down All",
   "stopDownload": "Stop",
   "audioDownloadingStopping": "Stopping download...",
-  "audioDownloadError": "Error downloading audio: {error}"
+  "audioDownloadError": "Error downloading audio: {error}",
+  "singleVideoAudioDownload": "Downloading single video audio in Various dir"
 }

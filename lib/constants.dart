@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const String kApplicationName = "Audio Learn";
@@ -64,6 +65,7 @@ const double kSmallestButtonWidth = 40.0;
 const double kSmallButtonWidth = 48.0;
 const double kSmallButtonInsidePadding = 3.0;
 const double kDefaultMargin = 15.0;
+const kFlushbarEdgeInsets = const EdgeInsets.fromLTRB(15, 78, 15, 0);
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");

@@ -31,5 +31,6 @@
   "downloadSelectedPlaylists": "Tout Tél",
   "stopDownload": "Stop",
   "audioDownloadingStopping": "Téléch en cessation ...",
-  "audioDownloadError": "Erreur de téléchargement: {error}"
+  "audioDownloadError": "Erreur de téléchargement: {error}",
+  "singleVideoAudioDownload": "Unique vidéo audio téléchargé dans Various dir"
 }

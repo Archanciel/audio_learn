@@ -298,9 +298,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
     videoUploadDate ??= DateTime(00, 1, 1);
 
-    if (_variousAudiosPlaylist == null) {
-      _variousAudiosPlaylist = await _createVariousPlaylist();
-    }
+    _variousAudiosPlaylist ??= await _createVariousPlaylist();
 
     final Audio audio = Audio(
       enclosingPlaylist: _variousAudiosPlaylist,
@@ -408,8 +406,16 @@ class AudioDownloadVM extends ChangeNotifier {
     required Audio audio,
   }) async {
     _currentDownloadingAudio = audio;
-    final yt.StreamManifest streamManifest =
-        await _youtubeExplode.videos.streamsClient.getManifest(youtubeVideoId);
+    final yt.StreamManifest streamManifest;
+
+    try {
+      streamManifest = await _youtubeExplode.videos.streamsClient.getManifest(
+        youtubeVideoId,
+      );
+    } catch (e) {
+      _notifyDownloadError(e.toString());
+      return;
+    }
 
     final yt.AudioOnlyStreamInfo audioStreamInfo;
 
