@@ -75,7 +75,9 @@ class MainApp extends StatelessWidget {
             create: (_) => LanguageProvider(
                   appSettings: _appSettings,
                 )),
-        ChangeNotifierProvider(create: (_) => ExpandablePlaylistListVM(audioDownloadVM: audioDownloadVM)),
+        ChangeNotifierProvider(
+            create: (_) =>
+                ExpandablePlaylistListVM(audioDownloadVM: audioDownloadVM)),
       ],
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, languageProvider, child) {
@@ -98,7 +100,8 @@ class MainApp extends StatelessWidget {
                         ),
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: kButtonColor, // Set button color in dark mode
+                        backgroundColor:
+                            kButtonColor, // Set button color in dark mode
                         foregroundColor:
                             Colors.white, // Set button text color in dark mode
                       ),
@@ -144,7 +147,8 @@ class MainApp extends StatelessWidget {
                         ),
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: kButtonColor, // Set button color in dark mode
+                        backgroundColor:
+                            kButtonColor, // Set button color in dark mode
                         foregroundColor:
                             Colors.white, // Set button text color in dark mode
                       ),
