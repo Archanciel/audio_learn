@@ -132,7 +132,52 @@ class MainApp extends StatelessWidget {
                       selectionHandleColor: Colors.white.withOpacity(0.5),
                     ),
                   )
-                : ThemeData.light(),
+                : ThemeData.light().copyWith(
+                    colorScheme: ThemeData.dark().colorScheme.copyWith(
+                          background: Colors.black,
+                          surface: Colors.black,
+                        ),
+                    primaryColor: Colors.black,
+                    scaffoldBackgroundColor: Colors.black,
+                    iconTheme: ThemeData.dark().iconTheme.copyWith(
+                          color: kIconColor, // Set icon color in dark mode
+                        ),
+                    elevatedButtonTheme: ElevatedButtonThemeData(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kButtonColor, // Set button color in dark mode
+                        foregroundColor:
+                            Colors.white, // Set button text color in dark mode
+                      ),
+                    ),
+                    textTheme: ThemeData.dark().textTheme.copyWith(
+                          bodyMedium: ThemeData.dark()
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: kButtonColor),
+                          titleMedium: ThemeData.dark()
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(color: Colors.white),
+                        ),
+                    checkboxTheme: ThemeData.dark().checkboxTheme.copyWith(
+                          checkColor: MaterialStateProperty.all(
+                            Colors.white, // Set Checkbox fill color
+                          ),
+                          fillColor: MaterialStateProperty.all(
+                            kIconColor, // Set Checkbox check color
+                          ),
+                        ),
+                    inputDecorationTheme: InputDecorationTheme(
+                      fillColor: Colors.grey[900],
+                      filled: true,
+                      border: const OutlineInputBorder(),
+                    ),
+                    textSelectionTheme: TextSelectionThemeData(
+                      cursorColor: Colors.white,
+                      selectionColor: Colors.white.withOpacity(0.3),
+                      selectionHandleColor: Colors.white.withOpacity(0.5),
+                    ),
+                  ),
             home: const MyHomePage(),
           );
         },
