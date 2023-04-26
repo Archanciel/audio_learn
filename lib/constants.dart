@@ -65,7 +65,10 @@ const double kSmallestButtonWidth = 40.0;
 const double kSmallButtonWidth = 48.0;
 const double kSmallButtonInsidePadding = 3.0;
 const double kDefaultMargin = 15.0;
-const kFlushbarEdgeInsets = const EdgeInsets.fromLTRB(15, 78, 15, 0);
+const kFlushbarEdgeInsets = EdgeInsets.fromLTRB(15, 78, 15, 0);
+const double kRoundedButtonBorderRadius = 11.0;
+const Color kIconColor = Color.fromARGB(246, 44, 61, 255);
+const Color kButtonColor = Color(0xFF6162194);
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");

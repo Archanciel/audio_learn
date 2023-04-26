@@ -94,33 +94,31 @@ class MainApp extends StatelessWidget {
                     primaryColor: Colors.black,
                     scaffoldBackgroundColor: Colors.black,
                     iconTheme: ThemeData.dark().iconTheme.copyWith(
-                          color: Colors
-                              .blue.shade700, // Set icon color in dark mode
+                          color: kIconColor, // Set icon color in dark mode
                         ),
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors
-                            .blue.shade700, // Set button color in dark mode
-                        onPrimary:
+                        backgroundColor: kButtonColor, // Set button color in dark mode
+                        foregroundColor:
                             Colors.white, // Set button text color in dark mode
                       ),
                     ),
                     textTheme: ThemeData.dark().textTheme.copyWith(
-                          bodyText2: ThemeData.dark()
+                          bodyMedium: ThemeData.dark()
                               .textTheme
-                              .bodyText2!
-                              .copyWith(color: Colors.blue.shade700),
-                          subtitle1: ThemeData.dark()
+                              .bodyMedium!
+                              .copyWith(color: kButtonColor),
+                          titleMedium: ThemeData.dark()
                               .textTheme
-                              .subtitle1!
+                              .titleMedium!
                               .copyWith(color: Colors.white),
                         ),
                     checkboxTheme: ThemeData.dark().checkboxTheme.copyWith(
                           checkColor: MaterialStateProperty.all(
-                            Colors.blue.shade700, // Set Checkbox check color
+                            Colors.white, // Set Checkbox fill color
                           ),
                           fillColor: MaterialStateProperty.all(
-                            Colors.white, // Set Checkbox fill color
+                            kIconColor, // Set Checkbox check color
                           ),
                         ),
                     inputDecorationTheme: InputDecorationTheme(

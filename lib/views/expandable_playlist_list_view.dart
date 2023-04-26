@@ -17,6 +17,10 @@ import '../viewmodels/expandable_playlist_list_vm.dart';
 import 'audio_list_item_widget.dart';
 
 class ExpandablePlaylistListView extends StatefulWidget {
+  final MaterialStateProperty<RoundedRectangleBorder>
+      appElevatedButtonRoundedShape =
+      MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius)));
   @override
   State<ExpandablePlaylistListView> createState() =>
       _ExpandablePlaylistListViewState();
@@ -94,6 +98,7 @@ class _ExpandablePlaylistListViewState
                 child: ElevatedButton(
                   key: const Key('addPlaylistButton'),
                   style: ButtonStyle(
+                    shape: widget.appElevatedButtonRoundedShape,
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                       const EdgeInsets.symmetric(
                           horizontal: kSmallButtonInsidePadding),
@@ -119,6 +124,7 @@ class _ExpandablePlaylistListViewState
                 child: ElevatedButton(
                   key: const Key('downloadSingleVideoButton'),
                   style: ButtonStyle(
+                    shape: widget.appElevatedButtonRoundedShape,
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                       const EdgeInsets.symmetric(
                           horizontal: kSmallButtonInsidePadding),
@@ -150,6 +156,7 @@ class _ExpandablePlaylistListViewState
                 child: ElevatedButton(
                   key: const Key('stopDownloadingButton'),
                   style: ButtonStyle(
+                    shape: widget.appElevatedButtonRoundedShape,
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                       const EdgeInsets.symmetric(
                           horizontal: kSmallButtonInsidePadding),
@@ -221,6 +228,13 @@ class _ExpandablePlaylistListViewState
                 width: 87,
                 child: ElevatedButton(
                   key: const Key('toggle_button'),
+                  style: ButtonStyle(
+                    shape: widget.appElevatedButtonRoundedShape,
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      const EdgeInsets.symmetric(
+                          horizontal: kSmallButtonInsidePadding),
+                    ),
+                  ),
                   onPressed: () {
                     Provider.of<ExpandablePlaylistListVM>(context,
                             listen: false)
@@ -269,6 +283,13 @@ class _ExpandablePlaylistListViewState
                 width: 90,
                 child: ElevatedButton(
                   key: const Key('download_sel_playlists_button'),
+                  style: ButtonStyle(
+                    shape: widget.appElevatedButtonRoundedShape,
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      const EdgeInsets.symmetric(
+                          horizontal: kSmallButtonInsidePadding),
+                    ),
+                  ),
                   onPressed: (Provider.of<ExpandablePlaylistListVM>(context)
                               .isButton1Enabled &&
                           !Provider.of<AudioDownloadVM>(context).isDownloading)
@@ -285,12 +306,6 @@ class _ExpandablePlaylistListViewState
                                   playlistUrl: selectedPlaylists[0].url);
                         }
                       : null,
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(
-                          horizontal: kSmallButtonInsidePadding),
-                    ),
-                  ),
                   child: Text(
                       AppLocalizations.of(context)!.downloadSelectedPlaylists),
                 ),
