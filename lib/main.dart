@@ -136,34 +136,20 @@ class MainApp extends StatelessWidget {
                     ),
                   )
                 : ThemeData.light().copyWith(
-                    colorScheme: ThemeData.dark().colorScheme.copyWith(
-                          background: Colors.black,
-                          surface: Colors.black,
-                        ),
-                    primaryColor: Colors.black,
-                    scaffoldBackgroundColor: Colors.black,
-                    iconTheme: ThemeData.dark().iconTheme.copyWith(
-                          color: kIconColor, // Set icon color in dark mode
+                    primaryColor: Colors.white,
+                    scaffoldBackgroundColor: Colors.white,
+                    iconTheme: ThemeData.light().iconTheme.copyWith(
+                          color: kIconColor, // Set icon color in light mode
                         ),
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            kButtonColor, // Set button color in dark mode
+                            kButtonColor, // Set button color in light mode
                         foregroundColor:
-                            Colors.white, // Set button text color in dark mode
+                            Colors.white, // Set button text color in light mode
                       ),
                     ),
-                    textTheme: ThemeData.dark().textTheme.copyWith(
-                          bodyMedium: ThemeData.dark()
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: kButtonColor),
-                          titleMedium: ThemeData.dark()
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.white),
-                        ),
-                    checkboxTheme: ThemeData.dark().checkboxTheme.copyWith(
+                    checkboxTheme: ThemeData.light().checkboxTheme.copyWith(
                           checkColor: MaterialStateProperty.all(
                             Colors.white, // Set Checkbox fill color
                           ),
@@ -171,16 +157,7 @@ class MainApp extends StatelessWidget {
                             kIconColor, // Set Checkbox check color
                           ),
                         ),
-                    inputDecorationTheme: InputDecorationTheme(
-                      fillColor: Colors.grey[900],
-                      filled: true,
-                      border: const OutlineInputBorder(),
-                    ),
-                    textSelectionTheme: TextSelectionThemeData(
-                      cursorColor: Colors.white,
-                      selectionColor: Colors.white.withOpacity(0.3),
-                      selectionHandleColor: Colors.white.withOpacity(0.5),
-                    ),
+                    // Add any other customizations for light mode
                   ),
             home: const MyHomePage(),
           );
