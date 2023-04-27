@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import '../constants.dart';
+import '../utils/dir_util.dart';
 
 enum SettingType {
   appTheme,
@@ -82,32 +83,32 @@ class SettingsDataService {
   }
 
   /// Usage examples:
-  /// 
+  ///
   /// initialSettings.set(
   ///     settingType: SettingType.appTheme,
   ///     settingSubType: SettingType.appTheme,
   ///     value: AppTheme.dark);
-  /// 
+  ///
   /// initialSettings.set(
   ///     settingType: SettingType.language,
   ///     settingSubType: SettingType.language,
   ///     value: Language.french);
-  /// 
+  ///
   /// initialSettings.set(
   ///     settingType: SettingType.playlists,
   ///     settingSubType: Playlists.rootPath,
   ///     value: kDownloadAppTestDirWindows);
-  /// 
+  ///
   /// initialSettings.set(
   ///     settingType: SettingType.playlists,
   ///     settingSubType: Playlists.pathLst,
   ///     value: ['\\one', '\\two']);
-  /// 
+  ///
   /// initialSettings.set(
   ///     settingType: SettingType.playlists,
   ///     settingSubType: Playlists.isMusicQualityByDefault,
   ///     value: true);
-  /// 
+  ///
   /// initialSettings.set(
   ///     settingType: SettingType.playlists,
   ///     settingSubType: Playlists.defaultAudioSort,
@@ -133,7 +134,14 @@ class SettingsDataService {
       );
     });
     final String jsonString = jsonEncode(convertedSettings);
-    file.writeAsStringSync(jsonString);
+
+    try {
+      file.writeAsStringSync(jsonString);
+    } catch (e) {
+      // the case when installing the app for the first time
+      DirUtil.createAppDirIfNotExist();
+      file.writeAsStringSync(jsonString);
+    }
   }
 
   /// Load settings from a JSON file
