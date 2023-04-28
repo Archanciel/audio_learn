@@ -62,6 +62,9 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AudioDownloadVM audioDownloadVM = AudioDownloadVM();
+    ExpandablePlaylistListVM expandablePlaylistListVM =
+        ExpandablePlaylistListVM(audioDownloadVM: audioDownloadVM);
+    expandablePlaylistListVM.initialize();
 
     return MultiProvider(
       providers: [
@@ -75,9 +78,7 @@ class MainApp extends StatelessWidget {
             create: (_) => LanguageProvider(
                   appSettings: _appSettings,
                 )),
-        ChangeNotifierProvider(
-            create: (_) =>
-                ExpandablePlaylistListVM(audioDownloadVM: audioDownloadVM)),
+        ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
       ],
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, languageProvider, child) {

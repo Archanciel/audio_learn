@@ -128,6 +128,11 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   @override
   // TODO: implement isDownloadStopping
   bool get isDownloadStopping => throw UnimplementedError();
+  
+  @override
+  void updatePlaylistSelection({required String playlistId, required bool isPlaylistSelected}) {
+    // TODO: implement updatePlaylistSelection
+  }
 }
 
 void main() {
