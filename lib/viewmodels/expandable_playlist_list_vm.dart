@@ -16,7 +16,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   bool get isButton3Enabled => _isButton3Enabled;
 
   final AudioDownloadVM _audioDownloadVM;
-  bool _isPlaylistSelected = false;
+  bool _isPlaylistSelected = true;
   List<Playlist> _selectablePlaylistLst = [];
 
   ExpandablePlaylistListVM({required AudioDownloadVM audioDownloadVM})
@@ -24,6 +24,16 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
   List<Playlist> getUpToDateSelectablePlaylists() {
     _selectablePlaylistLst = _audioDownloadVM.listOfPlaylist;
+
+    if (_getSelectedIndex() != -1) {
+      _isPlaylistSelected = true;
+      _enableButtons();
+    } else {
+      _isPlaylistSelected = false;
+      _disableButtons();
+    }
+
+    notifyListeners();
 
     return _selectablePlaylistLst;
   }
