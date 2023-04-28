@@ -32,5 +32,6 @@
   "stopDownload": "Stop",
   "audioDownloadingStopping": "Téléch en cessation ...",
   "audioDownloadError": "Erreur de téléchargement: {error}",
-  "singleVideoAudioDownload": "Unique vidéo audio téléchargé dans Various dir"
+  "singleVideoAudioDownload": "Unique vidéo audio téléchargé dans Various dir",
+  "about": "Version ..."
 }

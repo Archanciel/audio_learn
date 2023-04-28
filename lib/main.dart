@@ -213,24 +213,48 @@ class MyHomePage extends StatelessWidget {
                 : Icons.dark_mode),
           ),
           PopupMenuButton<String>(
-            onSelected: (String languageCode) {
-              Locale newLocale = Locale(languageCode);
-              AppLocalizations.delegate.load(newLocale).then((localizations) {
-                Provider.of<LanguageProvider>(context, listen: false)
-                    .changeLocale(newLocale);
-              });
+            onSelected: (String value) {
+              if (value == 'en' || value == 'fr') {
+                Locale newLocale = Locale(value);
+                AppLocalizations.delegate.load(newLocale).then((localizations) {
+                  Provider.of<LanguageProvider>(context, listen: false)
+                      .changeLocale(newLocale);
+                });
+              } else if (value == 'about') {
+                showAboutDialog(
+                  context: context,
+                  applicationName: AppLocalizations.of(context)!.title,
+                  applicationVersion: kApplicationVersion,
+                  // applicationIcon: Image.asset('assets/images/Audio_Lesson-512.png'),
+                  children: <Widget>[
+                    const Text('Author:'),
+                    const Text('Jean-Pierre Schnyder / Switzerland'),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text('Some description about your app'),
+                    ),
+                  ],
+                );
+              }
             },
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem<String>(
+                  key: const Key('appBarMenuEnglish'),
                   value: 'en',
                   child: Text(AppLocalizations.of(context)!
                       .translate(AppLocalizations.of(context)!.english)),
                 ),
                 PopupMenuItem<String>(
+                  key: const Key('appBarMenuFrench'),
                   value: 'fr',
                   child: Text(AppLocalizations.of(context)!
                       .translate(AppLocalizations.of(context)!.french)),
+                ),
+                PopupMenuItem<String>(
+                  key: const Key('appBarMenuAbout'),
+                  value: 'about',
+                  child: Text(AppLocalizations.of(context)!.about),
                 ),
               ];
             },
