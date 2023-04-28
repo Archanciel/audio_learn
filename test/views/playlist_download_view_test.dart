@@ -107,7 +107,7 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   }
   
   @override
-  Future<void> downloadSingleVideoAudio({required String videoUrl}) {
+  Future<void> downloadSingleVideoAudio({required String videoUrl}) async {
     // TODO: implement downloadSingleVideoAudio
     throw UnimplementedError();
   }
@@ -116,6 +116,18 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   void stopDownload() {
     // TODO: implement stopDownload
   }
+  
+  @override
+  // TODO: implement audioDownloadError
+  bool get audioDownloadError => throw UnimplementedError();
+  
+  @override
+  // TODO: implement errorMessage
+  String get errorMessage => throw UnimplementedError();
+  
+  @override
+  // TODO: implement isDownloadStopping
+  bool get isDownloadStopping => throw UnimplementedError();
 }
 
 void main() {
@@ -141,7 +153,7 @@ void main() {
                 create: (_) => ThemeProvider(appSettings: appSettings)),
             ChangeNotifierProvider(
                 create: (_) => LanguageProvider(appSettings: appSettings)),
-            ChangeNotifierProvider(create: (_) => ExpandablePlaylistListVM()),
+            ChangeNotifierProvider(create: (_) => ExpandablePlaylistListVM(audioDownloadVM: mockAudioViewModel)),
           ],
           child: Consumer2<ThemeProvider, LanguageProvider>(
               builder: (context, themeProvider, languageProvider, child) {

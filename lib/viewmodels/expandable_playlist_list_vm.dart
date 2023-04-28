@@ -15,14 +15,15 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   bool get isButton2Enabled => _isButton2Enabled;
   bool get isButton3Enabled => _isButton3Enabled;
 
-  final AudioDownloadVM audioDownloadVM;
+  final AudioDownloadVM _audioDownloadVM;
   bool _isPlaylistSelected = false;
   List<Playlist> _selectablePlaylistLst = [];
 
-  ExpandablePlaylistListVM({required this.audioDownloadVM});
+  ExpandablePlaylistListVM({required AudioDownloadVM audioDownloadVM})
+      : _audioDownloadVM = audioDownloadVM;
 
   List<Playlist> getUpToDateSelectablePlaylists() {
-    _selectablePlaylistLst = audioDownloadVM.listOfPlaylist;
+    _selectablePlaylistLst = _audioDownloadVM.listOfPlaylist;
 
     return _selectablePlaylistLst;
   }
@@ -36,7 +37,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     }
 
     Playlist addedPlaylist =
-        await audioDownloadVM.addPlaylist(playlistUrl: playlistUrl);
+        await _audioDownloadVM.addPlaylist(playlistUrl: playlistUrl);
     // items.add(addedPlaylist);
 
     notifyListeners();
@@ -58,8 +59,19 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectItem(BuildContext context, int index) {
-    bool isOneItemSelected = _doSelectItem(index);
+  void setPlaylistSelection({
+    required int playlistIndex,
+    required bool isPlaylistSelected,
+  }) {
+    _audioDownloadVM.updatePlaylistSelection(
+      playlistId: _selectablePlaylistLst[playlistIndex].id,
+      isPlaylistSelected: isPlaylistSelected,
+    );
+
+    bool isOneItemSelected = _doSelectUniquePlaylist(
+      playlistIndex: playlistIndex,
+      isPlaylistSelected: isPlaylistSelected,
+    );
 
     if (!isOneItemSelected) {
       _disableButtons();
@@ -101,7 +113,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     List<Playlist> selectedPlaylists = getSelectedPlaylists();
 
     for (Playlist playlist in selectedPlaylists) {
-      await audioDownloadVM.downloadPlaylistAudios(playlistUrl: playlist.url);
+      await _audioDownloadVM.downloadPlaylistAudios(playlistUrl: playlist.url);
     }
   }
 
@@ -138,17 +150,24 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     _isButton3Enabled = false;
   }
 
-  bool _doSelectItem(int index) {
+  bool _doSelectUniquePlaylist({
+    required int playlistIndex,
+    required bool isPlaylistSelected,
+  }) {
     for (int i = 0; i < _selectablePlaylistLst.length; i++) {
-      if (i == index) {
-        _selectablePlaylistLst[i].isSelected =
-            !_selectablePlaylistLst[i].isSelected;
+      if (i == playlistIndex) {
+        _selectablePlaylistLst[i].isSelected = isPlaylistSelected;
       } else {
-        _selectablePlaylistLst[i].isSelected = false;
+        Playlist playlist = _selectablePlaylistLst[i];
+        playlist.isSelected = false;
+        _audioDownloadVM.updatePlaylistSelection(
+          playlistId: _selectablePlaylistLst[i].id,
+          isPlaylistSelected: false,
+        );
       }
     }
 
-    _isPlaylistSelected = _selectablePlaylistLst[index].isSelected;
+    _isPlaylistSelected = _selectablePlaylistLst[playlistIndex].isSelected;
 
     return _isPlaylistSelected;
   }

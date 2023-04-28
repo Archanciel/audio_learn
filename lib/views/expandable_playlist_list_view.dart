@@ -313,23 +313,25 @@ class _ExpandablePlaylistListViewState
             ],
           ),
           Consumer<ExpandablePlaylistListVM>(
-            builder: (context, expandablePlaylistListViewModel, child) {
-              if (expandablePlaylistListViewModel.isListExpanded) {
+            builder: (context, expandablePlaylistListVM, child) {
+              if (expandablePlaylistListVM.isListExpanded) {
                 return Expanded(
                   child: ListView.builder(
-                    itemCount: expandablePlaylistListViewModel
+                    itemCount: expandablePlaylistListVM
                         .getUpToDateSelectablePlaylists()
                         .length,
                     itemBuilder: (context, index) {
-                      Playlist item = expandablePlaylistListViewModel
+                      Playlist item = expandablePlaylistListVM
                           .getUpToDateSelectablePlaylists()[index];
                       return ListTile(
                         title: Text(item.title),
                         trailing: Checkbox(
                           value: item.isSelected,
                           onChanged: (value) {
-                            expandablePlaylistListViewModel.selectItem(
-                                context, index);
+                            expandablePlaylistListVM.setPlaylistSelection(
+                              playlistIndex: index,
+                              isPlaylistSelected: value!,
+                            );
                           },
                         ),
                       );

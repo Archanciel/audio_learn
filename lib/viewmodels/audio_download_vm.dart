@@ -223,6 +223,23 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updatePlaylistSelection({
+    required String playlistId,
+    required bool isPlaylistSelected,
+  }) {
+    int playlistIndex =
+        _listOfPlaylist.indexWhere((element) => element.id == playlistId);
+
+    Playlist playlist = _listOfPlaylist[playlistIndex];
+
+    playlist.isSelected = isPlaylistSelected;
+
+    JsonDataService.saveToFile(
+      model: playlist,
+      path: playlist.getPlaylistDownloadFilePathName(),
+    );
+  }
+
   _notifyDownloadError(String errorMessage) {
     _isDownloading = false;
     _downloadProgress = 0.0;
