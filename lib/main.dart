@@ -64,7 +64,12 @@ class MainApp extends StatelessWidget {
     AudioDownloadVM audioDownloadVM = AudioDownloadVM();
     ExpandablePlaylistListVM expandablePlaylistListVM =
         ExpandablePlaylistListVM(audioDownloadVM: audioDownloadVM);
-    expandablePlaylistListVM.initialize();
+
+    // calling getUpToDateSelectablePlaylists() loads all the
+    // playlist json files from the app dir and so enables
+    // expandablePlaylistListVM to know which playlists are
+    // selected and which are not
+    expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
     return MultiProvider(
       providers: [
