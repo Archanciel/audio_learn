@@ -75,7 +75,9 @@ class MainApp extends StatelessWidget {
             create: (_) => LanguageProvider(
                   appSettings: _appSettings,
                 )),
-        ChangeNotifierProvider(create: (_) => ExpandablePlaylistListVM(audioDownloadVM: audioDownloadVM)),
+        ChangeNotifierProvider(
+            create: (_) =>
+                ExpandablePlaylistListVM(audioDownloadVM: audioDownloadVM)),
       ],
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, languageProvider, child) {
@@ -98,7 +100,8 @@ class MainApp extends StatelessWidget {
                         ),
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: kButtonColor, // Set button color in dark mode
+                        backgroundColor:
+                            kButtonColor, // Set button color in dark mode
                         foregroundColor:
                             Colors.white, // Set button text color in dark mode
                       ),
@@ -132,7 +135,30 @@ class MainApp extends StatelessWidget {
                       selectionHandleColor: Colors.white.withOpacity(0.5),
                     ),
                   )
-                : ThemeData.light(),
+                : ThemeData.light().copyWith(
+                    primaryColor: Colors.white,
+                    scaffoldBackgroundColor: Colors.white,
+                    iconTheme: ThemeData.light().iconTheme.copyWith(
+                          color: kIconColor, // Set icon color in light mode
+                        ),
+                    elevatedButtonTheme: ElevatedButtonThemeData(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            kButtonColor, // Set button color in light mode
+                        foregroundColor:
+                            Colors.white, // Set button text color in light mode
+                      ),
+                    ),
+                    checkboxTheme: ThemeData.light().checkboxTheme.copyWith(
+                          checkColor: MaterialStateProperty.all(
+                            Colors.white, // Set Checkbox fill color
+                          ),
+                          fillColor: MaterialStateProperty.all(
+                            kIconColor, // Set Checkbox check color
+                          ),
+                        ),
+                    // Add any other customizations for light mode
+                  ),
             home: const MyHomePage(),
           );
         },
