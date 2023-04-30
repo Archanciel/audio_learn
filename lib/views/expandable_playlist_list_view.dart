@@ -329,18 +329,21 @@ class _ExpandablePlaylistListViewState
                       );
                       break;
                     case PlaylistPopupMenuButton.other:
-                    break;
+                      break;
                     default:
                   }
                 },
+                icon: Icon(Icons.filter_list),
                 itemBuilder: (BuildContext context) {
                   return [
                     PopupMenuItem<PlaylistPopupMenuButton>(
                       value: PlaylistPopupMenuButton.sortFilterAudios,
-                      child: Text(AppLocalizations.of(context)!.sortFilterAudios),
+                      child:
+                          Text(AppLocalizations.of(context)!.sortFilterAudios),
                     ),
                     PopupMenuItem<PlaylistPopupMenuButton>(
-                      value: PlaylistPopupMenuButton.other,                      child: Text('Option 2'),
+                      value: PlaylistPopupMenuButton.other,
+                      child: Text('Option 2'),
                     ),
                     // Add more PopupMenuItems as needed
                   ];

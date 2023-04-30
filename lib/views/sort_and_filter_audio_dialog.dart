@@ -149,7 +149,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           child: Text('Start downl date'),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.calendar_today),
+                          icon: const Icon(Icons.calendar_month_rounded ),
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
@@ -196,7 +196,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           child: Text('End downl date'),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.calendar_today),
+                          icon: const Icon(Icons.calendar_month_rounded ),
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
@@ -243,7 +243,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           child: Text('Start upl date'),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.calendar_today),
+                          icon: const Icon(Icons.calendar_month_rounded ),
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
@@ -290,7 +290,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           child: Text('End downl date'),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.calendar_today),
+                          icon: const Icon(Icons.calendar_month_rounded ),
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
