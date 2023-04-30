@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.2';
+const String kApplicationName = "AudioLearn";
+const String kApplicationVersion = '0.3';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audios';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !

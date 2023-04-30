@@ -15,6 +15,9 @@ import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/expandable_playlist_list_vm.dart';
 import 'audio_list_item_widget.dart';
+import 'sort_and_filter_audio_dialog.dart';
+
+enum PlaylistPopupMenuButton { sortFilterAudios, other }
 
 class ExpandablePlaylistListView extends StatefulWidget {
   final MaterialStateProperty<RoundedRectangleBorder>
@@ -309,6 +312,39 @@ class _ExpandablePlaylistListViewState
                   child: Text(
                       AppLocalizations.of(context)!.downloadSelectedPlaylists),
                 ),
+              ),
+              PopupMenuButton<PlaylistPopupMenuButton>(
+                enabled: (Provider.of<ExpandablePlaylistListVM>(context)
+                        .isButton1Enabled &&
+                    !Provider.of<AudioDownloadVM>(context).isDownloading),
+                onSelected: (PlaylistPopupMenuButton value) {
+                  // Handle menu item selection
+                  switch (value) {
+                    case PlaylistPopupMenuButton.sortFilterAudios:
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const SortAndFilterAudioDialog();
+                        },
+                      );
+                      break;
+                    case PlaylistPopupMenuButton.other:
+                    break;
+                    default:
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem<PlaylistPopupMenuButton>(
+                      value: PlaylistPopupMenuButton.sortFilterAudios,
+                      child: Text(AppLocalizations.of(context)!.sortFilterAudios),
+                    ),
+                    PopupMenuItem<PlaylistPopupMenuButton>(
+                      value: PlaylistPopupMenuButton.other,                      child: Text('Option 2'),
+                    ),
+                    // Add more PopupMenuItems as needed
+                  ];
+                },
               ),
             ],
           ),

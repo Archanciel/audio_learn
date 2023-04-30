@@ -16,6 +16,8 @@ import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
 import 'views/expandable_playlist_list_view.dart';
 
+enum AppBarPopupMenu { en, fr, about }
+
 Future<void> main(List<String> args) async {
   List<String> myArgs = [];
 
@@ -212,48 +214,86 @@ class MyHomePage extends StatelessWidget {
                 ? Icons.light_mode
                 : Icons.dark_mode),
           ),
-          PopupMenuButton<String>(
-            onSelected: (String value) {
-              if (value == 'en' || value == 'fr') {
-                Locale newLocale = Locale(value);
-                AppLocalizations.delegate.load(newLocale).then((localizations) {
-                  Provider.of<LanguageProvider>(context, listen: false)
-                      .changeLocale(newLocale);
-                });
-              } else if (value == 'about') {
-                showAboutDialog(
-                  context: context,
-                  applicationName: AppLocalizations.of(context)!.title,
-                  applicationVersion: kApplicationVersion,
-                  // applicationIcon: Image.asset('assets/images/Audio_Lesson-512.png'),
-                  children: <Widget>[
-                    const Text('Author:'),
-                    const Text('Jean-Pierre Schnyder / Switzerland'),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Text('Some description about your app'),
-                    ),
-                  ],
-                );
+          PopupMenuButton<AppBarPopupMenu>(
+            onSelected: (AppBarPopupMenu value) {
+              switch (value) {
+                case AppBarPopupMenu.en:
+                  Locale newLocale = Locale('en');
+                  AppLocalizations.delegate
+                      .load(newLocale)
+                      .then((localizations) {
+                    Provider.of<LanguageProvider>(context, listen: false)
+                        .changeLocale(newLocale);
+                  });
+                  break;
+                case AppBarPopupMenu.fr:
+                  Locale newLocale = Locale('fr');
+                  AppLocalizations.delegate
+                      .load(newLocale)
+                      .then((localizations) {
+                    Provider.of<LanguageProvider>(context, listen: false)
+                        .changeLocale(newLocale);
+                  });
+                  break;
+                case AppBarPopupMenu.about:
+                  showAboutDialog(
+                    context: context,
+                    applicationName: kApplicationName,
+                    applicationVersion: kApplicationVersion,
+                    // applicationIcon: Image.asset('assets/images/Audio_Lesson-512.png'),
+                    children: <Widget>[
+                      const Text('Author:'),
+                      const Text('Jean-Pierre Schnyder / Switzerland'),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text('Some description about your app'),
+                      ),
+                    ],
+                  );
+                  break;
+                default:
+                  break;
               }
+              // if (value == 'en' || value == 'fr') {
+              //   Locale newLocale = Locale(value);
+              //   AppLocalizations.delegate.load(newLocale).then((localizations) {
+              //     Provider.of<LanguageProvider>(context, listen: false)
+              //         .changeLocale(newLocale);
+              //   });
+              // } else if (value == 'about') {
+              //   showAboutDialog(
+              //     context: context,
+              //     applicationName: kApplicationName,
+              //     applicationVersion: kApplicationVersion,
+              //     // applicationIcon: Image.asset('assets/images/Audio_Lesson-512.png'),
+              //     children: <Widget>[
+              //       const Text('Author:'),
+              //       const Text('Jean-Pierre Schnyder / Switzerland'),
+              //       const Padding(
+              //         padding: EdgeInsets.only(top: 10),
+              //         child: Text('Some description about your app'),
+              //       ),
+              //     ],
+              //   );
+              // }
             },
             itemBuilder: (BuildContext context) {
               return [
-                PopupMenuItem<String>(
+                PopupMenuItem<AppBarPopupMenu>(
                   key: const Key('appBarMenuEnglish'),
-                  value: 'en',
+                  value: AppBarPopupMenu.en,
                   child: Text(AppLocalizations.of(context)!
                       .translate(AppLocalizations.of(context)!.english)),
                 ),
-                PopupMenuItem<String>(
+                PopupMenuItem<AppBarPopupMenu>(
                   key: const Key('appBarMenuFrench'),
-                  value: 'fr',
+                  value: AppBarPopupMenu.fr,
                   child: Text(AppLocalizations.of(context)!
                       .translate(AppLocalizations.of(context)!.french)),
                 ),
-                PopupMenuItem<String>(
+                PopupMenuItem<AppBarPopupMenu>(
                   key: const Key('appBarMenuAbout'),
-                  value: 'about',
+                  value: AppBarPopupMenu.about,
                   child: Text(AppLocalizations.of(context)!.about),
                 ),
               ];

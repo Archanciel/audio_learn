@@ -201,6 +201,7 @@ class Audio {
 
     // Replace all multiple characters in a string based on translation table created by dictionary
     String validFileName = rawFileName;
+    
     charToReplace.forEach((key, value) {
       validFileName = validFileName.replaceAll(key, value);
     });

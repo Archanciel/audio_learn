@@ -33,5 +33,6 @@
   "audioDownloadingStopping": "Stopping download...",
   "audioDownloadError": "Error downloading audio: {error}",
   "singleVideoAudioDownload": "Downloading single video audio in Various dir",
-  "about": "About ..."
+  "about": "About ...",
+  "sortFilterAudios": "Sort/filter audios"
 }

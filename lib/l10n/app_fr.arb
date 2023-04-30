@@ -8,10 +8,10 @@
   "moveItemUp": "Déplacer l'élément vers le haut",
   "moveItemDown": "Déplacer l'élément vers le bas",
   "language": "Langue",
-  "english": "anglais",
-  "french": "français",
+  "english": "Anglais",
+  "french": "Français",
   "downloadAudio": "Télécharger Audio Youtube",
-  "translate": "Affichage {language}",
+  "translate": "{language}",
   "@translate": {
     "description": "Menu AppBar de sélection de la langue.",
     "placeholders": {
@@ -33,5 +33,6 @@
   "audioDownloadingStopping": "Téléch en cessation ...",
   "audioDownloadError": "Erreur de téléchargement: {error}",
   "singleVideoAudioDownload": "Unique vidéo audio téléchargé dans Various dir",
-  "about": "Version ..."
+  "about": "Version ...",
+  "sortFilterAudios": "Trier/filtrer audios"
 }
