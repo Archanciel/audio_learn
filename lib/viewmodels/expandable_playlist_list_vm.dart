@@ -126,15 +126,9 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   List<Playlist> getSelectedPlaylists() {
-    List<Playlist> selectedPlaylists = [];
-
-    for (int i = 0; i < _selectablePlaylistLst.length; i++) {
-      if (_selectablePlaylistLst[i].isSelected) {
-        selectedPlaylists.add(_selectablePlaylistLst[i]);
-      }
-    }
-
-    return selectedPlaylists;
+    return _selectablePlaylistLst
+        .where((playlist) => playlist.isSelected)
+        .toList();
   }
 
   int _getSelectedIndex() {
@@ -162,18 +156,15 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     required int playlistIndex,
     required bool isPlaylistSelected,
   }) {
-    for (int i = 0; i < _selectablePlaylistLst.length; i++) {
-      if (i == playlistIndex) {
-        _selectablePlaylistLst[i].isSelected = isPlaylistSelected;
-      } else {
-        Playlist playlist = _selectablePlaylistLst[i];
-        playlist.isSelected = false;
-        _audioDownloadVM.updatePlaylistSelection(
-          playlistId: _selectablePlaylistLst[i].id,
-          isPlaylistSelected: false,
-        );
-      }
-    }
+    _selectablePlaylistLst.forEach((playlist) {
+      playlist.isSelected = false;
+      _audioDownloadVM.updatePlaylistSelection(
+        playlistId: playlist.id,
+        isPlaylistSelected: false,
+      );
+    });
+
+    _selectablePlaylistLst[playlistIndex].isSelected = isPlaylistSelected;
 
     _isPlaylistSelected = _selectablePlaylistLst[playlistIndex].isSelected;
 
@@ -186,24 +177,19 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   void moveItemUp(int index) {
-    if (index == 0) {
-      Playlist item = _selectablePlaylistLst.removeAt(index);
-      _selectablePlaylistLst.add(item);
-    } else {
-      Playlist item = _selectablePlaylistLst.removeAt(index);
-      _selectablePlaylistLst.insert(index - 1, item);
-    }
+    int newIndex = (index - 1 + _selectablePlaylistLst.length) %
+        _selectablePlaylistLst.length;
+    Playlist item = _selectablePlaylistLst.removeAt(index);
+    _selectablePlaylistLst.insert(newIndex, item);
+
     notifyListeners();
   }
 
   void moveItemDown(int index) {
-    if (index == _selectablePlaylistLst.length - 1) {
-      Playlist item = _selectablePlaylistLst.removeAt(index);
-      _selectablePlaylistLst.insert(0, item);
-    } else {
-      Playlist item = _selectablePlaylistLst.removeAt(index);
-      _selectablePlaylistLst.insert(index + 1, item);
-    }
+    int newIndex = (index + 1) % _selectablePlaylistLst.length;
+    Playlist item = _selectablePlaylistLst.removeAt(index);
+    _selectablePlaylistLst.insert(newIndex, item);
+
     notifyListeners();
   }
 }
