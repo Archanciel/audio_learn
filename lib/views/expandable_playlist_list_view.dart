@@ -314,16 +314,31 @@ class _ExpandablePlaylistListViewState
                       AppLocalizations.of(context)!.downloadSelectedPlaylists),
                 ),
               ),
-              Checkbox(
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                visualDensity: VisualDensity.compact,
-                value: audioDownloadViewModel.isHighQuality,
-                onChanged: (bool? value) {
-                  audioDownloadViewModel.setAudioQuality(
-                      isHighQuality: value ?? false);
-                },
+              Tooltip(
+                message: AppLocalizations.of(context)!.audioQuality,
+                child: Checkbox(
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: VisualDensity.compact,
+                  fillColor: MaterialStateColor.resolveWith(
+                    (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.disabled)) {
+                        return Colors.grey.shade800;
+                      }
+                      return kIconColor;
+                    },
+                  ),
+                  value: audioDownloadViewModel.isHighQuality,
+                  onChanged: (Provider.of<ExpandablePlaylistListVM>(context)
+                              .isButton2Enabled &&
+                          !Provider.of<AudioDownloadVM>(context).isDownloading)
+                      ? (bool? value) {
+                          audioDownloadViewModel.setAudioQuality(
+                              isHighQuality: value ?? false);
+                        }
+                      : null,
+                ),
               ),
-              Text(AppLocalizations.of(context)!.audioQuality),
+              // Text(AppLocalizations.of(context)!.audioQuality),
               PopupMenuButton<PlaylistPopupMenuButton>(
                 enabled: (Provider.of<ExpandablePlaylistListVM>(context)
                         .isButton1Enabled &&

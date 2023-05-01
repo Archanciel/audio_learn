@@ -18,7 +18,7 @@
       "language": {}
     }
   },
-  "audioQuality": "Max quality",
+  "audioQuality": "If set, downloads at max quality",
   "ofPreposition": "of",
   "atPreposition": "at",
   "downloaded": "Downloaded",

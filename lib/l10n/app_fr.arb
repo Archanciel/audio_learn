@@ -18,7 +18,7 @@
       "language": {}
     }
   },
-  "audioQuality": "Qualité max",
+  "audioQuality": "Si activé, télécharge en qualité maximale",
   "ofPreposition": "de",
   "atPreposition": "à",
   "downloaded": "Téléchargé",
