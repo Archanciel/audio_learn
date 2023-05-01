@@ -442,6 +442,7 @@ class AudioDownloadVM extends ChangeNotifier {
       audioStreamInfo = streamManifest.audioOnly.first;
     }
 
+    audio.isMusicQuality = _isHighQuality;
     final int audioFileSize = audioStreamInfo.size.totalBytes;
     audio.audioFileSize = audioFileSize;
 

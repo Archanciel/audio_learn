@@ -314,6 +314,16 @@ class _ExpandablePlaylistListViewState
                       AppLocalizations.of(context)!.downloadSelectedPlaylists),
                 ),
               ),
+              Checkbox(
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+                value: audioDownloadViewModel.isHighQuality,
+                onChanged: (bool? value) {
+                  audioDownloadViewModel.setAudioQuality(
+                      isHighQuality: value ?? false);
+                },
+              ),
+              Text(AppLocalizations.of(context)!.audioQuality),
               PopupMenuButton<PlaylistPopupMenuButton>(
                 enabled: (Provider.of<ExpandablePlaylistListVM>(context)
                         .isButton1Enabled &&
@@ -325,9 +335,21 @@ class _ExpandablePlaylistListViewState
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return const SortAndFilterAudioDialog();
+                          return SortAndFilterAudioDialog(
+                            selectedPlaylistAudioLst:
+                                Provider.of<ExpandablePlaylistListVM>(context)
+                                    .getSelectedPlaylistsPlayableAudios(),
+                          );
                         },
-                      );
+                      ).then((result) {
+                        if (result != null) {
+                          List<Audio> returnedAudioList = result;
+                          Provider.of<ExpandablePlaylistListVM>(context,
+                                  listen: false)
+                              .setSortedFilteredSelectedPlaylistsPlayableAudios(
+                                  returnedAudioList);
+                        }
+                      });
                       break;
                     case PlaylistPopupMenuButton.other:
                       break;
@@ -355,14 +377,13 @@ class _ExpandablePlaylistListViewState
           Consumer<ExpandablePlaylistListVM>(
             builder: (context, expandablePlaylistListVM, child) {
               if (expandablePlaylistListVM.isListExpanded) {
+                List<Playlist> upToDateSelectablePlaylists =
+                    expandablePlaylistListVM.getUpToDateSelectablePlaylists();
                 return Expanded(
                   child: ListView.builder(
-                    itemCount: expandablePlaylistListVM
-                        .getUpToDateSelectablePlaylists()
-                        .length,
+                    itemCount: upToDateSelectablePlaylists.length,
                     itemBuilder: (context, index) {
-                      Playlist item = expandablePlaylistListVM
-                          .getUpToDateSelectablePlaylists()[index];
+                      Playlist item = upToDateSelectablePlaylists[index];
                       return ListTile(
                         title: Text(item.title),
                         trailing: Checkbox(
@@ -396,8 +417,7 @@ class _ExpandablePlaylistListViewState
                               .length,
                   itemBuilder: (BuildContext context, int index) {
                     final audio = expandablePlaylistListVM
-                        .getSelectedPlaylists()[0]
-                        .playableAudioLst[index];
+                        .getSelectedPlaylistsPlayableAudios()[index];
                     return AudioListItemWidget(
                       audio: audio,
                       onPlayPressedFunction: (Audio audio) {

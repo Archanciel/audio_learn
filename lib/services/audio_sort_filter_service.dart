@@ -1,7 +1,75 @@
 import '../models/audio.dart';
 
+enum SortingOption {
+  audioDownloadDateTime,
+  videoUploadDate,
+  originalAudioTitle,
+  audioEnclosingPlaylistTitle,
+  audioDuration,
+  audioFileSize,
+  audioMusicQuality,
+  audioDownloadSpeed,
+  audioDownloadDuration,
+}
+
 class AudioSortFilterService {
-  static List<Audio> sortAudioLstByVideoUploadDate({
+  List<Audio> sortAudioLstBySortingOption({
+    required List<Audio> audioLst,
+    required SortingOption sortingOption,
+    bool asc = true,
+  }) {
+    switch (sortingOption) {
+      case SortingOption.audioDownloadDateTime:
+        return _sortAudioLstByAudioDownloadDateTime(
+          audioLst: audioLst,
+          asc: asc,
+        );
+      case SortingOption.videoUploadDate:
+        return _sortAudioLstByVideoUploadDate(
+          audioLst: audioLst,
+          asc: asc,
+        );
+      case SortingOption.originalAudioTitle:
+        return _sortAudioLstByTitle(
+          audioLst: audioLst,
+          asc: asc,
+        );
+      case SortingOption.audioEnclosingPlaylistTitle:
+        return _sortAudioLstByEnclosingPlaylistTitle(
+          audioLst: audioLst,
+          asc: asc,
+        );
+      case SortingOption.audioDuration:
+        return _sortAudioLstByDuration(
+          audioLst: audioLst,
+          asc: asc,
+        );
+      case SortingOption.audioFileSize:
+        return _sortAudioLstByFileSize(
+          audioLst: audioLst,
+          asc: asc,
+        );
+      case SortingOption.audioMusicQuality:
+        return _sortAudioLstByMusicQuality(
+          audioLst: audioLst,
+          asc: asc,
+        );
+      case SortingOption.audioDownloadSpeed:
+        return _sortAudioLstByDownloadSpeed(
+          audioLst: audioLst,
+          asc: asc,
+        );
+      case SortingOption.audioDownloadDuration:
+        return _sortAudioLstByDownloadDuration(
+          audioLst: audioLst,
+          asc: asc,
+        );
+      default:
+        return audioLst;
+    }
+  }
+
+  List<Audio> _sortAudioLstByVideoUploadDate({
     required List<Audio> audioLst,
     bool asc = true,
   }) {
@@ -30,7 +98,7 @@ class AudioSortFilterService {
     return audioLst;
   }
 
-  static List<Audio> sortAudioLstByAudioDownloadDateTime({
+  List<Audio> _sortAudioLstByAudioDownloadDateTime({
     required List<Audio> audioLst,
     bool asc = true,
   }) {
@@ -59,24 +127,28 @@ class AudioSortFilterService {
     return audioLst;
   }
 
-  static List<Audio> sortAudioLstByTitle({
+  List<Audio> _sortAudioLstByTitle({
     required List<Audio> audioLst,
     bool asc = true,
   }) {
     if (asc) {
       audioLst.sort((a, b) {
-        return a.validVideoTitle.compareTo(b.validVideoTitle);
+        return a.originalVideoTitle
+            .toLowerCase()
+            .compareTo(b.originalVideoTitle.toLowerCase());
       });
     } else {
       audioLst.sort((a, b) {
-        return b.validVideoTitle.compareTo(a.validVideoTitle);
+        return b.originalVideoTitle
+            .toLowerCase()
+            .compareTo(a.originalVideoTitle.toLowerCase());
       });
     }
 
     return audioLst;
   }
 
-  static List<Audio> sortAudioLstByDuration({
+  List<Audio> _sortAudioLstByDuration({
     required List<Audio> audioLst,
     bool asc = true,
   }) {
@@ -107,7 +179,7 @@ class AudioSortFilterService {
     return audioLst;
   }
 
-  static List<Audio> sortAudioLstByDownloadDuration({
+  List<Audio> _sortAudioLstByDownloadDuration({
     required List<Audio> audioLst,
     bool asc = true,
   }) {
@@ -140,9 +212,9 @@ class AudioSortFilterService {
     return audioLst;
   }
 
-  static List<Audio> sortAudioLstByDownloadSpeed({
+  List<Audio> _sortAudioLstByDownloadSpeed({
     required List<Audio> audioLst,
-    bool asc = true,
+    required bool asc,
   }) {
     if (asc) {
       audioLst.sort((a, b) {
@@ -157,9 +229,9 @@ class AudioSortFilterService {
     } else {
       audioLst.sort((a, b) {
         if (a.audioDownloadSpeed < b.audioDownloadSpeed) {
-          return -1;
-        } else if (a.audioDownloadSpeed > b.audioDownloadSpeed) {
           return 1;
+        } else if (a.audioDownloadSpeed > b.audioDownloadSpeed) {
+          return -1;
         } else {
           return 0;
         }
@@ -169,7 +241,7 @@ class AudioSortFilterService {
     return audioLst;
   }
 
-  static List<Audio> sortAudioLstByFileSize({
+  List<Audio> _sortAudioLstByFileSize({
     required List<Audio> audioLst,
     bool asc = true,
   }) {
@@ -198,37 +270,33 @@ class AudioSortFilterService {
     return audioLst;
   }
 
-  static List<Audio> sortAudioLstByMusicQuality({
+  List<Audio> _sortAudioLstByMusicQuality({
     required List<Audio> audioLst,
     bool asc = true,
   }) {
-    if (asc) {
-      audioLst.sort((a, b) {
-        if (a.isMusicQuality && !b.isMusicQuality) {
-          return -1;
-        } else if (!a.isMusicQuality && b.isMusicQuality) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    } else {
-      audioLst.sort((a, b) {
-        if (a.isMusicQuality && !b.isMusicQuality) {
-          return 1;
-        } else if (!a.isMusicQuality && b.isMusicQuality) {
-          return -1;
-        } else {
-          return 0;
-        }
-      });
+    List<Audio> sortedAudioList = [];
+    List<Audio> musicQualityList = [];
+    List<Audio> speechQualityList = [];
+
+    for (Audio audio in audioLst) {
+      if (audio.isMusicQuality) {
+        musicQualityList.add(audio);
+      } else {
+        speechQualityList.add(audio);
+      }
     }
 
-    return audioLst;
+    if (asc) {
+      sortedAudioList = musicQualityList + speechQualityList;
+    } else {
+      sortedAudioList = speechQualityList + musicQualityList;
+    }
+
+    return sortedAudioList;
   }
 
 // Method not useful
-// static List<Audio> sortAudioLstByVideoUrl({
+// List<Audio> _sortAudioLstByVideoUrl({
 //   required List<Audio> audioLst,
 //   bool asc = true,
 // }) {
@@ -245,7 +313,7 @@ class AudioSortFilterService {
 //   return audioLst;
 // }
 
-  static List<Audio> sortAudioLstByEnclosingPlaylistTitle({
+  List<Audio> _sortAudioLstByEnclosingPlaylistTitle({
     required List<Audio> audioLst,
     bool asc = true,
   }) {
@@ -264,7 +332,7 @@ class AudioSortFilterService {
 
   /// Currently not searching video description since
   /// video description is not available in audio object
-  static List<Audio> filterAudioLstByVideoTitleOrDescription({
+  List<Audio> _filterAudioLstByVideoTitleOrDescription({
     required List<Audio> audioLst,
     required String searchWords,
   }) {
@@ -273,7 +341,7 @@ class AudioSortFilterService {
     }).toList();
   }
 
-  static List<Audio> filterAudioLstByAudioDownloadDateTime({
+  List<Audio> _filterAudioLstByAudioDownloadDateTime({
     required List<Audio> audioLst,
     required DateTime startDateTime,
     required DateTime endDateTime,
@@ -286,7 +354,7 @@ class AudioSortFilterService {
     }).toList();
   }
 
-  static List<Audio> filterAudioLstByAudioVideoUploadDateTime({
+  List<Audio> _filterAudioLstByAudioVideoUploadDateTime({
     required List<Audio> audioLst,
     required DateTime startDateTime,
     required DateTime endDateTime,
@@ -299,7 +367,7 @@ class AudioSortFilterService {
     }).toList();
   }
 
-  static List<Audio> filterAudioLstByAudioFileSize({
+  List<Audio> _filterAudioLstByAudioFileSize({
     required List<Audio> audioLst,
     required int startFileSize,
     required int endFileSize,
@@ -310,7 +378,7 @@ class AudioSortFilterService {
     }).toList();
   }
 
-  static List<Audio> filterAudioLstByMusicQuality({
+  List<Audio> _filterAudioLstByMusicQuality({
     required List<Audio> audioLst,
     required bool isMusicQuality,
   }) {
@@ -319,16 +387,16 @@ class AudioSortFilterService {
     }).toList();
   }
 
-  filterAudioByAudioDuration({
+  List<Audio> _filterAudioByAudioDuration({
     required List<Audio> audioLst,
     required Duration startDuration,
     required Duration endDuration,
   }) {
     return audioLst.where((audio) {
       return (audio.audioDownloadDuration!.inMilliseconds >=
-                  startDuration.inMilliseconds) &&
+              startDuration.inMilliseconds) &&
           (audio.audioDownloadDuration!.inMilliseconds <=
-                  endDuration.inMilliseconds);
+              endDuration.inMilliseconds);
     }).toList();
   }
 }

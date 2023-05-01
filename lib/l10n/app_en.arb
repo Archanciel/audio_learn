@@ -39,7 +39,7 @@
   "sortBy": "Sort by:",
   "audioDownloadDateTime": "Audio download date time",
   "videoUploadDate": "Video upload date",
-  "videoTitle": "Video title",
+  "originalAudioTitle": "Orginal audio title",
   "audioEnclosingPlaylistTitle": "Audio playlist title",
   "audioDuration": "Audio duration",
   "audioFileSize": "Audio file size",

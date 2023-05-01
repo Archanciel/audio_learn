@@ -4,10 +4,15 @@ import 'package:intl/intl.dart';
 
 import '../constants.dart';
 import '../models/audio.dart';
-import '../utils/time_util.dart';
+import '../services/audio_sort_filter_service.dart';
 
 class SortAndFilterAudioDialog extends StatefulWidget {
-  const SortAndFilterAudioDialog({super.key});
+  final List<Audio> selectedPlaylistAudioLst;
+
+  const SortAndFilterAudioDialog({
+    super.key,
+    required this.selectedPlaylistAudioLst,
+  });
 
   @override
   _SortAndFilterAudioDialogState createState() =>
@@ -18,8 +23,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash
-  late String _selectedSortingOption =
-      AppLocalizations.of(context)!.audioDownloadDateTime;
+  SortingOption _selectedSortingOption = SortingOption.audioDownloadDateTime;
 
   bool _sortAscending = false;
   bool _filterMusicQuality = false;
@@ -36,14 +40,48 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
       TextEditingController();
   final TextEditingController _endUploadDateTimeController =
       TextEditingController();
+  final TextEditingController _startAudioDurationController =
+      TextEditingController();
+  final TextEditingController _endAudioDurationController =
+      TextEditingController();
   String? _audioTitleSubString;
-  DateTime _startDownloadDateTime = DateTime.now();
-  DateTime _endDownloadDateTime = DateTime.now();
-  DateTime _startUploadDateTime = DateTime.now();
-  DateTime _endUploadDateTime = DateTime.now();
+  DateTime? _startDownloadDateTime;
+  DateTime? _endDownloadDateTime;
+  DateTime? _startUploadDateTime;
+  DateTime? _endUploadDateTime;
+
+  String _sortingOptionToString(
+    SortingOption option,
+    BuildContext context,
+  ) {
+    switch (option) {
+      case SortingOption.audioDownloadDateTime:
+        return AppLocalizations.of(context)!.audioDownloadDateTime;
+      case SortingOption.videoUploadDate:
+        return AppLocalizations.of(context)!.videoUploadDate;
+      case SortingOption.originalAudioTitle:
+        return AppLocalizations.of(context)!.originalAudioTitle;
+      case SortingOption.audioEnclosingPlaylistTitle:
+        return AppLocalizations.of(context)!.audioEnclosingPlaylistTitle;
+      case SortingOption.audioDuration:
+        return AppLocalizations.of(context)!.audioDuration;
+      case SortingOption.audioFileSize:
+        return AppLocalizations.of(context)!.audioFileSize;
+      case SortingOption.audioMusicQuality:
+        return AppLocalizations.of(context)!.audioMusicQuality;
+      case SortingOption.audioDownloadSpeed:
+        return AppLocalizations.of(context)!.audioDownloadSpeed;
+      case SortingOption.audioDownloadDuration:
+        return AppLocalizations.of(context)!.audioDownloadDuration;
+      default:
+        throw ArgumentError('Invalid sorting option');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+
     return Center(
       child: AlertDialog(
         title: Text(AppLocalizations.of(context)!.sortFilterDialogTitle),
@@ -63,28 +101,19 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                       AppLocalizations.of(context)!.sortBy,
                       style: kDialogTitlesStyle,
                     ),
-                    DropdownButton<String>(
+                    DropdownButton<SortingOption>(
                       value: _selectedSortingOption,
-                      onChanged: (String? newValue) {
+                      onChanged: (SortingOption? newValue) {
                         setState(() {
                           _selectedSortingOption = newValue!;
                         });
                       },
-                      items: <String>[
-                        AppLocalizations.of(context)!.audioDownloadDateTime,
-                        AppLocalizations.of(context)!.videoUploadDate,
-                        AppLocalizations.of(context)!.videoTitle,
-                        AppLocalizations.of(context)!
-                            .audioEnclosingPlaylistTitle,
-                        AppLocalizations.of(context)!.audioDuration,
-                        AppLocalizations.of(context)!.audioFileSize,
-                        AppLocalizations.of(context)!.audioMusicQuality,
-                        AppLocalizations.of(context)!.audioDownloadSpeed,
-                        AppLocalizations.of(context)!.audioDownloadDuration,
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
+                      items: SortingOption.values
+                          .map<DropdownMenuItem<SortingOption>>(
+                              (SortingOption value) {
+                        return DropdownMenuItem<SortingOption>(
                           value: value,
-                          child: Text(value),
+                          child: Text(_sortingOptionToString(value, context)),
                         );
                       }).toList(),
                     ),
@@ -155,9 +184,9 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
-                              initialDate: _startDownloadDateTime,
+                              initialDate: now,
                               firstDate: DateTime(2000),
-                              lastDate: DateTime.now(),
+                              lastDate: now,
                             );
 
                             if (pickedDate != null) {
@@ -165,7 +194,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                               _startDownloadDateTime = pickedDate;
                               _startDownloadDateTimeController.text =
                                   DateFormat('dd-MM-yyyy')
-                                      .format(_startDownloadDateTime);
+                                      .format(_startDownloadDateTime!);
                             }
                           },
                         ),
@@ -194,9 +223,9 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
-                              initialDate: _endDownloadDateTime,
+                              initialDate: now,
                               firstDate: DateTime(2000),
-                              lastDate: DateTime.now(),
+                              lastDate: now,
                             );
 
                             if (pickedDate != null) {
@@ -204,7 +233,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                               _endDownloadDateTime = pickedDate;
                               _endDownloadDateTimeController.text =
                                   DateFormat('dd-MM-yyyy')
-                                      .format(_endDownloadDateTime);
+                                      .format(_endDownloadDateTime!);
                             }
                           },
                         ),
@@ -233,9 +262,9 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
-                              initialDate: _startUploadDateTime,
+                              initialDate: now,
                               firstDate: DateTime(2000),
-                              lastDate: DateTime.now(),
+                              lastDate: now,
                             );
 
                             if (pickedDate != null) {
@@ -243,7 +272,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                               _startUploadDateTime = pickedDate;
                               _startUploadDateTimeController.text =
                                   DateFormat('dd-MM-yyyy')
-                                      .format(_startUploadDateTime);
+                                      .format(_startUploadDateTime!);
                             }
                           },
                         ),
@@ -272,9 +301,9 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
-                              initialDate: _endUploadDateTime,
+                              initialDate: now,
                               firstDate: DateTime(2000),
-                              lastDate: DateTime.now(),
+                              lastDate: now,
                             );
 
                             if (pickedDate != null) {
@@ -282,7 +311,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                               _endUploadDateTime = pickedDate;
                               _endUploadDateTimeController.text =
                                   DateFormat('dd-MM-yyyy')
-                                      .format(_endUploadDateTime);
+                                      .format(_endUploadDateTime!);
                             }
                           },
                         ),
@@ -352,7 +381,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           child: TextField(
                             style: kDialogTextFieldStyle,
                             decoration: kDialogTextFieldDecoration,
-                            controller: _startFileSizeController,
+                            controller: _startAudioDurationController,
                             keyboardType: TextInputType.number,
                           ),
                         ),
@@ -364,7 +393,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           child: TextField(
                             style: kDialogTextFieldStyle,
                             decoration: kDialogTextFieldDecoration,
-                            controller: _endFileSizeController,
+                            controller: _endAudioDurationController,
                             keyboardType: TextInputType.number,
                           ),
                         ),
@@ -385,15 +414,26 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
               print('Filter by music quality: $_filterMusicQuality');
               print('Audio title substring: $_audioTitleSubString');
               print(
-                  'Start download date: ${_startDownloadDateTime.toIso8601String()}');
+                  'Start download date: ${(_startDownloadDateTime != null) ? _startDownloadDateTime!.toIso8601String() : ''}');
               print(
-                  'End download date: ${_endDownloadDateTime.toIso8601String()}');
+                  'End download date: ${(_endDownloadDateTime != null) ? _endDownloadDateTime!.toIso8601String() : ''}');
               print(
-                  'Start upload date: ${_startUploadDateTime.toIso8601String()}');
-              print('End upload date: ${_endUploadDateTime.toIso8601String()}');
+                  'Start upload date: ${(_startUploadDateTime != null) ? _startUploadDateTime!.toIso8601String() : ''}');
+              print(
+                  'End upload date: ${(_endUploadDateTime != null) ? _endUploadDateTime!.toIso8601String() : ''}');
               print(
                   'File size range: ${_startFileSizeController.text} - ${_endFileSizeController.text}');
-              Navigator.of(context).pop();
+              print(
+                  'Audio duration range: ${_startAudioDurationController.text} - ${_endAudioDurationController.text}');
+              AudioSortFilterService audioSortFilterService =
+                  AudioSortFilterService();
+              List<Audio> sortedAudioLstBySortingOption =
+                  audioSortFilterService.sortAudioLstBySortingOption(
+                audioLst: widget.selectedPlaylistAudioLst,
+                sortingOption: _selectedSortingOption,
+                asc: _sortAscending,
+              );
+              Navigator.of(context).pop(sortedAudioLstBySortingOption);
             },
             child: const Text('Apply'),
           ),

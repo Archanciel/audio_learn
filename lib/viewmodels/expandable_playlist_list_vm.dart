@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/audio.dart';
 import '../models/playlist.dart';
 import 'audio_download_vm.dart';
 
@@ -18,6 +19,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   final AudioDownloadVM _audioDownloadVM;
   bool _isPlaylistSelected = true;
   List<Playlist> _selectablePlaylistLst = [];
+  List<Audio>? _sortedFilteredSelectedPlaylistsPlayableAudios;
 
   ExpandablePlaylistListVM({required AudioDownloadVM audioDownloadVM})
       : _audioDownloadVM = audioDownloadVM;
@@ -71,6 +73,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     required int playlistIndex,
     required bool isPlaylistSelected,
   }) {
+    _sortedFilteredSelectedPlaylistsPlayableAudios = null;
+    
     _audioDownloadVM.updatePlaylistSelection(
       playlistId: _selectablePlaylistLst[playlistIndex].id,
       isPlaylistSelected: isPlaylistSelected,
@@ -129,6 +133,30 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     return _selectablePlaylistLst
         .where((playlist) => playlist.isSelected)
         .toList();
+  }
+
+  List<Audio> getSelectedPlaylistsPlayableAudios() {
+    if (_sortedFilteredSelectedPlaylistsPlayableAudios != null) {
+      return _sortedFilteredSelectedPlaylistsPlayableAudios!;
+    } else {
+      List<Audio> selectedPlaylistsAudios = [];
+
+      for (Playlist playlist in _selectablePlaylistLst) {
+        if (playlist.isSelected) {
+          selectedPlaylistsAudios.addAll(playlist.playableAudioLst);
+        }
+      }
+
+      return selectedPlaylistsAudios;
+    }
+  }
+
+  void setSortedFilteredSelectedPlaylistsPlayableAudios(
+      List<Audio> sortedFilteredSelectedPlaylistsPlayableAudios) {
+    _sortedFilteredSelectedPlaylistsPlayableAudios =
+        sortedFilteredSelectedPlaylistsPlayableAudios;
+
+    notifyListeners();
   }
 
   int _getSelectedIndex() {
