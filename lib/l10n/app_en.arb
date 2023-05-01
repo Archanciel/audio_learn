@@ -34,5 +34,16 @@
   "audioDownloadError": "Error downloading audio: {error}",
   "singleVideoAudioDownload": "Downloading single video audio in Various dir",
   "about": "About ...",
-  "sortFilterAudios": "Sort/filter audios"
+  "sortFilterAudios": "Sort/filter audios",
+  "sortFilterDialogTitle": "Sort and Filter Options",
+  "sortBy": "Sort by:",
+  "audioDownloadDateTime": "Audio download date time",
+  "videoUploadDate": "Video upload date",
+  "videoTitle": "Video title",
+  "audioEnclosingPlaylistTitle": "Audio enclosing playlist",
+  "audioDuration": "Audio duration",
+  "audioFileSize": "Audio file size",
+  "audioMusicQuality": "Audio music quality",
+  "audioDownloadSpeed": "Audio download speed",
+  "audioDownloadDuration": "Audio download duration"
 }
