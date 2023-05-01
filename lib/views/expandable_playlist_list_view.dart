@@ -31,7 +31,7 @@ class ExpandablePlaylistListView extends StatefulWidget {
 
 class _ExpandablePlaylistListViewState
     extends State<ExpandablePlaylistListView> {
-  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _playlistUrlController = TextEditingController();
 
   final AudioPlayerVM _audioPlayerViwModel = AudioPlayerVM();
 
@@ -67,14 +67,14 @@ class _ExpandablePlaylistListViewState
   Widget build(BuildContext context) {
     final AudioDownloadVM audioDownloadViewModel =
         Provider.of<AudioDownloadVM>(context);
-    if (_textEditingController.text.isEmpty) {
-      _textEditingController.text =
+    if (_playlistUrlController.text.isEmpty) {
+      _playlistUrlController.text =
           (audioDownloadViewModel.listOfPlaylist.isNotEmpty)
               ? audioDownloadViewModel.listOfPlaylist[0].url
-              : '';
+              : kUniquePlaylistUrl;
     }
     return Container(
-      margin: EdgeInsets.all(kDefaultMargin),
+      margin: const EdgeInsets.all(kDefaultMargin),
       child: Column(
         children: <Widget>[
           Row(
@@ -83,7 +83,7 @@ class _ExpandablePlaylistListViewState
               Expanded(
                 child: TextField(
                   key: const Key('playlistUrlTextField'),
-                  controller: _textEditingController,
+                  controller: _playlistUrlController,
                   decoration: InputDecoration(
                     labelText:
                         AppLocalizations.of(context)!.ytPlaylistLinkLabel,
@@ -109,7 +109,7 @@ class _ExpandablePlaylistListViewState
                   ),
                   onPressed: () {
                     final String playlistUrl =
-                        _textEditingController.text.trim();
+                        _playlistUrlController.text.trim();
                     if (playlistUrl.isNotEmpty) {
                       Provider.of<ExpandablePlaylistListVM>(context,
                               listen: false)
@@ -144,7 +144,7 @@ class _ExpandablePlaylistListViewState
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                     ).show(context);
                     audioDownloadViewModel.downloadSingleVideoAudio(
-                      videoUrl: _textEditingController.text.trim(),
+                      videoUrl: _playlistUrlController.text.trim(),
                     );
                   },
                   child: Text(
@@ -333,7 +333,7 @@ class _ExpandablePlaylistListViewState
                     default:
                   }
                 },
-                icon: Icon(Icons.filter_list),
+                icon: const Icon(Icons.filter_list),
                 itemBuilder: (BuildContext context) {
                   return [
                     PopupMenuItem<PlaylistPopupMenuButton>(
@@ -341,7 +341,7 @@ class _ExpandablePlaylistListViewState
                       child:
                           Text(AppLocalizations.of(context)!.sortFilterAudios),
                     ),
-                    PopupMenuItem<PlaylistPopupMenuButton>(
+                    const PopupMenuItem<PlaylistPopupMenuButton>(
                       value: PlaylistPopupMenuButton.other,
                       child: Text('Option 2'),
                     ),

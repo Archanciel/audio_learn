@@ -45,5 +45,8 @@
   "audioFileSize": "Audio file size",
   "audioMusicQuality": "Audio music quality",
   "audioDownloadSpeed": "Audio download speed",
-  "audioDownloadDuration": "Audio download duration"
+  "audioDownloadDuration": "Audio download duration",
+  "sortAscending": "Sort ascending:",
+  "filterOptions": "Filter options:",
+  "videoTitleOrDescription": "Video title or description"
 }

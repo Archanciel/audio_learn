@@ -262,12 +262,14 @@ class AudioSortFilterService {
     return audioLst;
   }
 
-  static List<Audio> filterAudioLstByAudioTitleSubString({
+  /// Currently not searching video description since
+  /// video description is not available in audio object
+  static List<Audio> filterAudioLstByVideoTitleOrDescription({
     required List<Audio> audioLst,
-    required String audioTitleSubString,
+    required String searchWords,
   }) {
     return audioLst.where((audio) {
-      return audio.originalVideoTitle.contains(audioTitleSubString);
+      return audio.originalVideoTitle.contains(searchWords);
     }).toList();
   }
 

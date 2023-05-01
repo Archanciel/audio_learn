@@ -2,6 +2,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../constants.dart';
 import '../models/audio.dart';
 import '../utils/time_util.dart';
 
@@ -25,7 +26,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
   final TextEditingController _startFileSizeController =
       TextEditingController();
   final TextEditingController _endFileSizeController = TextEditingController();
-  final TextEditingController _audioTitleSubStringController =
+  final TextEditingController _videoTitleOrDescriptionController =
       TextEditingController();
   final TextEditingController _startDownloadDateTimeController =
       TextEditingController();
@@ -60,10 +61,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                   children: [
                     Text(
                       AppLocalizations.of(context)!.sortBy,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: kDialogTitlesStyle,
                     ),
                     DropdownButton<String>(
                       value: _selectedSortingOption,
@@ -92,7 +90,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                     ),
                     Row(
                       children: [
-                        const Text('Sort Ascending:'),
+                        Text(AppLocalizations.of(context)!.sortAscending),
                         Checkbox(
                           value: _sortAscending,
                           onChanged: (bool? newValue) {
@@ -103,37 +101,38 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                         ),
                       ],
                     ),
-                    const Divider(),
-                    const Text(
-                      'Filter Options:',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Text(
+                      AppLocalizations.of(context)!.filterOptions,
+                      style: kDialogTitlesStyle,
                     ),
                     const SizedBox(height: 10),
-                    const Text('Audio Title Substring:'),
-                    TextField(
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+                    Text(
+                      AppLocalizations.of(context)!.videoTitleOrDescription,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      height: kDialogTextFieldHeight,
+                      child: TextField(
+                        style: kDialogTextFieldStyle,
+                        decoration: const InputDecoration(
+                          hintText: '',
+                          // isDense:
+                          //     true, // You can try adding isDense: true to better align the text vertically
+                          // contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                          border: InputBorder.none,
+                        ),
+                        controller: _videoTitleOrDescriptionController,
+                        keyboardType: TextInputType.text,
+                        onChanged: (value) {
+                          _audioTitleSubString = value;
+                        },
                       ),
-                      decoration: const InputDecoration(
-                        hintText: '',
-                        isDense:
-                            true, // You can try adding isDense: true to better align the text vertically
-                        contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                        border: InputBorder.none,
-                      ),
-                      controller: _audioTitleSubStringController,
-                      keyboardType: TextInputType.text,
-                      onChanged: (value) {
-                        _audioTitleSubString = value;
-                      },
                     ),
                     Row(
                       children: [
-                        const Text('Music Quality:'),
+                        Text(AppLocalizations.of(context)!.audioMusicQuality),
                         Checkbox(
                           value: _filterMusicQuality,
                           onChanged: (bool? newValue) {
