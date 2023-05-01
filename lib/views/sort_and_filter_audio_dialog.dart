@@ -40,7 +40,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
   Widget build(BuildContext context) {
     return Center(
       child: AlertDialog(
-        title: const Text('Sort and Filter Options'),
+        title: Text(AppLocalizations.of(context)!.sortFilterDialogTitle),
         content: SizedBox(
           width: double.maxFinite,
           height: 800,
@@ -53,9 +53,9 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Sort By:',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.sortBy,
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
@@ -68,17 +68,15 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                         });
                       },
                       items: <String>[
-                        'Video Upload Date',
-                        'Download Date',
-                        'Title',
-                        'Duration',
-                        'Download Duration',
-                        'Download Speed',
-                        'File Size',
-                        'Music Quality',
-                        'Video URL',
-                        'Enclosing Playlist',
-                        'Audio Download DateTime',
+                        AppLocalizations.of(context)!.audioDownloadDateTime,
+                        AppLocalizations.of(context)!.videoUploadDate,
+                        AppLocalizations.of(context)!.videoTitle,
+                        AppLocalizations.of(context)!.audioEnclosingPlaylistTitle,
+                        AppLocalizations.of(context)!.audioDuration,
+                        AppLocalizations.of(context)!.audioFileSize,
+                        AppLocalizations.of(context)!.audioMusicQuality,
+                        AppLocalizations.of(context)!.audioDownloadSpeed,
+                        AppLocalizations.of(context)!.audioDownloadDuration,
                       ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
