@@ -48,5 +48,13 @@
   "audioDownloadDuration": "Audio download duration",
   "sortAscending": "Sort ascending:",
   "filterOptions": "Filter options:",
-  "videoTitleOrDescription": "Video title or description"
+  "videoTitleOrDescription": "Video title or description",
+  "startDownloadDate": "Start downl date",
+  "endDownloadDate": "End downl date",
+  "startUploadDate": "Start upl date",
+  "endUploadDate": "End upl date",
+  "fileSizeRange": "File Size Range (bytes)",
+  "start": "Start",
+  "end": "End",
+  "audioDurationRange": "Audio duration range (hh:mm)"
 }

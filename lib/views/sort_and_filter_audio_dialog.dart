@@ -21,7 +21,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
   late String _selectedSortingOption =
       AppLocalizations.of(context)!.audioDownloadDateTime;
 
-  bool _sortAscending = true;
+  bool _sortAscending = false;
   bool _filterMusicQuality = false;
   final TextEditingController _startFileSizeController =
       TextEditingController();
@@ -101,11 +101,16 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Text(
                       AppLocalizations.of(context)!.filterOptions,
                       style: kDialogTitlesStyle,
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 14,
+                    ),
                     Text(
                       AppLocalizations.of(context)!.videoTitleOrDescription,
                     ),
@@ -116,13 +121,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                       height: kDialogTextFieldHeight,
                       child: TextField(
                         style: kDialogTextFieldStyle,
-                        decoration: const InputDecoration(
-                          hintText: '',
-                          // isDense:
-                          //     true, // You can try adding isDense: true to better align the text vertically
-                          // contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          border: InputBorder.none,
-                        ),
+                        decoration: kDialogTextFieldDecoration,
                         controller: _videoTitleOrDescriptionController,
                         keyboardType: TextInputType.text,
                         onChanged: (value) {
@@ -145,11 +144,11 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(
+                        SizedBox(
                           width: 120,
-                          child: Text('Start downl date'),
+                          child: Text(
+                              AppLocalizations.of(context)!.startDownloadDate),
                         ),
                         IconButton(
                           icon: const Icon(Icons.calendar_month_rounded),
@@ -171,19 +170,11 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           },
                         ),
                         SizedBox(
-                          width: 80,
+                          width: 90,
+                          height: kDialogTextFieldHeight,
                           child: TextField(
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            decoration: const InputDecoration(
-                              hintText: '',
-                              isDense:
-                                  true, // You can try adding isDense: true to better align the text vertically
-                              contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                              border: InputBorder.none,
-                            ),
+                            style: kDialogTextFieldStyle,
+                            decoration: kDialogTextFieldDecoration,
                             controller: _startDownloadDateTimeController,
                             keyboardType: TextInputType.number,
                           ),
@@ -192,11 +183,11 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(
+                        SizedBox(
                           width: 120,
-                          child: Text('End downl date'),
+                          child: Text(
+                              AppLocalizations.of(context)!.endDownloadDate),
                         ),
                         IconButton(
                           icon: const Icon(Icons.calendar_month_rounded),
@@ -218,19 +209,11 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           },
                         ),
                         SizedBox(
-                          width: 80,
+                          width: 90,
+                          height: kDialogTextFieldHeight,
                           child: TextField(
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            decoration: const InputDecoration(
-                              hintText: '',
-                              isDense:
-                                  true, // You can try adding isDense: true to better align the text vertically
-                              contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                              border: InputBorder.none,
-                            ),
+                            style: kDialogTextFieldStyle,
+                            decoration: kDialogTextFieldDecoration,
                             controller: _endDownloadDateTimeController,
                             keyboardType: TextInputType.number,
                           ),
@@ -239,11 +222,11 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(
+                        SizedBox(
                           width: 120,
-                          child: Text('Start upl date'),
+                          child: Text(
+                              AppLocalizations.of(context)!.startUploadDate),
                         ),
                         IconButton(
                           icon: const Icon(Icons.calendar_month_rounded),
@@ -265,19 +248,11 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           },
                         ),
                         SizedBox(
-                          width: 80,
+                          width: 90,
+                          height: kDialogTextFieldHeight,
                           child: TextField(
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            decoration: const InputDecoration(
-                              hintText: '',
-                              isDense:
-                                  true, // You can try adding isDense: true to better align the text vertically
-                              contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                              border: InputBorder.none,
-                            ),
+                            style: kDialogTextFieldStyle,
+                            decoration: kDialogTextFieldDecoration,
                             controller: _startUploadDateTimeController,
                             keyboardType: TextInputType.number,
                           ),
@@ -286,11 +261,11 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(
+                        SizedBox(
                           width: 120,
-                          child: Text('End downl date'),
+                          child:
+                              Text(AppLocalizations.of(context)!.endUploadDate),
                         ),
                         IconButton(
                           icon: const Icon(Icons.calendar_month_rounded),
@@ -312,45 +287,85 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           },
                         ),
                         SizedBox(
-                          width: 80,
+                          width: 90,
+                          height: kDialogTextFieldHeight,
                           child: TextField(
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            decoration: const InputDecoration(
-                              hintText: '',
-                              isDense:
-                                  true, // You can try adding isDense: true to better align the text vertically
-                              contentPadding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                              border: InputBorder.none,
-                            ),
+                            style: kDialogTextFieldStyle,
+                            decoration: kDialogTextFieldDecoration,
                             controller: _endUploadDateTimeController,
                             keyboardType: TextInputType.number,
                           ),
                         ),
                       ],
                     ),
-                    const Text('File Size Range (bytes):'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(AppLocalizations.of(context)!.fileSizeRange),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text('Start:'),
+                        Text(AppLocalizations.of(context)!.start),
                         SizedBox(
-                          width: 50,
+                          width: 85,
+                          height: kDialogTextFieldHeight,
                           child: TextField(
+                            style: kDialogTextFieldStyle,
+                            decoration: kDialogTextFieldDecoration,
                             controller: _startFileSizeController,
                             keyboardType: TextInputType.number,
-                            maxLength: 9,
                           ),
                         ),
-                        const SizedBox(width: 20),
-                        const Text('End:'),
+                        const SizedBox(width: 10),
+                        Text(AppLocalizations.of(context)!.end),
                         SizedBox(
-                          width: 50,
+                          width: 85,
+                          height: kDialogTextFieldHeight,
                           child: TextField(
+                            style: kDialogTextFieldStyle,
+                            decoration: kDialogTextFieldDecoration,
                             controller: _endFileSizeController,
                             keyboardType: TextInputType.number,
-                            maxLength: 9,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(AppLocalizations.of(context)!.audioDurationRange),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(AppLocalizations.of(context)!.start),
+                        SizedBox(
+                          width: 85,
+                          height: kDialogTextFieldHeight,
+                          child: TextField(
+                            style: kDialogTextFieldStyle,
+                            decoration: kDialogTextFieldDecoration,
+                            controller: _startFileSizeController,
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(AppLocalizations.of(context)!.end),
+                        SizedBox(
+                          width: 85,
+                          height: kDialogTextFieldHeight,
+                          child: TextField(
+                            style: kDialogTextFieldStyle,
+                            decoration: kDialogTextFieldDecoration,
+                            controller: _endFileSizeController,
+                            keyboardType: TextInputType.number,
                           ),
                         ),
                       ],

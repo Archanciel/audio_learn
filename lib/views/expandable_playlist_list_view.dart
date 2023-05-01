@@ -176,7 +176,8 @@ class _ExpandablePlaylistListViewState
                             message: AppLocalizations.of(context)!
                                 .audioDownloadingStopping,
                             duration: const Duration(seconds: 8),
-                            backgroundColor: Colors.green,
+                            backgroundColor: Colors.purple.shade900,
+                            messageColor: Colors.white,
                             margin: kFlushbarEdgeInsets,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(8)),

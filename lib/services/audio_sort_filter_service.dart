@@ -305,10 +305,8 @@ class AudioSortFilterService {
     required int endFileSize,
   }) {
     return audioLst.where((audio) {
-      return (audio.audioFileSize >= startFileSize ||
-              audio.audioFileSize == startFileSize) &&
-          (audio.audioFileSize <= endFileSize ||
-              audio.audioFileSize == endFileSize);
+      return (audio.audioFileSize >= startFileSize) &&
+          (audio.audioFileSize <= endFileSize);
     }).toList();
   }
 
@@ -318,6 +316,19 @@ class AudioSortFilterService {
   }) {
     return audioLst.where((audio) {
       return audio.isMusicQuality == isMusicQuality;
+    }).toList();
+  }
+
+  filterAudioByAudioDuration({
+    required List<Audio> audioLst,
+    required Duration startDuration,
+    required Duration endDuration,
+  }) {
+    return audioLst.where((audio) {
+      return (audio.audioDownloadDuration!.inMilliseconds >=
+                  startDuration.inMilliseconds) &&
+          (audio.audioDownloadDuration!.inMilliseconds <=
+                  endDuration.inMilliseconds);
     }).toList();
   }
 }

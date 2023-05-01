@@ -74,7 +74,7 @@ DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");
 
 const TextStyle kDialogTitlesStyle = TextStyle(
-  fontSize: 15,
+  fontSize: 17,
   fontWeight: FontWeight.bold,
 );
 
@@ -82,4 +82,9 @@ const TextStyle kDialogTextFieldStyle = TextStyle(
   fontSize: 13,
 );
 
-const double kDialogTextFieldHeight = 26.0;
+const double kDialogTextFieldHeight = 32.0;
+
+const InputDecoration kDialogTextFieldDecoration = InputDecoration(
+  isDense: true, //  better aligns the text vertically
+  border: InputBorder.none,
+);

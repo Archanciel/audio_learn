@@ -48,5 +48,13 @@
   "audioDownloadDuration": "Durée téléchargement audio",
   "sortAscending": "Tri ascendant:",
   "filterOptions": "Options de filtre:",
-  "videoTitleOrDescription": "Titre ou description vidéo"
+  "videoTitleOrDescription": "Titre ou description vidéo",
+  "startDownloadDate": "Date début téléchargement",
+  "endDownloadDate": "Date fin téléchargement",
+  "startUploadDate": "Date début mise en ligne",
+  "endUploadDate": "Date fin mise en ligne",
+  "fileSizeRange": "Intervalle taille fichier (octets)",
+  "start": "Début",
+  "end": "Fin",
+  "audioDurationRange": "Intervalle durée audio (hh:mm)"
 }
