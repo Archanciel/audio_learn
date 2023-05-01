@@ -5,16 +5,21 @@ import 'package:intl/intl.dart';
 import '../models/audio.dart';
 import '../utils/time_util.dart';
 
-
 class SortAndFilterAudioDialog extends StatefulWidget {
   const SortAndFilterAudioDialog({super.key});
 
   @override
-  _SortAndFilterAudioDialogState createState() => _SortAndFilterAudioDialogState();
+  _SortAndFilterAudioDialogState createState() =>
+      _SortAndFilterAudioDialogState();
 }
 
 class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
-  String _selectedSortingOption = 'Video Upload Date';
+  // must be initialized with a value included in the list of
+  // sorting options, otherwise the dropdown button will not
+  // display any value and he app will crash
+  late String _selectedSortingOption =
+      AppLocalizations.of(context)!.audioDownloadDateTime;
+
   bool _sortAscending = true;
   bool _filterMusicQuality = false;
   final TextEditingController _startFileSizeController =
@@ -71,7 +76,8 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                         AppLocalizations.of(context)!.audioDownloadDateTime,
                         AppLocalizations.of(context)!.videoUploadDate,
                         AppLocalizations.of(context)!.videoTitle,
-                        AppLocalizations.of(context)!.audioEnclosingPlaylistTitle,
+                        AppLocalizations.of(context)!
+                            .audioEnclosingPlaylistTitle,
                         AppLocalizations.of(context)!.audioDuration,
                         AppLocalizations.of(context)!.audioFileSize,
                         AppLocalizations.of(context)!.audioMusicQuality,
@@ -147,7 +153,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           child: Text('Start downl date'),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.calendar_month_rounded ),
+                          icon: const Icon(Icons.calendar_month_rounded),
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
@@ -194,7 +200,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           child: Text('End downl date'),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.calendar_month_rounded ),
+                          icon: const Icon(Icons.calendar_month_rounded),
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
@@ -241,7 +247,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           child: Text('Start upl date'),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.calendar_month_rounded ),
+                          icon: const Icon(Icons.calendar_month_rounded),
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
@@ -288,7 +294,7 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
                           child: Text('End downl date'),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.calendar_month_rounded ),
+                          icon: const Icon(Icons.calendar_month_rounded),
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
