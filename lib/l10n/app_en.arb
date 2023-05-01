@@ -40,7 +40,7 @@
   "audioDownloadDateTime": "Audio download date time",
   "videoUploadDate": "Video upload date",
   "videoTitle": "Video title",
-  "audioEnclosingPlaylistTitle": "Audio enclosing playlist",
+  "audioEnclosingPlaylistTitle": "Audio playlist title",
   "audioDuration": "Audio duration",
   "audioFileSize": "Audio file size",
   "audioMusicQuality": "Audio music quality",
