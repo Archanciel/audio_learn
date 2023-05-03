@@ -248,9 +248,8 @@ class _ExpandablePlaylistListViewState
               ),
               Expanded(
                 child: IconButton(
-                  key: const Key('move_up_button'),
+                  key: const Key('move_up_playlist_button'),
                   onPressed: Provider.of<ExpandablePlaylistListVM>(context)
-                          .isButton2Enabled
                           .isButtonMoveUpPlaylistEnabled
                       ? () {
                           Provider.of<ExpandablePlaylistListVM>(context,
