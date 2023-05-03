@@ -59,8 +59,8 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
         return AppLocalizations.of(context)!.audioDownloadDateTime;
       case SortingOption.videoUploadDate:
         return AppLocalizations.of(context)!.videoUploadDate;
-      case SortingOption.originalAudioTitle:
-        return AppLocalizations.of(context)!.originalAudioTitle;
+      case SortingOption.validAudioTitle:
+        return AppLocalizations.of(context)!.validAudioTitle;
       case SortingOption.audioEnclosingPlaylistTitle:
         return AppLocalizations.of(context)!.audioEnclosingPlaylistTitle;
       case SortingOption.audioDuration:

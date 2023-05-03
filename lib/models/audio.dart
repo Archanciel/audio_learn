@@ -92,10 +92,9 @@ class Audio {
     this.audioDownloadDuration,
     required this.videoUploadDate,
     this.audioDuration,
-  })  : validVideoTitle =
-            replaceUnauthorizedDirOrFileNameChars(originalVideoTitle),
+  })  : validVideoTitle = createValidVideoTitle(originalVideoTitle),
         audioFileName =
-            '${buildDownloadDatePrefix(audioDownloadDateTime)}${replaceUnauthorizedDirOrFileNameChars(originalVideoTitle)} ${buildUploadDateSuffix(videoUploadDate)}.mp3';
+            '${buildDownloadDatePrefix(audioDownloadDateTime)}${createValidVideoTitle(originalVideoTitle)} ${buildUploadDateSuffix(videoUploadDate)}.mp3';
 
   /// This constructor requires all instance variables
   Audio.fullConstructor({
@@ -173,17 +172,21 @@ class Audio {
     return formattedDateStr;
   }
 
-  static String replaceUnauthorizedDirOrFileNameChars(String rawFileName) {
+  /// Removes illegal file name characters from the original 
+  /// video title aswell non-ascii characters. This causes
+  /// the valid video title to be efficient when sorting
+  /// the audio by their title.
+  static String createValidVideoTitle(String originalVideoTitle) {
     // Replace '|' by ' if '|' is located at end of file name
-    if (rawFileName.endsWith('|')) {
-      rawFileName = rawFileName.substring(0, rawFileName.length - 1);
+    if (originalVideoTitle.endsWith('|')) {
+      originalVideoTitle = originalVideoTitle.substring(0, originalVideoTitle.length - 1);
     }
 
     // Replace '||' by '_' since YoutubeDL replaces '||' by '_'
-    rawFileName = rawFileName.replaceAll('||', '|');
+    originalVideoTitle = originalVideoTitle.replaceAll('||', '|');
 
     // Replace '//' by '_' since YoutubeDL replaces '//' by '_'
-    rawFileName = rawFileName.replaceAll('//', '/');
+    originalVideoTitle = originalVideoTitle.replaceAll('//', '/');
 
     final charToReplace = {
       '\\': '',
@@ -199,17 +202,13 @@ class Audio {
       // "'": '_', apostrophe is not illegal in file name
     };
 
-    // Replace all multiple characters in a string based on translation table created by dictionary
-    String validFileName = rawFileName;
-    
-    charToReplace.forEach((key, value) {
-      validFileName = validFileName.replaceAll(key, value);
-    });
+    // Replace unauthorized characters
+    originalVideoTitle = originalVideoTitle.replaceAllMapped(RegExp(r'[\\/:*?"<>|]'),
+        (match) => charToReplace[match.group(0)] ?? '');
 
-    // Since YoutubeDL replaces '?' by ' ', determining if a video whose title
-    // ends with '?' has already been downloaded using
-    // replaceUnauthorizedDirOrFileNameChars(videoTitle) + '.mp3' can be executed
-    // if validFileName.trim() is NOT done.
-    return validFileName;
+    // Remove any non-English or non-French characters
+    originalVideoTitle = originalVideoTitle.replaceAll(RegExp(r'[^\x00-\x7FÀ-ÿ]'), '');
+
+    return originalVideoTitle.trim();
   }
 }

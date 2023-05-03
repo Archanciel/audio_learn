@@ -39,7 +39,7 @@
   "sortBy": "Trier par:",
   "audioDownloadDateTime": "Date/heure téléchargement audio",
   "videoUploadDate": "Date mise en ligne vidéo",
-  "originalAudioTitle": "Titre audio original",
+  "validAudioTitle": "Titre audio valide",
   "audioEnclosingPlaylistTitle": "Titre playlist audio",
   "audioDuration": "Durée audio",
   "audioFileSize": "Taille fichier audio",

@@ -4,65 +4,60 @@ import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
 
 void main() {
-  group('Audio.replaceUnauthorizedDirOrFileNameChars', () {
+  group('Audio.createValidVideoTitle', () {
     test('Test replace unauthorized characters', () {
       const String playlistTitle =
           "Audio: - ET L'UNIVERS DISPARAÎTRA/La \\nature * illusoire de notre réalité et le pouvoir transcendant du |véritable \"pardon\" + commentaires de <Gary> Renard ?";
-      const String expectedFileName =
-          "Audio - - ET L'UNIVERS DISPARAÎTRA_La nature   illusoire de notre réalité et le pouvoir transcendant du _véritable 'pardon' + commentaires de Gary Renard ";
+      const String expectedValidVideoTitle =
+          "Audio - - ET L\'UNIVERS DISPARAÎTRA_La nature   illusoire de notre réalité et le pouvoir transcendant du _véritable \'pardon\' + commentaires de Gary Renard";
 
-      final String actualFileName =
-          Audio.replaceUnauthorizedDirOrFileNameChars(playlistTitle);
+      final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
 
-      expect(actualFileName, expectedFileName);
+      expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
 
     test('Test replace OR char', () {
       const String playlistTitle =
           "💥 EFFONDREMENT Imminent de l'Euro ?! | 👉 Maintenant, La Fin de l'Euro Approche ?!";
-      const String expectedFileName =
-          "💥 EFFONDREMENT Imminent de l'Euro ! _ 👉 Maintenant, La Fin de l'Euro Approche !";
+      const String expectedValidVideoTitle =
+          "EFFONDREMENT Imminent de l\'Euro ! _  Maintenant, La Fin de l\'Euro Approche !";
 
-      final String actualFileName =
-          Audio.replaceUnauthorizedDirOrFileNameChars(playlistTitle);
+      final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
 
-      expect(actualFileName, expectedFileName);
+      expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
 
-    test('Test replace OR char at end of fileName', () {
+    test('Test replace OR char at end of validVideoTitle', () {
       const String playlistTitle =
           'Indian 🇮🇳|American🇺🇸| Japanese🇯🇵|Students #youtubeshorts #shorts |Samayra Narula| Subscribe |';
-      const String expectedFileName =
-          'Indian 🇮🇳_American🇺🇸_ Japanese🇯🇵_Students #youtubeshorts #shorts _Samayra Narula_ Subscribe ';
+      const String expectedValidVideoTitle =
+          'Indian _American_ Japanese_Students #youtubeshorts #shorts _Samayra Narula_ Subscribe';
 
-      final String actualFileName =
-          Audio.replaceUnauthorizedDirOrFileNameChars(playlistTitle);
+      final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
 
-      expect(actualFileName, expectedFileName);
+      expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
 
     test('Test replace double OR char', () {
       const String playlistTitle =
           'Lambda Expressions & Anonymous Functions ||  Python Tutorial  ||  Learn Python Programming';
-      const String expectedFileName =
+      const String expectedValidVideoTitle =
           'Lambda Expressions & Anonymous Functions _  Python Tutorial  _  Learn Python Programming';
 
-      final String actualFileName =
-          Audio.replaceUnauthorizedDirOrFileNameChars(playlistTitle);
+      final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
 
-      expect(actualFileName, expectedFileName);
+      expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
 
     test('Test replace double slash char', () {
       const String videoTitle =
           '9 Dart concepts to know before you jump into Flutter // for super beginners in Flutter';
-      const String expectedFileName =
+      const String expectedValidVideoTitle =
           '9 Dart concepts to know before you jump into Flutter _ for super beginners in Flutter';
 
-      final String actualFileName =
-          Audio.replaceUnauthorizedDirOrFileNameChars(videoTitle);
+      final String actualValidVideoTitle = Audio.createValidVideoTitle(videoTitle);
 
-      expect(actualFileName, expectedFileName);
+      expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
   });
   group('Audio static methods', () {

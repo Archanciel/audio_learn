@@ -3,7 +3,7 @@ import '../models/audio.dart';
 enum SortingOption {
   audioDownloadDateTime,
   videoUploadDate,
-  originalAudioTitle,
+  validAudioTitle,
   audioEnclosingPlaylistTitle,
   audioDuration,
   audioFileSize,
@@ -29,7 +29,7 @@ class AudioSortFilterService {
           audioLst: audioLst,
           asc: asc,
         );
-      case SortingOption.originalAudioTitle:
+      case SortingOption.validAudioTitle:
         return _sortAudioLstByTitle(
           audioLst: audioLst,
           asc: asc,
@@ -133,15 +133,15 @@ class AudioSortFilterService {
   }) {
     if (asc) {
       audioLst.sort((a, b) {
-        return a.originalVideoTitle
+        return a.validVideoTitle
             .toLowerCase()
-            .compareTo(b.originalVideoTitle.toLowerCase());
+            .compareTo(b.validVideoTitle.toLowerCase());
       });
     } else {
       audioLst.sort((a, b) {
-        return b.originalVideoTitle
+        return b.validVideoTitle
             .toLowerCase()
-            .compareTo(a.originalVideoTitle.toLowerCase());
+            .compareTo(a.validVideoTitle.toLowerCase());
       });
     }
 
@@ -337,7 +337,7 @@ class AudioSortFilterService {
     required String searchWords,
   }) {
     return audioLst.where((audio) {
-      return audio.originalVideoTitle.contains(searchWords);
+      return audio.validVideoTitle.contains(searchWords);
     }).toList();
   }
 
