@@ -88,3 +88,5 @@ const InputDecoration kDialogTextFieldDecoration = InputDecoration(
   isDense: true, //  better aligns the text vertically
   border: InputBorder.none,
 );
+
+const String kYoutubeUrl = 'https://www.youtube.com/';

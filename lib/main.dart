@@ -13,6 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'viewmodels/audio_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
@@ -210,7 +211,20 @@ class MyHomePage extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(AppLocalizations.of(context)!.title),
-            Image.asset('assets/images/youtube-logo-png-2069.png', height: 47),
+            InkWell(
+              onTap: () async {
+                Uri uri = Uri.parse(kYoutubeUrl);
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(
+                    uri,
+                  );
+                } else {
+                  throw 'Could not launch $kYoutubeUrl';
+                }
+              },
+              child: Image.asset('assets/images/youtube-logo-png-2069.png',
+                  height: 47),
+            ),
           ],
         ),
         leading: IconButton(
