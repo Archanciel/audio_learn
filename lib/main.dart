@@ -1,5 +1,7 @@
 // dart file located in lib
 
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:audio_learn/services/settings_data_service.dart';
@@ -204,7 +206,40 @@ class MyHomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.title),
+        title: Row(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(AppLocalizations.of(context)!.title),
+            Image.asset('assets/images/youtube-logo-png-2069.png', height: 47),
+          ],
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            showMenu(
+              context: context,
+              position: const RelativeRect.fromLTRB(0, 50, 0, 0),
+              items: [
+                const PopupMenuItem<String>(
+                  key: Key('leadingMenuOption1'),
+                  value: 'option1',
+                  child: Text('Option 1'),
+                ),
+                const PopupMenuItem<String>(
+                  key: Key('leadingMenuOption2'),
+                  value: 'option2',
+                  child: Text('Option 2'),
+                ),
+              ],
+              elevation: 8,
+            ).then((value) {
+              if (value != null) {
+                print('Selected: $value');
+                // Handle menu item selection here
+              }
+            });
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -218,7 +253,7 @@ class MyHomePage extends StatelessWidget {
             onSelected: (AppBarPopupMenu value) {
               switch (value) {
                 case AppBarPopupMenu.en:
-                  Locale newLocale = Locale('en');
+                  Locale newLocale = const Locale('en');
                   AppLocalizations.delegate
                       .load(newLocale)
                       .then((localizations) {
@@ -227,7 +262,7 @@ class MyHomePage extends StatelessWidget {
                   });
                   break;
                 case AppBarPopupMenu.fr:
-                  Locale newLocale = Locale('fr');
+                  Locale newLocale = const Locale('fr');
                   AppLocalizations.delegate
                       .load(newLocale)
                       .then((localizations) {

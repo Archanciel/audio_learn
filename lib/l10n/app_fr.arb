@@ -1,5 +1,5 @@
 {
-  "title": "Télécharg. Audio Youtube",
+  "title": "Télécharg Audio",
   "@title": {
     "description": "Le titre de la page title affiché dans l'appbar."
   },
@@ -56,5 +56,6 @@
   "fileSizeRange": "Intervalle taille fichier (octets)",
   "start": "Début",
   "end": "Fin",
-  "audioDurationRange": "Intervalle durée audio (hh:mm)"
+  "audioDurationRange": "Intervalle durée audio (hh:mm)",
+  "openYoutubeVideo": "Ouvrir la vidéo Youtube"
 }

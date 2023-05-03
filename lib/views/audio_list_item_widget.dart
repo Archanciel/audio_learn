@@ -1,8 +1,9 @@
 // dart file located in lib\views
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/audio.dart';
 import '../utils/ui_util.dart';
@@ -22,11 +23,60 @@ class AudioListItemWidget extends StatelessWidget {
     required this.onPausePressedFunction,
   });
 
+  Future<void> _launchURL(String url) async {
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(
+        uri,
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String subTitleStr = buildSubTitle(context);
+
     return ListTile(
-      leading: const Icon(Icons.music_note),
+      leading: IconButton(
+        icon: const Icon(Icons.menu),
+        onPressed: () {
+          final RenderBox listTileBox = context.findRenderObject() as RenderBox;
+          final Offset listTilePosition =
+              listTileBox.localToGlobal(Offset.zero);
+
+          showMenu(
+            context: context,
+            position: RelativeRect.fromLTRB(
+              listTilePosition.dx - listTileBox.size.width,
+              listTilePosition.dy,
+              0,
+              0,
+            ),
+            items: [
+              PopupMenuItem<String>(
+                key: Key('leadingMenuOption1'),
+                value: 'openYoutube',
+                child: Text(AppLocalizations.of(context)!.openYoutubeVideo),
+              ),
+            ],
+            elevation: 8,
+          ).then((value) {
+            if (value != null) {
+              switch (value) {
+                case 'openYoutube':
+                  _launchURL(audio.videoUrl);
+                  break;
+                case 'option2':
+                  break;
+                default:
+                  break;
+              }
+            }
+          });
+        },
+      ),
       title: Text(audio.originalVideoTitle),
       subtitle: Text(subTitleStr),
       trailing: _buildPlayButton(),
@@ -48,7 +98,8 @@ class AudioListItemWidget extends StatelessWidget {
     if (audioDownloadSpeed.isInfinite) {
       audioDownloadSpeedStr = 'infinite o/sec';
     } else {
-      audioDownloadSpeedStr = '${UiUtil.formatLargeIntValue(audioDownloadSpeed)}/sec';
+      audioDownloadSpeedStr =
+          '${UiUtil.formatLargeIntValue(audioDownloadSpeed)}/sec';
     }
 
     if (audioDuration == null) {

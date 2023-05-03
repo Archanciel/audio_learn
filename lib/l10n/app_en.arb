@@ -1,5 +1,5 @@
 {
-  "title": "Youtube Audio Download",
+  "title": "Download Audio",
   "@title": {
     "description": "The page title displayed in the appbar."
   },
@@ -56,5 +56,6 @@
   "fileSizeRange": "File Size Range (bytes)",
   "start": "Start",
   "end": "End",
-  "audioDurationRange": "Audio duration range (hh:mm)"
+  "audioDurationRange": "Audio duration range (hh:mm)",
+  "openYoutubeVideo": "Open Youtube video"
 }
