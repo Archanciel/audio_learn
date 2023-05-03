@@ -251,6 +251,7 @@ class _ExpandablePlaylistListViewState
                   key: const Key('move_up_button'),
                   onPressed: Provider.of<ExpandablePlaylistListVM>(context)
                           .isButton2Enabled
+                          .isButtonMoveUpPlaylistEnabled
                       ? () {
                           Provider.of<ExpandablePlaylistListVM>(context,
                                   listen: false)
@@ -266,9 +267,9 @@ class _ExpandablePlaylistListViewState
               ),
               Expanded(
                 child: IconButton(
-                  key: const Key('move_down_button'),
+                  key: const Key('move_down_playlist_button'),
                   onPressed: Provider.of<ExpandablePlaylistListVM>(context)
-                          .isButton3Enabled
+                          .isButtonDownPlaylistEnabled
                       ? () {
                           Provider.of<ExpandablePlaylistListVM>(context,
                                   listen: false)
@@ -294,7 +295,7 @@ class _ExpandablePlaylistListViewState
                     ),
                   ),
                   onPressed: (Provider.of<ExpandablePlaylistListVM>(context)
-                              .isButton1Enabled &&
+                              .isButtonDownloadSelPlaylistsEnabled &&
                           !Provider.of<AudioDownloadVM>(context).isDownloading)
                       ? () {
                           List<Playlist> selectedPlaylists =
@@ -328,7 +329,7 @@ class _ExpandablePlaylistListViewState
                   ),
                   value: audioDownloadViewModel.isHighQuality,
                   onChanged: (Provider.of<ExpandablePlaylistListVM>(context)
-                              .isButton2Enabled &&
+                              .isButtonMoveUpPlaylistEnabled &&
                           !Provider.of<AudioDownloadVM>(context).isDownloading)
                       ? (bool? value) {
                           audioDownloadViewModel.setAudioQuality(
@@ -339,9 +340,9 @@ class _ExpandablePlaylistListViewState
               ),
               // Text(AppLocalizations.of(context)!.audioQuality),
               PopupMenuButton<PlaylistPopupMenuButton>(
+                key: const Key('audio_popup_menu_button'),
                 enabled: (Provider.of<ExpandablePlaylistListVM>(context)
-                        .isButton1Enabled &&
-                    !Provider.of<AudioDownloadVM>(context).isDownloading),
+                        .isButtonAudioPopupMenuEnabled),
                 onSelected: (PlaylistPopupMenuButton value) {
                   // Handle menu item selection
                   switch (value) {
@@ -374,6 +375,7 @@ class _ExpandablePlaylistListViewState
                 itemBuilder: (BuildContext context) {
                   return [
                     PopupMenuItem<PlaylistPopupMenuButton>(
+                      key: const Key('sort_and_filter_audio_dialog_item'),
                       value: PlaylistPopupMenuButton.sortFilterAudios,
                       child:
                           Text(AppLocalizations.of(context)!.sortFilterAudios),

@@ -7,14 +7,17 @@ import 'audio_download_vm.dart';
 /// List view model used in ExpandableListView
 class ExpandablePlaylistListVM extends ChangeNotifier {
   bool _isListExpanded = false;
-  bool _isButton1Enabled = false;
-  bool _isButton2Enabled = false;
-  bool _isButton3Enabled = false;
+  bool _isButtonDownloadSelPlaylistsEnabled = false;
+  bool _isButtonMoveUpPlaylistEnabled = false;
+  bool _isButtonDownPlaylistEnabled = false;
+  bool _isButtonAudioPopupMenuEnabled = false;
 
   bool get isListExpanded => _isListExpanded;
-  bool get isButton1Enabled => _isButton1Enabled;
-  bool get isButton2Enabled => _isButton2Enabled;
-  bool get isButton3Enabled => _isButton3Enabled;
+  bool get isButtonDownloadSelPlaylistsEnabled =>
+      _isButtonDownloadSelPlaylistsEnabled;
+  bool get isButtonMoveUpPlaylistEnabled => _isButtonMoveUpPlaylistEnabled;
+  bool get isButtonDownPlaylistEnabled => _isButtonDownPlaylistEnabled;
+  bool get isButtonAudioPopupMenuEnabled => _isButtonAudioPopupMenuEnabled;
 
   final AudioDownloadVM _audioDownloadVM;
   bool _isPlaylistSelected = true;
@@ -29,10 +32,10 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
     if (_getSelectedIndex() != -1) {
       _isPlaylistSelected = true;
-      _enableButtons();
+      _enableAllButtonsIfAtLeastOnePlaylistIsSelected();
     } else {
       _isPlaylistSelected = false;
-      _disableButtons();
+      _disableAllButtonsIfNoPlaylistIsSelected();
     }
 
     return _selectablePlaylistLst;
@@ -57,12 +60,12 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     _isListExpanded = !_isListExpanded;
 
     if (!_isListExpanded) {
-      _disableButtons();
+      _disableEpandedListButtons();
     } else {
       if (_getSelectedIndex() != -1) {
-        _enableButtons();
+        _enableAllButtonsIfAtLeastOnePlaylistIsSelected();
       } else {
-        _disableButtons();
+        _disableAllButtonsIfNoPlaylistIsSelected();
       }
     }
 
@@ -74,7 +77,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     required bool isPlaylistSelected,
   }) {
     _sortedFilteredSelectedPlaylistsPlayableAudios = null;
-    
+
     _audioDownloadVM.updatePlaylistSelection(
       playlistId: _selectablePlaylistLst[playlistIndex].id,
       isPlaylistSelected: isPlaylistSelected,
@@ -86,9 +89,9 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     );
 
     if (!isOneItemSelected) {
-      _disableButtons();
+      _disableAllButtonsIfNoPlaylistIsSelected();
     } else {
-      _enableButtons();
+      _enableAllButtonsIfAtLeastOnePlaylistIsSelected();
     }
 
     notifyListeners();
@@ -99,7 +102,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
     if (selectedIndex != -1) {
       deleteItem(selectedIndex);
-      _disableButtons();
+      _disableAllButtonsIfNoPlaylistIsSelected();
 
       notifyListeners();
     }
@@ -168,16 +171,22 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     return -1;
   }
 
-  void _enableButtons() {
-    _isButton1Enabled = true;
-    _isButton2Enabled = true;
-    _isButton3Enabled = true;
+  void _enableAllButtonsIfAtLeastOnePlaylistIsSelected() {
+    _isButtonDownloadSelPlaylistsEnabled = true;
+    _isButtonMoveUpPlaylistEnabled = true;
+    _isButtonDownPlaylistEnabled = true;
+    _isButtonAudioPopupMenuEnabled = true;
   }
 
-  void _disableButtons() {
-    _isButton1Enabled = false;
-    _isButton2Enabled = false;
-    _isButton3Enabled = false;
+  void _disableAllButtonsIfNoPlaylistIsSelected() {
+    _disableEpandedListButtons();
+    _isButtonAudioPopupMenuEnabled = false;
+  }
+
+  void _disableEpandedListButtons() {
+    _isButtonDownloadSelPlaylistsEnabled = false;
+    _isButtonMoveUpPlaylistEnabled = false;
+    _isButtonDownPlaylistEnabled = false;
   }
 
   bool _doSelectUniquePlaylist({
