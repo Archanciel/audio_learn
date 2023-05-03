@@ -228,7 +228,7 @@ class _ExpandablePlaylistListViewState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               SizedBox(
-                width: 87,
+                width: 75,
                 child: ElevatedButton(
                   key: const Key('toggle_button'),
                   style: ButtonStyle(
@@ -315,77 +315,82 @@ class _ExpandablePlaylistListViewState
               ),
               Tooltip(
                 message: AppLocalizations.of(context)!.audioQuality,
-                child: Checkbox(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: VisualDensity.compact,
-                  fillColor: MaterialStateColor.resolveWith(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.disabled)) {
-                        return Colors.grey.shade800;
-                      }
-                      return kIconColor;
-                    },
-                  ),
-                  value: audioDownloadViewModel.isHighQuality,
-                  onChanged: (Provider.of<ExpandablePlaylistListVM>(context)
-                              .isButtonMoveUpPlaylistEnabled &&
-                          !Provider.of<AudioDownloadVM>(context).isDownloading)
-                      ? (bool? value) {
-                          audioDownloadViewModel.setAudioQuality(
-                              isHighQuality: value ?? false);
+                child: SizedBox(
+                  width: 20,
+                  child: Checkbox(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    visualDensity: VisualDensity.compact,
+                    fillColor: MaterialStateColor.resolveWith(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.disabled)) {
+                          return Colors.grey.shade800;
                         }
-                      : null,
+                        return kIconColor;
+                      },
+                    ),
+                    value: audioDownloadViewModel.isHighQuality,
+                    onChanged: (Provider.of<ExpandablePlaylistListVM>(context)
+                                .isButtonMoveUpPlaylistEnabled &&
+                            !Provider.of<AudioDownloadVM>(context).isDownloading)
+                        ? (bool? value) {
+                            audioDownloadViewModel.setAudioQuality(
+                                isHighQuality: value ?? false);
+                          }
+                        : null,
+                  ),
                 ),
               ),
-              // Text(AppLocalizations.of(context)!.audioQuality),
-              PopupMenuButton<PlaylistPopupMenuButton>(
-                key: const Key('audio_popup_menu_button'),
-                enabled: (Provider.of<ExpandablePlaylistListVM>(context)
-                        .isButtonAudioPopupMenuEnabled),
-                onSelected: (PlaylistPopupMenuButton value) {
-                  // Handle menu item selection
-                  switch (value) {
-                    case PlaylistPopupMenuButton.sortFilterAudios:
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SortAndFilterAudioDialog(
-                            selectedPlaylistAudioLst:
-                                Provider.of<ExpandablePlaylistListVM>(context)
-                                    .getSelectedPlaylistsPlayableAudios(),
-                          );
-                        },
-                      ).then((result) {
-                        if (result != null) {
-                          List<Audio> returnedAudioList = result;
-                          Provider.of<ExpandablePlaylistListVM>(context,
-                                  listen: false)
-                              .setSortedFilteredSelectedPlaylistsPlayableAudios(
-                                  returnedAudioList);
-                        }
-                      });
-                      break;
-                    case PlaylistPopupMenuButton.other:
-                      break;
-                    default:
-                  }
-                },
-                icon: const Icon(Icons.filter_list),
-                itemBuilder: (BuildContext context) {
-                  return [
-                    PopupMenuItem<PlaylistPopupMenuButton>(
-                      key: const Key('sort_and_filter_audio_dialog_item'),
-                      value: PlaylistPopupMenuButton.sortFilterAudios,
-                      child:
-                          Text(AppLocalizations.of(context)!.sortFilterAudios),
-                    ),
-                    const PopupMenuItem<PlaylistPopupMenuButton>(
-                      value: PlaylistPopupMenuButton.other,
-                      child: Text('Option 2'),
-                    ),
-                    // Add more PopupMenuItems as needed
-                  ];
-                },
+              SizedBox(
+                width: 35,
+                child: PopupMenuButton<PlaylistPopupMenuButton>(
+                  key: const Key('audio_popup_menu_button'),
+                  enabled: (Provider.of<ExpandablePlaylistListVM>(context)
+                          .isButtonAudioPopupMenuEnabled),
+                  onSelected: (PlaylistPopupMenuButton value) {
+                    // Handle menu item selection
+                    switch (value) {
+                      case PlaylistPopupMenuButton.sortFilterAudios:
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SortAndFilterAudioDialog(
+                              selectedPlaylistAudioLst:
+                                  Provider.of<ExpandablePlaylistListVM>(context)
+                                      .getSelectedPlaylistsPlayableAudios(),
+                            );
+                          },
+                        ).then((result) {
+                          if (result != null) {
+                            List<Audio> returnedAudioList = result;
+                            Provider.of<ExpandablePlaylistListVM>(context,
+                                    listen: false)
+                                .setSortedFilteredSelectedPlaylistsPlayableAudios(
+                                    returnedAudioList);
+                          }
+                        });
+                        break;
+                      case PlaylistPopupMenuButton.other:
+                        break;
+                      default:
+                    }
+                  },
+                  icon: const Icon(Icons.filter_list),
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PopupMenuItem<PlaylistPopupMenuButton>(
+                        key: const Key('sort_and_filter_audio_dialog_item'),
+                        value: PlaylistPopupMenuButton.sortFilterAudios,
+                        child:
+                            Text(AppLocalizations.of(context)!.sortFilterAudios),
+                      ),
+                      const PopupMenuItem<PlaylistPopupMenuButton>(
+                        value: PlaylistPopupMenuButton.other,
+                        child: Text('Option 2'),
+                      ),
+                      // Add more PopupMenuItems as needed
+                    ];
+                  },
+                ),
               ),
             ],
           ),
