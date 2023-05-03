@@ -78,7 +78,7 @@ class AudioListItemWidget extends StatelessWidget {
           });
         },
       ),
-      title: Text(audio.originalVideoTitle),
+      title: Text(audio.validVideoTitle),
       subtitle: Text(subTitleStr),
       trailing: _buildPlayButton(),
     );

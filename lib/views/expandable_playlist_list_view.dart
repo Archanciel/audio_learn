@@ -206,7 +206,7 @@ class _ExpandablePlaylistListViewState
                     children: [
                       Text(
                         audioDownloadVM
-                            .currentDownloadingAudio.originalVideoTitle,
+                            .currentDownloadingAudio.validVideoTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10.0),
