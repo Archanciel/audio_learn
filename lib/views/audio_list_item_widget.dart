@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../models/audio.dart';
 import '../utils/ui_util.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../utils/time_util.dart';
+import 'screen_mixin.dart';
 
-class AudioListItemWidget extends StatelessWidget {
+class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
   final void Function(Audio audio) onPlayPressedFunction;
   final void Function(Audio audio) onStopPressedFunction;
@@ -23,17 +23,6 @@ class AudioListItemWidget extends StatelessWidget {
     required this.onStopPressedFunction,
     required this.onPausePressedFunction,
   });
-
-  Future<void> _launchURL(String url) async {
-    Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(
-        uri,
-      );
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +46,8 @@ class AudioListItemWidget extends StatelessWidget {
             ),
             items: [
               PopupMenuItem<String>(
-                key: Key('leadingMenuOption1'),
-                value: 'openYoutube',
+                key: Key('popup_menu_open_youtube_video'),
+                value: 'openYoutubeVideo',
                 child: Text(AppLocalizations.of(context)!.openYoutubeVideo),
               ),
             ],
@@ -66,8 +55,8 @@ class AudioListItemWidget extends StatelessWidget {
           ).then((value) {
             if (value != null) {
               switch (value) {
-                case 'openYoutube':
-                  _launchURL(audio.videoUrl);
+                case 'openYoutubeVideo':
+                  openUrlInExternalApp(url: audio.videoUrl);
                   break;
                 case 'option2':
                   break;

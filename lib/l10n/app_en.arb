@@ -57,5 +57,6 @@
   "start": "Start",
   "end": "End",
   "audioDurationRange": "Audio duration range (hh:mm)",
-  "openYoutubeVideo": "Open Youtube video"
+  "openYoutubeVideo": "Open Youtube video",
+  "openYoutubePlaylist": "Open Youtube playlist"
 }

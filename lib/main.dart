@@ -13,11 +13,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'viewmodels/audio_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
 import 'views/expandable_playlist_list_view.dart';
+import 'views/screen_mixin.dart';
 
 enum AppBarPopupMenu { en, fr, about }
 
@@ -198,7 +198,7 @@ class MainApp extends StatelessWidget {
 ///
 /// To fix this issue, you can wrap your Scaffold in a new widget,
 /// like MyHomePage, which will have access to the correct context.
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatelessWidget with ScreenMixin {
   const MyHomePage({super.key});
 
   @override
@@ -212,15 +212,11 @@ class MyHomePage extends StatelessWidget {
           children: [
             Text(AppLocalizations.of(context)!.title),
             InkWell(
+              key: Key('image_open_youtube'),
               onTap: () async {
-                Uri uri = Uri.parse(kYoutubeUrl);
-                if (await canLaunchUrl(uri)) {
-                  await launchUrl(
-                    uri,
-                  );
-                } else {
-                  throw 'Could not launch $kYoutubeUrl';
-                }
+                await openUrlInExternalApp(
+                  url: kYoutubeUrl,
+                );
               },
               child: Image.asset('assets/images/youtube-logo-png-2069.png',
                   height: 47),
@@ -303,28 +299,6 @@ class MyHomePage extends StatelessWidget {
                 default:
                   break;
               }
-              // if (value == 'en' || value == 'fr') {
-              //   Locale newLocale = Locale(value);
-              //   AppLocalizations.delegate.load(newLocale).then((localizations) {
-              //     Provider.of<LanguageProvider>(context, listen: false)
-              //         .changeLocale(newLocale);
-              //   });
-              // } else if (value == 'about') {
-              //   showAboutDialog(
-              //     context: context,
-              //     applicationName: kApplicationName,
-              //     applicationVersion: kApplicationVersion,
-              //     // applicationIcon: Image.asset('assets/images/Audio_Lesson-512.png'),
-              //     children: <Widget>[
-              //       const Text('Author:'),
-              //       const Text('Jean-Pierre Schnyder / Switzerland'),
-              //       const Padding(
-              //         padding: EdgeInsets.only(top: 10),
-              //         child: Text('Some description about your app'),
-              //       ),
-              //     ],
-              //   );
-              // }
             },
             itemBuilder: (BuildContext context) {
               return [

@@ -14,6 +14,7 @@ import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/expandable_playlist_list_vm.dart';
 import 'audio_list_item_widget.dart';
+import 'screen_mixin.dart';
 import 'sort_and_filter_audio_dialog.dart';
 
 enum PlaylistPopupMenuButton { sortFilterAudios, other }
@@ -28,8 +29,8 @@ class ExpandablePlaylistListView extends StatefulWidget {
       _ExpandablePlaylistListViewState();
 }
 
-class _ExpandablePlaylistListViewState
-    extends State<ExpandablePlaylistListView> {
+class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
+    with ScreenMixin {
   final TextEditingController _playlistUrlController = TextEditingController();
 
   final AudioPlayerVM _audioPlayerViwModel = AudioPlayerVM();
@@ -205,8 +206,7 @@ class _ExpandablePlaylistListViewState
                   child: Column(
                     children: [
                       Text(
-                        audioDownloadVM
-                            .currentDownloadingAudio.validVideoTitle,
+                        audioDownloadVM.currentDownloadingAudio.validVideoTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10.0),
@@ -331,7 +331,8 @@ class _ExpandablePlaylistListViewState
                     value: audioDownloadViewModel.isHighQuality,
                     onChanged: (Provider.of<ExpandablePlaylistListVM>(context)
                                 .isButtonMoveUpPlaylistEnabled &&
-                            !Provider.of<AudioDownloadVM>(context).isDownloading)
+                            !Provider.of<AudioDownloadVM>(context)
+                                .isDownloading)
                         ? (bool? value) {
                             audioDownloadViewModel.setAudioQuality(
                                 isHighQuality: value ?? false);
@@ -345,7 +346,7 @@ class _ExpandablePlaylistListViewState
                 child: PopupMenuButton<PlaylistPopupMenuButton>(
                   key: const Key('audio_popup_menu_button'),
                   enabled: (Provider.of<ExpandablePlaylistListVM>(context)
-                          .isButtonAudioPopupMenuEnabled),
+                      .isButtonAudioPopupMenuEnabled),
                   onSelected: (PlaylistPopupMenuButton value) {
                     // Handle menu item selection
                     switch (value) {
@@ -380,8 +381,8 @@ class _ExpandablePlaylistListViewState
                       PopupMenuItem<PlaylistPopupMenuButton>(
                         key: const Key('sort_and_filter_audio_dialog_item'),
                         value: PlaylistPopupMenuButton.sortFilterAudios,
-                        child:
-                            Text(AppLocalizations.of(context)!.sortFilterAudios),
+                        child: Text(
+                            AppLocalizations.of(context)!.sortFilterAudios),
                       ),
                       const PopupMenuItem<PlaylistPopupMenuButton>(
                         value: PlaylistPopupMenuButton.other,
@@ -404,17 +405,61 @@ class _ExpandablePlaylistListViewState
                     itemCount: upToDateSelectablePlaylists.length,
                     itemBuilder: (context, index) {
                       Playlist item = upToDateSelectablePlaylists[index];
-                      return ListTile(
-                        title: Text(item.title),
-                        trailing: Checkbox(
-                          value: item.isSelected,
-                          onChanged: (value) {
-                            expandablePlaylistListVM.setPlaylistSelection(
-                              playlistIndex: index,
-                              isPlaylistSelected: value!,
-                            );
-                          },
-                        ),
+                      return Builder(
+                        builder: (listTileContext) {
+                          return ListTile(
+                            leading: IconButton(
+                              icon: const Icon(Icons.menu),
+                              onPressed: () {
+                                final RenderBox listTileBox = listTileContext
+                                    .findRenderObject() as RenderBox;
+                                final Offset listTilePosition =
+                                    listTileBox.localToGlobal(Offset.zero);
+                                showMenu(
+                                  context: context,
+                                  position: RelativeRect.fromLTRB(
+                                    listTilePosition.dx -
+                                        listTileBox.size.width,
+                                    listTilePosition.dy,
+                                    0,
+                                    0,
+                                  ),
+                                  items: [
+                                    PopupMenuItem<String>(
+                                      key: Key('popup_menu_open_youtube_playlist'),
+                                      value: 'openYoutubePlaylist',
+                                      child: Text(AppLocalizations.of(context)!
+                                          .openYoutubePlaylist),
+                                    ),
+                                  ],
+                                  elevation: 8,
+                                ).then((value) {
+                                  if (value != null) {
+                                    switch (value) {
+                                      case 'openYoutubePlaylist':
+                                        openUrlInExternalApp(url: item.url);
+                                        break;
+                                      case 'option2':
+                                        break;
+                                      default:
+                                        break;
+                                    }
+                                  }
+                                });
+                              },
+                            ),
+                            title: Text(item.title),
+                            trailing: Checkbox(
+                              value: item.isSelected,
+                              onChanged: (value) {
+                                expandablePlaylistListVM.setPlaylistSelection(
+                                  playlistIndex: index,
+                                  isPlaylistSelected: value!,
+                                );
+                              },
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
