@@ -137,8 +137,8 @@ class AudioDownloadVM extends ChangeNotifier {
     String playlistDownloadFilePathName =
         currentPlaylist.getPlaylistDownloadFilePathName();
 
-    final List<String> downloadedAudioValidVideoTitleLst =
-        await _getPlaylistDownloadedAudioValidVideoTitleLst(
+    final List<String> downloadedAudioOriginalVideoTitleLst =
+        await _getPlaylistDownloadedAudioOriginalVideoTitleLst(
             currentPlaylist: currentPlaylist);
 
     await for (yt.Video youtubeVideo
@@ -161,7 +161,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
       audio.audioPlayer = AudioPlayer();
 
-      final bool alreadyDownloaded = downloadedAudioValidVideoTitleLst.any(
+      final bool alreadyDownloaded = downloadedAudioOriginalVideoTitleLst.any(
           (validVideoTitle) => validVideoTitle.contains(audio.validVideoTitle));
 
       if (alreadyDownloaded) {
@@ -405,17 +405,17 @@ class AudioDownloadVM extends ChangeNotifier {
 
   /// Returns an empty list if the passed playlist was created or
   /// recreated.
-  Future<List<String>> _getPlaylistDownloadedAudioValidVideoTitleLst({
+  Future<List<String>> _getPlaylistDownloadedAudioOriginalVideoTitleLst({
     required Playlist currentPlaylist,
   }) async {
     List<Audio> playlistDownloadedAudioLst = currentPlaylist.downloadedAudioLst;
-    List<String> validAudioVideoTitleLst = [];
+    List<String> originalAudioVideoTitleLst = [];
 
     for (Audio downloadedAudio in playlistDownloadedAudioLst) {
-      validAudioVideoTitleLst.add(downloadedAudio.validVideoTitle);
+      originalAudioVideoTitleLst.add(downloadedAudio.originalVideoTitle);
     }
 
-    return validAudioVideoTitleLst;
+    return originalAudioVideoTitleLst;
   }
 
   Future<void> _downloadAudioFile({
