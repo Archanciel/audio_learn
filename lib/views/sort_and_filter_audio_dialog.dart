@@ -435,13 +435,13 @@ class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
               );
               Navigator.of(context).pop(sortedAudioLstBySortingOption);
             },
-            child: const Text('Apply'),
+            child: Text(AppLocalizations.of(context)!.apply),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
         ],
       ),
