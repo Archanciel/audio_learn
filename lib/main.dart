@@ -168,6 +168,9 @@ class MainApp extends StatelessWidget {
                             kIconColor, // Set Checkbox check color
                           ),
                         ),
+                    listTileTheme: ThemeData.light().listTileTheme.copyWith(
+                          iconColor: kIconColor, // Set icon color in light mode
+                        ),
                     // Add any other customizations for light mode
                   ),
             home: const MyHomePage(),
