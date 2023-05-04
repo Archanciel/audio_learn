@@ -384,10 +384,6 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         child: Text(
                             AppLocalizations.of(context)!.sortFilterAudios),
                       ),
-                      const PopupMenuItem<PlaylistPopupMenuButton>(
-                        value: PlaylistPopupMenuButton.other,
-                        child: Text('Option 2'),
-                      ),
                       // Add more PopupMenuItems as needed
                     ];
                   },
@@ -404,7 +400,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                   child: ListView.builder(
                     itemCount: upToDateSelectablePlaylists.length,
                     itemBuilder: (context, index) {
-                      Playlist item = upToDateSelectablePlaylists[index];
+                      Playlist playlist = upToDateSelectablePlaylists[index];
                       return Builder(
                         builder: (listTileContext) {
                           return ListTile(
@@ -437,7 +433,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                   if (value != null) {
                                     switch (value) {
                                       case 'openYoutubePlaylist':
-                                        openUrlInExternalApp(url: item.url);
+                                        openUrlInExternalApp(url: playlist.url);
                                         break;
                                       case 'option2':
                                         break;
@@ -448,9 +444,9 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                 });
                               },
                             ),
-                            title: Text(item.title),
+                            title: Text(playlist.title),
                             trailing: Checkbox(
-                              value: item.isSelected,
+                              value: playlist.isSelected,
                               onChanged: (value) {
                                 expandablePlaylistListVM.setPlaylistSelection(
                                   playlistIndex: index,
