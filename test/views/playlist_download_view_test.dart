@@ -133,6 +133,16 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   void updatePlaylistSelection({required String playlistId, required bool isPlaylistSelected}) {
     // TODO: implement updatePlaylistSelection
   }
+  
+  @override
+  void deleteAudio({required Audio audio}) {
+    // TODO: implement deleteAudio
+  }
+  
+  @override
+  void deleteAudioFromPlaylistAswell({required Audio audio}) {
+    // TODO: implement deleteAudioFromPlaylistAswell
+  }
 }
 
 void main() {

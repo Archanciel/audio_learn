@@ -207,7 +207,6 @@ class AudioDownloadVM extends ChangeNotifier {
       audio.downloadDuration = stopwatch.elapsed;
 
       currentPlaylist.addDownloadedAudio(audio);
-      currentPlaylist.insertAtStartPlayableAudio(audio);
 
       JsonDataService.saveToFile(
         model: currentPlaylist,
@@ -352,6 +351,35 @@ class AudioDownloadVM extends ChangeNotifier {
     audio.downloadDuration = stopwatch.elapsed;
     _isDownloading = false;
     _youtubeExplode.close();
+
+    notifyListeners();
+  }
+
+  void deleteAudio({
+    required Audio audio,
+  }) {
+    DirUtil.deleteFileIfExist(audio.filePathName);
+
+    audio.enclosingPlaylist!.removePlayableAudio(audio);
+
+    notifyListeners();
+  }
+
+  void deleteAudioFromPlaylistAswell({
+    required Audio audio,
+  }) {
+    DirUtil.deleteFileIfExist(audio.filePathName);
+
+    Playlist? enclosingPlaylist = audio.enclosingPlaylist;
+
+    if (enclosingPlaylist != null) {
+      enclosingPlaylist.removeDownloadedAudio(audio);
+
+      JsonDataService.saveToFile(
+        model: enclosingPlaylist,
+        path: enclosingPlaylist.getPlaylistDownloadFilePathName(),
+      );
+    }
 
     notifyListeners();
   }

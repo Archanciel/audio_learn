@@ -84,13 +84,18 @@ class Playlist {
   void addDownloadedAudio(Audio downloadedAudio) {
     downloadedAudio.enclosingPlaylist = this;
     downloadedAudioLst.add(downloadedAudio);
+    playableAudioLst.insert(0, downloadedAudio);
   }
 
+  /// Removes the downloaded audio from the downloadedAudioLst
+  /// and from the playableAudioLst.
   void removeDownloadedAudio(Audio downloadedAudio) {
     if (downloadedAudio.enclosingPlaylist == this) {
       downloadedAudio.enclosingPlaylist = null;
     }
+
     downloadedAudioLst.remove(downloadedAudio);
+    playableAudioLst.remove(downloadedAudio);
   }
 
   /// Used when uploading the Playlist json file. Since the
@@ -99,13 +104,6 @@ class Playlist {
   void addPlayableAudio(Audio playableAudio) {
     playableAudio.enclosingPlaylist = this;
     playableAudioLst.add(playableAudio);
-  }
-
-  /// Used by DownloadAudioVM to add newly downloaded audio
-  /// at the head of the playable list.
-  void insertAtStartPlayableAudio(Audio playableAudio) {
-    playableAudio.enclosingPlaylist = this;
-    playableAudioLst.insert(0, playableAudio);
   }
 
   void removePlayableAudio(Audio playableAudio) {

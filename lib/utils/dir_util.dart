@@ -62,6 +62,14 @@ class DirUtil {
     }
   }
 
+  static void deleteFileIfExist(String pathFileName) {
+    final File file = File(pathFileName);
+
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
+  }
+
   static Future<void> copyFileToDirectory({
     required String sourceFilePathName,
     required String targetDirectoryPath,

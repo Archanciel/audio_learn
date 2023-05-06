@@ -60,5 +60,9 @@
   "openYoutubeVideo": "Open Youtube video",
   "openYoutubePlaylist": "Open Youtube playlist",
   "apply": "Apply",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "deleteAudio": "Delete audio",
+  "deleteAudioFromPlaylistAswell": "Delete audio from playlist as well",
+  "deleteAudioFromPlaylistAswellWarning": "If the deleted audio video remains in the Youtube playlist, it will be downloaded again the next time you download the playlist.",
+  "warning": "WARNING"
 }

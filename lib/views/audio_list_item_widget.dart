@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/audio.dart';
 import '../utils/ui_util.dart';
+import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../utils/time_util.dart';
 import 'screen_mixin.dart';
@@ -46,9 +47,20 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
             ),
             items: [
               PopupMenuItem<String>(
-                key: Key('popup_menu_open_youtube_video'),
+                key: const Key('popup_menu_open_youtube_video'),
                 value: 'openYoutubeVideo',
                 child: Text(AppLocalizations.of(context)!.openYoutubeVideo),
+              ),
+              PopupMenuItem<String>(
+                key: const Key('popup_menu_delete_audio'),
+                value: 'deleteAudio',
+                child: Text(AppLocalizations.of(context)!.deleteAudio),
+              ),
+              PopupMenuItem<String>(
+                key: const Key('popup_menu_delete_audio_from_playlist_aswell'),
+                value: 'deleteAudioFromPlaylistAswell',
+                child: Text(AppLocalizations.of(context)!
+                    .deleteAudioFromPlaylistAswell),
               ),
             ],
             elevation: 8,
@@ -58,7 +70,18 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                 case 'openYoutubeVideo':
                   openUrlInExternalApp(url: audio.videoUrl);
                   break;
-                case 'option2':
+                case 'deleteAudio':
+                  Provider.of<AudioDownloadVM>(context, listen: false)
+                      .deleteAudio(audio: audio);
+                  break;
+                case 'deleteAudioFromPlaylistAswell':
+                  Provider.of<AudioDownloadVM>(context, listen: false)
+                      .deleteAudioFromPlaylistAswell(audio: audio);
+                  displayWarningDialog(
+                    context,
+                    AppLocalizations.of(context)!
+                        .deleteAudioFromPlaylistAswellWarning,
+                  );
                   break;
                 default:
                   break;

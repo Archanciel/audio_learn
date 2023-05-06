@@ -5,6 +5,60 @@ import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/models/audio.dart';
 
 void main() {
+
+  group('Testing Playlist add and remove methods', () {
+    test('add audio to playlist', () {
+      Playlist playlist = Playlist(url: 'https://example.com/playlist2');
+
+      addDownloadedAudios(playlist);
+
+      expect(playlist.downloadedAudioLst.length, 3);
+      expect(playlist.downloadedAudioLst[0].originalVideoTitle, 'C');
+      expect(playlist.downloadedAudioLst[1].originalVideoTitle, 'A');
+      expect(playlist.downloadedAudioLst[2].originalVideoTitle, 'B');
+
+      expect(playlist.playableAudioLst.length, 3);
+      expect(playlist.playableAudioLst[0].originalVideoTitle, 'B');
+      expect(playlist.playableAudioLst[1].originalVideoTitle, 'A');
+      expect(playlist.playableAudioLst[2].originalVideoTitle, 'C');
+    });
+
+    test('remove audio from downloaded audio list', () {
+      Playlist playlist = Playlist(url: 'https://example.com/playlist2');
+
+      addDownloadedAudios(playlist);
+
+      expect(playlist.playableAudioLst.length, 3);
+
+      playlist.removeDownloadedAudio(playlist.playableAudioLst[1]); 
+
+      expect(playlist.downloadedAudioLst.length, 2);
+      expect(playlist.downloadedAudioLst[0].originalVideoTitle, 'C');
+      expect(playlist.downloadedAudioLst[1].originalVideoTitle, 'B');
+
+      expect(playlist.playableAudioLst.length, 2);
+      expect(playlist.playableAudioLst[0].originalVideoTitle, 'B');
+      expect(playlist.playableAudioLst[1].originalVideoTitle, 'C');
+    });
+
+    test('remove audio from playalable audio list', () {
+      Playlist playlist = Playlist(url: 'https://example.com/playlist2');
+
+      addDownloadedAudios(playlist);
+
+      expect(playlist.playableAudioLst.length, 3);
+      expect(playlist.downloadedAudioLst[0].originalVideoTitle, 'C');
+      expect(playlist.downloadedAudioLst[1].originalVideoTitle, 'A');
+      expect(playlist.downloadedAudioLst[2].originalVideoTitle, 'B');
+
+      playlist.removePlayableAudio(playlist.playableAudioLst[1]); 
+
+      expect(playlist.downloadedAudioLst.length, 3);
+      expect(playlist.playableAudioLst.length, 2);
+      expect(playlist.playableAudioLst[0].originalVideoTitle, 'B');
+      expect(playlist.playableAudioLst[1].originalVideoTitle, 'C');
+    });
+  });
   group('Testing Playlist sorting methods', () {
     test('sortDownloadedAudioLst on validVideoTitle ascending', () {
       Playlist playlist = Playlist(url: 'https://example.com/playlist1');
@@ -69,7 +123,7 @@ void main() {
     test('sortPlayableAudioLst on validVideoTitle ascending', () {
       Playlist playlist = Playlist(url: 'https://example.com/playlist2');
 
-      addPlayableAudios(playlist);
+      addDownloadedAudios(playlist);
 
       playlist.sortPlayableAudioLst(
         audioSortCriteriomn: AudioSortCriterion.validVideoTitle,
@@ -84,7 +138,7 @@ void main() {
     test('sortPlayableAudioLst on validVideoTitle descending', () {
       Playlist playlist = Playlist(url: 'https://example.com/playlist2');
 
-      addPlayableAudios(playlist);
+      addDownloadedAudios(playlist);
 
       playlist.sortPlayableAudioLst(
         audioSortCriteriomn: AudioSortCriterion.validVideoTitle,
@@ -99,7 +153,7 @@ void main() {
     test('sortPlayableAudioLst on audioDownloadDateTime ascending', () {
       Playlist playlist = Playlist(url: 'https://example.com/playlist2');
 
-      addPlayableAudios(playlist);
+      addDownloadedAudios(playlist);
 
       playlist.sortPlayableAudioLst(
         audioSortCriteriomn: AudioSortCriterion.audioDownloadDateTime,
@@ -114,7 +168,7 @@ void main() {
     test('sortPlayableAudioLst on audioDownloadDateTime descending', () {
       Playlist playlist = Playlist(url: 'https://example.com/playlist2');
 
-      addPlayableAudios(playlist);
+      addDownloadedAudios(playlist);
 
       playlist.sortPlayableAudioLst(
         audioSortCriteriomn: AudioSortCriterion.audioDownloadDateTime,
@@ -126,27 +180,6 @@ void main() {
       expect(playlist.playableAudioLst[2].originalVideoTitle, 'B');
     });
   });
-}
-
-void addPlayableAudios(Playlist playlist) {
-  playlist.insertAtStartPlayableAudio(Audio(
-      enclosingPlaylist: playlist,
-      originalVideoTitle: 'C',
-      videoUrl: 'https://example.com/video1',
-      audioDownloadDateTime: DateTime(2023, 3, 17),
-      videoUploadDate: DateTime.now()));
-  playlist.insertAtStartPlayableAudio(Audio(
-      enclosingPlaylist: playlist,
-      originalVideoTitle: 'A',
-      videoUrl: 'https://example.com/video2',
-      audioDownloadDateTime: DateTime(2023, 3, 20),
-      videoUploadDate: DateTime.now()));
-  playlist.insertAtStartPlayableAudio(Audio(
-      enclosingPlaylist: playlist,
-      originalVideoTitle: 'B',
-      videoUrl: 'https://example.com/video3',
-      audioDownloadDateTime: DateTime(2023, 3, 14),
-      videoUploadDate: DateTime.now()));
 }
 
 void addDownloadedAudios(Playlist playlist) {
