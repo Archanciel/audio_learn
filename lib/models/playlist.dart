@@ -56,13 +56,6 @@ class Playlist {
       }
     }
 
-    if (json['playableAudioLst'] != null) {
-      for (var audioJson in json['playableAudioLst']) {
-        Audio audio = Audio.fromJson(audioJson);
-        playlist.addPlayableAudio(audio);
-      }
-    }
-
     return playlist;
   }
 
@@ -81,6 +74,8 @@ class Playlist {
     };
   }
 
+  /// Adds the downloaded audio to the downloadedAudioLst and to
+  /// the playableAudioLst.
   void addDownloadedAudio(Audio downloadedAudio) {
     downloadedAudio.enclosingPlaylist = this;
     downloadedAudioLst.add(downloadedAudio);

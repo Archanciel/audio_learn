@@ -29,7 +29,7 @@ class AudioDownloadVM extends ChangeNotifier {
   set youtubeExplode(yt.YoutubeExplode youtubeExplode) =>
       _youtubeExplode = youtubeExplode;
 
-  late String _playlistHomePath;
+  late String _playlistsHomePath;
 
   bool _isDownloading = false;
   bool get isDownloading => _isDownloading;
@@ -61,22 +61,20 @@ class AudioDownloadVM extends ChangeNotifier {
   /// the value of the kUniquePlaylistTitle constant is used to
   /// load the playlist json file.
   AudioDownloadVM({String? testPlaylistTitle}) {
-    _playlistHomePath =
+    _playlistsHomePath =
         DirUtil.getPlaylistDownloadHomePath(isTest: testPlaylistTitle != null);
 
-    // Should load all the playlists, not only the audio_learn or to_delete
-    // playlist !
-    _loadExistingPlaylists(testPlaylistTitle: testPlaylistTitle);
+    _loadExistingPlaylists();
   }
 
-  void _loadExistingPlaylists({String? testPlaylistTitle}) async {
-    List<String> playlistPathFileNames =
-        await DirUtil.listPathFileNamesInSubDirs(
-      path: DirUtil.getPlaylistDownloadHomePath(),
+  void _loadExistingPlaylists() {
+    List<String> playlistPathFileNameLst =
+        DirUtil.listPathFileNamesInSubDirs(
+      path: _playlistsHomePath,
       extension: 'json',
     );
 
-    for (String playlistPathFileName in playlistPathFileNames) {
+    for (String playlistPathFileName in playlistPathFileNameLst) {
       dynamic currentPlaylist = JsonDataService.loadFromFile(
           jsonPathFileName: playlistPathFileName, type: Playlist);
       // is null if json file not exist
@@ -98,7 +96,7 @@ class AudioDownloadVM extends ChangeNotifier {
     playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
     youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
 
-    Playlist addedPlaylist = await _addPlaylist(
+    Playlist addedPlaylist = await _addPlaylistIfNotExist(
       playlistUrl: playlistUrl,
       youtubePlaylist: youtubePlaylist,
     );
@@ -128,7 +126,7 @@ class AudioDownloadVM extends ChangeNotifier {
     playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
     youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
 
-    Playlist currentPlaylist = await _addPlaylist(
+    Playlist currentPlaylist = await _addPlaylistIfNotExist(
       playlistUrl: playlistUrl,
       youtubePlaylist: youtubePlaylist,
     );
@@ -138,7 +136,7 @@ class AudioDownloadVM extends ChangeNotifier {
         currentPlaylist.getPlaylistDownloadFilePathName();
 
     final List<String> downloadedAudioOriginalVideoTitleLst =
-        await _getPlaylistDownloadedAudioOriginalVideoTitleLst(
+        await _getPlaylistDownloadedAudioValidVideoTitleLst(
             currentPlaylist: currentPlaylist);
 
     await for (yt.Video youtubeVideo
@@ -253,7 +251,7 @@ class AudioDownloadVM extends ChangeNotifier {
     _stopDownloadPressed = true;
   }
 
-  Future<Playlist> _addPlaylist({
+  Future<Playlist> _addPlaylistIfNotExist({
     required String playlistUrl,
     required yt.Playlist youtubePlaylist,
   }) async {
@@ -421,7 +419,7 @@ class AudioDownloadVM extends ChangeNotifier {
     required Playlist playlist,
   }) async {
     final String playlistDownloadPath =
-        '$_playlistHomePath${Platform.pathSeparator}$playlistTitle';
+        '$_playlistsHomePath${Platform.pathSeparator}$playlistTitle';
 
     // ensure playlist audio download dir exists
     await DirUtil.createDirIfNotExist(pathStr: playlistDownloadPath);
@@ -433,17 +431,17 @@ class AudioDownloadVM extends ChangeNotifier {
 
   /// Returns an empty list if the passed playlist was created or
   /// recreated.
-  Future<List<String>> _getPlaylistDownloadedAudioOriginalVideoTitleLst({
+  Future<List<String>> _getPlaylistDownloadedAudioValidVideoTitleLst({
     required Playlist currentPlaylist,
   }) async {
     List<Audio> playlistDownloadedAudioLst = currentPlaylist.downloadedAudioLst;
-    List<String> originalAudioVideoTitleLst = [];
+    List<String> validAudioVideoTitleLst = [];
 
     for (Audio downloadedAudio in playlistDownloadedAudioLst) {
-      originalAudioVideoTitleLst.add(downloadedAudio.originalVideoTitle);
+      validAudioVideoTitleLst.add(downloadedAudio.validVideoTitle);
     }
 
-    return originalAudioVideoTitleLst;
+    return validAudioVideoTitleLst;
   }
 
   Future<void> _downloadAudioFile({

@@ -77,22 +77,22 @@ class DirUtil {
   }) async {
     File sourceFile = File(sourceFilePathName);
     String copiedFileName = targetFileName ?? sourceFile.uri.pathSegments.last;
-    String targetFilePath = '$targetDirectoryPath/$copiedFileName';
+    String targetPathFileName = '$targetDirectoryPath/$copiedFileName';
 
-    await sourceFile.copy(targetFilePath);
+    await sourceFile.copy(targetPathFileName);
   }
 
-  static Future<List<String>> listPathFileNamesInSubDirs({
+  static List<String> listPathFileNamesInSubDirs({
     required String path,
     required String extension,
-  }) async {
+  }) {
     List<String> pathFileNameList = [];
 
     final dir = Directory(path);
     final pattern = RegExp(r'\.' + RegExp.escape(extension) + r'$');
 
-    await for (FileSystemEntity entity
-        in dir.list(recursive: true, followLinks: false)) {
+    for (FileSystemEntity entity
+        in dir.listSync(recursive: true, followLinks: false)) {
       if (entity is File && pattern.hasMatch(entity.path)) {
         // Check if the file is not directly in the path itself
         String relativePath = entity.path

@@ -15,6 +15,8 @@ const String kDownloadAppDirWindows =
 // on GitHub
 const String kDownloadAppTestDir =
     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
+const String kDownloadAppTestSavedDataDir =
+    "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved";
 
 // to_delete
 // const String kUniquePlaylistUrl =

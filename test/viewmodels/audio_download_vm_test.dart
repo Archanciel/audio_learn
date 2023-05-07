@@ -130,7 +130,7 @@ void main() {
       await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
-            "${testPlaylistDir}_saved\\${testPlaylistTitle}_1_audio.json",
+            "${kDownloadAppTestSavedDataDir}\\${testPlaylistTitle}\\${testPlaylistTitle}_1_audio.json",
         targetDirectoryPath: testPlaylistDir,
         targetFileName: '$testPlaylistTitle.json',
       );
@@ -156,11 +156,11 @@ void main() {
       expect(downloadedAudioLstBeforeDownload.length, 1);
       expect(playableAudioLstBeforeDownload.length, 1);
 
-      checkDownloadedAudioOne(
+      checkAudioOne(
         downloadedAudio: downloadedAudioLstBeforeDownload[0],
         downloadFileNamePrefix: '230406',
       );
-      checkDownloadedAudioOne(
+      checkAudioOne(
         downloadedAudio: playableAudioLstBeforeDownload[0],
         downloadFileNamePrefix: '230406',
       );
@@ -248,7 +248,8 @@ void main() {
 
       await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
       await DirUtil.copyFileToDirectory(
-        sourceFilePathName: "${testPlaylistDir}_saved\\$testPlaylistTitle.json",
+        sourceFilePathName:
+            "${kDownloadAppTestSavedDataDir}\\${testPlaylistTitle}\\${testPlaylistTitle}.json",
         targetDirectoryPath: testPlaylistDir,
         targetFileName: '$testPlaylistTitle.json',
       );
@@ -385,7 +386,7 @@ void checkDownloadedAudios({
   required String downloadFileNamePrefix,
   String? todayFileNamePrefix,
 }) {
-  checkDownloadedAudioOne(
+  checkAudioOne(
     downloadedAudio: downloadedAudioOne,
     downloadFileNamePrefix: downloadFileNamePrefix,
   );
@@ -403,7 +404,7 @@ void checkDownloadedAudios({
   expect(downloadedAudioTwo.audioFileSize, 295404);
 }
 
-void checkDownloadedAudioOne({
+void checkAudioOne({
   required Audio downloadedAudio,
   required String downloadFileNamePrefix,
 }) {
