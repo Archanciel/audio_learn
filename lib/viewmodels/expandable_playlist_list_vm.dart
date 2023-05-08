@@ -19,6 +19,17 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   bool get isButtonDownPlaylistEnabled => _isButtonDownPlaylistEnabled;
   bool get isButtonAudioPopupMenuEnabled => _isButtonAudioPopupMenuEnabled;
 
+  bool _playlistWithThisUrlAlreadyDownloaded = false;
+  String get updatedPlayListTitle => (_playlistWithThisUrlAlreadyDownloaded)
+      ? ''
+      : _audioDownloadVM.updatedPlaylistTitle;
+  String get addedPlayListTitle => (_playlistWithThisUrlAlreadyDownloaded)
+      ? ''
+      : _audioDownloadVM.addedPlaylistTitle;
+
+  bool get isPlaylistUrlInvalid => _audioDownloadVM.isPlaylistUrlInvalid;
+
+
   final AudioDownloadVM _audioDownloadVM;
   bool _isPlaylistSelected = true;
   List<Playlist> _selectablePlaylistLst = [];
@@ -42,18 +53,23 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   Future<void> addPlaylist({required String playlistUrl}) async {
-    final bool alreadyDownloaded =
+    _playlistWithThisUrlAlreadyDownloaded = false;
+    final bool playlistWithThisUrlAlreadyDownloaded =
         _selectablePlaylistLst.any((playlist) => playlist.url == playlistUrl);
 
-    if (alreadyDownloaded) {
+    if (playlistWithThisUrlAlreadyDownloaded) {
+      _playlistWithThisUrlAlreadyDownloaded = true;
       return;
     }
 
-    Playlist addedPlaylist =
+    Playlist? addedPlaylist =
         await _audioDownloadVM.addPlaylist(playlistUrl: playlistUrl);
-    // items.add(addedPlaylist);
 
-    notifyListeners();
+    if (addedPlaylist != null) {
+      // if addedPlaylist is null, it means that the 
+      // passed url is not a valid playlist url
+      notifyListeners();
+    }
   }
 
   void toggleList() {

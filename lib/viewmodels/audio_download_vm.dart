@@ -55,6 +55,15 @@ class AudioDownloadVM extends ChangeNotifier {
   String _errorMessage = '';
   String get errorMessage => _errorMessage;
 
+  String _updatedPlaylistTitle = '';
+  String get updatedPlaylistTitle => _updatedPlaylistTitle;
+
+  String _adddedPlaylistTitle = '';
+  String get addedPlaylistTitle => _adddedPlaylistTitle;
+
+  bool _isPlaylistUrlInvalid = false;
+  bool get isPlaylistUrlInvalid => _isPlaylistUrlInvalid;
+
   /// Passing a testPlaylistTitle has the effect that the windows
   /// test directory is used as playlist root directory. Otherwise,
   /// the windows or smartphone audio root directory is used and
@@ -68,8 +77,7 @@ class AudioDownloadVM extends ChangeNotifier {
   }
 
   void _loadExistingPlaylists() {
-    List<String> playlistPathFileNameLst =
-        DirUtil.listPathFileNamesInSubDirs(
+    List<String> playlistPathFileNameLst = DirUtil.listPathFileNamesInSubDirs(
       path: _playlistsHomePath,
       extension: 'json',
     );
@@ -84,17 +92,57 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Currently not used.
-  Future<Playlist> addPlaylist({
+  Future<Playlist?> addPlaylist({
     required String playlistUrl,
   }) async {
+    // those two variables are used by the
+    // ExpandablePlaylistListView UI to show a message
+    _updatedPlaylistTitle = '';
+    _adddedPlaylistTitle = '';
+    _isPlaylistUrlInvalid = false;
+
+    if (!playlistUrl.contains('list=')) {
+      _isPlaylistUrlInvalid = true;
+      return null;
+    }
+
     // get Youtube playlist
     String? playlistId;
     yt.Playlist youtubePlaylist;
     _youtubeExplode = yt.YoutubeExplode();
 
     playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
-    youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
+
+    try {
+      youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
+    } catch (e) {
+      _isPlaylistUrlInvalid = true;
+      return null;
+    }
+
+    String playlistTitle = youtubePlaylist.title;
+
+    int playlistIndex = _listOfPlaylist
+        .indexWhere((playlist) => playlist.title == playlistTitle);
+
+    if (playlistIndex != -1) {
+      // This means that the playlist was not added, but
+      // that its url was updated. The case when a new
+      // playlist with the same title is created in order
+      // to replace the old one which contains too many
+      // audios.
+      Playlist updatedPlaylist = _listOfPlaylist[playlistIndex];
+      updatedPlaylist.url = playlistUrl;
+      updatedPlaylist.id = playlistId!;
+      _updatedPlaylistTitle = playlistTitle;
+
+      JsonDataService.saveToFile(
+        model: updatedPlaylist,
+        path: updatedPlaylist.getPlaylistDownloadFilePathName(),
+      );
+
+      return updatedPlaylist;
+    }
 
     Playlist addedPlaylist = await _addPlaylistIfNotExist(
       playlistUrl: playlistUrl,
@@ -106,7 +154,7 @@ class AudioDownloadVM extends ChangeNotifier {
       path: addedPlaylist.getPlaylistDownloadFilePathName(),
     );
 
-    // notifyListeners();
+    _adddedPlaylistTitle = addedPlaylist.title;
 
     return addedPlaylist;
   }
@@ -481,6 +529,15 @@ class AudioDownloadVM extends ChangeNotifier {
     int audioFileSize,
   ) async {
     final File file = File(audio.filePathName);
+
+    if (file.existsSync()) {
+      _notifyDownloadError(
+        'Le fichier audio existe déjà dans le dossier de téléchargement.',
+      );
+
+      return;
+    }
+    
     final IOSink audioFileSink = file.openWrite();
     final Stream<List<int>> audioStream =
         _youtubeExplode.videos.streamsClient.get(audioStreamInfo);

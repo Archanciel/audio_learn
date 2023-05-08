@@ -64,5 +64,26 @@
   "deleteAudio": "Delete audio",
   "deleteAudioFromPlaylistAswell": "Delete audio from playlist as well",
   "deleteAudioFromPlaylistAswellWarning": "If the deleted audio video remains in the Youtube playlist, it will be downloaded again the next time you download the playlist.",
-  "warning": "WARNING"
+  "warning": "WARNING",
+  "existingPlaylistUrlUpdated": "Playlist {title} URL was updated. The playlist can be downloaded with its new URL.",
+  "@existingPlaylistUrlUpdated": {
+    "description": "Warning announcing that the playlist url was updated.",
+    "placeholders": {
+      "title": {}
+    }
+  },
+  "newPlaylistAdded": "Playlist {title} added at end of list of playlists.",
+  "@newPlaylistAdded": {
+    "description": "Warning announcing that the playlist was added at end of list of playlists.",
+    "placeholders": {
+      "title": {}
+    }
+  },
+  "invalidPlaylistUrl": "Playlist with invalid URL {url} neither added nor modified.",
+  "@invalidPlaylistUrl": {
+    "description": "Warning announcing that the playlist with invalid URL was not added.",
+    "placeholders": {
+      "url": {}
+    }
+  }
 }

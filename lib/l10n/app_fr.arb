@@ -32,7 +32,7 @@
   "stopDownload": "Stop",
   "audioDownloadingStopping": "Téléch en cessation ...",
   "audioDownloadError": "Erreur de téléchargement: {error}",
-  "singleVideoAudioDownload": "Unique vidéo audio téléchargé dans Various dir",
+  "singleVideoAudioDownload": "Unique vidéo audio téléchargée dans Various dir",
   "about": "Version ...",
   "sortFilterAudios": "Trier/filtrer audios",
   "sortFilterDialogTitle": "Options Tri et Filtre",
@@ -64,5 +64,26 @@
   "deleteAudio": "Supprimer l'audio",
   "deleteAudioFromPlaylistAswell": "Supprimer l'audio de la playlist également",
   "deleteAudioFromPlaylistAswellWarning": "Supprimer l'audio de la playlist Youtube, sinon l'audio sera téléchargé à nouveau lors du prochain téléchargement de la playlist.",
-  "warning": "AVERTISSEMENT"
+  "warning": "AVERTISSEMENT",
+  "existingPlaylistUrlUpdated": "L'URL de la playlist {title} a été mise à jour. La playlist peut être téléchargée avec sa nouvelle URL.",
+  "@existingPlaylistUrlUpdated": {
+    "description": "Message d'information affiché lorsqu'une URL de playlist existante a été mise à jour.",
+    "placeholders": {
+      "title": {}
+    }
+  },
+  "newPlaylistAdded": "Nouvelle playlist {title} ajoutée à la fin de la liste des playlists.",
+  "@newPlaylistAdded": {
+    "description": "Message informant qu'une nouvelle playlist a été ajoutée à la liste des playlists.",
+    "placeholders": {
+      "title": {}
+    }
+  },
+  "invalidPlaylistUrl": "L'URL {url} ne pointe pas sur une playlist. Aucune playlist n'a donc été ajoutée ou modifiée.",
+  "@invalidPlaylistUrl": {
+    "description": "Warning announcing that the playlist with invalid URL was not added.",
+    "placeholders": {
+      "url": {}
+    }
+  }
 }

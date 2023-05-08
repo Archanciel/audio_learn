@@ -24,6 +24,9 @@ class ExpandablePlaylistListView extends StatefulWidget {
       appElevatedButtonRoundedShape =
       MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius)));
+
+  ExpandablePlaylistListView({super.key});
+
   @override
   State<ExpandablePlaylistListView> createState() =>
       _ExpandablePlaylistListViewState();
@@ -107,13 +110,40 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           horizontal: kSmallButtonInsidePadding),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     final String playlistUrl =
                         _playlistUrlController.text.trim();
                     if (playlistUrl.isNotEmpty) {
-                      Provider.of<ExpandablePlaylistListVM>(context,
-                              listen: false)
-                          .addPlaylist(playlistUrl: playlistUrl);
+                      ExpandablePlaylistListVM expandablePlaylistListVM =
+                          Provider.of<ExpandablePlaylistListVM>(context,
+                              listen: false);
+                      await expandablePlaylistListVM.addPlaylist(
+                          playlistUrl: playlistUrl);
+                      String updatedPlayListTitle =
+                          expandablePlaylistListVM.updatedPlayListTitle;
+                      if (updatedPlayListTitle.isNotEmpty) {
+                        displayWarningDialog(
+                            context,
+                            AppLocalizations.of(context)!
+                                .existingPlaylistUrlUpdated(
+                                    updatedPlayListTitle));
+                      } else {
+                        String addedPlayListTitle =
+                            expandablePlaylistListVM.addedPlayListTitle;
+                        if (addedPlayListTitle.isNotEmpty) {
+                          displayWarningDialog(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .newPlaylistAdded(addedPlayListTitle));
+                        } else if (expandablePlaylistListVM
+                            .isPlaylistUrlInvalid) {
+                          displayWarningDialog(
+                            context,
+                            AppLocalizations.of(context)!
+                                .invalidPlaylistUrl(playlistUrl),
+                          );
+                        }
+                      }
                     }
                   },
                   child: Text(AppLocalizations.of(context)!.addPlaylist),
@@ -139,7 +169,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       message: AppLocalizations.of(context)!
                           .singleVideoAudioDownload,
                       duration: const Duration(seconds: 5),
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.purple.shade900,
                       margin: kFlushbarEdgeInsets,
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                     ).show(context);
@@ -422,7 +452,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                   ),
                                   items: [
                                     PopupMenuItem<String>(
-                                      key: Key('popup_menu_open_youtube_playlist'),
+                                      key: Key(
+                                          'popup_menu_open_youtube_playlist'),
                                       value: 'openYoutubePlaylist',
                                       child: Text(AppLocalizations.of(context)!
                                           .openYoutubePlaylist),
