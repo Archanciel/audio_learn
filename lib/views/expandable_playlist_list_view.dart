@@ -83,33 +83,56 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
         children: <Widget>[
           Consumer<WarningMessageVM>(
             builder: (context, warningMessageVM, child) {
-              String updatedPlayListTitle =
-                  warningMessageVM.updatedPlaylistTitle;
-              String playlistUrl = _playlistUrlController.text;
-              if (updatedPlayListTitle.isNotEmpty) {
-                displayWarningDialog(
-                    context,
-                    AppLocalizations.of(context)!
-                        .existingPlaylistUrlUpdated(updatedPlayListTitle));
+              WarningMessageType warningMessageType =
+                  warningMessageVM.warningMessageType;
+
+              switch (warningMessageType) {
+                case WarningMessageType.updatePlayListTitle:
+                  String updatedPlayListTitle =
+                      warningMessageVM.updatedPlaylistTitle;
+                  
+                  if (updatedPlayListTitle.isNotEmpty) {
+                    displayWarningDialog(
+                        context,
+                        AppLocalizations.of(context)!
+                            .existingPlaylistUrlUpdated(updatedPlayListTitle));
+                  }
+
                   return const SizedBox.shrink();
-              } else {
-                String addedPlayListTitle = warningMessageVM.addedPlaylistTitle;
-                if (addedPlayListTitle.isNotEmpty) {
-                  displayWarningDialog(
-                      context,
-                      AppLocalizations.of(context)!
-                          .newPlaylistAdded(addedPlayListTitle));
+                case WarningMessageType.addPlayListTitle:
+                  String addedPlayListTitle =
+                      warningMessageVM.addedPlaylistTitle;
+
+                  if (addedPlayListTitle.isNotEmpty) {
+                    displayWarningDialog(
+                        context,
+                        AppLocalizations.of(context)!
+                            .newPlaylistAdded(addedPlayListTitle));
+                  }
+
                   return const SizedBox.shrink();
-                } else if (warningMessageVM.isPlaylistUrlInvalid) {
+                case WarningMessageType.invalidPlaylistUrl:
+                  String playlistUrl = _playlistUrlController.text;
+
                   displayWarningDialog(
                     context,
                     AppLocalizations.of(context)!
                         .invalidPlaylistUrl(playlistUrl),
                   );
+
                   return const SizedBox.shrink();
-                } else {
+                case WarningMessageType.playlistWithThisUrlAlreadyDownloaded:
+                  String playlistUrl = _playlistUrlController.text;
+
+                  displayWarningDialog(
+                    context,
+                    AppLocalizations.of(context)!
+                        .playlistWithUrlAlreadyInListOfPlaylists(playlistUrl),
+                  );
+
                   return const SizedBox.shrink();
-                }
+                default:
+                  return const SizedBox.shrink();
               }
             },
           ),

@@ -85,5 +85,12 @@
     "placeholders": {
       "url": {}
     }
+  },
+  "playlistWithUrlAlreadyInListOfPlaylists": "Playlist with this URL {url} is already in the list of playlists.",
+  "@playlistWithUrlAlreadyInListOfPlaylists": {
+    "description": "Warning announcing that the playlist with the URL is already in the list of playlists.",
+    "placeholders": {
+      "url": {}
+    }
   }
 }

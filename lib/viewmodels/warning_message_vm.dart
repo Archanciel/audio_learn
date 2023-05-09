@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
 
+enum WarningMessageType {
+  none,
+  errorMessage,
+  infoMessage,
+  successMessage,
+  updatePlayListTitle,
+  addPlayListTitle,
+  invalidPlaylistUrl,
+  playlistWithThisUrlAlreadyDownloaded,
+  playlistWithThisUrlAlreadyDownloadedAndUpdated,
+  playlistWithThisUrlAlreadyDownloadedAndAdded,
+}
+
 class WarningMessageVM extends ChangeNotifier {
+  WarningMessageType _warningMessageType = WarningMessageType.none;
+  WarningMessageType get warningMessageType => _warningMessageType;
+
   String _errorMessage = '';
   String get errorMessage => _errorMessage;
   set errorMessage(String errorMessage) {
     _errorMessage = errorMessage;
 
     if (errorMessage.isNotEmpty) {
+      _warningMessageType = WarningMessageType.errorMessage;
+
       notifyListeners();
     }
   }
@@ -17,16 +35,20 @@ class WarningMessageVM extends ChangeNotifier {
     _updatedPlaylistTitle = updatedPlaylistTitle;
 
     if (updatedPlaylistTitle.isNotEmpty) {
+      _warningMessageType = WarningMessageType.updatePlayListTitle;
+
       notifyListeners();
     }
   }
 
-  String _adddedPlaylistTitle = '';
-  String get addedPlaylistTitle => _adddedPlaylistTitle;
+  String _addedPlaylistTitle = '';
+  String get addedPlaylistTitle => _addedPlaylistTitle;
   set addedPlaylistTitle(String addedPlaylistTitle) {
-    _adddedPlaylistTitle = addedPlaylistTitle;
+    _addedPlaylistTitle = addedPlaylistTitle;
 
     if (addedPlaylistTitle.isNotEmpty) {
+      _warningMessageType = WarningMessageType.addPlayListTitle;
+
       notifyListeners();
     }
   }
@@ -37,6 +59,8 @@ class WarningMessageVM extends ChangeNotifier {
     _isPlaylistUrlInvalid = isPlaylistUrlInvalid;
 
     if (isPlaylistUrlInvalid) {
+      _warningMessageType = WarningMessageType.invalidPlaylistUrl;
+
       notifyListeners();
     }
   }
@@ -50,6 +74,8 @@ class WarningMessageVM extends ChangeNotifier {
         isPlaylistWithThisUrlAlreadyDownloaded;
 
     if (isPlaylistWithThisUrlAlreadyDownloaded) {
+      _warningMessageType = WarningMessageType.playlistWithThisUrlAlreadyDownloaded;
+
       notifyListeners();
     }
   }
@@ -63,6 +89,8 @@ class WarningMessageVM extends ChangeNotifier {
         isPlaylistWithThisUrlAlreadyDownloadedAndUpdated;
 
     if (isPlaylistWithThisUrlAlreadyDownloadedAndUpdated) {
+      _warningMessageType = WarningMessageType.playlistWithThisUrlAlreadyDownloadedAndUpdated;
+
       notifyListeners();
     }
   }
@@ -76,10 +104,13 @@ class WarningMessageVM extends ChangeNotifier {
         isPlaylistWithThisUrlAlreadyDownloadedAndAdded;
 
     if (isPlaylistWithThisUrlAlreadyDownloadedAndAdded) {
+      _warningMessageType = WarningMessageType.playlistWithThisUrlAlreadyDownloadedAndAdded;
+
       notifyListeners();
     }
   }
 
   bool _playlistWithThisUrlAlreadyDownloaded = false;
   bool get playlistWithThisUrlAlreadyDownloaded =>
-      _playlistWithThisUrlAlreadyDownloaded;}
+      _playlistWithThisUrlAlreadyDownloaded;
+}

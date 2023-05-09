@@ -81,7 +81,14 @@
   },
   "invalidPlaylistUrl": "L'URL {url} ne pointe pas sur une playlist. Aucune playlist n'a donc été ajoutée ou modifiée.",
   "@invalidPlaylistUrl": {
-    "description": "Warning announcing that the playlist with invalid URL was not added.",
+    "description": "Message d'erreur affiché lorsqu'une URL de playlist est invalide.",
+    "placeholders": {
+      "url": {}
+    }
+  },
+  "playlistWithUrlAlreadyInListOfPlaylists": "La playlist avec l'URL {url} est déjà dans la liste des playlists.",
+  "@playlistWithUrlAlreadyInListOfPlaylists": {
+    "description": "Avertissement annonçant que la playlist avec l'URL {url} est déjà dans la liste des playlists.",
     "placeholders": {
       "url": {}
     }

@@ -19,8 +19,8 @@ class ScreenMixin {
     }
   }
 
+  /// Located in ScreenMixin in order to be usable in any screen.
   void displayWarningDialog(BuildContext context, String message) {
-    /// Located in ScreenMixin in order to be usable in any screen.
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
