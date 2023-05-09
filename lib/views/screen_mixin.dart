@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants.dart';
+import '../viewmodels/warning_message_vm.dart';
 
 class ScreenMixin {
   Future<void> openUrlInExternalApp({
@@ -20,12 +21,15 @@ class ScreenMixin {
   }
 
   /// Located in ScreenMixin in order to be usable in any screen.
-  void displayWarningDialog(BuildContext context, String message) {
+  void displayWarningDialog({
+    required BuildContext context,
+    required String message,
+    required WarningMessageVM warningMessageVM,
+  }) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!
-                        .warning),
+        title: Text(AppLocalizations.of(context)!.warning),
         content: Text(
           message,
           style: kDialogTextFieldStyle,
@@ -33,7 +37,10 @@ class ScreenMixin {
         actions: [
           TextButton(
             child: const Text('Ok'),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              warningMessageVM.warningMessageType = WarningMessageType.none;
+              Navigator.of(context).pop();
+            },
           ),
         ],
       ),

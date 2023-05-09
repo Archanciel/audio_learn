@@ -1,10 +1,12 @@
 // dart file located in lib\views
 
+import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/audio.dart';
+import '../models/playlist.dart';
 import '../utils/ui_util.dart';
 import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
@@ -75,13 +77,15 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       .deleteAudio(audio: audio);
                   break;
                 case 'deleteAudioFromPlaylistAswell':
+                  Playlist? audioEnclosingPlaylist = audio.enclosingPlaylist;
                   Provider.of<AudioDownloadVM>(context, listen: false)
                       .deleteAudioFromPlaylistAswell(audio: audio);
-                  displayWarningDialog(
-                    context,
-                    AppLocalizations.of(context)!
-                        .deleteAudioFromPlaylistAswellWarning,
-                  );
+                  Provider.of<WarningMessageVM>(context, listen: false)
+                      .setDeleteAudioFromPlaylistAswellTitle(
+                          deleteAudioFromPlaylistAswellTitle:
+                              audioEnclosingPlaylist!.title,
+                          deleteAudioFromPlaylistAswellAudioVideoTitle:
+                              audio.originalVideoTitle);
                   break;
                 default:
                   break;

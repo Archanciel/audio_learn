@@ -90,12 +90,15 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                 case WarningMessageType.updatePlayListTitle:
                   String updatedPlayListTitle =
                       warningMessageVM.updatedPlaylistTitle;
-                  
+
                   if (updatedPlayListTitle.isNotEmpty) {
-                    displayWarningDialog(
-                        context,
-                        AppLocalizations.of(context)!
-                            .existingPlaylistUrlUpdated(updatedPlayListTitle));
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      displayWarningDialog(
+                          context: context,
+                          message: AppLocalizations.of(context)!
+                              .existingPlaylistUrlUpdated(updatedPlayListTitle),
+                          warningMessageVM: warningMessageVM);
+                    });
                   }
 
                   return const SizedBox.shrink();
@@ -104,31 +107,54 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       warningMessageVM.addedPlaylistTitle;
 
                   if (addedPlayListTitle.isNotEmpty) {
-                    displayWarningDialog(
-                        context,
-                        AppLocalizations.of(context)!
-                            .newPlaylistAdded(addedPlayListTitle));
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      displayWarningDialog(
+                          context: context,
+                          message: AppLocalizations.of(context)!
+                              .newPlaylistAdded(addedPlayListTitle),
+                          warningMessageVM: warningMessageVM);
+                    });
                   }
 
                   return const SizedBox.shrink();
                 case WarningMessageType.invalidPlaylistUrl:
                   String playlistUrl = _playlistUrlController.text;
 
-                  displayWarningDialog(
-                    context,
-                    AppLocalizations.of(context)!
-                        .invalidPlaylistUrl(playlistUrl),
-                  );
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    displayWarningDialog(
+                      context: context,
+                      message: AppLocalizations.of(context)!
+                          .invalidPlaylistUrl(playlistUrl),
+                      warningMessageVM: warningMessageVM,
+                    );
+                  });
 
                   return const SizedBox.shrink();
                 case WarningMessageType.playlistWithThisUrlAlreadyDownloaded:
                   String playlistUrl = _playlistUrlController.text;
 
-                  displayWarningDialog(
-                    context,
-                    AppLocalizations.of(context)!
-                        .playlistWithUrlAlreadyInListOfPlaylists(playlistUrl),
-                  );
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    displayWarningDialog(
+                      context: context,
+                      message: AppLocalizations.of(context)!
+                          .playlistWithUrlAlreadyInListOfPlaylists(playlistUrl),
+                      warningMessageVM: warningMessageVM,
+                    );
+                  });
+
+                  return const SizedBox.shrink();
+                case WarningMessageType.deleteAudioFromPlaylistAswellTitle:
+                  String playlistTitle = warningMessageVM.deleteAudioFromPlaylistAswellTitle;
+                  String audioVideoTitle = warningMessageVM.deleteAudioFromPlaylistAswellAudioVideoTitle;
+
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    displayWarningDialog(
+                      context: context,
+                      message: AppLocalizations.of(context)!
+                          .deleteAudioFromPlaylistAswellWarning(audioVideoTitle, playlistTitle,),
+                      warningMessageVM: warningMessageVM,
+                    );
+                  });
 
                   return const SizedBox.shrink();
                 default:

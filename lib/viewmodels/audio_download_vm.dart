@@ -420,6 +420,10 @@ class AudioDownloadVM extends ChangeNotifier {
       );
     }
 
+    _warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
+        deleteAudioFromPlaylistAswellTitle: enclosingPlaylist!.title,
+        deleteAudioFromPlaylistAswellAudioVideoTitle: audio.originalVideoTitle);
+
     notifyListeners();
   }
 

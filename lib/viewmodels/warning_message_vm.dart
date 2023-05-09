@@ -11,11 +11,18 @@ enum WarningMessageType {
   playlistWithThisUrlAlreadyDownloaded,
   playlistWithThisUrlAlreadyDownloadedAndUpdated,
   playlistWithThisUrlAlreadyDownloadedAndAdded,
+  deleteAudioFromPlaylistAswellTitle,
 }
 
 class WarningMessageVM extends ChangeNotifier {
   WarningMessageType _warningMessageType = WarningMessageType.none;
   WarningMessageType get warningMessageType => _warningMessageType;
+
+  /// Called after a warning message is displayed when the user
+  /// clicks on the OK button.
+  set warningMessageType(WarningMessageType warningMessageType) {
+    _warningMessageType = warningMessageType;
+  }
 
   String _errorMessage = '';
   String get errorMessage => _errorMessage;
@@ -74,7 +81,8 @@ class WarningMessageVM extends ChangeNotifier {
         isPlaylistWithThisUrlAlreadyDownloaded;
 
     if (isPlaylistWithThisUrlAlreadyDownloaded) {
-      _warningMessageType = WarningMessageType.playlistWithThisUrlAlreadyDownloaded;
+      _warningMessageType =
+          WarningMessageType.playlistWithThisUrlAlreadyDownloaded;
 
       notifyListeners();
     }
@@ -89,7 +97,8 @@ class WarningMessageVM extends ChangeNotifier {
         isPlaylistWithThisUrlAlreadyDownloadedAndUpdated;
 
     if (isPlaylistWithThisUrlAlreadyDownloadedAndUpdated) {
-      _warningMessageType = WarningMessageType.playlistWithThisUrlAlreadyDownloadedAndUpdated;
+      _warningMessageType =
+          WarningMessageType.playlistWithThisUrlAlreadyDownloadedAndUpdated;
 
       notifyListeners();
     }
@@ -104,7 +113,8 @@ class WarningMessageVM extends ChangeNotifier {
         isPlaylistWithThisUrlAlreadyDownloadedAndAdded;
 
     if (isPlaylistWithThisUrlAlreadyDownloadedAndAdded) {
-      _warningMessageType = WarningMessageType.playlistWithThisUrlAlreadyDownloadedAndAdded;
+      _warningMessageType =
+          WarningMessageType.playlistWithThisUrlAlreadyDownloadedAndAdded;
 
       notifyListeners();
     }
@@ -113,4 +123,26 @@ class WarningMessageVM extends ChangeNotifier {
   bool _playlistWithThisUrlAlreadyDownloaded = false;
   bool get playlistWithThisUrlAlreadyDownloaded =>
       _playlistWithThisUrlAlreadyDownloaded;
+
+
+  String _deleteAudioFromPlaylistAswellAudioVideoTitle = '';
+  String get deleteAudioFromPlaylistAswellAudioVideoTitle =>
+      _deleteAudioFromPlaylistAswellAudioVideoTitle;
+  String _deleteAudioFromPlaylistAswellTitle = '';
+  String get deleteAudioFromPlaylistAswellTitle =>
+      _deleteAudioFromPlaylistAswellTitle;
+  setDeleteAudioFromPlaylistAswellTitle(
+      {required String deleteAudioFromPlaylistAswellTitle,
+      required String deleteAudioFromPlaylistAswellAudioVideoTitle}) {
+    _deleteAudioFromPlaylistAswellTitle = deleteAudioFromPlaylistAswellTitle;
+    _deleteAudioFromPlaylistAswellAudioVideoTitle =
+        deleteAudioFromPlaylistAswellAudioVideoTitle;
+
+    if (deleteAudioFromPlaylistAswellTitle.isNotEmpty) {
+      _warningMessageType =
+          WarningMessageType.deleteAudioFromPlaylistAswellTitle;
+
+      notifyListeners();
+    }
+  }
 }
