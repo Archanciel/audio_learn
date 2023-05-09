@@ -16,6 +16,7 @@ import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'viewmodels/audio_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
+import 'viewmodels/warning_message_vm.dart';
 import 'views/expandable_playlist_list_view.dart';
 import 'views/screen_mixin.dart';
 
@@ -66,9 +67,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AudioDownloadVM audioDownloadVM = AudioDownloadVM();
+    WarningMessageVM warningMessageVM = WarningMessageVM();
+    AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+      warningMessageVM: warningMessageVM,
+    );
     ExpandablePlaylistListVM expandablePlaylistListVM =
-        ExpandablePlaylistListVM(audioDownloadVM: audioDownloadVM);
+        ExpandablePlaylistListVM(
+      warningMessageVM: warningMessageVM,
+      audioDownloadVM: audioDownloadVM,
+    );
 
     // calling getUpToDateSelectablePlaylists() loads all the
     // playlist json files from the app dir and so enables
@@ -89,6 +96,7 @@ class MainApp extends StatelessWidget {
                   appSettings: _appSettings,
                 )),
         ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
+        ChangeNotifierProvider(create: (_) => warningMessageVM),
       ],
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, languageProvider, child) {

@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audio_learn/services/json_data_service.dart';
-import 'package:audio_learn/viewmodels/playlist_edit_vm.dart';
 import 'package:flutter/material.dart';
 
 // importing youtube_explode_dart as yt enables to name the app Model
@@ -17,6 +16,7 @@ import '../constants.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
 import '../utils/dir_util.dart';
+import 'warning_message_vm.dart';
 
 class AudioDownloadVM extends ChangeNotifier {
   List<Playlist> _listOfPlaylist = [];
@@ -52,24 +52,16 @@ class AudioDownloadVM extends ChangeNotifier {
   bool _audioDownloadError = false;
   bool get audioDownloadError => _audioDownloadError;
 
-  String _errorMessage = '';
-  String get errorMessage => _errorMessage;
-
-  String _updatedPlaylistTitle = '';
-  String get updatedPlaylistTitle => _updatedPlaylistTitle;
-
-  String _adddedPlaylistTitle = '';
-  String get addedPlaylistTitle => _adddedPlaylistTitle;
-
-  bool _isPlaylistUrlInvalid = false;
-  bool get isPlaylistUrlInvalid => _isPlaylistUrlInvalid;
+  final WarningMessageVM _warningMessageVM;
 
   /// Passing a testPlaylistTitle has the effect that the windows
   /// test directory is used as playlist root directory. Otherwise,
   /// the windows or smartphone audio root directory is used and
   /// the value of the kUniquePlaylistTitle constant is used to
   /// load the playlist json file.
-  AudioDownloadVM({String? testPlaylistTitle}) {
+  AudioDownloadVM(
+      {required WarningMessageVM warningMessageVM, String? testPlaylistTitle})
+      : _warningMessageVM = warningMessageVM {
     _playlistsHomePath =
         DirUtil.getPlaylistDownloadHomePath(isTest: testPlaylistTitle != null);
 
@@ -97,12 +89,12 @@ class AudioDownloadVM extends ChangeNotifier {
   }) async {
     // those two variables are used by the
     // ExpandablePlaylistListView UI to show a message
-    _updatedPlaylistTitle = '';
-    _adddedPlaylistTitle = '';
-    _isPlaylistUrlInvalid = false;
+    _warningMessageVM.updatedPlaylistTitle = '';
+    _warningMessageVM.addedPlaylistTitle = '';
+    _warningMessageVM.isPlaylistUrlInvalid = false;
 
     if (!playlistUrl.contains('list=')) {
-      _isPlaylistUrlInvalid = true;
+      _warningMessageVM.isPlaylistUrlInvalid = true;
       return null;
     }
 
@@ -116,7 +108,7 @@ class AudioDownloadVM extends ChangeNotifier {
     try {
       youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
     } catch (e) {
-      _isPlaylistUrlInvalid = true;
+      _warningMessageVM.isPlaylistUrlInvalid = true;
       return null;
     }
 
@@ -134,7 +126,7 @@ class AudioDownloadVM extends ChangeNotifier {
       Playlist updatedPlaylist = _listOfPlaylist[playlistIndex];
       updatedPlaylist.url = playlistUrl;
       updatedPlaylist.id = playlistId!;
-      _updatedPlaylistTitle = playlistTitle;
+      _warningMessageVM.updatedPlaylistTitle = playlistTitle;
 
       JsonDataService.saveToFile(
         model: updatedPlaylist,
@@ -154,7 +146,7 @@ class AudioDownloadVM extends ChangeNotifier {
       path: addedPlaylist.getPlaylistDownloadFilePathName(),
     );
 
-    _adddedPlaylistTitle = addedPlaylist.title;
+    _warningMessageVM.addedPlaylistTitle = addedPlaylist.title;
 
     return addedPlaylist;
   }
@@ -290,7 +282,8 @@ class AudioDownloadVM extends ChangeNotifier {
     _downloadProgress = 0.0;
     _lastSecondDownloadSpeed = 0;
     _audioDownloadError = true;
-    _errorMessage = errorMessage;
+
+    _warningMessageVM.errorMessage = errorMessage;
 
     notifyListeners();
   }
@@ -537,7 +530,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
       return;
     }
-    
+
     final IOSink audioFileSink = file.openWrite();
     final Stream<List<int>> audioStream =
         _youtubeExplode.videos.streamsClient.get(audioStreamInfo);

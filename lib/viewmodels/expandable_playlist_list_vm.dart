@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
 import 'audio_download_vm.dart';
+import 'warning_message_vm.dart';
 
 /// List view model used in ExpandableListView
 class ExpandablePlaylistListVM extends ChangeNotifier {
@@ -19,24 +20,15 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   bool get isButtonDownPlaylistEnabled => _isButtonDownPlaylistEnabled;
   bool get isButtonAudioPopupMenuEnabled => _isButtonAudioPopupMenuEnabled;
 
-  bool _playlistWithThisUrlAlreadyDownloaded = false;
-  String get updatedPlayListTitle => (_playlistWithThisUrlAlreadyDownloaded)
-      ? ''
-      : _audioDownloadVM.updatedPlaylistTitle;
-  String get addedPlayListTitle => (_playlistWithThisUrlAlreadyDownloaded)
-      ? ''
-      : _audioDownloadVM.addedPlaylistTitle;
-
-  bool get isPlaylistUrlInvalid => _audioDownloadVM.isPlaylistUrlInvalid;
-
-
   final AudioDownloadVM _audioDownloadVM;
+  final WarningMessageVM _warningMessageVM;
+
   bool _isPlaylistSelected = true;
   List<Playlist> _selectablePlaylistLst = [];
   List<Audio>? _sortedFilteredSelectedPlaylistsPlayableAudios;
 
-  ExpandablePlaylistListVM({required AudioDownloadVM audioDownloadVM})
-      : _audioDownloadVM = audioDownloadVM;
+  ExpandablePlaylistListVM({required WarningMessageVM warningMessageVM, required AudioDownloadVM audioDownloadVM,})
+      : _warningMessageVM = warningMessageVM, _audioDownloadVM = audioDownloadVM;
 
   List<Playlist> getUpToDateSelectablePlaylists() {
     _selectablePlaylistLst = _audioDownloadVM.listOfPlaylist;
@@ -53,12 +45,12 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   Future<void> addPlaylist({required String playlistUrl}) async {
-    _playlistWithThisUrlAlreadyDownloaded = false;
     final bool playlistWithThisUrlAlreadyDownloaded =
         _selectablePlaylistLst.any((playlist) => playlist.url == playlistUrl);
 
     if (playlistWithThisUrlAlreadyDownloaded) {
-      _playlistWithThisUrlAlreadyDownloaded = true;
+      _warningMessageVM.isPlaylistWithThisUrlAlreadyDownloaded = true;
+      
       return;
     }
 

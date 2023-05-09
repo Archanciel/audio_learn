@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
@@ -80,6 +81,38 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
       margin: const EdgeInsets.all(kDefaultMargin),
       child: Column(
         children: <Widget>[
+          Consumer<WarningMessageVM>(
+            builder: (context, warningMessageVM, child) {
+              String updatedPlayListTitle =
+                  warningMessageVM.updatedPlaylistTitle;
+              String playlistUrl = _playlistUrlController.text;
+              if (updatedPlayListTitle.isNotEmpty) {
+                displayWarningDialog(
+                    context,
+                    AppLocalizations.of(context)!
+                        .existingPlaylistUrlUpdated(updatedPlayListTitle));
+                  return const SizedBox.shrink();
+              } else {
+                String addedPlayListTitle = warningMessageVM.addedPlaylistTitle;
+                if (addedPlayListTitle.isNotEmpty) {
+                  displayWarningDialog(
+                      context,
+                      AppLocalizations.of(context)!
+                          .newPlaylistAdded(addedPlayListTitle));
+                  return const SizedBox.shrink();
+                } else if (warningMessageVM.isPlaylistUrlInvalid) {
+                  displayWarningDialog(
+                    context,
+                    AppLocalizations.of(context)!
+                        .invalidPlaylistUrl(playlistUrl),
+                  );
+                  return const SizedBox.shrink();
+                } else {
+                  return const SizedBox.shrink();
+                }
+              }
+            },
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -110,40 +143,15 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           horizontal: kSmallButtonInsidePadding),
                     ),
                   ),
-                  onPressed: () async {
+                  onPressed: () {
                     final String playlistUrl =
                         _playlistUrlController.text.trim();
                     if (playlistUrl.isNotEmpty) {
                       ExpandablePlaylistListVM expandablePlaylistListVM =
                           Provider.of<ExpandablePlaylistListVM>(context,
                               listen: false);
-                      await expandablePlaylistListVM.addPlaylist(
+                      expandablePlaylistListVM.addPlaylist(
                           playlistUrl: playlistUrl);
-                      String updatedPlayListTitle =
-                          expandablePlaylistListVM.updatedPlayListTitle;
-                      if (updatedPlayListTitle.isNotEmpty) {
-                        displayWarningDialog(
-                            context,
-                            AppLocalizations.of(context)!
-                                .existingPlaylistUrlUpdated(
-                                    updatedPlayListTitle));
-                      } else {
-                        String addedPlayListTitle =
-                            expandablePlaylistListVM.addedPlayListTitle;
-                        if (addedPlayListTitle.isNotEmpty) {
-                          displayWarningDialog(
-                              context,
-                              AppLocalizations.of(context)!
-                                  .newPlaylistAdded(addedPlayListTitle));
-                        } else if (expandablePlaylistListVM
-                            .isPlaylistUrlInvalid) {
-                          displayWarningDialog(
-                            context,
-                            AppLocalizations.of(context)!
-                                .invalidPlaylistUrl(playlistUrl),
-                          );
-                        }
-                      }
                     }
                   },
                   child: Text(AppLocalizations.of(context)!.addPlaylist),
