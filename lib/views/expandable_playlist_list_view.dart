@@ -96,7 +96,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       displayWarningDialog(
                           context: context,
                           message: AppLocalizations.of(context)!
-                              .existingPlaylistUrlUpdated(updatedPlayListTitle),
+                              .updatePlayListTitle(updatedPlayListTitle),
                           warningMessageVM: warningMessageVM);
                     });
                   }
@@ -111,7 +111,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       displayWarningDialog(
                           context: context,
                           message: AppLocalizations.of(context)!
-                              .newPlaylistAdded(addedPlayListTitle),
+                              .addPlayListTitle(addedPlayListTitle),
                           warningMessageVM: warningMessageVM);
                     });
                   }
@@ -130,7 +130,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                   });
 
                   return const SizedBox.shrink();
-                case WarningMessageType.playlistWithThisUrlAlreadyDownloaded:
+                case WarningMessageType.playlistWithUrlAlreadyInListOfPlaylists:
                   String playlistUrl = _playlistUrlController.text;
 
                   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -143,15 +143,20 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                   });
 
                   return const SizedBox.shrink();
-                case WarningMessageType.deleteAudioFromPlaylistAswellTitle:
-                  String playlistTitle = warningMessageVM.deleteAudioFromPlaylistAswellTitle;
-                  String audioVideoTitle = warningMessageVM.deleteAudioFromPlaylistAswellAudioVideoTitle;
+                case WarningMessageType.deleteAudioFromPlaylistAswellWarning:
+                  String playlistTitle =
+                      warningMessageVM.deleteAudioFromPlaylistAswellTitle;
+                  String audioVideoTitle = warningMessageVM
+                      .deleteAudioFromPlaylistAswellAudioVideoTitle;
 
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     displayWarningDialog(
                       context: context,
                       message: AppLocalizations.of(context)!
-                          .deleteAudioFromPlaylistAswellWarning(audioVideoTitle, playlistTitle,),
+                          .deleteAudioFromPlaylistAswellWarning(
+                        audioVideoTitle,
+                        playlistTitle,
+                      ),
                       warningMessageVM: warningMessageVM,
                     );
                   });

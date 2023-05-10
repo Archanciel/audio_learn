@@ -8,10 +8,10 @@ enum WarningMessageType {
   updatePlayListTitle,
   addPlayListTitle,
   invalidPlaylistUrl,
-  playlistWithThisUrlAlreadyDownloaded,
+  playlistWithUrlAlreadyInListOfPlaylists,
   playlistWithThisUrlAlreadyDownloadedAndUpdated,
   playlistWithThisUrlAlreadyDownloadedAndAdded,
-  deleteAudioFromPlaylistAswellTitle,
+  deleteAudioFromPlaylistAswellWarning,
 }
 
 class WarningMessageVM extends ChangeNotifier {
@@ -82,7 +82,7 @@ class WarningMessageVM extends ChangeNotifier {
 
     if (isPlaylistWithThisUrlAlreadyDownloaded) {
       _warningMessageType =
-          WarningMessageType.playlistWithThisUrlAlreadyDownloaded;
+          WarningMessageType.playlistWithUrlAlreadyInListOfPlaylists;
 
       notifyListeners();
     }
@@ -124,7 +124,6 @@ class WarningMessageVM extends ChangeNotifier {
   bool get playlistWithThisUrlAlreadyDownloaded =>
       _playlistWithThisUrlAlreadyDownloaded;
 
-
   String _deleteAudioFromPlaylistAswellAudioVideoTitle = '';
   String get deleteAudioFromPlaylistAswellAudioVideoTitle =>
       _deleteAudioFromPlaylistAswellAudioVideoTitle;
@@ -140,7 +139,7 @@ class WarningMessageVM extends ChangeNotifier {
 
     if (deleteAudioFromPlaylistAswellTitle.isNotEmpty) {
       _warningMessageType =
-          WarningMessageType.deleteAudioFromPlaylistAswellTitle;
+          WarningMessageType.deleteAudioFromPlaylistAswellWarning;
 
       notifyListeners();
     }
