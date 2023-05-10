@@ -49,6 +49,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
         _selectablePlaylistLst.any((playlist) => playlist.url == playlistUrl);
 
     if (playlistWithThisUrlAlreadyDownloaded) {
+      // User clicked on Add button but the playlist with this url
+      // was already downloaded
       _warningMessageVM.isPlaylistWithThisUrlAlreadyDownloaded = true;
       
       return;

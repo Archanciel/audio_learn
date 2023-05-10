@@ -94,6 +94,10 @@ class AudioDownloadVM extends ChangeNotifier {
     _warningMessageVM.isPlaylistUrlInvalid = false;
 
     if (!playlistUrl.contains('list=')) {
+      // the case if the url is a video url and the user
+      // clicked on the Add button instead of the Download
+      // button or if the String pasted to the url text field
+      // is not a valid Youtube playlist url.
       _warningMessageVM.isPlaylistUrlInvalid = true;
       return null;
     }
@@ -135,6 +139,8 @@ class AudioDownloadVM extends ChangeNotifier {
 
       return updatedPlaylist;
     }
+
+    // Adding the playlist to the application
 
     Playlist addedPlaylist = await _addPlaylistIfNotExist(
       playlistUrl: playlistUrl,
@@ -404,6 +410,8 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// User selected the audio menu item "Delete audio
+  /// from playlist aswell"
   void deleteAudioFromPlaylistAswell({
     required Audio audio,
   }) {

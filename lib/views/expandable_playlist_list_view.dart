@@ -87,7 +87,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                   warningMessageVM.warningMessageType;
 
               switch (warningMessageType) {
-                case WarningMessageType.updatePlayListTitle:
+                case WarningMessageType.updatedPlaylistUrlTitle:
                   String updatedPlayListTitle =
                       warningMessageVM.updatedPlaylistTitle;
 
@@ -96,13 +96,13 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       displayWarningDialog(
                           context: context,
                           message: AppLocalizations.of(context)!
-                              .updatePlayListTitle(updatedPlayListTitle),
+                              .updatedPlaylistUrlTitle(updatedPlayListTitle),
                           warningMessageVM: warningMessageVM);
                     });
                   }
 
                   return const SizedBox.shrink();
-                case WarningMessageType.addPlayListTitle:
+                case WarningMessageType.addPlaylistTitle:
                   String addedPlayListTitle =
                       warningMessageVM.addedPlaylistTitle;
 
@@ -111,7 +111,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       displayWarningDialog(
                           context: context,
                           message: AppLocalizations.of(context)!
-                              .addPlayListTitle(addedPlayListTitle),
+                              .addPlaylistTitle(addedPlayListTitle),
                           warningMessageVM: warningMessageVM);
                     });
                   }

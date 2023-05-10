@@ -3,15 +3,29 @@ import 'package:flutter/material.dart';
 enum WarningMessageType {
   none,
   errorMessage,
-  infoMessage,
-  successMessage,
-  updatePlayListTitle,
-  addPlayListTitle,
-  invalidPlaylistUrl,
-  playlistWithUrlAlreadyInListOfPlaylists,
-  playlistWithThisUrlAlreadyDownloadedAndUpdated,
-  playlistWithThisUrlAlreadyDownloadedAndAdded,
-  deleteAudioFromPlaylistAswellWarning,
+  infoMessage, // Not used yet
+  successMessage, // Not used yet
+  updatedPlaylistUrlTitle, // This means that the playlist was not added, but
+  // that its url was updated. The case when a new
+  // playlist with the same title is created in order
+  // to replace the old one which contains too many
+  // audios.
+
+  addPlaylistTitle, // The playlist with this title is added
+  // to the application
+
+  invalidPlaylistUrl, // The case if the url is a video url and the user
+  // clicked on the Add button instead of the Download
+  // button or if the String pasted to the url text field
+  // is not a valid Youtube playlist url.
+
+  playlistWithUrlAlreadyInListOfPlaylists, // User clicked on Add button but the playlist with this url
+  // was already downloaded
+
+  playlistWithThisUrlAlreadyDownloadedAndUpdated, // Not used yet
+  playlistWithThisUrlAlreadyDownloadedAndAdded, // Not used yet
+  deleteAudioFromPlaylistAswellWarning, // User selected the audio menu item "Delete audio
+  // from playlist aswell"
 }
 
 class WarningMessageVM extends ChangeNotifier {
@@ -42,7 +56,7 @@ class WarningMessageVM extends ChangeNotifier {
     _updatedPlaylistTitle = updatedPlaylistTitle;
 
     if (updatedPlaylistTitle.isNotEmpty) {
-      _warningMessageType = WarningMessageType.updatePlayListTitle;
+      _warningMessageType = WarningMessageType.updatedPlaylistUrlTitle;
 
       notifyListeners();
     }
@@ -54,7 +68,7 @@ class WarningMessageVM extends ChangeNotifier {
     _addedPlaylistTitle = addedPlaylistTitle;
 
     if (addedPlaylistTitle.isNotEmpty) {
-      _warningMessageType = WarningMessageType.addPlayListTitle;
+      _warningMessageType = WarningMessageType.addPlaylistTitle;
 
       notifyListeners();
     }
@@ -130,9 +144,10 @@ class WarningMessageVM extends ChangeNotifier {
   String _deleteAudioFromPlaylistAswellTitle = '';
   String get deleteAudioFromPlaylistAswellTitle =>
       _deleteAudioFromPlaylistAswellTitle;
-  setDeleteAudioFromPlaylistAswellTitle(
-      {required String deleteAudioFromPlaylistAswellTitle,
-      required String deleteAudioFromPlaylistAswellAudioVideoTitle}) {
+  setDeleteAudioFromPlaylistAswellTitle({
+    required String deleteAudioFromPlaylistAswellTitle,
+    required String deleteAudioFromPlaylistAswellAudioVideoTitle,
+  }) {
     _deleteAudioFromPlaylistAswellTitle = deleteAudioFromPlaylistAswellTitle;
     _deleteAudioFromPlaylistAswellAudioVideoTitle =
         deleteAudioFromPlaylistAswellAudioVideoTitle;
