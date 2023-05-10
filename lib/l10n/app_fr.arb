@@ -65,30 +65,46 @@
   "deleteAudioFromPlaylistAswell": "Supprime l'audio de la playlist également",
   "deleteAudioFromPlaylistAswellWarning": "Supprime l'audio \"{audioTitle}\" de la playlist Youtube \"{playlistTitle}\", sinon l'audio sera téléchargé à nouveau lors du prochain téléchargement de la playlist.",
   "warning": "AVERTISSEMENT",
-  "updatedPlaylistUrlTitle": "L'URL de la playlist {title} a été mise à jour. La playlist peut être téléchargée avec sa nouvelle URL.",
+  "updatedPlaylistUrlTitle": "L'URL de la playlist \"{title}\" a été mise à jour. La playlist peut être téléchargée avec sa nouvelle URL.",
   "@updatedPlaylistUrlTitle": {
     "description": "Message d'information affiché lorsqu'une URL de playlist existante a été mise à jour.",
     "placeholders": {
       "title": {}
     }
   },
-  "addPlaylistTitle": "Nouvelle playlist {title} ajoutée à la fin de la liste des playlists.",
+  "addPlaylistTitle": "Nouvelle playlist \"{title}\" ajoutée à la fin de la liste des playlists.",
   "@addPlaylistTitle": {
     "description": "Message informant qu'une nouvelle playlist a été ajoutée à la liste des playlists.",
     "placeholders": {
       "title": {}
     }
   },
-  "invalidPlaylistUrl": "L'URL {url} ne pointe pas sur une playlist. Aucune playlist n'a donc été ajoutée ou modifiée.",
+  "invalidPlaylistUrl": "L'URL \"{url}\" ne pointe pas sur une playlist. Aucune playlist n'a donc été ajoutée ou modifiée.",
   "@invalidPlaylistUrl": {
     "description": "Message d'erreur affiché lorsqu'une URL de playlist est invalide.",
     "placeholders": {
       "url": {}
     }
   },
-  "playlistWithUrlAlreadyInListOfPlaylists": "La playlist avec l'URL {url} est déjà dans la liste des playlists.",
+  "playlistWithUrlAlreadyInListOfPlaylists": "La playlist avec l'URL \"{url}\" est déjà dans la liste des playlists.",
   "@playlistWithUrlAlreadyInListOfPlaylists": {
     "description": "Avertissement annonçant que la playlist avec l'URL {url} est déjà dans la liste des playlists.",
+    "placeholders": {
+      "url": {}
+    }
+  },
+  "downloadAudioYoutubeError": "Erreur de téléchargement audio Youtube: \"{exceptionMessage}\"",
+  "@downloadAudioYoutubeError": {
+    "description": "Message d'erreur affiché lorsqu'une erreur se produit lors du téléchargement audio Youtube",
+    "placeholders": {
+      "exceptionMessage": {}
+    }
+  },
+  "downloadAudioFileAlreadyOnAudioDirectory": "Le fichier audio \"{shortPathFileName}\" existe déjà dans le dossier de téléchargement et n'est donc pas retéléchargé.",
+  "noInternet": "Pas d'Internet. Connecte ton appareil et rééssaye.",
+  "invalidSingleVideoUUrl": "L'URL \"{url}\" ne pointe pas sur une vidéo unique. Aucune vidéo n'a donc été téléchargée.",
+  "@invalidSingleVideoUUrl": {
+    "description": "Message d'erreur affiché lorsqu'une URL de vidéo unique est invalide.",
     "placeholders": {
       "url": {}
     }

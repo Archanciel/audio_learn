@@ -65,30 +65,46 @@
   "deleteAudioFromPlaylistAswell": "Delete audio from playlist as well",
   "deleteAudioFromPlaylistAswellWarning": "If the deleted audio video \"{audioTitle}\" remains in the \"{playlistTitle}\" Youtube playlist, it will be downloaded again the next time you download the playlist !",
   "warning": "WARNING",
-  "updatedPlaylistUrlTitle": "Playlist {title} URL was updated. The playlist can be downloaded with its new URL.",
+  "updatedPlaylistUrlTitle": "Playlist \"{title}\" URL was updated. The playlist can be downloaded with its new URL.",
   "@updatedPlaylistUrlTitle": {
     "description": "Warning announcing that the playlist url was updated.",
     "placeholders": {
       "title": {}
     }
   },
-  "addPlaylistTitle": "Playlist {title} added at end of list of playlists.",
+  "addPlaylistTitle": "Playlist \"{title}\" added at end of list of playlists.",
   "@addPlaylistTitle": {
     "description": "Warning announcing that the playlist was added at end of list of playlists.",
     "placeholders": {
       "title": {}
     }
   },
-  "invalidPlaylistUrl": "Playlist with invalid URL {url} neither added nor modified.",
+  "invalidPlaylistUrl": "Playlist with invalid URL \"{url}\" neither added nor modified.",
   "@invalidPlaylistUrl": {
     "description": "Warning announcing that the playlist with invalid URL was not added.",
     "placeholders": {
       "url": {}
     }
   },
-  "playlistWithUrlAlreadyInListOfPlaylists": "Playlist with this URL {url} is already in the list of playlists.",
+  "playlistWithUrlAlreadyInListOfPlaylists": "Playlist with this URL \"{url}\" is already in the list of playlists.",
   "@playlistWithUrlAlreadyInListOfPlaylists": {
     "description": "Warning announcing that the playlist with the URL is already in the list of playlists.",
+    "placeholders": {
+      "url": {}
+    }
+  },
+  "downloadAudioYoutubeError": "Error downloading audio from Youtube: \"{exceptionMessage}\"",
+  "@downloadAudioYoutubeError": {
+    "description": "Warning announcing that downloading the audio from Youtube failed.",
+    "placeholders": {
+      "exceptionMessage": {}
+    }
+  },
+  "downloadAudioFileAlreadyOnAudioDirectory": "Audio file \"{shortPathFileName}\" already in audio directory and so not redownloaded.",
+  "noInternet": "No Internet. Please connect your device and retry.",
+  "invalidSingleVideoUUrl": "Single video with invalid URL \"{url}\" could not be downloaded.",
+  "@invalidSingleVideoUUrl": {
+    "description": "Warning announcing that the single video with invalid URL was not downloaded.",
     "placeholders": {
       "url": {}
     }

@@ -19,6 +19,14 @@ class DirUtil {
     }
   }
 
+  static String removeAudioDownloadHomePathFromPathFileName(
+      {required String pathFileName}) {
+    String path = getPlaylistDownloadHomePath();
+    String pathFileNameWithoutHomePath = pathFileName.replaceFirst(path, '');
+
+    return pathFileNameWithoutHomePath;
+  }
+  
   static Future<void> createAppDirIfNotExist({
     bool isAppDirToBeDeleted = false,
   }) async {

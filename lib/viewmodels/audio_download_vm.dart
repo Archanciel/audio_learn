@@ -111,6 +111,12 @@ class AudioDownloadVM extends ChangeNotifier {
 
     try {
       youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
+    } on SocketException catch (e) {
+      _notifyDownloadError(
+        errorType: ErrorType.noInternet,
+        errorMessage: e.toString(),
+      );
+      return null;
     } catch (e) {
       _warningMessageVM.isPlaylistUrlInvalid = true;
       return null;
@@ -170,7 +176,22 @@ class AudioDownloadVM extends ChangeNotifier {
     yt.Playlist youtubePlaylist;
 
     playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
-    youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
+
+    try {
+      youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
+    } on SocketException catch (e) {
+      _notifyDownloadError(
+        errorType: ErrorType.noInternet,
+        errorMessage: e.toString(),
+      );
+      return;
+    } catch (e) {
+      _notifyDownloadError(
+        errorType: ErrorType.downloadAudioYoutubeError,
+        errorMessage: e.toString(),
+      );
+      return;
+    }
 
     Playlist currentPlaylist = await _addPlaylistIfNotExist(
       playlistUrl: playlistUrl,
@@ -242,7 +263,10 @@ class AudioDownloadVM extends ChangeNotifier {
           audio: audio,
         );
       } catch (e) {
-        _notifyDownloadError(e.toString());
+        _notifyDownloadError(
+          errorType: ErrorType.downloadAudioYoutubeError,
+          errorMessage: e.toString(),
+        );
         continue;
       }
 
@@ -283,13 +307,19 @@ class AudioDownloadVM extends ChangeNotifier {
     );
   }
 
-  _notifyDownloadError(String errorMessage) {
+  _notifyDownloadError({
+    required ErrorType errorType,
+    String? errorMessage,
+  }) {
     _isDownloading = false;
     _downloadProgress = 0.0;
     _lastSecondDownloadSpeed = 0;
     _audioDownloadError = true;
 
-    _warningMessageVM.errorMessage = errorMessage;
+    _warningMessageVM.setError(
+      errorType: errorType,
+      errorMessage: errorMessage,
+    );
 
     notifyListeners();
   }
@@ -350,8 +380,38 @@ class AudioDownloadVM extends ChangeNotifier {
     _stopDownloadPressed = false;
     _youtubeExplode = yt.YoutubeExplode();
 
-    final yt.VideoId videoId = yt.VideoId(videoUrl);
-    yt.Video youtubeVideo = await _youtubeExplode.videos.get(videoId);
+    final yt.VideoId videoId;
+
+    try {
+      videoId = yt.VideoId(videoUrl);
+    } on SocketException catch (e) {
+      _notifyDownloadError(
+        errorType: ErrorType.noInternet,
+        errorMessage: e.toString(),
+      );
+      return;
+    } catch (e) {
+      _warningMessageVM.isSingleVideoUrlInvalid = true;
+      return;
+    }
+
+    yt.Video youtubeVideo;
+
+    try {
+      youtubeVideo = await _youtubeExplode.videos.get(videoId);
+    } on SocketException catch (e) {
+      _notifyDownloadError(
+        errorType: ErrorType.noInternet,
+        errorMessage: e.toString(),
+      );
+      return;
+    } catch (e) {
+      _notifyDownloadError(
+        errorType: ErrorType.downloadAudioYoutubeError,
+        errorMessage: e.toString(),
+      );
+      return;
+    }
 
     final Duration? audioDuration = youtubeVideo.duration;
     DateTime? videoUploadDate =
@@ -370,6 +430,18 @@ class AudioDownloadVM extends ChangeNotifier {
       audioDuration: audioDuration!,
     );
 
+    final File file = File(audio.filePathName);
+
+    if (file.existsSync()) {
+      _notifyDownloadError(
+        errorType: ErrorType.downloadAudioFileAlreadyOnAudioDirectory,
+        errorMessage: DirUtil.removeAudioDownloadHomePathFromPathFileName(
+            pathFileName: audio.filePathName),
+      );
+
+      return;
+    }
+
     audio.audioPlayer = AudioPlayer();
 
     Stopwatch stopwatch = Stopwatch()..start();
@@ -387,7 +459,10 @@ class AudioDownloadVM extends ChangeNotifier {
       );
     } catch (e) {
       _youtubeExplode.close();
-      _notifyDownloadError(e.toString());
+      _notifyDownloadError(
+        errorType: ErrorType.downloadAudioYoutubeError,
+        errorMessage: e.toString(),
+      );
       return;
     }
 
@@ -509,7 +584,10 @@ class AudioDownloadVM extends ChangeNotifier {
         youtubeVideoId,
       );
     } catch (e) {
-      _notifyDownloadError(e.toString());
+      _notifyDownloadError(
+        errorType: ErrorType.downloadAudioYoutubeError,
+        errorMessage: e.toString(),
+      );
       return;
     }
 
@@ -534,15 +612,6 @@ class AudioDownloadVM extends ChangeNotifier {
     int audioFileSize,
   ) async {
     final File file = File(audio.filePathName);
-
-    if (file.existsSync()) {
-      _notifyDownloadError(
-        'Le fichier audio existe déjà dans le dossier de téléchargement.',
-      );
-
-      return;
-    }
-
     final IOSink audioFileSink = file.openWrite();
     final Stream<List<int>> audioStream =
         _youtubeExplode.videos.streamsClient.get(audioStreamInfo);

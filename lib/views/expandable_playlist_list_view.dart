@@ -87,6 +87,50 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                   warningMessageVM.warningMessageType;
 
               switch (warningMessageType) {
+                case WarningMessageType.errorMessage:
+                  ErrorType errorType = warningMessageVM.errorType;
+
+                  switch (errorType) {
+                    case ErrorType.downloadAudioYoutubeError:
+                      String exceptionMessage = warningMessageVM.errorMessage;
+
+                      if (exceptionMessage.isNotEmpty) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          displayWarningDialog(
+                              context: context,
+                              message: AppLocalizations.of(context)!
+                                  .downloadAudioYoutubeError(exceptionMessage),
+                              warningMessageVM: warningMessageVM);
+                        });
+                      }
+
+                      return const SizedBox.shrink();
+                    case ErrorType.noInternet:
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        displayWarningDialog(
+                            context: context,
+                            message: AppLocalizations.of(context)!.noInternet,
+                            warningMessageVM: warningMessageVM);
+                      });
+
+                      return const SizedBox.shrink();
+                    case ErrorType.downloadAudioFileAlreadyOnAudioDirectory:
+                      String audioShortPathFileName =
+                          warningMessageVM.errorMessage;
+
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        displayWarningDialog(
+                            context: context,
+                            message: AppLocalizations.of(context)!
+                                .downloadAudioFileAlreadyOnAudioDirectory(
+                                    audioShortPathFileName),
+                            warningMessageVM: warningMessageVM);
+                      });
+
+                      return const SizedBox.shrink();
+                    default:
+                      return const SizedBox.shrink();
+                  }
                 case WarningMessageType.updatedPlaylistUrlTitle:
                   String updatedPlayListTitle =
                       warningMessageVM.updatedPlaylistTitle;
@@ -157,6 +201,19 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         audioVideoTitle,
                         playlistTitle,
                       ),
+                      warningMessageVM: warningMessageVM,
+                    );
+                  });
+
+                  return const SizedBox.shrink();
+                case WarningMessageType.invalidSingleVideoUUrl:
+                  String playlistUrl = _playlistUrlController.text;
+
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    displayWarningDialog(
+                      context: context,
+                      message: AppLocalizations.of(context)!
+                          .invalidSingleVideoUUrl(playlistUrl),
                       warningMessageVM: warningMessageVM,
                     );
                   });
