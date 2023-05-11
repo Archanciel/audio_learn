@@ -16,7 +16,7 @@ import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/expandable_playlist_list_vm.dart';
 import 'audio_list_item_widget.dart';
 import 'screen_mixin.dart';
-import 'sort_and_filter_audio_dialog.dart';
+import 'widgets/sort_and_filter_audio_dialog.dart';
 
 enum PlaylistPopupMenuButton { sortFilterAudios, other }
 
