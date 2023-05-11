@@ -16,6 +16,7 @@ import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/expandable_playlist_list_vm.dart';
 import 'audio_list_item_widget.dart';
 import 'screen_mixin.dart';
+import 'widgets/display_message_widget.dart';
 import 'widgets/sort_and_filter_audio_dialog.dart';
 
 enum PlaylistPopupMenuButton { sortFilterAudios, other }
@@ -83,145 +84,11 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
         children: <Widget>[
           Consumer<WarningMessageVM>(
             builder: (context, warningMessageVM, child) {
-              WarningMessageType warningMessageType =
-                  warningMessageVM.warningMessageType;
-
-              switch (warningMessageType) {
-                case WarningMessageType.errorMessage:
-                  ErrorType errorType = warningMessageVM.errorType;
-
-                  switch (errorType) {
-                    case ErrorType.downloadAudioYoutubeError:
-                      String exceptionMessage = warningMessageVM.errorMessage;
-
-                      if (exceptionMessage.isNotEmpty) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          displayWarningDialog(
-                              context: context,
-                              message: AppLocalizations.of(context)!
-                                  .downloadAudioYoutubeError(exceptionMessage),
-                              warningMessageVM: warningMessageVM);
-                        });
-                      }
-
-                      return const SizedBox.shrink();
-                    case ErrorType.noInternet:
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        displayWarningDialog(
-                            context: context,
-                            message: AppLocalizations.of(context)!.noInternet,
-                            warningMessageVM: warningMessageVM);
-                      });
-
-                      return const SizedBox.shrink();
-                    case ErrorType.downloadAudioFileAlreadyOnAudioDirectory:
-                      String audioShortPathFileName =
-                          warningMessageVM.errorMessage;
-
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        displayWarningDialog(
-                            context: context,
-                            message: AppLocalizations.of(context)!
-                                .downloadAudioFileAlreadyOnAudioDirectory(
-                                    audioShortPathFileName),
-                            warningMessageVM: warningMessageVM);
-                      });
-
-                      return const SizedBox.shrink();
-                    default:
-                      return const SizedBox.shrink();
-                  }
-                case WarningMessageType.updatedPlaylistUrlTitle:
-                  String updatedPlayListTitle =
-                      warningMessageVM.updatedPlaylistTitle;
-
-                  if (updatedPlayListTitle.isNotEmpty) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      displayWarningDialog(
-                          context: context,
-                          message: AppLocalizations.of(context)!
-                              .updatedPlaylistUrlTitle(updatedPlayListTitle),
-                          warningMessageVM: warningMessageVM);
-                    });
-                  }
-
-                  return const SizedBox.shrink();
-                case WarningMessageType.addPlaylistTitle:
-                  String addedPlayListTitle =
-                      warningMessageVM.addedPlaylistTitle;
-
-                  if (addedPlayListTitle.isNotEmpty) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      displayWarningDialog(
-                          context: context,
-                          message: AppLocalizations.of(context)!
-                              .addPlaylistTitle(addedPlayListTitle),
-                          warningMessageVM: warningMessageVM);
-                    });
-                  }
-
-                  return const SizedBox.shrink();
-                case WarningMessageType.invalidPlaylistUrl:
-                  String playlistUrl = _playlistUrlController.text;
-
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    displayWarningDialog(
-                      context: context,
-                      message: AppLocalizations.of(context)!
-                          .invalidPlaylistUrl(playlistUrl),
-                      warningMessageVM: warningMessageVM,
-                    );
-                  });
-
-                  return const SizedBox.shrink();
-                case WarningMessageType.playlistWithUrlAlreadyInListOfPlaylists:
-                  String playlistUrl = _playlistUrlController.text;
-
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    displayWarningDialog(
-                      context: context,
-                      message: AppLocalizations.of(context)!
-                          .playlistWithUrlAlreadyInListOfPlaylists(playlistUrl),
-                      warningMessageVM: warningMessageVM,
-                    );
-                  });
-
-                  return const SizedBox.shrink();
-                case WarningMessageType.deleteAudioFromPlaylistAswellWarning:
-                  String playlistTitle =
-                      warningMessageVM.deleteAudioFromPlaylistAswellTitle;
-                  String audioVideoTitle = warningMessageVM
-                      .deleteAudioFromPlaylistAswellAudioVideoTitle;
-
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    displayWarningDialog(
-                      context: context,
-                      message: AppLocalizations.of(context)!
-                          .deleteAudioFromPlaylistAswellWarning(
-                        audioVideoTitle,
-                        playlistTitle,
-                      ),
-                      warningMessageVM: warningMessageVM,
-                    );
-                  });
-
-                  return const SizedBox.shrink();
-                case WarningMessageType.invalidSingleVideoUUrl:
-                  String playlistUrl = _playlistUrlController.text;
-
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    displayWarningDialog(
-                      context: context,
-                      message: AppLocalizations.of(context)!
-                          .invalidSingleVideoUUrl(playlistUrl),
-                      warningMessageVM: warningMessageVM,
-                    );
-                  });
-
-                  return const SizedBox.shrink();
-                default:
-                  return const SizedBox.shrink();
-              }
+              return DisplayMessageWidget(
+                warningMessageVM: warningMessageVM,
+                parentContext: context,
+                playlistUrlController: _playlistUrlController,
+              );
             },
           ),
           Row(
