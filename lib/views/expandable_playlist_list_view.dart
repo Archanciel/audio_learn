@@ -465,6 +465,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                             trailing: Checkbox(
                               value: playlist.isSelected,
                               onChanged: (value) {
+                                _playlistUrlController.text = playlist.url;
                                 expandablePlaylistListVM.setPlaylistSelection(
                                   playlistIndex: index,
                                   isPlaylistSelected: value!,
