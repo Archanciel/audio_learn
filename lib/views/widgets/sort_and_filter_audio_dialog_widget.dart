@@ -6,20 +6,20 @@ import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../services/audio_sort_filter_service.dart';
 
-class SortAndFilterAudioDialog extends StatefulWidget {
+class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final List<Audio> selectedPlaylistAudioLst;
 
-  const SortAndFilterAudioDialog({
+  const SortAndFilterAudioDialogWidget({
     super.key,
     required this.selectedPlaylistAudioLst,
   });
 
   @override
-  _SortAndFilterAudioDialogState createState() =>
-      _SortAndFilterAudioDialogState();
+  _SortAndFilterAudioDialogWidgetState createState() =>
+      _SortAndFilterAudioDialogWidgetState();
 }
 
-class _SortAndFilterAudioDialogState extends State<SortAndFilterAudioDialog> {
+class _SortAndFilterAudioDialogWidgetState extends State<SortAndFilterAudioDialogWidget> {
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash

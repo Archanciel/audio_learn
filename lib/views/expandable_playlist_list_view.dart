@@ -17,7 +17,7 @@ import '../viewmodels/expandable_playlist_list_vm.dart';
 import 'audio_list_item_widget.dart';
 import 'screen_mixin.dart';
 import 'widgets/display_message_widget.dart';
-import 'widgets/sort_and_filter_audio_dialog.dart';
+import 'widgets/sort_and_filter_audio_dialog_widget.dart';
 
 enum PlaylistPopupMenuButton { sortFilterAudios, other }
 
@@ -370,7 +370,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return SortAndFilterAudioDialog(
+                            return SortAndFilterAudioDialogWidget(
                               selectedPlaylistAudioLst:
                                   Provider.of<ExpandablePlaylistListVM>(context)
                                       .getSelectedPlaylistsPlayableAudios(),
