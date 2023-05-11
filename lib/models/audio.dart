@@ -207,7 +207,7 @@ class Audio {
         (match) => charToReplace[match.group(0)] ?? '');
 
     // Remove any non-English or non-French characters
-    originalVideoTitle = originalVideoTitle.replaceAll(RegExp(r'[^\x00-\x7FÀ-ÿ]'), '');
+    originalVideoTitle = originalVideoTitle.replaceAll(RegExp(r'[^\x00-\x7FÀ-ÿ‘’]'), '');
 
     return originalVideoTitle.trim();
   }

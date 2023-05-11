@@ -16,6 +16,17 @@ void main() {
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
 
+    test('Test replace colon char', () {
+      const String playlistTitle =
+          "Arthur Keller l'interview : Le CLIMAT n’est qu’une pièce du PUZZLE !";
+      const String expectedValidVideoTitle =
+          "Arthur Keller l'interview  - Le CLIMAT n’est qu’une pièce du PUZZLE !";
+
+      final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
+
+      expect(actualValidVideoTitle, expectedValidVideoTitle);
+    });
+
     test('Test replace OR char', () {
       const String playlistTitle =
           "💥 EFFONDREMENT Imminent de l'Euro ?! | 👉 Maintenant, La Fin de l'Euro Approche ?!";
@@ -54,6 +65,17 @@ void main() {
           '9 Dart concepts to know before you jump into Flutter // for super beginners in Flutter';
       const String expectedValidVideoTitle =
           '9 Dart concepts to know before you jump into Flutter _ for super beginners in Flutter';
+
+      final String actualValidVideoTitle = Audio.createValidVideoTitle(videoTitle);
+
+      expect(actualValidVideoTitle, expectedValidVideoTitle);
+    });
+
+    test('Test replace non french or english chars', () {
+      const String videoTitle =
+          "🔴 Que disent les pires scénarios climatiques ? 🔥";
+      const String expectedValidVideoTitle =
+          "Que disent les pires scénarios climatiques";
 
       final String actualValidVideoTitle = Audio.createValidVideoTitle(videoTitle);
 
