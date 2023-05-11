@@ -108,5 +108,6 @@
     "placeholders": {
       "url": {}
     }
-  }
+  },
+  "copyYoutubeVideoUrl": "Copy Youtube video URL"
 }

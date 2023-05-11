@@ -1,7 +1,7 @@
 // dart file located in lib\views
 
-import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -12,6 +12,7 @@ import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../utils/time_util.dart';
 import 'screen_mixin.dart';
+import '../viewmodels/warning_message_vm.dart';
 
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
@@ -54,6 +55,11 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                 child: Text(AppLocalizations.of(context)!.openYoutubeVideo),
               ),
               PopupMenuItem<String>(
+                key: const Key('popup_copy_youtube_video_url'),
+                value: 'copyYoutubeVideoUrl',
+                child: Text(AppLocalizations.of(context)!.copyYoutubeVideoUrl),
+              ),
+              PopupMenuItem<String>(
                 key: const Key('popup_menu_delete_audio'),
                 value: 'deleteAudio',
                 child: Text(AppLocalizations.of(context)!.deleteAudio),
@@ -71,6 +77,9 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
               switch (value) {
                 case 'openYoutubeVideo':
                   openUrlInExternalApp(url: audio.videoUrl);
+                  break;
+                case 'copyYoutubeVideoUrl':
+                  Clipboard.setData(ClipboardData(text: audio.videoUrl));
                   break;
                 case 'deleteAudio':
                   Provider.of<AudioDownloadVM>(context, listen: false)
