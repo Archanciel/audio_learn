@@ -5,6 +5,7 @@ import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
+import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -36,9 +37,11 @@ void main() {
       if (directory.existsSync()) {
         directory.deleteSync(recursive: true);
       }
-
-      final AudioDownloadVM audioDownloadVM =
-          AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
+      final WarningMessageVM warningMessageVM = WarningMessageVM();
+      final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        testPlaylistTitle: testPlaylistTitle,
+        warningMessageVM: warningMessageVM,
+      );
 
       expect(audioDownloadVM.listOfPlaylist, []);
       expect(audioDownloadVM.listOfPlaylist, []);
@@ -60,8 +63,11 @@ void main() {
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
-          audioDownloadVM =
-              AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
+          final WarningMessageVM warningMessageVM = WarningMessageVM();
+          audioDownloadVM = AudioDownloadVM(
+            testPlaylistTitle: testPlaylistTitle,
+            warningMessageVM: warningMessageVM,
+          );
           return audioDownloadVM;
         },
         child: MaterialApp(home: DownloadPlaylistPage()),
@@ -135,8 +141,11 @@ void main() {
         targetFileName: '$testPlaylistTitle.json',
       );
 
-      AudioDownloadVM audioDownloadVMbeforeDownload =
-          AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
+      final WarningMessageVM warningMessageVM = WarningMessageVM();
+      final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
+        testPlaylistTitle: testPlaylistTitle,
+        warningMessageVM: warningMessageVM,
+      );
       Playlist downloadedPlaylistBeforeDownload =
           audioDownloadVMbeforeDownload.listOfPlaylist[0];
 
@@ -168,8 +177,11 @@ void main() {
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
-          audioDownloadVM =
-              AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
+          final WarningMessageVM warningMessageVM = WarningMessageVM();
+          audioDownloadVM = AudioDownloadVM(
+            testPlaylistTitle: testPlaylistTitle,
+            warningMessageVM: warningMessageVM,
+          );
           return audioDownloadVM;
         },
         child: MaterialApp(home: DownloadPlaylistPage()),
@@ -254,8 +266,11 @@ void main() {
         targetFileName: '$testPlaylistTitle.json',
       );
 
-      AudioDownloadVM audioDownloadVMbeforeDownload =
-          AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
+      final WarningMessageVM warningMessageVM = WarningMessageVM();
+      final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
+        testPlaylistTitle: testPlaylistTitle,
+        warningMessageVM: warningMessageVM,
+      );
       Playlist downloadedPlaylistBeforeDownload =
           audioDownloadVMbeforeDownload.listOfPlaylist[0];
 
@@ -288,8 +303,11 @@ void main() {
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
-          audioDownloadVM =
-              AudioDownloadVM(testPlaylistTitle: testPlaylistTitle);
+          final WarningMessageVM warningMessageVM = WarningMessageVM();
+          audioDownloadVM = AudioDownloadVM(
+            testPlaylistTitle: testPlaylistTitle,
+            warningMessageVM: warningMessageVM,
+          );
           return audioDownloadVM;
         },
         child: MaterialApp(home: DownloadPlaylistPage()),
@@ -432,9 +450,13 @@ void deletePlaylistDownloadDir(Directory directory) {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+      final WarningMessageVM warningMessageVM = WarningMessageVM();
+      final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+      );
     return MaterialApp(
       home: ChangeNotifierProvider(
-        create: (context) => AudioDownloadVM(),
+        create: (context) => audioDownloadVM,
         child: DownloadPlaylistPage(),
       ),
     );
