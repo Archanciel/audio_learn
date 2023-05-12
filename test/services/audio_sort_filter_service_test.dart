@@ -83,17 +83,8 @@ void main() {
 
       print('sortedByTitleAsc: $sortedByTitleAsc\n');
 
-      List<Audio> sortedByTitleDesc =
-          audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: audioList,
-        sortingOption: SortingOption.validAudioTitle,
-        asc: false,
-      );
-
       print('expectedResultForTitleAsc: $expectedResultForTitleAsc\n');
 
-      print('sortedByTitleDesc: $sortedByTitleDesc\n');
-      print('expectedResultForTitleDesc: $expectedResultForTitleDesc\n');
 
       int i = 0;
       for (i = 0; i < sortedByTitleAsc.length;i++) {
@@ -104,6 +95,17 @@ void main() {
       }
 
       i = 0;
+
+      List<Audio> sortedByTitleDesc =
+          audioSortFilterService.sortAudioLstBySortingOption(
+        audioLst: audioList,
+        sortingOption: SortingOption.validAudioTitle,
+        asc: false,
+      );
+
+      print('sortedByTitleDesc: $sortedByTitleDesc\n');
+      print('expectedResultForTitleDesc: $expectedResultForTitleDesc\n');
+
       for (Audio audio in sortedByTitleDesc) {
         expect(
             audio.validVideoTitle ==
