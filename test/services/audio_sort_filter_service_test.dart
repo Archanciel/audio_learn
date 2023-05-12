@@ -60,8 +60,6 @@ void main() {
         bananna,
       ];
 
-      print('audioList: $audioList\n');
-
       List<Audio> expectedResultForTitleAsc = [
         apple,
         bananna,
@@ -76,46 +74,29 @@ void main() {
 
       List<Audio> sortedByTitleAsc =
           audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: audioList,
+        audioLst: List<Audio>.from(audioList), // copy list
         sortingOption: SortingOption.validAudioTitle,
         asc: true,
       );
 
-      print('sortedByTitleAsc: $sortedByTitleAsc\n');
-
-      print('expectedResultForTitleAsc: $expectedResultForTitleAsc\n');
-
-
-      int i = 0;
-      for (i = 0; i < sortedByTitleAsc.length;i++) {
-        expect(
-            sortedByTitleAsc[i].validVideoTitle ==
-                expectedResultForTitleAsc[i].validVideoTitle,
-            true);
-      }
-
-      i = 0;
+      expect(
+          sortedByTitleAsc.map((audio) => audio.validVideoTitle).toList(),
+          equals(expectedResultForTitleAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
 
       List<Audio> sortedByTitleDesc =
           audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: audioList,
+        audioLst: List<Audio>.from(audioList), // copy list
         sortingOption: SortingOption.validAudioTitle,
         asc: false,
       );
 
-      print('sortedByTitleDesc: $sortedByTitleDesc\n');
-      print('expectedResultForTitleDesc: $expectedResultForTitleDesc\n');
-
-      for (Audio audio in sortedByTitleDesc) {
-        expect(
-            audio.validVideoTitle ==
-                expectedResultForTitleDesc[i].validVideoTitle,
-            true);
-        i++;
-      }
-
-      // expect(sortedByTitleAsc, equals(expectedResultForTitleAsc));
-      // expect(sortedByTitleDesc, equals(expectedResultForTitleDesc));
+      expect(
+          sortedByTitleDesc.map((audio) => audio.validVideoTitle).toList(),
+          equals(expectedResultForTitleDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
     });
   });
 }
