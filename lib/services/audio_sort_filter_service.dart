@@ -330,6 +330,26 @@ class AudioSortFilterService {
     return audioLst;
   }
 
+  List<Audio> filterAndSortAudioLst({
+    required List<Audio> audioLst,
+    required SortingOption sortingOption,
+    String? searchWords,
+    bool asc = true,
+  }) {
+    if (searchWords != null && searchWords.isNotEmpty) {
+      audioLst = _filterAudioLstByVideoTitleOrDescription(
+        audioLst: audioLst,
+        searchWords: searchWords,
+      );
+    }
+
+    return sortAudioLstBySortingOption(
+      audioLst: audioLst,
+      sortingOption: sortingOption,
+      asc: asc,
+    );
+  }
+
   /// Currently not searching video description since
   /// video description is not available in audio object
   List<Audio> _filterAudioLstByVideoTitleOrDescription({
