@@ -211,4 +211,9 @@ class Audio {
 
     return originalVideoTitle.trim();
   }
+
+  @override
+  String toString() {
+    return 'Audio: $validVideoTitle';
+  }
 }

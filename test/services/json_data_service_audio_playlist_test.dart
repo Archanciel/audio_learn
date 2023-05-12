@@ -1,3 +1,4 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart' as path;
@@ -5,7 +6,6 @@ import 'package:path/path.dart' as path;
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/services/json_data_service.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 class UnsupportedClass {}
 
