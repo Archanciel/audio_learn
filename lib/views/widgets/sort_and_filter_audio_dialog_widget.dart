@@ -428,9 +428,10 @@ class _SortAndFilterAudioDialogWidgetState extends State<SortAndFilterAudioDialo
               AudioSortFilterService audioSortFilterService =
                   AudioSortFilterService();
               List<Audio> sortedAudioLstBySortingOption =
-                  audioSortFilterService.sortAudioLstBySortingOption(
+                  audioSortFilterService.filterAndSortAudioLst(
                 audioLst: widget.selectedPlaylistAudioLst,
                 sortingOption: _selectedSortingOption,
+                searchWords: _audioTitleSubString,
                 asc: _sortAscending,
               );
               Navigator.of(context).pop(sortedAudioLstBySortingOption);

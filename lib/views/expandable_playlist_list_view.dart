@@ -491,9 +491,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       (expandablePlaylistListVM.getSelectedPlaylists().isEmpty)
                           ? 0
                           : expandablePlaylistListVM
-                              .getSelectedPlaylists()[0]
-                              .playableAudioLst
-                              .length,
+                              .getSelectedPlaylistsPlayableAudios().length,
                   itemBuilder: (BuildContext context, int index) {
                     final audio = expandablePlaylistListVM
                         .getSelectedPlaylistsPlayableAudios()[index];
