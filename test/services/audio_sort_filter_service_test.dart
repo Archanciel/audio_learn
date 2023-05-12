@@ -68,15 +68,11 @@ void main() {
         zebra,
       ];
 
-      print('expectedResultForTitleAsc: $expectedResultForTitleAsc\n');
-
       List<Audio> expectedResultForTitleDesc = [
         zebra,
         bananna,
         apple,
       ];
-
-      print('expectedResultForTitleDesc: $expectedResultForTitleDesc\n');
 
       List<Audio> sortedByTitleAsc =
           audioSortFilterService.sortAudioLstBySortingOption(
@@ -84,7 +80,7 @@ void main() {
         sortingOption: SortingOption.validAudioTitle,
         asc: true,
       );
-   
+
       print('sortedByTitleAsc: $sortedByTitleAsc\n');
 
       List<Audio> sortedByTitleDesc =
@@ -93,26 +89,31 @@ void main() {
         sortingOption: SortingOption.validAudioTitle,
         asc: false,
       );
-   
+
+      print('expectedResultForTitleAsc: $expectedResultForTitleAsc\n');
+
       print('sortedByTitleDesc: $sortedByTitleDesc\n');
+      print('expectedResultForTitleDesc: $expectedResultForTitleDesc\n');
 
-      print('sortedByTitleAsc.map: ${sortedByTitleAsc.map((audio) => audio.validVideoTitle).toList()}\n');
-      print('expectedResultForTitleAsc.map: ${expectedResultForTitleAsc.map((audio) => audio.validVideoTitle).toList()}\n');
+      int i = 0;
+      for (i = 0; i < sortedByTitleAsc.length;i++) {
+        expect(
+            sortedByTitleAsc[i].validVideoTitle ==
+                expectedResultForTitleAsc[i].validVideoTitle,
+            true);
+      }
 
-      print('sortedByTitleDesc.map: ${sortedByTitleDesc.map((audio) => audio.validVideoTitle).toList()}\n');
-      print('expectedResultForTitleDesc.map: ${expectedResultForTitleDesc.map((audio) => audio.validVideoTitle).toList()}\n');
+      i = 0;
+      for (Audio audio in sortedByTitleDesc) {
+        expect(
+            audio.validVideoTitle ==
+                expectedResultForTitleDesc[i].validVideoTitle,
+            true);
+        i++;
+      }
 
-      int i = 1;
-      expect(
-          sortedByTitleAsc.map((audio) => audio.validVideoTitle).toList(),
-          equals(expectedResultForTitleAsc
-              .map((audio) => audio.validVideoTitle)
-              .toList()));
-      expect(
-          sortedByTitleDesc.map((audio) => audio.validVideoTitle).toList(),
-          equals(expectedResultForTitleDesc
-              .map((audio) => audio.validVideoTitle)
-              .toList()));
+      // expect(sortedByTitleAsc, equals(expectedResultForTitleAsc));
+      // expect(sortedByTitleDesc, equals(expectedResultForTitleDesc));
     });
   });
 }
