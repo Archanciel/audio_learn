@@ -110,5 +110,19 @@
       "url": {}
     }
   },
-  "copyYoutubeVideoUrl": "Copier l'URL de la vidéo Youtube"
+  "copyYoutubeVideoUrl": "Copier l'URL de la vidéo Youtube",
+  "displayAudioInfo": "Afficher les données audio",
+  "audioInfoDialogTitle": "Audio informations",
+  "audioInfoDialogOk": "OK",
+  "originalVideoTitleLabel": "Titre vidéo original",
+  "validVideoTitleLabel": "Titre vidéo valide", 
+  "videoUrlLabel": "URL vidéo",
+  "audioDownloadDateTimeLabel": "Date/heure téléch",
+  "audioDownloadDurationLabel": "Durée téléch",
+  "audioDownloadSpeedLabel": "Vitesse téléch",
+  "videoUploadDateLabel": "Date mise en ligne",
+  "audioDurationLabel": "Durée audio",
+  "audioFileNameLabel": "Nom fichier audio",
+  "audioFileSizeLabel": "Taille fichier (octets)",
+  "isMusicQualityLabel": "Qualité musicale"
 }

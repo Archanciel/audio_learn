@@ -13,6 +13,7 @@ import '../../../viewmodels/audio_player_vm.dart';
 import '../../../utils/time_util.dart';
 import '../screen_mixin.dart';
 import '../../../viewmodels/warning_message_vm.dart';
+import 'audio_info_dialog_widget.dart';
 
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
@@ -61,6 +62,11 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
               ),
               PopupMenuItem<String>(
                 key: const Key('popup_menu_delete_audio'),
+                value: 'displayAudioInfo',
+                child: Text(AppLocalizations.of(context)!.displayAudioInfo),
+              ),
+              PopupMenuItem<String>(
+                key: const Key('popup_menu_delete_audio'),
                 value: 'deleteAudio',
                 child: Text(AppLocalizations.of(context)!.deleteAudio),
               ),
@@ -80,6 +86,15 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   break;
                 case 'copyYoutubeVideoUrl':
                   Clipboard.setData(ClipboardData(text: audio.videoUrl));
+                  break;
+                case 'displayAudioInfo':
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return AudioInfoDialog(audio: audio);
+                    },
+                  );
                   break;
                 case 'deleteAudio':
                   Provider.of<ExpandablePlaylistListVM>(context, listen: false)

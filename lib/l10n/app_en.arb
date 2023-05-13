@@ -110,5 +110,19 @@
       "url": {}
     }
   },
-  "copyYoutubeVideoUrl": "Copy Youtube video URL"
+  "copyYoutubeVideoUrl": "Copy Youtube video URL",
+  "displayAudioInfo": "Display audio data",
+  "audioInfoDialogTitle": "Audio Info",
+  "audioInfoDialogOk": "OK",
+  "originalVideoTitleLabel": "Original video title",
+  "validVideoTitleLabel": "Valid video title",
+  "videoUrlLabel": "Video URL",
+  "audioDownloadDateTimeLabel": "Audio downl date time",
+  "audioDownloadDurationLabel": "Audio downl duration",
+  "audioDownloadSpeedLabel": "Audio downl speed",
+  "videoUploadDateLabel": "Video upload date",
+  "audioDurationLabel": "Audio duration",
+  "audioFileNameLabel": "Audio file name",
+  "audioFileSizeLabel": "Audio file size",
+  "isMusicQualityLabel": "Is music quality"
 }
