@@ -86,6 +86,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     required int playlistIndex,
     required bool isPlaylistSelected,
   }) {
+    // selecting another playlist displays the audio list of this
+    // playlist and nullifies the filtered and sorted audio list
     _sortedFilteredSelectedPlaylistsPlayableAudios = null;
 
     _audioDownloadVM.updatePlaylistSelection(
@@ -107,11 +109,14 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Method called when the user selected a playlist item and clicked
+  /// on the Delete playlist button. But the Delete playlist button is
+  /// no longer present.
   void deleteSelectedItem(BuildContext context) {
     int selectedIndex = _getSelectedIndex();
 
     if (selectedIndex != -1) {
-      deleteItem(selectedIndex);
+      _deleteItem(selectedIndex);
       _disableAllButtonsIfNoPlaylistIsSelected();
 
       notifyListeners();
@@ -148,8 +153,14 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
         .toList();
   }
 
+  /// Returns the selected playlist audio list. If the user 
+  /// clicked on the Apply button in the 
+  /// SortAndFilterAudioDialogWidget, then the filtered and 
+  /// sorted audio list is returned.
   List<Audio> getSelectedPlaylistsPlayableAudios() {
     if (_sortedFilteredSelectedPlaylistsPlayableAudios != null) {
+      // the case if the user clicked on the Apply button in the
+      // SortAndFilterAudioDialogWidget
       return _sortedFilteredSelectedPlaylistsPlayableAudios!;
     } else {
       List<Audio> selectedPlaylistsAudios = [];
@@ -164,6 +175,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     }
   }
 
+  /// Called after when the user clicked on the Apply button 
+  /// contained in the SortAndFilterAudioDialogWidget.
   void setSortedFilteredSelectedPlaylistsPlayableAudios(
       List<Audio> sortedFilteredSelectedPlaylistsPlayableAudios) {
     _sortedFilteredSelectedPlaylistsPlayableAudios =
@@ -218,7 +231,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     return _isPlaylistSelected;
   }
 
-  void deleteItem(int index) {
+  void _deleteItem(int index) {
     _selectablePlaylistLst.removeAt(index);
     _isPlaylistSelected = false;
   }
