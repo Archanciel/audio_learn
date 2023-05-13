@@ -485,8 +485,6 @@ class AudioDownloadVM extends ChangeNotifier {
     // since the audio mp3 file has been deleted, the audio is no 
     // longer in the playlist playable audio list
     audio.enclosingPlaylist!.removePlayableAudio(audio);
-
-    notifyListeners();
   }
 
   /// User selected the audio menu item "Delete audio
@@ -512,8 +510,6 @@ class AudioDownloadVM extends ChangeNotifier {
     _warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
         deleteAudioFromPlaylistAswellTitle: enclosingPlaylist!.title,
         deleteAudioFromPlaylistAswellAudioVideoTitle: audio.originalVideoTitle);
-
-    notifyListeners();
   }
 
   Future<Playlist> _createYoutubePlaylist({
