@@ -178,7 +178,13 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     }
   }
 
-  /// Called after when the user clicked on the Apply button
+  /// Used to display the audio list of the selected playlist 
+  /// starting at the beginning.
+  bool isAudioListFilteredAndSorted() {
+    return _sortedFilteredSelectedPlaylistsPlayableAudios != null;
+  }
+
+  /// Called after the user clicked on the Apply button
   /// contained in the SortAndFilterAudioDialogWidget.
   void setSortedFilteredSelectedPlaylistsPlayableAudios(
       List<Audio> sortedFilteredSelectedPlaylistsPlayableAudios) {

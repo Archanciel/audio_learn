@@ -43,6 +43,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
   //define on audio plugin
   final OnAudioQuery _audioQuery = OnAudioQuery();
 
+  final ScrollController _scrollController = ScrollController();
+
   //request permission from initStateMethod
   @override
   void initState() {
@@ -486,12 +488,26 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
           Expanded(
             child: Consumer<ExpandablePlaylistListVM>(
               builder: (context, expandablePlaylistListVM, child) {
+                if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
+                  // Scroll the sublist to the top when the audio
+                  // list is filtered and/or sorted
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _scrollController.animateTo(
+                      0,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeOut,
+                    );
+                  });
+                }
+
                 return ListView.builder(
+                  controller: _scrollController,
                   itemCount:
                       (expandablePlaylistListVM.getSelectedPlaylists().isEmpty)
                           ? 0
                           : expandablePlaylistListVM
-                              .getSelectedPlaylistsPlayableAudios().length,
+                              .getSelectedPlaylistsPlayableAudios()
+                              .length,
                   itemBuilder: (BuildContext context, int index) {
                     final audio = expandablePlaylistListVM
                         .getSelectedPlaylistsPlayableAudios()[index];
