@@ -127,5 +127,7 @@
   "yes": "Oui",
   "no": "Non",
   "octetShort": "o",
-  "infiniteBytesPerSecond": "∞ o/s"
+  "infiniteBytesPerSecond": "∞ o/s",
+  "updatePlaylistJsonFiles": "Mettre à jour les fichiers playlist JSON",
+  "compactVideoDescription": "Description vidéo compacte"
 }

@@ -19,7 +19,10 @@ import 'screen_mixin.dart';
 import 'widgets/display_message_widget.dart';
 import 'widgets/sort_and_filter_audio_dialog_widget.dart';
 
-enum PlaylistPopupMenuButton { sortFilterAudios, other }
+enum PlaylistPopupMenuButton {
+  sortFilterAudios,
+  updatePlaylistJson,
+}
 
 class ExpandablePlaylistListView extends StatefulWidget {
   final MaterialStateProperty<RoundedRectangleBorder>
@@ -392,9 +395,12 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           }
                         });
                         break;
-                      case PlaylistPopupMenuButton.other:
+                      case PlaylistPopupMenuButton.updatePlaylistJson:
+                        Provider.of<AudioDownloadVM>(context, listen: false)
+                            .updatePlaylistJsonFiles();
                         break;
                       default:
+                        break;
                     }
                   },
                   icon: const Icon(Icons.filter_list),
@@ -405,6 +411,12 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         value: PlaylistPopupMenuButton.sortFilterAudios,
                         child: Text(
                             AppLocalizations.of(context)!.sortFilterAudios),
+                      ),
+                      PopupMenuItem<PlaylistPopupMenuButton>(
+                        key: const Key('update_playlist_json_dialog_item'),
+                        value: PlaylistPopupMenuButton.updatePlaylistJson,
+                        child: Text(
+                            AppLocalizations.of(context)!.updatePlaylistJsonFiles),
                       ),
                       // Add more PopupMenuItems as needed
                     ];

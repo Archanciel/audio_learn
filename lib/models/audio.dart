@@ -23,7 +23,9 @@ class Audio {
   // Video title which does not contain invalid characters which
   // would cause the audio file name to genertate an file creation
   // exception
-  final String validVideoTitle;
+  String validVideoTitle;
+
+  String compactVideoDescription;
 
   // Url referencing the video from which rhe audio was extracted
   final String videoUrl;
@@ -87,6 +89,7 @@ class Audio {
   Audio({
     required this.enclosingPlaylist,
     required this.originalVideoTitle,
+    required this.compactVideoDescription,
     required this.videoUrl,
     required this.audioDownloadDateTime,
     this.audioDownloadDuration,
@@ -100,6 +103,7 @@ class Audio {
   Audio.fullConstructor({
     required this.enclosingPlaylist,
     required this.originalVideoTitle,
+    required this.compactVideoDescription,
     required this.validVideoTitle,
     required this.videoUrl,
     required this.audioDownloadDateTime,
@@ -118,6 +122,7 @@ class Audio {
       enclosingPlaylist:
           null, // You'll need to handle this separately, see note below
       originalVideoTitle: json['originalVideoTitle'],
+      compactVideoDescription: json['compactVideoDescription'] ?? '',
       validVideoTitle: json['validVideoTitle'],
       videoUrl: json['videoUrl'],
       audioDownloadDateTime: DateTime.parse(json['audioDownloadDateTime']),
@@ -138,6 +143,7 @@ class Audio {
   Map<String, dynamic> toJson() {
     return {
       'originalVideoTitle': originalVideoTitle,
+      'compactVideoDescription': compactVideoDescription,
       'validVideoTitle': validVideoTitle,
       'videoUrl': videoUrl,
       'audioDownloadDateTime': audioDownloadDateTime.toIso8601String(),

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
 
-
 // importing youtube_explode_dart as yt enables to name the app Model
 // playlist class as Playlist so it does not conflict with
 // youtube_explode_dart Playlist class name.
@@ -215,9 +214,16 @@ class AudioDownloadVM extends ChangeNotifier {
 
       videoUploadDate ??= DateTime(00, 1, 1);
 
+      String videoDescription =
+          (await _youtubeExplode.videos.get(youtubeVideo.id.value)).description;
+
+      String compactVideoDescription =
+          _createCompactVideoDescription(videoDescription: videoDescription);
+
       final Audio audio = Audio(
         enclosingPlaylist: currentPlaylist,
         originalVideoTitle: youtubeVideo.title,
+        compactVideoDescription: compactVideoDescription,
         videoUrl: youtubeVideo.url,
         audioDownloadDateTime: DateTime.now(),
         videoUploadDate: videoUploadDate,
@@ -421,9 +427,16 @@ class AudioDownloadVM extends ChangeNotifier {
 
     _variousAudiosPlaylist ??= await _createVariousPlaylist();
 
+    String videoDescription =
+        (await _youtubeExplode.videos.get(youtubeVideo.id.value)).description;
+
+    String compactVideoDescription =
+        _createCompactVideoDescription(videoDescription: videoDescription);
+
     final Audio audio = Audio(
       enclosingPlaylist: _variousAudiosPlaylist,
       originalVideoTitle: youtubeVideo.title,
+      compactVideoDescription: compactVideoDescription,
       videoUrl: youtubeVideo.url,
       audioDownloadDateTime: DateTime.now(),
       videoUploadDate: videoUploadDate,
@@ -475,14 +488,14 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Physically deletes the audio file from the audio playlist 
+  /// Physically deletes the audio file from the audio playlist
   /// directory.
   void deleteAudio({
     required Audio audio,
   }) {
     DirUtil.deleteFileIfExist(audio.filePathName);
 
-    // since the audio mp3 file has been deleted, the audio is no 
+    // since the audio mp3 file has been deleted, the audio is no
     // longer in the playlist playable audio list
     audio.enclosingPlaylist!.removePlayableAudio(audio);
   }
@@ -510,6 +523,78 @@ class AudioDownloadVM extends ChangeNotifier {
     _warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
         deleteAudioFromPlaylistAswellTitle: enclosingPlaylist!.title,
         deleteAudioFromPlaylistAswellAudioVideoTitle: audio.originalVideoTitle);
+  }
+
+  /// Method called when the user selects the update playlist
+  /// JSON files menu item.
+  void updatePlaylistJsonFiles() {
+    for (Playlist playlist in _listOfPlaylist) {
+      for (Audio audio in playlist.downloadedAudioLst) {
+        audio.validVideoTitle =
+            Audio.createValidVideoTitle(audio.originalVideoTitle);
+      }
+      JsonDataService.saveToFile(
+        model: playlist,
+        path: playlist.getPlaylistDownloadFilePathName(),
+      );
+    }
+  }
+
+  String _createCompactVideoDescription({
+    required String videoDescription,
+  }) {
+    // Extraire les 3 premières lignes de la description
+    String firstThreeLines =
+        videoDescription.split('\n').take(3).join('\n');
+
+    // Extraire les noms propres qui ne se trouvent pas dans les 3 premières lignes
+    String linesAfterThree = videoDescription.split('\n').skip(3).join('\n');
+    linesAfterThree = _removeTimestampLines(linesAfterThree);
+    final List<String> words = linesAfterThree.split(' ');
+
+    // Trouver les noms propres consécutifs (au moins deux)
+    List<String> consecutiveProperNames = [];
+
+    for (int i = 0; i < words.length - 1; i++) {
+      if (words[i].length > 0 &&
+          _isEnglishOrFrenchUpperCaseLetter(words[i][0]) &&
+          words[i + 1].length > 0 &&
+          _isEnglishOrFrenchUpperCaseLetter(words[i + 1][0])) {
+        consecutiveProperNames.add('${words[i]} ${words[i + 1]}');
+        i++; // Pour ne pas prendre en compte les noms propres suivants qui font déjà partie d'une paire consécutive
+      }
+    }
+
+    // Combiner firstThreeLines et consecutiveProperNames en une seule chaîne
+    final String compactVideoDescription;
+
+    if (consecutiveProperNames.isEmpty) {
+      compactVideoDescription = '$firstThreeLines ...';
+    } else {
+      compactVideoDescription =
+          '$firstThreeLines ...\n\n${consecutiveProperNames.join(', ')}\n...';
+    }
+
+    return compactVideoDescription;
+  }
+
+  bool _isEnglishOrFrenchUpperCaseLetter(String letter) {
+    // Expression régulière pour vérifier si la lettre est une lettre
+    // majuscule valide en anglais ou en français
+    RegExp validLetterRegex = RegExp(r'[A-ZÀ-ÿ]');
+    // Expression régulière pour vérifier si le caractère n'est pas
+    // un chiffre
+    RegExp notDigitRegex = RegExp(r'\D');
+
+    return validLetterRegex.hasMatch(letter) && notDigitRegex.hasMatch(letter);
+  }
+
+  String _removeTimestampLines(String text) {
+    // Expression régulière pour identifier les lignes de texte de la vidéo formatées comme les timestamps
+    RegExp timestampRegex = RegExp(r'^\d{1,2}:\d{2} .+\n', multiLine: true);
+
+    // Supprimer les lignes correspondantes
+    return text.replaceAll(timestampRegex, '').trim();
   }
 
   Future<Playlist> _createYoutubePlaylist({

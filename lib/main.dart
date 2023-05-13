@@ -223,7 +223,7 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
           children: [
             Text(AppLocalizations.of(context)!.title),
             InkWell(
-              key: Key('image_open_youtube'),
+              key: const Key('image_open_youtube'),
               onTap: () async {
                 await openUrlInExternalApp(
                   url: kYoutubeUrl,

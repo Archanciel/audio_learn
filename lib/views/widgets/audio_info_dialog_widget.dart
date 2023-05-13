@@ -22,6 +22,10 @@ class AudioInfoDialog extends StatelessWidget {
                 context,
                 AppLocalizations.of(context)!.originalVideoTitleLabel,
                 audio.originalVideoTitle),
+            infoRow(
+                context,
+                AppLocalizations.of(context)!.compactVideoDescription,
+                audio.compactVideoDescription),
             infoRow(context, AppLocalizations.of(context)!.validVideoTitleLabel,
                 audio.validVideoTitle),
             infoRow(context, AppLocalizations.of(context)!.videoUrlLabel,
@@ -93,7 +97,7 @@ class AudioInfoDialog extends StatelessWidget {
 
   Widget infoRow(BuildContext context, String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
