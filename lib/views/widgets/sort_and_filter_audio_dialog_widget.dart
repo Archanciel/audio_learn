@@ -121,6 +121,7 @@ class _SortAndFilterAudioDialogWidgetState
                     Row(
                       children: [
                         ChoiceChip(
+                          key: const Key('sortAscending'),
                           label:
                               Text(AppLocalizations.of(context)!.sortAscending),
                           selected: _sortAscending,
@@ -131,6 +132,7 @@ class _SortAndFilterAudioDialogWidgetState
                           },
                         ),
                         ChoiceChip(
+                          key: const Key('sortDescending'),
                           label: Text(
                               AppLocalizations.of(context)!.sortDescending),
                           selected: !_sortAscending,
