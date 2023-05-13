@@ -14,7 +14,8 @@ void main() {
       final Audio zebra = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Zebra ?',
-        validVideoTitle: 'Zebra',
+            compactVideoDescription: '',
+      validVideoTitle: 'Zebra',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
         audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
@@ -28,7 +29,8 @@ void main() {
       final Audio apple = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Apple ?',
-        validVideoTitle: 'Apple',
+                 compactVideoDescription: '',
+ validVideoTitle: 'Apple',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
         audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
@@ -42,7 +44,8 @@ void main() {
       final Audio bananna = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Bananna ?',
-        validVideoTitle: 'Bananna',
+             compactVideoDescription: '',
+     validVideoTitle: 'Bananna',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
         audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
@@ -110,7 +113,8 @@ void main() {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Zebra ?',
-        validVideoTitle: 'Zebra 1',
+              compactVideoDescription: '',
+    validVideoTitle: 'Zebra 1',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
         audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
@@ -124,6 +128,7 @@ void main() {
       final Audio apple = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Apple ?',
+          compactVideoDescription: '',
         validVideoTitle: 'Apple',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -138,6 +143,7 @@ void main() {
       final Audio zebra3 = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Zebra ?',
+          compactVideoDescription: '',
         validVideoTitle: 'Zebra 3',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -152,6 +158,7 @@ void main() {
       final Audio bananna = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Bananna ?',
+          compactVideoDescription: '',
         validVideoTitle: 'Bananna',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -166,6 +173,7 @@ void main() {
       final Audio zebra2 = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Zebra ?',
+          compactVideoDescription: '',
         validVideoTitle: 'Zebra 2',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),

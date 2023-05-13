@@ -5,7 +5,6 @@ import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/models/audio.dart';
 
 void main() {
-
   group('Testing Playlist add and remove methods', () {
     test('add audio to playlist', () {
       Playlist playlist = Playlist(url: 'https://example.com/playlist2');
@@ -30,7 +29,7 @@ void main() {
 
       expect(playlist.playableAudioLst.length, 3);
 
-      playlist.removeDownloadedAudio(playlist.playableAudioLst[1]); 
+      playlist.removeDownloadedAudio(playlist.playableAudioLst[1]);
 
       expect(playlist.downloadedAudioLst.length, 2);
       expect(playlist.downloadedAudioLst[0].originalVideoTitle, 'C');
@@ -51,7 +50,7 @@ void main() {
       expect(playlist.downloadedAudioLst[1].originalVideoTitle, 'A');
       expect(playlist.downloadedAudioLst[2].originalVideoTitle, 'B');
 
-      playlist.removePlayableAudio(playlist.playableAudioLst[1]); 
+      playlist.removePlayableAudio(playlist.playableAudioLst[1]);
 
       expect(playlist.downloadedAudioLst.length, 3);
       expect(playlist.playableAudioLst.length, 2);
@@ -186,17 +185,20 @@ void addDownloadedAudios(Playlist playlist) {
   playlist.addDownloadedAudio(Audio(
       enclosingPlaylist: playlist,
       originalVideoTitle: 'C',
+      compactVideoDescription: '',
       videoUrl: 'https://example.com/video1',
       audioDownloadDateTime: DateTime(2023, 3, 20),
       videoUploadDate: DateTime.now()));
   playlist.addDownloadedAudio(Audio(
       enclosingPlaylist: playlist,
       originalVideoTitle: 'A',
+      compactVideoDescription: '',
       videoUrl: 'https://example.com/video2',
       audioDownloadDateTime: DateTime(2023, 3, 25),
       videoUploadDate: DateTime.now()));
   playlist.addDownloadedAudio(Audio(
       enclosingPlaylist: playlist,
+      compactVideoDescription: '',
       originalVideoTitle: 'B',
       videoUrl: 'https://example.com/video3',
       audioDownloadDateTime: DateTime(2023, 3, 18),

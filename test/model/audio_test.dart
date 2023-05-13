@@ -112,6 +112,7 @@ void main() {
       Audio audio = Audio(
           enclosingPlaylist: playlist,
           originalVideoTitle: 'C',
+          compactVideoDescription: '',
           videoUrl: 'https://example.com/video1',
           audioDownloadDateTime: DateTime(2023, 3, 17),
           videoUploadDate: DateTime(2023, 4, 12));

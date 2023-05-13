@@ -43,6 +43,7 @@ void main() {
       Audio originalAudio = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Test Video Title',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -94,6 +95,7 @@ void main() {
       Audio originalAudio = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Test Video Title',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -134,6 +136,7 @@ void main() {
       Audio audio1 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylist,
         originalVideoTitle: 'Test Video 1',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-1',
         audioDownloadDateTime: DateTime.now(),
@@ -149,6 +152,7 @@ void main() {
       Audio audio2 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylist,
         originalVideoTitle: 'Test Video 2',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-2',
         audioDownloadDateTime: DateTime.now(),
@@ -241,6 +245,7 @@ void main() {
       Audio originalAudio = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Test Video Title',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -273,6 +278,7 @@ void main() {
       Audio audioOne = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Test Video One Title',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -288,6 +294,7 @@ void main() {
       Audio audioTwo = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Test Video Two Title',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -342,6 +349,7 @@ void main() {
       Audio audio1 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistOne,
         originalVideoTitle: 'Test Video 1',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-1',
         audioDownloadDateTime: DateTime.now(),
@@ -357,6 +365,7 @@ void main() {
       Audio audio2 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistOne,
         originalVideoTitle: 'Test Video 2',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-2',
         audioDownloadDateTime: DateTime.now(),
@@ -382,6 +391,7 @@ void main() {
       Audio audio3 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistTwo,
         originalVideoTitle: 'Test Video 1',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-1',
         audioDownloadDateTime: DateTime.now(),
@@ -397,6 +407,7 @@ void main() {
       Audio audio4 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistTwo,
         originalVideoTitle: 'Test Video 2',
+        compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-2',
         audioDownloadDateTime: DateTime.now(),
