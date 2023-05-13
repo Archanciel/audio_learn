@@ -188,6 +188,39 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Physically deletes the audio file from the audio playlist
+  /// directory.
+  void deleteAudio({
+    required Audio audio,
+  }) {
+    _audioDownloadVM.deleteAudio(audio: audio);
+
+    _removeAudioFromSortedFilteredPlayableAudioList(audio);
+
+    notifyListeners();
+  }
+
+  void _removeAudioFromSortedFilteredPlayableAudioList(Audio audio) {
+    if (_sortedFilteredSelectedPlaylistsPlayableAudios != null) {
+      _sortedFilteredSelectedPlaylistsPlayableAudios!
+          .removeWhere((audioInList) => audioInList.videoUrl == audio.videoUrl);
+    }
+  }
+
+  /// User selected the audio menu item "Delete audio
+  /// from playlist aswell". This method deletes the audio
+  /// from the playlist json file and from the audio playlist
+  /// directory.
+  void deleteAudioFromPlaylistAswell({
+    required Audio audio,
+  }) {
+    _audioDownloadVM.deleteAudioFromPlaylistAswell(audio: audio);
+
+    _removeAudioFromSortedFilteredPlayableAudioList(audio);
+
+    notifyListeners();
+  }
+
   int _getSelectedIndex() {
     for (int i = 0; i < _selectablePlaylistLst.length; i++) {
       if (_selectablePlaylistLst[i].isSelected) {

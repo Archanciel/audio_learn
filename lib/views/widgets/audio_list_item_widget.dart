@@ -1,5 +1,6 @@
 // dart file located in lib\views
 
+import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../models/audio.dart';
 import '../../../models/playlist.dart';
 import '../../../utils/ui_util.dart';
-import '../../../viewmodels/audio_download_vm.dart';
 import '../../../viewmodels/audio_player_vm.dart';
 import '../../../utils/time_util.dart';
 import '../screen_mixin.dart';
@@ -82,12 +82,12 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   Clipboard.setData(ClipboardData(text: audio.videoUrl));
                   break;
                 case 'deleteAudio':
-                  Provider.of<AudioDownloadVM>(context, listen: false)
+                  Provider.of<ExpandablePlaylistListVM>(context, listen: false)
                       .deleteAudio(audio: audio);
                   break;
                 case 'deleteAudioFromPlaylistAswell':
                   Playlist? audioEnclosingPlaylist = audio.enclosingPlaylist;
-                  Provider.of<AudioDownloadVM>(context, listen: false)
+                  Provider.of<ExpandablePlaylistListVM>(context, listen: false)
                       .deleteAudioFromPlaylistAswell(audio: audio);
                   Provider.of<WarningMessageVM>(context, listen: false)
                       .setDeleteAudioFromPlaylistAswellTitle(
