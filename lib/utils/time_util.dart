@@ -1,10 +1,11 @@
 
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:intl/intl.dart';
 
 extension FormattedDayHourMinute on Duration {
   static final NumberFormat numberFormatTwoInt = NumberFormat('00');
 
-  // ignore: non_constant_identifier_names
   /// returns the Duration formatted as HH:mm
   String HHmm() {
     int durationMinute = inMinutes.remainder(60);

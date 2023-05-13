@@ -39,7 +39,6 @@
   "sortBy": "Sort by:",
   "audioDownloadDateTime": "Audio download date time",
   "videoUploadDate": "Video upload date",
-  "validAudioTitle": "Valid audio title",
   "audioEnclosingPlaylistTitle": "Audio playlist title",
   "audioDuration": "Audio duration",
   "audioFileSize": "Audio file size",
@@ -124,5 +123,9 @@
   "audioDurationLabel": "Audio duration",
   "audioFileNameLabel": "Audio file name",
   "audioFileSizeLabel": "Audio file size",
-  "isMusicQualityLabel": "Is music quality"
+  "isMusicQualityLabel": "Is music quality",
+  "yes": "Yes",
+  "no": "No",
+  "octetShort": "B",
+  "infiniteBytesPerSecond": "infinite B/sec"
 }

@@ -39,7 +39,6 @@
   "sortBy": "Trier par:",
   "audioDownloadDateTime": "Date/heure téléchargement audio",
   "videoUploadDate": "Date mise en ligne vidéo",
-  "validAudioTitle": "Titre audio valide",
   "audioEnclosingPlaylistTitle": "Titre playlist audio",
   "audioDuration": "Durée audio",
   "audioFileSize": "Taille fichier audio",
@@ -123,6 +122,10 @@
   "videoUploadDateLabel": "Date mise en ligne",
   "audioDurationLabel": "Durée audio",
   "audioFileNameLabel": "Nom fichier audio",
-  "audioFileSizeLabel": "Taille fichier (octets)",
-  "isMusicQualityLabel": "Qualité musicale"
+  "audioFileSizeLabel": "Taille fichier",
+  "isMusicQualityLabel": "Qualité musicale",
+  "yes": "Oui",
+  "no": "Non",
+  "octetShort": "o",
+  "infiniteBytesPerSecond": "∞ o/s"
 }

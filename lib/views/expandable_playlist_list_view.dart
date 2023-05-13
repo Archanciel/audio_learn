@@ -215,10 +215,14 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
               if (audioDownloadVM.isDownloading) {
                 String downloadProgressPercent =
                     '${(audioDownloadVM.downloadProgress * 100).toStringAsFixed(1)}%';
-                String downloadFileSize =
-                    '${UiUtil.formatLargeIntValue(audioDownloadVM.currentDownloadingAudio.audioFileSize)}';
-                String downloadSpeed =
-                    '${UiUtil.formatLargeIntValue(audioDownloadVM.lastSecondDownloadSpeed)}/sec';
+                String downloadFileSize = UiUtil.formatLargeIntValue(
+                  context: context,
+                  value: audioDownloadVM.currentDownloadingAudio.audioFileSize,
+                );
+                String downloadSpeed = '${UiUtil.formatLargeIntValue(
+                  context: context,
+                  value: audioDownloadVM.lastSecondDownloadSpeed,
+                )}/sec';
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(

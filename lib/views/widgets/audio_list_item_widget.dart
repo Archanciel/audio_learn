@@ -131,7 +131,10 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     int audioFileSize = audio.audioFileSize;
     String audioFileSizeStr;
 
-    audioFileSizeStr = UiUtil.formatLargeIntValue(audioFileSize);
+    audioFileSizeStr = UiUtil.formatLargeIntValue(
+      context: context,
+      value: audioFileSize,
+    );
 
     int audioDownloadSpeed = audio.audioDownloadSpeed;
     String audioDownloadSpeedStr;
@@ -139,8 +142,10 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     if (audioDownloadSpeed.isInfinite) {
       audioDownloadSpeedStr = 'infinite o/sec';
     } else {
-      audioDownloadSpeedStr =
-          '${UiUtil.formatLargeIntValue(audioDownloadSpeed)}/sec';
+      audioDownloadSpeedStr = '${UiUtil.formatLargeIntValue(
+        context: context,
+        value: audioDownloadSpeed,
+      )}/sec';
     }
 
     if (audioDuration == null) {

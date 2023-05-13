@@ -61,7 +61,7 @@ class _SortAndFilterAudioDialogWidgetState
       case SortingOption.videoUploadDate:
         return AppLocalizations.of(context)!.videoUploadDate;
       case SortingOption.validAudioTitle:
-        return AppLocalizations.of(context)!.validAudioTitle;
+        return AppLocalizations.of(context)!.validVideoTitleLabel;
       case SortingOption.audioEnclosingPlaylistTitle:
         return AppLocalizations.of(context)!.audioEnclosingPlaylistTitle;
       case SortingOption.audioDuration:

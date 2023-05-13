@@ -1,7 +1,10 @@
+import 'package:audio_learn/utils/time_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../constants.dart';
 import '../../models/audio.dart';
+import '../../utils/ui_util.dart';
 
 class AudioInfoDialog extends StatelessWidget {
   final Audio audio;
@@ -15,17 +18,48 @@ class AudioInfoDialog extends StatelessWidget {
       content: SingleChildScrollView(
         child: ListBody(
           children: <Widget>[
-            infoRow(context, AppLocalizations.of(context)!.originalVideoTitleLabel, audio.originalVideoTitle),
-            infoRow(context, AppLocalizations.of(context)!.validVideoTitleLabel, audio.validVideoTitle),
-            infoRow(context, AppLocalizations.of(context)!.videoUrlLabel, audio.videoUrl),
-            infoRow(context, AppLocalizations.of(context)!.audioDownloadDateTimeLabel, audio.audioDownloadDateTime.toString()),
-            infoRow(context, AppLocalizations.of(context)!.audioDownloadDurationLabel, audio.audioDownloadDuration.toString()),
-            infoRow(context, AppLocalizations.of(context)!.audioDownloadSpeedLabel, '${audio.audioDownloadSpeed} bytes/sec'),
-            infoRow(context, AppLocalizations.of(context)!.videoUploadDateLabel, audio.videoUploadDate.toString()),
-            infoRow(context, AppLocalizations.of(context)!.audioDurationLabel, audio.audioDuration.toString()),
-            infoRow(context, AppLocalizations.of(context)!.audioFileNameLabel, audio.audioFileName),
-            infoRow(context, AppLocalizations.of(context)!.audioFileSizeLabel, '${audio.audioFileSize} bytes'),
-            infoRow(context, AppLocalizations.of(context)!.isMusicQualityLabel, audio.isMusicQuality.toString()),
+            infoRow(
+                context,
+                AppLocalizations.of(context)!.originalVideoTitleLabel,
+                audio.originalVideoTitle),
+            infoRow(context, AppLocalizations.of(context)!.validVideoTitleLabel,
+                audio.validVideoTitle),
+            infoRow(context, AppLocalizations.of(context)!.videoUrlLabel,
+                audio.videoUrl),
+            infoRow(
+                context,
+                AppLocalizations.of(context)!.audioDownloadDateTimeLabel,
+                frenchDateTimeFormat.format(audio.audioDownloadDateTime)),
+            infoRow(
+                context,
+                AppLocalizations.of(context)!.audioDownloadDurationLabel,
+                audio.audioDownloadDuration!.HHmmss()),
+            infoRow(
+                context,
+                AppLocalizations.of(context)!.audioDownloadSpeedLabel,
+                formatDownloadSpeed(
+                  context: context,
+                  audio: audio,
+                )),
+            infoRow(context, AppLocalizations.of(context)!.videoUploadDateLabel,
+                frenchDateFormat.format(audio.videoUploadDate)),
+            infoRow(context, AppLocalizations.of(context)!.audioDurationLabel,
+                audio.audioDuration!.HHmmss()),
+            infoRow(context, AppLocalizations.of(context)!.audioFileNameLabel,
+                audio.audioFileName),
+            infoRow(
+                context,
+                AppLocalizations.of(context)!.audioFileSizeLabel,
+                UiUtil.formatLargeIntValue(
+                  context: context,
+                  value: audio.audioFileSize,
+                )),
+            infoRow(
+                context,
+                AppLocalizations.of(context)!.isMusicQualityLabel,
+                (audio.isMusicQuality)
+                    ? AppLocalizations.of(context)!.yes
+                    : AppLocalizations.of(context)!.no),
           ],
         ),
       ),
@@ -38,6 +72,23 @@ class AudioInfoDialog extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String formatDownloadSpeed({
+    required BuildContext context,
+    required Audio audio,
+  }) {
+    int audioDownloadSpeed = audio.audioDownloadSpeed;
+    String audioDownloadSpeedStr;
+
+    if (audioDownloadSpeed.isInfinite) {
+      audioDownloadSpeedStr = AppLocalizations.of(context)!.infiniteBytesPerSecond;
+    } else {
+      audioDownloadSpeedStr =
+          '${UiUtil.formatLargeIntValue(context: context, value: audioDownloadSpeed)}/sec';
+    }
+
+    return audioDownloadSpeedStr;
   }
 
   Widget infoRow(BuildContext context, String label, String value) {

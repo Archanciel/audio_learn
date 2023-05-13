@@ -74,6 +74,8 @@ const Color kButtonColor = Color(0xFF3D3EC2);
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");
+DateFormat englishDateFormat = DateFormat("yyyy-MM-dd");
+DateFormat frenchDateFormat = DateFormat("dd-MM-yyyy");
 
 const TextStyle kDialogTitlesStyle = TextStyle(
   fontSize: 17,
