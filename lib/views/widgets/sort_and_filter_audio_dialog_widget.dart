@@ -19,7 +19,8 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
       _SortAndFilterAudioDialogWidgetState();
 }
 
-class _SortAndFilterAudioDialogWidgetState extends State<SortAndFilterAudioDialogWidget> {
+class _SortAndFilterAudioDialogWidgetState
+    extends State<SortAndFilterAudioDialogWidget> {
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash
@@ -119,17 +120,41 @@ class _SortAndFilterAudioDialogWidgetState extends State<SortAndFilterAudioDialo
                     ),
                     Row(
                       children: [
-                        Text(AppLocalizations.of(context)!.sortAscending),
-                        Checkbox(
-                          value: _sortAscending,
-                          onChanged: (bool? newValue) {
+                        ChoiceChip(
+                          label:
+                              Text(AppLocalizations.of(context)!.sortAscending),
+                          selected: _sortAscending,
+                          onSelected: (bool selected) {
                             setState(() {
-                              _sortAscending = newValue!;
+                              _sortAscending = selected;
+                            });
+                          },
+                        ),
+                        ChoiceChip(
+                          label: Text(
+                              AppLocalizations.of(context)!.sortDescending),
+                          selected: !_sortAscending,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _sortAscending = !selected;
                             });
                           },
                         ),
                       ],
                     ),
+                    // Row(
+                    //   children: [
+                    //     Text(AppLocalizations.of(context)!.sortAscending),
+                    //     Checkbox(
+                    //       value: _sortAscending,
+                    //       onChanged: (bool? newValue) {
+                    //         setState(() {
+                    //           _sortAscending = newValue!;
+                    //         });
+                    //       },
+                    //     ),
+                    //   ],
+                    // ),
                     const SizedBox(
                       height: 10,
                     ),
