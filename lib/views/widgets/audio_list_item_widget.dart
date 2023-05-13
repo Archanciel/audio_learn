@@ -15,6 +15,14 @@ import '../screen_mixin.dart';
 import '../../../viewmodels/warning_message_vm.dart';
 import 'audio_info_dialog_widget.dart';
 
+enum AudioPopupMenuAction {
+  openYoutubeVideo,
+  copyYoutubeVideoUrl,
+  displayAudioInfo,
+  deleteAudio,
+  deleteAudioFromPlaylistAswell,
+}
+
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
   final void Function(Audio audio) onPlayPressedFunction;
@@ -50,29 +58,29 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
               0,
             ),
             items: [
-              PopupMenuItem<String>(
+              PopupMenuItem<AudioPopupMenuAction>(
                 key: const Key('popup_menu_open_youtube_video'),
-                value: 'openYoutubeVideo',
+                value: AudioPopupMenuAction.openYoutubeVideo,
                 child: Text(AppLocalizations.of(context)!.openYoutubeVideo),
               ),
-              PopupMenuItem<String>(
+              PopupMenuItem<AudioPopupMenuAction>(
                 key: const Key('popup_copy_youtube_video_url'),
-                value: 'copyYoutubeVideoUrl',
+                value: AudioPopupMenuAction.copyYoutubeVideoUrl,
                 child: Text(AppLocalizations.of(context)!.copyYoutubeVideoUrl),
               ),
-              PopupMenuItem<String>(
+              PopupMenuItem<AudioPopupMenuAction>(
                 key: const Key('popup_menu_delete_audio'),
-                value: 'displayAudioInfo',
+                value: AudioPopupMenuAction.displayAudioInfo,
                 child: Text(AppLocalizations.of(context)!.displayAudioInfo),
               ),
-              PopupMenuItem<String>(
+              PopupMenuItem<AudioPopupMenuAction>(
                 key: const Key('popup_menu_delete_audio'),
-                value: 'deleteAudio',
+                value: AudioPopupMenuAction.deleteAudio,
                 child: Text(AppLocalizations.of(context)!.deleteAudio),
               ),
-              PopupMenuItem<String>(
+              PopupMenuItem<AudioPopupMenuAction>(
                 key: const Key('popup_menu_delete_audio_from_playlist_aswell'),
-                value: 'deleteAudioFromPlaylistAswell',
+                value: AudioPopupMenuAction.deleteAudioFromPlaylistAswell,
                 child: Text(AppLocalizations.of(context)!
                     .deleteAudioFromPlaylistAswell),
               ),
@@ -81,13 +89,13 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
           ).then((value) {
             if (value != null) {
               switch (value) {
-                case 'openYoutubeVideo':
+                case AudioPopupMenuAction.openYoutubeVideo:
                   openUrlInExternalApp(url: audio.videoUrl);
                   break;
-                case 'copyYoutubeVideoUrl':
+                case AudioPopupMenuAction.copyYoutubeVideoUrl:
                   Clipboard.setData(ClipboardData(text: audio.videoUrl));
                   break;
-                case 'displayAudioInfo':
+                case AudioPopupMenuAction.displayAudioInfo:
                   showDialog<void>(
                     context: context,
                     barrierDismissible: true,
@@ -96,11 +104,11 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                     },
                   );
                   break;
-                case 'deleteAudio':
+                case AudioPopupMenuAction.deleteAudio:
                   Provider.of<ExpandablePlaylistListVM>(context, listen: false)
                       .deleteAudio(audio: audio);
                   break;
-                case 'deleteAudioFromPlaylistAswell':
+                case AudioPopupMenuAction.deleteAudioFromPlaylistAswell:
                   Playlist? audioEnclosingPlaylist = audio.enclosingPlaylist;
                   Provider.of<ExpandablePlaylistListVM>(context, listen: false)
                       .deleteAudioFromPlaylistAswell(audio: audio);
