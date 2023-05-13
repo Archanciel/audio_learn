@@ -1,10 +1,9 @@
 // dart file located in lib\viewmodels
 
+import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
 
-import 'package:audio_learn/services/json_data_service.dart';
-import 'package:flutter/material.dart';
 
 // importing youtube_explode_dart as yt enables to name the app Model
 // playlist class as Playlist so it does not conflict with
@@ -12,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt;
 import 'package:audioplayers/audioplayers.dart';
 
+import '../services/json_data_service.dart';
 import '../constants.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
@@ -475,18 +475,24 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Physically deletes the audio file from the audio playlist 
+  /// directory.
   void deleteAudio({
     required Audio audio,
   }) {
     DirUtil.deleteFileIfExist(audio.filePathName);
 
+    // since the audio mp3 file has been deleted, the audio is no 
+    // longer in the playlist playable audio list
     audio.enclosingPlaylist!.removePlayableAudio(audio);
 
     notifyListeners();
   }
 
   /// User selected the audio menu item "Delete audio
-  /// from playlist aswell"
+  /// from playlist aswell". This method deletes the audio
+  /// from the playlist json file and from the audio playlist
+  /// directory.
   void deleteAudioFromPlaylistAswell({
     required Audio audio,
   }) {
@@ -494,14 +500,14 @@ class AudioDownloadVM extends ChangeNotifier {
 
     Playlist? enclosingPlaylist = audio.enclosingPlaylist;
 
-    if (enclosingPlaylist != null) {
-      enclosingPlaylist.removeDownloadedAudio(audio);
+    // if (enclosingPlaylist != null) {
+    enclosingPlaylist!.removeDownloadedAudio(audio);
 
-      JsonDataService.saveToFile(
-        model: enclosingPlaylist,
-        path: enclosingPlaylist.getPlaylistDownloadFilePathName(),
-      );
-    }
+    JsonDataService.saveToFile(
+      model: enclosingPlaylist,
+      path: enclosingPlaylist.getPlaylistDownloadFilePathName(),
+    );
+    // }
 
     _warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
         deleteAudioFromPlaylistAswellTitle: enclosingPlaylist!.title,

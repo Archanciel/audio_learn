@@ -27,8 +27,11 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   List<Playlist> _selectablePlaylistLst = [];
   List<Audio>? _sortedFilteredSelectedPlaylistsPlayableAudios;
 
-  ExpandablePlaylistListVM({required WarningMessageVM warningMessageVM, required AudioDownloadVM audioDownloadVM,})
-      : _warningMessageVM = warningMessageVM, _audioDownloadVM = audioDownloadVM;
+  ExpandablePlaylistListVM({
+    required WarningMessageVM warningMessageVM,
+    required AudioDownloadVM audioDownloadVM,
+  })  : _warningMessageVM = warningMessageVM,
+        _audioDownloadVM = audioDownloadVM;
 
   List<Playlist> getUpToDateSelectablePlaylists() {
     _selectablePlaylistLst = _audioDownloadVM.listOfPlaylist;
@@ -52,7 +55,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       // User clicked on Add button but the playlist with this url
       // was already downloaded
       _warningMessageVM.isPlaylistWithThisUrlAlreadyDownloaded = true;
-      
+
       return;
     }
 
@@ -60,7 +63,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
         await _audioDownloadVM.addPlaylist(playlistUrl: playlistUrl);
 
     if (addedPlaylist != null) {
-      // if addedPlaylist is null, it means that the 
+      // if addedPlaylist is null, it means that the
       // passed url is not a valid playlist url
       notifyListeners();
     }
@@ -153,9 +156,9 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
         .toList();
   }
 
-  /// Returns the selected playlist audio list. If the user 
-  /// clicked on the Apply button in the 
-  /// SortAndFilterAudioDialogWidget, then the filtered and 
+  /// Returns the selected playlist audio list. If the user
+  /// clicked on the Apply button in the
+  /// SortAndFilterAudioDialogWidget, then the filtered and
   /// sorted audio list is returned.
   List<Audio> getSelectedPlaylistsPlayableAudios() {
     if (_sortedFilteredSelectedPlaylistsPlayableAudios != null) {
@@ -175,7 +178,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     }
   }
 
-  /// Called after when the user clicked on the Apply button 
+  /// Called after when the user clicked on the Apply button
   /// contained in the SortAndFilterAudioDialogWidget.
   void setSortedFilteredSelectedPlaylistsPlayableAudios(
       List<Audio> sortedFilteredSelectedPlaylistsPlayableAudios) {
