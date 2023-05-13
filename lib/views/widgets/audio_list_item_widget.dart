@@ -5,14 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../models/audio.dart';
-import '../models/playlist.dart';
-import '../utils/ui_util.dart';
-import '../viewmodels/audio_download_vm.dart';
-import '../viewmodels/audio_player_vm.dart';
-import '../utils/time_util.dart';
-import 'screen_mixin.dart';
-import '../viewmodels/warning_message_vm.dart';
+import '../../../models/audio.dart';
+import '../../../models/playlist.dart';
+import '../../../utils/ui_util.dart';
+import '../../../viewmodels/audio_download_vm.dart';
+import '../../../viewmodels/audio_player_vm.dart';
+import '../../../utils/time_util.dart';
+import '../screen_mixin.dart';
+import '../../../viewmodels/warning_message_vm.dart';
 
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;

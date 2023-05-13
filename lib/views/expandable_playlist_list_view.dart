@@ -14,7 +14,7 @@ import '../utils/ui_util.dart';
 import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/expandable_playlist_list_vm.dart';
-import 'audio_list_item_widget.dart';
+import 'widgets/audio_list_item_widget.dart';
 import 'screen_mixin.dart';
 import 'widgets/display_message_widget.dart';
 import 'widgets/sort_and_filter_audio_dialog_widget.dart';
