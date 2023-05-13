@@ -38,7 +38,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
     if (_getSelectedIndex() != -1) {
       _isPlaylistSelected = true;
-      _enableAllButtonsIfAtLeastOnePlaylistIsSelected();
+      _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded();
     } else {
       _isPlaylistSelected = false;
       _disableAllButtonsIfNoPlaylistIsSelected();
@@ -76,7 +76,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       _disableEpandedListButtons();
     } else {
       if (_getSelectedIndex() != -1) {
-        _enableAllButtonsIfAtLeastOnePlaylistIsSelected();
+        _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded();
       } else {
         _disableAllButtonsIfNoPlaylistIsSelected();
       }
@@ -106,7 +106,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     if (!isOneItemSelected) {
       _disableAllButtonsIfNoPlaylistIsSelected();
     } else {
-      _enableAllButtonsIfAtLeastOnePlaylistIsSelected();
+      _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded();
     }
 
     notifyListeners();
@@ -236,11 +236,17 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     return -1;
   }
 
-  void _enableAllButtonsIfAtLeastOnePlaylistIsSelected() {
+  void _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded() {
+    if (_isListExpanded) {
+      _enableExpandedListButtons();
+    }
+    _isButtonAudioPopupMenuEnabled = true;
+  }
+
+  void _enableExpandedListButtons() {
     _isButtonDownloadSelPlaylistsEnabled = true;
     _isButtonMoveUpPlaylistEnabled = true;
     _isButtonDownPlaylistEnabled = true;
-    _isButtonAudioPopupMenuEnabled = true;
   }
 
   void _disableAllButtonsIfNoPlaylistIsSelected() {
