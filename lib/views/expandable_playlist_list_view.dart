@@ -438,7 +438,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                   ),
                                   items: [
                                     PopupMenuItem<String>(
-                                      key: Key(
+                                      key: const Key(
                                           'popup_menu_open_youtube_playlist'),
                                       value: 'openYoutubePlaylist',
                                       child: Text(AppLocalizations.of(context)!
