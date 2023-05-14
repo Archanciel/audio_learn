@@ -21,6 +21,7 @@ import 'widgets/sort_and_filter_audio_dialog_widget.dart';
 
 enum PlaylistPopupMenuButton {
   sortFilterAudios,
+  subSortFilterAudios,
   updatePlaylistJson,
 }
 
@@ -47,6 +48,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
   final OnAudioQuery _audioQuery = OnAudioQuery();
 
   final ScrollController _scrollController = ScrollController();
+
+  List<Audio> _selectedPlaylistsPlayableAudios = [];
 
   //request permission from initStateMethod
   @override
@@ -382,7 +385,31 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                             return SortAndFilterAudioDialogWidget(
                               selectedPlaylistAudioLst:
                                   Provider.of<ExpandablePlaylistListVM>(context)
-                                      .getSelectedPlaylistsPlayableAudios(),
+                                      .getSelectedPlaylistsPlayableAudios(
+                                subFilterAndSort: false,
+                              ),
+                            );
+                          },
+                        ).then((result) {
+                          if (result != null) {
+                            List<Audio> returnedAudioList = result;
+                            Provider.of<ExpandablePlaylistListVM>(context,
+                                    listen: false)
+                                .setSortedFilteredSelectedPlaylistsPlayableAudios(
+                                    returnedAudioList);
+                          }
+                        });
+                        break;
+                      case PlaylistPopupMenuButton.subSortFilterAudios:
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SortAndFilterAudioDialogWidget(
+                              selectedPlaylistAudioLst:
+                                  Provider.of<ExpandablePlaylistListVM>(context)
+                                      .getSelectedPlaylistsPlayableAudios(
+                                subFilterAndSort: true,
+                              ),
                             );
                           },
                         ).then((result) {
@@ -413,10 +440,16 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                             AppLocalizations.of(context)!.sortFilterAudios),
                       ),
                       PopupMenuItem<PlaylistPopupMenuButton>(
+                        key: const Key('sub_sort_and_filter_audio_dialog_item'),
+                        value: PlaylistPopupMenuButton.subSortFilterAudios,
+                        child: Text(
+                            AppLocalizations.of(context)!.subSortFilterAudios),
+                      ),
+                      PopupMenuItem<PlaylistPopupMenuButton>(
                         key: const Key('update_playlist_json_dialog_item'),
                         value: PlaylistPopupMenuButton.updatePlaylistJson,
-                        child: Text(
-                            AppLocalizations.of(context)!.updatePlaylistJsonFiles),
+                        child: Text(AppLocalizations.of(context)!
+                            .updatePlaylistJsonFiles),
                       ),
                       // Add more PopupMenuItems as needed
                     ];
@@ -504,6 +537,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
           Expanded(
             child: Consumer<ExpandablePlaylistListVM>(
               builder: (context, expandablePlaylistListVM, child) {
+                _selectedPlaylistsPlayableAudios = expandablePlaylistListVM
+                    .getSelectedPlaylistsPlayableAudios();
                 if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
                   // Scroll the sublist to the top when the audio
                   // list is filtered and/or sorted
@@ -518,15 +553,13 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
 
                 return ListView.builder(
                   controller: _scrollController,
-                  itemCount:
-                      (expandablePlaylistListVM.getSelectedPlaylists().isEmpty)
-                          ? 0
-                          : expandablePlaylistListVM
-                              .getSelectedPlaylistsPlayableAudios()
-                              .length,
+                  itemCount: (_selectedPlaylistsPlayableAudios.isEmpty)
+                      ? 0
+                      : expandablePlaylistListVM
+                          .getSelectedPlaylistsPlayableAudios()
+                          .length,
                   itemBuilder: (BuildContext context, int index) {
-                    final audio = expandablePlaylistListVM
-                        .getSelectedPlaylistsPlayableAudios()[index];
+                    final audio = _selectedPlaylistsPlayableAudios[index];
                     return AudioListItemWidget(
                       audio: audio,
                       onPlayPressedFunction: (Audio audio) {

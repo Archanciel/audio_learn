@@ -10,6 +10,7 @@ enum SortingOption {
   audioMusicQuality,
   audioDownloadSpeed,
   audioDownloadDuration,
+  videoUrl, // useful to detect audio duplicates
 }
 
 class AudioSortFilterService {
@@ -61,6 +62,11 @@ class AudioSortFilterService {
         );
       case SortingOption.audioDownloadDuration:
         return _sortAudioLstByDownloadDuration(
+          audioLst: audioLst,
+          asc: asc,
+        );
+      case SortingOption.videoUrl:
+        return _sortAudioLstByVideoUrl(
           audioLst: audioLst,
           asc: asc,
         );
@@ -324,6 +330,23 @@ class AudioSortFilterService {
     } else {
       audioLst.sort((a, b) {
         return b.enclosingPlaylist!.title.compareTo(a.enclosingPlaylist!.title);
+      });
+    }
+
+    return audioLst;
+  }
+
+  List<Audio> _sortAudioLstByVideoUrl({
+    required List<Audio> audioLst,
+    bool asc = true,
+  }) {
+    if (asc) {
+      audioLst.sort((a, b) {
+        return a.videoUrl.compareTo(b.videoUrl);
+      });
+    } else {
+      audioLst.sort((a, b) {
+        return b.videoUrl.compareTo(a.videoUrl);
       });
     }
 

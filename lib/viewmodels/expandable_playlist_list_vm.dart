@@ -160,8 +160,16 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   /// clicked on the Apply button in the
   /// SortAndFilterAudioDialogWidget, then the filtered and
   /// sorted audio list is returned.
-  List<Audio> getSelectedPlaylistsPlayableAudios() {
-    if (_sortedFilteredSelectedPlaylistsPlayableAudios != null) {
+  /// 
+  /// [subFilterAndSort] is true by default. Being true, it 
+  /// means that the filtered and sorted audio list is 
+  /// returned if it exists. If false, the full playable
+  /// audio list of the selected playlists is returned.
+  List<Audio> getSelectedPlaylistsPlayableAudios({
+    bool subFilterAndSort = true,
+  }) {
+    if (subFilterAndSort &&
+        _sortedFilteredSelectedPlaylistsPlayableAudios != null) {
       // the case if the user clicked on the Apply button in the
       // SortAndFilterAudioDialogWidget
       return _sortedFilteredSelectedPlaylistsPlayableAudios!;
@@ -178,7 +186,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     }
   }
 
-  /// Used to display the audio list of the selected playlist 
+  /// Used to display the audio list of the selected playlist
   /// starting at the beginning.
   bool isAudioListFilteredAndSorted() {
     return _sortedFilteredSelectedPlaylistsPlayableAudios != null;
@@ -236,7 +244,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     return -1;
   }
 
-  void _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded() {
+  void
+      _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded() {
     if (_isListExpanded) {
       _enableExpandedListButtons();
     }

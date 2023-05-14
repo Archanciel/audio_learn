@@ -74,6 +74,8 @@ class _SortAndFilterAudioDialogWidgetState
         return AppLocalizations.of(context)!.audioDownloadSpeed;
       case SortingOption.audioDownloadDuration:
         return AppLocalizations.of(context)!.audioDownloadDuration;
+      case SortingOption.videoUrl:
+        return AppLocalizations.of(context)!.videoUrlLabel;
       default:
         throw ArgumentError('Invalid sorting option');
     }

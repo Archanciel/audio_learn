@@ -35,6 +35,7 @@
   "singleVideoAudioDownload": "Unique vidéo audio téléchargée dans Various dir",
   "about": "Version ...",
   "sortFilterAudios": "Trier/filtrer audios",
+  "subSortFilterAudios": "Sous trier/filtrer audios",
   "sortFilterDialogTitle": "Options Tri et Filtre",
   "sortBy": "Trier par:",
   "audioDownloadDateTime": "Date/heure téléchargement audio",
