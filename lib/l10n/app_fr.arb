@@ -131,5 +131,6 @@
   "infiniteBytesPerSecond": "∞ o/s",
   "updatePlaylistJsonFiles": "Mettre à jour les fichiers playlist JSON",
   "compactVideoDescription": "Description vidéo compacte",
-  "ignoreCase": "Ignorer la casse"
+  "ignoreCase": "Ignorer la casse",
+  "searchInVideoCompactDescription": "Rechercher également dans la description vidéo"
 }

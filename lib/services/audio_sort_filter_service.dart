@@ -371,14 +371,23 @@ class AudioSortFilterService {
     required SortingOption sortingOption,
     String? searchWords,
     bool ignoreCase = false,
+    bool searchInVideoCompactDescription = false,
     bool asc = true,
   }) {
     if (searchWords != null && searchWords.isNotEmpty) {
-      audioLst = _filterAudioLstByVideoTitleOrDescription(
-        audioLst: audioLst,
-        searchWords: searchWords,
-        ignoreCase: ignoreCase,
-      );
+      if (!searchInVideoCompactDescription) {
+        audioLst = _filterAudioLstByVideoTitle(
+          audioLst: audioLst,
+          searchWords: searchWords,
+          ignoreCase: ignoreCase,
+        );
+      } else {
+        audioLst = _filterAudioLstByVideoTitleOrDescription(
+          audioLst: audioLst,
+          searchWords: searchWords,
+          ignoreCase: ignoreCase,
+        );
+      }
     }
 
     return sortAudioLstBySortingOption(
@@ -386,6 +395,18 @@ class AudioSortFilterService {
       sortingOption: sortingOption,
       asc: asc,
     );
+  }
+
+  List<Audio> _filterAudioLstByVideoTitle({
+    required List<Audio> audioLst,
+    required String searchWords,
+    required bool ignoreCase,
+  }) {
+    RegExp searchWordsPattern = RegExp(searchWords, caseSensitive: !ignoreCase);
+
+    return audioLst.where((audio) {
+      return searchWordsPattern.hasMatch(audio.validVideoTitle);
+    }).toList();
   }
 
   List<Audio> _filterAudioLstByVideoTitleOrDescription({

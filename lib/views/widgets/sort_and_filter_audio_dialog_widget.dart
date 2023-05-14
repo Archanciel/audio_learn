@@ -29,6 +29,7 @@ class _SortAndFilterAudioDialogWidgetState
   bool _sortAscending = false;
   bool _filterMusicQuality = false;
   bool _ignoreCase = false;
+  bool _searchInVideoCompactDescription = false;
 
   final TextEditingController _startFileSizeController =
       TextEditingController();
@@ -186,6 +187,19 @@ class _SortAndFilterAudioDialogWidgetState
                           onChanged: (bool? newValue) {
                             setState(() {
                               _ignoreCase = newValue!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(AppLocalizations.of(context)!.searchInVideoCompactDescription),
+                        Checkbox(
+                          value: _searchInVideoCompactDescription,
+                          onChanged: (bool? newValue) {
+                            setState(() {
+                              _searchInVideoCompactDescription = newValue!;
                             });
                           },
                         ),
@@ -466,6 +480,7 @@ class _SortAndFilterAudioDialogWidgetState
                 sortingOption: _selectedSortingOption,
                 searchWords: _audioTitleSubString,
                 ignoreCase: _ignoreCase,
+                searchInVideoCompactDescription: _searchInVideoCompactDescription,
                 asc: _sortAscending,
               );
               Navigator.of(context).pop(sortedAudioLstBySortingOption);
