@@ -314,24 +314,6 @@ class AudioSortFilterService {
     return sortedAudioList;
   }
 
-// Method not useful
-// List<Audio> _sortAudioLstByVideoUrl({
-//   required List<Audio> audioLst,
-//   bool asc = true,
-// }) {
-//   if (asc) {
-//     audioLst.sort((a, b) {
-//       return a.videoUrl.compareTo(b.videoUrl);
-//     });
-//   } else {
-//     audioLst.sort((a, b) {
-//       return b.videoUrl.compareTo(a.videoUrl);
-//     });
-//   }
-
-//   return audioLst;
-// }
-
   List<Audio> _sortAudioLstByEnclosingPlaylistTitle({
     required List<Audio> audioLst,
     bool asc = true,

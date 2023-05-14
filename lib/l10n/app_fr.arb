@@ -49,7 +49,7 @@
   "sortAscending": "Asc",
   "sortDescending": "Desc",
   "filterOptions": "Options de filtre:",
-  "videoTitleOrDescription": "Titre ou description vidéo",
+  "videoTitleOrDescription": "Titre (et description) vidéo",
   "startDownloadDate": "Date début téléchargement",
   "endDownloadDate": "Date fin téléchargement",
   "startUploadDate": "Date début mise en ligne",
@@ -132,5 +132,5 @@
   "updatePlaylistJsonFiles": "Mettre à jour les fichiers playlist JSON",
   "compactVideoDescription": "Description vidéo compacte",
   "ignoreCase": "Ignorer la casse",
-  "searchInVideoCompactDescription": "Rechercher également dans la description vidéo"
+  "searchInVideoCompactDescription": "Inclure la description"
 }
