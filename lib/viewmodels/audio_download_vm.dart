@@ -287,6 +287,10 @@ class AudioDownloadVM extends ChangeNotifier {
         path: playlistDownloadFilePathName,
       );
 
+      // should avoid that the last downloaded audio is
+      // re-downloaded
+      downloadedAudioValidVideoTitleLst.add(audio.validVideoTitle);
+
       notifyListeners();
     }
 
