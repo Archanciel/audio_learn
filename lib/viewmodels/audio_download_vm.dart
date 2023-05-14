@@ -201,7 +201,7 @@ class AudioDownloadVM extends ChangeNotifier {
     String playlistDownloadFilePathName =
         currentPlaylist.getPlaylistDownloadFilePathName();
 
-    final List<String> downloadedAudioOriginalVideoTitleLst =
+    final List<String> downloadedAudioValidVideoTitleLst =
         await _getPlaylistDownloadedAudioValidVideoTitleLst(
             currentPlaylist: currentPlaylist);
 
@@ -232,7 +232,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
       audio.audioPlayer = AudioPlayer();
 
-      final bool alreadyDownloaded = downloadedAudioOriginalVideoTitleLst.any(
+      final bool alreadyDownloaded = downloadedAudioValidVideoTitleLst.any(
           (validVideoTitle) => validVideoTitle.contains(audio.validVideoTitle));
 
       if (alreadyDownloaded) {
