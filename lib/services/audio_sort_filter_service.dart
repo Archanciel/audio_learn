@@ -14,6 +14,19 @@ enum SortingOption {
 }
 
 class AudioSortFilterService {
+  static Map<SortingOption, bool> sortingOptionToAscendingMap = {
+    SortingOption.audioDownloadDateTime: false,
+    SortingOption.videoUploadDate: false,
+    SortingOption.validAudioTitle: true,
+    SortingOption.audioEnclosingPlaylistTitle: true,
+    SortingOption.audioDuration: false,
+    SortingOption.audioFileSize: false,
+    SortingOption.audioMusicQuality: false,
+    SortingOption.audioDownloadSpeed: false,
+    SortingOption.audioDownloadDuration: false,
+    SortingOption.videoUrl: true,
+  };
+
   List<Audio> sortAudioLstBySortingOption({
     required List<Audio> audioLst,
     required SortingOption sortingOption,
@@ -357,12 +370,14 @@ class AudioSortFilterService {
     required List<Audio> audioLst,
     required SortingOption sortingOption,
     String? searchWords,
+    bool ignoreCase = false,
     bool asc = true,
   }) {
     if (searchWords != null && searchWords.isNotEmpty) {
       audioLst = _filterAudioLstByVideoTitleOrDescription(
         audioLst: audioLst,
         searchWords: searchWords,
+        ignoreCase: ignoreCase,
       );
     }
 
@@ -373,14 +388,16 @@ class AudioSortFilterService {
     );
   }
 
-  /// Currently not searching video description since
-  /// video description is not available in audio object
   List<Audio> _filterAudioLstByVideoTitleOrDescription({
     required List<Audio> audioLst,
     required String searchWords,
+    required bool ignoreCase,
   }) {
+    RegExp searchWordsPattern = RegExp(searchWords, caseSensitive: !ignoreCase);
+
     return audioLst.where((audio) {
-      return audio.validVideoTitle.contains(searchWords);
+      return searchWordsPattern.hasMatch(audio.validVideoTitle) ||
+          searchWordsPattern.hasMatch(audio.compactVideoDescription);
     }).toList();
   }
 

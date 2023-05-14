@@ -130,5 +130,6 @@
   "octetShort": "B",
   "infiniteBytesPerSecond": "infinite B/sec",
   "updatePlaylistJsonFiles": "Update playlist JSON files",
-  "compactVideoDescription": "Compact video description"
+  "compactVideoDescription": "Compact video description",
+  "ignoreCase": "Ignore case"
 }

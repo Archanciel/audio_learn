@@ -28,6 +28,8 @@ class _SortAndFilterAudioDialogWidgetState
 
   bool _sortAscending = false;
   bool _filterMusicQuality = false;
+  bool _ignoreCase = false;
+
   final TextEditingController _startFileSizeController =
       TextEditingController();
   final TextEditingController _endFileSizeController = TextEditingController();
@@ -109,6 +111,8 @@ class _SortAndFilterAudioDialogWidgetState
                       onChanged: (SortingOption? newValue) {
                         setState(() {
                           _selectedSortingOption = newValue!;
+                          _sortAscending = AudioSortFilterService
+                              .sortingOptionToAscendingMap[newValue]!;
                         });
                       },
                       items: SortingOption.values
@@ -146,19 +150,6 @@ class _SortAndFilterAudioDialogWidgetState
                         ),
                       ],
                     ),
-                    // Row(
-                    //   children: [
-                    //     Text(AppLocalizations.of(context)!.sortAscending),
-                    //     Checkbox(
-                    //       value: _sortAscending,
-                    //       onChanged: (bool? newValue) {
-                    //         setState(() {
-                    //           _sortAscending = newValue!;
-                    //         });
-                    //       },
-                    //     ),
-                    //   ],
-                    // ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -186,6 +177,19 @@ class _SortAndFilterAudioDialogWidgetState
                           _audioTitleSubString = value;
                         },
                       ),
+                    ),
+                    Row(
+                      children: [
+                        Text(AppLocalizations.of(context)!.ignoreCase),
+                        Checkbox(
+                          value: _ignoreCase,
+                          onChanged: (bool? newValue) {
+                            setState(() {
+                              _ignoreCase = newValue!;
+                            });
+                          },
+                        ),
+                      ],
                     ),
                     Row(
                       children: [
@@ -461,6 +465,7 @@ class _SortAndFilterAudioDialogWidgetState
                 audioLst: widget.selectedPlaylistAudioLst,
                 sortingOption: _selectedSortingOption,
                 searchWords: _audioTitleSubString,
+                ignoreCase: _ignoreCase,
                 asc: _sortAscending,
               );
               Navigator.of(context).pop(sortedAudioLstBySortingOption);
