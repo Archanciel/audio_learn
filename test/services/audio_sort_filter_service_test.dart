@@ -9,13 +9,12 @@ void main() {
     setUp(() {
       audioSortFilterService = AudioSortFilterService();
     });
-
     test('sort by title', () {
       final Audio zebra = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Zebra ?',
-            compactVideoDescription: '',
-      validVideoTitle: 'Zebra',
+        compactVideoDescription: '',
+        validVideoTitle: 'Zebra',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
         audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
@@ -29,8 +28,8 @@ void main() {
       final Audio apple = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Apple ?',
-                 compactVideoDescription: '',
- validVideoTitle: 'Apple',
+        compactVideoDescription: '',
+        validVideoTitle: 'Apple',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
         audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
@@ -44,8 +43,8 @@ void main() {
       final Audio bananna = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Bananna ?',
-             compactVideoDescription: '',
-     validVideoTitle: 'Bananna',
+        compactVideoDescription: '',
+        validVideoTitle: 'Bananna',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
         audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
@@ -73,6 +72,116 @@ void main() {
         zebra,
         bananna,
         apple,
+      ];
+
+      List<Audio> sortedByTitleAsc =
+          audioSortFilterService.sortAudioLstBySortingOption(
+        audioLst: List<Audio>.from(audioList), // copy list
+        sortingOption: SortingOption.validAudioTitle,
+        asc: true,
+      );
+
+      expect(
+          sortedByTitleAsc.map((audio) => audio.validVideoTitle).toList(),
+          equals(expectedResultForTitleAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
+
+      List<Audio> sortedByTitleDesc =
+          audioSortFilterService.sortAudioLstBySortingOption(
+        audioLst: List<Audio>.from(audioList), // copy list
+        sortingOption: SortingOption.validAudioTitle,
+        asc: false,
+      );
+
+      expect(
+          sortedByTitleDesc.map((audio) => audio.validVideoTitle).toList(),
+          equals(expectedResultForTitleDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
+    });
+
+    test('sort by title starting with non language chars', () {
+      final Audio zebra = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: '#Zebra ?',
+        compactVideoDescription: '',
+        validVideoTitle: '#Zebra',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio apple = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "'Apple' ?",
+        compactVideoDescription: '',
+        validVideoTitle: "'Apple",
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio ninetyFourBananna = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Bananna ?',
+        compactVideoDescription: '',
+        validVideoTitle: '#94 Bananna',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio fiveBananna = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: '5 Bananna ?',
+        compactVideoDescription: '',
+        validVideoTitle: '5 Bananna',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+
+      List<Audio> audioList = [
+        zebra,
+        apple,
+        ninetyFourBananna,
+        fiveBananna
+      ];
+
+      List<Audio> expectedResultForTitleAsc = [
+        fiveBananna,
+        ninetyFourBananna,
+        apple,
+        zebra,
+      ];
+
+      List<Audio> expectedResultForTitleDesc = [
+        zebra,
+        apple,
+        fiveBananna,
+        ninetyFourBananna,
       ];
 
       List<Audio> sortedByTitleAsc =
@@ -113,8 +222,8 @@ void main() {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Zebra ?',
-              compactVideoDescription: '',
-    validVideoTitle: 'Zebra 1',
+        compactVideoDescription: '',
+        validVideoTitle: 'Zebra 1',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
         audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
@@ -128,7 +237,7 @@ void main() {
       final Audio apple = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Apple ?',
-          compactVideoDescription: '',
+        compactVideoDescription: '',
         validVideoTitle: 'Apple',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -143,7 +252,7 @@ void main() {
       final Audio zebra3 = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Zebra ?',
-          compactVideoDescription: '',
+        compactVideoDescription: '',
         validVideoTitle: 'Zebra 3',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -158,7 +267,7 @@ void main() {
       final Audio bananna = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Bananna ?',
-          compactVideoDescription: '',
+        compactVideoDescription: '',
         validVideoTitle: 'Bananna',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -173,7 +282,7 @@ void main() {
       final Audio zebra2 = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Zebra ?',
-          compactVideoDescription: '',
+        compactVideoDescription: '',
         validVideoTitle: 'Zebra 2',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
@@ -186,13 +295,7 @@ void main() {
         audioFileSize: 330000000,
       );
 
-      List<Audio> audioList = [
-        zebra1,
-        apple,
-        zebra3,
-        bananna,
-        zebra2
-      ];
+      List<Audio> audioList = [zebra1, apple, zebra3, bananna, zebra2];
 
       List<Audio> expectedResultForTitleAsc = [
         apple,
@@ -236,7 +339,6 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
-
       List<Audio> expectedResultForFilterSortTitleAsc = [
         zebra1,
         zebra2,
@@ -258,7 +360,9 @@ void main() {
       );
 
       expect(
-          filteredAndSortedByTitleAsc.map((audio) => audio.validVideoTitle).toList(),
+          filteredAndSortedByTitleAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
           equals(expectedResultForFilterSortTitleAsc
               .map((audio) => audio.validVideoTitle)
               .toList()));
@@ -272,7 +376,9 @@ void main() {
       );
 
       expect(
-          filteredAndSortedByTitleDesc.map((audio) => audio.validVideoTitle).toList(),
+          filteredAndSortedByTitleDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
           equals(expectedResultForFilterSortTitleDesc
               .map((audio) => audio.validVideoTitle)
               .toList()));
