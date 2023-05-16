@@ -146,7 +146,8 @@ class AudioSortFilterService {
     return audioLst;
   }
 
-
+  /// Does not sort 'Échapper title' and 'ÉPICURE 
+  /// title' correctly !
   List<Audio> _sortAudioLstByTitle({
     required List<Audio> audioLst,
     bool asc = true,
