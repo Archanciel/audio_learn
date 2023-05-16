@@ -102,91 +102,358 @@ void main() {
     });
 
     test('sort by title starting with non language chars', () {
-      final Audio zebra = Audio.fullConstructor(
-        enclosingPlaylist: null,
-        originalVideoTitle: '#Zebra ?',
-        compactVideoDescription: '',
-        validVideoTitle: '#Zebra',
-        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
-        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
-        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
-        audioDownloadSpeed: 1000000,
-        videoUploadDate: DateTime(2023, 3, 1),
-        audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
-        audioFileName: 'Test Video Title.mp3',
-        audioFileSize: 330000000,
-      );
-      final Audio apple = Audio.fullConstructor(
-        enclosingPlaylist: null,
-        originalVideoTitle: "'Apple' ?",
-        compactVideoDescription: '',
-        validVideoTitle: "'Apple",
-        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
-        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
-        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
-        audioDownloadSpeed: 1000000,
-        videoUploadDate: DateTime(2023, 3, 1),
-        audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
-        audioFileName: 'Test Video Title.mp3',
-        audioFileSize: 330000000,
-      );
-      final Audio ninetyFourBananna = Audio.fullConstructor(
-        enclosingPlaylist: null,
-        originalVideoTitle: 'Bananna ?',
-        compactVideoDescription: '',
-        validVideoTitle: '#94 Bananna',
-        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
-        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
-        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
-        audioDownloadSpeed: 1000000,
-        videoUploadDate: DateTime(2023, 3, 1),
-        audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
-        audioFileName: 'Test Video Title.mp3',
-        audioFileSize: 330000000,
-      );
-      final Audio fiveBananna = Audio.fullConstructor(
-        enclosingPlaylist: null,
-        originalVideoTitle: '5 Bananna ?',
-        compactVideoDescription: '',
-        validVideoTitle: '5 Bananna',
-        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
-        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
-        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
-        audioDownloadSpeed: 1000000,
-        videoUploadDate: DateTime(2023, 3, 1),
-        audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
-        audioFileName: 'Test Video Title.mp3',
-        audioFileSize: 330000000,
-      );
-
-      List<Audio> audioList = [
-        zebra,
-        apple,
-        ninetyFourBananna,
-        fiveBananna
+      List<String> videoTitleLst = [
+        "'title",
+        "%avec percent title",
+        "%percent title",
+        "power title",
+        "#'amen title",
+        "ÉPICURE - La mort n'est rien",
+        "%95 title",
+        "93 title",
+        "#94 title",
+        "Échapper à l'illusion de l'esprit",
+        "évident title",
+        "à lire title",
+        "9 title",
+        "8 title",
+        "%éventuel title",
       ];
 
-      List<Audio> expectedResultForTitleAsc = [
-        fiveBananna,
-        ninetyFourBananna,
-        apple,
-        zebra,
+      Audio title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "'title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "'title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio avec_percent_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "%avec percent title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "%avec percent title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio percent_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "%percent title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "%percent title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio power_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "power title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "power title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio amen_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "#'amen title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "#'amen title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio epicure = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "ÉPICURE - La mort n'est rien 📏",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "ÉPICURE - La mort n'est rien",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio ninety_five_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "%95 title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "%95 title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio ninety_three_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "93 title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "93 title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio ninety_four_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "#94 title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "#94 title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio echapper = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "Échapper à l'illusion de l'esprit",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "Échapper à l'illusion de l'esprit",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio evident_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "évident title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "évident title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: true,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio a_lire_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "à lire title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "à lire title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        isMusicQuality: false,
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio nine_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "9 title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "9 title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        isMusicQuality: false,
+        audioDuration: Duration(seconds: 1),
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio eight_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "8 title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "8 title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: Duration(seconds: 1),
+        isMusicQuality: false,
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      Audio eventuel_title = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: "éventuel title",
+        compactVideoDescription: 'compactVideoDescription',
+        validVideoTitle: "éventuel title",
+        videoUrl: 'videoUrl',
+        audioDownloadDateTime: DateTime.now(),
+        isMusicQuality: false,
+        audioDownloadDuration: Duration(seconds: 1),
+        audioDownloadSpeed: 1,
+        videoUploadDate: DateTime.now(),
+        audioDuration: Duration(seconds: 1),
+        audioFileName: 'audioFileName',
+        audioFileSize: 1,
+      );
+
+      List<Audio?> audioLst = [
+        title,
+        avec_percent_title,
+        percent_title,
+        power_title,
+        amen_title,
+        epicure,
+        ninety_five_title,
+        ninety_three_title,
+        ninety_four_title,
+        echapper,
+        evident_title,
+        a_lire_title,
+        nine_title,
+        eight_title,
+        eventuel_title,
       ];
 
-      List<Audio> expectedResultForTitleDesc = [
-        zebra,
-        apple,
-        fiveBananna,
-        ninetyFourBananna,
+      List<Audio?> expectedResultForTitleAsc = [
+        eight_title,
+        ninety_three_title,
+        ninety_four_title,
+        ninety_five_title,
+        nine_title,
+        epicure,
+        amen_title,
+        avec_percent_title,
+        echapper,
+        a_lire_title,
+        percent_title,
+        power_title,
+        title,
+        eventuel_title,
+        evident_title,
+      ];
+/* Results if sorting was totally correct ! 
+ [
+            '8 title',
+            '93 title',
+            '#94 title',
+            '%95 title',
+            '9 title',
+            'ÉPICURE - La mort n\'est rien',
+            'Échapper à l\'illusion de l\'esprit',
+            '#\'amen title',
+            '%avec percent title',
+            'à lire title',
+            '%percent title',
+            'power title',
+            '\'title',
+            'éventuel title',
+            'évident title'
+          ]     
+
+      List<Audio?> expectedResultForTitleDesc = [
+        evident_title,
+        eventuel_title,
+        title,
+        power_title,
+        percent_title,
+        a_lire_title,
+        avec_percent_title,
+        amen_title,
+        echapper,
+        epicure,
+        nine_title,
+        ninety_five_title,
+        ninety_four_title,
+        ninety_three_title,
+        eight_title,
+      ];
+*/
+
+      List<Audio?> expectedResultForTitleDesc = [
+        evident_title,
+        eventuel_title,
+        title,
+        power_title,
+        percent_title,
+        a_lire_title,
+        echapper,
+        avec_percent_title,
+        amen_title,
+        epicure,
+        nine_title,
+        ninety_five_title,
+        ninety_four_title,
+        ninety_three_title,
+        eight_title,
       ];
 
       List<Audio> sortedByTitleAsc =
           audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: List<Audio>.from(audioList), // copy list
+        audioLst: List<Audio>.from(audioLst), // copy list
         sortingOption: SortingOption.validAudioTitle,
         asc: true,
       );
@@ -194,12 +461,12 @@ void main() {
       expect(
           sortedByTitleAsc.map((audio) => audio.validVideoTitle).toList(),
           equals(expectedResultForTitleAsc
-              .map((audio) => audio.validVideoTitle)
+              .map((audio) => audio!.validVideoTitle)
               .toList()));
 
       List<Audio> sortedByTitleDesc =
           audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: List<Audio>.from(audioList), // copy list
+        audioLst: List<Audio>.from(audioLst), // copy list
         sortingOption: SortingOption.validAudioTitle,
         asc: false,
       );
@@ -207,7 +474,7 @@ void main() {
       expect(
           sortedByTitleDesc.map((audio) => audio.validVideoTitle).toList(),
           equals(expectedResultForTitleDesc
-              .map((audio) => audio.validVideoTitle)
+              .map((audio) => audio!.validVideoTitle)
               .toList()));
     });
   });

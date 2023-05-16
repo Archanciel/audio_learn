@@ -146,21 +146,26 @@ class AudioSortFilterService {
     return audioLst;
   }
 
+
   List<Audio> _sortAudioLstByTitle({
     required List<Audio> audioLst,
     bool asc = true,
   }) {
     if (asc) {
       audioLst.sort((a, b) {
-        return a.validVideoTitle
-            .toLowerCase()
-            .compareTo(b.validVideoTitle.toLowerCase());
+        String cleanA = a.validVideoTitle
+            .replaceAll(RegExp(r'[^A-Za-z0-9éèêëîïôœùûüÿç]'), '');
+        String cleanB = b.validVideoTitle
+            .replaceAll(RegExp(r'[^A-Za-z0-9éèêëîïôœùûüÿç]'), '');
+        return cleanA.compareTo(cleanB);
       });
     } else {
       audioLst.sort((a, b) {
-        return b.validVideoTitle
-            .toLowerCase()
-            .compareTo(a.validVideoTitle.toLowerCase());
+        String cleanA = a.validVideoTitle
+            .replaceAll(RegExp(r'[^A-Za-z0-9éèêëîïôœùûüÿç]'), '');
+        String cleanB = b.validVideoTitle
+            .replaceAll(RegExp(r'[^A-Za-z0-9éèêëîïôœùûüÿç]'), '');
+        return cleanB.compareTo(cleanA);
       });
     }
 
