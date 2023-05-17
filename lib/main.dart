@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -100,88 +101,90 @@ class MainApp extends StatelessWidget {
       ],
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, languageProvider, child) {
-          return MaterialApp(
-            title: 'AudioLearn',
-            locale: languageProvider.currentLocale,
-            // title: AppLocalizations.of(context)!.title,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            theme: themeProvider.currentTheme == AppTheme.dark
-                ? ThemeData.dark().copyWith(
-                    colorScheme: ThemeData.dark().colorScheme.copyWith(
-                          background: Colors.black,
-                          surface: Colors.black,
+          return OKToast(
+            child: MaterialApp(
+              title: 'AudioLearn',
+              locale: languageProvider.currentLocale,
+              // title: AppLocalizations.of(context)!.title,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              theme: themeProvider.currentTheme == AppTheme.dark
+                  ? ThemeData.dark().copyWith(
+                      colorScheme: ThemeData.dark().colorScheme.copyWith(
+                            background: Colors.black,
+                            surface: Colors.black,
+                          ),
+                      primaryColor: Colors.black,
+                      scaffoldBackgroundColor: Colors.black,
+                      iconTheme: ThemeData.dark().iconTheme.copyWith(
+                            color: kIconColor, // Set icon color in dark mode
+                          ),
+                      elevatedButtonTheme: ElevatedButtonThemeData(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              kButtonColor, // Set button color in dark mode
+                          foregroundColor:
+                              Colors.white, // Set button text color in dark mode
                         ),
-                    primaryColor: Colors.black,
-                    scaffoldBackgroundColor: Colors.black,
-                    iconTheme: ThemeData.dark().iconTheme.copyWith(
-                          color: kIconColor, // Set icon color in dark mode
-                        ),
-                    elevatedButtonTheme: ElevatedButtonThemeData(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            kButtonColor, // Set button color in dark mode
-                        foregroundColor:
-                            Colors.white, // Set button text color in dark mode
                       ),
-                    ),
-                    textTheme: ThemeData.dark().textTheme.copyWith(
-                          bodyMedium: ThemeData.dark()
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: kButtonColor),
-                          titleMedium: ThemeData.dark()
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.white),
-                        ),
-                    checkboxTheme: ThemeData.dark().checkboxTheme.copyWith(
-                          checkColor: MaterialStateProperty.all(
-                            Colors.white, // Set Checkbox fill color
+                      textTheme: ThemeData.dark().textTheme.copyWith(
+                            bodyMedium: ThemeData.dark()
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: kButtonColor),
+                            titleMedium: ThemeData.dark()
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(color: Colors.white),
                           ),
-                          fillColor: MaterialStateProperty.all(
-                            kIconColor, // Set Checkbox check color
+                      checkboxTheme: ThemeData.dark().checkboxTheme.copyWith(
+                            checkColor: MaterialStateProperty.all(
+                              Colors.white, // Set Checkbox fill color
+                            ),
+                            fillColor: MaterialStateProperty.all(
+                              kIconColor, // Set Checkbox check color
+                            ),
                           ),
-                        ),
-                    inputDecorationTheme: InputDecorationTheme(
-                      fillColor: Colors.grey[900],
-                      filled: true,
-                      border: const OutlineInputBorder(),
-                    ),
-                    textSelectionTheme: TextSelectionThemeData(
-                      cursorColor: Colors.white,
-                      selectionColor: Colors.white.withOpacity(0.3),
-                      selectionHandleColor: Colors.white.withOpacity(0.5),
-                    ),
-                  )
-                : ThemeData.light().copyWith(
-                    primaryColor: Colors.white,
-                    scaffoldBackgroundColor: Colors.white,
-                    iconTheme: ThemeData.light().iconTheme.copyWith(
-                          color: kIconColor, // Set icon color in light mode
-                        ),
-                    elevatedButtonTheme: ElevatedButtonThemeData(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            kButtonColor, // Set button color in light mode
-                        foregroundColor:
-                            Colors.white, // Set button text color in light mode
+                      inputDecorationTheme: InputDecorationTheme(
+                        fillColor: Colors.grey[900],
+                        filled: true,
+                        border: const OutlineInputBorder(),
                       ),
+                      textSelectionTheme: TextSelectionThemeData(
+                        cursorColor: Colors.white,
+                        selectionColor: Colors.white.withOpacity(0.3),
+                        selectionHandleColor: Colors.white.withOpacity(0.5),
+                      ),
+                    )
+                  : ThemeData.light().copyWith(
+                      primaryColor: Colors.white,
+                      scaffoldBackgroundColor: Colors.white,
+                      iconTheme: ThemeData.light().iconTheme.copyWith(
+                            color: kIconColor, // Set icon color in light mode
+                          ),
+                      elevatedButtonTheme: ElevatedButtonThemeData(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              kButtonColor, // Set button color in light mode
+                          foregroundColor:
+                              Colors.white, // Set button text color in light mode
+                        ),
+                      ),
+                      checkboxTheme: ThemeData.light().checkboxTheme.copyWith(
+                            checkColor: MaterialStateProperty.all(
+                              Colors.white, // Set Checkbox fill color
+                            ),
+                            fillColor: MaterialStateProperty.all(
+                              kIconColor, // Set Checkbox check color
+                            ),
+                          ),
+                      listTileTheme: ThemeData.light().listTileTheme.copyWith(
+                            iconColor: kIconColor, // Set icon color in light mode
+                          ),
+                      // Add any other customizations for light mode
                     ),
-                    checkboxTheme: ThemeData.light().checkboxTheme.copyWith(
-                          checkColor: MaterialStateProperty.all(
-                            Colors.white, // Set Checkbox fill color
-                          ),
-                          fillColor: MaterialStateProperty.all(
-                            kIconColor, // Set Checkbox check color
-                          ),
-                        ),
-                    listTileTheme: ThemeData.light().listTileTheme.copyWith(
-                          iconColor: kIconColor, // Set icon color in light mode
-                        ),
-                    // Add any other customizations for light mode
-                  ),
-            home: const MyHomePage(),
+              home: const MyHomePage(),
+            ),
           );
         },
       ),
