@@ -548,23 +548,24 @@ class AudioDownloadVM extends ChangeNotifier {
     required String videoDescription,
   }) {
     // Extraire les 3 premières lignes de la description
+    List<String> videoDescriptionLinesLst = videoDescription.split('\n');
     String firstThreeLines =
-        videoDescription.split('\n').take(3).join('\n');
+        videoDescriptionLinesLst.take(3).join('\n');
 
     // Extraire les noms propres qui ne se trouvent pas dans les 3 premières lignes
-    String linesAfterThree = videoDescription.split('\n').skip(3).join('\n');
-    linesAfterThree = _removeTimestampLines(linesAfterThree);
-    final List<String> words = linesAfterThree.split(' ');
+    String linesAfterFirstThreeLines = videoDescriptionLinesLst.skip(3).join('\n');
+    linesAfterFirstThreeLines = _removeTimestampLines('$linesAfterFirstThreeLines\n');
+    final List<String> linesAfterFirstThreeLinesWordsLst = linesAfterFirstThreeLines.split(RegExp(r'[ \n]'));
 
     // Trouver les noms propres consécutifs (au moins deux)
     List<String> consecutiveProperNames = [];
 
-    for (int i = 0; i < words.length - 1; i++) {
-      if (words[i].length > 0 &&
-          _isEnglishOrFrenchUpperCaseLetter(words[i][0]) &&
-          words[i + 1].length > 0 &&
-          _isEnglishOrFrenchUpperCaseLetter(words[i + 1][0])) {
-        consecutiveProperNames.add('${words[i]} ${words[i + 1]}');
+    for (int i = 0; i < linesAfterFirstThreeLinesWordsLst.length - 1; i++) {
+      if (linesAfterFirstThreeLinesWordsLst[i].length > 0 &&
+          _isEnglishOrFrenchUpperCaseLetter(linesAfterFirstThreeLinesWordsLst[i][0]) &&
+          linesAfterFirstThreeLinesWordsLst[i + 1].length > 0 &&
+          _isEnglishOrFrenchUpperCaseLetter(linesAfterFirstThreeLinesWordsLst[i + 1][0])) {
+        consecutiveProperNames.add('${linesAfterFirstThreeLinesWordsLst[i]} ${linesAfterFirstThreeLinesWordsLst[i + 1]}');
         i++; // Pour ne pas prendre en compte les noms propres suivants qui font déjà partie d'une paire consécutive
       }
     }
@@ -576,7 +577,7 @@ class AudioDownloadVM extends ChangeNotifier {
       compactVideoDescription = '$firstThreeLines ...';
     } else {
       compactVideoDescription =
-          '$firstThreeLines ...\n\n${consecutiveProperNames.join(', ')}\n...';
+          '$firstThreeLines ...\n\n${consecutiveProperNames.join(', ')}';
     }
 
     return compactVideoDescription;
