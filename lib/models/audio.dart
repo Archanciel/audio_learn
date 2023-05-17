@@ -178,14 +178,15 @@ class Audio {
     return formattedDateStr;
   }
 
-  /// Removes illegal file name characters from the original 
+  /// Removes illegal file name characters from the original
   /// video title aswell non-ascii characters. This causes
   /// the valid video title to be efficient when sorting
   /// the audio by their title.
   static String createValidVideoTitle(String originalVideoTitle) {
     // Replace '|' by ' if '|' is located at end of file name
     if (originalVideoTitle.endsWith('|')) {
-      originalVideoTitle = originalVideoTitle.substring(0, originalVideoTitle.length - 1);
+      originalVideoTitle =
+          originalVideoTitle.substring(0, originalVideoTitle.length - 1);
     }
 
     // Replace '||' by '_' since YoutubeDL replaces '||' by '_'
@@ -209,11 +210,19 @@ class Audio {
     };
 
     // Replace unauthorized characters
-    originalVideoTitle = originalVideoTitle.replaceAllMapped(RegExp(r'[\\/:*?"<>|]'),
+    originalVideoTitle = originalVideoTitle.replaceAllMapped(
+        RegExp(r'[\\/:*?"<>|]'),
         (match) => charToReplace[match.group(0)] ?? '');
 
+    // Replace 'œ' with 'oe'
+    originalVideoTitle = originalVideoTitle.replaceAll(RegExp(r'[œ]'), 'oe');
+
+    // Replace 'Œ' with 'OE'
+    originalVideoTitle = originalVideoTitle.replaceAll(RegExp(r'[Œ]'), 'OE');
+
     // Remove any non-English or non-French characters
-    originalVideoTitle = originalVideoTitle.replaceAll(RegExp(r'[^\x00-\x7FÀ-ÿ‘’]'), '');
+    originalVideoTitle =
+        originalVideoTitle.replaceAll(RegExp(r'[^\x00-\x7FÀ-ÿ‘’]'), '');
 
     return originalVideoTitle.trim();
   }

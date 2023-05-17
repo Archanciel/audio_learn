@@ -81,6 +81,26 @@ void main() {
 
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
+    test('Test replace œ by oe', () {
+      const String videoTitle =
+          "Se forger un cœur de diamant par Karine Arsène";
+      const String expectedValidVideoTitle =
+          "Se forger un coeur de diamant par Karine Arsène";
+
+      final String actualValidVideoTitle = Audio.createValidVideoTitle(videoTitle);
+
+      expect(actualValidVideoTitle, expectedValidVideoTitle);
+    });
+    test('Test replace Œ by OE', () {
+      const String videoTitle =
+          "Se forger un CŒUR de diamant par Karine Arsène";
+      const String expectedValidVideoTitle =
+          "Se forger un COEUR de diamant par Karine Arsène";
+
+      final String actualValidVideoTitle = Audio.createValidVideoTitle(videoTitle);
+
+      expect(actualValidVideoTitle, expectedValidVideoTitle);
+    });
   });
   group('Audio static methods', () {
     test('buildDownloadDatePrefix', () {
