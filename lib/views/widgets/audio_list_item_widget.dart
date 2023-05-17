@@ -100,7 +100,9 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                     context: context,
                     barrierDismissible: true,
                     builder: (BuildContext context) {
-                      return AudioInfoDialog(audio: audio);
+                      return Scaffold(
+                        body: AudioInfoDialog(audio: audio),
+                      );
                     },
                   );
                   break;

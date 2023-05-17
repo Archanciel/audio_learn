@@ -1,5 +1,6 @@
 import 'package:audio_learn/utils/time_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../constants.dart';
@@ -86,7 +87,8 @@ class AudioInfoDialog extends StatelessWidget {
     String audioDownloadSpeedStr;
 
     if (audioDownloadSpeed.isInfinite) {
-      audioDownloadSpeedStr = AppLocalizations.of(context)!.infiniteBytesPerSecond;
+      audioDownloadSpeedStr =
+          AppLocalizations.of(context)!.infiniteBytesPerSecond;
     } else {
       audioDownloadSpeedStr =
           '${UiUtil.formatLargeIntValue(context: context, value: audioDownloadSpeed)}/sec';
@@ -101,8 +103,24 @@ class AudioInfoDialog extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: Text(label)),
-          Expanded(child: Text(value)),
+          Expanded(
+            child: Text(label),
+          ),
+          Expanded(
+            child: InkWell(
+              child: Text(value),
+              onTap: () {
+                Clipboard.setData(
+                  ClipboardData(text: value),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Copied to clipboard'),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
