@@ -2,7 +2,6 @@ import 'package:audio_learn/utils/time_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:oktoast/oktoast.dart';
 
 import '../../constants.dart';
 import '../../models/audio.dart';
@@ -113,14 +112,6 @@ class AudioInfoDialog extends StatelessWidget {
               onTap: () {
                 Clipboard.setData(
                   ClipboardData(text: value),
-                );
-                showToast(
-                  "Copied to clipboard",
-                  duration: const Duration(seconds: 2),
-                  position: ToastPosition.bottom,
-                  backgroundColor: Colors.black.withOpacity(0.8),
-                  radius: 13.0,
-                  textStyle: const TextStyle(fontSize: 18.0),
                 );
               },
             ),
