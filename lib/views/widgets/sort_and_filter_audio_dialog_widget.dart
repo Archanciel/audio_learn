@@ -222,6 +222,8 @@ class _SortAndFilterAudioDialogWidgetState
                               setState(() {
                                 _ignoreCase = newValue!;
                               });
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
                               _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
@@ -237,6 +239,8 @@ class _SortAndFilterAudioDialogWidgetState
                               setState(() {
                                 _searchInVideoCompactDescription = newValue!;
                               });
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
                               _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
@@ -251,6 +255,8 @@ class _SortAndFilterAudioDialogWidgetState
                               setState(() {
                                 _filterMusicQuality = newValue!;
                               });
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
                               _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
