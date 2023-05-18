@@ -96,13 +96,18 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   Clipboard.setData(ClipboardData(text: audio.videoUrl));
                   break;
                 case AudioPopupMenuAction.displayAudioInfo:
+                  FocusNode focusNode = FocusNode();
                   showDialog<void>(
                     context: context,
                     barrierDismissible: true,
                     builder: (BuildContext context) {
-                      return AudioInfoDialog(audio: audio);
+                      return AudioInfoDialog(
+                        audio: audio,
+                        focusNode: focusNode,
+                      );
                     },
                   );
+                  focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.deleteAudio:
                   Provider.of<ExpandablePlaylistListVM>(context, listen: false)

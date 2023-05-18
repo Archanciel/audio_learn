@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,24 +27,41 @@ class ScreenMixin {
     required String message,
     required WarningMessageVM warningMessageVM,
   }) {
+    final focusNode = FocusNode();
+
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.warning),
-        content: Text(
-          message,
-          style: kDialogTextFieldStyle,
-        ),
-        actions: [
-          TextButton(
-            child: const Text('Ok'),
-            onPressed: () {
-              warningMessageVM.warningMessageType = WarningMessageType.none;
-              Navigator.of(context).pop();
-            },
+      builder: (context) => RawKeyboardListener(
+        // Enables to close the dialog with the keyboard
+        focusNode: focusNode,
+        onKey: (event) {
+          if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
+              event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
+            warningMessageVM.warningMessageType = WarningMessageType.none;
+            Navigator.of(context).pop();
+          }
+        },
+        child: AlertDialog(
+          title: Text(AppLocalizations.of(context)!.warning),
+          content: Text(
+            message,
+            style: kDialogTextFieldStyle,
           ),
-        ],
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                warningMessageVM.warningMessageType = WarningMessageType.none;
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
       ),
     );
+
+    // To automatically focus on the dialog when it appears. If commented,
+    // clicking on Enter will not close the dialog.
+    focusNode.requestFocus();
   }
 }
