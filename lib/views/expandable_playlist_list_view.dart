@@ -58,6 +58,13 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
     requestStoragePermission();
   }
 
+  @override
+  void dispose() {
+    _playlistUrlController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   /// Requires adding the lines below to the main and debug AndroidManifest.xml
   /// files in order to work on S20 - Android 13 !
   ///     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>

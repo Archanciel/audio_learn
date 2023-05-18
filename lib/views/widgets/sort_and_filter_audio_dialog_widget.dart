@@ -37,7 +37,7 @@ class _SortAndFilterAudioDialogWidgetState
   final TextEditingController _startFileSizeController =
       TextEditingController();
   final TextEditingController _endFileSizeController = TextEditingController();
-  final TextEditingController _videoTitleOrDescriptionController =
+  final TextEditingController _audioTitleSubStringController =
       TextEditingController();
   final TextEditingController _startDownloadDateTimeController =
       TextEditingController();
@@ -57,6 +57,20 @@ class _SortAndFilterAudioDialogWidgetState
   DateTime? _startUploadDateTime;
   DateTime? _endUploadDateTime;
 
+  @override
+  void dispose() {
+    _startFileSizeController.dispose();
+    _endFileSizeController.dispose();
+    _audioTitleSubStringController.dispose();
+    _startDownloadDateTimeController.dispose();
+    _endDownloadDateTimeController.dispose();
+    _startUploadDateTimeController.dispose();
+    _endUploadDateTimeController.dispose();
+    _startAudioDurationController.dispose();
+    _endAudioDurationController.dispose();
+    super.dispose();
+  }
+  
   String _sortingOptionToString(
     SortingOption option,
     BuildContext context,
@@ -183,9 +197,10 @@ class _SortAndFilterAudioDialogWidgetState
                       SizedBox(
                         height: kDialogTextFieldHeight,
                         child: TextField(
+                          key: const Key('audioTitleSubStringTextField'),
                           style: kDialogTextFieldStyle,
                           decoration: kDialogTextFieldDecoration,
-                          controller: _videoTitleOrDescriptionController,
+                          controller: _audioTitleSubStringController,
                           keyboardType: TextInputType.text,
                           onChanged: (value) {
                             _audioTitleSubString = value;
