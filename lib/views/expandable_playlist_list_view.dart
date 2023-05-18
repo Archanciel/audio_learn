@@ -382,6 +382,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                     // Handle menu item selection
                     switch (value) {
                       case PlaylistPopupMenuButton.sortFilterAudios:
+                        FocusNode focusNode = FocusNode();
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -391,6 +392,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                       .getSelectedPlaylistsPlayableAudios(
                                 subFilterAndSort: false,
                               ),
+                              focusNode: focusNode,
                             );
                           },
                         ).then((result) {
@@ -402,8 +404,11 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                     returnedAudioList);
                           }
                         });
+                        focusNode.requestFocus();
+
                         break;
                       case PlaylistPopupMenuButton.subSortFilterAudios:
+                        FocusNode focusNode = FocusNode();
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -413,6 +418,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                       .getSelectedPlaylistsPlayableAudios(
                                 subFilterAndSort: true,
                               ),
+                              focusNode: focusNode,
                             );
                           },
                         ).then((result) {
@@ -424,6 +430,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                     returnedAudioList);
                           }
                         });
+                        focusNode.requestFocus();
                         break;
                       case PlaylistPopupMenuButton.updatePlaylistJson:
                         Provider.of<AudioDownloadVM>(context, listen: false)
