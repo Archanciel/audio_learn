@@ -195,13 +195,19 @@ class _SortAndFilterAudioDialogWidgetState
                       Row(
                         children: [
                           Text(AppLocalizations.of(context)!.ignoreCase),
-                          Checkbox(
-                            value: _ignoreCase,
-                            onChanged: (bool? newValue) {
-                              setState(() {
-                                _ignoreCase = newValue!;
-                              });
-                            },
+                          FocusScope(
+                            // if not including Checkbox, then clicking
+                            // on Enter will not be effective
+                            canRequestFocus: false,
+                            child: Checkbox(
+                              key: const Key('ignoreCaseCheckbox'),
+                              value: _ignoreCase,
+                              onChanged: (bool? newValue) {
+                                setState(() {
+                                  _ignoreCase = newValue!;
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -209,26 +215,38 @@ class _SortAndFilterAudioDialogWidgetState
                         children: [
                           Text(AppLocalizations.of(context)!
                               .searchInVideoCompactDescription),
-                          Checkbox(
-                            value: _searchInVideoCompactDescription,
-                            onChanged: (bool? newValue) {
-                              setState(() {
-                                _searchInVideoCompactDescription = newValue!;
-                              });
-                            },
+                          FocusScope(
+                            // if not including Checkbox, then clicking
+                            // on Enter will not be effective
+                            canRequestFocus: false,
+                            child: Checkbox(
+                              key: const Key('searchInVideoCompactDescriptionCheckbox'),
+                              value: _searchInVideoCompactDescription,
+                              onChanged: (bool? newValue) {
+                                setState(() {
+                                  _searchInVideoCompactDescription = newValue!;
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),
                       Row(
                         children: [
                           Text(AppLocalizations.of(context)!.audioMusicQuality),
-                          Checkbox(
-                            value: _filterMusicQuality,
-                            onChanged: (bool? newValue) {
-                              setState(() {
-                                _filterMusicQuality = newValue!;
-                              });
-                            },
+                          FocusScope(
+                            // if not including Checkbox, then clicking
+                            // on Enter will not be effective
+                            canRequestFocus: false,
+                            child: Checkbox(
+                              key: const Key('audioMusicQualityCheckbox'),
+                              value: _filterMusicQuality,
+                              onChanged: (bool? newValue) {
+                                setState(() {
+                                  _filterMusicQuality = newValue!;
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -514,7 +532,7 @@ class _SortAndFilterAudioDialogWidgetState
       searchInVideoCompactDescription: _searchInVideoCompactDescription,
       asc: _sortAscending,
     );
-    
+
     return sortedAudioLstBySortingOption;
   }
 }
