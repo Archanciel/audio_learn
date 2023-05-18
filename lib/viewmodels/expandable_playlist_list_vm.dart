@@ -85,6 +85,16 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// To be called before asking to download audios of selected 
+  /// playlists so that the currently displayed audio list is not
+  /// sorted or/and filtered. This way, the newly downloaded
+  /// audio will be added at top of the displayed audio list.
+  void disableSortedFilteredPlayableAudioLst() {
+    _sortedFilteredSelectedPlaylistsPlayableAudios = null;
+
+    notifyListeners();
+  }
+
   void setPlaylistSelection({
     required int playlistIndex,
     required bool isPlaylistSelected,
