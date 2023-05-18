@@ -57,6 +57,8 @@ class _SortAndFilterAudioDialogWidgetState
   DateTime? _startUploadDateTime;
   DateTime? _endUploadDateTime;
 
+  final _audioTitleSubStringFocusNode = FocusNode();
+
   @override
   void dispose() {
     _startFileSizeController.dispose();
@@ -68,9 +70,11 @@ class _SortAndFilterAudioDialogWidgetState
     _endUploadDateTimeController.dispose();
     _startAudioDurationController.dispose();
     _endAudioDurationController.dispose();
+    _audioTitleSubStringFocusNode.dispose();
+
     super.dispose();
   }
-  
+
   String _sortingOptionToString(
     SortingOption option,
     BuildContext context,
@@ -111,7 +115,8 @@ class _SortAndFilterAudioDialogWidgetState
         onKey: (event) {
           if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
               event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-            List<Audio> sortedAudioLstBySortingOption = _filterAndSortAudioLst();
+            List<Audio> sortedAudioLstBySortingOption =
+                _filterAndSortAudioLst();
             Navigator.of(context).pop(sortedAudioLstBySortingOption);
           }
         },
@@ -198,6 +203,7 @@ class _SortAndFilterAudioDialogWidgetState
                         height: kDialogTextFieldHeight,
                         child: TextField(
                           key: const Key('audioTitleSubStringTextField'),
+                          focusNode: _audioTitleSubStringFocusNode,
                           style: kDialogTextFieldStyle,
                           decoration: kDialogTextFieldDecoration,
                           controller: _audioTitleSubStringController,
@@ -216,6 +222,7 @@ class _SortAndFilterAudioDialogWidgetState
                               setState(() {
                                 _ignoreCase = newValue!;
                               });
+                              _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
                         ],
@@ -230,6 +237,7 @@ class _SortAndFilterAudioDialogWidgetState
                               setState(() {
                                 _searchInVideoCompactDescription = newValue!;
                               });
+                              _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
                         ],
@@ -243,6 +251,7 @@ class _SortAndFilterAudioDialogWidgetState
                               setState(() {
                                 _filterMusicQuality = newValue!;
                               });
+                              _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
                         ],
@@ -501,8 +510,9 @@ class _SortAndFilterAudioDialogWidgetState
                     'File size range: ${_startFileSizeController.text} - ${_endFileSizeController.text}');
                 print(
                     'Audio duration range: ${_startAudioDurationController.text} - ${_endAudioDurationController.text}');
-            List<Audio> sortedAudioLstBySortingOption = _filterAndSortAudioLst();
-            Navigator.of(context).pop(sortedAudioLstBySortingOption);
+                List<Audio> sortedAudioLstBySortingOption =
+                    _filterAndSortAudioLst();
+                Navigator.of(context).pop(sortedAudioLstBySortingOption);
                 Navigator.of(context).pop(sortedAudioLstBySortingOption);
               },
               child: Text(AppLocalizations.of(context)!.apply),
@@ -529,7 +539,7 @@ class _SortAndFilterAudioDialogWidgetState
       searchInVideoCompactDescription: _searchInVideoCompactDescription,
       asc: _sortAscending,
     );
-    
+
     return sortedAudioLstBySortingOption;
   }
 }
