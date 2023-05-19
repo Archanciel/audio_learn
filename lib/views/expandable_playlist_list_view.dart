@@ -17,6 +17,7 @@ import '../viewmodels/expandable_playlist_list_vm.dart';
 import 'widgets/audio_list_item_widget.dart';
 import 'screen_mixin.dart';
 import 'widgets/display_message_widget.dart';
+import 'widgets/playlist_list_item_widget.dart';
 import 'widgets/sort_and_filter_audio_dialog_widget.dart';
 
 enum PlaylistPopupMenuButton {
@@ -487,59 +488,9 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       Playlist playlist = upToDateSelectablePlaylists[index];
                       return Builder(
                         builder: (listTileContext) {
-                          return ListTile(
-                            leading: IconButton(
-                              icon: const Icon(Icons.menu),
-                              onPressed: () {
-                                final RenderBox listTileBox = listTileContext
-                                    .findRenderObject() as RenderBox;
-                                final Offset listTilePosition =
-                                    listTileBox.localToGlobal(Offset.zero);
-                                showMenu(
-                                  context: context,
-                                  position: RelativeRect.fromLTRB(
-                                    listTilePosition.dx -
-                                        listTileBox.size.width,
-                                    listTilePosition.dy,
-                                    0,
-                                    0,
-                                  ),
-                                  items: [
-                                    PopupMenuItem<String>(
-                                      key: const Key(
-                                          'popup_menu_open_youtube_playlist'),
-                                      value: 'openYoutubePlaylist',
-                                      child: Text(AppLocalizations.of(context)!
-                                          .openYoutubePlaylist),
-                                    ),
-                                  ],
-                                  elevation: 8,
-                                ).then((value) {
-                                  if (value != null) {
-                                    switch (value) {
-                                      case 'openYoutubePlaylist':
-                                        openUrlInExternalApp(url: playlist.url);
-                                        break;
-                                      case 'option2':
-                                        break;
-                                      default:
-                                        break;
-                                    }
-                                  }
-                                });
-                              },
-                            ),
-                            title: Text(playlist.title),
-                            trailing: Checkbox(
-                              value: playlist.isSelected,
-                              onChanged: (value) {
-                                _playlistUrlController.text = playlist.url;
-                                expandablePlaylistListVM.setPlaylistSelection(
-                                  playlistIndex: index,
-                                  isPlaylistSelected: value!,
-                                );
-                              },
-                            ),
+                          return PlaylistListItemWidget(
+                            playlist: playlist,
+                            index: index,
                           );
                         },
                       );
