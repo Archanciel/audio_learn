@@ -7,11 +7,11 @@ import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../utils/ui_util.dart';
 
-class AudioInfoDialog extends StatelessWidget {
+class AudioInfoDialogWidget extends StatelessWidget {
   final Audio audio;
   final FocusNode focusNode;
 
-  const AudioInfoDialog({
+  const AudioInfoDialogWidget({
     required this.audio,
     required this.focusNode,
     Key? key,

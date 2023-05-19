@@ -70,7 +70,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                 child: Text(AppLocalizations.of(context)!.copyYoutubeVideoUrl),
               ),
               PopupMenuItem<AudioPopupMenuAction>(
-                key: const Key('popup_menu_delete_audio'),
+                key: const Key('popup_menu_display_audio_info'),
                 value: AudioPopupMenuAction.displayAudioInfo,
                 child: Text(AppLocalizations.of(context)!.displayAudioInfo),
               ),
@@ -97,12 +97,14 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   Clipboard.setData(ClipboardData(text: audio.videoUrl));
                   break;
                 case AudioPopupMenuAction.displayAudioInfo:
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
                   FocusNode focusNode = FocusNode();
                   showDialog<void>(
                     context: context,
                     barrierDismissible: true,
                     builder: (BuildContext context) {
-                      return AudioInfoDialog(
+                      return AudioInfoDialogWidget(
                         audio: audio,
                         focusNode: focusNode,
                       );
