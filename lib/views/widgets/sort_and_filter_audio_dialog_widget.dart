@@ -519,7 +519,6 @@ class _SortAndFilterAudioDialogWidgetState
                 List<Audio> sortedAudioLstBySortingOption =
                     _filterAndSortAudioLst();
                 Navigator.of(context).pop(sortedAudioLstBySortingOption);
-                Navigator.of(context).pop(sortedAudioLstBySortingOption);
               },
               child: Text(AppLocalizations.of(context)!.apply),
             ),
