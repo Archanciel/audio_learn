@@ -114,6 +114,25 @@ class Playlist {
     return '$downloadPath${Platform.pathSeparator}$title.json';
   }
 
+  DateTime? getLastDownloadDateTime() {
+    Audio? lastDownloadedAudio =
+        downloadedAudioLst.isNotEmpty ? downloadedAudioLst.last : null;
+
+    return (lastDownloadedAudio != null)
+        ? lastDownloadedAudio.audioDownloadDateTime
+        : null;
+  }
+
+  Duration getPlayableAudioLstTotalDuration() {
+    Duration totalDuration = Duration.zero;
+
+    for (Audio audio in playableAudioLst) {
+      totalDuration += audio.audioDuration ?? Duration.zero;
+    }
+
+    return totalDuration; 
+  }
+
   void sortDownloadedAudioLst({
     required AudioSortCriterion audioSortCriteriomn,
     required bool isSortAscending,

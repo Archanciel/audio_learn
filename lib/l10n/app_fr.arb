@@ -131,5 +131,17 @@
   "compactVideoDescription": "Description vidéo compacte",
   "ignoreCase": "Ignorer la casse",
   "searchInVideoCompactDescription": "Inclure la description",
-  "on": "le"
+  "on": "le",
+  "copyYoutubePlaylistUrl": "Copier l'URL de la playlist Youtube",
+  "displayPlaylistInfo": "Afficher les données de la playlist",
+  "playlistInfoDialogTitle": "Playlist informations",
+  "playlistTitleLabel": "Titre de la playlist",
+  "playlistIdLabel": "ID de la playlist",
+  "playlistUrlLabel": "URL de la playlist",
+  "playlistDownloadPathLabel": "Chemin de téléch de la playlist",  
+  "playlistLastDownloadDateTimeLabel": "Date/heure dernier téléch",
+  "playlistIsSelectedLabel": "Playlist sélectionnée",
+  "playlistTotalAudioNumberLabel": "Nombre total audios",
+  "playlistPlayableAudioNumberLabel": "Nombre audios jouables",
+  "playlistPlayableAudioTotalDurationLabel": "Durée totale audios jouables"
 }
