@@ -21,8 +21,6 @@
   "audioQuality": "Si activé, télécharge en qualité maximale",
   "ofPreposition": "de",
   "atPreposition": "à",
-  "downloaded": "Téléchargé",
-  "size": "Taille",
   "ytPlaylistLinkLabel": "Lien Playlist Youtube",
   "ytPlaylistLinkHintText": "Entrez un lien playlist Youtube",
   "addPlaylist": "Ajout",
@@ -132,5 +130,6 @@
   "updatePlaylistJsonFiles": "Mettre à jour les fichiers playlist JSON",
   "compactVideoDescription": "Description vidéo compacte",
   "ignoreCase": "Ignorer la casse",
-  "searchInVideoCompactDescription": "Inclure la description"
+  "searchInVideoCompactDescription": "Inclure la description",
+  "on": "le"
 }

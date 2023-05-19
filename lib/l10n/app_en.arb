@@ -21,8 +21,6 @@
   "audioQuality": "If set, downloads at max quality",
   "ofPreposition": "of",
   "atPreposition": "at",
-  "downloaded": "Downloaded",
-  "size": "Size",
   "ytPlaylistLinkLabel": "Youtube Playlist Link",
   "ytPlaylistLinkHintText": "Enter a Youtube playlist link",
   "addPlaylist": "Add",
@@ -132,5 +130,6 @@
   "updatePlaylistJsonFiles": "Update playlist JSON files",
   "compactVideoDescription": "Compact video description",
   "ignoreCase": "Ignore case",
-  "searchInVideoCompactDescription": "Include description"
+  "searchInVideoCompactDescription": "Include description",
+  "on": "on"
 }

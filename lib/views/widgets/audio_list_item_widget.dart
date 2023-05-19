@@ -11,6 +11,7 @@ import '../../../models/playlist.dart';
 import '../../../utils/ui_util.dart';
 import '../../../viewmodels/audio_player_vm.dart';
 import '../../../utils/time_util.dart';
+import '../../constants.dart';
 import '../screen_mixin.dart';
 import '../../../viewmodels/warning_message_vm.dart';
 import 'audio_info_dialog_widget.dart';
@@ -165,7 +166,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
       subTitle = '?';
     } else {
       subTitle =
-          '${audioDuration.HHmmss()}. ${AppLocalizations.of(context)!.size} $audioFileSizeStr. ${AppLocalizations.of(context)!.downloaded} ${AppLocalizations.of(context)!.atPreposition} $audioDownloadSpeedStr';
+          '${audioDuration.HHmmss()}. $audioFileSizeStr ${AppLocalizations.of(context)!.atPreposition} $audioDownloadSpeedStr ${AppLocalizations.of(context)!.on} ${frenchDateTimeFormat.format(audio.audioDownloadDateTime)}';
     }
     return subTitle;
   }
