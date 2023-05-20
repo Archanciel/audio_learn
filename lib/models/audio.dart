@@ -158,6 +158,17 @@ class Audio {
     };
   }
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Audio &&
+        other.videoUrl == videoUrl;
+  }
+
+  @override
+  int get hashCode => videoUrl.hashCode;
+
   void invertPaused() {
     _isPaused = !_isPaused;
   }

@@ -85,7 +85,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// To be called before asking to download audios of selected 
+  /// To be called before asking to download audios of selected
   /// playlists so that the currently displayed audio list is not
   /// sorted or/and filtered. This way, the newly downloaded
   /// audio will be added at top of the displayed audio list.
@@ -170,9 +170,9 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   /// clicked on the Apply button in the
   /// SortAndFilterAudioDialogWidget, then the filtered and
   /// sorted audio list is returned.
-  /// 
-  /// [subFilterAndSort] is true by default. Being true, it 
-  /// means that the filtered and sorted audio list is 
+  ///
+  /// [subFilterAndSort] is true by default. Being true, it
+  /// means that the filtered and sorted audio list is
   /// returned if it exists. If false, the full playable
   /// audio list of the selected playlists is returned.
   List<Audio> getSelectedPlaylistsPlayableAudios({
@@ -222,6 +222,20 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     _removeAudioFromSortedFilteredPlayableAudioList(audio);
 
     notifyListeners();
+  }
+
+  int updatePlayableAudioLst({
+    required Playlist playlist,
+  }) {
+    int removedPlayableAudioNumber = playlist.updatePlayableAudioLst();
+
+    if (removedPlayableAudioNumber > 0) {
+      _sortedFilteredSelectedPlaylistsPlayableAudios = null;
+      
+      notifyListeners();
+    }
+
+    return removedPlayableAudioNumber;
   }
 
   void _removeAudioFromSortedFilteredPlayableAudioList(Audio audio) {

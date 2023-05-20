@@ -143,5 +143,7 @@
   "playlistIsSelectedLabel": "Playlist sélectionnée",
   "playlistTotalAudioNumberLabel": "Nombre total audios",
   "playlistPlayableAudioNumberLabel": "Nombre audios jouables",
-  "playlistPlayableAudioTotalDurationLabel": "Durée totale audios jouables"
+  "playlistPlayableAudioTotalDurationLabel": "Durée totale audios jouables",
+  "updatePlaylistPlayableAudioList": "Mettre à jour la liste des audios jouables",
+  "updatedPlayableAudioLst": "La liste des audios jouables de la playlist \"{title}\" a été mise à jour. {number} audios ont été supprimés."
 }

@@ -153,6 +153,19 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
         });
 
         return const SizedBox.shrink();
+      case WarningMessageType.updatedPlayableAudioLst:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!.updatedPlayableAudioLst(
+              _warningMessageVM.removedPlayableAudioNumber,
+              _warningMessageVM.updatedPlayableAudioLstPlaylistTitle,
+            ),
+            warningMessageVM: _warningMessageVM,
+          );
+        });
+
+        return const SizedBox.shrink();
       default:
         return const SizedBox.shrink();
     }

@@ -18,18 +18,18 @@ enum WarningMessageType {
   addPlaylistTitle, // The playlist with this title is added
   // to the application
 
-  invalidPlaylistUrl, // The case if the url is a video url and the 
+  invalidPlaylistUrl, // The case if the url is a video url and the
   // user clicked on the Add button instead of the Download
   // button or if the String pasted to the url text field
   // is not a valid Youtube playlist url.
 
-  playlistWithUrlAlreadyInListOfPlaylists, // User clicked on Add 
+  playlistWithUrlAlreadyInListOfPlaylists, // User clicked on Add
   // button but the playlist with this url was already downloaded
 
   playlistWithThisUrlAlreadyDownloadedAndUpdated, // Not used yet
 
   playlistWithThisUrlAlreadyDownloadedAndAdded, // Not used yet
-  
+
   deleteAudioFromPlaylistAswellWarning, // User selected the audio
   // menu item "Delete audio from playlist aswell"
 
@@ -37,12 +37,16 @@ enum WarningMessageType {
   // and the Download button was clicked instead of the Add button,
   // or if the String pasted to the url text field is not a valid
   // Youtube video url.
+
+  updatedPlayableAudioLst, // The case if the playable audio list
+  // was updated. This happens when the user clicks on the update
+  // playable audio list playlist menu item.
 }
 
 enum ErrorType {
   none,
   downloadAudioYoutubeError, // In case of a Youtube error
-  downloadAudioFileAlreadyOnAudioDirectory, // In case the audio file 
+  downloadAudioFileAlreadyOnAudioDirectory, // In case the audio file
   // is already on the audio directory and will not be redownloaded
   noInternet, // device not connected. Happens when trying to
   // download a playlist or a single video or to add a new playlist
@@ -58,7 +62,8 @@ class WarningMessageVM extends ChangeNotifier {
   set warningMessageType(WarningMessageType warningMessageType) {
     _warningMessageType = warningMessageType;
   }
-String _errorMessage = '';
+
+  String _errorMessage = '';
   String get errorMessage => _errorMessage;
 
   ErrorType _errorType = ErrorType.none;
@@ -199,6 +204,26 @@ String _errorMessage = '';
     if (deleteAudioFromPlaylistAswellTitle.isNotEmpty) {
       _warningMessageType =
           WarningMessageType.deleteAudioFromPlaylistAswellWarning;
+
+      notifyListeners();
+    }
+  }
+
+  String _updatedPlayableAudioLstPlaylistTitle = '';
+  String get updatedPlayableAudioLstPlaylistTitle =>
+      _updatedPlayableAudioLstPlaylistTitle;
+  int _removedPlayableAudioNumber = 0;
+  int get removedPlayableAudioNumber => _removedPlayableAudioNumber;
+  setUpdatedPlayableAudioLstPlaylistTitle({
+    required String updatedPlayableAudioLstPlaylistTitle,
+    required int removedPlayableAudioNumber,
+  }) {
+    _updatedPlayableAudioLstPlaylistTitle =
+        updatedPlayableAudioLstPlaylistTitle;
+    _removedPlayableAudioNumber = removedPlayableAudioNumber;
+
+    if (removedPlayableAudioNumber > 0) {
+      _warningMessageType = WarningMessageType.updatedPlayableAudioLst;
 
       notifyListeners();
     }

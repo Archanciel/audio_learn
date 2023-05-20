@@ -130,7 +130,30 @@ class Playlist {
       totalDuration += audio.audioDuration ?? Duration.zero;
     }
 
-    return totalDuration; 
+    return totalDuration;
+  }
+
+  /// Removes from the playableAudioLst the audios that are no longer
+  /// in the playlist download path.
+  ///
+  /// Returns the number of audios removed from the playable audio 
+  /// list.
+  int updatePlayableAudioLst() {
+    int removedPlayableAudioNumber = 0;
+
+    // since we are removing items from the list, we need to make a
+    // copy of the list because we cannot iterate over a list that
+    // is being modified.
+    List<Audio> copyAudioLst = List<Audio>.from(playableAudioLst);
+
+    for (Audio audio in copyAudioLst) {
+      if (!File(audio.filePathName).existsSync()) {
+        playableAudioLst.remove(audio);
+        removedPlayableAudioNumber++;
+      }
+    }
+
+    return removedPlayableAudioNumber;
   }
 
   void sortDownloadedAudioLst({
