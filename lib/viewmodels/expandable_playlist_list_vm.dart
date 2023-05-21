@@ -55,8 +55,14 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     } else {
       _selectablePlaylistLst = [];
       for (String playlistTitle in orderedPlaylistTitleLst) {
-        _selectablePlaylistLst.add(audioDownloadVMlistOfPlaylist
-            .firstWhere((playlist) => playlist.title == playlistTitle));
+        try {
+          _selectablePlaylistLst.add(audioDownloadVMlistOfPlaylist
+              .firstWhere((playlist) => playlist.title == playlistTitle));
+        } catch (e) {
+          // If the playlist with this title is not found, it means that
+          // the playlist json file has been deleted. So, we don't add it
+          // to the selectable playlist list.
+        }
       }
     }
 
@@ -89,6 +95,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     if (addedPlaylist != null) {
       // if addedPlaylist is null, it means that the
       // passed url is not a valid playlist url
+      _selectablePlaylistLst.add(addedPlaylist);
       _updateAndSavePlaylistOrder();
 
       notifyListeners();
