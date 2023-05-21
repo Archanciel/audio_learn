@@ -1,4 +1,5 @@
 import 'package:audio_learn/utils/time_util.dart';
+import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,7 +8,7 @@ import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../utils/ui_util.dart';
 
-class AudioInfoDialogWidget extends StatelessWidget {
+class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
   final FocusNode focusNode;
 
@@ -114,29 +115,5 @@ class AudioInfoDialogWidget extends StatelessWidget {
     }
 
     return audioDownloadSpeedStr;
-  }
-
-  Widget infoRow(BuildContext context, String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text(label),
-          ),
-          Expanded(
-            child: InkWell(
-              child: Text(value),
-              onTap: () {
-                Clipboard.setData(
-                  ClipboardData(text: value),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

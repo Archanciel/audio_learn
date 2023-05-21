@@ -25,27 +25,12 @@ enum Language {
 enum Playlists {
   rootPath,
   pathLst,
+  orderedTitleLst,
   isMusicQualityByDefault,
   defaultAudioSort,
 }
 
 enum AudioSortCriterion { audioDownloadDateTime, validVideoTitle }
-
-class SettingTypeNameException implements Exception {
-  String _settingTypeName;
-  StackTrace _stackTrace;
-
-  SettingTypeNameException({
-    required String settingTypeName,
-    StackTrace? stackTrace,
-  })  : _settingTypeName = settingTypeName,
-        _stackTrace = stackTrace ?? StackTrace.current;
-
-  @override
-  String toString() {
-    return ('$_settingTypeName not defined in Settings._allSettingsKeyLst.\nStack Trace:\n$_stackTrace');
-  }
-}
 
 /// ChatGPT recommanded: Use JSON serialization libraries like
 /// json_serializable to simplify the JSON encoding and decoding
@@ -60,6 +45,7 @@ class SettingsDataService {
     SettingType.playlists: {
       Playlists.rootPath: kDownloadAppDir,
       Playlists.pathLst: ["/EMPTY", "/BOOKS", "/MUSIC"],
+      Playlists.orderedTitleLst: [],
       Playlists.isMusicQualityByDefault: false,
       Playlists.defaultAudioSort: AudioSortCriterion.audioDownloadDateTime,
     },
@@ -171,11 +157,7 @@ class SettingsDataService {
   T _parseEnumValue<T>(List<T> enumValues, String stringValue) {
     T setting = enumValues[0];
 
-    try {
-      setting = enumValues.firstWhere((e) => e.toString() == stringValue);
-    } catch (e) {
-      throw SettingTypeNameException(settingTypeName: stringValue);
-    }
+    setting = enumValues.firstWhere((e) => e.toString() == stringValue);
 
     return setting;
   }
@@ -193,8 +175,13 @@ class SettingsDataService {
       return false;
     } else if (_isFilePath(stringValue)) {
       return stringValue;
-    } else {
+    } else if (_allSettingsKeyLst
+        .map((e) => e.toString())
+        .contains(stringValue)) {
       return _parseEnumValue(enumValues, stringValue);
+    } else {
+      // Return the string value if it's not an enum
+      return stringValue;
     }
   }
 
@@ -219,6 +206,8 @@ void main(List<String> args) {
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
+  print(
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.orderedTitleLst)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
   print(
@@ -248,6 +237,11 @@ void main(List<String> args) {
 
   initialSettings.set(
       settingType: SettingType.playlists,
+      settingSubType: Playlists.orderedTitleLst,
+      value: ['audio_learn', 'audio_learn2', 'audio_learn3']);
+
+  initialSettings.set(
+      settingType: SettingType.playlists,
       settingSubType: Playlists.isMusicQualityByDefault,
       value: true);
 
@@ -269,6 +263,8 @@ void main(List<String> args) {
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
   print(
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.orderedTitleLst)}');
+  print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
@@ -288,6 +284,8 @@ void main(List<String> args) {
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
+  print(
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.orderedTitleLst)}');
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
   print(

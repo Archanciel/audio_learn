@@ -105,7 +105,7 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   void setAudioQuality({required bool isHighQuality}) {
     // TODO: implement setAudioQuality
   }
-  
+
   @override
   Future<void> downloadSingleVideoAudio({required String videoUrl}) async {
     // TODO: implement downloadSingleVideoAudio
@@ -116,29 +116,30 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   void stopDownload() {
     // TODO: implement stopDownload
   }
-  
+
   @override
   // TODO: implement audioDownloadError
   bool get audioDownloadError => throw UnimplementedError();
-  
+
   @override
   // TODO: implement errorMessage
   String get errorMessage => throw UnimplementedError();
-  
+
   @override
   // TODO: implement isDownloadStopping
   bool get isDownloadStopping => throw UnimplementedError();
-  
+
   @override
-  void updatePlaylistSelection({required String playlistId, required bool isPlaylistSelected}) {
+  void updatePlaylistSelection(
+      {required String playlistId, required bool isPlaylistSelected}) {
     // TODO: implement updatePlaylistSelection
   }
-  
+
   @override
   void deleteAudio({required Audio audio}) {
     // TODO: implement deleteAudio
   }
-  
+
   @override
   void deleteAudioFromPlaylistAswell({required Audio audio}) {
     // TODO: implement deleteAudioFromPlaylistAswell
@@ -168,7 +169,9 @@ void main() {
                 create: (_) => ThemeProvider(appSettings: appSettings)),
             ChangeNotifierProvider(
                 create: (_) => LanguageProvider(appSettings: appSettings)),
-            ChangeNotifierProvider(create: (_) => ExpandablePlaylistListVM(audioDownloadVM: mockAudioViewModel)),
+            ChangeNotifierProvider(
+                create: (_) => ExpandablePlaylistListVM(
+                    audioDownloadVM: mockAudioViewModel)),
           ],
           child: Consumer2<ThemeProvider, LanguageProvider>(
               builder: (context, themeProvider, languageProvider, child) {
@@ -264,7 +267,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: MainApp(
-              appSettings: SettingsDataService(),
+              settingsDataService: SettingsDataService(),
               key: const Key('mainAppKey'),
             ),
           ),

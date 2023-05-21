@@ -127,40 +127,5 @@ void main() {
         directory.deleteSync(recursive: true);
       }
     });
-    test(
-        'throws exception when loading Settings json file containing invalid enum',
-        () async {
-      final Directory directory = Directory(testSettingsDir);
-
-      if (directory.existsSync()) {
-        directory.deleteSync(recursive: true);
-      }
-
-      settings.set(
-          settingType: SettingType.playlists,
-          settingSubType: Playlists.defaultAudioSort,
-          value: UnsupportedSettingsEnum.unsupported);
-
-      // Save to file
-      await DirUtil.createDirIfNotExist(pathStr: testSettingsDir);
-
-      final String testSettingsPathFileName =
-          path.join(testSettingsDir, 'settings.json');
-      settings.saveSettingsToFile(
-        jsonPathFileName: testSettingsPathFileName,
-      );
-
-      // Load from file
-      final SettingsDataService loadedSettings = SettingsDataService();
-
-      expect(() => loadedSettings.loadSettingsFromFile(
-            jsonPathFileName: testSettingsPathFileName,
-          ), throwsA(isA<SettingTypeNameException>()));
-
-      // Cleanup the test data directory
-      if (directory.existsSync()) {
-        directory.deleteSync(recursive: true);
-      }
-    });
   });
 }

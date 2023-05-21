@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/audio.dart';
 import '../models/playlist.dart';
+import '../services/settings_data_service.dart';
 import 'audio_download_vm.dart';
 import 'warning_message_vm.dart';
 
@@ -22,6 +23,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
   final AudioDownloadVM _audioDownloadVM;
   final WarningMessageVM _warningMessageVM;
+  final SettingsDataService _settingsDataService;
 
   bool _isPlaylistSelected = true;
   List<Playlist> _selectablePlaylistLst = [];
@@ -30,8 +32,10 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   ExpandablePlaylistListVM({
     required WarningMessageVM warningMessageVM,
     required AudioDownloadVM audioDownloadVM,
+    required SettingsDataService settingsDataService,
   })  : _warningMessageVM = warningMessageVM,
-        _audioDownloadVM = audioDownloadVM;
+        _audioDownloadVM = audioDownloadVM,
+        _settingsDataService = settingsDataService;
 
   List<Playlist> getUpToDateSelectablePlaylists() {
     _selectablePlaylistLst = _audioDownloadVM.listOfPlaylist;
@@ -231,7 +235,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
     if (removedPlayableAudioNumber > 0) {
       _sortedFilteredSelectedPlaylistsPlayableAudios = null;
-      
+
       notifyListeners();
     }
 

@@ -14,11 +14,12 @@ import '../services/json_data_service.dart';
 import '../constants.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
+import '../services/settings_data_service.dart';
 import '../utils/dir_util.dart';
 import 'warning_message_vm.dart';
 
 class AudioDownloadVM extends ChangeNotifier {
-  List<Playlist> _listOfPlaylist = [];
+  final List<Playlist> _listOfPlaylist = [];
   List<Playlist> get listOfPlaylist => _listOfPlaylist;
 
   Playlist? _variousAudiosPlaylist;
@@ -58,16 +59,18 @@ class AudioDownloadVM extends ChangeNotifier {
   /// the windows or smartphone audio root directory is used and
   /// the value of the kUniquePlaylistTitle constant is used to
   /// load the playlist json file.
-  AudioDownloadVM(
-      {required WarningMessageVM warningMessageVM, String? testPlaylistTitle})
-      : _warningMessageVM = warningMessageVM {
+  AudioDownloadVM({
+    required SettingsDataService settingsDataService,
+    required WarningMessageVM warningMessageVM,
+    String? testPlaylistTitle,
+  }) : _warningMessageVM = warningMessageVM {
     _playlistsHomePath =
         DirUtil.getPlaylistDownloadHomePath(isTest: testPlaylistTitle != null);
 
-    _loadExistingPlaylists();
+    _loadExistingPlaylists(settingsDataService);
   }
 
-  void _loadExistingPlaylists() {
+  void _loadExistingPlaylists(SettingsDataService settingsDataService) {
     List<String> playlistPathFileNameLst = DirUtil.listPathFileNamesInSubDirs(
       path: _playlistsHomePath,
       extension: 'json',
@@ -549,23 +552,28 @@ class AudioDownloadVM extends ChangeNotifier {
   }) {
     // Extraire les 3 premières lignes de la description
     List<String> videoDescriptionLinesLst = videoDescription.split('\n');
-    String firstThreeLines =
-        videoDescriptionLinesLst.take(3).join('\n');
+    String firstThreeLines = videoDescriptionLinesLst.take(3).join('\n');
 
     // Extraire les noms propres qui ne se trouvent pas dans les 3 premières lignes
-    String linesAfterFirstThreeLines = videoDescriptionLinesLst.skip(3).join('\n');
-    linesAfterFirstThreeLines = _removeTimestampLines('$linesAfterFirstThreeLines\n');
-    final List<String> linesAfterFirstThreeLinesWordsLst = linesAfterFirstThreeLines.split(RegExp(r'[ \n]'));
+    String linesAfterFirstThreeLines =
+        videoDescriptionLinesLst.skip(3).join('\n');
+    linesAfterFirstThreeLines =
+        _removeTimestampLines('$linesAfterFirstThreeLines\n');
+    final List<String> linesAfterFirstThreeLinesWordsLst =
+        linesAfterFirstThreeLines.split(RegExp(r'[ \n]'));
 
     // Trouver les noms propres consécutifs (au moins deux)
     List<String> consecutiveProperNames = [];
 
     for (int i = 0; i < linesAfterFirstThreeLinesWordsLst.length - 1; i++) {
       if (linesAfterFirstThreeLinesWordsLst[i].length > 0 &&
-          _isEnglishOrFrenchUpperCaseLetter(linesAfterFirstThreeLinesWordsLst[i][0]) &&
+          _isEnglishOrFrenchUpperCaseLetter(
+              linesAfterFirstThreeLinesWordsLst[i][0]) &&
           linesAfterFirstThreeLinesWordsLst[i + 1].length > 0 &&
-          _isEnglishOrFrenchUpperCaseLetter(linesAfterFirstThreeLinesWordsLst[i + 1][0])) {
-        consecutiveProperNames.add('${linesAfterFirstThreeLinesWordsLst[i]} ${linesAfterFirstThreeLinesWordsLst[i + 1]}');
+          _isEnglishOrFrenchUpperCaseLetter(
+              linesAfterFirstThreeLinesWordsLst[i + 1][0])) {
+        consecutiveProperNames.add(
+            '${linesAfterFirstThreeLinesWordsLst[i]} ${linesAfterFirstThreeLinesWordsLst[i + 1]}');
         i++; // Pour ne pas prendre en compte les noms propres suivants qui font déjà partie d'une paire consécutive
       }
     }

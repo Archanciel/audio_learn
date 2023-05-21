@@ -48,33 +48,35 @@ Future<void> main(List<String> args) async {
     print('***** $kDownloadAppDir mp3 files deleted *****');
   }
 
-  final SettingsDataService appSettings = SettingsDataService();
-  appSettings.loadSettingsFromFile(
+  final SettingsDataService settingsDataService = SettingsDataService();
+  settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
         '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName',
   );
 
-  runApp(MainApp(appSettings: appSettings));
+  runApp(MainApp(settingsDataService: settingsDataService));
 }
 
 class MainApp extends StatelessWidget {
-  final SettingsDataService _appSettings;
+  final SettingsDataService _settingsDataService;
 
   const MainApp({
-    required SettingsDataService appSettings,
+    required SettingsDataService settingsDataService,
     super.key,
-  }) : _appSettings = appSettings;
+  }) : _settingsDataService = settingsDataService;
 
   @override
   Widget build(BuildContext context) {
     WarningMessageVM warningMessageVM = WarningMessageVM();
     AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+      settingsDataService: _settingsDataService,
       warningMessageVM: warningMessageVM,
     );
     ExpandablePlaylistListVM expandablePlaylistListVM =
         ExpandablePlaylistListVM(
       warningMessageVM: warningMessageVM,
       audioDownloadVM: audioDownloadVM,
+      settingsDataService: _settingsDataService,
     );
 
     // calling getUpToDateSelectablePlaylists() loads all the
@@ -89,11 +91,11 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
         ChangeNotifierProvider(
             create: (_) => ThemeProvider(
-                  appSettings: _appSettings,
+                  appSettings: _settingsDataService,
                 )),
         ChangeNotifierProvider(
             create: (_) => LanguageProvider(
-                  appSettings: _appSettings,
+                  appSettings: _settingsDataService,
                 )),
         ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
         ChangeNotifierProvider(create: (_) => warningMessageVM),
@@ -296,7 +298,8 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
                     context: context,
                     applicationName: kApplicationName,
                     applicationVersion: kApplicationVersion,
-                    applicationIcon: Image.asset('assets/images/ic_launcher_cleaner_72.png'),
+                    applicationIcon:
+                        Image.asset('assets/images/ic_launcher_cleaner_72.png'),
                     children: <Widget>[
                       const Text('Author:'),
                       const Text('Jean-Pierre Schnyder / Switzerland'),

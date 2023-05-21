@@ -5,9 +5,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../constants.dart';
 import '../../models/playlist.dart';
-import '../../utils/ui_util.dart';
+import '../screen_mixin.dart';
 
-class PlaylistInfoDialogWidget extends StatelessWidget {
+class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
   final Playlist playlist;
   final FocusNode focusNode;
 
@@ -81,30 +81,6 @@ class PlaylistInfoDialogWidget extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
             },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget infoRow(BuildContext context, String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text(label),
-          ),
-          Expanded(
-            child: InkWell(
-              child: Text(value),
-              onTap: () {
-                Clipboard.setData(
-                  ClipboardData(text: value),
-                );
-              },
-            ),
           ),
         ],
       ),

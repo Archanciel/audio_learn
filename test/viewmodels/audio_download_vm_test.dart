@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
+import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
@@ -37,13 +38,14 @@ void main() {
       if (directory.existsSync()) {
         directory.deleteSync(recursive: true);
       }
+      final SettingsDataService settingsDataService = SettingsDataService();
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-        testPlaylistTitle: testPlaylistTitle,
+        settingsDataService: settingsDataService,
         warningMessageVM: warningMessageVM,
+        testPlaylistTitle: testPlaylistTitle,
       );
 
-      expect(audioDownloadVM.listOfPlaylist, []);
       expect(audioDownloadVM.listOfPlaylist, []);
       expect(audioDownloadVM.isDownloading, false);
       expect(audioDownloadVM.downloadProgress, 0.0);
@@ -63,10 +65,12 @@ void main() {
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
+          final SettingsDataService settingsDataService = SettingsDataService();
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
-            testPlaylistTitle: testPlaylistTitle,
+            settingsDataService: settingsDataService,
             warningMessageVM: warningMessageVM,
+            testPlaylistTitle: testPlaylistTitle,
           );
           return audioDownloadVM;
         },
@@ -141,10 +145,12 @@ void main() {
         targetFileName: '$testPlaylistTitle.json',
       );
 
+      final SettingsDataService settingsDataService = SettingsDataService();
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
-        testPlaylistTitle: testPlaylistTitle,
+        settingsDataService: settingsDataService,
         warningMessageVM: warningMessageVM,
+        testPlaylistTitle: testPlaylistTitle,
       );
       Playlist downloadedPlaylistBeforeDownload =
           audioDownloadVMbeforeDownload.listOfPlaylist[0];
@@ -177,10 +183,12 @@ void main() {
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
+          final SettingsDataService settingsDataService = SettingsDataService();
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
-            testPlaylistTitle: testPlaylistTitle,
+            settingsDataService: settingsDataService,
             warningMessageVM: warningMessageVM,
+            testPlaylistTitle: testPlaylistTitle,
           );
           return audioDownloadVM;
         },
@@ -266,10 +274,12 @@ void main() {
         targetFileName: '$testPlaylistTitle.json',
       );
 
+      final SettingsDataService settingsDataService = SettingsDataService();
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
-        testPlaylistTitle: testPlaylistTitle,
+        settingsDataService: settingsDataService,
         warningMessageVM: warningMessageVM,
+        testPlaylistTitle: testPlaylistTitle,
       );
       Playlist downloadedPlaylistBeforeDownload =
           audioDownloadVMbeforeDownload.listOfPlaylist[0];
@@ -303,10 +313,12 @@ void main() {
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
+          final SettingsDataService settingsDataService = SettingsDataService();
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
-            testPlaylistTitle: testPlaylistTitle,
+            settingsDataService: settingsDataService,
             warningMessageVM: warningMessageVM,
+            testPlaylistTitle: testPlaylistTitle,
           );
           return audioDownloadVM;
         },
@@ -450,10 +462,12 @@ void deletePlaylistDownloadDir(Directory directory) {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-      final WarningMessageVM warningMessageVM = WarningMessageVM();
-      final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-        warningMessageVM: warningMessageVM,
-      );
+    final SettingsDataService settingsDataService = SettingsDataService();
+    final WarningMessageVM warningMessageVM = WarningMessageVM();
+    final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+      settingsDataService: settingsDataService,
+      warningMessageVM: warningMessageVM,
+    );
     return MaterialApp(
       home: ChangeNotifierProvider(
         create: (context) => audioDownloadVM,
