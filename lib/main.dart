@@ -296,7 +296,7 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
                     context: context,
                     applicationName: kApplicationName,
                     applicationVersion: kApplicationVersion,
-                    // applicationIcon: Image.asset('assets/images/Audio_Lesson-512.png'),
+                    applicationIcon: Image.asset('assets/images/ic_launcher_cleaner_72.png'),
                     children: <Widget>[
                       const Text('Author:'),
                       const Text('Jean-Pierre Schnyder / Switzerland'),
