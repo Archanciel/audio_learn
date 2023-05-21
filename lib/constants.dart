@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-const String kApplicationName = "AudioLearn";
-const String kApplicationVersion = '0.7.4';
+const String kApplicationName = "Audio Learn";
+const String kApplicationVersion = '0.7.5';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audios';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
@@ -69,7 +69,7 @@ const double kSmallButtonInsidePadding = 3.0;
 const double kDefaultMargin = 15.0;
 const kFlushbarEdgeInsets = EdgeInsets.fromLTRB(15, 78, 15, 0);
 const double kRoundedButtonBorderRadius = 11.0;
-const Color kIconColor = Color.fromARGB(246, 44, 61, 255);
+const Color kIconColor = Color.fromARGB(246, 44, 61, 255);  // rgba(44, 61, 246, 255)
 const Color kButtonColor = Color(0xFF3D3EC2);
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
