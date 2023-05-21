@@ -107,6 +107,18 @@ class SettingsDataService {
     _settings[settingType]![settingSubType] = value;
   }
 
+  void savePlaylistOrder({
+    required List<String> playlistOrder,
+  }) {
+    _settings[SettingType.playlists]![Playlists.orderedTitleLst] =
+        playlistOrder;
+
+    String jsonPathFileName =
+        '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName';
+
+    saveSettingsToFile(jsonPathFileName: jsonPathFileName);
+  }
+
   // Save settings to a JSON file
   void saveSettingsToFile({
     required String jsonPathFileName,

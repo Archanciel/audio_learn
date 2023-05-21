@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../models/audio.dart';
@@ -38,7 +40,25 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
         _settingsDataService = settingsDataService;
 
   List<Playlist> getUpToDateSelectablePlaylists() {
-    _selectablePlaylistLst = _audioDownloadVM.listOfPlaylist;
+    List<Playlist> audioDownloadVMlistOfPlaylist =
+        _audioDownloadVM.listOfPlaylist;
+    List<dynamic>? orderedPlaylistTitleLst = _settingsDataService.get(
+      settingType: SettingType.playlists,
+      settingSubType: Playlists.orderedTitleLst,
+    );
+
+    if (orderedPlaylistTitleLst == null) {
+      // If orderedPlaylistTitleLst is null, it means that the
+      // user has not yet modified the order of the playlists.
+      // So, we use the default order.
+      _selectablePlaylistLst = audioDownloadVMlistOfPlaylist;
+    } else {
+      _selectablePlaylistLst = [];
+      for (String playlistTitle in orderedPlaylistTitleLst) {
+        _selectablePlaylistLst.add(audioDownloadVMlistOfPlaylist
+            .firstWhere((playlist) => playlist.title == playlistTitle));
+      }
+    }
 
     if (_getSelectedIndex() != -1) {
       _isPlaylistSelected = true;
@@ -69,6 +89,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     if (addedPlaylist != null) {
       // if addedPlaylist is null, it means that the
       // passed url is not a valid playlist url
+      _updateAndSavePlaylistOrder();
+
       notifyListeners();
     }
   }
@@ -134,6 +156,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
     if (selectedIndex != -1) {
       _deleteItem(selectedIndex);
+      _updateAndSavePlaylistOrder();
       _disableAllButtonsIfNoPlaylistIsSelected();
 
       notifyListeners();
@@ -144,14 +167,26 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     int selectedIndex = _getSelectedIndex();
     if (selectedIndex != -1) {
       moveItemUp(selectedIndex);
+      _updateAndSavePlaylistOrder();
       notifyListeners();
     }
+  }
+
+  /// Thanks to this method, when restarting the app, the playlists
+  /// are displayed in the same order as when the app was closed. This
+  /// is done by saving the playlist order in the settings file.
+  void _updateAndSavePlaylistOrder() {
+    List<String> playlistOrder =
+        _selectablePlaylistLst.map((playlist) => playlist.title).toList();
+
+    _settingsDataService.savePlaylistOrder(playlistOrder: playlistOrder);
   }
 
   void moveSelectedItemDown() {
     int selectedIndex = _getSelectedIndex();
     if (selectedIndex != -1) {
       moveItemDown(selectedIndex);
+      _updateAndSavePlaylistOrder();
       notifyListeners();
     }
   }
