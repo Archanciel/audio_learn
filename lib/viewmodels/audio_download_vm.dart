@@ -14,7 +14,6 @@ import '../services/json_data_service.dart';
 import '../constants.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
-import '../services/settings_data_service.dart';
 import '../utils/dir_util.dart';
 import 'warning_message_vm.dart';
 
@@ -60,17 +59,16 @@ class AudioDownloadVM extends ChangeNotifier {
   /// the value of the kUniquePlaylistTitle constant is used to
   /// load the playlist json file.
   AudioDownloadVM({
-    required SettingsDataService settingsDataService,
     required WarningMessageVM warningMessageVM,
     String? testPlaylistTitle,
   }) : _warningMessageVM = warningMessageVM {
     _playlistsHomePath =
         DirUtil.getPlaylistDownloadHomePath(isTest: testPlaylistTitle != null);
 
-    _loadExistingPlaylists(settingsDataService);
+    _loadExistingPlaylists();
   }
 
-  void _loadExistingPlaylists(SettingsDataService settingsDataService) {
+  void _loadExistingPlaylists() {
     List<String> playlistPathFileNameLst = DirUtil.listPathFileNamesInSubDirs(
       path: _playlistsHomePath,
       extension: 'json',

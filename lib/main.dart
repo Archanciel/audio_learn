@@ -69,7 +69,6 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     WarningMessageVM warningMessageVM = WarningMessageVM();
     AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-      settingsDataService: _settingsDataService,
       warningMessageVM: warningMessageVM,
     );
     ExpandablePlaylistListVM expandablePlaylistListVM =
