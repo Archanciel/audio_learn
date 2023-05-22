@@ -110,12 +110,14 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
         return const SizedBox.shrink();
       case WarningMessageType.playlistWithUrlAlreadyInListOfPlaylists:
         String playlistUrl = _playlistUrlController.text;
+        String playlistTitle = _warningMessageVM.playlistAlreadyDownloadedTitle;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!
-                .playlistWithUrlAlreadyInListOfPlaylists(playlistUrl),
+                .playlistWithUrlAlreadyInListOfPlaylists(
+                    playlistUrl, playlistTitle),
             warningMessageVM: _warningMessageVM,
           );
         });

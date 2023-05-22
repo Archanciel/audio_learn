@@ -85,11 +85,12 @@
       "url": {}
     }
   },
-  "playlistWithUrlAlreadyInListOfPlaylists": "La playlist avec l'URL \"{url}\" est déjà dans la liste des playlists.",
+  "playlistWithUrlAlreadyInListOfPlaylists": "La playlist \"{title}\" avec l'URL \"{url}\" est déjà dans la liste des playlists.",
   "@playlistWithUrlAlreadyInListOfPlaylists": {
     "description": "Avertissement annonçant que la playlist avec l'URL {url} est déjà dans la liste des playlists.",
     "placeholders": {
-      "url": {}
+      "url": {},
+      "title": {}
     }
   },
   "downloadAudioYoutubeError": "Erreur de téléchargement audio Youtube: \"{exceptionMessage}\"",

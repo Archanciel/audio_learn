@@ -78,15 +78,18 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   Future<void> addPlaylist({required String playlistUrl}) async {
-    final bool playlistWithThisUrlAlreadyDownloaded =
-        _selectablePlaylistLst.any((playlist) => playlist.url == playlistUrl);
-
-    if (playlistWithThisUrlAlreadyDownloaded) {
+    try {
+      final Playlist playlistWithThisUrlAlreadyDownloaded =
+          _selectablePlaylistLst
+              .firstWhere((element) => element.url == playlistUrl);
       // User clicked on Add button but the playlist with this url
       // was already downloaded
-      _warningMessageVM.isPlaylistWithThisUrlAlreadyDownloaded = true;
-
+      _warningMessageVM.setPlaylistAlreadyDownloadedTitle(
+          playlistTitle: playlistWithThisUrlAlreadyDownloaded.title);
       return;
+    } catch (e) {
+      // If the playlist with this url is not found, it means that
+      // the playlist must be added.
     }
 
     Playlist? addedPlaylist =

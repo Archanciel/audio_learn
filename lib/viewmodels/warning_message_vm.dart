@@ -135,20 +135,17 @@ class WarningMessageVM extends ChangeNotifier {
     }
   }
 
-  bool _isPlaylistWithThisUrlAlreadyDownloaded = false;
-  bool get isPlaylistWithThisUrlAlreadyDownloaded =>
-      _isPlaylistWithThisUrlAlreadyDownloaded;
-  set isPlaylistWithThisUrlAlreadyDownloaded(
-      bool isPlaylistWithThisUrlAlreadyDownloaded) {
-    _isPlaylistWithThisUrlAlreadyDownloaded =
-        isPlaylistWithThisUrlAlreadyDownloaded;
+  String _playlistAlreadyDownloadedTitle = '';
+  String get playlistAlreadyDownloadedTitle => _playlistAlreadyDownloadedTitle;
+  void setPlaylistAlreadyDownloadedTitle({
+    required String playlistTitle,
+  }) {
+    _playlistAlreadyDownloadedTitle = playlistTitle;
 
-    if (isPlaylistWithThisUrlAlreadyDownloaded) {
-      _warningMessageType =
-          WarningMessageType.playlistWithUrlAlreadyInListOfPlaylists;
+    _warningMessageType =
+        WarningMessageType.playlistWithUrlAlreadyInListOfPlaylists;
 
-      notifyListeners();
-    }
+    notifyListeners();
   }
 
   bool _isPlaylistWithThisUrlAlreadyDownloadedAndUpdated = false;
@@ -193,7 +190,7 @@ class WarningMessageVM extends ChangeNotifier {
   String _deleteAudioFromPlaylistAswellTitle = '';
   String get deleteAudioFromPlaylistAswellTitle =>
       _deleteAudioFromPlaylistAswellTitle;
-  setDeleteAudioFromPlaylistAswellTitle({
+  void setDeleteAudioFromPlaylistAswellTitle({
     required String deleteAudioFromPlaylistAswellTitle,
     required String deleteAudioFromPlaylistAswellAudioVideoTitle,
   }) {
