@@ -390,6 +390,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                     // Handle menu item selection
                     switch (value) {
                       case PlaylistPopupMenuButton.sortFilterAudios:
+                        // Using FocusNode to enable clicking on Enter to close
+                        // the dialog
                         FocusNode focusNode = FocusNode();
                         showDialog(
                           context: context,
@@ -413,9 +415,10 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           }
                         });
                         focusNode.requestFocus();
-
                         break;
                       case PlaylistPopupMenuButton.subSortFilterAudios:
+                        // Using FocusNode to enable clicking on Enter to close
+                        // the dialog
                         FocusNode focusNode = FocusNode();
                         showDialog(
                           context: context,

@@ -32,7 +32,8 @@ class ScreenMixin {
     showDialog(
       context: context,
       builder: (context) => RawKeyboardListener(
-        // Enables to close the dialog with the keyboard
+        // Using FocusNode to enable clicking on Enter to close
+        // the dialog
         focusNode: focusNode,
         onKey: (event) {
           if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
@@ -64,7 +65,7 @@ class ScreenMixin {
     // clicking on Enter will not close the dialog.
     focusNode.requestFocus();
   }
-  
+
   Widget infoRow(BuildContext context, String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
