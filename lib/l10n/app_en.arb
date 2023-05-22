@@ -146,5 +146,9 @@
   "playlistPlayableAudioNumberLabel": "Playlist playable audio number",
   "playlistPlayableAudioTotalDurationLabel": "Playlist playable audio total duration",
   "updatePlaylistPlayableAudioList": "Update playable audio list",
-  "updatedPlayableAudioLst": "Playable audio list for playlist \"{title}\" was updated. {number} audio(s) were removed."
+  "updatedPlayableAudioLst": "Playable audio list for playlist \"{title}\" was updated. {number} audio(s) were removed.",
+  "addPlaylistDialogTitle": "Add Playlist",
+  "addPlaylistDialogComment": "Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.",
+  "youtubePlaylistUrlLabel": "Youtube playlist URL",
+  "localPlaylistTitleLabel": "Local playlist title"
 }

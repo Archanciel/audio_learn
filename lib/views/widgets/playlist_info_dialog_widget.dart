@@ -24,7 +24,8 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
         ? frenchDateTimeFormat.format(lastDownloadDateTime)
         : '';
     return RawKeyboardListener(
-      // Enables to close the dialog with the keyboard
+      // Using FocusNode to enable clicking on Enter to close
+      // the dialog
       focusNode: focusNode,
       onKey: (event) {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||

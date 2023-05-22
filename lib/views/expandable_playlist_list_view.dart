@@ -14,6 +14,7 @@ import '../utils/ui_util.dart';
 import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/expandable_playlist_list_vm.dart';
+import 'widgets/add_playlist_dialog_widget.dart';
 import 'widgets/audio_list_item_widget.dart';
 import 'screen_mixin.dart';
 import 'widgets/display_message_widget.dart';
@@ -140,13 +141,20 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                   onPressed: () {
                     final String playlistUrl =
                         _playlistUrlController.text.trim();
-                    if (playlistUrl.isNotEmpty) {
-                      ExpandablePlaylistListVM expandablePlaylistListVM =
-                          Provider.of<ExpandablePlaylistListVM>(context,
-                              listen: false);
-                      expandablePlaylistListVM.addPlaylist(
-                          playlistUrl: playlistUrl);
-                    }
+                                              // Using FocusNode to enable clicking on Enter to close
+                      // the dialog
+                      FocusNode focusNode = FocusNode();
+                      showDialog<void>(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return AddPlaylistDialogWidget(
+                            playlistUrl: playlistUrl,
+                            focusNode: focusNode,
+                          );
+                        },
+                      );
+                      focusNode.requestFocus();
                   },
                   child: Text(AppLocalizations.of(context)!.addPlaylist),
                 ),
