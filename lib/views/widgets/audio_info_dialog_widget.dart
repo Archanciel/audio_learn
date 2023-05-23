@@ -36,53 +36,62 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
           child: ListBody(
             children: <Widget>[
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.originalVideoTitleLabel,
-                  audio.originalVideoTitle),
+                  context: context,
+                  label: AppLocalizations.of(context)!.originalVideoTitleLabel,
+                  value: audio.originalVideoTitle),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.compactVideoDescription,
-                  audio.compactVideoDescription),
+                  context: context,
+                  label: AppLocalizations.of(context)!.compactVideoDescription,
+                  value: audio.compactVideoDescription),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.validVideoTitleLabel,
-                  audio.validVideoTitle),
-              infoRow(context, AppLocalizations.of(context)!.videoUrlLabel,
-                  audio.videoUrl),
+                  context: context,
+                  label: AppLocalizations.of(context)!.validVideoTitleLabel,
+                  value: audio.validVideoTitle),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.audioDownloadDateTimeLabel,
-                  frenchDateTimeFormat.format(audio.audioDownloadDateTime)),
+                  context: context,
+                  label: AppLocalizations.of(context)!.videoUrlLabel,
+                  value: audio.videoUrl),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.audioDownloadDurationLabel,
-                  audio.audioDownloadDuration!.HHmmss()),
+                  context: context,
+                  label:
+                      AppLocalizations.of(context)!.audioDownloadDateTimeLabel,
+                  value:
+                      frenchDateTimeFormat.format(audio.audioDownloadDateTime)),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.audioDownloadSpeedLabel,
-                  formatDownloadSpeed(
+                  context: context,
+                  label:
+                      AppLocalizations.of(context)!.audioDownloadDurationLabel,
+                  value: audio.audioDownloadDuration!.HHmmss()),
+              infoRow(
+                  context: context,
+                  label: AppLocalizations.of(context)!.audioDownloadSpeedLabel,
+                  value: formatDownloadSpeed(
                     context: context,
                     audio: audio,
                   )),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.videoUploadDateLabel,
-                  frenchDateFormat.format(audio.videoUploadDate)),
-              infoRow(context, AppLocalizations.of(context)!.audioDurationLabel,
-                  audio.audioDuration!.HHmmss()),
-              infoRow(context, AppLocalizations.of(context)!.audioFileNameLabel,
-                  audio.audioFileName),
+                  context: context,
+                  label: AppLocalizations.of(context)!.videoUploadDateLabel,
+                  value: frenchDateFormat.format(audio.videoUploadDate)),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.audioFileSizeLabel,
-                  UiUtil.formatLargeIntValue(
+                  context: context,
+                  label: AppLocalizations.of(context)!.audioDurationLabel,
+                  value: audio.audioDuration!.HHmmss()),
+              infoRow(
+                  context: context,
+                  label: AppLocalizations.of(context)!.audioFileNameLabel,
+                  value: audio.audioFileName),
+              infoRow(
+                  context: context,
+                  label: AppLocalizations.of(context)!.audioFileSizeLabel,
+                  value: UiUtil.formatLargeIntValue(
                     context: context,
                     value: audio.audioFileSize,
                   )),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.isMusicQualityLabel,
-                  (audio.isMusicQuality)
+                  context: context,
+                  label: AppLocalizations.of(context)!.isMusicQualityLabel,
+                  value: (audio.isMusicQuality)
                       ? AppLocalizations.of(context)!.yes
                       : AppLocalizations.of(context)!.no),
             ],

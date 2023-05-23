@@ -38,41 +38,41 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              infoRow(context, AppLocalizations.of(context)!.playlistTitleLabel,
-                  playlist.title),
-              infoRow(context, AppLocalizations.of(context)!.playlistIdLabel,
-                  playlist.id),
-              infoRow(context, AppLocalizations.of(context)!.playlistUrlLabel,
-                  playlist.url),
+              infoRow(context: context, label: AppLocalizations.of(context)!.playlistTitleLabel,
+                  value: playlist.title),
+              infoRow(context: context, label: AppLocalizations.of(context)!.playlistIdLabel,
+                  value: playlist.id),
+              infoRow(context: context, label: AppLocalizations.of(context)!.playlistUrlLabel,
+                  value: playlist.url),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.playlistDownloadPathLabel,
-                  playlist.downloadPath),
+                  context: context,
+                  label: AppLocalizations.of(context)!.playlistDownloadPathLabel,
+                  value: playlist.downloadPath),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!
+                  context: context,
+                  label: AppLocalizations.of(context)!
                       .playlistLastDownloadDateTimeLabel,
-                  lastDownloadDateTimeStr),
+                  value: lastDownloadDateTimeStr),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.playlistIsSelectedLabel,
-                  (playlist.isSelected)
+                  context: context,
+                  label: AppLocalizations.of(context)!.playlistIsSelectedLabel,
+                  value: (playlist.isSelected)
                       ? AppLocalizations.of(context)!.yes
                       : AppLocalizations.of(context)!.no),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.playlistTotalAudioNumberLabel,
-                  playlist.downloadedAudioLst.length.toString()),
+                  context: context,
+                  label: AppLocalizations.of(context)!.playlistTotalAudioNumberLabel,
+                  value: playlist.downloadedAudioLst.length.toString()),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!
+                  context: context,
+                  label: AppLocalizations.of(context)!
                       .playlistPlayableAudioNumberLabel,
-                  playlist.playableAudioLst.length.toString()),
+                  value: playlist.playableAudioLst.length.toString()),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!
+                  context: context,
+                  label: AppLocalizations.of(context)!
                       .playlistPlayableAudioTotalDurationLabel,
-                  playlist.getPlayableAudioLstTotalDuration().HHmmss()),
+                  value: playlist.getPlayableAudioLstTotalDuration().HHmmss()),
             ],
           ),
         ),

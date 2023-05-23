@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.7.6';
+const String kApplicationVersion = '0.5.7';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audios';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
@@ -79,6 +79,11 @@ DateFormat frenchDateFormat = DateFormat("dd-MM-yyyy");
 
 const TextStyle kDialogTitlesStyle = TextStyle(
   fontSize: 17,
+  fontWeight: FontWeight.bold,
+);
+
+const TextStyle kDialogLabelStyle = TextStyle(
+  fontSize: 14,
   fontWeight: FontWeight.bold,
 );
 

@@ -37,17 +37,16 @@ class AddPlaylistDialogWidget extends StatelessWidget with ScreenMixin {
           child: ListBody(
             children: <Widget>[
               titleCommentRow(
-                  context,
-                  AppLocalizations.of(context)!.addPlaylistDialogComment,
-                  ''),
+                  context: context,
+                  value: AppLocalizations.of(context)!.addPlaylistDialogComment,),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.youtubePlaylistUrlLabel,
-                  playlistUrl),
+                  context: context,
+                  label: AppLocalizations.of(context)!.youtubePlaylistUrlLabel,
+                  value: playlistUrl),
               infoRow(
-                  context,
-                  AppLocalizations.of(context)!.localPlaylistTitleLabel,
-                  ''),
+                  context: context,
+                  label: AppLocalizations.of(context)!.localPlaylistTitleLabel,
+                  value: ''),
             ],
           ),
         ),

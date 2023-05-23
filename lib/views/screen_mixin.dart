@@ -66,16 +66,21 @@ class ScreenMixin {
     focusNode.requestFocus();
   }
 
-  Widget titleCommentRow(BuildContext context, String label, String value) {
+  Widget titleCommentRow({
+    required BuildContext context,
+    required String value,
+  }) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label),
           InkWell(
-            child: Text(value),
+            child: Text(
+              value,
+              style: kDialogTextFieldStyle,
+            ),
             onTap: () {
               Clipboard.setData(
                 ClipboardData(text: value),
@@ -87,16 +92,26 @@ class ScreenMixin {
     );
   }
 
-  Widget infoRow(BuildContext context, String label, String value) {
+  Widget infoRow({
+    required BuildContext context,
+    required String label,
+    required String value,
+  }) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label),
+          Text(
+            label,
+            style: kDialogLabelStyle,
+          ),
           InkWell(
-            child: Text(value),
+            child: Text(
+              value,
+              style: kDialogTextFieldStyle,
+            ),
             onTap: () {
               Clipboard.setData(
                 ClipboardData(text: value),
