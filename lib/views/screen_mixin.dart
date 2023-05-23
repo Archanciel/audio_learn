@@ -67,23 +67,20 @@ class ScreenMixin {
   }
 
   Widget titleCommentRow(BuildContext context, String label, String value) {
-    return Padding(
+    return Container(
+      width: double.infinity,
       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Text(label),
-          ),
-          Expanded(
-            child: InkWell(
-              child: Text(value),
-              onTap: () {
-                Clipboard.setData(
-                  ClipboardData(text: value),
-                );
-              },
-            ),
+          Text(label),
+          InkWell(
+            child: Text(value),
+            onTap: () {
+              Clipboard.setData(
+                ClipboardData(text: value),
+              );
+            },
           ),
         ],
       ),
@@ -97,9 +94,11 @@ class ScreenMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
+            // Wrap Text widget with Expanded
             child: Text(label),
           ),
           Expanded(
+            // Wrap InkWell widget with Expanded
             child: InkWell(
               child: Text(value),
               onTap: () {
