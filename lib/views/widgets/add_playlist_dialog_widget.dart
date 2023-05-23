@@ -36,7 +36,7 @@ class AddPlaylistDialogWidget extends StatelessWidget with ScreenMixin {
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              infoRow(
+              titleCommentRow(
                   context,
                   AppLocalizations.of(context)!.addPlaylistDialogComment,
                   ''),

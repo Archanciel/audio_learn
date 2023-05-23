@@ -66,6 +66,30 @@ class ScreenMixin {
     focusNode.requestFocus();
   }
 
+  Widget titleCommentRow(BuildContext context, String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Text(label),
+          ),
+          Expanded(
+            child: InkWell(
+              child: Text(value),
+              onTap: () {
+                Clipboard.setData(
+                  ClipboardData(text: value),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget infoRow(BuildContext context, String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
