@@ -208,14 +208,18 @@ class SettingsDataService {
           .map((element) => _parseJsonValue(enumValues, element))
           .toList();
     } else if (stringValue == 'true') {
+      // Handle JSON true
       return true;
     } else if (stringValue == 'false') {
+      // Handle JSON false
       return false;
     } else if (_isFilePath(stringValue)) {
+      // Handle file paths
       return stringValue;
     } else if (_allSettingsKeyLst
         .map((e) => e.toString())
         .contains(stringValue)) {
+      // Handle enums
       return _parseEnumValue(enumValues, stringValue);
     } else {
       // Return the string value if it's not an enum
