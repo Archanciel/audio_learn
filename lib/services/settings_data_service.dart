@@ -131,6 +131,7 @@ class SettingsDataService {
             MapEntry(subKey.toString(), subValue.toString())),
       );
     });
+
     final String jsonString = jsonEncode(convertedSettings);
 
     try {
@@ -174,6 +175,31 @@ class SettingsDataService {
     return setting;
   }
 
+  /// This method is responsible for parsing a JSON value. Since the
+  /// JSON value can be a variety of types, this method attempts to
+  /// determine the type and parse accordingly.
+  ///
+  /// - If the JSON value is a list (e.g. "[1, 2, 3]"), the method
+  ///   recursively calls itself to parse each element in the list.
+  ///
+  /// - If the JSON value is a boolean (either "true" or "false"), it
+  ///   directly returns Dart's true or false respectively.
+  ///
+  /// - If the JSON value represents a file path (containing either a
+  ///   forward slash '/' or a backslash '\\'), it directly returns the
+  ///   value as it's assumed to be a string.
+  ///
+  /// - For all other cases, it assumes the JSON value represents an
+  ///   enumeration value and attempts to parse it using the
+  ///   `_parseEnumValue` method.
+  ///
+  /// The parameter `enumValues` is a list containing all possible enum
+  /// values that are valid. `stringValue` is the raw string value from
+  /// the JSON data.
+  ///
+  /// The return type is dynamic because the JSON value could map to
+  /// several different Dart types (bool, String, List, or an enumeration
+  /// type).
   dynamic _parseJsonValue(List<dynamic> enumValues, String stringValue) {
     if (stringValue.startsWith('[') && stringValue.endsWith(']')) {
       List<String> stringList =
