@@ -38,15 +38,22 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              infoRow(context: context, label: AppLocalizations.of(context)!.playlistTitleLabel,
+              infoRow(
+                  context: context,
+                  label: AppLocalizations.of(context)!.playlistTitleLabel,
                   value: playlist.title),
-              infoRow(context: context, label: AppLocalizations.of(context)!.playlistIdLabel,
+              infoRow(
+                  context: context,
+                  label: AppLocalizations.of(context)!.playlistIdLabel,
                   value: playlist.id),
-              infoRow(context: context, label: AppLocalizations.of(context)!.playlistUrlLabel,
+              infoRow(
+                  context: context,
+                  label: AppLocalizations.of(context)!.playlistUrlLabel,
                   value: playlist.url),
               infoRow(
                   context: context,
-                  label: AppLocalizations.of(context)!.playlistDownloadPathLabel,
+                  label:
+                      AppLocalizations.of(context)!.playlistDownloadPathLabel,
                   value: playlist.downloadPath),
               infoRow(
                   context: context,
@@ -61,7 +68,8 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
                       : AppLocalizations.of(context)!.no),
               infoRow(
                   context: context,
-                  label: AppLocalizations.of(context)!.playlistTotalAudioNumberLabel,
+                  label: AppLocalizations.of(context)!
+                      .playlistTotalAudioNumberLabel,
                   value: playlist.downloadedAudioLst.length.toString()),
               infoRow(
                   context: context,
