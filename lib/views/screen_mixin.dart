@@ -97,33 +97,6 @@ class ScreenMixin {
     required String label,
     required String value,
   }) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: kDialogLabelStyle,
-          ),
-          InkWell(
-            child: Text(
-              value,
-              style: kDialogTextFieldStyle,
-            ),
-            onTap: () {
-              Clipboard.setData(
-                ClipboardData(text: value),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget old_infoRow(BuildContext context, String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
