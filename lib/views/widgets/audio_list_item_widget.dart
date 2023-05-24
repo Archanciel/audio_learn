@@ -40,7 +40,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
-    String subTitleStr = buildSubTitle(context);
 
     return ListTile(
       leading: IconButton(
@@ -135,12 +134,12 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
         },
       ),
       title: Text(audio.validVideoTitle),
-      subtitle: Text(subTitleStr),
+      subtitle: Text(_buildSubTitle(context)),
       trailing: _buildPlayButton(),
     );
   }
 
-  String buildSubTitle(BuildContext context) {
+  String _buildSubTitle(BuildContext context) {
     String subTitle;
 
     Duration? audioDuration = audio.audioDuration;
