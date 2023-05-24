@@ -47,7 +47,7 @@ const String kUniquePlaylistTitle = 'audio_learn';
 const String kVariousAudiosPlaylistTitle = 'Various';
 const bool kDeleteAppDir = false;
 
-const double kAudioDefaultSpeed = 1.25;
+const double kAudioDefaultSpeed = 1.0;
 
 const String kSecretClientCodeJsonFileName =
     'code_secret_client_923487935936-po8d733kjvrnee3l3ik3r5mebe8ebhr7.apps.googleusercontent.com.json';
