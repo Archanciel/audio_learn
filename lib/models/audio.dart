@@ -116,7 +116,8 @@ class Audio {
     required this.audioFileSize,
   });
 
-  // Factory constructor: creates an instance of Audio from a JSON object
+  /// Factory constructor: creates an instance of Audio from a
+  /// JSON object
   factory Audio.fromJson(Map<String, dynamic> json) {
     return Audio.fullConstructor(
       enclosingPlaylist:
