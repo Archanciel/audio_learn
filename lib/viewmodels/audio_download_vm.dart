@@ -526,7 +526,7 @@ class AudioDownloadVM extends ChangeNotifier {
     // }
 
     _warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
-        deleteAudioFromPlaylistAswellTitle: enclosingPlaylist!.title,
+        deleteAudioFromPlaylistAswellTitle: enclosingPlaylist.title,
         deleteAudioFromPlaylistAswellAudioVideoTitle: audio.originalVideoTitle);
   }
 
@@ -564,10 +564,10 @@ class AudioDownloadVM extends ChangeNotifier {
     List<String> consecutiveProperNames = [];
 
     for (int i = 0; i < linesAfterFirstThreeLinesWordsLst.length - 1; i++) {
-      if (linesAfterFirstThreeLinesWordsLst[i].length > 0 &&
+      if (linesAfterFirstThreeLinesWordsLst[i].isNotEmpty &&
           _isEnglishOrFrenchUpperCaseLetter(
               linesAfterFirstThreeLinesWordsLst[i][0]) &&
-          linesAfterFirstThreeLinesWordsLst[i + 1].length > 0 &&
+          linesAfterFirstThreeLinesWordsLst[i + 1].isNotEmpty &&
           _isEnglishOrFrenchUpperCaseLetter(
               linesAfterFirstThreeLinesWordsLst[i + 1][0])) {
         consecutiveProperNames.add(

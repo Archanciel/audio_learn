@@ -9,7 +9,7 @@ void main() {
       const String playlistTitle =
           "Audio: - ET L'UNIVERS DISPARAÎTRA/La \\nature * illusoire de notre réalité et le pouvoir transcendant du |véritable \"pardon\" + commentaires de <Gary> Renard ?";
       const String expectedValidVideoTitle =
-          "Audio - - ET L\'UNIVERS DISPARAÎTRA_La nature   illusoire de notre réalité et le pouvoir transcendant du _véritable \'pardon\' + commentaires de Gary Renard";
+          "Audio - - ET L'UNIVERS DISPARAÎTRA_La nature   illusoire de notre réalité et le pouvoir transcendant du _véritable 'pardon' + commentaires de Gary Renard";
 
       final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
 
@@ -31,7 +31,7 @@ void main() {
       const String playlistTitle =
           "💥 EFFONDREMENT Imminent de l'Euro ?! | 👉 Maintenant, La Fin de l'Euro Approche ?!";
       const String expectedValidVideoTitle =
-          "EFFONDREMENT Imminent de l\'Euro ! _  Maintenant, La Fin de l\'Euro Approche !";
+          "EFFONDREMENT Imminent de l'Euro ! _  Maintenant, La Fin de l'Euro Approche !";
 
       final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
 

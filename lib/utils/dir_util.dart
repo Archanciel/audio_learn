@@ -30,7 +30,7 @@ class DirUtil {
   static Future<void> createAppDirIfNotExist({
     bool isAppDirToBeDeleted = false,
   }) async {
-    String path = await DirUtil.getPlaylistDownloadHomePath();
+    String path = DirUtil.getPlaylistDownloadHomePath();
     final Directory directory = Directory(path);
 
     // using await directory.exists did delete dir only on second
@@ -116,7 +116,7 @@ class DirUtil {
 }
 
 Future<void> main() async {
-  List<String> fileNames = await DirUtil.listPathFileNamesInSubDirs(
+  List<String> fileNames = DirUtil.listPathFileNamesInSubDirs(
     path: 'C:\\Users\\Jean-Pierre\\Downloads\\Audio\\',
     extension: 'json',
   );

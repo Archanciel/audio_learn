@@ -180,7 +180,7 @@ class WarningMessageVM extends ChangeNotifier {
     }
   }
 
-  bool _playlistWithThisUrlAlreadyDownloaded = false;
+  final bool _playlistWithThisUrlAlreadyDownloaded = false;
   bool get playlistWithThisUrlAlreadyDownloaded =>
       _playlistWithThisUrlAlreadyDownloaded;
 

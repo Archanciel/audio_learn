@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -346,13 +345,13 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     required int playlistIndex,
     required bool isPlaylistSelected,
   }) {
-    _selectablePlaylistLst.forEach((playlist) {
+    for (var playlist in _selectablePlaylistLst) {
       playlist.isSelected = false;
       _audioDownloadVM.updatePlaylistSelection(
         playlistId: playlist.id,
         isPlaylistSelected: false,
       );
-    });
+    }
 
     _selectablePlaylistLst[playlistIndex].isSelected = isPlaylistSelected;
 

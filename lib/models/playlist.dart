@@ -4,12 +4,17 @@ import 'package:audio_learn/services/settings_data_service.dart';
 
 import 'audio.dart';
 
+enum PlaylistType { youtube, local }
+enum PlaylistQuality { music, audio }
+
 /// This class
 class Playlist {
   String id = '';
   String title = '';
   String url;
   String downloadPath = '';
+  PlaylistType playlistType;
+  PlaylistQuality playlistQuality;
   bool isSelected;
 
   // Contains audio videos currently referrenced in the Youtube
@@ -27,6 +32,8 @@ class Playlist {
 
   Playlist({
     required this.url,
+    required this.playlistType,
+    required this.playlistQuality,
     this.isSelected = false,
   });
 
@@ -35,9 +42,12 @@ class Playlist {
     required this.id,
     required this.title,
     required this.url,
+    required this.playlistType,
+    required this.playlistQuality,
     required this.downloadPath,
     required this.isSelected,
   });
+  
   // Factory constructor: creates an instance of Playlist from a JSON object
   factory Playlist.fromJson(Map<String, dynamic> json) {
     Playlist playlist = Playlist.json(

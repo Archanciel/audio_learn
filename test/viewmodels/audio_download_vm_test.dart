@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
-import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
@@ -70,7 +69,7 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: MaterialApp(home: DownloadPlaylistPage()),
+        child: const MaterialApp(home: DownloadPlaylistPage()),
       ));
 
       await tester.tap(find.byType(ElevatedButton));
@@ -136,7 +135,7 @@ void main() {
       await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
-            "${kDownloadAppTestSavedDataDir}\\${testPlaylistTitle}\\${testPlaylistTitle}_1_audio.json",
+            "$kDownloadAppTestSavedDataDir\\$testPlaylistTitle\\${testPlaylistTitle}_1_audio.json",
         targetDirectoryPath: testPlaylistDir,
         targetFileName: '$testPlaylistTitle.json',
       );
@@ -184,7 +183,7 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: MaterialApp(home: DownloadPlaylistPage()),
+        child: const MaterialApp(home: DownloadPlaylistPage()),
       ));
 
       await tester.tap(find.byType(ElevatedButton));
@@ -261,7 +260,7 @@ void main() {
       await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
-            "${kDownloadAppTestSavedDataDir}\\${testPlaylistTitle}\\${testPlaylistTitle}.json",
+            "$kDownloadAppTestSavedDataDir\\$testPlaylistTitle\\$testPlaylistTitle.json",
         targetDirectoryPath: testPlaylistDir,
         targetFileName: '$testPlaylistTitle.json',
       );
@@ -310,7 +309,7 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: MaterialApp(home: DownloadPlaylistPage()),
+        child: const MaterialApp(home: DownloadPlaylistPage()),
       ));
 
       const String recreatedPlaylistId = 'PLzwWSJNcZTMSwrDOAZEPf0u6YvrKGNnvC';
@@ -437,7 +436,7 @@ void checkAudioOne({
   expect(downloadedAudio.audioDuration, const Duration(milliseconds: 24000));
   expect(downloadedAudio.isMusicQuality, false);
   expect(downloadedAudio.audioFileName,
-      "${downloadFileNamePrefix}-English conversation - Tea or coffee 23-03-22.mp3");
+      "$downloadFileNamePrefix-English conversation - Tea or coffee 23-03-22.mp3");
   expect(downloadedAudio.audioFileSize, 143076);
 }
 
@@ -448,6 +447,8 @@ void deletePlaylistDownloadDir(Directory directory) {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     final WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -457,19 +458,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: ChangeNotifierProvider(
         create: (context) => audioDownloadVM,
-        child: DownloadPlaylistPage(),
+        child: const DownloadPlaylistPage(),
       ),
     );
   }
 }
 
 class DownloadPlaylistPage extends StatefulWidget {
+  const DownloadPlaylistPage({super.key});
+
   @override
   State<DownloadPlaylistPage> createState() => _DownloadPlaylistPageState();
 }
 
 class _DownloadPlaylistPageState extends State<DownloadPlaylistPage> {
-  TextEditingController _urlController = TextEditingController(
+  final TextEditingController _urlController = TextEditingController(
     text:
         'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o',
   );
