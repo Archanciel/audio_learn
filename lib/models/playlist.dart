@@ -5,6 +5,7 @@ import 'package:audio_learn/services/settings_data_service.dart';
 import 'audio.dart';
 
 enum PlaylistType { youtube, local }
+
 enum PlaylistQuality { music, audio }
 
 /// This class
@@ -47,13 +48,21 @@ class Playlist {
     required this.downloadPath,
     required this.isSelected,
   });
-  
+
   // Factory constructor: creates an instance of Playlist from a JSON object
   factory Playlist.fromJson(Map<String, dynamic> json) {
     Playlist playlist = Playlist.json(
       id: json['id'],
       title: json['title'],
       url: json['url'],
+      playlistType: PlaylistType.values.firstWhere(
+        (e) => e.toString().split('.').last == json['playlistType'],
+        orElse: () => PlaylistType.youtube,
+      ),
+      playlistQuality: PlaylistQuality.values.firstWhere(
+        (e) => e.toString().split('.').last == json['playlistQuality'],
+        orElse: () => PlaylistQuality.audio,
+      ),
       downloadPath: json['downloadPath'],
       isSelected: json['isSelected'],
     );
@@ -75,6 +84,8 @@ class Playlist {
       'id': id,
       'title': title,
       'url': url,
+      'playlistType': playlistType.toString().split('.').last,
+      'playlistQuality': playlistQuality.toString().split('.').last,
       'downloadPath': downloadPath,
       'downloadedAudioLst':
           downloadedAudioLst.map((audio) => audio.toJson()).toList(),
@@ -146,7 +157,7 @@ class Playlist {
   /// Removes from the playableAudioLst the audios that are no longer
   /// in the playlist download path.
   ///
-  /// Returns the number of audios removed from the playable audio 
+  /// Returns the number of audios removed from the playable audio
   /// list.
   int updatePlayableAudioLst() {
     int removedPlayableAudioNumber = 0;

@@ -11,7 +11,8 @@ void main() {
       const String expectedValidVideoTitle =
           "Audio - - ET L'UNIVERS DISPARAÎTRA_La nature   illusoire de notre réalité et le pouvoir transcendant du _véritable 'pardon' + commentaires de Gary Renard";
 
-      final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
+      final String actualValidVideoTitle =
+          Audio.createValidVideoTitle(playlistTitle);
 
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
@@ -22,7 +23,8 @@ void main() {
       const String expectedValidVideoTitle =
           "Arthur Keller l'interview  - Le CLIMAT n’est qu’une pièce du PUZZLE !";
 
-      final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
+      final String actualValidVideoTitle =
+          Audio.createValidVideoTitle(playlistTitle);
 
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
@@ -33,7 +35,8 @@ void main() {
       const String expectedValidVideoTitle =
           "EFFONDREMENT Imminent de l'Euro ! _  Maintenant, La Fin de l'Euro Approche !";
 
-      final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
+      final String actualValidVideoTitle =
+          Audio.createValidVideoTitle(playlistTitle);
 
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
@@ -44,7 +47,8 @@ void main() {
       const String expectedValidVideoTitle =
           'Indian _American_ Japanese_Students #youtubeshorts #shorts _Samayra Narula_ Subscribe';
 
-      final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
+      final String actualValidVideoTitle =
+          Audio.createValidVideoTitle(playlistTitle);
 
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
@@ -55,7 +59,8 @@ void main() {
       const String expectedValidVideoTitle =
           'Lambda Expressions & Anonymous Functions _  Python Tutorial  _  Learn Python Programming';
 
-      final String actualValidVideoTitle = Audio.createValidVideoTitle(playlistTitle);
+      final String actualValidVideoTitle =
+          Audio.createValidVideoTitle(playlistTitle);
 
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
@@ -66,7 +71,8 @@ void main() {
       const String expectedValidVideoTitle =
           '9 Dart concepts to know before you jump into Flutter _ for super beginners in Flutter';
 
-      final String actualValidVideoTitle = Audio.createValidVideoTitle(videoTitle);
+      final String actualValidVideoTitle =
+          Audio.createValidVideoTitle(videoTitle);
 
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
@@ -77,7 +83,8 @@ void main() {
       const String expectedValidVideoTitle =
           "Que disent les pires scénarios climatiques";
 
-      final String actualValidVideoTitle = Audio.createValidVideoTitle(videoTitle);
+      final String actualValidVideoTitle =
+          Audio.createValidVideoTitle(videoTitle);
 
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
@@ -87,7 +94,8 @@ void main() {
       const String expectedValidVideoTitle =
           "Se forger un coeur de diamant par Karine Arsène";
 
-      final String actualValidVideoTitle = Audio.createValidVideoTitle(videoTitle);
+      final String actualValidVideoTitle =
+          Audio.createValidVideoTitle(videoTitle);
 
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
@@ -97,7 +105,8 @@ void main() {
       const String expectedValidVideoTitle =
           "Se forger un COEUR de diamant par Karine Arsène";
 
-      final String actualValidVideoTitle = Audio.createValidVideoTitle(videoTitle);
+      final String actualValidVideoTitle =
+          Audio.createValidVideoTitle(videoTitle);
 
       expect(actualValidVideoTitle, expectedValidVideoTitle);
     });
@@ -125,6 +134,8 @@ void main() {
     test('filePathName', () {
       Playlist playlist = Playlist(
         url: 'https://www.youtube.com/playlist?list=test_playlist_id',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
       );
       playlist.title = 'Test Playlist';
       playlist.downloadPath = 'download_path';

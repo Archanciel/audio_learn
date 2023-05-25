@@ -86,6 +86,8 @@ class AudioDownloadVM extends ChangeNotifier {
 
   Future<Playlist?> addPlaylist({
     required String playlistUrl,
+    required PlaylistType playlistType,
+    required PlaylistQuality playlistQuality,
   }) async {
     // those two variables are used by the
     // ExpandablePlaylistListView UI to show a message
@@ -150,6 +152,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
     Playlist addedPlaylist = await _addPlaylistIfNotExist(
       playlistUrl: playlistUrl,
+      playlistQuality: playlistQuality,
       youtubePlaylist: youtubePlaylist,
     );
 
@@ -195,6 +198,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
     Playlist currentPlaylist = await _addPlaylistIfNotExist(
       playlistUrl: playlistUrl,
+      playlistQuality: PlaylistQuality.audio,
       youtubePlaylist: youtubePlaylist,
     );
 
@@ -339,8 +343,10 @@ class AudioDownloadVM extends ChangeNotifier {
     _stopDownloadPressed = true;
   }
 
+  /// I think this method is not used anymore
   Future<Playlist> _addPlaylistIfNotExist({
     required String playlistUrl,
+    required PlaylistQuality playlistQuality,
     required yt.Playlist youtubePlaylist,
   }) async {
     Playlist addedPlaylist;
@@ -353,6 +359,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
       addedPlaylist = await _createYoutubePlaylist(
         playlistUrl: playlistUrl,
+        playlistQuality: playlistQuality,
         youtubePlaylist: youtubePlaylist,
       );
 
@@ -610,9 +617,14 @@ class AudioDownloadVM extends ChangeNotifier {
 
   Future<Playlist> _createYoutubePlaylist({
     required String playlistUrl,
+    required PlaylistQuality playlistQuality,
     required yt.Playlist youtubePlaylist,
   }) async {
-    Playlist playlist = Playlist(url: playlistUrl);
+    Playlist playlist = Playlist(
+      url: playlistUrl,
+      playlistType: PlaylistType.youtube,
+      playlistQuality: playlistQuality,
+    );
     _listOfPlaylist.add(playlist);
 
     playlist.id = youtubePlaylist.id.toString();
@@ -627,7 +639,11 @@ class AudioDownloadVM extends ChangeNotifier {
   }
 
   Future<Playlist> _createVariousPlaylist() async {
-    Playlist playlist = Playlist(url: '');
+    Playlist playlist = Playlist(
+      url: '',
+      playlistType: PlaylistType.local,
+      playlistQuality: PlaylistQuality.audio,
+    );
     _listOfPlaylist.add(playlist);
 
     playlist.id = '';

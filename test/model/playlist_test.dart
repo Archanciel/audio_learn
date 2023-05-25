@@ -7,7 +7,11 @@ import 'package:audio_learn/models/audio.dart';
 void main() {
   group('Testing Playlist add and remove methods', () {
     test('add audio to playlist', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist2');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist2',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 
@@ -23,7 +27,11 @@ void main() {
     });
 
     test('remove audio from downloaded audio list', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist2');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist2',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 
@@ -41,7 +49,11 @@ void main() {
     });
 
     test('remove audio from playalable audio list', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist2');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist2',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 
@@ -60,7 +72,11 @@ void main() {
   });
   group('Testing Playlist sorting methods', () {
     test('sortDownloadedAudioLst on validVideoTitle ascending', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist1');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist1',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 
@@ -75,7 +91,11 @@ void main() {
     });
 
     test('sortDownloadedAudioLst on validVideoTitle descending', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist1');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist1',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 
@@ -90,7 +110,11 @@ void main() {
     });
 
     test('sortDownloadedAudioLst on audioDownloadDateTime ascending', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist1');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist1',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 
@@ -105,7 +129,11 @@ void main() {
     });
 
     test('sortDownloadedAudioLst on audioDownloadDateTime descending', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist1');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist1',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 
@@ -120,7 +148,11 @@ void main() {
     });
 
     test('sortPlayableAudioLst on validVideoTitle ascending', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist2');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist2',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 
@@ -135,7 +167,11 @@ void main() {
     });
 
     test('sortPlayableAudioLst on validVideoTitle descending', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist2');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist2',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 
@@ -150,7 +186,11 @@ void main() {
     });
 
     test('sortPlayableAudioLst on audioDownloadDateTime ascending', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist2');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist2',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 
@@ -165,7 +205,11 @@ void main() {
     });
 
     test('sortPlayableAudioLst on audioDownloadDateTime descending', () {
-      Playlist playlist = Playlist(url: 'https://example.com/playlist2');
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist2',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
+      );
 
       addDownloadedAudios(playlist);
 

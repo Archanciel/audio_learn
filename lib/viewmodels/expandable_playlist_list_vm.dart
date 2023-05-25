@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../models/audio.dart';
@@ -76,7 +75,11 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     return _selectablePlaylistLst;
   }
 
-  Future<void> addPlaylist({required String playlistUrl}) async {
+  Future<void> addPlaylist({
+    required String playlistUrl,
+    required PlaylistType playlistType,
+    required PlaylistQuality playlistQuality,
+  }) async {
     try {
       final Playlist playlistWithThisUrlAlreadyDownloaded =
           _selectablePlaylistLst
@@ -91,8 +94,11 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       // the playlist must be added.
     }
 
-    Playlist? addedPlaylist =
-        await _audioDownloadVM.addPlaylist(playlistUrl: playlistUrl);
+    Playlist? addedPlaylist = await _audioDownloadVM.addPlaylist(
+      playlistUrl: playlistUrl,
+      playlistType: playlistType,
+      playlistQuality: playlistQuality,
+    );
 
     if (addedPlaylist != null) {
       // if addedPlaylist is null, it means that the

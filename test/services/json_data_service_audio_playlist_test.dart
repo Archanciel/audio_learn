@@ -128,6 +128,8 @@ void main() {
       // Create a Playlist with 2 Audio instances
       Playlist testPlaylist = Playlist(
         url: 'https://www.example.com/playlist-url',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
       );
 
       testPlaylist.title = 'Test Playlist';
@@ -341,6 +343,8 @@ void main() {
       // Create an Audio instance
       Playlist testPlaylistOne = Playlist(
         url: 'https://www.example.com/playlist-url',
+        playlistType: PlaylistType.local,
+        playlistQuality: PlaylistQuality.music,
       );
 
       testPlaylistOne.title = 'Test Playlist One';
@@ -383,6 +387,8 @@ void main() {
 
       Playlist testPlaylistTwo = Playlist(
         url: 'https://www.example.com/playlist-url',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.audio,
       );
 
       testPlaylistTwo.title = 'Test Playlist Two';
@@ -461,6 +467,8 @@ void compareDeserializedWithOriginalPlaylist(
   expect(loadedPlaylist.title, testPlaylist.title);
   expect(loadedPlaylist.downloadPath, testPlaylist.downloadPath);
   expect(loadedPlaylist.url, testPlaylist.url);
+  expect(loadedPlaylist.playlistType, testPlaylist.playlistType);
+  expect(loadedPlaylist.playlistQuality, testPlaylist.playlistQuality);
 
   // Compare Audio instances in original and loaded Playlist
   expect(loadedPlaylist.downloadedAudioLst.length, 2);

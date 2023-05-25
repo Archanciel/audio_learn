@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/audio.dart';
+import '../../models/playlist.dart';
 import '../../utils/ui_util.dart';
 import '../../viewmodels/expandable_playlist_list_vm.dart';
 
@@ -57,7 +58,11 @@ class AddPlaylistDialogWidget extends StatelessWidget with ScreenMixin {
                 ExpandablePlaylistListVM expandablePlaylistListVM =
                     Provider.of<ExpandablePlaylistListVM>(context,
                         listen: false);
-                expandablePlaylistListVM.addPlaylist(playlistUrl: playlistUrl);
+                expandablePlaylistListVM.addPlaylist(
+                  playlistUrl: playlistUrl,
+                  playlistType: PlaylistType.youtube,
+                  playlistQuality: PlaylistQuality.audio,
+                );
               }
               Navigator.of(context).pop();
             },
