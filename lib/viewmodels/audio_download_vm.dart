@@ -114,6 +114,14 @@ class AudioDownloadVM extends ChangeNotifier {
         path: addedPlaylist.getPlaylistDownloadFilePathName(),
       );
 
+      // if the local playlist is not added to the list of
+      // playlist, then it will not be displayed at the end
+      // of the list of playlist in the UI ! This is because
+      // ExpandablePlaylistListVM.getUpToDateSelectablePlaylists()
+      // obtains the list of playlist from the AudioDownloadVM.
+      _listOfPlaylist.add(addedPlaylist);
+      _warningMessageVM.addedPlaylistTitle = localPlaylistTitle;
+
       return addedPlaylist;
     } else if (!playlistUrl.contains('list=')) {
       // the case if the url is a video url and the user
@@ -138,7 +146,7 @@ class AudioDownloadVM extends ChangeNotifier {
           errorType: ErrorType.noInternet,
           errorMessage: e.toString(),
         );
-        
+
         return null;
       } catch (e) {
         _warningMessageVM.isPlaylistUrlInvalid = true;
