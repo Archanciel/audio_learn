@@ -89,12 +89,6 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
   Widget build(BuildContext context) {
     final AudioDownloadVM audioDownloadViewModel =
         Provider.of<AudioDownloadVM>(context);
-    if (_playlistUrlController.text.isEmpty) {
-      _playlistUrlController.text =
-          (audioDownloadViewModel.listOfPlaylist.isNotEmpty)
-              ? audioDownloadViewModel.listOfPlaylist[0].url
-              : kUniquePlaylistUrl;
-    }
     return Container(
       margin: const EdgeInsets.all(kDefaultMargin),
       child: Column(
@@ -502,6 +496,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           return PlaylistListItemWidget(
                             playlist: playlist,
                             index: index,
+                            playlistUrlController: _playlistUrlController,
                           );
                         },
                       );
