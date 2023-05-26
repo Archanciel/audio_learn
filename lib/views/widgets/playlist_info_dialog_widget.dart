@@ -38,45 +38,45 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.playlistTitleLabel,
                   value: playlist.title),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.playlistIdLabel,
                   value: playlist.id),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.playlistUrlLabel,
                   value: playlist.url),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label:
                       AppLocalizations.of(context)!.playlistDownloadPathLabel,
                   value: playlist.downloadPath),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!
                       .playlistLastDownloadDateTimeLabel,
                   value: lastDownloadDateTimeStr),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.playlistIsSelectedLabel,
                   value: (playlist.isSelected)
                       ? AppLocalizations.of(context)!.yes
                       : AppLocalizations.of(context)!.no),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!
                       .playlistTotalAudioNumberLabel,
                   value: playlist.downloadedAudioLst.length.toString()),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!
                       .playlistPlayableAudioNumberLabel,
                   value: playlist.playableAudioLst.length.toString()),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!
                       .playlistPlayableAudioTotalDurationLabel,

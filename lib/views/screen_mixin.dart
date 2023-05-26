@@ -66,7 +66,7 @@ class ScreenMixin {
     focusNode.requestFocus();
   }
 
-  Widget titleCommentRow({
+  Widget createTitleCommentRowFunction({
     required BuildContext context,
     required String value,
   }) {
@@ -92,7 +92,7 @@ class ScreenMixin {
     );
   }
 
-  Widget infoRow({
+  Widget createInfoRowFunction({
     required BuildContext context,
     required String label,
     required String value,
@@ -114,6 +114,58 @@ class ScreenMixin {
                 );
               },
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget createEditableRowFunction({
+    required BuildContext context,
+    required String label,
+    required String value,
+    required TextEditingController controller,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Text(label),
+          ),
+          Expanded(
+            child: InkWell(
+              child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget createCheckboxRowFunction({
+    required BuildContext context,
+    required String label,
+    required bool value,
+    required ValueChanged<bool?> onChanged,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Text(label),
+          ),
+          Checkbox(
+            value: value,
+            onChanged: onChanged,
           ),
         ],
       ),

@@ -35,60 +35,60 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.originalVideoTitleLabel,
                   value: audio.originalVideoTitle),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.compactVideoDescription,
                   value: audio.compactVideoDescription),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.validVideoTitleLabel,
                   value: audio.validVideoTitle),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.videoUrlLabel,
                   value: audio.videoUrl),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label:
                       AppLocalizations.of(context)!.audioDownloadDateTimeLabel,
                   value:
                       frenchDateTimeFormat.format(audio.audioDownloadDateTime)),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label:
                       AppLocalizations.of(context)!.audioDownloadDurationLabel,
                   value: audio.audioDownloadDuration!.HHmmss()),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.audioDownloadSpeedLabel,
                   value: formatDownloadSpeed(
                     context: context,
                     audio: audio,
                   )),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.videoUploadDateLabel,
                   value: frenchDateFormat.format(audio.videoUploadDate)),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.audioDurationLabel,
                   value: audio.audioDuration!.HHmmss()),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.audioFileNameLabel,
                   value: audio.audioFileName),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.audioFileSizeLabel,
                   value: UiUtil.formatLargeIntValue(
                     context: context,
                     value: audio.audioFileSize,
                   )),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.isMusicQualityLabel,
                   value: (audio.isMusicQuality)

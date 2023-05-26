@@ -9,22 +9,40 @@ import '../../models/playlist.dart';
 import '../../utils/ui_util.dart';
 import '../../viewmodels/expandable_playlist_list_vm.dart';
 
-class AddPlaylistDialogWidget extends StatelessWidget with ScreenMixin {
+class AddPlaylistDialogWidget extends StatefulWidget {
   final String playlistUrl;
   final FocusNode focusNode;
 
-  const AddPlaylistDialogWidget({
+  AddPlaylistDialogWidget({
     required this.playlistUrl,
     required this.focusNode,
     Key? key,
   }) : super(key: key);
 
   @override
+  State<AddPlaylistDialogWidget> createState() =>
+      _AddPlaylistDialogWidgetState();
+}
+
+class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
+    with ScreenMixin {
+  final TextEditingController _localPlaylistTitleTextEditingController =
+      TextEditingController();
+  bool _isChecked = false;
+
+  @override
+  void dispose() {
+    _localPlaylistTitleTextEditingController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return RawKeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: focusNode,
+      focusNode: widget.focusNode,
       onKey: (event) {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
@@ -36,30 +54,41 @@ class AddPlaylistDialogWidget extends StatelessWidget with ScreenMixin {
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              titleCommentRow(
+              createTitleCommentRowFunction(
                 context: context,
                 value: AppLocalizations.of(context)!.addPlaylistDialogComment,
               ),
-              infoRow(
+              createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.youtubePlaylistUrlLabel,
-                  value: playlistUrl),
-              infoRow(
+                  value: widget.playlistUrl),
+              createEditableRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.localPlaylistTitleLabel,
-                  value: ''),
+                  value: '',
+                  controller: _localPlaylistTitleTextEditingController),
+              createCheckboxRowFunction(
+                context: context,
+                label: AppLocalizations.of(context)!.isMusicQualityLabel,
+                value: _isChecked,
+                onChanged: (bool? value) {
+                  setState(() {
+                    _isChecked = value ?? false;
+                  });
+                },
+              ),
             ],
           ),
         ),
         actions: [
           ElevatedButton(
             onPressed: () {
-              if (playlistUrl.isNotEmpty) {
+              if (widget.playlistUrl.isNotEmpty) {
                 ExpandablePlaylistListVM expandablePlaylistListVM =
                     Provider.of<ExpandablePlaylistListVM>(context,
                         listen: false);
                 expandablePlaylistListVM.addPlaylist(
-                  playlistUrl: playlistUrl,
+                  playlistUrl: widget.playlistUrl,
                   playlistType: PlaylistType.youtube,
                   playlistQuality: PlaylistQuality.audio,
                 );
