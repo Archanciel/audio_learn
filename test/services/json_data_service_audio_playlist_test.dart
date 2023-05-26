@@ -129,7 +129,7 @@ void main() {
       Playlist testPlaylist = Playlist(
         url: 'https://www.example.com/playlist-url',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       testPlaylist.title = 'Test Playlist';
@@ -388,7 +388,7 @@ void main() {
       Playlist testPlaylistTwo = Playlist(
         url: 'https://www.example.com/playlist-url',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       testPlaylistTwo.title = 'Test Playlist Two';

@@ -10,7 +10,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist2',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);
@@ -30,7 +30,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist2',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);
@@ -52,7 +52,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist2',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);
@@ -75,7 +75,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist1',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);
@@ -94,7 +94,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist1',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);
@@ -113,7 +113,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist1',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);
@@ -132,7 +132,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist1',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);
@@ -151,7 +151,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist2',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);
@@ -170,7 +170,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist2',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);
@@ -189,7 +189,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist2',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);
@@ -208,7 +208,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist2',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
 
       addDownloadedAudios(playlist);

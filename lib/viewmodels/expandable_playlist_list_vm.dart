@@ -76,27 +76,29 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   Future<void> addPlaylist({
-    required String playlistUrl,
-    required PlaylistType playlistType,
+    String playlistUrl = '',
+    String localPlaylistTitle = '',
     required PlaylistQuality playlistQuality,
   }) async {
-    try {
-      final Playlist playlistWithThisUrlAlreadyDownloaded =
-          _selectablePlaylistLst
-              .firstWhere((element) => element.url == playlistUrl);
-      // User clicked on Add button but the playlist with this url
-      // was already downloaded
-      _warningMessageVM.setPlaylistAlreadyDownloadedTitle(
-          playlistTitle: playlistWithThisUrlAlreadyDownloaded.title);
-      return;
-    } catch (e) {
-      // If the playlist with this url is not found, it means that
-      // the playlist must be added.
+    if (localPlaylistTitle.isEmpty && playlistUrl.isNotEmpty) {
+      try {
+        final Playlist playlistWithThisUrlAlreadyDownloaded =
+            _selectablePlaylistLst
+                .firstWhere((element) => element.url == playlistUrl);
+        // User clicked on Add button but the playlist with this url
+        // was already downloaded
+        _warningMessageVM.setPlaylistAlreadyDownloadedTitle(
+            playlistTitle: playlistWithThisUrlAlreadyDownloaded.title);
+        return;
+      } catch (e) {
+        // If the playlist with this url is not found, it means that
+        // the playlist must be added.
+      }
     }
 
     Playlist? addedPlaylist = await _audioDownloadVM.addPlaylist(
       playlistUrl: playlistUrl,
-      playlistType: playlistType,
+      localPlaylistTitle: localPlaylistTitle,
       playlistQuality: playlistQuality,
     );
 

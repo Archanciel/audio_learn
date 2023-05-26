@@ -150,5 +150,11 @@
   "addPlaylistDialogTitle": "Add Playlist",
   "addPlaylistDialogComment": "Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.",
   "youtubePlaylistUrlLabel": "Youtube playlist URL",
-  "localPlaylistTitleLabel": "Local playlist title"
+  "localPlaylistTitleLabel": "Local playlist title",
+  "playlistTypeLabel": "Playlist type",
+  "playlistTypeYoutube": "Youtube",
+  "playlistTypeLocal": "Local",
+  "playlistQualityLabel": "Playlist quality",
+  "playlistQualityMusic": "Music",
+  "playlistQualityVoice": "Voice"
 }

@@ -83,14 +83,24 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
         actions: [
           ElevatedButton(
             onPressed: () {
-              if (widget.playlistUrl.isNotEmpty) {
-                ExpandablePlaylistListVM expandablePlaylistListVM =
-                    Provider.of<ExpandablePlaylistListVM>(context,
-                        listen: false);
+              String localPlaylistTitle =
+                  _localPlaylistTitleTextEditingController.text;
+              ExpandablePlaylistListVM expandablePlaylistListVM =
+                  Provider.of<ExpandablePlaylistListVM>(context, listen: false);
+
+              if (localPlaylistTitle.isNotEmpty) {
+                expandablePlaylistListVM.addPlaylist(
+                  localPlaylistTitle: localPlaylistTitle,
+                  playlistQuality: _isChecked
+                      ? PlaylistQuality.music
+                      : PlaylistQuality.voice,
+                );
+              } else if (widget.playlistUrl.isNotEmpty) {
                 expandablePlaylistListVM.addPlaylist(
                   playlistUrl: widget.playlistUrl,
-                  playlistType: PlaylistType.youtube,
-                  playlistQuality: PlaylistQuality.audio,
+                  playlistQuality: _isChecked
+                      ? PlaylistQuality.music
+                      : PlaylistQuality.voice,
                 );
               }
               Navigator.of(context).pop();

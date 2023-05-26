@@ -135,7 +135,7 @@ void main() {
       Playlist playlist = Playlist(
         url: 'https://www.youtube.com/playlist?list=test_playlist_id',
         playlistType: PlaylistType.youtube,
-        playlistQuality: PlaylistQuality.audio,
+        playlistQuality: PlaylistQuality.voice,
       );
       playlist.title = 'Test Playlist';
       playlist.downloadPath = 'download_path';

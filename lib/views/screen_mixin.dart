@@ -160,9 +160,7 @@ class ScreenMixin {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Expanded(
-            child: Text(label),
-          ),
+          Text(label),
           Checkbox(
             value: value,
             onChanged: onChanged,

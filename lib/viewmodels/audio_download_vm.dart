@@ -85,81 +85,104 @@ class AudioDownloadVM extends ChangeNotifier {
   }
 
   Future<Playlist?> addPlaylist({
-    required String playlistUrl,
-    required PlaylistType playlistType,
+    String playlistUrl = '',
+    String localPlaylistTitle = '',
     required PlaylistQuality playlistQuality,
   }) async {
+    Playlist addedPlaylist;
+
     // those two variables are used by the
     // ExpandablePlaylistListView UI to show a message
     _warningMessageVM.updatedPlaylistTitle = '';
     _warningMessageVM.addedPlaylistTitle = '';
     _warningMessageVM.isPlaylistUrlInvalid = false;
 
-    if (!playlistUrl.contains('list=')) {
+    if (localPlaylistTitle.isNotEmpty) {
+      addedPlaylist = Playlist(
+        title: localPlaylistTitle,
+        playlistType: PlaylistType.local,
+        playlistQuality: playlistQuality,
+      );
+
+      await _setPlaylistPath(
+        playlistTitle: localPlaylistTitle,
+        playlist: addedPlaylist,
+      );
+
+      JsonDataService.saveToFile(
+        model: addedPlaylist,
+        path: addedPlaylist.getPlaylistDownloadFilePathName(),
+      );
+
+      return addedPlaylist;
+    } else if (!playlistUrl.contains('list=')) {
       // the case if the url is a video url and the user
       // clicked on the Add button instead of the Download
       // button or if the String pasted to the url text field
       // is not a valid Youtube playlist url.
       _warningMessageVM.isPlaylistUrlInvalid = true;
+
       return null;
-    }
+    } else {
+      // get Youtube playlist
+      String? playlistId;
+      yt.Playlist youtubePlaylist;
+      _youtubeExplode = yt.YoutubeExplode();
 
-    // get Youtube playlist
-    String? playlistId;
-    yt.Playlist youtubePlaylist;
-    _youtubeExplode = yt.YoutubeExplode();
+      playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
 
-    playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
+      try {
+        youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
+      } on SocketException catch (e) {
+        _notifyDownloadError(
+          errorType: ErrorType.noInternet,
+          errorMessage: e.toString(),
+        );
+        
+        return null;
+      } catch (e) {
+        _warningMessageVM.isPlaylistUrlInvalid = true;
 
-    try {
-      youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
-    } on SocketException catch (e) {
-      _notifyDownloadError(
-        errorType: ErrorType.noInternet,
-        errorMessage: e.toString(),
+        return null;
+      }
+
+      String playlistTitle = youtubePlaylist.title;
+
+      int playlistIndex = _listOfPlaylist
+          .indexWhere((playlist) => playlist.title == playlistTitle);
+
+      if (playlistIndex != -1) {
+        // This means that the playlist was not added, but
+        // that its url was updated. The case when a new
+        // playlist with the same title is created in order
+        // to replace the old one which contains too many
+        // audios.
+        Playlist updatedPlaylist = _listOfPlaylist[playlistIndex];
+        updatedPlaylist.url = playlistUrl;
+        updatedPlaylist.id = playlistId!;
+        _warningMessageVM.updatedPlaylistTitle = playlistTitle;
+
+        JsonDataService.saveToFile(
+          model: updatedPlaylist,
+          path: updatedPlaylist.getPlaylistDownloadFilePathName(),
+        );
+
+        return updatedPlaylist;
+      }
+
+      // Adding the playlist to the application
+
+      addedPlaylist = await _addPlaylistIfNotExist(
+        playlistUrl: playlistUrl,
+        playlistQuality: playlistQuality,
+        youtubePlaylist: youtubePlaylist,
       );
-      return null;
-    } catch (e) {
-      _warningMessageVM.isPlaylistUrlInvalid = true;
-      return null;
-    }
-
-    String playlistTitle = youtubePlaylist.title;
-
-    int playlistIndex = _listOfPlaylist
-        .indexWhere((playlist) => playlist.title == playlistTitle);
-
-    if (playlistIndex != -1) {
-      // This means that the playlist was not added, but
-      // that its url was updated. The case when a new
-      // playlist with the same title is created in order
-      // to replace the old one which contains too many
-      // audios.
-      Playlist updatedPlaylist = _listOfPlaylist[playlistIndex];
-      updatedPlaylist.url = playlistUrl;
-      updatedPlaylist.id = playlistId!;
-      _warningMessageVM.updatedPlaylistTitle = playlistTitle;
 
       JsonDataService.saveToFile(
-        model: updatedPlaylist,
-        path: updatedPlaylist.getPlaylistDownloadFilePathName(),
+        model: addedPlaylist,
+        path: addedPlaylist.getPlaylistDownloadFilePathName(),
       );
-
-      return updatedPlaylist;
     }
-
-    // Adding the playlist to the application
-
-    Playlist addedPlaylist = await _addPlaylistIfNotExist(
-      playlistUrl: playlistUrl,
-      playlistQuality: playlistQuality,
-      youtubePlaylist: youtubePlaylist,
-    );
-
-    JsonDataService.saveToFile(
-      model: addedPlaylist,
-      path: addedPlaylist.getPlaylistDownloadFilePathName(),
-    );
 
     _warningMessageVM.addedPlaylistTitle = addedPlaylist.title;
 
@@ -198,7 +221,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
     Playlist currentPlaylist = await _addPlaylistIfNotExist(
       playlistUrl: playlistUrl,
-      playlistQuality: PlaylistQuality.audio,
+      playlistQuality: PlaylistQuality.voice,
       youtubePlaylist: youtubePlaylist,
     );
 
@@ -620,17 +643,17 @@ class AudioDownloadVM extends ChangeNotifier {
     required PlaylistQuality playlistQuality,
     required yt.Playlist youtubePlaylist,
   }) async {
+    final String playlistTitle = youtubePlaylist.title;
+
     Playlist playlist = Playlist(
       url: playlistUrl,
+      title: playlistTitle,
       playlistType: PlaylistType.youtube,
       playlistQuality: playlistQuality,
     );
     _listOfPlaylist.add(playlist);
 
     playlist.id = youtubePlaylist.id.toString();
-
-    final String playlistTitle = youtubePlaylist.title;
-    playlist.title = playlistTitle;
 
     return await _setPlaylistPath(
       playlistTitle: playlistTitle,
@@ -642,7 +665,7 @@ class AudioDownloadVM extends ChangeNotifier {
     Playlist playlist = Playlist(
       url: '',
       playlistType: PlaylistType.local,
-      playlistQuality: PlaylistQuality.audio,
+      playlistQuality: PlaylistQuality.voice,
     );
     _listOfPlaylist.add(playlist);
 

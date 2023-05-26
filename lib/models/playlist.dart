@@ -6,7 +6,7 @@ import 'audio.dart';
 
 enum PlaylistType { youtube, local }
 
-enum PlaylistQuality { music, audio }
+enum PlaylistQuality { music, voice }
 
 /// This class
 class Playlist {
@@ -32,7 +32,8 @@ class Playlist {
   List<Audio> playableAudioLst = [];
 
   Playlist({
-    required this.url,
+    this.url = '',
+    this.title = '',
     required this.playlistType,
     required this.playlistQuality,
     this.isSelected = false,
@@ -62,13 +63,13 @@ class Playlist {
       ),
       playlistQuality: PlaylistQuality.values.firstWhere(
         (e) => e.toString().split('.').last == json['playlistQuality'],
-        orElse: () => PlaylistQuality.audio,
+        orElse: () => PlaylistQuality.voice,
       ),
       downloadPath: json['downloadPath'],
       isSelected: json['isSelected'],
     );
 
-    // Deserialize the Audio instances in the downloadedAudioLst 
+    // Deserialize the Audio instances in the downloadedAudioLst
     // and playableAudioLst
     if (json['downloadedAudioLst'] != null) {
       for (var audioJson in json['downloadedAudioLst']) {
