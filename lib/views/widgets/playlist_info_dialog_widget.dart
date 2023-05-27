@@ -71,7 +71,7 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   label: AppLocalizations.of(context)!.playlistQualityLabel,
                   value: (playlist.playlistQuality == PlaylistQuality.music)
                       ? AppLocalizations.of(context)!.playlistQualityMusic
-                      : AppLocalizations.of(context)!.playlistQualityVoice),
+                      : AppLocalizations.of(context)!.playlistQualityAudio),
               createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.playlistIsSelectedLabel,

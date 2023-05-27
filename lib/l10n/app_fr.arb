@@ -71,11 +71,13 @@
       "title": {}
     }
   },
-  "addPlaylistTitle": "Nouvelle playlist \"{title}\" ajoutée à la fin de la liste des playlists.",
+  
+  "addPlaylistTitle": "Nouvelle playlist \"{title}\" de qualité \"{quality}\" ajoutée à la fin de la liste des playlists.",
   "@addPlaylistTitle": {
     "description": "Message informant qu'une nouvelle playlist a été ajoutée à la liste des playlists.",
     "placeholders": {
-      "title": {}
+      "title": {},
+      "quality": {}
     }
   },
   "invalidPlaylistUrl": "L'URL \"{url}\" ne pointe pas sur une playlist. Aucune playlist n'a donc été ajoutée ou modifiée.",
@@ -156,6 +158,5 @@
   "playlistTypeLocal": "Locale",
   "playlistQualityLabel": "Qualité de la playlist",
   "playlistQualityMusic": "Musicale",
-  "playlistQualityVoice": "Voix"
-
+  "playlistQualityAudio": "Audio"
 }

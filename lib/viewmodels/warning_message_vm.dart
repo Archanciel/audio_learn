@@ -1,3 +1,4 @@
+import 'package:audio_learn/models/playlist.dart';
 import 'package:flutter/material.dart';
 
 enum WarningMessageType {
@@ -101,10 +102,18 @@ class WarningMessageVM extends ChangeNotifier {
 
   String _addedPlaylistTitle = '';
   String get addedPlaylistTitle => _addedPlaylistTitle;
-  set addedPlaylistTitle(String addedPlaylistTitle) {
-    _addedPlaylistTitle = addedPlaylistTitle;
 
-    if (addedPlaylistTitle.isNotEmpty) {
+  PlaylistQuality _addedPlaylistQuality = PlaylistQuality.voice;
+  PlaylistQuality get addedPlaylistQuality => _addedPlaylistQuality;
+
+  void setAddPlaylist({
+    required String playlistTitle,
+    required PlaylistQuality playlistQuality,
+  }) {
+    _addedPlaylistTitle = playlistTitle;
+    _addedPlaylistQuality = playlistQuality;
+
+    if (playlistTitle.isNotEmpty) {
       _warningMessageType = WarningMessageType.addPlaylistTitle;
 
       notifyListeners();

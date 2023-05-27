@@ -1,3 +1,4 @@
+import 'package:audio_learn/models/playlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -83,13 +84,24 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
         return const SizedBox.shrink();
       case WarningMessageType.addPlaylistTitle:
         String addedPlayListTitle = _warningMessageVM.addedPlaylistTitle;
+        PlaylistQuality playlistQuality =
+            _warningMessageVM.addedPlaylistQuality;
+        String playlistQualityStr;
 
         if (addedPlayListTitle.isNotEmpty) {
+          if (playlistQuality == PlaylistQuality.voice) {
+            playlistQualityStr =
+                AppLocalizations.of(context)!.playlistQualityAudio;
+          } else {
+            playlistQualityStr =
+                AppLocalizations.of(context)!.playlistQualityMusic;
+          }
+
           WidgetsBinding.instance.addPostFrameCallback((_) {
             displayWarningDialog(
                 context: _context,
                 message: AppLocalizations.of(context)!
-                    .addPlaylistTitle(addedPlayListTitle),
+                    .addPlaylistTitle(addedPlayListTitle, playlistQualityStr),
                 warningMessageVM: _warningMessageVM);
           });
         }

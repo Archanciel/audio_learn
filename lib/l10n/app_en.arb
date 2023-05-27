@@ -71,11 +71,12 @@
       "title": {}
     }
   },
-  "addPlaylistTitle": "Playlist \"{title}\" added at end of list of playlists.",
+  "addPlaylistTitle": "Playlist \"{title}\" of \"{quality}\" quality added at end of list of playlists.",
   "@addPlaylistTitle": {
     "description": "Warning announcing that the playlist was added at end of list of playlists.",
     "placeholders": {
-      "title": {}
+      "title": {},
+      "quality": {}
     }
   },
   "invalidPlaylistUrl": "Playlist with invalid URL \"{url}\" neither added nor modified.",
@@ -156,5 +157,5 @@
   "playlistTypeLocal": "Local",
   "playlistQualityLabel": "Playlist quality",
   "playlistQualityMusic": "Music",
-  "playlistQualityVoice": "Voice"
+  "playlistQualityAudio": "Audio"
 }

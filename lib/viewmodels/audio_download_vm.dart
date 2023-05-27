@@ -94,7 +94,6 @@ class AudioDownloadVM extends ChangeNotifier {
     // those two variables are used by the
     // ExpandablePlaylistListView UI to show a message
     _warningMessageVM.updatedPlaylistTitle = '';
-    _warningMessageVM.addedPlaylistTitle = '';
     _warningMessageVM.isPlaylistUrlInvalid = false;
 
     if (localPlaylistTitle.isNotEmpty) {
@@ -120,7 +119,10 @@ class AudioDownloadVM extends ChangeNotifier {
       // ExpandablePlaylistListVM.getUpToDateSelectablePlaylists()
       // obtains the list of playlist from the AudioDownloadVM.
       _listOfPlaylist.add(addedPlaylist);
-      _warningMessageVM.addedPlaylistTitle = localPlaylistTitle;
+      _warningMessageVM.setAddPlaylist(
+        playlistTitle: localPlaylistTitle,
+        playlistQuality: playlistQuality,
+      );
 
       return addedPlaylist;
     } else if (!playlistUrl.contains('list=')) {
@@ -192,7 +194,10 @@ class AudioDownloadVM extends ChangeNotifier {
       );
     }
 
-    _warningMessageVM.addedPlaylistTitle = addedPlaylist.title;
+    _warningMessageVM.setAddPlaylist(
+      playlistTitle: addedPlaylist.title,
+      playlistQuality: playlistQuality,
+    );
 
     return addedPlaylist;
   }
