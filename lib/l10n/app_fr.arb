@@ -158,5 +158,7 @@
   "playlistTypeLocal": "Locale",
   "playlistQualityLabel": "Qualité de la playlist",
   "playlistQualityMusic": "Musicale",
-  "playlistQualityAudio": "Audio"
+  "playlistQualityAudio": "Audio",
+  "audioQualityHighSnackBarMessage": "Téléchargement à qualité musicale",
+  "audioQualityLowSnackBarMessage": "Téléchargement à qualité audio"
 }
