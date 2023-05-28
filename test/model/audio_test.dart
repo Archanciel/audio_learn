@@ -134,10 +134,11 @@ void main() {
     test('filePathName', () {
       Playlist playlist = Playlist(
         url: 'https://www.youtube.com/playlist?list=test_playlist_id',
+        title: 'Test Playlist',
         playlistType: PlaylistType.youtube,
         playlistQuality: PlaylistQuality.voice,
       );
-      playlist.title = 'Test Playlist';
+
       playlist.downloadPath = 'download_path';
 
       Audio audio = Audio(

@@ -1,7 +1,5 @@
 // dart file located in lib\viewmodels
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -103,6 +101,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
     if (localPlaylistTitle.isNotEmpty) {
       addedPlaylist = Playlist(
+        id: localPlaylistTitle,
         title: localPlaylistTitle,
         playlistType: PlaylistType.local,
         playlistQuality: playlistQuality,
@@ -669,13 +668,13 @@ class AudioDownloadVM extends ChangeNotifier {
 
     Playlist playlist = Playlist(
       url: playlistUrl,
+      id: youtubePlaylist.id.toString(),
       title: playlistTitle,
       playlistType: PlaylistType.youtube,
       playlistQuality: playlistQuality,
     );
-    _listOfPlaylist.add(playlist);
 
-    playlist.id = youtubePlaylist.id.toString();
+    _listOfPlaylist.add(playlist);
 
     return await _setPlaylistPath(
       playlistTitle: playlistTitle,
@@ -686,14 +685,13 @@ class AudioDownloadVM extends ChangeNotifier {
   Future<Playlist> _createVariousPlaylist() async {
     Playlist playlist = Playlist(
       url: '',
+      id: kVariousAudiosPlaylistTitle,
+      title: kVariousAudiosPlaylistTitle,
       playlistType: PlaylistType.local,
       playlistQuality: PlaylistQuality.voice,
     );
+
     _listOfPlaylist.add(playlist);
-
-    playlist.id = '';
-
-    playlist.title = kVariousAudiosPlaylistTitle;
 
     return await _setPlaylistPath(
       playlistTitle: kVariousAudiosPlaylistTitle,

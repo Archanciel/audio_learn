@@ -33,6 +33,7 @@ class Playlist {
 
   Playlist({
     this.url = '',
+    this.id = '',
     this.title = '',
     required this.playlistType,
     required this.playlistQuality,

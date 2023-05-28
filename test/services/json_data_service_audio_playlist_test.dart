@@ -128,11 +128,11 @@ void main() {
       // Create a Playlist with 2 Audio instances
       Playlist testPlaylist = Playlist(
         url: 'https://www.example.com/playlist-url',
+        title: 'Test Playlist',
         playlistType: PlaylistType.youtube,
         playlistQuality: PlaylistQuality.voice,
       );
 
-      testPlaylist.title = 'Test Playlist';
       testPlaylist.downloadPath = 'path/to/downloads';
 
       Audio audio1 = Audio.fullConstructor(
@@ -343,11 +343,11 @@ void main() {
       // Create an Audio instance
       Playlist testPlaylistOne = Playlist(
         url: 'https://www.example.com/playlist-url',
+        title: 'Test Playlist One',
         playlistType: PlaylistType.local,
         playlistQuality: PlaylistQuality.music,
       );
 
-      testPlaylistOne.title = 'Test Playlist One';
       testPlaylistOne.downloadPath = 'path/to/downloads';
 
       Audio audio1 = Audio.fullConstructor(
@@ -387,6 +387,7 @@ void main() {
 
       Playlist testPlaylistTwo = Playlist(
         url: 'https://www.example.com/playlist-url',
+        title: 'Test Playlist Two',
         playlistType: PlaylistType.youtube,
         playlistQuality: PlaylistQuality.voice,
       );
