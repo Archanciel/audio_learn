@@ -158,6 +158,10 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
     if (!isOneItemSelected) {
       _disableAllButtonsIfNoPlaylistIsSelected();
+
+      // if no playlist is selected, the quality checkbox is
+      // disabled and so must be unchecked
+      _audioDownloadVM.isHighQuality = false;
     } else {
       _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded();
     }

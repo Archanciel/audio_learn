@@ -20,12 +20,10 @@ enum PlaylistPopupMenuAction {
 class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
   final Playlist playlist;
   final int index;
-  final TextEditingController playlistUrlController;
 
   PlaylistListItemWidget({
     required this.playlist,
     required this.index,
-    required this.playlistUrlController,
     super.key,
   });
 
@@ -125,7 +123,6 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
           trailing: Checkbox(
             value: playlist.isSelected,
             onChanged: (value) {
-              playlistUrlController.text = playlist.url;
               expandablePlaylistListVM.setPlaylistSelection(
                 playlistIndex: index,
                 isPlaylistSelected: value!,

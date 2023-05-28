@@ -1,5 +1,7 @@
 // dart file located in lib\viewmodels
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -44,6 +46,9 @@ class AudioDownloadVM extends ChangeNotifier {
 
   bool _isHighQuality = false;
   bool get isHighQuality => _isHighQuality;
+  set isHighQuality(bool isHighQuality) {
+    _isHighQuality = isHighQuality;
+  }
 
   bool _stopDownloadPressed = false;
   bool get isDownloadStopping => _stopDownloadPressed;
@@ -351,6 +356,10 @@ class AudioDownloadVM extends ChangeNotifier {
     Playlist playlist = _listOfPlaylist[playlistIndex];
 
     playlist.isSelected = isPlaylistSelected;
+
+    if (isPlaylistSelected) {
+      _isHighQuality = playlist.playlistQuality == PlaylistQuality.music;
+    }
 
     JsonDataService.saveToFile(
       model: playlist,

@@ -508,7 +508,6 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           return PlaylistListItemWidget(
                             playlist: playlist,
                             index: index,
-                            playlistUrlController: _playlistUrlController,
                           );
                         },
                       );
