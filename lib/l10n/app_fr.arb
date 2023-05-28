@@ -160,5 +160,6 @@
   "playlistQualityMusic": "Musicale",
   "playlistQualityAudio": "Audio",
   "audioQualityHighSnackBarMessage": "Téléchargement à qualité musicale",
-  "audioQualityLowSnackBarMessage": "Téléchargement à qualité audio"
+  "audioQualityLowSnackBarMessage": "Téléchargement à qualité audio",
+  "add": "Ajouter"
 }

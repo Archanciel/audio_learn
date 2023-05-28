@@ -105,7 +105,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
               }
               Navigator.of(context).pop();
             },
-            child: Text(AppLocalizations.of(context)!.apply),
+            child: Text(AppLocalizations.of(context)!.add),
           ),
           ElevatedButton(
             onPressed: () {

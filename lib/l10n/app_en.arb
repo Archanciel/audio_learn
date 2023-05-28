@@ -159,5 +159,6 @@
   "playlistQualityMusic": "Music",
   "playlistQualityAudio": "Audio",
   "audioQualityHighSnackBarMessage": "Download at music quality",
-  "audioQualityLowSnackBarMessage": "Download at audio quality"
+  "audioQualityLowSnackBarMessage": "Download at audio quality",
+  "add": "Add"
 }
