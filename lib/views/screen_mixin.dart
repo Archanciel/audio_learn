@@ -138,7 +138,7 @@ class ScreenMixin {
             child: InkWell(
               child: TextField(
                 controller: controller,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                 ),
               ),

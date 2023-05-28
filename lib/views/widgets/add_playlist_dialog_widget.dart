@@ -13,7 +13,7 @@ class AddPlaylistDialogWidget extends StatefulWidget {
   final String playlistUrl;
   final FocusNode focusNode;
 
-  AddPlaylistDialogWidget({
+  const AddPlaylistDialogWidget({
     required this.playlistUrl,
     required this.focusNode,
     Key? key,
