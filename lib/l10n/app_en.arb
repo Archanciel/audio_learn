@@ -71,7 +71,7 @@
       "title": {}
     }
   },
-  "addPlaylistTitle": "Playlist \"{title}\" of \"{quality}\" quality added at end of list of playlists.",
+  "addPlaylistTitle": "Playlist \"{title}\" of {quality} quality added at end of list of playlists.",
   "@addPlaylistTitle": {
     "description": "Warning announcing that the playlist was added at end of list of playlists.",
     "placeholders": {
@@ -156,8 +156,8 @@
   "playlistTypeYoutube": "Youtube",
   "playlistTypeLocal": "Local",
   "playlistQualityLabel": "Playlist quality",
-  "playlistQualityMusic": "Music",
-  "playlistQualityAudio": "Audio",
+  "playlistQualityMusic": "music",
+  "playlistQualityAudio": "audio",
   "audioQualityHighSnackBarMessage": "Download at music quality",
   "audioQualityLowSnackBarMessage": "Download at audio quality",
   "add": "Add"

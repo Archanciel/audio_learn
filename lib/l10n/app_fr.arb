@@ -72,7 +72,7 @@
     }
   },
   
-  "addPlaylistTitle": "Nouvelle playlist \"{title}\" de qualité \"{quality}\" ajoutée à la fin de la liste des playlists.",
+  "addPlaylistTitle": "Nouvelle playlist \"{title}\" de qualité {quality} ajoutée à la fin de la liste des playlists.",
   "@addPlaylistTitle": {
     "description": "Message informant qu'une nouvelle playlist a été ajoutée à la liste des playlists.",
     "placeholders": {
@@ -157,8 +157,8 @@
   "playlistTypeYoutube": "Youtube",
   "playlistTypeLocal": "Locale",
   "playlistQualityLabel": "Qualité de la playlist",
-  "playlistQualityMusic": "Musicale",
-  "playlistQualityAudio": "Audio",
+  "playlistQualityMusic": "musicale",
+  "playlistQualityAudio": "audio",
   "audioQualityHighSnackBarMessage": "Téléchargement à qualité musicale",
   "audioQualityLowSnackBarMessage": "Téléchargement à qualité audio",
   "add": "Ajouter"
