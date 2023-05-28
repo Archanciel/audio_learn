@@ -64,9 +64,13 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       }
     }
 
-    if (_getSelectedIndex() != -1) {
+    int selectedPlaylistIndex = _getSelectedIndex();
+
+    if (selectedPlaylistIndex != -1) {
       _isPlaylistSelected = true;
-      _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded();
+      _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
+        selectedPlaylist: _selectablePlaylistLst[selectedPlaylistIndex],
+      );
     } else {
       _isPlaylistSelected = false;
       _disableAllButtonsIfNoPlaylistIsSelected();
@@ -118,8 +122,11 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     if (!_isListExpanded) {
       _disableEpandedListButtons();
     } else {
-      if (_getSelectedIndex() != -1) {
-        _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded();
+      int selectedPlaylistIndex = _getSelectedIndex();
+      if (selectedPlaylistIndex != -1) {
+        _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
+          selectedPlaylist: _selectablePlaylistLst[selectedPlaylistIndex],
+        );
       } else {
         _disableAllButtonsIfNoPlaylistIsSelected();
       }
@@ -146,8 +153,10 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     // playlist and nullifies the filtered and sorted audio list
     _sortedFilteredSelectedPlaylistsPlayableAudios = null;
 
+    Playlist selectedPlaylist = _selectablePlaylistLst[playlistIndex];
+
     _audioDownloadVM.updatePlaylistSelection(
-      playlistId: _selectablePlaylistLst[playlistIndex].id,
+      playlistId: selectedPlaylist.id,
       isPlaylistSelected: isPlaylistSelected,
     );
 
@@ -163,7 +172,9 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       // disabled and so must be unchecked
       _audioDownloadVM.isHighQuality = false;
     } else {
-      _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded();
+      _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
+        selectedPlaylist: selectedPlaylist,
+      );
     }
 
     notifyListeners();
@@ -328,16 +339,23 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     return -1;
   }
 
-  void
-      _enableAllButtonsIfAtLeastOnePlaylistIsSelectedAndPlaylistListIsExpanded() {
+  void _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded({
+    required Playlist selectedPlaylist,
+  }) {
     if (_isListExpanded) {
       _enableExpandedListButtons();
     }
+
+    if (selectedPlaylist.playlistType == PlaylistType.local) {
+      _isButtonDownloadSelPlaylistsEnabled = false;
+    } else {
+      _isButtonDownloadSelPlaylistsEnabled = true;
+    }
+
     _isButtonAudioPopupMenuEnabled = true;
   }
 
   void _enableExpandedListButtons() {
-    _isButtonDownloadSelPlaylistsEnabled = true;
     _isButtonMoveUpPlaylistEnabled = true;
     _isButtonDownPlaylistEnabled = true;
   }
