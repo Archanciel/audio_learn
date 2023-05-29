@@ -47,6 +47,12 @@ enum WarningMessageType {
   // user clicks on the single video download button but more than
   // one playlist to which the downloaded audio will be added is
   // selected.
+
+  ok, // The case if the user clicks on the OK button after a
+  // confirmation message is displayed. 
+
+  confirmSingleVideoDownload, // The case if the user clicks on the
+  // single video download button after selecting a target playlist.
 }
 
 enum ErrorType {

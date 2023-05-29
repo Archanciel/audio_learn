@@ -18,7 +18,7 @@ class DisplayMessageWidget extends StatelessWidget {
   final WarningMessageVM _warningMessageVM;
   final TextEditingController _playlistUrlController;
 
-  DisplayMessageWidget({
+  const DisplayMessageWidget({
     required BuildContext parentContext,
     required WarningMessageVM warningMessageVM,
     required TextEditingController playlistUrlController,
@@ -42,7 +42,7 @@ class DisplayMessageWidget extends StatelessWidget {
 
             if (exceptionMessage.isNotEmpty) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                displayWarningDialog(
+                _displayWarningDialog(
                     context: _context,
                     message: AppLocalizations.of(context)!
                         .downloadAudioYoutubeError(exceptionMessage),
@@ -53,7 +53,7 @@ class DisplayMessageWidget extends StatelessWidget {
             return const SizedBox.shrink();
           case ErrorType.noInternet:
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              displayWarningDialog(
+              _displayWarningDialog(
                   context: _context,
                   message: AppLocalizations.of(context)!.noInternet,
                   warningMessageVM: _warningMessageVM);
@@ -64,7 +64,7 @@ class DisplayMessageWidget extends StatelessWidget {
             String audioShortPathFileName = _warningMessageVM.errorMessage;
 
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              displayWarningDialog(
+              _displayWarningDialog(
                   context: _context,
                   message: AppLocalizations.of(context)!
                       .downloadAudioFileAlreadyOnAudioDirectory(
@@ -81,7 +81,7 @@ class DisplayMessageWidget extends StatelessWidget {
 
         if (updatedPlayListTitle.isNotEmpty) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            displayWarningDialog(
+            _displayWarningDialog(
                 context: _context,
                 message: AppLocalizations.of(context)!
                     .updatedPlaylistUrlTitle(updatedPlayListTitle),
@@ -106,7 +106,7 @@ class DisplayMessageWidget extends StatelessWidget {
           }
 
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            displayWarningDialog(
+            _displayWarningDialog(
                 context: _context,
                 message: AppLocalizations.of(context)!
                     .addPlaylistTitle(addedPlayListTitle, playlistQualityStr),
@@ -119,7 +119,7 @@ class DisplayMessageWidget extends StatelessWidget {
         String playlistUrl = _playlistUrlController.text;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          displayWarningDialog(
+          _displayWarningDialog(
             context: _context,
             message:
                 AppLocalizations.of(context)!.invalidPlaylistUrl(playlistUrl),
@@ -133,7 +133,7 @@ class DisplayMessageWidget extends StatelessWidget {
         String playlistTitle = _warningMessageVM.playlistAlreadyDownloadedTitle;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          displayWarningDialog(
+          _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!
                 .playlistWithUrlAlreadyInListOfPlaylists(
@@ -147,7 +147,7 @@ class DisplayMessageWidget extends StatelessWidget {
         String playlistTitle = _warningMessageVM.localPlaylistAlreadyCreatedTitle;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          displayWarningDialog(
+          _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!
                 .localPlaylistWithTitleAlreadyInListOfPlaylists(
@@ -164,7 +164,7 @@ class DisplayMessageWidget extends StatelessWidget {
             _warningMessageVM.deleteAudioFromPlaylistAswellAudioVideoTitle;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          displayWarningDialog(
+          _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!
                 .deleteAudioFromPlaylistAswellWarning(
@@ -180,7 +180,7 @@ class DisplayMessageWidget extends StatelessWidget {
         String playlistUrl = _playlistUrlController.text;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          displayWarningDialog(
+          _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!
                 .invalidSingleVideoUUrl(playlistUrl),
@@ -191,7 +191,7 @@ class DisplayMessageWidget extends StatelessWidget {
         return const SizedBox.shrink();
       case WarningMessageType.updatedPlayableAudioLst:
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          displayWarningDialog(
+          _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!.updatedPlayableAudioLst(
               _warningMessageVM.removedPlayableAudioNumber,
@@ -204,7 +204,7 @@ class DisplayMessageWidget extends StatelessWidget {
         return const SizedBox.shrink();
       case WarningMessageType.noPlaylistSelectedForSingleVideoDownload:
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          displayWarningDialog(
+          _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!.noPlaylistSelectedForSingleVideoDownload,
             warningMessageVM: _warningMessageVM,
@@ -214,7 +214,7 @@ class DisplayMessageWidget extends StatelessWidget {
         return const SizedBox.shrink();
       case WarningMessageType.tooManyPlaylistSelectedForSingleVideoDownload:
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          displayWarningDialog(
+          _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!.tooManyPlaylistSelectedForSingleVideoDownload,
             warningMessageVM: _warningMessageVM,
@@ -227,7 +227,7 @@ class DisplayMessageWidget extends StatelessWidget {
     }
   }
 
-  void displayWarningDialog({
+  void _displayWarningDialog({
     required BuildContext context,
     required String message,
     required WarningMessageVM warningMessageVM,
@@ -256,6 +256,57 @@ class DisplayMessageWidget extends StatelessWidget {
           actions: [
             TextButton(
               child: const Text('Ok'),
+              onPressed: () {
+                warningMessageVM.warningMessageType = WarningMessageType.none;
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+
+    // To automatically focus on the dialog when it appears. If commented,
+    // clicking on Enter will not close the dialog.
+    focusNode.requestFocus();
+  }
+
+  void _displayConfirmDialog({
+    required BuildContext context,
+    required String message,
+    required WarningMessageVM warningMessageVM,
+  }) {
+    final focusNode = FocusNode();
+
+    showDialog(
+      context: context,
+      builder: (context) => RawKeyboardListener(
+        // Using FocusNode to enable clicking on Enter to close
+        // the dialog
+        focusNode: focusNode,
+        onKey: (event) {
+          if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
+              event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
+            warningMessageVM.warningMessageType = WarningMessageType.none;
+            Navigator.of(context).pop();
+          }
+        },
+        child: AlertDialog(
+          title: Text(AppLocalizations.of(context)!.warning),
+          content: Text(
+            message,
+            style: kDialogTextFieldStyle,
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                warningMessageVM.warningMessageType = WarningMessageType.ok;
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Cancel'),
               onPressed: () {
                 warningMessageVM.warningMessageType = WarningMessageType.none;
                 Navigator.of(context).pop();
