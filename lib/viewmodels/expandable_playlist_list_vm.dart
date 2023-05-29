@@ -336,6 +336,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
         return i;
       }
     }
+    
     return -1;
   }
 
