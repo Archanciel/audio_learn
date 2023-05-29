@@ -95,6 +95,13 @@
       "title": {}
     }
   },
+  "localPlaylistWithTitleAlreadyInListOfPlaylists": "La playlist locale \"{title}\" est déjà dans la liste des playlists et ne sera donc pas créée.",
+  "@localPlaylistWithTitleAlreadyInListOfPlaylists": {
+    "description": "Avertissement annonçant que la playlist locale avec le titre {title} est déjà dans la liste des playlists et ne sera pas recrée.",
+    "placeholders": {
+      "title": {}
+    }
+  },
   "downloadAudioYoutubeError": "Erreur de téléchargement audio Youtube: \"{exceptionMessage}\"",
   "@downloadAudioYoutubeError": {
     "description": "Message d'erreur affiché lorsqu'une erreur se produit lors du téléchargement audio Youtube",

@@ -94,6 +94,13 @@
       "title": {}
     }
   },
+  "localPlaylistWithTitleAlreadyInListOfPlaylists": "Local playlist \"{title}\" exist already in the list of playlists and so will not be created again.",
+  "@localPlaylistWithTitleAlreadyInListOfPlaylists": {
+    "description": "Warning announcing that the local playlist with the title is already in the list of playlists and so will not be created.",
+    "placeholders": {
+      "title": {}
+    }
+  },
   "downloadAudioYoutubeError": "Error downloading audio from Youtube: \"{exceptionMessage}\"",
   "@downloadAudioYoutubeError": {
     "description": "Warning announcing that downloading the audio from Youtube failed.",

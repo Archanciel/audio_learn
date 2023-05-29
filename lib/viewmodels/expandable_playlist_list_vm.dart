@@ -90,14 +90,38 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
             _selectablePlaylistLst
                 .firstWhere((element) => element.url == playlistUrl);
         // User clicked on Add button but the playlist with this url
-        // was already downloaded
+        // was already downloaded since it is in the selectable playlist
+        // list. Since orElse is not defined, firstWhere throws an error
+        // if the playlist with this url is not found.
         _warningMessageVM.setPlaylistAlreadyDownloadedTitle(
             playlistTitle: playlistWithThisUrlAlreadyDownloaded.title);
         return;
-      } catch (e) {
+      } catch (_) {
         // If the playlist with this url is not found, it means that
         // the playlist must be added.
       }
+    } else if (localPlaylistTitle.isNotEmpty) {
+      try {
+        final Playlist playlistWithThisTitleAlreadyDownloaded =
+            _selectablePlaylistLst.firstWhere(
+                (element) => element.title == localPlaylistTitle);
+        // User clicked on Add button but the playlist with this title
+        // was already defined since it is in the selectable playlist
+        // list. Since orElse is not defined, firstWhere throws an error
+        // if the playlist with this title is not found.
+        _warningMessageVM.setLocalPlaylistAlreadyCreatedTitle(
+            playlistTitle: playlistWithThisTitleAlreadyDownloaded.title);
+        return;
+      } catch (_) {
+        // If the playlist with this title is not found, it means that
+        // the playlist must be added.
+      }
+    } else {
+      // If both playlistUrl and localPlaylistTitle are empty, it means
+      // that the user clicked on the Add button without entering any
+      // playlist url or local playlist title. So, we don't add the
+      // playlist.
+      return;
     }
 
     Playlist? addedPlaylist = await _audioDownloadVM.addPlaylist(
@@ -336,7 +360,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
         return i;
       }
     }
-    
+
     return -1;
   }
 

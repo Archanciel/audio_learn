@@ -4,11 +4,7 @@ import 'package:flutter/material.dart';
 enum WarningMessageType {
   none,
   errorMessage, // An error message depending on error type is
-  // displayed
-
-  infoMessage, // Not used yet
-
-  successMessage, // Not used yet
+  // displayed.
 
   updatedPlaylistUrlTitle, // This means that the playlist was not added, but
   // that its url was updated. The case when a new
@@ -17,7 +13,7 @@ enum WarningMessageType {
   // audios.
 
   addPlaylistTitle, // The playlist with this title is added
-  // to the application
+  // to the application.
 
   invalidPlaylistUrl, // The case if the url is a video url and the
   // user clicked on the Add button instead of the Download
@@ -25,14 +21,14 @@ enum WarningMessageType {
   // is not a valid Youtube playlist url.
 
   playlistWithUrlAlreadyInListOfPlaylists, // User clicked on Add
-  // button but the playlist with this url was already downloaded
+  // button but the playlist with this url was already downloaded.
 
-  playlistWithThisUrlAlreadyDownloadedAndUpdated, // Not used yet
-
-  playlistWithThisUrlAlreadyDownloadedAndAdded, // Not used yet
+  localPlaylistWithTitleAlreadyInListOfPlaylists, // User clicked on
+  // Add button but the local playlist with this title was already
+  // created.
 
   deleteAudioFromPlaylistAswellWarning, // User selected the audio
-  // menu item "Delete audio from playlist aswell"
+  // menu item "Delete audio from playlist aswell".
 
   invalidSingleVideoUUrl, // The case if the url is a playlist url
   // and the Download button was clicked instead of the Add button,
@@ -55,9 +51,12 @@ enum WarningMessageType {
 
 enum ErrorType {
   none,
-  downloadAudioYoutubeError, // In case of a Youtube error
+
+  downloadAudioYoutubeError, // In case of a Youtube error.
+
   downloadAudioFileAlreadyOnAudioDirectory, // In case the audio file
-  // is already on the audio directory and will not be redownloaded
+  // is already on the audio directory and will not be redownloaded.
+
   noInternet, // device not connected. Happens when trying to
   // download a playlist or a single video or to add a new playlist
   // or update an existing playlist.
@@ -166,36 +165,17 @@ class WarningMessageVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _isPlaylistWithThisUrlAlreadyDownloadedAndUpdated = false;
-  bool get isPlaylistWithThisUrlAlreadyDownloadedAndUpdated =>
-      _isPlaylistWithThisUrlAlreadyDownloadedAndUpdated;
-  set isPlaylistWithThisUrlAlreadyDownloadedAndUpdated(
-      bool isPlaylistWithThisUrlAlreadyDownloadedAndUpdated) {
-    _isPlaylistWithThisUrlAlreadyDownloadedAndUpdated =
-        isPlaylistWithThisUrlAlreadyDownloadedAndUpdated;
+  String _localPlaylistAlreadyCreatedTitle = '';
+  String get localPlaylistAlreadyCreatedTitle => _localPlaylistAlreadyCreatedTitle;
+  void setLocalPlaylistAlreadyCreatedTitle({
+    required String playlistTitle,
+  }) {
+    _localPlaylistAlreadyCreatedTitle = playlistTitle;
 
-    if (isPlaylistWithThisUrlAlreadyDownloadedAndUpdated) {
-      _warningMessageType =
-          WarningMessageType.playlistWithThisUrlAlreadyDownloadedAndUpdated;
+    _warningMessageType =
+        WarningMessageType.localPlaylistWithTitleAlreadyInListOfPlaylists;
 
-      notifyListeners();
-    }
-  }
-
-  bool _isPlaylistWithThisUrlAlreadyDownloadedAndAdded = false;
-  bool get isPlaylistWithThisUrlAlreadyDownloadedAndAdded =>
-      _isPlaylistWithThisUrlAlreadyDownloadedAndAdded;
-  set isPlaylistWithThisUrlAlreadyDownloadedAndAdded(
-      bool isPlaylistWithThisUrlAlreadyDownloadedAndAdded) {
-    _isPlaylistWithThisUrlAlreadyDownloadedAndAdded =
-        isPlaylistWithThisUrlAlreadyDownloadedAndAdded;
-
-    if (isPlaylistWithThisUrlAlreadyDownloadedAndAdded) {
-      _warningMessageType =
-          WarningMessageType.playlistWithThisUrlAlreadyDownloadedAndAdded;
-
-      notifyListeners();
-    }
+    notifyListeners();
   }
 
 bool _isNoPlaylistSelectedForSingleVideoDownload = false;
