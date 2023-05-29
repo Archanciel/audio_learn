@@ -5,6 +5,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../viewmodels/warning_message_vm.dart';
 import '../screen_mixin.dart';
 
+/// This widget is used to display warning messages to the user.
+/// It is created each time a warning message is set to the
+/// [WarningMessageVM] class.
+/// 
+/// The warning messages are displayed as a dialog whose content
+/// depends on the type of the warning message set to the
+/// WarningMessageVM.
 class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
   final BuildContext _context;
   final WarningMessageVM _warningMessageVM;
@@ -175,6 +182,26 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
               _warningMessageVM.removedPlayableAudioNumber,
               _warningMessageVM.updatedPlayableAudioLstPlaylistTitle,
             ),
+            warningMessageVM: _warningMessageVM,
+          );
+        });
+
+        return const SizedBox.shrink();
+      case WarningMessageType.noPlaylistSelectedForSingleVideoDownload:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!.noPlaylistSelectedForSingleVideoDownload,
+            warningMessageVM: _warningMessageVM,
+          );
+        });
+
+        return const SizedBox.shrink();
+      case WarningMessageType.tooManyPlaylistSelectedForSingleVideoDownload:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!.tooManyPlaylistSelectedForSingleVideoDownload,
             warningMessageVM: _warningMessageVM,
           );
         });

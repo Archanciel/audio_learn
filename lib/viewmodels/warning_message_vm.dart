@@ -42,6 +42,15 @@ enum WarningMessageType {
   updatedPlayableAudioLst, // The case if the playable audio list
   // was updated. This happens when the user clicks on the update
   // playable audio list playlist menu item.
+
+  noPlaylistSelectedForSingleVideoDownload, // The case if the user
+  // clicks on the single video download button but no playlist
+  // to which the downloaded audio will be added is selected.
+
+  tooManyPlaylistSelectedForSingleVideoDownload, // The case if the
+  // user clicks on the single video download button but more than
+  // one playlist to which the downloaded audio will be added is
+  // selected.
 }
 
 enum ErrorType {
@@ -189,9 +198,37 @@ class WarningMessageVM extends ChangeNotifier {
     }
   }
 
-  final bool _playlistWithThisUrlAlreadyDownloaded = false;
-  bool get playlistWithThisUrlAlreadyDownloaded =>
-      _playlistWithThisUrlAlreadyDownloaded;
+bool _isNoPlaylistSelectedForSingleVideoDownload = false;
+  bool get isNoPlaylistSelectedForSingleVideoDownload =>
+      _isNoPlaylistSelectedForSingleVideoDownload;
+  set isNoPlaylistSelectedForSingleVideoDownload(
+      bool isNoPlaylistSelectedForSingleVideoDownload) {
+    _isNoPlaylistSelectedForSingleVideoDownload =
+        isNoPlaylistSelectedForSingleVideoDownload;
+
+    if (isNoPlaylistSelectedForSingleVideoDownload) {
+      _warningMessageType =
+          WarningMessageType.noPlaylistSelectedForSingleVideoDownload;
+
+      notifyListeners();
+    }
+  }
+
+  bool _isTooManyPlaylistSelectedForSingleVideoDownload = false;
+  bool get isTooManyPlaylistSelectedForSingleVideoDownload =>
+      _isTooManyPlaylistSelectedForSingleVideoDownload;
+  set isTooManyPlaylistSelectedForSingleVideoDownload(
+      bool isTooManyPlaylistSelectedForSingleVideoDownload) {
+    _isTooManyPlaylistSelectedForSingleVideoDownload =
+        isTooManyPlaylistSelectedForSingleVideoDownload;
+
+    if (isTooManyPlaylistSelectedForSingleVideoDownload) {
+      _warningMessageType =
+          WarningMessageType.tooManyPlaylistSelectedForSingleVideoDownload;
+
+      notifyListeners();
+    }
+  }
 
   String _deleteAudioFromPlaylistAswellAudioVideoTitle = '';
   String get deleteAudioFromPlaylistAswellAudioVideoTitle =>
