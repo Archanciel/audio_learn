@@ -1,9 +1,10 @@
 import 'package:audio_learn/models/playlist.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../constants.dart';
 import '../../viewmodels/warning_message_vm.dart';
-import '../screen_mixin.dart';
 
 /// This widget is used to display warning messages to the user.
 /// It is created each time a warning message is set to the
@@ -12,7 +13,7 @@ import '../screen_mixin.dart';
 /// The warning messages are displayed as a dialog whose content
 /// depends on the type of the warning message set to the
 /// WarningMessageVM.
-class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
+class DisplayMessageWidget extends StatelessWidget {
   final BuildContext _context;
   final WarningMessageVM _warningMessageVM;
   final TextEditingController _playlistUrlController;
@@ -224,5 +225,49 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
       default:
         return const SizedBox.shrink();
     }
+  }
+
+  void displayWarningDialog({
+    required BuildContext context,
+    required String message,
+    required WarningMessageVM warningMessageVM,
+  }) {
+    final focusNode = FocusNode();
+
+    showDialog(
+      context: context,
+      builder: (context) => RawKeyboardListener(
+        // Using FocusNode to enable clicking on Enter to close
+        // the dialog
+        focusNode: focusNode,
+        onKey: (event) {
+          if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
+              event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
+            warningMessageVM.warningMessageType = WarningMessageType.none;
+            Navigator.of(context).pop();
+          }
+        },
+        child: AlertDialog(
+          title: Text(AppLocalizations.of(context)!.warning),
+          content: Text(
+            message,
+            style: kDialogTextFieldStyle,
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                warningMessageVM.warningMessageType = WarningMessageType.none;
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+
+    // To automatically focus on the dialog when it appears. If commented,
+    // clicking on Enter will not close the dialog.
+    focusNode.requestFocus();
   }
 }
