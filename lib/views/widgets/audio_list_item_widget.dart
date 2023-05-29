@@ -119,12 +119,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   Playlist? audioEnclosingPlaylist = audio.enclosingPlaylist;
                   Provider.of<ExpandablePlaylistListVM>(context, listen: false)
                       .deleteAudioFromPlaylistAswell(audio: audio);
-                  Provider.of<WarningMessageVM>(context, listen: false)
-                      .setDeleteAudioFromPlaylistAswellTitle(
-                          deleteAudioFromPlaylistAswellTitle:
-                              audioEnclosingPlaylist!.title,
-                          deleteAudioFromPlaylistAswellAudioVideoTitle:
-                              audio.originalVideoTitle);
                   break;
                 default:
                   break;

@@ -21,8 +21,6 @@ class AudioDownloadVM extends ChangeNotifier {
   final List<Playlist> _listOfPlaylist = [];
   List<Playlist> get listOfPlaylist => _listOfPlaylist;
 
-  Playlist? _variousAudiosPlaylist;
-
   late yt.YoutubeExplode _youtubeExplode;
   // setter used by test only !
   set youtubeExplode(yt.YoutubeExplode youtubeExplode) =>
@@ -440,6 +438,7 @@ class AudioDownloadVM extends ChangeNotifier {
     required List<Playlist> selectedPlaylists,
   }) async {
     Playlist singleVideoPlaylist;
+
     if (selectedPlaylists.length == 1) {
       singleVideoPlaylist = selectedPlaylists[0];
     } else if (selectedPlaylists.length == 0) {
@@ -493,8 +492,6 @@ class AudioDownloadVM extends ChangeNotifier {
 
     videoUploadDate ??= DateTime(00, 1, 1);
 
-    _variousAudiosPlaylist ??= await _createVariousPlaylist();
-
     String videoDescription =
         (await _youtubeExplode.videos.get(youtubeVideo.id.value)).description;
 
@@ -502,7 +499,7 @@ class AudioDownloadVM extends ChangeNotifier {
         _createCompactVideoDescription(videoDescription: videoDescription);
 
     final Audio audio = Audio(
-      enclosingPlaylist: _variousAudiosPlaylist,
+      enclosingPlaylist: singleVideoPlaylist,
       originalVideoTitle: youtubeVideo.title,
       compactVideoDescription: compactVideoDescription,
       videoUrl: youtubeVideo.url,
@@ -553,6 +550,8 @@ class AudioDownloadVM extends ChangeNotifier {
     _isDownloading = false;
     _youtubeExplode.close();
 
+    singleVideoPlaylist.addDownloadedAudio(audio);
+
     notifyListeners();
   }
 
@@ -588,9 +587,12 @@ class AudioDownloadVM extends ChangeNotifier {
     );
     // }
 
-    _warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
-        deleteAudioFromPlaylistAswellTitle: enclosingPlaylist.title,
-        deleteAudioFromPlaylistAswellAudioVideoTitle: audio.originalVideoTitle);
+    if (enclosingPlaylist.playlistType == PlaylistType.youtube) {
+      _warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
+          deleteAudioFromPlaylistAswellTitle: enclosingPlaylist.title,
+          deleteAudioFromPlaylistAswellAudioVideoTitle:
+              audio.originalVideoTitle);
+    }
   }
 
   /// Method called when the user selects the update playlist
@@ -690,23 +692,6 @@ class AudioDownloadVM extends ChangeNotifier {
 
     return await _setPlaylistPath(
       playlistTitle: playlistTitle,
-      playlist: playlist,
-    );
-  }
-
-  Future<Playlist> _createVariousPlaylist() async {
-    Playlist playlist = Playlist(
-      url: '',
-      id: kVariousAudiosPlaylistTitle,
-      title: kVariousAudiosPlaylistTitle,
-      playlistType: PlaylistType.local,
-      playlistQuality: PlaylistQuality.voice,
-    );
-
-    _listOfPlaylist.add(playlist);
-
-    return await _setPlaylistPath(
-      playlistTitle: kVariousAudiosPlaylistTitle,
       playlist: playlist,
     );
   }
