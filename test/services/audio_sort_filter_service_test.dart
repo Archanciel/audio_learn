@@ -102,24 +102,7 @@ void main() {
     });
 
     test('sort by title starting with non language chars', () {
-      List<String> videoTitleLst = [
-        "'title",
-        "%avec percent title",
-        "%percent title",
-        "power title",
-        "#'amen title",
-        "ÉPICURE - La mort n'est rien",
-        "%95 title",
-        "93 title",
-        "#94 title",
-        "Échapper à l'illusion de l'esprit",
-        "évident title",
-        "à lire title",
-        "9 title",
-        "8 title",
-        "%éventuel title",
-      ];
-
+ 
       Audio title = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: "'title",

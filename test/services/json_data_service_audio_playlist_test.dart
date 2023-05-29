@@ -265,9 +265,8 @@ void main() {
 
       // Load the list from the file
       try {
-        List<MyUnsupportedTestClass> loadedList =
-            JsonDataService.loadListFromFile(
-                jsonPathFileName: jsonPath, type: MyUnsupportedTestClass);
+        JsonDataService.loadListFromFile(
+            jsonPathFileName: jsonPath, type: MyUnsupportedTestClass);
       } catch (e) {
         expect(e, isA<ClassNotSupportedByFromJsonDataServiceException>());
       }
