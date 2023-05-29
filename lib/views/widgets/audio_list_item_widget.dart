@@ -13,7 +13,6 @@ import '../../../viewmodels/audio_player_vm.dart';
 import '../../../utils/time_util.dart';
 import '../../constants.dart';
 import '../screen_mixin.dart';
-import '../../../viewmodels/warning_message_vm.dart';
 import 'audio_info_dialog_widget.dart';
 
 enum AudioPopupMenuAction {
@@ -116,7 +115,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       .deleteAudio(audio: audio);
                   break;
                 case AudioPopupMenuAction.deleteAudioFromPlaylistAswell:
-                  Playlist? audioEnclosingPlaylist = audio.enclosingPlaylist;
                   Provider.of<ExpandablePlaylistListVM>(context, listen: false)
                       .deleteAudioFromPlaylistAswell(audio: audio);
                   break;
