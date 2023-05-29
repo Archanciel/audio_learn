@@ -37,6 +37,9 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
         _audioDownloadVM = audioDownloadVM,
         _settingsDataService = settingsDataService;
 
+  /// Thanks to this method, when restarting the app, the playlists
+  /// are displayed in the same order as when the app was closed. This
+  /// is done by saving the playlist order in the settings file.
   List<Playlist> getUpToDateSelectablePlaylists() {
     List<Playlist> audioDownloadVMlistOfPlaylist =
         _audioDownloadVM.listOfPlaylist;
@@ -51,16 +54,27 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       // So, we use the default order.
       _selectablePlaylistLst = audioDownloadVMlistOfPlaylist;
     } else {
+      bool doUpdateSettings = false;
       _selectablePlaylistLst = [];
+
       for (String playlistTitle in orderedPlaylistTitleLst) {
         try {
           _selectablePlaylistLst.add(audioDownloadVMlistOfPlaylist
               .firstWhere((playlist) => playlist.title == playlistTitle));
-        } catch (e) {
+        } catch (_) {
           // If the playlist with this title is not found, it means that
           // the playlist json file has been deleted. So, we don't add it
-          // to the selectable playlist list.
+          // to the selectable playlist list and we will remove it from
+          // the ordered playlist title list and update the settings data.
+          doUpdateSettings = true;
         }
+      }
+
+      if (doUpdateSettings) {
+        // Once some playlists have been deleted from the audio app root
+        // dir, the next time the app is started, the ordered playlist
+        // title list in the settings json file is updated.
+        _updateAndSavePlaylistOrder();
       }
     }
 
@@ -103,8 +117,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     } else if (localPlaylistTitle.isNotEmpty) {
       try {
         final Playlist playlistWithThisTitleAlreadyDownloaded =
-            _selectablePlaylistLst.firstWhere(
-                (element) => element.title == localPlaylistTitle);
+            _selectablePlaylistLst
+                .firstWhere((element) => element.title == localPlaylistTitle);
         // User clicked on Add button but the playlist with this title
         // was already defined since it is in the selectable playlist
         // list. Since orElse is not defined, firstWhere throws an error
