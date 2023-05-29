@@ -440,7 +440,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
     if (selectedPlaylists.length == 1) {
       singleVideoPlaylist = selectedPlaylists[0];
-    } else if (selectedPlaylists.length == 0) {
+    } else if (selectedPlaylists.isEmpty) {
       _warningMessageVM.isNoPlaylistSelectedForSingleVideoDownload = true;
       return;
     } else {
