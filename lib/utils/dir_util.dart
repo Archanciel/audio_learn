@@ -140,7 +140,7 @@ Future<void> main() async {
     extension: 'json',
   );
 
-//  print(fileNames);
+  print(fileNames);
 
   List<String> fileNames2 = DirUtil.listFileNamesInDir(
     path: 'C:\\Users\\Jean-Pierre\\Downloads\\Audio\\new\\',
