@@ -87,7 +87,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                     case PlaylistPopupMenuAction.displayPlaylistInfo:
                       // Using FocusNode to enable clicking on Enter to close
                       // the dialog
-                      FocusNode focusNode = FocusNode();
+                      final FocusNode focusNode = FocusNode();
                       showDialog<void>(
                         context: context,
                         barrierDismissible: true,

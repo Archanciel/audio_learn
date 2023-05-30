@@ -169,6 +169,8 @@
   "audioQualityHighSnackBarMessage": "Téléchargement à qualité musicale",
   "audioQualityLowSnackBarMessage": "Téléchargement à qualité audio",
   "add": "Ajouter",
-  "noPlaylistSelectedForSingleVideoDownload": "Aucune playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionne une playlist et rééssaye ...",
-  "tooManyPlaylistSelectedForSingleVideoDownload": "Plus d'une playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionne une seule playlist et rééssaye ..."
+  "noPlaylistSelectedForSingleVideoDownload": "Aucune playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionnez une playlist et rééssayez ...",
+  "tooManyPlaylistSelectedForSingleVideoDownload": "Plus d'une playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionnez une seule playlist et rééssayez ...",
+  "confirmDialogTitle": "Confirmation",
+  "confirmSingleVideoAudioPlaylistTitle": "Confirmez la playlist \"{title}\" sélectionnée pour le téléchargement de l'audio de la vidéo unique."
 }

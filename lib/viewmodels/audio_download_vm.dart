@@ -436,15 +436,9 @@ class AudioDownloadVM extends ChangeNotifier {
     required String videoUrl,
     required List<Playlist> selectedPlaylists,
   }) async {
-    Playlist singleVideoPlaylist;
+    Playlist? singleVideoPlaylist = obtainSingleVideoPlaylist(selectedPlaylists);
 
-    if (selectedPlaylists.length == 1) {
-      singleVideoPlaylist = selectedPlaylists[0];
-    } else if (selectedPlaylists.isEmpty) {
-      _warningMessageVM.isNoPlaylistSelectedForSingleVideoDownload = true;
-      return;
-    } else {
-      _warningMessageVM.isTooManyPlaylistSelectedForSingleVideoDownload = true;
+    if (singleVideoPlaylist == null) {
       return;
     }
 
@@ -552,6 +546,22 @@ class AudioDownloadVM extends ChangeNotifier {
     singleVideoPlaylist.addDownloadedAudio(audio);
 
     notifyListeners();
+  }
+
+  /// This method verifies if the user selected a single playlist
+  /// to download a single video audio. If the user selected more
+  /// than one playlistor if the user did not select any playlist,
+  /// then a warning message is displayed.
+  Playlist? obtainSingleVideoPlaylist(List<Playlist> selectedPlaylists) {
+    if (selectedPlaylists.length == 1) {
+      return selectedPlaylists[0];
+    } else if (selectedPlaylists.isEmpty) {
+      _warningMessageVM.isNoPlaylistSelectedForSingleVideoDownload = true;
+      return null;
+    } else {
+      _warningMessageVM.isTooManyPlaylistSelectedForSingleVideoDownload = true;
+      return null;
+    }
   }
 
   /// Physically deletes the audio file from the audio playlist

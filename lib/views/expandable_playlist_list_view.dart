@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -142,7 +143,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         _playlistUrlController.text.trim();
                     // Using FocusNode to enable clicking on Enter to close
                     // the dialog
-                    FocusNode focusNode = FocusNode();
+                    final FocusNode focusNode = FocusNode();
                     showDialog<void>(
                       context: context,
                       barrierDismissible: true,
@@ -199,10 +200,70 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                     List<Playlist> selectedPlaylists =
                         expandablePlaylistListVM.getSelectedPlaylists();
 
-                    audioDownloadViewModel.downloadSingleVideoAudio(
-                      videoUrl: _playlistUrlController.text.trim(),
-                      selectedPlaylists: selectedPlaylists,
+                    Playlist? singleVideoPlaylist =
+                        audioDownloadViewModel.obtainSingleVideoPlaylist(
+                      selectedPlaylists,
                     );
+
+                    if (singleVideoPlaylist != null) {
+                      // if the single video playlist is not null, then
+                      // the user has selected only one playlist to which
+                      // the single video audio will be added after the
+                      // user confirms the playlist.
+
+                      final FocusNode focusNode = FocusNode();
+
+                      // confirming or not the addition of the single video
+                      // audio to the selected playlist
+                      showDialog(
+                        context: context,
+                        builder: (context) => RawKeyboardListener(
+                          // Using FocusNode to enable clicking on Enter to close
+                          // the dialog
+                          focusNode: focusNode,
+                          onKey: (event) {
+                            if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
+                                event.isKeyPressed(
+                                    LogicalKeyboardKey.numpadEnter)) {
+                              Navigator.of(context).pop('ok');
+                            }
+                          },
+                          child: AlertDialog(
+                            title: Text(AppLocalizations.of(context)!
+                                .confirmDialogTitle),
+                            content: Text(
+                              AppLocalizations.of(context)!
+                                  .confirmSingleVideoAudioPlaylistTitle(
+                                singleVideoPlaylist.title,
+                              ),
+                              style: kDialogTextFieldStyle,
+                            ),
+                            actions: [
+                              TextButton(
+                                child: const Text('Ok'),
+                                onPressed: () {
+                                  Navigator.of(context).pop('ok');
+                                },
+                              ),
+                              TextButton(
+                                child: const Text('Cancel'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ).then((value) {
+                        if (value != null) {
+                          audioDownloadViewModel.downloadSingleVideoAudio(
+                            videoUrl: _playlistUrlController.text.trim(),
+                            selectedPlaylists: selectedPlaylists,
+                          );
+                        }
+                      });
+                      focusNode.requestFocus();
+                    }
                   },
                   child: Text(
                       AppLocalizations.of(context)!.downloadSingleVideoAudio),
@@ -436,7 +497,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       case PlaylistPopupMenuButton.sortFilterAudios:
                         // Using FocusNode to enable clicking on Enter to close
                         // the dialog
-                        FocusNode focusNode = FocusNode();
+                        final FocusNode focusNode = FocusNode();
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -463,7 +524,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       case PlaylistPopupMenuButton.subSortFilterAudios:
                         // Using FocusNode to enable clicking on Enter to close
                         // the dialog
-                        FocusNode focusNode = FocusNode();
+                        final FocusNode focusNode = FocusNode();
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
