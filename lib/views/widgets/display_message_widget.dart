@@ -61,14 +61,13 @@ class DisplayMessageWidget extends StatelessWidget {
 
             return const SizedBox.shrink();
           case ErrorType.downloadAudioFileAlreadyOnAudioDirectory:
-            String audioShortPathFileName = _warningMessageVM.errorMessage;
+            String audioFileName = _warningMessageVM.errorMessage;
 
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _displayWarningDialog(
                   context: _context,
                   message: AppLocalizations.of(context)!
-                      .downloadAudioFileAlreadyOnAudioDirectory(
-                          audioShortPathFileName),
+                      .downloadAudioFileAlreadyOnAudioDirectory(audioFileName),
                   warningMessageVM: _warningMessageVM);
             });
 

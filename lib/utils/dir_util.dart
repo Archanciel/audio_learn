@@ -26,7 +26,7 @@ class DirUtil {
 
     return pathFileNameWithoutHomePath;
   }
-  
+
   static Future<void> createAppDirIfNotExist({
     bool isAppDirToBeDeleted = false,
   }) async {
@@ -113,6 +113,25 @@ class DirUtil {
 
     return pathFileNameList;
   }
+
+  static listFileNamesInDir({
+    required String path,
+    required String extension,
+  }) {
+    List<String> fileNameList = [];
+
+    final dir = Directory(path);
+    final pattern = RegExp(r'\.' + RegExp.escape(extension) + r'$');
+
+    for (FileSystemEntity entity
+        in dir.listSync(recursive: false, followLinks: false)) {
+      if (entity is File && pattern.hasMatch(entity.path)) {
+        fileNameList.add(entity.path.split(Platform.pathSeparator).last);
+      }
+    }
+
+    return fileNameList;
+  }
 }
 
 Future<void> main() async {
@@ -121,5 +140,19 @@ Future<void> main() async {
     extension: 'json',
   );
 
-  print(fileNames);
+//  print(fileNames);
+
+  List<String> fileNames2 = DirUtil.listFileNamesInDir(
+    path: 'C:\\Users\\Jean-Pierre\\Downloads\\Audio\\new\\',
+    extension: 'mp3',
+  );
+
+  print(fileNames2);
+  try {
+    String firstMatch =
+        fileNames2.firstWhere((fileName) => fileName.contains('Peter Deunov'));
+    print(firstMatch);
+  } catch (e) {
+    print('No file found containing the word');
+  }
 }

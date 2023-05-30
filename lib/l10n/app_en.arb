@@ -108,7 +108,7 @@
       "exceptionMessage": {}
     }
   },
-  "downloadAudioFileAlreadyOnAudioDirectory": "Audio file \"{shortPathFileName}\" already in audio directory and so not redownloaded.",
+  "downloadAudioFileAlreadyOnAudioDirectory": "File \"{fileName}\" in the playlist directory contains the single video audio which so won't be redownloaded.",
   "noInternet": "No Internet. Please connect your device and retry.",
   "invalidSingleVideoUUrl": "Single video with invalid URL \"{url}\" could not be downloaded.",
   "@invalidSingleVideoUUrl": {

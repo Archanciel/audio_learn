@@ -436,7 +436,8 @@ class AudioDownloadVM extends ChangeNotifier {
     required String videoUrl,
     required List<Playlist> selectedPlaylists,
   }) async {
-    Playlist? singleVideoPlaylist = obtainSingleVideoPlaylist(selectedPlaylists);
+    Playlist? singleVideoPlaylist =
+        obtainSingleVideoPlaylist(selectedPlaylists);
 
     if (singleVideoPlaylist == null) {
       return;
@@ -501,16 +502,22 @@ class AudioDownloadVM extends ChangeNotifier {
       audioDuration: audioDuration!,
     );
 
-    final File file = File(audio.filePathName);
+    final List<String> downloadedAudioFileNameLst = DirUtil.listFileNamesInDir(
+      path: singleVideoPlaylist.downloadPath,
+      extension: 'mp3',
+    );
 
-    if (file.existsSync()) {
+    try {
+      String firstMatch = downloadedAudioFileNameLst
+          .firstWhere((fileName) => fileName.contains(audio.validVideoTitle));
       _notifyDownloadError(
         errorType: ErrorType.downloadAudioFileAlreadyOnAudioDirectory,
-        errorMessage: DirUtil.removeAudioDownloadHomePathFromPathFileName(
-            pathFileName: audio.filePathName),
+        errorMessage: firstMatch,
       );
 
       return;
+    } catch (e) {
+      // file was not found in the downloaded audio directory
     }
 
     audio.audioPlayer = AudioPlayer();
@@ -726,13 +733,10 @@ class AudioDownloadVM extends ChangeNotifier {
     required Playlist currentPlaylist,
   }) async {
     List<Audio> playlistDownloadedAudioLst = currentPlaylist.downloadedAudioLst;
-    List<String> validAudioVideoTitleLst = [];
 
-    for (Audio downloadedAudio in playlistDownloadedAudioLst) {
-      validAudioVideoTitleLst.add(downloadedAudio.validVideoTitle);
-    }
-
-    return validAudioVideoTitleLst;
+    return playlistDownloadedAudioLst
+        .map((downloadedAudio) => downloadedAudio.validVideoTitle)
+        .toList();
   }
 
   Future<void> _downloadAudioFile({
