@@ -172,5 +172,6 @@
   "noPlaylistSelectedForSingleVideoDownload": "Aucune playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionnez une playlist et rééssayez ...",
   "tooManyPlaylistSelectedForSingleVideoDownload": "Plus d'une playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionnez une seule playlist et rééssayez ...",
   "confirmDialogTitle": "Confirmation",
-  "confirmSingleVideoAudioPlaylistTitle": "Confirmez la playlist \"{title}\" sélectionnée pour le téléchargement de l'audio de la vidéo unique."
+  "confirmSingleVideoAudioPlaylistTitle": "Confirmez la playlist \"{title}\" sélectionnée pour le téléchargement de l'audio de la vidéo unique.",
+  "playlistJsonFileSizeLabel": "Taille fichier JSON"
 }

@@ -242,6 +242,14 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     }
   }
 
+  int getPlaylistJsonFileSize({
+    required Playlist playlist,
+  }) {
+    return _audioDownloadVM.getPlaylistJsonFileSize(
+      playlist: playlist,
+    );
+  }
+
   /// Thanks to this method, when restarting the app, the playlists
   /// are displayed in the same order as when the app was closed. This
   /// is done by saving the playlist order in the settings file.

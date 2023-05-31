@@ -626,6 +626,12 @@ class AudioDownloadVM extends ChangeNotifier {
     }
   }
 
+  int getPlaylistJsonFileSize({
+    required Playlist playlist,
+  }) {
+    return File(playlist.getPlaylistDownloadFilePathName()).lengthSync();
+  }
+
   String _createCompactVideoDescription({
     required String videoDescription,
   }) {

@@ -94,6 +94,8 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                         builder: (BuildContext context) {
                           return PlaylistInfoDialogWidget(
                             playlist: playlist,
+                            playlistJsonFileSize: expandablePlaylistListVM
+                                .getPlaylistJsonFileSize(playlist: playlist),
                             focusNode: focusNode,
                           );
                         },

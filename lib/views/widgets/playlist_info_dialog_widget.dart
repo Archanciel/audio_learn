@@ -5,14 +5,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../constants.dart';
 import '../../models/playlist.dart';
+import '../../utils/ui_util.dart';
 import '../screen_mixin.dart';
 
 class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
   final Playlist playlist;
+  final int playlistJsonFileSize;
   final FocusNode focusNode;
 
   const PlaylistInfoDialogWidget({
     required this.playlist,
+    required this.playlistJsonFileSize,
     required this.focusNode,
     Key? key,
   }) : super(key: key);
@@ -93,6 +96,13 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   label: AppLocalizations.of(context)!
                       .playlistPlayableAudioTotalDurationLabel,
                   value: playlist.getPlayableAudioLstTotalDuration().HHmmss()),
+              createInfoRowFunction(
+                  context: context,
+                  label: AppLocalizations.of(context)!
+                      .playlistJsonFileSizeLabel,
+                  value: UiUtil.formatLargeIntValue(
+                    context: context,
+                    value: playlistJsonFileSize),)
             ],
           ),
         ),
