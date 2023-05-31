@@ -158,6 +158,16 @@ class Playlist {
     return totalDuration;
   }
 
+  int getPlayableAudioLstTotalFileSize() {
+    int totalFileSize = 0;
+
+    for (Audio audio in playableAudioLst) {
+      totalFileSize += audio.audioFileSize;
+    }
+
+    return totalFileSize;
+  }
+
   /// Removes from the playableAudioLst the audios that are no longer
   /// in the playlist download path.
   ///
