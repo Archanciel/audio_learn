@@ -109,7 +109,7 @@
       "exceptionMessage": {}
     }
   },
-  "downloadAudioFileAlreadyOnAudioDirectory": "Le fichier \"{fileName}\" se trouvant dans le répertoire de la playlist contient l'audio de la vidéo unique qui ne sera donc pas retélàéchargé.",
+  "downloadAudioFileAlreadyOnAudioDirectory": "Le fichier \"{fileName}\" se trouvant dans le répertoire de la playlist contient l'audio de la vidéo unique qui ne sera donc pas retéléchargé.",
   "noInternet": "Pas d'Internet. Connecte ton appareil et rééssaye.",
   "invalidSingleVideoUUrl": "L'URL \"{url}\" ne pointe pas sur une vidéo unique. Aucune vidéo n'a donc été téléchargée.",
   "@invalidSingleVideoUUrl": {

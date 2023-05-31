@@ -258,7 +258,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         if (value != null) {
                           audioDownloadViewModel.downloadSingleVideoAudio(
                             videoUrl: _playlistUrlController.text.trim(),
-                            selectedPlaylists: selectedPlaylists,
+                            singleVideoPlaylist: singleVideoPlaylist,
                           );
                         }
                       });

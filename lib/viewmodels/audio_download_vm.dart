@@ -434,15 +434,8 @@ class AudioDownloadVM extends ChangeNotifier {
 
   Future<void> downloadSingleVideoAudio({
     required String videoUrl,
-    required List<Playlist> selectedPlaylists,
+    required Playlist singleVideoPlaylist,
   }) async {
-    Playlist? singleVideoPlaylist =
-        obtainSingleVideoPlaylist(selectedPlaylists);
-
-    if (singleVideoPlaylist == null) {
-      return;
-    }
-
     _audioDownloadError = false;
     _stopDownloadPressed = false;
     _youtubeExplode = yt.YoutubeExplode();
