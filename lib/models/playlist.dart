@@ -70,12 +70,23 @@ class Playlist {
       isSelected: json['isSelected'],
     );
 
-    // Deserialize the Audio instances in the downloadedAudioLst
-    // and playableAudioLst
+    // Deserialize the Audio instances in the 
+    // downloadedAudioLst
     if (json['downloadedAudioLst'] != null) {
       for (var audioJson in json['downloadedAudioLst']) {
         Audio audio = Audio.fromJson(audioJson);
-        playlist.addDownloadedAudio(audio);
+        audio.enclosingPlaylist = playlist;
+        playlist.downloadedAudioLst.add(audio);
+      }
+    }
+
+    // Deserialize the Audio instances in the
+    // playableAudioLst
+    if (json['playableAudioLst'] != null) {
+      for (var audioJson in json['playableAudioLst']) {
+        Audio audio = Audio.fromJson(audioJson);
+        audio.enclosingPlaylist = playlist;
+        playlist.playableAudioLst.add(audio);
       }
     }
 

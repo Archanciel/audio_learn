@@ -167,8 +167,8 @@ void main() {
         audioFileSize: 330000000,
       );
 
-      testPlaylist.addDownloadedAudio(audio1);
-      testPlaylist.addDownloadedAudio(audio2);
+      testPlaylist.downloadedAudioLst = [audio1, audio2];
+      testPlaylist.playableAudioLst = [audio2];
 
       // Save Playlist to a file
       JsonDataService.saveToFile(model: testPlaylist, path: filePath);
@@ -471,11 +471,19 @@ void compareDeserializedWithOriginalPlaylist(
   expect(loadedPlaylist.playlistQuality, testPlaylist.playlistQuality);
 
   // Compare Audio instances in original and loaded Playlist
-  expect(loadedPlaylist.downloadedAudioLst.length, 2);
+  expect(loadedPlaylist.downloadedAudioLst.length, testPlaylist.downloadedAudioLst.length);
+  expect(loadedPlaylist.playableAudioLst.length, testPlaylist.playableAudioLst.length);
 
   for (int i = 0; i < loadedPlaylist.downloadedAudioLst.length; i++) {
     Audio originalAudio = testPlaylist.downloadedAudioLst[i];
     Audio loadedAudio = loadedPlaylist.downloadedAudioLst[i];
+
+    compareDeserializedWithOriginalAudio(loadedAudio, originalAudio);
+  }
+
+  for (int i = 0; i < loadedPlaylist.playableAudioLst.length; i++) {
+    Audio originalAudio = testPlaylist.playableAudioLst[i];
+    Audio loadedAudio = loadedPlaylist.playableAudioLst[i];
 
     compareDeserializedWithOriginalAudio(loadedAudio, originalAudio);
   }
