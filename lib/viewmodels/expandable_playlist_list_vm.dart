@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/audio.dart';
 import '../models/playlist.dart';
+import '../services/json_data_service.dart';
 import '../services/settings_data_service.dart';
 import 'audio_download_vm.dart';
 import 'warning_message_vm.dart';
@@ -26,8 +27,11 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   final SettingsDataService _settingsDataService;
 
   bool _isPlaylistSelected = true;
-  List<Playlist> _selectablePlaylistLst = [];
+  List<Playlist> _listOfSelectablePlaylists = [];
   List<Audio>? _sortedFilteredSelectedPlaylistsPlayableAudios;
+
+  Playlist? _uniqueSelectedPlaylist;
+  Playlist? get uniqueSelectedPlaylist => _uniqueSelectedPlaylist;
 
   ExpandablePlaylistListVM({
     required WarningMessageVM warningMessageVM,
@@ -52,14 +56,14 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       // If orderedPlaylistTitleLst is null, it means that the
       // user has not yet modified the order of the playlists.
       // So, we use the default order.
-      _selectablePlaylistLst = audioDownloadVMlistOfPlaylist;
+      _listOfSelectablePlaylists = audioDownloadVMlistOfPlaylist;
     } else {
       bool doUpdateSettings = false;
-      _selectablePlaylistLst = [];
+      _listOfSelectablePlaylists = [];
 
       for (String playlistTitle in orderedPlaylistTitleLst) {
         try {
-          _selectablePlaylistLst.add(audioDownloadVMlistOfPlaylist
+          _listOfSelectablePlaylists.add(audioDownloadVMlistOfPlaylist
               .firstWhere((playlist) => playlist.title == playlistTitle));
         } catch (_) {
           // If the playlist with this title is not found, it means that
@@ -83,14 +87,14 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     if (selectedPlaylistIndex != -1) {
       _isPlaylistSelected = true;
       _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
-        selectedPlaylist: _selectablePlaylistLst[selectedPlaylistIndex],
+        selectedPlaylist: _listOfSelectablePlaylists[selectedPlaylistIndex],
       );
     } else {
       _isPlaylistSelected = false;
       _disableAllButtonsIfNoPlaylistIsSelected();
     }
 
-    return _selectablePlaylistLst;
+    return _listOfSelectablePlaylists;
   }
 
   Future<void> addPlaylist({
@@ -101,7 +105,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     if (localPlaylistTitle.isEmpty && playlistUrl.isNotEmpty) {
       try {
         final Playlist playlistWithThisUrlAlreadyDownloaded =
-            _selectablePlaylistLst
+            _listOfSelectablePlaylists
                 .firstWhere((element) => element.url == playlistUrl);
         // User clicked on Add button but the playlist with this url
         // was already downloaded since it is in the selectable playlist
@@ -117,7 +121,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     } else if (localPlaylistTitle.isNotEmpty) {
       try {
         final Playlist playlistWithThisTitleAlreadyDownloaded =
-            _selectablePlaylistLst
+            _listOfSelectablePlaylists
                 .firstWhere((element) => element.title == localPlaylistTitle);
         // User clicked on Add button but the playlist with this title
         // was already defined since it is in the selectable playlist
@@ -147,7 +151,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     if (addedPlaylist != null) {
       // if addedPlaylist is null, it means that the
       // passed url is not a valid playlist url
-      _selectablePlaylistLst.add(addedPlaylist);
+      _listOfSelectablePlaylists.add(addedPlaylist);
       _updateAndSavePlaylistOrder();
 
       notifyListeners();
@@ -163,7 +167,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       int selectedPlaylistIndex = _getSelectedIndex();
       if (selectedPlaylistIndex != -1) {
         _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
-          selectedPlaylist: _selectablePlaylistLst[selectedPlaylistIndex],
+          selectedPlaylist: _listOfSelectablePlaylists[selectedPlaylistIndex],
         );
       } else {
         _disableAllButtonsIfNoPlaylistIsSelected();
@@ -183,27 +187,48 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Method used by PlaylistOneSelectedDialogWidget to select
+  /// only one playlist to which the audios will be moved or
+  /// copied.
+  void setUniqueSelectedPlaylist({
+    Playlist? selectedPlaylist,
+  }) {
+    _uniqueSelectedPlaylist = selectedPlaylist;
+  }
+
+  /// Method called by PlaylistItemWidget when the user
+  /// clicks on the playlist item checkbox to select
+  /// or unselect the playlist.
   void setPlaylistSelection({
     required int playlistIndex,
     required bool isPlaylistSelected,
   }) {
-    // selecting another playlist displays the audio list of this
-    // playlist and nullifies the filtered and sorted audio list
+    // selecting another playlist or unselecting the currently selected
+    // playlist nullifies the filtered and sorted audio list
     _sortedFilteredSelectedPlaylistsPlayableAudios = null;
 
-    Playlist selectedPlaylist = _selectablePlaylistLst[playlistIndex];
+    Playlist playlistSelectedOrUnselected =
+        _listOfSelectablePlaylists[playlistIndex];
+    String playlistSelectedOrUnselectedId = playlistSelectedOrUnselected.id;
 
-    _audioDownloadVM.updatePlaylistSelection(
-      playlistId: selectedPlaylist.id,
-      isPlaylistSelected: isPlaylistSelected,
-    );
+    for (Playlist playlist in _listOfSelectablePlaylists) {
+      if (playlist.id == playlistSelectedOrUnselectedId) {
+        _audioDownloadVM.updatePlaylistSelection(
+          playlistId: playlistSelectedOrUnselectedId,
+          isPlaylistSelected: isPlaylistSelected,
+        );
+      } else {
+        _audioDownloadVM.updatePlaylistSelection(
+          playlistId: playlist.id,
+          isPlaylistSelected: false,
+        );
+      }
+    }
 
-    bool isOneItemSelected = _doSelectUniquePlaylist(
-      playlistIndex: playlistIndex,
-      isPlaylistSelected: isPlaylistSelected,
-    );
+    _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
+    _isPlaylistSelected = isPlaylistSelected;
 
-    if (!isOneItemSelected) {
+    if (!_isPlaylistSelected) {
       _disableAllButtonsIfNoPlaylistIsSelected();
 
       // if no playlist is selected, the quality checkbox is
@@ -211,7 +236,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       _audioDownloadVM.isHighQuality = false;
     } else {
       _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
-        selectedPlaylist: selectedPlaylist,
+        selectedPlaylist: playlistSelectedOrUnselected,
       );
     }
 
@@ -255,7 +280,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   /// is done by saving the playlist order in the settings file.
   void _updateAndSavePlaylistOrder() {
     List<String> playlistOrder =
-        _selectablePlaylistLst.map((playlist) => playlist.title).toList();
+        _listOfSelectablePlaylists.map((playlist) => playlist.title).toList();
 
     _settingsDataService.savePlaylistOrder(playlistOrder: playlistOrder);
   }
@@ -278,7 +303,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   List<Playlist> getSelectedPlaylists() {
-    return _selectablePlaylistLst
+    return _listOfSelectablePlaylists
         .where((playlist) => playlist.isSelected)
         .toList();
   }
@@ -303,7 +328,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     } else {
       List<Audio> selectedPlaylistsAudios = [];
 
-      for (Playlist playlist in _selectablePlaylistLst) {
+      for (Playlist playlist in _listOfSelectablePlaylists) {
         if (playlist.isSelected) {
           selectedPlaylistsAudios.addAll(playlist.playableAudioLst);
         }
@@ -329,6 +354,30 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  void moveAudioToPlaylist({
+    required Audio audio,
+    required Playlist targetPlaylist,
+  }) {
+    _audioDownloadVM.moveAudioToPlaylist(
+      audio: audio,
+      targetPlaylist: targetPlaylist,
+    );
+
+    notifyListeners();
+  }
+
+  void copyAudioToPlaylist({
+    required Audio audio,
+    required Playlist targetPlaylist,
+  }) {
+    _audioDownloadVM.copyAudioToPlaylist(
+      audio: audio,
+      targetPlaylist: targetPlaylist,
+    );
+
+    notifyListeners();
+  }
+
   /// Physically deletes the audio file from the audio playlist
   /// directory.
   void deleteAudio({
@@ -341,12 +390,22 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Method called when the user selected a playlist item 
+  /// PlaylistPopupMenuAction.updatePlaylistPlayableAudios menu
+  /// item. This method updates the playlist playable audio list
+  /// by removing the audios that are no longer present in the
+  /// audio playlist directory.
   int updatePlayableAudioLst({
     required Playlist playlist,
   }) {
     int removedPlayableAudioNumber = playlist.updatePlayableAudioLst();
 
     if (removedPlayableAudioNumber > 0) {
+      JsonDataService.saveToFile(
+        model: playlist,
+        path: playlist.getPlaylistDownloadFilePathName(),
+      );
+
       _sortedFilteredSelectedPlaylistsPlayableAudios = null;
 
       notifyListeners();
@@ -377,8 +436,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   }
 
   int _getSelectedIndex() {
-    for (int i = 0; i < _selectablePlaylistLst.length; i++) {
-      if (_selectablePlaylistLst[i].isSelected) {
+    for (int i = 0; i < _listOfSelectablePlaylists.length; i++) {
+      if (_listOfSelectablePlaylists[i].isSelected) {
         return i;
       }
     }
@@ -418,43 +477,42 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     _isButtonDownPlaylistEnabled = false;
   }
 
-  bool _doSelectUniquePlaylist({
+  void _doSelectUniquePlaylist({
     required int playlistIndex,
+    required String playlistId,
     required bool isPlaylistSelected,
   }) {
-    for (var playlist in _selectablePlaylistLst) {
-      playlist.isSelected = false;
-      _audioDownloadVM.updatePlaylistSelection(
-        playlistId: playlist.id,
-        isPlaylistSelected: false,
-      );
+    for (Playlist playlist in _listOfSelectablePlaylists) {
+      if (playlist.id != playlistId) {
+        _audioDownloadVM.updatePlaylistSelection(
+          playlistId: playlist.id,
+          isPlaylistSelected: false,
+        );
+      }
     }
 
-    _selectablePlaylistLst[playlistIndex].isSelected = isPlaylistSelected;
-
-    _isPlaylistSelected = _selectablePlaylistLst[playlistIndex].isSelected;
-
-    return _isPlaylistSelected;
+    _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
+    _isPlaylistSelected = isPlaylistSelected;
   }
 
   void _deleteItem(int index) {
-    _selectablePlaylistLst.removeAt(index);
+    _listOfSelectablePlaylists.removeAt(index);
     _isPlaylistSelected = false;
   }
 
   void moveItemUp(int index) {
-    int newIndex = (index - 1 + _selectablePlaylistLst.length) %
-        _selectablePlaylistLst.length;
-    Playlist item = _selectablePlaylistLst.removeAt(index);
-    _selectablePlaylistLst.insert(newIndex, item);
+    int newIndex = (index - 1 + _listOfSelectablePlaylists.length) %
+        _listOfSelectablePlaylists.length;
+    Playlist item = _listOfSelectablePlaylists.removeAt(index);
+    _listOfSelectablePlaylists.insert(newIndex, item);
 
     notifyListeners();
   }
 
   void moveItemDown(int index) {
-    int newIndex = (index + 1) % _selectablePlaylistLst.length;
-    Playlist item = _selectablePlaylistLst.removeAt(index);
-    _selectablePlaylistLst.insert(newIndex, item);
+    int newIndex = (index + 1) % _listOfSelectablePlaylists.length;
+    Playlist item = _listOfSelectablePlaylists.removeAt(index);
+    _listOfSelectablePlaylists.insert(newIndex, item);
 
     notifyListeners();
   }

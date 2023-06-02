@@ -120,6 +120,8 @@
   },
   "copyYoutubeVideoUrl": "Copier l'URL de la vidéo Youtube",
   "displayAudioInfo": "Afficher les données audio",
+  "moveAudioToPlaylist": "Déplacer l'audio vers la playlist ...",
+  "copyAudioToPlaylist": "Copier l'audio dans la playlist ...",
   "audioInfoDialogTitle": "Audio informations",
   "audioInfoDialogOk": "OK",
   "originalVideoTitleLabel": "Titre vidéo original",

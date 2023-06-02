@@ -1,5 +1,6 @@
 // dart file located in lib\views
 
+import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,11 +14,14 @@ import '../../../utils/time_util.dart';
 import '../../constants.dart';
 import '../screen_mixin.dart';
 import 'audio_info_dialog_widget.dart';
+import 'playlist_one_selected_dialog_widget.dart';
 
 enum AudioPopupMenuAction {
   openYoutubeVideo,
   copyYoutubeVideoUrl,
   displayAudioInfo,
+  moveAudioToPlaylist,
+  copyAudioToPlaylist,
   deleteAudio,
   deleteAudioFromPlaylistAswell,
 }
@@ -38,7 +42,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
-
     return ListTile(
       leading: IconButton(
         icon: const Icon(Icons.menu),
@@ -70,6 +73,16 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                 key: const Key('popup_menu_display_audio_info'),
                 value: AudioPopupMenuAction.displayAudioInfo,
                 child: Text(AppLocalizations.of(context)!.displayAudioInfo),
+              ),
+              PopupMenuItem<AudioPopupMenuAction>(
+                key: const Key('popup_menu_display_audio_info'),
+                value: AudioPopupMenuAction.moveAudioToPlaylist,
+                child: Text(AppLocalizations.of(context)!.moveAudioToPlaylist),
+              ),
+              PopupMenuItem<AudioPopupMenuAction>(
+                key: const Key('popup_menu_display_audio_info'),
+                value: AudioPopupMenuAction.copyAudioToPlaylist,
+                child: Text(AppLocalizations.of(context)!.copyAudioToPlaylist),
               ),
               PopupMenuItem<AudioPopupMenuAction>(
                 key: const Key('popup_menu_delete_audio'),
@@ -109,13 +122,71 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   );
                   focusNode.requestFocus();
                   break;
+                case AudioPopupMenuAction.moveAudioToPlaylist:
+                  Playlist? selectedTargetPlaylist;
+
+                  showDialog(
+                    context: context,
+                    builder: (context) =>
+                        const PlaylistOneSelectedDialogWidget(),
+                  ).then((_) {
+                    ExpandablePlaylistListVM expandablePlaylistVM =
+                        Provider.of<ExpandablePlaylistListVM>(context,
+                            listen: false);
+                    selectedTargetPlaylist =
+                        expandablePlaylistVM.uniqueSelectedPlaylist;
+
+                    if (selectedTargetPlaylist == null) {
+                      return;
+                    }
+
+                    Provider.of<ExpandablePlaylistListVM>(
+                      context,
+                      listen: false,
+                    ).moveAudioToPlaylist(
+                      audio: audio,
+                      targetPlaylist: selectedTargetPlaylist!,
+                    );
+                  });
+                  break;
+                case AudioPopupMenuAction.copyAudioToPlaylist:
+                  Playlist? selectedTargetPlaylist;
+
+                  showDialog(
+                    context: context,
+                    builder: (context) =>
+                        const PlaylistOneSelectedDialogWidget(),
+                  ).then((_) {
+                    ExpandablePlaylistListVM expandablePlaylistVM =
+                        Provider.of<ExpandablePlaylistListVM>(context,
+                            listen: false);
+                    selectedTargetPlaylist =
+                        expandablePlaylistVM.uniqueSelectedPlaylist;
+
+                    if (selectedTargetPlaylist == null) {
+                      return;
+                    }
+
+                    Provider.of<ExpandablePlaylistListVM>(
+                      context,
+                      listen: false,
+                    ).copyAudioToPlaylist(
+                      audio: audio,
+                      targetPlaylist: selectedTargetPlaylist!,
+                    );
+                  });
+                  break;
                 case AudioPopupMenuAction.deleteAudio:
-                  Provider.of<ExpandablePlaylistListVM>(context, listen: false)
-                      .deleteAudio(audio: audio);
+                  Provider.of<ExpandablePlaylistListVM>(
+                    context,
+                    listen: false,
+                  ).deleteAudio(audio: audio);
                   break;
                 case AudioPopupMenuAction.deleteAudioFromPlaylistAswell:
-                  Provider.of<ExpandablePlaylistListVM>(context, listen: false)
-                      .deleteAudioFromPlaylistAswell(audio: audio);
+                  Provider.of<ExpandablePlaylistListVM>(
+                    context,
+                    listen: false,
+                  ).deleteAudioFromPlaylistAswell(audio: audio);
                   break;
                 default:
                   break;

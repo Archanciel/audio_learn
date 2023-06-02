@@ -75,10 +75,18 @@ class AudioDownloadVM extends ChangeNotifier {
     );
 
     for (String playlistPathFileName in playlistPathFileNameLst) {
-      dynamic currentPlaylist = JsonDataService.loadFromFile(
-          jsonPathFileName: playlistPathFileName, type: Playlist);
-      // is null if json file not exist
+      Playlist currentPlaylist = JsonDataService.loadFromFile(
+        jsonPathFileName: playlistPathFileName,
+        type: Playlist,
+      );
       _listOfPlaylist.add(currentPlaylist);
+
+      // if the playlist is selected, the audio quality checkbox will be
+      // checked or not according to the selected playlist quality
+      if (currentPlaylist.isSelected) {
+        _isHighQuality =
+            currentPlaylist.playlistQuality == PlaylistQuality.music;
+      }
     }
 
     notifyListeners();
@@ -346,17 +354,18 @@ class AudioDownloadVM extends ChangeNotifier {
     required String playlistId,
     required bool isPlaylistSelected,
   }) {
-    int playlistIndex =
-        _listOfPlaylist.indexWhere((element) => element.id == playlistId);
-
-    Playlist playlist = _listOfPlaylist[playlistIndex];
+    Playlist playlist =
+        _listOfPlaylist.firstWhere((element) => element.id == playlistId);
 
     playlist.isSelected = isPlaylistSelected;
 
+    // if the playlist is selected, the audio quality checkbox will be
+    // checked or not according to the selected playlist quality
     if (isPlaylistSelected) {
       _isHighQuality = playlist.playlistQuality == PlaylistQuality.music;
     }
 
+    // saving the playlist since its isSelected property has been updated
     JsonDataService.saveToFile(
       model: playlist,
       path: playlist.getPlaylistDownloadFilePathName(),
@@ -562,6 +571,48 @@ class AudioDownloadVM extends ChangeNotifier {
       _warningMessageVM.isTooManyPlaylistSelectedForSingleVideoDownload = true;
       return null;
     }
+  }
+
+  void moveAudioToPlaylist({
+    required Audio audio,
+    required Playlist targetPlaylist,
+  }) {
+    Playlist fromPlaylist = audio.enclosingPlaylist!;
+
+    DirUtil.moveFileToDirectory(
+      sourceFilePathName: audio.filePathName,
+      targetDirectoryPath: targetPlaylist.downloadPath,
+    );
+
+    fromPlaylist.removeDownloadedAudio(audio);
+    targetPlaylist.addDownloadedAudio(audio);
+
+    JsonDataService.saveToFile(
+      model: fromPlaylist,
+      path: fromPlaylist.getPlaylistDownloadFilePathName(),
+    );
+
+    JsonDataService.saveToFile(
+      model: targetPlaylist,
+      path: targetPlaylist.getPlaylistDownloadFilePathName(),
+    );
+  }
+
+  void copyAudioToPlaylist({
+    required Audio audio,
+    required Playlist targetPlaylist,
+  }) {
+    DirUtil.copyFileToDirectory(
+      sourceFilePathName: audio.filePathName,
+      targetDirectoryPath: targetPlaylist.downloadPath,
+    );
+
+    targetPlaylist.addDownloadedAudio(audio);
+
+    JsonDataService.saveToFile(
+      model: targetPlaylist,
+      path: targetPlaylist.getPlaylistDownloadFilePathName(),
+    );
   }
 
   /// Physically deletes the audio file from the audio playlist

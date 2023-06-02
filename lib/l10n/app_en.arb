@@ -119,6 +119,8 @@
   },
   "copyYoutubeVideoUrl": "Copy Youtube video URL",
   "displayAudioInfo": "Display audio data",
+  "moveAudioToPlaylist": "Move audio to playlist ...",
+  "copyAudioToPlaylist": "Copy audio in playlist ...",
   "audioInfoDialogTitle": "Audio Info",
   "audioInfoDialogOk": "OK",
   "originalVideoTitleLabel": "Original video title",

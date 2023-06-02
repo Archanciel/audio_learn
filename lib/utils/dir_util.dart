@@ -132,7 +132,37 @@ class DirUtil {
 
     return fileNameList;
   }
+
+  /// If [targetFileName] is not provided, the moved file will
+  /// have the same name than the source file name.
+  static void moveFileToDirectory({
+    required String sourceFilePathName,
+    required String targetDirectoryPath,
+    String? targetFileName,
+  }) {
+    File sourceFile = File(sourceFilePathName);
+    String copiedFileName = targetFileName ?? sourceFile.uri.pathSegments.last;
+    String targetPathFileName = '$targetDirectoryPath/$copiedFileName';
+
+    sourceFile.renameSync(targetPathFileName);
+  }
+
+  /// If [targetFileName] is not provided, the copied file will
+  /// have the same name than the source file name.
+  static void copyFileToDirectorySync({
+    required String sourceFilePathName,
+    required String targetDirectoryPath,
+    String? targetFileName,
+  }) {
+    File sourceFile = File(sourceFilePathName);
+    String copiedFileName = targetFileName ?? sourceFile.uri.pathSegments.last;
+    String targetPathFileName = '$targetDirectoryPath/$copiedFileName';
+
+    sourceFile.copySync(targetPathFileName);
+  }
 }
+
+
 
 Future<void> main() async {
   List<String> fileNames = DirUtil.listPathFileNamesInSubDirs(

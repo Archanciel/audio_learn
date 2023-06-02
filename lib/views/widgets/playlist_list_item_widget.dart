@@ -104,14 +104,17 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                       break;
                     case PlaylistPopupMenuAction.updatePlaylistPlayableAudios:
                       int removedPlayableAudioNumber =
-                          expandablePlaylistListVM.updatePlayableAudioLst(playlist: playlist,);
+                          expandablePlaylistListVM.updatePlayableAudioLst(
+                        playlist: playlist,
+                      );
 
                       if (removedPlayableAudioNumber > 0) {
                         Provider.of<WarningMessageVM>(context, listen: false)
                             .setUpdatedPlayableAudioLstPlaylistTitle(
                                 updatedPlayableAudioLstPlaylistTitle:
                                     playlist.title,
-                                    removedPlayableAudioNumber: removedPlayableAudioNumber);
+                                removedPlayableAudioNumber:
+                                    removedPlayableAudioNumber);
                       }
                       break;
                     default:
