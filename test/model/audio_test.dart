@@ -113,8 +113,8 @@ void main() {
   });
   group('Audio static methods', () {
     test('buildDownloadDatePrefix', () {
-      DateTime downloadDate = DateTime(2023, 4, 3);
-      String expectedPrefix = '230403-';
+      DateTime downloadDate = DateTime(2023, 4, 3, 2, 1, 33);
+      String expectedPrefix = '230403-020133-';
 
       String actualPrefix = Audio.buildDownloadDatePrefix(downloadDate);
 
@@ -146,12 +146,12 @@ void main() {
           originalVideoTitle: 'C',
           compactVideoDescription: '',
           videoUrl: 'https://example.com/video1',
-          audioDownloadDateTime: DateTime(2023, 3, 17),
+          audioDownloadDateTime: DateTime(2023, 3, 17, 12, 34, 6),
           videoUploadDate: DateTime(2023, 4, 12));
 
       playlist.addDownloadedAudio(audio);
 
-      String expectedFilePathName = "download_path\\230317-C 23-04-12.mp3";
+      String expectedFilePathName = "download_path\\230317-123406-C 23-04-12.mp3";
       String actualFilePathName = audio.filePathName;
 
       expect(actualFilePathName, expectedFilePathName);

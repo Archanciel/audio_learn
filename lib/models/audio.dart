@@ -12,6 +12,8 @@ import 'package:intl/intl.dart';
 /// directly downloaded from Youtube.
 class Audio {
   static DateFormat downloadDatePrefixFormatter = DateFormat('yyMMdd');
+  static DateFormat downloadDateTimePrefixFormatter =
+      DateFormat('yyMMdd-HHmmss');
   static DateFormat uploadDateSuffixFormatter = DateFormat('yy-MM-dd');
 
   // Playlist in which the video is referenced
@@ -163,8 +165,7 @@ class Audio {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Audio &&
-        other.videoUrl == videoUrl;
+    return other is Audio && other.videoUrl == videoUrl;
   }
 
   @override
@@ -179,7 +180,9 @@ class Audio {
   }
 
   static String buildDownloadDatePrefix(DateTime downloadDate) {
-    String formattedDateStr = downloadDatePrefixFormatter.format(downloadDate);
+    String formattedDateStr = (kAudioFileNamePrefixIncludeTime)
+        ? downloadDateTimePrefixFormatter.format(downloadDate)
+        : downloadDatePrefixFormatter.format(downloadDate);
 
     return '$formattedDateStr-';
   }

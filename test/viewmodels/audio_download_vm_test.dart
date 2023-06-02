@@ -11,8 +11,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart';
 
-final String todayDownloadFileNamePrefix =
-    Audio.downloadDatePrefixFormatter.format(DateTime.now());
+const int secondsDelay = 7;
+final String todayDownloadFileNamePrefix = (kAudioFileNamePrefixIncludeTime)
+    ? Audio.downloadDateTimePrefixFormatter.format(DateTime.now())
+    : Audio.downloadDatePrefixFormatter
+        .format(DateTime.now().add(Duration(seconds: secondsDelay)));
 
 void main() {
   const String testPlaylistId = 'PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
@@ -21,7 +24,6 @@ void main() {
   const String testPlaylistTitle = 'audio_learn_test_download_2_small_videos';
   const String testPlaylistDir =
       '$kDownloadAppTestDir\\audio_learn_test_download_2_small_videos';
-  const int secondsDelay = 7;
 
   // Necessary to avoid FatalFailureException (FatalFailureException: Failed
   // to perform an HTTP request to YouTube due to a fatal failure. In most
@@ -356,10 +358,16 @@ void main() {
         downloadFileNamePrefix: '230406',
       );
 
-      expect(downloadedPlaylist.downloadedAudioLst[2].audioFileName,
-          '$todayDownloadFileNamePrefix-Really short video 16-05-12.mp3');
-      expect(downloadedPlaylist.downloadedAudioLst[3].audioFileName,
-          '$todayDownloadFileNamePrefix-morning _ cinematic video 19-03-06.mp3');
+      if (!kAudioFileNamePrefixIncludeTime) {
+        // if kAudioFileNamePrefixIncludeTime is true,
+        // it is not possible to check the audio file
+        // name because it contains the time when the
+        // audio was downloaded.
+        expect(downloadedPlaylist.downloadedAudioLst[2].audioFileName,
+            '$todayDownloadFileNamePrefix-Really short video 16-05-12.mp3');
+        expect(downloadedPlaylist.downloadedAudioLst[3].audioFileName,
+            '$todayDownloadFileNamePrefix-morning _ cinematic video 19-03-06.mp3');
+      }
 
       // playableAudioLst contains inserted at list start Audio^s
       checkDownloadedAudios(
@@ -368,10 +376,16 @@ void main() {
         downloadFileNamePrefix: '230406',
       );
 
-      expect(downloadedPlaylist.playableAudioLst[1].audioFileName,
-          '$todayDownloadFileNamePrefix-Really short video 16-05-12.mp3');
-      expect(downloadedPlaylist.playableAudioLst[0].audioFileName,
-          '$todayDownloadFileNamePrefix-morning _ cinematic video 19-03-06.mp3');
+      if (!kAudioFileNamePrefixIncludeTime) {
+        // if kAudioFileNamePrefixIncludeTime is true,
+        // it is not possible to check the audio file
+        // name because it contains the time when the
+        // audio was downloaded.
+        expect(downloadedPlaylist.playableAudioLst[1].audioFileName,
+            '$todayDownloadFileNamePrefix-Really short video 16-05-12.mp3');
+        expect(downloadedPlaylist.playableAudioLst[0].audioFileName,
+            '$todayDownloadFileNamePrefix-morning _ cinematic video 19-03-06.mp3');
+      }
 
       // Checking if there are 3 files in the directory (1 mp3 and 1 json)
       final List<FileSystemEntity> files =
@@ -416,8 +430,15 @@ void checkDownloadedAudios({
       DateTime.parse("2020-01-07T00:00:00.000"));
   expect(downloadedAudioTwo.audioDuration, const Duration(milliseconds: 49000));
   expect(downloadedAudioTwo.isMusicQuality, false);
-  expect(downloadedAudioTwo.audioFileName,
-      "${todayFileNamePrefix ?? downloadFileNamePrefix}-Innovation (Short Film) 20-01-07.mp3");
+
+  if (!kAudioFileNamePrefixIncludeTime) {
+    // if kAudioFileNamePrefixIncludeTime is true,
+    // it is not possible to check the audio file
+    // name because it contains the time when the
+    // audio was downloaded.
+    expect(downloadedAudioTwo.audioFileName,
+        "${todayFileNamePrefix ?? downloadFileNamePrefix}-Innovation (Short Film) 20-01-07.mp3");
+  }
   expect(downloadedAudioTwo.audioFileSize, 295404);
 }
 
@@ -435,8 +456,14 @@ void checkAudioOne({
       DateTime.parse("2023-03-22T00:00:00.000"));
   expect(downloadedAudio.audioDuration, const Duration(milliseconds: 24000));
   expect(downloadedAudio.isMusicQuality, false);
-  expect(downloadedAudio.audioFileName,
-      "$downloadFileNamePrefix-English conversation - Tea or coffee 23-03-22.mp3");
+  if (!kAudioFileNamePrefixIncludeTime) {
+    // if kAudioFileNamePrefixIncludeTime is true,
+    // it is not possible to check the audio file
+    // name because it contains the time when the
+    // audio was downloaded.
+    expect(downloadedAudio.audioFileName,
+        "$downloadFileNamePrefix-English conversation - Tea or coffee 23-03-22.mp3");
+  }
   expect(downloadedAudio.audioFileSize, 143076);
 }
 

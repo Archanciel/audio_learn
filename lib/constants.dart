@@ -77,3 +77,5 @@ const InputDecoration kDialogTextFieldDecoration = InputDecoration(
 );
 
 const String kYoutubeUrl = 'https://www.youtube.com/';
+
+const bool kAudioFileNamePrefixIncludeTime = true;
