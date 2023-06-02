@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.5.12';
+const String kApplicationVersion = '0.5.13';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audios';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
@@ -78,4 +78,6 @@ const InputDecoration kDialogTextFieldDecoration = InputDecoration(
 
 const String kYoutubeUrl = 'https://www.youtube.com/';
 
+// true makes sense if audios are played in 
+// Smart AudioBook app
 const bool kAudioFileNamePrefixIncludeTime = true;
