@@ -174,21 +174,11 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                     ),
                   ),
                   onPressed: () {
-                    // Flushbar(
-                    //   flushbarPosition: FlushbarPosition.TOP,
-                    //   message: AppLocalizations.of(context)!
-                    //       .singleVideoAudioDownload,
-                    //   duration: const Duration(seconds: 5),
-                    //   backgroundColor: Colors.purple.shade900,
-                    //   margin: kFlushbarEdgeInsets,
-                    //   borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    // ).show(context);
-
                     ExpandablePlaylistListVM expandablePlaylistListVM =
                         Provider.of<ExpandablePlaylistListVM>(context,
                             listen: false);
 
-                    // disable the sorted filtered playable audio list
+                    // disabling the sorted filtered playable audio list
                     // downloading audios of selected playlists so that
                     // the currently displayed audio list is not sorted
                     // or/and filtered. This way, the newly downloaded
