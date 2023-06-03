@@ -32,7 +32,7 @@ class _SortAndFilterAudioDialogWidgetState
   bool _sortAscending = false;
   bool _filterMusicQuality = false;
   bool _ignoreCase = false;
-  bool _searchInVideoCompactDescription = false;
+  bool _searchInVideoCompactDescription = true;
 
   final TextEditingController _startFileSizeController =
       TextEditingController();

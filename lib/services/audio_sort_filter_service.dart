@@ -27,6 +27,8 @@ class AudioSortFilterService {
     SortingOption.videoUrl: true,
   };
 
+  /// This method is used to sort the audio list by the given sorting
+  /// option. It is public only in order to be tested.
   List<Audio> sortAudioLstBySortingOption({
     required List<Audio> audioLst,
     required SortingOption sortingOption,
@@ -146,7 +148,7 @@ class AudioSortFilterService {
     return audioLst;
   }
 
-  /// Does not sort 'Échapper title' and 'ÉPICURE 
+  /// Does not sort 'Échapper title' and 'ÉPICURE
   /// title' correctly !
   List<Audio> _sortAudioLstByTitle({
     required List<Audio> audioLst,
@@ -364,7 +366,7 @@ class AudioSortFilterService {
   }) {
     if (searchWords != null && searchWords.isNotEmpty) {
       if (!searchInVideoCompactDescription) {
-        audioLst = _filterAudioLstByVideoTitle(
+        audioLst = _filterAudioLstByVideoTitleOnly(
           audioLst: audioLst,
           searchWords: searchWords,
           ignoreCase: ignoreCase,
@@ -385,7 +387,7 @@ class AudioSortFilterService {
     );
   }
 
-  List<Audio> _filterAudioLstByVideoTitle({
+  List<Audio> _filterAudioLstByVideoTitleOnly({
     required List<Audio> audioLst,
     required String searchWords,
     required bool ignoreCase,
@@ -405,8 +407,8 @@ class AudioSortFilterService {
     RegExp searchWordsPattern = RegExp(searchWords, caseSensitive: !ignoreCase);
 
     return audioLst.where((audio) {
-      return searchWordsPattern.hasMatch(audio.validVideoTitle) ||
-          searchWordsPattern.hasMatch(audio.compactVideoDescription);
+      return searchWordsPattern.hasMatch(
+          '${audio.validVideoTitle} ${audio.compactVideoDescription}');
     }).toList();
   }
 

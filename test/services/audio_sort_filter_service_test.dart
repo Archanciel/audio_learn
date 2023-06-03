@@ -102,7 +102,6 @@ void main() {
     });
 
     test('sort by title starting with non language chars', () {
- 
       Audio title = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: "'title",
@@ -468,7 +467,7 @@ void main() {
       audioSortFilterService = AudioSortFilterService();
     });
 
-    test('filter and sort by title', () {
+    test('filter and sort by title and description with search word in title only', () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
         originalVideoTitle: 'Zebra ?',
@@ -545,7 +544,13 @@ void main() {
         audioFileSize: 330000000,
       );
 
-      List<Audio> audioList = [zebra1, apple, zebra3, bananna, zebra2];
+      List<Audio> audioList = [
+        zebra1,
+        apple,
+        zebra3,
+        bananna,
+        zebra2,
+      ];
 
       List<Audio> expectedResultForTitleAsc = [
         apple,
@@ -622,6 +627,403 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         sortingOption: SortingOption.validAudioTitle,
         searchWords: 'Zeb',
+        asc: false,
+      );
+
+      expect(
+          filteredAndSortedByTitleDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          equals(expectedResultForFilterSortTitleDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
+    });
+    test(
+        'filter and sort by title and description with search word in compact description only',
+        () {
+      final Audio zebra1 = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Zebra ?',
+        compactVideoDescription: 'Julien Bam',
+        validVideoTitle: 'Zebra 1',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio apple = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Apple ?',
+        compactVideoDescription: 'description',
+        validVideoTitle: 'Apple',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio zebra3 = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Zebra ?',
+        compactVideoDescription: 'Julien Bam',
+        validVideoTitle: 'Zebra 3',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio bananna = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Bananna ?',
+        compactVideoDescription: '',
+        validVideoTitle: 'Bananna',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio zebra2 = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Zebra ?',
+        compactVideoDescription: 'Julien Goal',
+        validVideoTitle: 'Zebra 2',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+
+      List<Audio> audioList = [
+        zebra1,
+        apple,
+        zebra3,
+        bananna,
+        zebra2,
+      ];
+
+      List<Audio> expectedResultForFilterSortTitleAsc = [
+        zebra1,
+        zebra2,
+        zebra3,
+      ];
+
+      List<Audio> expectedResultForFilterSortTitleDesc = [
+        zebra3,
+        zebra2,
+        zebra1,
+      ];
+
+      List<Audio> filteredAndSortedByTitleAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        sortingOption: SortingOption.validAudioTitle,
+        searchWords: 'Julien',
+        searchInVideoCompactDescription: true,
+        asc: true,
+      );
+
+      expect(
+          filteredAndSortedByTitleAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          equals(expectedResultForFilterSortTitleAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
+
+      List<Audio> filteredAndSortedByTitleDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        sortingOption: SortingOption.validAudioTitle,
+        searchInVideoCompactDescription: true,
+        searchWords: 'Julien',
+        asc: false,
+      );
+
+      expect(
+          filteredAndSortedByTitleDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          equals(expectedResultForFilterSortTitleDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
+    });
+    test(
+        'filter and sort by title and description with search word in title and in compact description',
+        () {
+      final Audio zebra1 = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Zebra ?',
+        compactVideoDescription: 'Julien Bam',
+        validVideoTitle: 'Zebra 1',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio apple = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Apple ?',
+        compactVideoDescription: 'description',
+        validVideoTitle: 'Apple Julien',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio zebra3 = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Zebra ?',
+        compactVideoDescription: 'Julien Bam',
+        validVideoTitle: 'Zebra 3',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio bananna = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Bananna ?',
+        compactVideoDescription: '',
+        validVideoTitle: 'Bananna',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio zebra2 = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Zebra ?',
+        compactVideoDescription: 'Julien Goal',
+        validVideoTitle: 'Zebra 2',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+
+      List<Audio> audioList = [
+        zebra1,
+        apple,
+        zebra3,
+        bananna,
+        zebra2,
+      ];
+
+      List<Audio> expectedResultForFilterSortTitleAsc = [
+        apple,
+        zebra1,
+        zebra2,
+        zebra3,
+      ];
+
+      List<Audio> expectedResultForFilterSortTitleDesc = [
+        zebra3,
+        zebra2,
+        zebra1,
+        apple,
+      ];
+
+      List<Audio> filteredAndSortedByTitleAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        sortingOption: SortingOption.validAudioTitle,
+        searchWords: 'Julien',
+        searchInVideoCompactDescription: true,
+        asc: true,
+      );
+
+      expect(
+          filteredAndSortedByTitleAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          equals(expectedResultForFilterSortTitleAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
+
+      List<Audio> filteredAndSortedByTitleDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        sortingOption: SortingOption.validAudioTitle,
+        searchWords: 'Julien',
+        searchInVideoCompactDescription: true,
+        asc: false,
+      );
+
+      expect(
+          filteredAndSortedByTitleDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          equals(expectedResultForFilterSortTitleDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
+    });
+    test(
+        'filter and sort by title only with search word in title and in compact description',
+        () {
+      final Audio zebra1 = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Zebra ?',
+        compactVideoDescription: 'Julien Bam',
+        validVideoTitle: 'Zebra 1 Julien',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio apple = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Apple ?',
+        compactVideoDescription: 'description',
+        validVideoTitle: 'Apple Julien',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio zebra3 = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Zebra ?',
+        compactVideoDescription: 'Julien Bam',
+        validVideoTitle: 'Zebra 3',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio bananna = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Bananna ?',
+        compactVideoDescription: '',
+        validVideoTitle: 'Bananna',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio zebra2 = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        originalVideoTitle: 'Zebra ?',
+        compactVideoDescription: 'Julien Goal',
+        validVideoTitle: 'Zebra 2',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isMusicQuality: false,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+
+      List<Audio> audioList = [
+        zebra1,
+        apple,
+        zebra3,
+        bananna,
+        zebra2,
+      ];
+
+      List<Audio> expectedResultForFilterSortTitleAsc = [
+        apple,
+        zebra1,
+      ];
+
+      List<Audio> expectedResultForFilterSortTitleDesc = [
+        zebra1,
+        apple,
+      ];
+
+      List<Audio> filteredAndSortedByTitleAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        sortingOption: SortingOption.validAudioTitle,
+        searchWords: 'Julien',
+        asc: true,
+      );
+
+      expect(
+          filteredAndSortedByTitleAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          equals(expectedResultForFilterSortTitleAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
+
+      List<Audio> filteredAndSortedByTitleDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        sortingOption: SortingOption.validAudioTitle,
+        searchWords: 'Julien',
         asc: false,
       );
 
