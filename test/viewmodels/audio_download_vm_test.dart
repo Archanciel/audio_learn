@@ -15,7 +15,7 @@ const int secondsDelay = 7;
 final String todayDownloadFileNamePrefix = (kAudioFileNamePrefixIncludeTime)
     ? Audio.downloadDateTimePrefixFormatter.format(DateTime.now())
     : Audio.downloadDatePrefixFormatter
-        .format(DateTime.now().add(Duration(seconds: secondsDelay)));
+        .format(DateTime.now().add(const Duration(seconds: secondsDelay)));
 
 void main() {
   const String testPlaylistId = 'PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
