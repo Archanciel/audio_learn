@@ -140,10 +140,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       return;
                     }
 
-                    Provider.of<ExpandablePlaylistListVM>(
-                      context,
-                      listen: false,
-                    ).moveAudioToPlaylist(
+                    expandablePlaylistVM.moveAudioToPlaylist(
                       audio: audio,
                       targetPlaylist: selectedTargetPlaylist!,
                     );
@@ -167,10 +164,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       return;
                     }
 
-                    Provider.of<ExpandablePlaylistListVM>(
-                      context,
-                      listen: false,
-                    ).copyAudioToPlaylist(
+                    expandablePlaylistVM.copyAudioToPlaylist(
                       audio: audio,
                       targetPlaylist: selectedTargetPlaylist!,
                     );

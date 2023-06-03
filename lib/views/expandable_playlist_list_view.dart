@@ -21,6 +21,7 @@ import 'widgets/audio_list_item_widget.dart';
 import 'screen_mixin.dart';
 import 'widgets/display_message_widget.dart';
 import 'widgets/playlist_list_item_widget.dart';
+import 'widgets/playlist_one_selected_dialog_widget.dart';
 import 'widgets/sort_and_filter_audio_dialog_widget.dart';
 
 enum PlaylistPopupMenuButton {
@@ -187,19 +188,22 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                     expandablePlaylistListVM
                         .disableSortedFilteredPlayableAudioLst();
 
-                    List<Playlist> selectedPlaylists =
-                        expandablePlaylistListVM.getSelectedPlaylists();
+                    Playlist? selectedTargetPlaylist;
 
-                    Playlist? singleVideoPlaylist =
-                        audioDownloadViewModel.obtainSingleVideoPlaylist(
-                      selectedPlaylists,
-                    );
+                    showDialog(
+                      context: context,
+                      builder: (context) =>
+                          const PlaylistOneSelectedDialogWidget(),
+                    ).then((_) {
+                      ExpandablePlaylistListVM expandablePlaylistVM =
+                          Provider.of<ExpandablePlaylistListVM>(context,
+                              listen: false);
+                      selectedTargetPlaylist =
+                          expandablePlaylistVM.uniqueSelectedPlaylist;
 
-                    if (singleVideoPlaylist != null) {
-                      // if the single video playlist is not null, then
-                      // the user has selected only one playlist to which
-                      // the single video audio will be added after the
-                      // user confirms the playlist.
+                      if (selectedTargetPlaylist == null) {
+                        return;
+                      }
 
                       final FocusNode focusNode = FocusNode();
 
@@ -224,7 +228,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                             content: Text(
                               AppLocalizations.of(context)!
                                   .confirmSingleVideoAudioPlaylistTitle(
-                                singleVideoPlaylist.title,
+                                selectedTargetPlaylist!.title,
                               ),
                               style: kDialogTextFieldStyle,
                             ),
@@ -236,7 +240,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                 },
                               ),
                               TextButton(
-                                child: const Text('Cancel'),
+                                child:
+                                    Text(AppLocalizations.of(context)!.cancel),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -248,12 +253,80 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         if (value != null) {
                           audioDownloadViewModel.downloadSingleVideoAudio(
                             videoUrl: _playlistUrlController.text.trim(),
-                            singleVideoPlaylist: singleVideoPlaylist,
+                            singleVideoPlaylist: selectedTargetPlaylist!,
                           );
                         }
                       });
                       focusNode.requestFocus();
-                    }
+                    });
+
+                    // List<Playlist> selectedPlaylists =
+                    //     expandablePlaylistListVM.getSelectedPlaylists();
+
+                    // Playlist? singleVideoPlaylist =
+                    //     audioDownloadViewModel.obtainSingleVideoPlaylist(
+                    //   selectedPlaylists,
+                    // );
+
+                    // if (singleVideoPlaylist != null) {
+                    //   // if the single video playlist is not null, then
+                    //   // the user has selected only one playlist to which
+                    //   // the single video audio will be added after the
+                    //   // user confirms the playlist.
+
+                    //   final FocusNode focusNode = FocusNode();
+
+                    //   // confirming or not the addition of the single video
+                    //   // audio to the selected playlist
+                    //   showDialog(
+                    //     context: context,
+                    //     builder: (context) => RawKeyboardListener(
+                    //       // Using FocusNode to enable clicking on Enter to close
+                    //       // the dialog
+                    //       focusNode: focusNode,
+                    //       onKey: (event) {
+                    //         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
+                    //             event.isKeyPressed(
+                    //                 LogicalKeyboardKey.numpadEnter)) {
+                    //           Navigator.of(context).pop('ok');
+                    //         }
+                    //       },
+                    //       child: AlertDialog(
+                    //         title: Text(AppLocalizations.of(context)!
+                    //             .confirmDialogTitle),
+                    //         content: Text(
+                    //           AppLocalizations.of(context)!
+                    //               .confirmSingleVideoAudioPlaylistTitle(
+                    //             singleVideoPlaylist.title,
+                    //           ),
+                    //           style: kDialogTextFieldStyle,
+                    //         ),
+                    //         actions: [
+                    //           TextButton(
+                    //             child: const Text('Ok'),
+                    //             onPressed: () {
+                    //               Navigator.of(context).pop('ok');
+                    //             },
+                    //           ),
+                    //           TextButton(
+                    //             child: const Text('Cancel'),
+                    //             onPressed: () {
+                    //               Navigator.of(context).pop();
+                    //             },
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ).then((value) {
+                    //     if (value != null) {
+                    //       audioDownloadViewModel.downloadSingleVideoAudio(
+                    //         videoUrl: _playlistUrlController.text.trim(),
+                    //         singleVideoPlaylist: singleVideoPlaylist,
+                    //       );
+                    //     }
+                    //   });
+                    //   focusNode.requestFocus();
+                    // }
                   },
                   child: Text(
                       AppLocalizations.of(context)!.downloadSingleVideoAudio),

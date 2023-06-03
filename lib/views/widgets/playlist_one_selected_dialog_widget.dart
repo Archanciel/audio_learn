@@ -53,7 +53,7 @@ class _PlaylistOneSelectedDialogWidgetState
               );
               Navigator.of(context).pop();
             },
-            child: const Text('Apply'),
+            child: Text(AppLocalizations.of(context)!.confirmButton),
           ),
           ElevatedButton(
             onPressed: () {
@@ -62,7 +62,7 @@ class _PlaylistOneSelectedDialogWidgetState
               );
               Navigator.of(context).pop();
             },
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
         ],
       ),

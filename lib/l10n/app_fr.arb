@@ -177,5 +177,6 @@
   "confirmDialogTitle": "Confirmation",
   "confirmSingleVideoAudioPlaylistTitle": "Confirmez la playlist \"{title}\" sélectionnée pour le téléchargement de l'audio de la vidéo unique.",
   "playlistJsonFileSizeLabel": "Taille fichier JSON",
-  "playlistOneSelectedDialogTitle": "Sélectionnez une Playlist"
+  "playlistOneSelectedDialogTitle": "Sélectionnez une Playlist",
+  "confirmButton": "Confirmer"
 }
