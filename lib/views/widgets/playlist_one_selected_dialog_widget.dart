@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/playlist.dart';
 import '../../viewmodels/expandable_playlist_list_vm.dart';
@@ -20,7 +21,7 @@ class _PlaylistOneSelectedDialogWidgetState
   Widget build(BuildContext context) {
     return Consumer<ExpandablePlaylistListVM>(
       builder: (context, expandablePlaylistVM, _) => AlertDialog(
-        title: const Text('Select a Playlist'),
+        title: Text(AppLocalizations.of(context)!.playlistOneSelectedDialogTitle),
         content: SizedBox(
           width: double.maxFinite,
           child: ListView.builder(
