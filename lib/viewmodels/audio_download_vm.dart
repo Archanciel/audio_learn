@@ -259,6 +259,7 @@ class AudioDownloadVM extends ChangeNotifier {
         in _youtubeExplode.playlists.getVideos(playlistId)) {
       _audioDownloadError = false;
       final Duration? audioDuration = youtubeVideo.duration;
+      final String videoAuthor = youtubeVideo.author;
       DateTime? videoUploadDate =
           (await _youtubeExplode.videos.get(youtubeVideo.id.value)).uploadDate;
 
@@ -267,8 +268,10 @@ class AudioDownloadVM extends ChangeNotifier {
       String videoDescription =
           (await _youtubeExplode.videos.get(youtubeVideo.id.value)).description;
 
-      String compactVideoDescription =
-          _createCompactVideoDescription(videoDescription: videoDescription);
+      String compactVideoDescription = _createCompactVideoDescription(
+        videoDescription: videoDescription,
+        videoAuthor: videoAuthor,
+      );
 
       final Audio audio = Audio(
         enclosingPlaylist: currentPlaylist,
@@ -483,6 +486,7 @@ class AudioDownloadVM extends ChangeNotifier {
     }
 
     final Duration? audioDuration = youtubeVideo.duration;
+    final String videoAuthor = youtubeVideo.author;
     DateTime? videoUploadDate =
         (await _youtubeExplode.videos.get(youtubeVideo.id.value)).uploadDate;
 
@@ -491,8 +495,10 @@ class AudioDownloadVM extends ChangeNotifier {
     String videoDescription =
         (await _youtubeExplode.videos.get(youtubeVideo.id.value)).description;
 
-    String compactVideoDescription =
-        _createCompactVideoDescription(videoDescription: videoDescription);
+    String compactVideoDescription = _createCompactVideoDescription(
+      videoDescription: videoDescription,
+      videoAuthor: videoAuthor,
+    );
 
     final Audio audio = Audio(
       enclosingPlaylist: singleVideoPlaylist,
@@ -678,6 +684,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
   String _createCompactVideoDescription({
     required String videoDescription,
+    required String videoAuthor,
   }) {
     // Extraire les 3 premières lignes de la description
     List<String> videoDescriptionLinesLst = videoDescription.split('\n');
@@ -711,10 +718,10 @@ class AudioDownloadVM extends ChangeNotifier {
     final String compactVideoDescription;
 
     if (consecutiveProperNames.isEmpty) {
-      compactVideoDescription = '$firstThreeLines ...';
+      compactVideoDescription = '$videoAuthor\n\n$firstThreeLines ...';
     } else {
       compactVideoDescription =
-          '$firstThreeLines ...\n\n${consecutiveProperNames.join(', ')}';
+          '$videoAuthor\n\n$firstThreeLines ...\n\n${consecutiveProperNames.join(', ')}';
     }
 
     return compactVideoDescription;
