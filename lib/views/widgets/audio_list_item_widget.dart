@@ -125,10 +125,15 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                 case AudioPopupMenuAction.moveAudioToPlaylist:
                   Playlist? selectedTargetPlaylist;
 
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
+                  final FocusNode focusNode = FocusNode();
+
                   showDialog(
                     context: context,
-                    builder: (context) =>
-                        const PlaylistOneSelectedDialogWidget(),
+                    builder: (context) => PlaylistOneSelectedDialogWidget(
+                      focusNode: focusNode,
+                    ),
                   ).then((_) {
                     ExpandablePlaylistListVM expandablePlaylistVM =
                         Provider.of<ExpandablePlaylistListVM>(context,
@@ -145,14 +150,20 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       targetPlaylist: selectedTargetPlaylist!,
                     );
                   });
+                  focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.copyAudioToPlaylist:
                   Playlist? selectedTargetPlaylist;
 
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
+                  final FocusNode focusNode = FocusNode();
+
                   showDialog(
                     context: context,
-                    builder: (context) =>
-                        const PlaylistOneSelectedDialogWidget(),
+                    builder: (context) => PlaylistOneSelectedDialogWidget(
+                      focusNode: focusNode,
+                    ),
                   ).then((_) {
                     ExpandablePlaylistListVM expandablePlaylistVM =
                         Provider.of<ExpandablePlaylistListVM>(context,
@@ -169,6 +180,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       targetPlaylist: selectedTargetPlaylist!,
                     );
                   });
+                  focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.deleteAudio:
                   Provider.of<ExpandablePlaylistListVM>(

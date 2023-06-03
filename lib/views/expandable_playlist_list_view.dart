@@ -190,10 +190,15 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
 
                     Playlist? selectedTargetPlaylist;
 
+                    // Using FocusNode to enable clicking on Enter to close
+                    // the dialog
+                    final FocusNode focusNode = FocusNode();
+
                     showDialog(
                       context: context,
-                      builder: (context) =>
-                          const PlaylistOneSelectedDialogWidget(),
+                      builder: (context) => PlaylistOneSelectedDialogWidget(
+                        focusNode: focusNode,
+                      ),
                     ).then((_) {
                       ExpandablePlaylistListVM expandablePlaylistVM =
                           Provider.of<ExpandablePlaylistListVM>(context,
@@ -205,6 +210,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         return;
                       }
 
+                      // Using FocusNode to enable clicking on Enter to close
+                      // the dialog
                       final FocusNode focusNode = FocusNode();
 
                       // confirming or not the addition of the single video
@@ -219,6 +226,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                             if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
                                 event.isKeyPressed(
                                     LogicalKeyboardKey.numpadEnter)) {
+                              // executing the same code as in the 'Ok'
+                              // ElevatedButton onPressed callback
                               Navigator.of(context).pop('ok');
                             }
                           },
@@ -259,74 +268,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       });
                       focusNode.requestFocus();
                     });
-
-                    // List<Playlist> selectedPlaylists =
-                    //     expandablePlaylistListVM.getSelectedPlaylists();
-
-                    // Playlist? singleVideoPlaylist =
-                    //     audioDownloadViewModel.obtainSingleVideoPlaylist(
-                    //   selectedPlaylists,
-                    // );
-
-                    // if (singleVideoPlaylist != null) {
-                    //   // if the single video playlist is not null, then
-                    //   // the user has selected only one playlist to which
-                    //   // the single video audio will be added after the
-                    //   // user confirms the playlist.
-
-                    //   final FocusNode focusNode = FocusNode();
-
-                    //   // confirming or not the addition of the single video
-                    //   // audio to the selected playlist
-                    //   showDialog(
-                    //     context: context,
-                    //     builder: (context) => RawKeyboardListener(
-                    //       // Using FocusNode to enable clicking on Enter to close
-                    //       // the dialog
-                    //       focusNode: focusNode,
-                    //       onKey: (event) {
-                    //         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-                    //             event.isKeyPressed(
-                    //                 LogicalKeyboardKey.numpadEnter)) {
-                    //           Navigator.of(context).pop('ok');
-                    //         }
-                    //       },
-                    //       child: AlertDialog(
-                    //         title: Text(AppLocalizations.of(context)!
-                    //             .confirmDialogTitle),
-                    //         content: Text(
-                    //           AppLocalizations.of(context)!
-                    //               .confirmSingleVideoAudioPlaylistTitle(
-                    //             singleVideoPlaylist.title,
-                    //           ),
-                    //           style: kDialogTextFieldStyle,
-                    //         ),
-                    //         actions: [
-                    //           TextButton(
-                    //             child: const Text('Ok'),
-                    //             onPressed: () {
-                    //               Navigator.of(context).pop('ok');
-                    //             },
-                    //           ),
-                    //           TextButton(
-                    //             child: const Text('Cancel'),
-                    //             onPressed: () {
-                    //               Navigator.of(context).pop();
-                    //             },
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ).then((value) {
-                    //     if (value != null) {
-                    //       audioDownloadViewModel.downloadSingleVideoAudio(
-                    //         videoUrl: _playlistUrlController.text.trim(),
-                    //         singleVideoPlaylist: singleVideoPlaylist,
-                    //       );
-                    //     }
-                    //   });
-                    //   focusNode.requestFocus();
-                    // }
+                    focusNode.requestFocus();
                   },
                   child: Text(
                       AppLocalizations.of(context)!.downloadSingleVideoAudio),

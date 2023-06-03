@@ -46,6 +46,9 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
       onKey: (event) {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
+          // executing the same code as in the 'Add'
+          // ElevatedButton onPressed callback
+          _addPlaylist(context);
           Navigator.of(context).pop();
         }
       },
@@ -83,26 +86,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
         actions: [
           ElevatedButton(
             onPressed: () {
-              String localPlaylistTitle =
-                  _localPlaylistTitleTextEditingController.text;
-              ExpandablePlaylistListVM expandablePlaylistListVM =
-                  Provider.of<ExpandablePlaylistListVM>(context, listen: false);
-
-              if (localPlaylistTitle.isNotEmpty) {
-                expandablePlaylistListVM.addPlaylist(
-                  localPlaylistTitle: localPlaylistTitle,
-                  playlistQuality: _isChecked
-                      ? PlaylistQuality.music
-                      : PlaylistQuality.voice,
-                );
-              } else if (widget.playlistUrl.isNotEmpty) {
-                expandablePlaylistListVM.addPlaylist(
-                  playlistUrl: widget.playlistUrl,
-                  playlistQuality: _isChecked
-                      ? PlaylistQuality.music
-                      : PlaylistQuality.voice,
-                );
-              }
+              _addPlaylist(context);
               Navigator.of(context).pop();
             },
             child: Text(AppLocalizations.of(context)!.add),
@@ -116,6 +100,26 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
         ],
       ),
     );
+  }
+
+  void _addPlaylist(BuildContext context) {
+    String localPlaylistTitle = _localPlaylistTitleTextEditingController.text;
+    ExpandablePlaylistListVM expandablePlaylistListVM =
+        Provider.of<ExpandablePlaylistListVM>(context, listen: false);
+
+    if (localPlaylistTitle.isNotEmpty) {
+      expandablePlaylistListVM.addPlaylist(
+        localPlaylistTitle: localPlaylistTitle,
+        playlistQuality:
+            _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
+      );
+    } else if (widget.playlistUrl.isNotEmpty) {
+      expandablePlaylistListVM.addPlaylist(
+        playlistUrl: widget.playlistUrl,
+        playlistQuality:
+            _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
+      );
+    }
   }
 
   String formatDownloadSpeed({

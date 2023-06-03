@@ -9,7 +9,7 @@ import '../../viewmodels/warning_message_vm.dart';
 /// This widget is used to display warning messages to the user.
 /// It is created each time a warning message is set to the
 /// [WarningMessageVM] class.
-/// 
+///
 /// The warning messages are displayed as a dialog whose content
 /// depends on the type of the warning message set to the
 /// WarningMessageVM.
@@ -143,14 +143,14 @@ class DisplayMessageWidget extends StatelessWidget {
 
         return const SizedBox.shrink();
       case WarningMessageType.localPlaylistWithTitleAlreadyInListOfPlaylists:
-        String playlistTitle = _warningMessageVM.localPlaylistAlreadyCreatedTitle;
+        String playlistTitle =
+            _warningMessageVM.localPlaylistAlreadyCreatedTitle;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!
-                .localPlaylistWithTitleAlreadyInListOfPlaylists(
-                    playlistTitle),
+                .localPlaylistWithTitleAlreadyInListOfPlaylists(playlistTitle),
             warningMessageVM: _warningMessageVM,
           );
         });
@@ -205,7 +205,8 @@ class DisplayMessageWidget extends StatelessWidget {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(
             context: _context,
-            message: AppLocalizations.of(context)!.noPlaylistSelectedForSingleVideoDownload,
+            message: AppLocalizations.of(context)!
+                .noPlaylistSelectedForSingleVideoDownload,
             warningMessageVM: _warningMessageVM,
           );
         });
@@ -215,7 +216,8 @@ class DisplayMessageWidget extends StatelessWidget {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(
             context: _context,
-            message: AppLocalizations.of(context)!.tooManyPlaylistSelectedForSingleVideoDownload,
+            message: AppLocalizations.of(context)!
+                .tooManyPlaylistSelectedForSingleVideoDownload,
             warningMessageVM: _warningMessageVM,
           );
         });
@@ -241,6 +243,8 @@ class DisplayMessageWidget extends StatelessWidget {
         onKey: (event) {
           if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
               event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
+            // executing the same code as in the 'Ok'
+            // ElevatedButton onPressed callback
             warningMessageVM.warningMessageType = WarningMessageType.none;
             Navigator.of(context).pop();
           }

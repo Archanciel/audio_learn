@@ -115,6 +115,8 @@ class _SortAndFilterAudioDialogWidgetState
         onKey: (event) {
           if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
               event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
+            // executing the same code as in the 'Apply'
+            // ElevatedButton onPressed callback
             List<Audio> sortedAudioLstBySortingOption =
                 _filterAndSortAudioLst();
             Navigator.of(context).pop(sortedAudioLstBySortingOption);
