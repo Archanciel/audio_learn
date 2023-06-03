@@ -123,7 +123,6 @@
   "moveAudioToPlaylist": "Déplacer l'audio vers la playlist ...",
   "copyAudioToPlaylist": "Copier l'audio dans la playlist ...",
   "audioInfoDialogTitle": "Audio Informations",
-  "audioInfoDialogOk": "OK",
   "originalVideoTitleLabel": "Titre vidéo original",
   "validVideoTitleLabel": "Titre vidéo valide", 
   "videoUrlLabel": "URL vidéo",
