@@ -585,10 +585,19 @@ class AudioDownloadVM extends ChangeNotifier {
   }) {
     Playlist fromPlaylist = audio.enclosingPlaylist!;
 
-    DirUtil.moveFileToDirectory(
+    bool wasFileMoved = DirUtil.moveFileToDirectorySync(
       sourceFilePathName: audio.filePathName,
       targetDirectoryPath: targetPlaylist.downloadPath,
     );
+
+    if (!wasFileMoved) {
+      _warningMessageVM.setAudioNotMovedFromToPlaylistTitles(
+          movedAudioValidVideoTitle: audio.validVideoTitle,
+          movedFromPlaylistTitle: fromPlaylist.title,
+          movedToPlaylistTitle: targetPlaylist.title);
+
+      return;
+    }
 
     fromPlaylist.removeDownloadedAudio(audio);
     targetPlaylist.addDownloadedAudio(audio);
@@ -602,16 +611,32 @@ class AudioDownloadVM extends ChangeNotifier {
       model: targetPlaylist,
       path: targetPlaylist.getPlaylistDownloadFilePathName(),
     );
+
+    _warningMessageVM.setAudioMovedFromToPlaylistTitles(
+        movedAudioValidVideoTitle: audio.validVideoTitle,
+        movedFromPlaylistTitle: fromPlaylist.title,
+        movedToPlaylistTitle: targetPlaylist.title);
   }
 
   void copyAudioToPlaylist({
     required Audio audio,
     required Playlist targetPlaylist,
   }) {
-    DirUtil.copyFileToDirectory(
+    bool wasFileCopied = DirUtil.copyFileToDirectorySync(
       sourceFilePathName: audio.filePathName,
       targetDirectoryPath: targetPlaylist.downloadPath,
     );
+
+      String fromPlaylistTitle = audio.enclosingPlaylist!.title;
+
+    if (!wasFileCopied) {
+      _warningMessageVM.setAudioNotCopiedFromToPlaylistTitles(
+          copiedAudioValidVideoTitle: audio.validVideoTitle,
+          copiedFromPlaylistTitle: fromPlaylistTitle,
+          copiedToPlaylistTitle: targetPlaylist.title);
+
+      return;
+    }
 
     targetPlaylist.addDownloadedAudio(audio);
 
@@ -619,6 +644,11 @@ class AudioDownloadVM extends ChangeNotifier {
       model: targetPlaylist,
       path: targetPlaylist.getPlaylistDownloadFilePathName(),
     );
+
+    _warningMessageVM.setAudioCopiedFromToPlaylistTitles(
+        copiedAudioValidVideoTitle: audio.validVideoTitle,
+        copiedFromPlaylistTitle: fromPlaylistTitle,
+        copiedToPlaylistTitle: targetPlaylist.title);
   }
 
   /// Physically deletes the audio file from the audio playlist

@@ -135,7 +135,11 @@ class DirUtil {
 
   /// If [targetFileName] is not provided, the moved file will
   /// have the same name than the source file name.
-  static void moveFileToDirectory({
+  ///
+  /// Returns true if the file has been moved, false
+  /// otherwise in case the moved file already exist in
+  /// the target dir.
+  static bool moveFileToDirectorySync({
     required String sourceFilePathName,
     required String targetDirectoryPath,
     String? targetFileName,
@@ -143,13 +147,23 @@ class DirUtil {
     File sourceFile = File(sourceFilePathName);
     String copiedFileName = targetFileName ?? sourceFile.uri.pathSegments.last;
     String targetPathFileName = '$targetDirectoryPath/$copiedFileName';
+
+    if (File(targetPathFileName).existsSync()) {
+      return false;
+    }
 
     sourceFile.renameSync(targetPathFileName);
+
+    return true;
   }
 
-  /// If [targetFileName] is not provided, the copied file will
+  /// If [targetFileName] is not provided, the moved file will
   /// have the same name than the source file name.
-  static void copyFileToDirectorySync({
+  ///
+  /// Returns true if the file has been moved, false
+  /// otherwise in case the moved file already exist in
+  /// the target dir.
+  static bool copyFileToDirectorySync({
     required String sourceFilePathName,
     required String targetDirectoryPath,
     String? targetFileName,
@@ -158,11 +172,15 @@ class DirUtil {
     String copiedFileName = targetFileName ?? sourceFile.uri.pathSegments.last;
     String targetPathFileName = '$targetDirectoryPath/$copiedFileName';
 
+    if (File(targetPathFileName).existsSync()) {
+      return false;
+    }
+
     sourceFile.copySync(targetPathFileName);
+
+    return true;
   }
 }
-
-
 
 Future<void> main() async {
   List<String> fileNames = DirUtil.listPathFileNamesInSubDirs(

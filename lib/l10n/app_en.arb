@@ -63,7 +63,7 @@
   "deleteAudio": "Delete audio",
   "deleteAudioFromPlaylistAswell": "Delete audio from playlist as well",
   "deleteAudioFromPlaylistAswellWarning": "If the deleted audio video \"{audioTitle}\" remains in the \"{playlistTitle}\" Youtube playlist, it will be downloaded again the next time you download the playlist !",
-  "warning": "WARNING",
+  "warningDialogTitle": "WARNING",
   "updatedPlaylistUrlTitle": "Playlist \"{title}\" URL was updated. The playlist can be downloaded with its new URL.",
   "@updatedPlaylistUrlTitle": {
     "description": "Warning announcing that the playlist url was updated.",
@@ -172,9 +172,14 @@
   "add": "Add",
   "noPlaylistSelectedForSingleVideoDownload": "No playlist selected for single video download. Select one playlist and retry ...",
   "tooManyPlaylistSelectedForSingleVideoDownload": "More than one playlist selected for single video download. Select only one playlist and retry ...",
-  "confirmDialogTitle": "Confirm",
+  "confirmDialogTitle": "CONFIRMATION",
   "confirmSingleVideoAudioPlaylistTitle": "Confirm playlist \"{title}\" for downloading single video audio.",
   "playlistJsonFileSizeLabel": "JSON file size",
   "playlistOneSelectedDialogTitle": "Select a Playlist",
-  "confirmButton": "Confirm"
+  "confirmButton": "Confirm",
+  "enclosingPlaylistLabel": "Enclosing playlist",
+  "audioNotMovedFromToPlaylist": "Audio \"{audioTitle}\" NOT moved from playlist \"{fromPlaylistTitle}\" to \"{toPlaylistTitle}\" since it is already present in the destination playlist.",
+  "audioNotCopiedFromToPlaylist": "Audio \"{audioTitle}\" NOT copied from playlist \"{fromPlaylistTitle}\" to \"{toPlaylistTitle}\" since it is already present in the destination playlist.",
+  "audioMovedFromToPlaylist": "Audio \"{audioTitle}\" moved from playlist \"{fromPlaylistTitle}\" to \"{toPlaylistTitle}\".",
+  "audioCopiedFromToPlaylist": "Audio \"{audioTitle}\" copied from playlist \"{fromPlaylistTitle}\" to \"{toPlaylistTitle}\"."
 }

@@ -6,6 +6,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../constants.dart';
 import '../../viewmodels/warning_message_vm.dart';
 
+enum WarningMode {
+  warning,
+  confirm,
+}
+
 /// This widget is used to display warning messages to the user.
 /// It is created each time a warning message is set to the
 /// [WarningMessageVM] class.
@@ -223,6 +228,64 @@ class DisplayMessageWidget extends StatelessWidget {
         });
 
         return const SizedBox.shrink();
+      case WarningMessageType.audioNotMovedFromToPlaylist:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!.audioNotMovedFromToPlaylist(
+              _warningMessageVM.movedAudioValidVideoTitle,
+              _warningMessageVM.movedFromPlaylistTitle,
+              _warningMessageVM.movedToPlaylistTitle,
+            ),
+            warningMessageVM: _warningMessageVM,
+          );
+        });
+
+        return const SizedBox.shrink();
+      case WarningMessageType.audioNotCopiedFromToPlaylist:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!.audioNotCopiedFromToPlaylist(
+              _warningMessageVM.copiedAudioValidVideoTitle,
+              _warningMessageVM.copiedFromPlaylistTitle,
+              _warningMessageVM.copiedToPlaylistTitle,
+            ),
+            warningMessageVM: _warningMessageVM,
+          );
+        });
+
+        return const SizedBox.shrink();
+      case WarningMessageType.audioMovedFromToPlaylist:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!.audioMovedFromToPlaylist(
+              _warningMessageVM.movedAudioValidVideoTitle,
+              _warningMessageVM.movedFromPlaylistTitle,
+              _warningMessageVM.movedToPlaylistTitle,
+            ),
+            warningMessageVM: _warningMessageVM,
+            warningMode: WarningMode.confirm,
+          );
+        });
+
+        return const SizedBox.shrink();
+      case WarningMessageType.audioCopiedFromToPlaylist:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!.audioCopiedFromToPlaylist(
+              _warningMessageVM.copiedAudioValidVideoTitle,
+              _warningMessageVM.copiedFromPlaylistTitle,
+              _warningMessageVM.copiedToPlaylistTitle,
+            ),
+            warningMessageVM: _warningMessageVM,
+            warningMode: WarningMode.confirm,
+          );
+        });
+
+        return const SizedBox.shrink();
       default:
         return const SizedBox.shrink();
     }
@@ -232,8 +295,22 @@ class DisplayMessageWidget extends StatelessWidget {
     required BuildContext context,
     required String message,
     required WarningMessageVM warningMessageVM,
+    WarningMode warningMode = WarningMode.warning,
   }) {
     final focusNode = FocusNode();
+    String alertDialogTitle = '';
+
+    switch (warningMode) {
+      case WarningMode.warning:
+        alertDialogTitle = AppLocalizations.of(context)!.warningDialogTitle;
+        break;
+      case WarningMode.confirm:
+        alertDialogTitle = AppLocalizations.of(context)!.confirmDialogTitle;
+        break;
+      default:
+        break;
+    }
+
     showDialog(
       context: context,
       builder: (context) => RawKeyboardListener(
@@ -250,7 +327,7 @@ class DisplayMessageWidget extends StatelessWidget {
           }
         },
         child: AlertDialog(
-          title: Text(AppLocalizations.of(context)!.warning),
+          title: Text(alertDialogTitle),
           content: Text(
             message,
             style: kDialogTextFieldStyle,

@@ -363,6 +363,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       targetPlaylist: targetPlaylist,
     );
 
+    _removeAudioFromSortedFilteredPlayableAudioList(audio);
+    
     notifyListeners();
   }
 

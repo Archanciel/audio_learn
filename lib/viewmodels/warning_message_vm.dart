@@ -49,10 +49,28 @@ enum WarningMessageType {
   // selected.
 
   ok, // The case if the user clicks on the OK button after a
-  // confirmation message is displayed. 
+  // confirmation message is displayed.
 
   confirmSingleVideoDownload, // The case if the user clicks on the
   // single video download button after selecting a target playlist.
+
+  audioNotMovedFromToPlaylist, // The case if the user clicks on
+  // the move audio to playlist menu item but the audio was not moved
+  // from the source playlist to the target playlist since the
+  // target playlist already contains the audio.
+
+  audioNotCopiedFromToPlaylist, // The case if the user clicks on
+  // the copy audio to playlist menu item but the audio was not copied
+  // from the source playlist to the target playlist since the
+  // target playlist already contains the audio.
+
+  audioMovedFromToPlaylist, // The case if the user clicks on
+  // the move audio to playlist menu item and the audio was moved
+  // from the source playlist to the target playlist.
+
+  audioCopiedFromToPlaylist, // The case if the user clicks on
+  // the copy audio to playlist menu item and the audio was copied
+  // from the source playlist to the target playlist.
 }
 
 enum ErrorType {
@@ -172,7 +190,8 @@ class WarningMessageVM extends ChangeNotifier {
   }
 
   String _localPlaylistAlreadyCreatedTitle = '';
-  String get localPlaylistAlreadyCreatedTitle => _localPlaylistAlreadyCreatedTitle;
+  String get localPlaylistAlreadyCreatedTitle =>
+      _localPlaylistAlreadyCreatedTitle;
   void setLocalPlaylistAlreadyCreatedTitle({
     required String playlistTitle,
   }) {
@@ -184,7 +203,7 @@ class WarningMessageVM extends ChangeNotifier {
     notifyListeners();
   }
 
-bool _isNoPlaylistSelectedForSingleVideoDownload = false;
+  bool _isNoPlaylistSelectedForSingleVideoDownload = false;
   bool get isNoPlaylistSelectedForSingleVideoDownload =>
       _isNoPlaylistSelectedForSingleVideoDownload;
   set isNoPlaylistSelectedForSingleVideoDownload(
@@ -236,6 +255,68 @@ bool _isNoPlaylistSelectedForSingleVideoDownload = false;
 
       notifyListeners();
     }
+  }
+
+  String _movedAudioValidVideoTitle = '';
+  String get movedAudioValidVideoTitle => _movedAudioValidVideoTitle;
+  String _movedFromPlaylistTitle = '';
+  String get movedFromPlaylistTitle => _movedFromPlaylistTitle;
+  String _movedToPlaylistTitle = '';
+  String get movedToPlaylistTitle => _movedToPlaylistTitle;
+  void setAudioNotMovedFromToPlaylistTitles(
+      {required String movedAudioValidVideoTitle,
+      required String movedFromPlaylistTitle,
+      required String movedToPlaylistTitle}) {
+    _movedAudioValidVideoTitle = movedAudioValidVideoTitle;
+    _movedFromPlaylistTitle = movedFromPlaylistTitle;
+    _movedToPlaylistTitle = movedToPlaylistTitle;
+
+    _warningMessageType = WarningMessageType.audioNotMovedFromToPlaylist;
+
+    notifyListeners();
+  }
+  void setAudioMovedFromToPlaylistTitles(
+      {required String movedAudioValidVideoTitle,
+      required String movedFromPlaylistTitle,
+      required String movedToPlaylistTitle}) {
+    _movedAudioValidVideoTitle = movedAudioValidVideoTitle;
+    _movedFromPlaylistTitle = movedFromPlaylistTitle;
+    _movedToPlaylistTitle = movedToPlaylistTitle;
+
+    _warningMessageType = WarningMessageType.audioMovedFromToPlaylist;
+
+    notifyListeners();
+  }
+
+  String _copiedAudioValidVideoTitle = '';
+  String get copiedAudioValidVideoTitle => _copiedAudioValidVideoTitle;
+  String _copiedFromPlaylistTitle = '';
+  String get copiedFromPlaylistTitle => _copiedFromPlaylistTitle;
+  String _copiedToPlaylistTitle = '';
+  String get copiedToPlaylistTitle => _copiedToPlaylistTitle;
+  void setAudioNotCopiedFromToPlaylistTitles(
+      {required String copiedAudioValidVideoTitle,
+      required String copiedFromPlaylistTitle,
+      required String copiedToPlaylistTitle}) {
+    _copiedAudioValidVideoTitle = copiedAudioValidVideoTitle;
+    _copiedFromPlaylistTitle = copiedFromPlaylistTitle;
+    _copiedToPlaylistTitle = copiedToPlaylistTitle;
+
+    _warningMessageType = WarningMessageType.audioNotCopiedFromToPlaylist;
+
+    notifyListeners();
+  }
+  void setAudioCopiedFromToPlaylistTitles(
+      {required String copiedAudioValidVideoTitle,
+      required String copiedFromPlaylistTitle,
+      required String copiedToPlaylistTitle}) {
+    _copiedAudioValidVideoTitle = copiedAudioValidVideoTitle;
+    _copiedFromPlaylistTitle = copiedFromPlaylistTitle;
+    _copiedToPlaylistTitle = copiedToPlaylistTitle;
+
+    _warningMessageType = WarningMessageType.audioCopiedFromToPlaylist;
+
+    notifyListeners();
   }
 
   String _updatedPlayableAudioLstPlaylistTitle = '';
