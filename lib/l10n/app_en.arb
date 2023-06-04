@@ -108,7 +108,7 @@
       "exceptionMessage": {}
     }
   },
-  "downloadAudioFileAlreadyOnAudioDirectory": "File \"{fileName}\" in the playlist directory contains the single video audio which so won't be redownloaded.",
+  "downloadAudioFileAlreadyOnAudioDirectory": "Audio \"{audioValidVideoTitle}\" is contained in file \"{fileName}\" present in the \"{playlistTitle}\" playlist directory and so won't be redownloaded.",
   "noInternet": "No Internet. Please connect your device and retry.",
   "invalidSingleVideoUUrl": "Single video with invalid URL \"{url}\" could not be downloaded.",
   "@invalidSingleVideoUUrl": {
@@ -178,8 +178,8 @@
   "playlistOneSelectedDialogTitle": "Select a Playlist",
   "confirmButton": "Confirm",
   "enclosingPlaylistLabel": "Enclosing playlist",
-  "audioNotMovedFromToPlaylist": "Audio \"{audioTitle}\" NOT moved from playlist \"{fromPlaylistTitle}\" to \"{toPlaylistTitle}\" since it is already present in the destination playlist.",
-  "audioNotCopiedFromToPlaylist": "Audio \"{audioTitle}\" NOT copied from playlist \"{fromPlaylistTitle}\" to \"{toPlaylistTitle}\" since it is already present in the destination playlist.",
-  "audioMovedFromToPlaylist": "Audio \"{audioTitle}\" moved from playlist \"{fromPlaylistTitle}\" to \"{toPlaylistTitle}\".",
-  "audioCopiedFromToPlaylist": "Audio \"{audioTitle}\" copied from playlist \"{fromPlaylistTitle}\" to \"{toPlaylistTitle}\"."
+  "audioNotMovedFromToPlaylist": "Audio \"{audioTitle}\" NOT moved from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.",
+  "audioNotCopiedFromToPlaylist": "Audio \"{audioTitle}\" NOT copied from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.",
+  "audioMovedFromToPlaylist": "Audio \"{audioTitle}\" moved from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\".",
+  "audioCopiedFromToPlaylist": "Audio \"{audioTitle}\" copied from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\"."
 }

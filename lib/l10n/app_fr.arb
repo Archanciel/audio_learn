@@ -109,7 +109,7 @@
       "exceptionMessage": {}
     }
   },
-  "downloadAudioFileAlreadyOnAudioDirectory": "Le fichier \"{fileName}\" se trouvant dans le répertoire de la playlist contient l'audio de la vidéo unique qui ne sera donc pas retéléchargé.",
+  "downloadAudioFileAlreadyOnAudioDirectory": "L'audio \"{audioValidVideoTitle}\" est contenu dans le fichier \"{fileName}\" se trouvant dans le répertoire de la playlist \"{playlistTitle}\" et ne sera donc pas retéléchargé.",
   "noInternet": "Pas d'Internet. Connecte ton appareil et rééssaye.",
   "invalidSingleVideoUUrl": "L'URL \"{url}\" ne pointe pas sur une vidéo unique. Aucune vidéo n'a donc été téléchargée.",
   "@invalidSingleVideoUUrl": {
@@ -179,8 +179,8 @@
   "playlistOneSelectedDialogTitle": "Sélectionnez une Playlist",
   "confirmButton": "Confirmer",
   "enclosingPlaylistLabel": "Playlist englobante",
-  "audioNotMovedFromToPlaylist": "L'audio \"{audioTitle}\" n'a pas été déplacé de la playlist \"{fromPlaylistTitle}\" vers \"{toPlaylistTitle}\" car il est déjà présent dans cette playlist.",
-  "audioNotCopiedFromToPlaylist": "L'audio \"{audioTitle}\" n'a pas été copié de la playlist \"{fromPlaylistTitle}\" vers \"{toPlaylistTitle}\" car il est déjà présent dans cette playlist.",
-  "audioMovedFromToPlaylist": "Audio \"{audioTitle}\" déplacé de la playlist \"{fromPlaylistTitle}\" vers \"{toPlaylistTitle}\".",
-  "audioCopiedFromToPlaylist": "Audio \"{audioTitle}\" copié de la playlist \"{fromPlaylistTitle}\" vers \"{toPlaylistTitle}\"."
+  "audioNotMovedFromToPlaylist": "L'audio \"{audioTitle}\" n'a pas été déplacé de la playlist \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\" car il est déjà présent dans cette playlist.",
+  "audioNotCopiedFromToPlaylist": "L'audio \"{audioTitle}\" n'a pas été copié de la playlist \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\" car il est déjà présent dans cette playlist.",
+  "audioMovedFromToPlaylist": "Audio \"{audioTitle}\" déplacé de la playlist \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\".",
+  "audioCopiedFromToPlaylist": "Audio \"{audioTitle}\" copié de la playlist \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\"."
 }

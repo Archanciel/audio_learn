@@ -41,6 +41,20 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
         _audioDownloadVM = audioDownloadVM,
         _settingsDataService = settingsDataService;
 
+  List<Playlist> getUpToDateSelectablePlaylistsExceptPlaylist({
+    required Playlist excludedPlaylist,
+  }) {
+    List<Playlist> upToDateSelectablePlaylists =
+        getUpToDateSelectablePlaylists();
+
+    List<Playlist> listOfSelectablePlaylistsCopy =
+        List.from(upToDateSelectablePlaylists);
+
+    listOfSelectablePlaylistsCopy.remove(excludedPlaylist);
+
+    return listOfSelectablePlaylistsCopy;
+  }
+
   /// Thanks to this method, when restarting the app, the playlists
   /// are displayed in the same order as when the app was closed. This
   /// is done by saving the playlist order in the settings file.
@@ -364,7 +378,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     );
 
     _removeAudioFromSortedFilteredPlayableAudioList(audio);
-    
+
     notifyListeners();
   }
 
@@ -392,7 +406,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Method called when the user selected a playlist item 
+  /// Method called when the user selected a playlist item
   /// PlaylistPopupMenuAction.updatePlaylistPlayableAudios menu
   /// item. This method updates the playlist playable audio list
   /// by removing the audios that are no longer present in the

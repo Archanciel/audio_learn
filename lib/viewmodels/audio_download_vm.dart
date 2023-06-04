@@ -155,7 +155,7 @@ class AudioDownloadVM extends ChangeNotifier {
       } on SocketException catch (e) {
         _notifyDownloadError(
           errorType: ErrorType.noInternet,
-          errorMessage: e.toString(),
+          errorArgOne: e.toString(),
         );
 
         return null;
@@ -230,13 +230,13 @@ class AudioDownloadVM extends ChangeNotifier {
     } on SocketException catch (e) {
       _notifyDownloadError(
         errorType: ErrorType.noInternet,
-        errorMessage: e.toString(),
+        errorArgOne: e.toString(),
       );
       return;
     } catch (e) {
       _notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
-        errorMessage: e.toString(),
+        errorArgOne: e.toString(),
       );
       return;
     }
@@ -324,7 +324,7 @@ class AudioDownloadVM extends ChangeNotifier {
       } catch (e) {
         _notifyDownloadError(
           errorType: ErrorType.downloadAudioYoutubeError,
-          errorMessage: e.toString(),
+          errorArgOne: e.toString(),
         );
         continue;
       }
@@ -377,7 +377,9 @@ class AudioDownloadVM extends ChangeNotifier {
 
   _notifyDownloadError({
     required ErrorType errorType,
-    String? errorMessage,
+    String? errorArgOne,
+    String? errorArgTwo,
+    String? errorArgThree,
   }) {
     _isDownloading = false;
     _downloadProgress = 0.0;
@@ -386,7 +388,9 @@ class AudioDownloadVM extends ChangeNotifier {
 
     _warningMessageVM.setError(
       errorType: errorType,
-      errorMessage: errorMessage,
+      errorArgOne: errorArgOne,
+      errorArgTwo: errorArgTwo,
+      errorArgThree: errorArgThree,
     );
 
     notifyListeners();
@@ -459,7 +463,7 @@ class AudioDownloadVM extends ChangeNotifier {
     } on SocketException catch (e) {
       _notifyDownloadError(
         errorType: ErrorType.noInternet,
-        errorMessage: e.toString(),
+        errorArgOne: e.toString(),
       );
       return;
     } catch (e) {
@@ -474,13 +478,13 @@ class AudioDownloadVM extends ChangeNotifier {
     } on SocketException catch (e) {
       _notifyDownloadError(
         errorType: ErrorType.noInternet,
-        errorMessage: e.toString(),
+        errorArgOne: e.toString(),
       );
       return;
     } catch (e) {
       _notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
-        errorMessage: e.toString(),
+        errorArgOne: e.toString(),
       );
       return;
     }
@@ -520,7 +524,9 @@ class AudioDownloadVM extends ChangeNotifier {
           .firstWhere((fileName) => fileName.contains(audio.validVideoTitle));
       _notifyDownloadError(
         errorType: ErrorType.downloadAudioFileAlreadyOnAudioDirectory,
-        errorMessage: firstMatch,
+        errorArgOne: audio.validVideoTitle,
+        errorArgTwo: firstMatch,
+        errorArgThree: singleVideoPlaylist.title,
       );
 
       return;
@@ -547,7 +553,7 @@ class AudioDownloadVM extends ChangeNotifier {
       _youtubeExplode.close();
       _notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
-        errorMessage: e.toString(),
+        errorArgOne: e.toString(),
       );
       return;
     }
@@ -627,7 +633,7 @@ class AudioDownloadVM extends ChangeNotifier {
       targetDirectoryPath: targetPlaylist.downloadPath,
     );
 
-      String fromPlaylistTitle = audio.enclosingPlaylist!.title;
+    String fromPlaylistTitle = audio.enclosingPlaylist!.title;
 
     if (!wasFileCopied) {
       _warningMessageVM.setAudioNotCopiedFromToPlaylistTitles(
@@ -840,7 +846,7 @@ class AudioDownloadVM extends ChangeNotifier {
     } catch (e) {
       _notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
-        errorMessage: e.toString(),
+        errorArgOne: e.toString(),
       );
       return;
     }

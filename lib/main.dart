@@ -25,7 +25,7 @@ enum AppBarPopupMenu { en, fr, about }
 Future<void> main(List<String> args) async {
   List<String> myArgs = [];
 
-  if (args.isNotEmpty) {
+  if (args.isNotEmpty) {                
     myArgs = args;
   } else {
     // myArgs = ["delAppDir"]; // used to empty dir on emulator

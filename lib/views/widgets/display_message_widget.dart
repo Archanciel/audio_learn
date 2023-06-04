@@ -43,7 +43,7 @@ class DisplayMessageWidget extends StatelessWidget {
 
         switch (errorType) {
           case ErrorType.downloadAudioYoutubeError:
-            String exceptionMessage = _warningMessageVM.errorMessage;
+            String exceptionMessage = _warningMessageVM.errorArgOne;
 
             if (exceptionMessage.isNotEmpty) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -66,13 +66,15 @@ class DisplayMessageWidget extends StatelessWidget {
 
             return const SizedBox.shrink();
           case ErrorType.downloadAudioFileAlreadyOnAudioDirectory:
-            String audioFileName = _warningMessageVM.errorMessage;
-
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _displayWarningDialog(
                   context: _context,
                   message: AppLocalizations.of(context)!
-                      .downloadAudioFileAlreadyOnAudioDirectory(audioFileName),
+                      .downloadAudioFileAlreadyOnAudioDirectory(
+                    _warningMessageVM.errorArgOne,
+                    _warningMessageVM.errorArgTwo,
+                    _warningMessageVM.errorArgThree,
+                  ),
                   warningMessageVM: _warningMessageVM);
             });
 

@@ -96,27 +96,41 @@ class WarningMessageVM extends ChangeNotifier {
     _warningMessageType = warningMessageType;
   }
 
-  String _errorMessage = '';
-  String get errorMessage => _errorMessage;
-
+  String _errorArgOne = '';
+  String get errorArgOne => _errorArgOne;
+  String _errorArgTwo = '';
+  String get errorArgTwo => _errorArgTwo;
+  String _errorArgThree = '';
+  String get errorArgThree => _errorArgThree;
+  
   ErrorType _errorType = ErrorType.none;
   ErrorType get errorType => _errorType;
   void setError({
     required ErrorType errorType,
-    String? errorMessage,
+    String? errorArgOne,
+    String? errorArgTwo,
+    String? errorArgThree,
   }) {
     _errorType = errorType;
 
     if (errorType != ErrorType.none) {
       _warningMessageType = WarningMessageType.errorMessage;
 
-      if (errorMessage != null) {
-        _errorMessage = errorMessage;
+      if (errorArgOne != null) {
+        _errorArgOne = errorArgOne;
+      }
+
+      if (errorArgTwo != null) {
+        _errorArgTwo = errorArgTwo;
+      }
+
+      if (errorArgThree != null) {
+        _errorArgThree = errorArgThree;
       }
 
       notifyListeners();
     } else {
-      _errorMessage = '';
+      _errorArgOne = '';
     }
   }
 
@@ -275,6 +289,7 @@ class WarningMessageVM extends ChangeNotifier {
 
     notifyListeners();
   }
+
   void setAudioMovedFromToPlaylistTitles(
       {required String movedAudioValidVideoTitle,
       required String movedFromPlaylistTitle,
@@ -306,6 +321,7 @@ class WarningMessageVM extends ChangeNotifier {
 
     notifyListeners();
   }
+
   void setAudioCopiedFromToPlaylistTitles(
       {required String copiedAudioValidVideoTitle,
       required String copiedFromPlaylistTitle,

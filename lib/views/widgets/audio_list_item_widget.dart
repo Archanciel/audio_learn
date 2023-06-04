@@ -133,6 +133,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                     context: context,
                     builder: (context) => PlaylistOneSelectedDialogWidget(
                       focusNode: focusNode,
+                      excludedPlaylist: audio.enclosingPlaylist!,
                     ),
                   ).then((_) {
                     ExpandablePlaylistListVM expandablePlaylistVM =
@@ -163,6 +164,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                     context: context,
                     builder: (context) => PlaylistOneSelectedDialogWidget(
                       focusNode: focusNode,
+                      excludedPlaylist: audio.enclosingPlaylist!,
                     ),
                   ).then((_) {
                     ExpandablePlaylistListVM expandablePlaylistVM =
