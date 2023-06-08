@@ -181,6 +181,7 @@
   "enclosingPlaylistLabel": "Playlist englobante",
   "audioNotMovedFromToPlaylist": "L'audio \"{audioTitle}\" n'a pas été déplacé de la playlist \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\" car il est déjà présent dans cette playlist.",
   "audioNotCopiedFromToPlaylist": "L'audio \"{audioTitle}\" n'a pas été copié de la playlist \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\" car il est déjà présent dans cette playlist.",
-  "audioMovedFromToPlaylist": "Audio \"{audioTitle}\" déplacé de la playlist \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\".",
+  "audioMovedFromLocalPlaylistToPlaylist": "Audio \"{audioTitle}\" déplacé de la playlist locale \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\".",
+  "audioMovedFromYoutubePlaylistToPlaylist": "Audio \"{audioTitle}\" déplacé de la playlist Youtube \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\".\n\nSUPPRIME L'AUDIO \"{audioTitle}\" DE LA PLAYLIST YOUTUBE \"{fromPlaylistTitle}\", SINON L'AUDIO SERA TÉLÉCHARGÉ À NOUVEAU LORS DU PROCHAIN TÉLÉCHARGEMENT DE LA PLAYLIST.",
   "audioCopiedFromToPlaylist": "Audio \"{audioTitle}\" copié de la playlist \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\"."
 }

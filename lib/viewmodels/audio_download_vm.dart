@@ -621,6 +621,7 @@ class AudioDownloadVM extends ChangeNotifier {
     _warningMessageVM.setAudioMovedFromToPlaylistTitles(
         movedAudioValidVideoTitle: audio.validVideoTitle,
         movedFromPlaylistTitle: fromPlaylist.title,
+        movedFromPlaylistType: fromPlaylist.playlistType,
         movedToPlaylistTitle: targetPlaylist.title);
   }
 

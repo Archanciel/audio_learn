@@ -102,7 +102,7 @@ class WarningMessageVM extends ChangeNotifier {
   String get errorArgTwo => _errorArgTwo;
   String _errorArgThree = '';
   String get errorArgThree => _errorArgThree;
-  
+
   ErrorType _errorType = ErrorType.none;
   ErrorType get errorType => _errorType;
   void setError({
@@ -290,12 +290,16 @@ class WarningMessageVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  PlaylistType _movedFromPlaylistType = PlaylistType.youtube;
+  PlaylistType get movedFromPlaylistType => _movedFromPlaylistType;
   void setAudioMovedFromToPlaylistTitles(
       {required String movedAudioValidVideoTitle,
       required String movedFromPlaylistTitle,
+      required PlaylistType movedFromPlaylistType,
       required String movedToPlaylistTitle}) {
     _movedAudioValidVideoTitle = movedAudioValidVideoTitle;
     _movedFromPlaylistTitle = movedFromPlaylistTitle;
+    _movedFromPlaylistType = movedFromPlaylistType;
     _movedToPlaylistTitle = movedToPlaylistTitle;
 
     _warningMessageType = WarningMessageType.audioMovedFromToPlaylist;

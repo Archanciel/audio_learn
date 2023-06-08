@@ -260,13 +260,26 @@ class DisplayMessageWidget extends StatelessWidget {
         return const SizedBox.shrink();
       case WarningMessageType.audioMovedFromToPlaylist:
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _displayWarningDialog(
-            context: _context,
-            message: AppLocalizations.of(context)!.audioMovedFromToPlaylist(
+          String audioMovedFromToPlaylistMessage;
+
+          if (_warningMessageVM.movedFromPlaylistType == PlaylistType.local) {
+            audioMovedFromToPlaylistMessage =
+                AppLocalizations.of(context)!.audioMovedFromLocalPlaylistToPlaylist(
               _warningMessageVM.movedAudioValidVideoTitle,
               _warningMessageVM.movedFromPlaylistTitle,
               _warningMessageVM.movedToPlaylistTitle,
-            ),
+            );
+          } else {
+            audioMovedFromToPlaylistMessage =
+                AppLocalizations.of(context)!.audioMovedFromYoutubePlaylistToPlaylist(
+              _warningMessageVM.movedAudioValidVideoTitle,
+              _warningMessageVM.movedFromPlaylistTitle,
+              _warningMessageVM.movedToPlaylistTitle,
+            );
+          }
+          _displayWarningDialog(
+            context: _context,
+            message: audioMovedFromToPlaylistMessage,
             warningMessageVM: _warningMessageVM,
             warningMode: WarningMode.confirm,
           );
