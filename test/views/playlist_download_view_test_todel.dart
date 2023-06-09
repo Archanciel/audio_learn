@@ -144,6 +144,38 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   void deleteAudioFromPlaylistAswell({required Audio audio}) {
     // TODO: implement deleteAudioFromPlaylistAswell
   }
+  
+  @override
+  void copyAudioToPlaylist({required Audio audio, required Playlist targetPlaylist}) {
+    // TODO: implement copyAudioToPlaylist
+  }
+  
+  @override
+  int getPlaylistJsonFileSize({required Playlist playlist}) {
+    // TODO: implement getPlaylistJsonFileSize
+    throw UnimplementedError();
+  }
+  
+  @override
+  set isHighQuality(bool isHighQuality) {
+    // TODO: implement isHighQuality
+  }
+  
+  @override
+  void moveAudioToPlaylist({required Audio audio, required Playlist targetPlaylist}) {
+    // TODO: implement moveAudioToPlaylist
+  }
+  
+  @override
+  Playlist? obtainSingleVideoPlaylist(List<Playlist> selectedPlaylists) {
+    // TODO: implement obtainSingleVideoPlaylist
+    throw UnimplementedError();
+  }
+  
+  @override
+  void updatePlaylistJsonFiles() {
+    // TODO: implement updatePlaylistJsonFiles
+  }
 }
 
 void main() {
