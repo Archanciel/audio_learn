@@ -163,17 +163,17 @@ void main() {
       List<Audio> playableAudioLstBeforeDownload =
           downloadedPlaylistBeforeDownload.playableAudioLst;
 
-      // expect(downloadedAudioLstBeforeDownload.length, 1);
-      // expect(playableAudioLstBeforeDownload.length, 1);
+      expect(downloadedAudioLstBeforeDownload.length, 1);
+      expect(playableAudioLstBeforeDownload.length, 1);
 
-      // checkAudioOne(
-      //   downloadedAudio: downloadedAudioLstBeforeDownload[0],
-      //   downloadFileNamePrefix: '230406',
-      // );
-      // checkAudioOne(
-      //   downloadedAudio: playableAudioLstBeforeDownload[0],
-      //   downloadFileNamePrefix: '230406',
-      // );
+      checkAudioTwo(
+        downloadedAudioTwo: downloadedAudioLstBeforeDownload[0],
+        downloadFileNamePrefix: '230406',
+      );
+      checkAudioTwo(
+        downloadedAudioTwo: playableAudioLstBeforeDownload[0],
+        downloadFileNamePrefix: '230406',
+      );
 
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
@@ -288,18 +288,18 @@ void main() {
       List<Audio> playableAudioLstBeforeDownload =
           downloadedPlaylistBeforeDownload.playableAudioLst;
 
-      // checkDownloadedAudios(
-      //   downloadedAudioOne: downloadedAudioLstBeforeDownload[0],
-      //   downloadedAudioTwo: downloadedAudioLstBeforeDownload[1],
-      //   downloadFileNamePrefix: '230406',
-      // );
+      checkDownloadedAudios(
+        downloadedAudioOne: downloadedAudioLstBeforeDownload[0],
+        downloadedAudioTwo: downloadedAudioLstBeforeDownload[1],
+        downloadFileNamePrefix: '230406',
+      );
 
-      // // playableAudioLst contains inserted at list start Audio^s
-      // checkDownloadedAudios(
-      //   downloadedAudioOne: playableAudioLstBeforeDownload[1],
-      //   downloadedAudioTwo: playableAudioLstBeforeDownload[0],
-      //   downloadFileNamePrefix: '230406',
-      // );
+      // playableAudioLst contains inserted at list start Audio^s
+      checkDownloadedAudios(
+        downloadedAudioOne: playableAudioLstBeforeDownload[1],
+        downloadedAudioTwo: playableAudioLstBeforeDownload[0],
+        downloadFileNamePrefix: '230406',
+      );
 
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
@@ -418,10 +418,22 @@ void checkDownloadedAudios({
   String? todayFileNamePrefix,
 }) {
   checkAudioOne(
-    downloadedAudio: downloadedAudioOne,
+    downloadedAudioOne: downloadedAudioOne,
     downloadFileNamePrefix: downloadFileNamePrefix,
   );
 
+  checkAudioTwo(
+    downloadedAudioTwo: downloadedAudioTwo,
+    todayFileNamePrefix: todayFileNamePrefix,
+    downloadFileNamePrefix: downloadFileNamePrefix,
+  );
+}
+
+void checkAudioTwo({
+  required Audio downloadedAudioTwo,
+  String? todayFileNamePrefix,
+  required String downloadFileNamePrefix,
+}) {
   expect(downloadedAudioTwo.originalVideoTitle,
       "audio learn test short video two");
   expect(
@@ -432,8 +444,7 @@ void checkDownloadedAudios({
       "https://www.youtube.com/watch?v=uv3VQoWSjBE");
   expect(downloadedAudioTwo.videoUploadDate,
       DateTime.parse("2023-06-10T00:00:00.000"));
-  expect(
-      downloadedAudioTwo.audioDuration, const Duration(milliseconds: 10000));
+  expect(downloadedAudioTwo.audioDuration, const Duration(milliseconds: 10000));
   expect(downloadedAudioTwo.isMusicQuality, false);
 
   if (!kAudioFileNamePrefixIncludeTime) {
@@ -448,29 +459,29 @@ void checkDownloadedAudios({
 }
 
 void checkAudioOne({
-  required Audio downloadedAudio,
+  required Audio downloadedAudioOne,
   required String downloadFileNamePrefix,
 }) {
   expect(
-      downloadedAudio.originalVideoTitle, "audio learn test short video one");
-  expect(downloadedAudio.validVideoTitle, "audio learn test short video one");
+      downloadedAudioOne.originalVideoTitle, "audio learn test short video one");
+  expect(downloadedAudioOne.validVideoTitle, "audio learn test short video one");
   expect(
-      downloadedAudio.videoUrl, "https://www.youtube.com/watch?v=v7PWb7f_P8M");
-  expect(downloadedAudio.compactVideoDescription,
+      downloadedAudioOne.videoUrl, "https://www.youtube.com/watch?v=v7PWb7f_P8M");
+  expect(downloadedAudioOne.compactVideoDescription,
       "Jean-Pierre Schnyder\n\nCette vidéo me sert à tester AudioLearn, l'app Android que je développe et dont le code est disponible sur GitHub. ...");
-  expect(downloadedAudio.videoUploadDate,
+  expect(downloadedAudioOne.videoUploadDate,
       DateTime.parse("2023-06-10T00:00:00.000"));
-  expect(downloadedAudio.audioDuration, const Duration(milliseconds: 24000));
-  expect(downloadedAudio.isMusicQuality, false);
+  expect(downloadedAudioOne.audioDuration, const Duration(milliseconds: 24000));
+  expect(downloadedAudioOne.isMusicQuality, false);
   if (!kAudioFileNamePrefixIncludeTime) {
     // if kAudioFileNamePrefixIncludeTime is true,
     // it is not possible to check the audio file
     // name because it contains the time when the
     // audio was downloaded.
-    expect(downloadedAudio.audioFileName,
+    expect(downloadedAudioOne.audioFileName,
         "$downloadFileNamePrefix-audio learn test short video one 23-06-10.mp3");
   }
-  expect(downloadedAudio.audioFileSize, 143679);
+  expect(downloadedAudioOne.audioFileSize, 143679);
 }
 
 void deletePlaylistDownloadDir(Directory directory) {
