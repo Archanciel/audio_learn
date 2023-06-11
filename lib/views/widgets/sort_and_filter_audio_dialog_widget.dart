@@ -31,7 +31,7 @@ class _SortAndFilterAudioDialogWidgetState
 
   bool _sortAscending = false;
   bool _filterMusicQuality = false;
-  bool _ignoreCase = false;
+  bool _ignoreCase = true;
   bool _searchInVideoCompactDescription = true;
 
   final TextEditingController _startFileSizeController =
@@ -107,6 +107,7 @@ class _SortAndFilterAudioDialogWidgetState
 
   @override
   Widget build(BuildContext context) {
+    _audioTitleSubStringFocusNode.requestFocus();
     DateTime now = DateTime.now();
 
     return Center(
