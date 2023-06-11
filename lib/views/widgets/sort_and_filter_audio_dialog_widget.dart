@@ -60,6 +60,18 @@ class _SortAndFilterAudioDialogWidgetState
   final _audioTitleSubStringFocusNode = FocusNode();
 
   @override
+  void initState() {
+    super.initState();    
+    
+    // Add this line to request focus on the TextField after the build 
+    // method has been called
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(
+        _audioTitleSubStringFocusNode,
+      );
+    });            
+  }
+  @override
   void dispose() {
     _startFileSizeController.dispose();
     _endFileSizeController.dispose();
@@ -107,7 +119,6 @@ class _SortAndFilterAudioDialogWidgetState
 
   @override
   Widget build(BuildContext context) {
-    _audioTitleSubStringFocusNode.requestFocus();
     DateTime now = DateTime.now();
 
     return Center(
