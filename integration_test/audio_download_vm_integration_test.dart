@@ -1,4 +1,8 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:provider/provider.dart';
 
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/audio.dart';
@@ -6,10 +10,6 @@ import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
-import 'package:provider/provider.dart';
 
 const int secondsDelay = 7;
 final String todayDownloadFileNamePrefix = (kAudioFileNamePrefixIncludeTime)
