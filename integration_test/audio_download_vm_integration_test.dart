@@ -11,7 +11,7 @@ import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
-const int secondsDelay = 7;
+const int secondsDelay = 8; // 7 works, but 8 is safer
 final String todayDownloadFileNamePrefix = (kAudioFileNamePrefixIncludeTime)
     ? Audio.downloadDateTimePrefixFormatter.format(DateTime.now())
     : Audio.downloadDatePrefixFormatter
