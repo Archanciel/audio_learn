@@ -462,11 +462,12 @@ void checkAudioOne({
   required Audio downloadedAudioOne,
   required String downloadFileNamePrefix,
 }) {
+  expect(downloadedAudioOne.originalVideoTitle,
+      "audio learn test short video one");
   expect(
-      downloadedAudioOne.originalVideoTitle, "audio learn test short video one");
-  expect(downloadedAudioOne.validVideoTitle, "audio learn test short video one");
-  expect(
-      downloadedAudioOne.videoUrl, "https://www.youtube.com/watch?v=v7PWb7f_P8M");
+      downloadedAudioOne.validVideoTitle, "audio learn test short video one");
+  expect(downloadedAudioOne.videoUrl,
+      "https://www.youtube.com/watch?v=v7PWb7f_P8M");
   expect(downloadedAudioOne.compactVideoDescription,
       "Jean-Pierre Schnyder\n\nCette vidéo me sert à tester AudioLearn, l'app Android que je développe et dont le code est disponible sur GitHub. ...");
   expect(downloadedAudioOne.videoUploadDate,
