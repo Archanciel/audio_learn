@@ -39,7 +39,9 @@ class DirUtil {
 
     if (isAppDirToBeDeleted) {
       if (directoryExists) {
-        DirUtil.deleteFilesInDirAndSubDirs(path);
+        DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: path,
+        );
       }
     }
 
@@ -59,8 +61,10 @@ class DirUtil {
     }
   }
 
-  static void deleteFilesInDirAndSubDirs(String transferDataJsonPath) {
-    final Directory directory = Directory(transferDataJsonPath);
+  static void deleteFilesInDirAndSubDirs({
+    required String rootPath,
+  }) {
+    final Directory directory = Directory(rootPath);
     final List<FileSystemEntity> contents = directory.listSync(recursive: true);
 
     for (FileSystemEntity file in contents) {
