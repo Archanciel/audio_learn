@@ -46,6 +46,7 @@ class ScreenMixin {
   }
 
   Widget createInfoRowFunction({
+    Key? valueTextWidgetKey, // key set to the Text widget displaying the value
     required BuildContext context,
     required String label,
     required String value,
@@ -60,7 +61,9 @@ class ScreenMixin {
           ),
           Expanded(
             child: InkWell(
-              child: Text(value),
+              child: Text(
+                key: valueTextWidgetKey,
+                value,),
               onTap: () {
                 Clipboard.setData(
                   ClipboardData(text: value),
@@ -74,6 +77,8 @@ class ScreenMixin {
   }
 
   Widget createEditableRowFunction({
+    Key? valueTextFieldWidgetKey, // key set to the TextField widget
+                                  // containing the value
     required BuildContext context,
     required String label,
     required String value,
@@ -90,6 +95,7 @@ class ScreenMixin {
           Expanded(
             child: InkWell(
               child: TextField(
+                key: valueTextFieldWidgetKey,
                 controller: controller,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),

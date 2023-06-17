@@ -62,10 +62,12 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                 value: AppLocalizations.of(context)!.addPlaylistDialogComment,
               ),
               createInfoRowFunction(
+                  valueTextWidgetKey: const Key('playlistUrlConfirmDialogText'),
                   context: context,
                   label: AppLocalizations.of(context)!.youtubePlaylistUrlLabel,
                   value: widget.playlistUrl),
               createEditableRowFunction(
+                valueTextFieldWidgetKey: const Key('playlistLocalNameConfirmDialogTextField'),
                   context: context,
                   label: AppLocalizations.of(context)!.localPlaylistTitleLabel,
                   value: '',
@@ -85,6 +87,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
         ),
         actions: [
           ElevatedButton(
+            key: const Key('addPlaylistConfirmDialogAddButton'),
             onPressed: () {
               _addPlaylist(context);
               Navigator.of(context).pop();
@@ -92,6 +95,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
             child: Text(AppLocalizations.of(context)!.add),
           ),
           ElevatedButton(
+            key: const Key('addPlaylistConfirmDialogCancelButton'),
             onPressed: () {
               Navigator.of(context).pop();
             },

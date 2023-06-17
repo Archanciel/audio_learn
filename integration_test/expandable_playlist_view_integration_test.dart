@@ -1,14 +1,12 @@
-import 'dart:io';
-
-import 'package:audio_learn/main.dart';
-import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/utils/dir_util.dart';
-import 'package:audio_learn/views/widgets/playlist_list_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
 import 'package:audio_learn/constants.dart';
+import 'package:audio_learn/main.dart';
+import 'package:audio_learn/services/settings_data_service.dart';
+import 'package:audio_learn/utils/dir_util.dart';
+import 'package:audio_learn/views/widgets/playlist_list_item_widget.dart';
 
 void main() {
   const String testPlaylistDir =
@@ -27,9 +25,10 @@ void main() {
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
 
-      final String youtubePlaylistUrl =
+      const String youtubePlaylistUrl =
           'https://youtube.com/playlist?list=PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
-      final String youtubePlaylistTitle = 'audio_learn_new_youtube_playlist_test';
+      const String youtubePlaylistTitle =
+          'audio_learn_new_youtube_playlist_test';
 
       await tester.pumpWidget(
         MaterialApp(
@@ -46,9 +45,40 @@ void main() {
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
-      // The list should be visible now but empty
+      // The playlist list should be visible now but empty
       expect(find.byKey(const Key('expandable_playlist_list')), findsOneWidget);
       expect(find.byType(PlaylistListItemWidget), findsNothing);
+
+      // Add a new playlist
+      await tester.enterText(
+          find.byKey(const Key('playlistUrlTextField')), youtubePlaylistUrl);
+
+      TextField urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, youtubePlaylistUrl);
+
+      await tester.tap(find.byKey(const Key('addPlaylistButton')));
+      await tester.pumpAndSettle();
+
+      // Check the value of the AlertDialog Text
+      Text confirmUrlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
+      expect(confirmUrlTextField.data!, youtubePlaylistUrl);
+
+      // Confirm the addition by tapping the confirmation button in the AlertDialog
+      await tester
+          .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
+      await tester.pumpAndSettle();
+
+      // The playlist list should have one item now
+      expect(find.byType(PlaylistListItemWidget), findsOneWidget);
+
+      // Check if the added item is displayed correctly
+      final playlistTile = find.byType(PlaylistListItemWidget).first;
+      expect(
+          find.descendant(
+              of: playlistTile, matching: find.text(youtubePlaylistTitle)),
+          findsOneWidget);
     });
   });
 }
