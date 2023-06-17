@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/main.dart';
@@ -32,6 +33,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
           home: Scaffold(
             body: MainApp(
               key: const Key('mainAppKey'),
