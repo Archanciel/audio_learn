@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:audio_learn/main.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
+import 'package:audio_learn/utils/dir_util.dart';
+import 'package:audio_learn/views/widgets/playlist_list_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -18,17 +22,14 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Expandable Playlist View test', () {
-    /// This test is used to test recreating the playlist with the
-    /// same name. Recreating a playlist with an identical name avoids
-    /// to loose time removing from the original playlist the referenced
-    /// videos. The recreated playlist audios are downloaded in the same
-    /// dir than the original playlist, The original playlist json file is
-    /// updated with the recreated playlist id and url as well with the
-    /// newly downloaded audios.
     testWidgets('Add Youtube playlist', (tester) async {
-      String youtubePlaylistUrl =
+      // Delete the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+
+      final String youtubePlaylistUrl =
           'https://youtube.com/playlist?list=PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
-      String youtubePlaylistTitle = 'audio_learn_new_youtube_playlist_test';
+      final String youtubePlaylistTitle = 'audio_learn_new_youtube_playlist_test';
 
       await tester.pumpWidget(
         MaterialApp(
@@ -41,8 +42,13 @@ void main() {
         ),
       );
 
-      // see chatgpt_audio_learn main_expandable_integration_test.dart
-      // for integr testing usage ...
+      // Tap the 'Playlist' button to show the empty playlist list
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // The list should be visible now but empty
+      expect(find.byKey(const Key('expandable_playlist_list')), findsOneWidget);
+      expect(find.byType(PlaylistListItemWidget), findsNothing);
     });
   });
 }

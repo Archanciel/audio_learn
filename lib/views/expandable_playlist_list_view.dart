@@ -357,7 +357,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
               SizedBox(
                 width: 75,
                 child: ElevatedButton(
-                  key: const Key('toggle_button'),
+                  key: const Key('playlist_toggle_button'),
                   style: ButtonStyle(
                     shape: widget.appElevatedButtonRoundedShape,
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
@@ -596,6 +596,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                     expandablePlaylistListVM.getUpToDateSelectablePlaylists();
                 return Expanded(
                   child: ListView.builder(
+                    key: const Key('expandable_playlist_list'),
                     itemCount: upToDateSelectablePlaylists.length,
                     itemBuilder: (context, index) {
                       Playlist playlist = upToDateSelectablePlaylists[index];
@@ -633,6 +634,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                 }
 
                 return ListView.builder(
+                                      key: const Key('audio_list'),
                   controller: _scrollController,
                   itemCount: (_selectedPlaylistsPlayableAudios.isEmpty)
                       ? 0
