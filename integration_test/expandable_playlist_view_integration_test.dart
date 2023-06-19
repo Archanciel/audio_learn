@@ -30,10 +30,15 @@ void main() {
 
   group('Expandable Playlist View test', () {
     testWidgets('Add Youtube playlist', (tester) async {
+      // Delete the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+
       SettingsDataService settingsDataService = SettingsDataService();
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true
       );
       ExpandablePlaylistListVM expandablePlaylistListVM =
           ExpandablePlaylistListVM(
@@ -47,10 +52,6 @@ void main() {
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
-
-      // Delete the test playlist directory if it exists so that the
-      // playlist list is empty
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
 
       const String youtubePlaylistUrl =
           'https://youtube.com/playlist?list=PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
@@ -81,13 +82,16 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Tap the 'Playlist' button to show the empty playlist list
-      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      // Ensure the list is initially hidden
+      expect(find.byType(ListView), findsNothing);
+
+      // Tap the 'Toggle List' button to show the list
+      await tester.tap(find.byKey(const Key('toggle_button')));
       await tester.pumpAndSettle();
 
-      // The playlist list should be visible now but empty
-      expect(find.byKey(const Key('expandable_playlist_list')), findsOneWidget);
-      expect(find.byType(PlaylistListItemWidget), findsNothing);
+      // The list should be visible now but empty
+      expect(find.byType(ListView), findsOneWidget);
+      expect(find.byType(ListTile), findsNothing);
 
       // Add a new playlist
       await tester.enterText(
@@ -100,21 +104,24 @@ void main() {
       await tester.tap(find.byKey(const Key('addPlaylistButton')));
       await tester.pumpAndSettle();
 
-      // Check the value of the AlertDialog Text
-      Text confirmUrlTextField =
-          tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
-      expect(confirmUrlTextField.data!, youtubePlaylistUrl);
+      // Ensure the dialog is shown
+      expect(find.byType(AlertDialog), findsOneWidget);
+
+      // Check the value of the AlertDialog TextField
+      TextField confirmUrlTextField = tester
+          .widget(find.byKey(const Key('playlistUrlConfirmationTextField')));
+      expect(confirmUrlTextField.controller!.text, youtubePlaylistUrl);
 
       // Confirm the addition by tapping the confirmation button in the AlertDialog
       await tester
           .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
       await tester.pumpAndSettle();
 
-      // The playlist list should have one item now
-      expect(find.byType(PlaylistListItemWidget), findsOneWidget);
+      // The list should have one item now
+      expect(find.byType(ListTile), findsOneWidget);
 
       // Check if the added item is displayed correctly
-      final playlistTile = find.byType(PlaylistListItemWidget).first;
+      final playlistTile = find.byType(ListTile).first;
       expect(
           find.descendant(
               of: playlistTile, matching: find.text(youtubePlaylistTitle)),

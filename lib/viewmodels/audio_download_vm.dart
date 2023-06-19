@@ -53,17 +53,19 @@ class AudioDownloadVM extends ChangeNotifier {
 
   final WarningMessageVM _warningMessageVM;
 
-  /// Passing a testPlaylistTitle has the effect that the windows
-  /// test directory is used as playlist root directory. Otherwise,
-  /// the windows or smartphone audio root directory is used and
-  /// the value of the kUniquePlaylistTitle constant is used to
-  /// load the playlist json file.
+  /// Passing true for {isTest} has the effect that the windows
+  /// test directory is used as playlist root directory. This
+  /// directory is located in the test directory of the project.
+  /// 
+  /// Otherwise, the windows or smartphone audio root directory
+  /// is used and the value of the kUniquePlaylistTitle constant
+  /// is used to load the playlist json file.
   AudioDownloadVM({
     required WarningMessageVM warningMessageVM,
-    String? testPlaylistTitle,
+    bool isTest = false,
   }) : _warningMessageVM = warningMessageVM {
     _playlistsHomePath =
-        DirUtil.getPlaylistDownloadHomePath(isTest: testPlaylistTitle != null);
+        DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
 
     _loadExistingPlaylists();
   }

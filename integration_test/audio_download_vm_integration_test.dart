@@ -42,7 +42,7 @@ void main() {
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
-        testPlaylistTitle: testPlaylistTitle,
+        isTest: true,
       );
 
       expect(audioDownloadVM.listOfPlaylist, []);
@@ -67,7 +67,7 @@ void main() {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
-            testPlaylistTitle: testPlaylistTitle,
+            isTest: true,
           );
           return audioDownloadVM;
         },
@@ -145,7 +145,7 @@ void main() {
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
-        testPlaylistTitle: testPlaylistTitle,
+        isTest: true,
       );
       Playlist downloadedPlaylistBeforeDownload =
           audioDownloadVMbeforeDownload.listOfPlaylist[0];
@@ -181,7 +181,7 @@ void main() {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
-            testPlaylistTitle: testPlaylistTitle,
+            isTest: true,
           );
           return audioDownloadVM;
         },
@@ -270,7 +270,7 @@ void main() {
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
-        testPlaylistTitle: testPlaylistTitle,
+        isTest: true,
       );
       Playlist downloadedPlaylistBeforeDownload =
           audioDownloadVMbeforeDownload.listOfPlaylist[0];
@@ -307,7 +307,7 @@ void main() {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
-            testPlaylistTitle: testPlaylistTitle,
+            isTest: true,
           );
           return audioDownloadVM;
         },
