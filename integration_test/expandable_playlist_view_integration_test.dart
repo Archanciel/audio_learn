@@ -54,8 +54,10 @@ void main() {
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
       const String youtubePlaylistUrl =
-          // 'https://youtube.com/playlist?list=PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
-          'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
+          'https://youtube.com/playlist?list=PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
+          // url used in integration_test/audio_download_vm_integration_test.dart
+          // which works:
+          // 'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
       const String youtubePlaylistTitle =
           'audio_learn_new_youtube_playlist_test';
 
