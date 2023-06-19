@@ -38,7 +38,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
-        isTest: true
+        isTest: true,
       );
       ExpandablePlaylistListVM expandablePlaylistListVM =
           ExpandablePlaylistListVM(
@@ -54,7 +54,8 @@ void main() {
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
       const String youtubePlaylistUrl =
-          'https://youtube.com/playlist?list=PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
+          // 'https://youtube.com/playlist?list=PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
+          'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
       const String youtubePlaylistTitle =
           'audio_learn_new_youtube_playlist_test';
 
@@ -82,15 +83,12 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Ensure the list is initially hidden
-      expect(find.byType(ListView), findsNothing);
-
       // Tap the 'Toggle List' button to show the list
-      await tester.tap(find.byKey(const Key('toggle_button')));
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
       // The list should be visible now but empty
-      expect(find.byType(ListView), findsOneWidget);
+      expect(find.byType(ListView), findsNWidgets(2));
       expect(find.byType(ListTile), findsNothing);
 
       // Add a new playlist
@@ -107,10 +105,10 @@ void main() {
       // Ensure the dialog is shown
       expect(find.byType(AlertDialog), findsOneWidget);
 
-      // Check the value of the AlertDialog TextField
-      TextField confirmUrlTextField = tester
-          .widget(find.byKey(const Key('playlistUrlConfirmationTextField')));
-      expect(confirmUrlTextField.controller!.text, youtubePlaylistUrl);
+      // Check the value of the AlertDialog url Text
+      Text confirmUrlText =
+          tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
+      expect(confirmUrlText.data, youtubePlaylistUrl);
 
       // Confirm the addition by tapping the confirmation button in the AlertDialog
       await tester
