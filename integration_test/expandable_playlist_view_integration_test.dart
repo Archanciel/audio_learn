@@ -1,7 +1,15 @@
+import 'package:audio_learn/viewmodels/audio_download_vm.dart';
+import 'package:audio_learn/viewmodels/audio_player_vm.dart';
+import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
+import 'package:audio_learn/viewmodels/language_provider.dart';
+import 'package:audio_learn/viewmodels/theme_provider.dart';
+import 'package:audio_learn/viewmodels/warning_message_vm.dart';
+import 'package:audio_learn/views/expandable_playlist_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/main.dart';
@@ -22,6 +30,24 @@ void main() {
 
   group('Expandable Playlist View test', () {
     testWidgets('Add Youtube playlist', (tester) async {
+      SettingsDataService settingsDataService = SettingsDataService();
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+      );
+      ExpandablePlaylistListVM expandablePlaylistListVM =
+          ExpandablePlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      expandablePlaylistListVM.getUpToDateSelectablePlaylists();
+
       // Delete the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
@@ -32,16 +58,28 @@ void main() {
           'audio_learn_new_youtube_playlist_test';
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: Scaffold(
-            body: MainApp(
-              key: const Key('mainAppKey'),
-              settingsDataService: SettingsDataService(),
-            ),
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => audioDownloadVM),
+            ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
+            ChangeNotifierProvider(
+                create: (_) => ThemeProvider(
+                      appSettings: settingsDataService,
+                    )),
+            ChangeNotifierProvider(
+                create: (_) => LanguageProvider(
+                      appSettings: settingsDataService,
+                    )),
+            ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
+            ChangeNotifierProvider(create: (_) => warningMessageVM),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            home: Scaffold(body: ExpandablePlaylistListView()),
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       // Tap the 'Playlist' button to show the empty playlist list
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
