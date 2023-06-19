@@ -71,7 +71,11 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: const MaterialApp(home: DownloadPlaylistPage()),
+        child: const MaterialApp(
+          home: DownloadPlaylistPage(
+            playlistUrl: testPlaylistUrl,
+          ),
+        ),
       ));
 
       await tester.tap(find.byType(ElevatedButton));
@@ -185,7 +189,11 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: const MaterialApp(home: DownloadPlaylistPage()),
+        child: const MaterialApp(
+          home: DownloadPlaylistPage(
+            playlistUrl: testPlaylistUrl,
+          ),
+        ),
       ));
 
       await tester.tap(find.byType(ElevatedButton));
@@ -311,7 +319,11 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: const MaterialApp(home: DownloadPlaylistPage()),
+        child: const MaterialApp(
+          home: DownloadPlaylistPage(
+            playlistUrl: testPlaylistUrl,
+          ),
+        ),
       ));
 
       const String recreatedPlaylistId = 'PLzwWSJNcZTMSwrDOAZEPf0u6YvrKGNnvC';
@@ -491,36 +503,26 @@ void deletePlaylistDownloadDir(Directory directory) {
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final WarningMessageVM warningMessageVM = WarningMessageVM();
-    final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-      warningMessageVM: warningMessageVM,
-    );
-    return MaterialApp(
-      home: ChangeNotifierProvider(
-        create: (context) => audioDownloadVM,
-        child: const DownloadPlaylistPage(),
-      ),
-    );
-  }
-}
-
 class DownloadPlaylistPage extends StatefulWidget {
-  const DownloadPlaylistPage({super.key});
+  final String playlistUrl;
+
+  const DownloadPlaylistPage({
+    super.key,
+    required this.playlistUrl,
+  });
 
   @override
   State<DownloadPlaylistPage> createState() => _DownloadPlaylistPageState();
 }
 
 class _DownloadPlaylistPageState extends State<DownloadPlaylistPage> {
-  final TextEditingController _urlController = TextEditingController(
-    text:
-        'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o',
-  );
+  final TextEditingController _urlController = TextEditingController();
+
+  @override
+  void initState() {
+    _urlController.text = widget.playlistUrl;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
