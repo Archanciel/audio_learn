@@ -108,7 +108,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
     if (localPlaylistTitle.isNotEmpty) {
       addedPlaylist = Playlist(
-        id: localPlaylistTitle,
+        id: '',
         title: localPlaylistTitle,
         playlistType: PlaylistType.local,
         playlistQuality: playlistQuality,
