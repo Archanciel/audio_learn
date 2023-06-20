@@ -63,16 +63,31 @@ class DirUtil {
     }
   }
 
+  /// Delete all the files in the {rootPath} directory and its
+  /// subdirectories. If {deleteSubDirectoriesAsWell} is true,
+  /// the subdirectories and sub subdirectories of {rootPath} are
+  /// deleted as well.
   static void deleteFilesInDirAndSubDirs({
     required String rootPath,
+    bool deleteSubDirectoriesAsWell = false,
   }) {
     final Directory directory = Directory(rootPath);
+
+    // List the contents of the directory and its subdirectories
     final List<FileSystemEntity> contents = directory.listSync(recursive: true);
 
-    for (FileSystemEntity file in contents) {
-      if (file is File) {
-        file.deleteSync();
+    // First, delete all the files
+    for (FileSystemEntity entity in contents) {
+      if (entity is File) {
+        entity.deleteSync();
       }
+    }
+
+    // Then, delete the directories starting from the innermost ones
+    if (deleteSubDirectoriesAsWell) {
+      contents.reversed
+          .whereType<Directory>()
+          .forEach((dir) => dir.deleteSync());
     }
   }
 
