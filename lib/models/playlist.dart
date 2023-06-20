@@ -18,11 +18,6 @@ class Playlist {
   String downloadPath = '';
   bool isSelected;
 
-  // Contains audio videos currently referrenced in the Youtube
-  // playlist.
-  final List<Audio> _youtubePlaylistAudioLst = [];
-  List<Audio> get youtubePlaylistAudioLst => _youtubePlaylistAudioLst;
-
   // Contains the audios once referenced in the Youtube playlist
   // which were downloaded.
   List<Audio> downloadedAudioLst = [];
