@@ -83,7 +83,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                   value: widget.playlistUrl),
               createEditableRowFunction(
                   valueTextFieldWidgetKey:
-                      const Key('playlistLocalNameConfirmDialogTextField'),
+                      const Key('playlistLocalTitleConfirmDialogTextField'),
                   context: context,
                   label: AppLocalizations.of(context)!.localPlaylistTitleLabel,
                   value: '',
