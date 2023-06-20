@@ -33,7 +33,10 @@ void main() {
     testWidgets('Add Youtube playlist', (tester) async {
       // Delete the test playlist directory if it exists so that the
       // playlist list is empty
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
 
       SettingsDataService settingsDataService = SettingsDataService();
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -133,11 +136,18 @@ void main() {
                 youtubePlaylistTitle,
               )),
           findsOneWidget);
+
+      // Delete the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets('Add local playlist', (tester) async {
       // Delete the test playlist directory if it exists so that the
       // playlist list is empty
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
 
       SettingsDataService settingsDataService = SettingsDataService();
       WarningMessageVM warningMessageVM = WarningMessageVM();
