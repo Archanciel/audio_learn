@@ -28,7 +28,22 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
     with ScreenMixin {
   final TextEditingController _localPlaylistTitleTextEditingController =
       TextEditingController();
+  final FocusNode _localPlaylistTitleFocusNode = FocusNode();
+
   bool _isChecked = false;
+
+  @override
+  void initState() {
+    // Add this line to request focus on the TextField after the build
+    // method has been called
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(
+        _localPlaylistTitleFocusNode,
+      );
+    });
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -67,11 +82,13 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                   label: AppLocalizations.of(context)!.youtubePlaylistUrlLabel,
                   value: widget.playlistUrl),
               createEditableRowFunction(
-                valueTextFieldWidgetKey: const Key('playlistLocalNameConfirmDialogTextField'),
+                  valueTextFieldWidgetKey:
+                      const Key('playlistLocalNameConfirmDialogTextField'),
                   context: context,
                   label: AppLocalizations.of(context)!.localPlaylistTitleLabel,
                   value: '',
-                  controller: _localPlaylistTitleTextEditingController),
+                  controller: _localPlaylistTitleTextEditingController,
+                  textFieldFocusNode: _localPlaylistTitleFocusNode),
               createCheckboxRowFunction(
                 context: context,
                 label: AppLocalizations.of(context)!.isMusicQualityLabel,

@@ -83,6 +83,7 @@ class ScreenMixin {
     required String label,
     required String value,
     required TextEditingController controller,
+    FocusNode? textFieldFocusNode,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -100,6 +101,7 @@ class ScreenMixin {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                 ),
+                focusNode: textFieldFocusNode,
               ),
             ),
           ),
