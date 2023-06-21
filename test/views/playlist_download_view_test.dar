@@ -4,6 +4,7 @@ import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/audio_player_vm.dart';
 import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
+import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,12 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   final List<Playlist> _playlistLst = [];
 
   MockAudioDownloadVM() {
-    _playlistLst.add(Playlist(url: 'https://mockurl.com'));
+    _playlistLst.add(Playlist(
+      url: 'https://mockurl.com',
+      title: 'Mock Playlist Title',
+      playlistType: PlaylistType.youtube,
+      playlistQuality: PlaylistQuality.voice,
+    ));
   }
 
   @override
@@ -26,26 +32,29 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   }) async {
     List<Audio> audioLst = [
       Audio(
-          enclosingPlaylist: Playlist(url: playlistUrl),
+          enclosingPlaylist: _playlistLst[0],
           originalVideoTitle: 'Audio 1',
           videoUrl: 'https://example.com/video2',
           audioDownloadDateTime: DateTime(2023, 3, 25),
           videoUploadDate: DateTime.now(),
-          audioDuration: const Duration(minutes: 3, seconds: 42)),
+          audioDuration: const Duration(minutes: 3, seconds: 42),
+          compactVideoDescription: 'Video Description 1'),
       Audio(
-          enclosingPlaylist: Playlist(url: playlistUrl),
+          enclosingPlaylist: _playlistLst[0],
           originalVideoTitle: 'Audio 2',
           videoUrl: 'https://example.com/video2',
           audioDownloadDateTime: DateTime(2023, 3, 25),
           videoUploadDate: DateTime.now(),
-          audioDuration: const Duration(minutes: 5, seconds: 21)),
+          audioDuration: const Duration(minutes: 5, seconds: 21),
+          compactVideoDescription: 'Video Description 2'),
       Audio(
-          enclosingPlaylist: Playlist(url: playlistUrl),
+          enclosingPlaylist: _playlistLst[0],
           originalVideoTitle: 'Audio 3',
           videoUrl: 'https://example.com/video2',
           audioDownloadDateTime: DateTime(2023, 3, 25),
           videoUploadDate: DateTime.now(),
-          audioDuration: const Duration(minutes: 2, seconds: 15)),
+          audioDuration: const Duration(minutes: 2, seconds: 15),
+          compactVideoDescription: 'Video Description 3'),
     ];
 
     int i = 1;
@@ -68,13 +77,17 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   late YoutubeExplode youtubeExplode;
 
   @override
-  Future<Playlist> addPlaylist({
-    required String playlistUrl,
+  Future<Playlist?> addPlaylist({
+    String localPlaylistTitle = '',
+    String playlistUrl = '',
+    required PlaylistQuality playlistQuality,
   }) async {
-    // TODO: implement addNewPlaylist
-    int i = 0;
-
-    return Playlist(url: 'https://mockurl.com');
+    return Playlist(
+      url: 'https://mockurl.com',
+      title: 'Mock Playlist Title',
+      playlistType: PlaylistType.youtube,
+      playlistQuality: PlaylistQuality.voice,
+    );
   }
 
   @override
@@ -107,7 +120,10 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   }
 
   @override
-  Future<void> downloadSingleVideoAudio({required String videoUrl}) async {
+  Future<void> downloadSingleVideoAudio({
+    required String videoUrl,
+    required Playlist singleVideoPlaylist,
+  }) async {
     // TODO: implement downloadSingleVideoAudio
     throw UnimplementedError();
   }
@@ -120,10 +136,6 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   @override
   // TODO: implement audioDownloadError
   bool get audioDownloadError => throw UnimplementedError();
-
-  @override
-  // TODO: implement errorMessage
-  String get errorMessage => throw UnimplementedError();
 
   @override
   // TODO: implement isDownloadStopping
@@ -144,34 +156,36 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   void deleteAudioFromPlaylistAswell({required Audio audio}) {
     // TODO: implement deleteAudioFromPlaylistAswell
   }
-  
+
   @override
-  void copyAudioToPlaylist({required Audio audio, required Playlist targetPlaylist}) {
+  void copyAudioToPlaylist(
+      {required Audio audio, required Playlist targetPlaylist}) {
     // TODO: implement copyAudioToPlaylist
   }
-  
+
   @override
   int getPlaylistJsonFileSize({required Playlist playlist}) {
     // TODO: implement getPlaylistJsonFileSize
     throw UnimplementedError();
   }
-  
+
   @override
   set isHighQuality(bool isHighQuality) {
     // TODO: implement isHighQuality
   }
-  
+
   @override
-  void moveAudioToPlaylist({required Audio audio, required Playlist targetPlaylist}) {
+  void moveAudioToPlaylist(
+      {required Audio audio, required Playlist targetPlaylist}) {
     // TODO: implement moveAudioToPlaylist
   }
-  
+
   @override
   Playlist? obtainSingleVideoPlaylist(List<Playlist> selectedPlaylists) {
     // TODO: implement obtainSingleVideoPlaylist
     throw UnimplementedError();
   }
-  
+
   @override
   void updatePlaylistJsonFiles() {
     // TODO: implement updatePlaylistJsonFiles
@@ -182,28 +196,50 @@ void main() {
   SettingsDataService appSettings = SettingsDataService();
 
   group('PlaylistDownloadView mock downloading audios', () {
-    late MockAudioDownloadVM mockAudioViewModel;
+    late MockAudioDownloadVM mockAudioDownloadVM;
 
     setUp(() {
-      mockAudioViewModel = MockAudioDownloadVM();
+      mockAudioDownloadVM = MockAudioDownloadVM();
     });
 
     testWidgets('displays list of downloaded audios',
         (WidgetTester tester) async {
+
+      SettingsDataService settingsDataService = SettingsDataService();
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      ExpandablePlaylistListVM expandablePlaylistListVM =
+          ExpandablePlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: mockAudioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      expandablePlaylistListVM.getUpToDateSelectablePlaylists();
+
+      const String youtubePlaylistUrl = '';
+      const String localPlaylistTitle = 'audio_learn_local_playlist_test';
+
+
+
       await tester.pumpWidget(
         MultiProvider(
           providers: [
-            ChangeNotifierProvider<AudioDownloadVM>.value(
-              value: mockAudioViewModel,
-            ),
+            ChangeNotifierProvider(create: (_) => mockAudioDownloadVM),
             ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
             ChangeNotifierProvider(
-                create: (_) => ThemeProvider(appSettings: appSettings)),
+                create: (_) => ThemeProvider(
+                      appSettings: settingsDataService,
+                    )),
             ChangeNotifierProvider(
-                create: (_) => LanguageProvider(appSettings: appSettings)),
-            ChangeNotifierProvider(
-                create: (_) => ExpandablePlaylistListVM(
-                    audioDownloadVM: mockAudioViewModel)),
+                create: (_) => LanguageProvider(
+                      appSettings: settingsDataService,
+                    )),
+            ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
+            ChangeNotifierProvider(create: (_) => warningMessageVM),
           ],
           child: Consumer2<ThemeProvider, LanguageProvider>(
               builder: (context, themeProvider, languageProvider, child) {
@@ -222,9 +258,9 @@ void main() {
                           ),
                       elevatedButtonTheme: ElevatedButtonThemeData(
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors
-                              .white, backgroundColor: Colors
-                              .blue.shade700, // Set button text color in dark mode
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blue
+                              .shade700, // Set button text color in dark mode
                         ),
                       ),
                       textTheme: ThemeData.dark().textTheme.copyWith(
