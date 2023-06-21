@@ -334,9 +334,26 @@ void main() {
       // The list of Playlist should have one item now
       expect(find.byType(ListTile), findsOneWidget);
 
+      // Check if the added item is displayed correctly
+      final PlaylistListItemWidget playlistListItemWidget =
+          tester.widget(find.byType(PlaylistListItemWidget).first);
+      expect(playlistListItemWidget.playlist.title, youtubePlaylistTitle);
+
+      // Find the ListTile
+      final Finder firstListTileFinder = find.byType(ListTile).first;
+
+      // Retrieve the widget
+      final ListTile firstPlaylistTile =
+          tester.widget<ListTile>(firstListTileFinder);
+
+      // Ensure that the title is a Text widget and check its data
+      expect(firstPlaylistTile.title, isA<Text>());
+      expect((firstPlaylistTile.title as Text).data, youtubePlaylistTitle);
+
+      // Alternatively, find the ListTile by its title
       expect(
           find.descendant(
-              of: find.byType(ListTile).first,
+              of: firstListTileFinder,
               matching: find.text(
                 youtubePlaylistTitle,
               )),
