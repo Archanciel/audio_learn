@@ -1,3 +1,4 @@
+import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/services/json_data_service.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
@@ -7,6 +8,7 @@ import 'package:audio_learn/viewmodels/language_provider.dart';
 import 'package:audio_learn/viewmodels/theme_provider.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:audio_learn/views/expandable_playlist_list_view.dart';
+import 'package:audio_learn/views/widgets/playlist_list_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -17,6 +19,213 @@ import 'package:path/path.dart' as path;
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt;
+
+const String youtubePlaylistUrl =
+    'https://youtube.com/playlist?list=PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
+// url used in integration_test/audio_download_vm_integration_test.dart
+// which works:
+// 'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
+const String youtubePlaylistTitle = 'audio_learn_new_youtube_playlist_test';
+
+class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
+  final List<Playlist> _playlistLst = [];
+  final WarningMessageVM _warningMessageVM;
+
+  MockAudioDownloadVM({
+    required WarningMessageVM warningMessageVM,
+    bool isTest = false,
+  }) : _warningMessageVM = warningMessageVM;
+
+  @override
+  Future<void> downloadPlaylistAudios({
+    required String playlistUrl,
+  }) async {
+    List<Audio> audioLst = [
+      Audio(
+          enclosingPlaylist: _playlistLst[0],
+          originalVideoTitle: 'Audio 1',
+          videoUrl: 'https://example.com/video2',
+          audioDownloadDateTime: DateTime(2023, 3, 25),
+          videoUploadDate: DateTime.now(),
+          audioDuration: const Duration(minutes: 3, seconds: 42),
+          compactVideoDescription: 'Video Description 1'),
+      Audio(
+          enclosingPlaylist: _playlistLst[0],
+          originalVideoTitle: 'Audio 2',
+          videoUrl: 'https://example.com/video2',
+          audioDownloadDateTime: DateTime(2023, 3, 25),
+          videoUploadDate: DateTime.now(),
+          audioDuration: const Duration(minutes: 5, seconds: 21),
+          compactVideoDescription: 'Video Description 2'),
+      Audio(
+          enclosingPlaylist: _playlistLst[0],
+          originalVideoTitle: 'Audio 3',
+          videoUrl: 'https://example.com/video2',
+          audioDownloadDateTime: DateTime(2023, 3, 25),
+          videoUploadDate: DateTime.now(),
+          audioDuration: const Duration(minutes: 2, seconds: 15),
+          compactVideoDescription: 'Video Description 3'),
+    ];
+
+    int i = 1;
+    int speed = 100000;
+    int size = 900000;
+
+    for (Audio audio in audioLst) {
+      audio.audioDownloadSpeed = speed * i;
+      audio.audioFileSize = size * i;
+      i++;
+    }
+
+    _playlistLst[0].downloadedAudioLst = audioLst;
+    _playlistLst[0].playableAudioLst = audioLst;
+
+    notifyListeners();
+  }
+
+  @override
+  late yt.YoutubeExplode youtubeExplode;
+
+  @override
+  Future<Playlist?> addPlaylist({
+    String playlistUrl = '',
+    String localPlaylistTitle = '',
+    required PlaylistQuality playlistQuality,
+  }) async {
+    // in the real app, the playlist title is retrieved by
+    // yt.YoutubeExplode using the youtube playlist id obtained
+    // using the youtube playlist url. Since integration test
+    // cannot access the internet, we use the MockAudioDownloadVM !
+    String playlistTitle;
+    PlaylistType playlistType;
+
+    if ((localPlaylistTitle == '')) {
+      playlistTitle = youtubePlaylistTitle;
+      playlistType = PlaylistType.youtube;
+    } else {
+      playlistTitle = localPlaylistTitle;
+      playlistType = PlaylistType.local;
+    }
+
+    Playlist addedPlaylist = Playlist(
+      url: playlistUrl,
+      title: playlistTitle,
+      playlistType: playlistType,
+      playlistQuality: playlistQuality,
+    );
+
+    // _warningMessageVM.setAddPlaylist(
+    //   playlistTitle: addedPlaylist.title,
+    //   playlistQuality: playlistQuality,
+    // );
+
+    _playlistLst.add(addedPlaylist);
+
+    return addedPlaylist;
+  }
+
+  @override
+  // TODO: implement currentDownloadingAudio
+  Audio get currentDownloadingAudio => _playlistLst[0].downloadedAudioLst[0];
+
+  @override
+  // TODO: implement downloadProgress
+  double get downloadProgress => 0.5;
+
+  @override
+  // TODO: implement isDownloading
+  bool get isDownloading => false;
+
+  @override
+  // TODO: implement isHighQuality
+  bool get isHighQuality => false;
+
+  @override
+  // TODO: implement lastSecondDownloadSpeed
+  int get lastSecondDownloadSpeed => 100000;
+
+  @override
+  // TODO: implement listOfPlaylist
+  List<Playlist> get listOfPlaylist => _playlistLst;
+
+  @override
+  void setAudioQuality({required bool isHighQuality}) {
+    // TODO: implement setAudioQuality
+  }
+
+  @override
+  Future<void> downloadSingleVideoAudio({
+    required String videoUrl,
+    required Playlist singleVideoPlaylist,
+  }) async {
+    // TODO: implement downloadSingleVideoAudio
+    throw UnimplementedError();
+  }
+
+  @override
+  void stopDownload() {
+    // TODO: implement stopDownload
+  }
+
+  @override
+  // TODO: implement audioDownloadError
+  bool get audioDownloadError => throw UnimplementedError();
+
+  @override
+  // TODO: implement isDownloadStopping
+  bool get isDownloadStopping => throw UnimplementedError();
+
+  @override
+  void updatePlaylistSelection(
+      {required String playlistId, required bool isPlaylistSelected}) {
+    // TODO: implement updatePlaylistSelection
+  }
+
+  @override
+  void deleteAudio({required Audio audio}) {
+    // TODO: implement deleteAudio
+  }
+
+  @override
+  void deleteAudioFromPlaylistAswell({required Audio audio}) {
+    // TODO: implement deleteAudioFromPlaylistAswell
+  }
+
+  @override
+  void copyAudioToPlaylist(
+      {required Audio audio, required Playlist targetPlaylist}) {
+    // TODO: implement copyAudioToPlaylist
+  }
+
+  @override
+  int getPlaylistJsonFileSize({required Playlist playlist}) {
+    // TODO: implement getPlaylistJsonFileSize
+    throw UnimplementedError();
+  }
+
+  @override
+  set isHighQuality(bool isHighQuality) {
+    // TODO: implement isHighQuality
+  }
+
+  @override
+  void moveAudioToPlaylist(
+      {required Audio audio, required Playlist targetPlaylist}) {
+    // TODO: implement moveAudioToPlaylist
+  }
+
+  @override
+  Playlist? obtainSingleVideoPlaylist(List<Playlist> selectedPlaylists) {
+    // TODO: implement obtainSingleVideoPlaylist
+    throw UnimplementedError();
+  }
+
+  @override
+  void updatePlaylistJsonFiles() {
+    // TODO: implement updatePlaylistJsonFiles
+  }
+}
 
 void main() {
   const String testPlaylistDir =
@@ -40,6 +249,10 @@ void main() {
 
       SettingsDataService settingsDataService = SettingsDataService();
       WarningMessageVM warningMessageVM = WarningMessageVM();
+      MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
         isTest: true,
@@ -47,7 +260,7 @@ void main() {
       ExpandablePlaylistListVM expandablePlaylistListVM =
           ExpandablePlaylistListVM(
         warningMessageVM: warningMessageVM,
-        audioDownloadVM: audioDownloadVM,
+        audioDownloadVM: mockAudioDownloadVM,
         settingsDataService: settingsDataService,
       );
 
@@ -56,14 +269,6 @@ void main() {
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
-
-      const String youtubePlaylistUrl =
-          'https://youtube.com/playlist?list=PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
-      // url used in integration_test/audio_download_vm_integration_test.dart
-      // which works:
-      // 'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
-      const String youtubePlaylistTitle =
-          'audio_learn_new_youtube_playlist_test';
 
       await tester.pumpWidget(
         MultiProvider(
@@ -98,12 +303,13 @@ void main() {
       expect(find.byType(ListView), findsNWidgets(2));
       expect(find.byType(ListTile), findsNothing);
 
-      // Add a new playlist
+      // Add a new Youtube playlist
       await tester.enterText(
         find.byKey(const Key('playlistUrlTextField')),
         youtubePlaylistUrl,
       );
 
+      // Ensure the url text field contains the entered url
       TextField urlTextField =
           tester.widget(find.byKey(const Key('playlistUrlTextField')));
       expect(urlTextField.controller!.text, youtubePlaylistUrl);
@@ -119,19 +325,18 @@ void main() {
           tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
       expect(confirmUrlText.data, youtubePlaylistUrl);
 
-      // Confirm the addition by tapping the confirmation button in the AlertDialog
+      // Confirm the addition by tapping the confirmation button in
+      // the AlertDialog
       await tester
           .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
       await tester.pumpAndSettle();
 
-      // The list should have one item now
+      // The list of Playlist should have one item now
       expect(find.byType(ListTile), findsOneWidget);
 
-      // Check if the added item is displayed correctly
-      final playlistTile = find.byType(ListTile).first;
       expect(
           find.descendant(
-              of: playlistTile,
+              of: find.byType(ListTile).first,
               matching: find.text(
                 youtubePlaylistTitle,
               )),
