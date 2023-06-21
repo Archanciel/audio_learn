@@ -7,6 +7,7 @@ import 'package:audio_learn/viewmodels/language_provider.dart';
 import 'package:audio_learn/viewmodels/theme_provider.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:audio_learn/views/expandable_playlist_list_view.dart';
+import 'package:audio_learn/views/widgets/display_message_widget.dart';
 import 'package:audio_learn/views/widgets/playlist_list_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -132,6 +133,23 @@ void main() {
       // the AlertDialog
       await tester
           .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the warning dialog is shown
+      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+
+      // Check the value of the warning dialog title
+      Text warningDialogTitle =
+          tester.widget(find.byKey(const Key('warningDialogTitle')));
+      expect(warningDialogTitle.data, 'WARNING');
+
+      // Check the value of the warning dialog message
+      Text warningDialogMessage =
+          tester.widget(find.byKey(const Key('warningDialogMessage')));
+      expect(warningDialogMessage.data, 'Playlist "$youtubePlaylistTitle" of audio quality added at end of list of playlists.');
+
+      // Close the warning dialog by tapping on the OK button
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
       // The list of Playlist should have one item now

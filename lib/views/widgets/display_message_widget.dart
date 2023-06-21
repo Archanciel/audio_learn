@@ -263,15 +263,15 @@ class DisplayMessageWidget extends StatelessWidget {
           String audioMovedFromToPlaylistMessage;
 
           if (_warningMessageVM.movedFromPlaylistType == PlaylistType.local) {
-            audioMovedFromToPlaylistMessage =
-                AppLocalizations.of(context)!.audioMovedFromLocalPlaylistToPlaylist(
+            audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                .audioMovedFromLocalPlaylistToPlaylist(
               _warningMessageVM.movedAudioValidVideoTitle,
               _warningMessageVM.movedFromPlaylistTitle,
               _warningMessageVM.movedToPlaylistTitle,
             );
           } else {
-            audioMovedFromToPlaylistMessage =
-                AppLocalizations.of(context)!.audioMovedFromYoutubePlaylistToPlaylist(
+            audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                .audioMovedFromYoutubePlaylistToPlaylist(
               _warningMessageVM.movedAudioValidVideoTitle,
               _warningMessageVM.movedFromPlaylistTitle,
               _warningMessageVM.movedToPlaylistTitle,
@@ -342,14 +342,21 @@ class DisplayMessageWidget extends StatelessWidget {
           }
         },
         child: AlertDialog(
-          title: Text(alertDialogTitle),
+          title: Text(
+            key: const Key('warningDialogTitle'),
+            alertDialogTitle,
+          ),
           content: Text(
+            key: const Key('warningDialogMessage'),
             message,
             style: kDialogTextFieldStyle,
           ),
           actions: [
             TextButton(
-              child: const Text('Ok'),
+              child: const Text(
+                key: Key('warningDialogOkButton'),
+                'Ok',
+              ),
               onPressed: () {
                 warningMessageVM.warningMessageType = WarningMessageType.none;
                 Navigator.of(context).pop();

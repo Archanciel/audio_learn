@@ -98,10 +98,10 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
       playlistQuality: playlistQuality,
     );
 
-    // _warningMessageVM.setAddPlaylist(
-    //   playlistTitle: addedPlaylist.title,
-    //   playlistQuality: playlistQuality,
-    // );
+    _warningMessageVM.setAddPlaylist(
+      playlistTitle: addedPlaylist.title,
+      playlistQuality: playlistQuality,
+    );
 
     _playlistLst.add(addedPlaylist);
 
