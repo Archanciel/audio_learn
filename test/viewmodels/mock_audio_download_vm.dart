@@ -84,7 +84,7 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
     PlaylistType playlistType;
 
     if ((localPlaylistTitle == '')) {
-      playlistTitle = _youtubePlaylistTitle;
+      playlistTitle = obtainPlaylistTitle();
       playlistType = PlaylistType.youtube;
     } else {
       playlistTitle = localPlaylistTitle;
@@ -106,6 +106,18 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
     _playlistLst.add(addedPlaylist);
 
     return addedPlaylist;
+  }
+
+  /// This method is defined in order to be overriden in the
+  /// MockAudioDownloadVM class since obtaining the yt.Playlist
+  /// does not work in the integration test environment.
+  /// {youtubePlaylist} is not null in AudioDownloadVM class,
+  /// but it is null in MockAudioDownloadVM class.
+  @override
+  String obtainPlaylistTitle({
+    yt.Playlist? youtubePlaylist,
+  }) {
+    return _youtubePlaylistTitle;
   }
 
   @override

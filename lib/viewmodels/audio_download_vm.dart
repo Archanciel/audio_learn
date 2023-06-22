@@ -166,7 +166,9 @@ class AudioDownloadVM extends ChangeNotifier {
         return null;
       }
 
-      String playlistTitle = youtubePlaylist.title;
+      String playlistTitle = obtainPlaylistTitle(
+        youtubePlaylist: youtubePlaylist,
+      );
 
       int playlistIndex = _listOfPlaylist
           .indexWhere((playlist) => playlist.title == playlistTitle);
@@ -243,7 +245,9 @@ class AudioDownloadVM extends ChangeNotifier {
       return;
     }
 
-    String playlistTitle = youtubePlaylist.title;
+    String playlistTitle = obtainPlaylistTitle(
+      youtubePlaylist: youtubePlaylist,
+    );
 
     Playlist currentPlaylist = await _addPlaylistIfNotExist(
       playlistUrl: playlistUrl,
@@ -356,6 +360,17 @@ class AudioDownloadVM extends ChangeNotifier {
     _youtubeExplode.close();
 
     notifyListeners();
+  }
+
+  /// This method is defined in order to be overriden in the
+  /// MockAudioDownloadVM class since obtaining the yt.Playlist
+  /// does not work in the integration test environment.
+  /// {youtubePlaylist} is not null in AudioDownloadVM class,
+  /// but it is null in MockAudioDownloadVM class.
+  String obtainPlaylistTitle({
+    yt.Playlist? youtubePlaylist,
+  }) {
+    return youtubePlaylist!.title;
   }
 
   void updatePlaylistSelection({
