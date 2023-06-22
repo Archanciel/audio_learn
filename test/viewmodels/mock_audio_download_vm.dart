@@ -7,7 +7,7 @@ import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
 class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
-  final List<Playlist> _playlistLst = [];
+  List<Playlist> _playlistLst = [];
   final WarningMessageVM _warningMessageVM;
 
   String _youtubePlaylistTitle = '';
@@ -76,36 +76,34 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
     String localPlaylistTitle = '',
     required PlaylistQuality playlistQuality,
   }) async {
-    // in the real app, the playlist title is retrieved by
-    // yt.YoutubeExplode using the youtube playlist id obtained
-    // using the youtube playlist url. Since integration test
-    // cannot access the internet, we use the MockAudioDownloadVM !
-    String playlistTitle;
-    PlaylistType playlistType;
-
-    if ((localPlaylistTitle == '')) {
-      playlistTitle = _youtubePlaylistTitle;
-      playlistType = PlaylistType.youtube;
-    } else {
-      playlistTitle = localPlaylistTitle;
-      playlistType = PlaylistType.local;
-    }
-
-    Playlist addedPlaylist = Playlist(
-      url: playlistUrl,
-      title: playlistTitle,
-      playlistType: playlistType,
-      playlistQuality: playlistQuality,
+    AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+      warningMessageVM: _warningMessageVM,
+      isTest: true,
     );
 
-    _warningMessageVM.setAddPlaylist(
-      playlistTitle: addedPlaylist.title,
+    // calling the AudioDownloadVM's addPlaylistCallableByMock method
+    // enables the MockAudioDownloadVM to use the logic of the AudioDownloadVM
+    // addPlaylist method !
+    Playlist? addedPlaylist = await audioDownloadVM.addPlaylistCallableByMock(
+      playlistUrl: playlistUrl,
+      localPlaylistTitle: localPlaylistTitle,
       playlistQuality: playlistQuality,
+      mockYoutubePlaylistTitle: _youtubePlaylistTitle,
     );
 
-    _playlistLst.add(addedPlaylist);
+    _playlistLst = audioDownloadVM.listOfPlaylist;
 
     return addedPlaylist;
+  }
+
+  @override
+  Future<Playlist?> addPlaylistCallableByMock({
+    String playlistUrl = '',
+    String localPlaylistTitle = '',
+    required PlaylistQuality playlistQuality,
+    String? mockYoutubePlaylistTitle,
+  }) async {
+    throw UnimplementedError();
   }
 
   @override

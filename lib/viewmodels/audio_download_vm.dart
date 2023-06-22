@@ -98,6 +98,29 @@ class AudioDownloadVM extends ChangeNotifier {
     String localPlaylistTitle = '',
     required PlaylistQuality playlistQuality,
   }) async {
+    return addPlaylistCallableByMock(
+      playlistUrl: playlistUrl,
+      localPlaylistTitle: localPlaylistTitle,
+      playlistQuality: playlistQuality,
+    );
+  }
+
+  /// This method has been created in order for the
+  /// MockAudioDownloadVM addPlaylist() method to be able
+  /// to use the AudioDownloadVM.addPlaylist() logic.
+  ///
+  /// Since the MockAudioDownloadVM exist because when
+  /// executing integration tests, using YoutubeExplode
+  /// to get a Youtube playlist in order to obtain the
+  /// playlist title is not possible, the
+  /// {mockYoutubePlaylistTitle} is passed to the method if
+  /// the method is called by the MockAudioDownloadVM.
+  Future<Playlist?> addPlaylistCallableByMock({
+    String playlistUrl = '',
+    String localPlaylistTitle = '',
+    required PlaylistQuality playlistQuality,
+    String? mockYoutubePlaylistTitle,
+  }) async {
     Playlist addedPlaylist;
 
     // those two variables are used by the
@@ -151,22 +174,30 @@ class AudioDownloadVM extends ChangeNotifier {
 
       playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
 
-      try {
-        youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
-      } on SocketException catch (e) {
-        _notifyDownloadError(
-          errorType: ErrorType.noInternet,
-          errorArgOne: e.toString(),
-        );
+      String playlistTitle;
 
-        return null;
-      } catch (e) {
-        _warningMessageVM.isPlaylistUrlInvalid = true;
+      if (mockYoutubePlaylistTitle == null) {
+        // the method is called by AudioDownloadVM.addPlaylist()
+        try {
+          youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
+        } on SocketException catch (e) {
+          _notifyDownloadError(
+            errorType: ErrorType.noInternet,
+            errorArgOne: e.toString(),
+          );
 
-        return null;
+          return null;
+        } catch (e) {
+          _warningMessageVM.isPlaylistUrlInvalid = true;
+
+          return null;
+        }
+
+        playlistTitle = youtubePlaylist.title;
+      } else {
+        // the method is called by MockAudioDownloadVM.addPlaylist()
+        playlistTitle = mockYoutubePlaylistTitle;
       }
-
-      String playlistTitle = youtubePlaylist.title;
 
       int playlistIndex = _listOfPlaylist
           .indexWhere((playlist) => playlist.title == playlistTitle);
