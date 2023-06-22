@@ -56,7 +56,7 @@ class AudioDownloadVM extends ChangeNotifier {
   /// Passing true for {isTest} has the effect that the windows
   /// test directory is used as playlist root directory. This
   /// directory is located in the test directory of the project.
-  /// 
+  ///
   /// Otherwise, the windows or smartphone audio root directory
   /// is used and the value of the kUniquePlaylistTitle constant
   /// is used to load the playlist json file.
@@ -64,8 +64,7 @@ class AudioDownloadVM extends ChangeNotifier {
     required WarningMessageVM warningMessageVM,
     bool isTest = false,
   }) : _warningMessageVM = warningMessageVM {
-    _playlistsHomePath =
-        DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
+    _playlistsHomePath = DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
 
     _loadExistingPlaylists();
   }
@@ -196,7 +195,8 @@ class AudioDownloadVM extends ChangeNotifier {
       addedPlaylist = await _addPlaylistIfNotExist(
         playlistUrl: playlistUrl,
         playlistQuality: playlistQuality,
-        youtubePlaylist: youtubePlaylist,
+        playlistTitle: playlistTitle,
+        playlistId: playlistId!,
       );
 
       JsonDataService.saveToFile(
@@ -243,10 +243,13 @@ class AudioDownloadVM extends ChangeNotifier {
       return;
     }
 
+    String playlistTitle = youtubePlaylist.title;
+
     Playlist currentPlaylist = await _addPlaylistIfNotExist(
       playlistUrl: playlistUrl,
       playlistQuality: PlaylistQuality.voice,
-      youtubePlaylist: youtubePlaylist,
+      playlistTitle: playlistTitle,
+      playlistId: playlistId!,
     );
 
     // get already downloaded audio file names
@@ -406,7 +409,8 @@ class AudioDownloadVM extends ChangeNotifier {
   Future<Playlist> _addPlaylistIfNotExist({
     required String playlistUrl,
     required PlaylistQuality playlistQuality,
-    required yt.Playlist youtubePlaylist,
+    required String playlistTitle,
+    required String playlistId,
   }) async {
     Playlist addedPlaylist;
     int existingPlaylistIndex =
@@ -419,7 +423,8 @@ class AudioDownloadVM extends ChangeNotifier {
       addedPlaylist = await _createYoutubePlaylist(
         playlistUrl: playlistUrl,
         playlistQuality: playlistQuality,
-        youtubePlaylist: youtubePlaylist,
+        playlistTitle: playlistTitle,
+        playlistId: playlistId,
       );
 
       // checking if current playlist was deleted and recreated
@@ -788,13 +793,12 @@ class AudioDownloadVM extends ChangeNotifier {
   Future<Playlist> _createYoutubePlaylist({
     required String playlistUrl,
     required PlaylistQuality playlistQuality,
-    required yt.Playlist youtubePlaylist,
+    required String playlistTitle,
+    required String playlistId,
   }) async {
-    final String playlistTitle = youtubePlaylist.title;
-
     Playlist playlist = Playlist(
       url: playlistUrl,
-      id: youtubePlaylist.id.toString(),
+      id: playlistId,
       title: playlistTitle,
       playlistType: PlaylistType.youtube,
       playlistQuality: playlistQuality,
