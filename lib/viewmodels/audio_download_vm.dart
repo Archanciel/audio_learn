@@ -108,8 +108,14 @@ class AudioDownloadVM extends ChangeNotifier {
   /// This method has been created in order for the
   /// MockAudioDownloadVM addPlaylist() method to be able
   /// to use the AudioDownloadVM.addPlaylist() logic.
+  /// 
+  /// Additionally, since the method is called by the
+  /// AudioDownloadVM, it contains the logic to add a
+  /// playlist and so, if this logic is modified, it
+  /// will be modified in only one place and will be
+  /// tested by the integration test.
   ///
-  /// Since the MockAudioDownloadVM exist because when
+  /// Since the MockAudioDownloadVM exists because when
   /// executing integration tests, using YoutubeExplode
   /// to get a Youtube playlist in order to obtain the
   /// playlist title is not possible, the
