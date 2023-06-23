@@ -96,7 +96,7 @@ void main() {
       expect(find.byType(ListView), findsNWidgets(2));
       expect(find.byType(ListTile), findsNothing);
 
-      // Add a new Youtube playlist
+      // Enter the new Youtube playlist URL into the url text field
       await tester.enterText(
         find.byKey(const Key('playlistUrlTextField')),
         youtubePlaylistUrl,
@@ -107,6 +107,8 @@ void main() {
           tester.widget(find.byKey(const Key('playlistUrlTextField')));
       expect(urlTextField.controller!.text, youtubePlaylistUrl);
 
+      // Open the add playlist dialog by tapping the add playlist
+      // button
       await tester.tap(find.byKey(const Key('addPlaylistButton')));
       await tester.pumpAndSettle();
 
