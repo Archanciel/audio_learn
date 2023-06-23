@@ -206,4 +206,9 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   void updatePlaylistJsonFiles() {
     // TODO: implement updatePlaylistJsonFiles
   }
+  
+  @override
+  void loadExistingPlaylists() {
+    // TODO: implement loadExistingPlaylists
+  }
 }

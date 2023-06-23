@@ -554,8 +554,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         focusNode.requestFocus();
                         break;
                       case PlaylistPopupMenuButton.updatePlaylistJson:
-                        Provider.of<AudioDownloadVM>(context, listen: false)
-                            .updatePlaylistJsonFiles();
+                        Provider.of<ExpandablePlaylistListVM>(context, listen: false)
+                            .updateSettingsAndPlaylistJsonFiles();
                         break;
                       default:
                         break;

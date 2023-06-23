@@ -66,10 +66,10 @@ class AudioDownloadVM extends ChangeNotifier {
   }) : _warningMessageVM = warningMessageVM {
     _playlistsHomePath = DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
 
-    _loadExistingPlaylists();
+    loadExistingPlaylists();
   }
 
-  void _loadExistingPlaylists() {
+  void loadExistingPlaylists() {
     List<String> playlistPathFileNameLst = DirUtil.listPathFileNamesInSubDirs(
       path: _playlistsHomePath,
       extension: 'json',
