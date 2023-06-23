@@ -55,12 +55,17 @@ void main() {
         warningMessageVM: warningMessageVM,
         isTest: true,
       );
-      mockAudioDownloadVM.youtubePlaylistTitle = youtubePlaylistTitle;  
+      mockAudioDownloadVM.youtubePlaylistTitle = youtubePlaylistTitle;
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
         isTest: true,
       );
+
+      // using the mockAudioDownloadVM to add the playlist
+      // because YoutubeExplode can not access to internet
+      // in integration tests in order to download the playlist
+      // and so obtain the playlist title
       ExpandablePlaylistListVM expandablePlaylistListVM =
           ExpandablePlaylistListVM(
         warningMessageVM: warningMessageVM,
@@ -74,29 +79,13 @@ void main() {
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
-      await tester.pumpWidget(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => audioDownloadVM),
-            ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
-            ChangeNotifierProvider(
-                create: (_) => ThemeProvider(
-                      appSettings: settingsDataService,
-                    )),
-            ChangeNotifierProvider(
-                create: (_) => LanguageProvider(
-                      appSettings: settingsDataService,
-                    )),
-            ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
-            ChangeNotifierProvider(create: (_) => warningMessageVM),
-          ],
-          child: MaterialApp(
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            home: Scaffold(body: ExpandablePlaylistListView()),
-          ),
-        ),
+      await launchExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        expandablePlaylistListVM: expandablePlaylistListVM,
+        warningMessageVM: warningMessageVM,
       );
-      await tester.pumpAndSettle();
 
       // Tap the 'Toggle List' button to show the list
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
@@ -146,7 +135,8 @@ void main() {
       // Check the value of the warning dialog message
       Text warningDialogMessage =
           tester.widget(find.byKey(const Key('warningDialogMessage')));
-      expect(warningDialogMessage.data, 'Playlist "$youtubePlaylistTitle" of audio quality added at end of list of playlists.');
+      expect(warningDialogMessage.data,
+          'Playlist "$youtubePlaylistTitle" of audio quality added at end of list of playlists.');
 
       // Close the warning dialog by tapping on the OK button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
@@ -198,6 +188,10 @@ void main() {
         warningMessageVM: warningMessageVM,
         isTest: true,
       );
+
+      // mock version of AudioDownloadVM not necessary
+      // because its not necessary to download the
+      // local playlist in order to get its title
       ExpandablePlaylistListVM expandablePlaylistListVM =
           ExpandablePlaylistListVM(
         warningMessageVM: warningMessageVM,
@@ -214,29 +208,13 @@ void main() {
       const String youtubePlaylistUrl = '';
       const String localPlaylistTitle = 'audio_learn_local_playlist_test';
 
-      await tester.pumpWidget(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => audioDownloadVM),
-            ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
-            ChangeNotifierProvider(
-                create: (_) => ThemeProvider(
-                      appSettings: settingsDataService,
-                    )),
-            ChangeNotifierProvider(
-                create: (_) => LanguageProvider(
-                      appSettings: settingsDataService,
-                    )),
-            ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
-            ChangeNotifierProvider(create: (_) => warningMessageVM),
-          ],
-          child: MaterialApp(
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            home: Scaffold(body: ExpandablePlaylistListView()),
-          ),
-        ),
+      await launchExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        expandablePlaylistListVM: expandablePlaylistListVM,
+        warningMessageVM: warningMessageVM,
       );
-      await tester.pumpAndSettle();
 
       // Tap the 'Toggle List' button to show the list
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
@@ -324,4 +302,36 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+}
+
+Future<void> launchExpandablePlaylistListView({
+  required tester,
+  required AudioDownloadVM audioDownloadVM,
+  required SettingsDataService settingsDataService,
+  required ExpandablePlaylistListVM expandablePlaylistListVM,
+  required WarningMessageVM warningMessageVM,
+}) async {
+  await tester.pumpWidget(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => audioDownloadVM),
+        ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
+        ChangeNotifierProvider(
+            create: (_) => ThemeProvider(
+                  appSettings: settingsDataService,
+                )),
+        ChangeNotifierProvider(
+            create: (_) => LanguageProvider(
+                  appSettings: settingsDataService,
+                )),
+        ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
+        ChangeNotifierProvider(create: (_) => warningMessageVM),
+      ],
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        home: Scaffold(body: ExpandablePlaylistListView()),
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
 }
