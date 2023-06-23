@@ -23,8 +23,9 @@ import 'package:audio_learn/utils/dir_util.dart';
 import '../test/viewmodels/mock_audio_download_vm.dart';
 
 void main() {
+  const String youtubePlaylistId = 'PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
   const String youtubePlaylistUrl =
-      'https://youtube.com/playlist?list=PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
+      'https://youtube.com/playlist?list=$youtubePlaylistId';
 // url used in integration_test/audio_download_vm_integration_test.dart
 // which works:
 // 'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
@@ -120,6 +121,15 @@ void main() {
           tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
       expect(confirmUrlText.data, youtubePlaylistUrl);
 
+      // Check that the AlertDialog local playlist title
+      // TextField is empty
+      TextField localPlaylistTitleTextField = tester.widget(
+          find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')));
+      expect(
+        localPlaylistTitleTextField.controller!.text,
+        '',
+      );
+
       // Confirm the addition by tapping the confirmation button in
       // the AlertDialog
       await tester
@@ -144,7 +154,7 @@ void main() {
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
-      // The list of Playlist should have one item now
+      // The list of Playlist's should have one item now
       expect(find.byType(ListTile), findsOneWidget);
 
       // Check if the added item is displayed correctly
@@ -152,16 +162,17 @@ void main() {
           tester.widget(find.byType(PlaylistListItemWidget).first);
       expect(playlistListItemWidget.playlist.title, youtubePlaylistTitle);
 
-      // Find the ListTile
+      // Find the ListTile representing the added playlist
+
       final Finder firstListTileFinder = find.byType(ListTile).first;
 
-      // Retrieve the widget
-      final ListTile firstPlaylistTile =
+      // Retrieve the ListTile widget
+      final ListTile firstPlaylistListTile =
           tester.widget<ListTile>(firstListTileFinder);
 
       // Ensure that the title is a Text widget and check its data
-      expect(firstPlaylistTile.title, isA<Text>());
-      expect((firstPlaylistTile.title as Text).data, youtubePlaylistTitle);
+      expect(firstPlaylistListTile.title, isA<Text>());
+      expect((firstPlaylistListTile.title as Text).data, youtubePlaylistTitle);
 
       // Alternatively, find the ListTile by its title
       expect(
@@ -171,6 +182,34 @@ void main() {
                 youtubePlaylistTitle,
               )),
           findsOneWidget);
+
+      // Check the saved local playlist values in the json file
+
+      final newPlaylistPath = path.join(
+        kDownloadAppTestDirWindows,
+        youtubePlaylistTitle,
+      );
+
+      final newPlaylistFilePathName = path.join(
+        newPlaylistPath,
+        '$youtubePlaylistTitle.json',
+      );
+
+      // Load playlist from the json file
+      Playlist loadedNewPlaylist = JsonDataService.loadFromFile(
+        jsonPathFileName: newPlaylistFilePathName,
+        type: Playlist,
+      );
+
+      expect(loadedNewPlaylist.title, youtubePlaylistTitle);
+      expect(loadedNewPlaylist.id, youtubePlaylistId);
+      expect(loadedNewPlaylist.url, youtubePlaylistUrl);
+      expect(loadedNewPlaylist.playlistType, PlaylistType.youtube);
+      expect(loadedNewPlaylist.playlistQuality, PlaylistQuality.voice);
+      expect(loadedNewPlaylist.downloadedAudioLst.length, 0);
+      expect(loadedNewPlaylist.playableAudioLst.length, 0);
+      expect(loadedNewPlaylist.isSelected, false);
+      expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
 
       // Delete the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -255,31 +294,73 @@ void main() {
         localPlaylistTitle,
       );
 
+      // Set the quality to music
+      await tester
+          .tap(find.byKey(const Key('playlistQualityConfirmDialogCheckBox')));
+      await tester.pumpAndSettle();
+
       // Confirm the addition by tapping the confirmation button in
       // the AlertDialog
       await tester
           .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
       await tester.pumpAndSettle();
 
-      // The list should have one item now
+      // Ensure the warning dialog is shown
+      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+
+      // Check the value of the warning dialog title
+      Text warningDialogTitle =
+          tester.widget(find.byKey(const Key('warningDialogTitle')));
+      expect(warningDialogTitle.data, 'WARNING');
+
+      // Check the value of the warning dialog message
+      Text warningDialogMessage =
+          tester.widget(find.byKey(const Key('warningDialogMessage')));
+      expect(warningDialogMessage.data,
+          'Playlist "$localPlaylistTitle" of music quality added at end of list of playlists.');
+
+      // Close the warning dialog by tapping on the OK button
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
+
+      // The list of Playlist's should have one item now
       expect(find.byType(ListTile), findsOneWidget);
 
       // Check if the added item is displayed correctly
-      final playlistTile = find.byType(ListTile).first;
+      final PlaylistListItemWidget playlistListItemWidget =
+          tester.widget(find.byType(PlaylistListItemWidget).first);
+      expect(playlistListItemWidget.playlist.title, localPlaylistTitle);
+
+      // Find the ListTile representing the added playlist
+
+      final Finder firstListTileFinder = find.byType(ListTile).first;
+
+      // Retrieve the ListTile widget
+      final ListTile firstPlaylistListTile =
+          tester.widget<ListTile>(firstListTileFinder);
+
+      // Ensure that the title is a Text widget and check its data
+      expect(firstPlaylistListTile.title, isA<Text>());
+      expect((firstPlaylistListTile.title as Text).data, localPlaylistTitle);
+
+      // Alternatively, find the ListTile by its title
       expect(
           find.descendant(
-              of: playlistTile, matching: find.text(localPlaylistTitle)),
+              of: firstListTileFinder,
+              matching: find.text(
+                localPlaylistTitle,
+              )),
           findsOneWidget);
 
-      // Check the saved local playlist values
+      // Check the saved local playlist values in the json file
 
-      final newPlaylistPathName = path.join(
+      final newPlaylistPath = path.join(
         kDownloadAppTestDirWindows,
         localPlaylistTitle,
       );
 
       final newPlaylistFilePathName = path.join(
-        newPlaylistPathName,
+        newPlaylistPath,
         '$localPlaylistTitle.json',
       );
 
@@ -293,11 +374,11 @@ void main() {
       expect(loadedNewPlaylist.id, '');
       expect(loadedNewPlaylist.url, '');
       expect(loadedNewPlaylist.playlistType, PlaylistType.local);
-      expect(loadedNewPlaylist.playlistQuality, PlaylistQuality.voice);
+      expect(loadedNewPlaylist.playlistQuality, PlaylistQuality.music);
       expect(loadedNewPlaylist.downloadedAudioLst.length, 0);
       expect(loadedNewPlaylist.playableAudioLst.length, 0);
       expect(loadedNewPlaylist.isSelected, false);
-      expect(loadedNewPlaylist.downloadPath, newPlaylistPathName);
+      expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
 
       // Delete the test playlist directory so that the created test
       // files are not uploaded to GitHub

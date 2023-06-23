@@ -63,7 +63,8 @@ class ScreenMixin {
             child: InkWell(
               child: Text(
                 key: valueTextWidgetKey,
-                value,),
+                value,
+              ),
               onTap: () {
                 Clipboard.setData(
                   ClipboardData(text: value),
@@ -78,7 +79,7 @@ class ScreenMixin {
 
   Widget createEditableRowFunction({
     Key? valueTextFieldWidgetKey, // key set to the TextField widget
-                                  // containing the value
+    // containing the value
     required BuildContext context,
     required String label,
     required String value,
@@ -111,6 +112,7 @@ class ScreenMixin {
   }
 
   Widget createCheckboxRowFunction({
+    Key? checkBoxWidgetKey, // key set to the CheckBox widget
     required BuildContext context,
     required String label,
     required bool value,
@@ -123,6 +125,7 @@ class ScreenMixin {
         children: [
           Text(label),
           Checkbox(
+            key: checkBoxWidgetKey,
             value: value,
             onChanged: onChanged,
           ),

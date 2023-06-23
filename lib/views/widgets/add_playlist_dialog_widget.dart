@@ -90,6 +90,8 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                   controller: _localPlaylistTitleTextEditingController,
                   textFieldFocusNode: _localPlaylistTitleFocusNode),
               createCheckboxRowFunction(
+                checkBoxWidgetKey:
+                    const Key('playlistQualityConfirmDialogCheckBox'),
                 context: context,
                 label: AppLocalizations.of(context)!.isMusicQualityLabel,
                 value: _isChecked,
