@@ -7,8 +7,7 @@ import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
 class MockAudioDownloadVM extends AudioDownloadVM {
-  List<Playlist> _playlistLst = [];
-  final WarningMessageVM _warningMessageVM;
+  final List<Playlist> _playlistLst = [];
 
   String _youtubePlaylistTitle = '';
   set youtubePlaylistTitle(String youtubePlaylistTitle) {
@@ -18,8 +17,7 @@ class MockAudioDownloadVM extends AudioDownloadVM {
   MockAudioDownloadVM({
     required WarningMessageVM warningMessageVM,
     bool isTest = false,
-  })  : _warningMessageVM = warningMessageVM,
-        super(
+  }) : super(
           warningMessageVM: warningMessageVM,
           isTest: isTest,
         );
