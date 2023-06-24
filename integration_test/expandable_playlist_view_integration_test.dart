@@ -43,7 +43,7 @@ void main() {
 
   group('Expandable Playlist View test', () {
     testWidgets('Add Youtube playlist', (tester) async {
-      // Delete the test playlist directory if it exists so that the
+      // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
         rootPath: kDownloadAppTestDirWindows,
@@ -80,7 +80,7 @@ void main() {
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
-      await launchExpandablePlaylistListView(
+      await _launchExpandablePlaylistListView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -211,12 +211,12 @@ void main() {
       expect(loadedNewPlaylist.isSelected, false);
       expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
 
-      // Delete the test playlist directory so that the created test
+      // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets('Add local playlist', (tester) async {
-      // Delete the test playlist directory if it exists so that the
+      // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
         rootPath: kDownloadAppTestDirWindows,
@@ -246,10 +246,9 @@ void main() {
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
-      const String youtubePlaylistUrl = '';
       const String localPlaylistTitle = 'audio_learn_local_playlist_test';
 
-      await launchExpandablePlaylistListView(
+      await _launchExpandablePlaylistListView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -380,14 +379,151 @@ void main() {
       expect(loadedNewPlaylist.isSelected, false);
       expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
 
-      // Delete the test playlist directory so that the created test
+      // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+  // group('Settings update test', () {
+  //   testWidgets('After closing and restarting app', (tester) async {
+  //     // Purge the test playlist directory if it exists so that the
+  //     // playlist list is empty
+  //     DirUtil.deleteFilesInDirAndSubDirs(
+  //       rootPath: kDownloadAppTestDirWindows,
+  //       deleteSubDirectoriesAsWell: true,
+  //     );
+
+  //     // Copy the test initial audio data to the app dir
+  //     DirUtil.copyFilesFromDirAndSubDirsToDirectory(sourceRootPath: "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+  //       destinationRootPath: kDownloadAppTestDirWindows,
+  //     );
+
+  //     SettingsDataService settingsDataService = SettingsDataService();
+  //     WarningMessageVM warningMessageVM = WarningMessageVM();
+  //     AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+  //       warningMessageVM: warningMessageVM,
+  //       isTest: true,
+  //     );
+
+  //     // mock version of AudioDownloadVM not necessary
+  //     // because its not necessary to download the
+  //     // local playlist which will be added in order to get 
+  //     // its title
+  //     ExpandablePlaylistListVM expandablePlaylistListVM =
+  //         ExpandablePlaylistListVM(
+  //       warningMessageVM: warningMessageVM,
+  //       audioDownloadVM: audioDownloadVM,
+  //       settingsDataService: settingsDataService,
+  //     );
+
+  //     // calling getUpToDateSelectablePlaylists() loads all the
+  //     // playlist json files from the app dir and so enables
+  //     // expandablePlaylistListVM to know which playlists are
+  //     // selected and which are not
+  //     expandablePlaylistListVM.getUpToDateSelectablePlaylists();
+
+  //     const String localPlaylistTitle = 'local_audio';
+
+  //     await _launchExpandablePlaylistListView(
+  //       tester: tester,
+  //       audioDownloadVM: audioDownloadVM,
+  //       settingsDataService: settingsDataService,
+  //       expandablePlaylistListVM: expandablePlaylistListVM,
+  //       warningMessageVM: warningMessageVM,
+  //     );
+
+  //     // Tap the 'Toggle List' button to show the list
+  //     await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+  //     await tester.pumpAndSettle();
+
+  //     // The playlist list displays two items, but the audio
+  //     // list is empty
+  //     expect(find.byType(ListView), findsNWidgets(2));
+  //     expect(find.byType(ListTile), findsNWidgets(2));
+
+  //     // Open the add playlist dialog by tapping the add playlist
+  //     // button
+  //     await tester.tap(find.byKey(const Key('addPlaylistButton')));
+  //     await tester.pumpAndSettle();
+
+  //     // Enter the title of the local playlist
+  //     await tester.enterText(
+  //       find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')),
+  //       localPlaylistTitle,
+  //     );
+
+  //     // Check the value of the AlertDialog local playlist title
+  //     // TextField
+  //     TextField localPlaylistTitleTextField = tester.widget(
+  //         find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')));
+  //     expect(
+  //       localPlaylistTitleTextField.controller!.text,
+  //       localPlaylistTitle,
+  //     );
+
+  //     // Confirm the addition by tapping the confirmation button in
+  //     // the AlertDialog
+  //     await tester
+  //         .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
+  //     await tester.pumpAndSettle();
+
+  //     // Ensure the warning dialog is shown
+  //     expect(find.byType(DisplayMessageWidget), findsOneWidget);
+
+  //     // Check the value of the warning dialog message
+  //     Text warningDialogMessage =
+  //         tester.widget(find.byKey(const Key('warningDialogMessage')));
+  //     expect(warningDialogMessage.data,
+  //         'Playlist "$localPlaylistTitle" of audio quality added at end of list of playlists.');
+
+  //     // Close the warning dialog by tapping on the OK button
+  //     await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+  //     await tester.pumpAndSettle();
+
+  //     // The list of Playlist's should have three items now
+  //     expect(find.byType(ListTile), findsNWidgets(3));
+
+  //     // Check if the added item is displayed correctly
+  //     final PlaylistListItemWidget playlistListItemWidget =
+  //         tester.widget(find.byType(PlaylistListItemWidget).first);
+  //     expect(playlistListItemWidget.playlist.title, localPlaylistTitle);
+
+  //     // Check the saved local playlist values in the json file
+
+  //     final newPlaylistPath = path.join(
+  //       kDownloadAppTestDirWindows,
+  //       localPlaylistTitle,
+  //     );
+
+  //     final newPlaylistFilePathName = path.join(
+  //       newPlaylistPath,
+  //       '$localPlaylistTitle.json',
+  //     );
+
+  //     // Load playlist from the json file
+  //     Playlist loadedNewPlaylist = JsonDataService.loadFromFile(
+  //       jsonPathFileName: newPlaylistFilePathName,
+  //       type: Playlist,
+  //     );
+
+  //     expect(loadedNewPlaylist.title, localPlaylistTitle);
+  //     expect(loadedNewPlaylist.id, '');
+  //     expect(loadedNewPlaylist.url, '');
+  //     expect(loadedNewPlaylist.playlistType, PlaylistType.local);
+  //     expect(loadedNewPlaylist.playlistQuality, PlaylistQuality.music);
+  //     expect(loadedNewPlaylist.downloadedAudioLst.length, 0);
+  //     expect(loadedNewPlaylist.playableAudioLst.length, 0);
+  //     expect(loadedNewPlaylist.isSelected, false);
+  //     expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
+
+  //     // Purge the test playlist directory so that the created test
+  //     // files are not uploaded to GitHub
+  //     DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+  //   });
+  // });
 }
 
-Future<void> launchExpandablePlaylistListView({
+Future<void> _launchExpandablePlaylistListView({
   required tester,
   required AudioDownloadVM audioDownloadVM,
   required SettingsDataService settingsDataService,

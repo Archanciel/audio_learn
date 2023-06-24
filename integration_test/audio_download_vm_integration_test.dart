@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart';
+import 'package:path/path.dart' as path;
 
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/audio.dart';
@@ -34,11 +35,11 @@ void main() {
 
   group('Download 1 playlist with short audios', () {
     test('Check initial values', () {
-      final Directory directory = Directory(testPlaylistDir);
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
 
-      if (directory.existsSync()) {
-        directory.deleteSync(recursive: true);
-      }
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -141,7 +142,7 @@ void main() {
       await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
-            "$kDownloadAppTestSavedDataDir\\$testPlaylistTitle\\${testPlaylistTitle}_1_audio.json",
+            "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}${testPlaylistTitle}_1_audio.json",
         targetDirectoryPath: testPlaylistDir,
         targetFileName: '$testPlaylistTitle.json',
       );
@@ -270,7 +271,7 @@ void main() {
       await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
-            "$kDownloadAppTestSavedDataDir\\$testPlaylistTitle\\$testPlaylistTitle.json",
+            "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}$testPlaylistTitle.json",
         targetDirectoryPath: testPlaylistDir,
         targetFileName: '$testPlaylistTitle.json',
       );

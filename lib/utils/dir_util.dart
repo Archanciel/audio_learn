@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:path/path.dart' as path;
 
 import '../constants.dart';
 
@@ -99,6 +100,48 @@ class DirUtil {
     }
   }
 
+  /// This function copies all files and directories from a given
+  /// source directory and its sub-directories to a target directory.
+  /// 
+  /// It first checks if the source and target directories exist,
+  /// and creates the target directory if it does not exist. It then
+  /// iterates through all the contents of the source directory and
+  /// its sub-directories, creating any directories that do not exist
+  /// in the target directory and copying any files to the
+  /// corresponding paths in the target directory.
+  static void copyFilesFromDirAndSubDirsToDirectory({
+    required String sourceRootPath,
+    required String destinationRootPath,
+  }) {
+    final Directory sourceDirectory = Directory(sourceRootPath);
+    final Directory targetDirectory = Directory(destinationRootPath);
+
+    if (!sourceDirectory.existsSync()) {
+      print(
+          'Source directory does not exist. Please check the source directory path.');
+      return;
+    }
+
+    if (!targetDirectory.existsSync()) {
+      print('Target directory does not exist. Creating...');
+      targetDirectory.createSync(recursive: true);
+    }
+
+    final List<FileSystemEntity> contents =
+        sourceDirectory.listSync(recursive: true);
+
+    for (FileSystemEntity entity in contents) {
+      String relativePath = path.relative(entity.path, from: sourceRootPath);
+      String newPath = path.join(destinationRootPath, relativePath);
+
+      if (entity is Directory) {
+        Directory(newPath).createSync(recursive: true);
+      } else if (entity is File) {
+        entity.copySync(newPath);
+      }
+    }
+  }
+
   static Future<void> copyFileToDirectory({
     required String sourceFilePathName,
     required String targetDirectoryPath,
@@ -106,7 +149,7 @@ class DirUtil {
   }) async {
     File sourceFile = File(sourceFilePathName);
     String copiedFileName = targetFileName ?? sourceFile.uri.pathSegments.last;
-    String targetPathFileName = '$targetDirectoryPath/$copiedFileName';
+    String targetPathFileName = '$targetDirectoryPath${path.separator}$copiedFileName';
 
     await sourceFile.copy(targetPathFileName);
   }
@@ -167,7 +210,7 @@ class DirUtil {
   }) {
     File sourceFile = File(sourceFilePathName);
     String copiedFileName = targetFileName ?? sourceFile.uri.pathSegments.last;
-    String targetPathFileName = '$targetDirectoryPath/$copiedFileName';
+    String targetPathFileName = '$targetDirectoryPath${path.separator}$copiedFileName';
 
     if (File(targetPathFileName).existsSync()) {
       return false;
@@ -191,7 +234,7 @@ class DirUtil {
   }) {
     File sourceFile = File(sourceFilePathName);
     String copiedFileName = targetFileName ?? sourceFile.uri.pathSegments.last;
-    String targetPathFileName = '$targetDirectoryPath/$copiedFileName';
+    String targetPathFileName = '$targetDirectoryPath${path.separator}$copiedFileName';
 
     if (File(targetPathFileName).existsSync()) {
       return false;

@@ -1,0 +1,15 @@
+{
+    "SettingType.appTheme": {
+        "SettingType.appTheme": "AppTheme.dark"
+    },
+    "SettingType.language": {
+        "SettingType.language": "Language.english"
+    },
+    "SettingType.playlists": {
+        "Playlists.defaultAudioSort": "AudioSortCriterion.audioDownloadDateTime",
+        "Playlists.isMusicQualityByDefault": "false",
+        "Playlists.orderedTitleLst": "[local_music, audio_learn_new_youtube_playlist_test]",
+        "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",
+        "Playlists.rootPath": "/storage/emulated/0/Download/audios"
+    }
+}
