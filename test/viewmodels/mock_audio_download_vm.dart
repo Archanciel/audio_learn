@@ -72,9 +72,6 @@ class MockAudioDownloadVM extends AudioDownloadVM {
   }
 
   @override
-  late yt.YoutubeExplode youtubeExplode;
-
-  @override
   Future<Playlist?> addPlaylist({
     String playlistUrl = '',
     String localPlaylistTitle = '',
