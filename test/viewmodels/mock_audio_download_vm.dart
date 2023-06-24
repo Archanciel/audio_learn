@@ -6,7 +6,7 @@ import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
-class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
+class MockAudioDownloadVM extends AudioDownloadVM {
   List<Playlist> _playlistLst = [];
   final WarningMessageVM _warningMessageVM;
 
@@ -18,7 +18,11 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
   MockAudioDownloadVM({
     required WarningMessageVM warningMessageVM,
     bool isTest = false,
-  }) : _warningMessageVM = warningMessageVM;
+  })  : _warningMessageVM = warningMessageVM,
+        super(
+          warningMessageVM: warningMessageVM,
+          isTest: isTest,
+        );
 
   @override
   Future<void> downloadPlaylistAudios({
@@ -76,134 +80,16 @@ class MockAudioDownloadVM extends ChangeNotifier implements AudioDownloadVM {
     String localPlaylistTitle = '',
     required PlaylistQuality playlistQuality,
   }) async {
-    AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-      warningMessageVM: _warningMessageVM,
-      isTest: true,
-    );
-
     // calling the AudioDownloadVM's addPlaylistCallableByMock method
     // enables the MockAudioDownloadVM to use the logic of the AudioDownloadVM
     // addPlaylist method !
-    Playlist? addedPlaylist = await audioDownloadVM.addPlaylistCallableByMock(
+    Playlist? addedPlaylist = await addPlaylistCallableByMock(
       playlistUrl: playlistUrl,
       localPlaylistTitle: localPlaylistTitle,
       playlistQuality: playlistQuality,
       mockYoutubePlaylistTitle: _youtubePlaylistTitle,
     );
 
-    _playlistLst = audioDownloadVM.listOfPlaylist;
-
     return addedPlaylist;
-  }
-
-  @override
-  Future<Playlist?> addPlaylistCallableByMock({
-    String playlistUrl = '',
-    String localPlaylistTitle = '',
-    required PlaylistQuality playlistQuality,
-    String? mockYoutubePlaylistTitle,
-  }) async {
-    throw UnimplementedError();
-  }
-
-  @override
-  // TODO: implement currentDownloadingAudio
-  Audio get currentDownloadingAudio => _playlistLst[0].downloadedAudioLst[0];
-
-  @override
-  // TODO: implement downloadProgress
-  double get downloadProgress => 0.5;
-
-  @override
-  // TODO: implement isDownloading
-  bool get isDownloading => false;
-
-  @override
-  // TODO: implement isHighQuality
-  bool get isHighQuality => false;
-
-  @override
-  // TODO: implement lastSecondDownloadSpeed
-  int get lastSecondDownloadSpeed => 100000;
-
-  @override
-  // TODO: implement listOfPlaylist
-  List<Playlist> get listOfPlaylist => _playlistLst;
-
-  @override
-  void setAudioQuality({required bool isHighQuality}) {
-    // TODO: implement setAudioQuality
-  }
-
-  @override
-  Future<void> downloadSingleVideoAudio({
-    required String videoUrl,
-    required Playlist singleVideoPlaylist,
-  }) async {
-    // TODO: implement downloadSingleVideoAudio
-    throw UnimplementedError();
-  }
-
-  @override
-  void stopDownload() {
-    // TODO: implement stopDownload
-  }
-
-  @override
-  // TODO: implement audioDownloadError
-  bool get audioDownloadError => throw UnimplementedError();
-
-  @override
-  // TODO: implement isDownloadStopping
-  bool get isDownloadStopping => throw UnimplementedError();
-
-  @override
-  void updatePlaylistSelection(
-      {required String playlistId, required bool isPlaylistSelected}) {
-    // TODO: implement updatePlaylistSelection
-  }
-
-  @override
-  void deleteAudio({required Audio audio}) {
-    // TODO: implement deleteAudio
-  }
-
-  @override
-  void deleteAudioFromPlaylistAswell({required Audio audio}) {
-    // TODO: implement deleteAudioFromPlaylistAswell
-  }
-
-  @override
-  void copyAudioToPlaylist(
-      {required Audio audio, required Playlist targetPlaylist}) {
-    // TODO: implement copyAudioToPlaylist
-  }
-
-  @override
-  int getPlaylistJsonFileSize({required Playlist playlist}) {
-    // TODO: implement getPlaylistJsonFileSize
-    throw UnimplementedError();
-  }
-
-  @override
-  set isHighQuality(bool isHighQuality) {
-    // TODO: implement isHighQuality
-  }
-
-  @override
-  void moveAudioToPlaylist(
-      {required Audio audio, required Playlist targetPlaylist}) {
-    // TODO: implement moveAudioToPlaylist
-  }
-
-  @override
-  Playlist? obtainSingleVideoPlaylist(List<Playlist> selectedPlaylists) {
-    // TODO: implement obtainSingleVideoPlaylist
-    throw UnimplementedError();
-  }
-
-  @override
-  void updatePlaylistJsonFiles() {
-    // TODO: implement updatePlaylistJsonFiles
   }
 }
