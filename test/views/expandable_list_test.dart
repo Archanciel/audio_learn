@@ -32,7 +32,7 @@ class MockExpandablePlaylistListVM extends ExpandablePlaylistListVM {
 }
 
 void main() {
-  group('ExpandableListView', () {
+  group('Testing expandable playlist list located in ExpandableListView functions', () {
     testWidgets(
         'should render ListViewWidget, not using MyApp but ListViewWidget',
         (WidgetTester tester) async {
