@@ -42,7 +42,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      await createWidget(
+      await createExpandablePlaylistListViewWidget(
         tester,
         warningMessageVM,
         audioDownloadVM,
@@ -59,7 +59,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      await createWidget(
+      await createExpandablePlaylistListViewWidget(
         tester,
         warningMessageVM,
         audioDownloadVM,
@@ -117,7 +117,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      await createWidget(
+      await createExpandablePlaylistListViewWidget(
         tester,
         warningMessageVM,
         audioDownloadVM,
@@ -209,7 +209,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      await createWidget(
+      await createExpandablePlaylistListViewWidget(
         tester,
         warningMessageVM,
         audioDownloadVM,
@@ -303,7 +303,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      await createWidget(
+      await createExpandablePlaylistListViewWidget(
         tester,
         warningMessageVM,
         audioDownloadVM,
@@ -404,7 +404,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      await createWidget(
+      await createExpandablePlaylistListViewWidget(
         tester,
         warningMessageVM,
         audioDownloadVM,
@@ -564,7 +564,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      await createWidget(
+      await createExpandablePlaylistListViewWidget(
         tester,
         warningMessageVM,
         audioDownloadVM,
@@ -636,7 +636,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      await createWidget(
+      await createExpandablePlaylistListViewWidget(
         tester,
         warningMessageVM,
         audioDownloadVM,
@@ -709,7 +709,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      await createWidget(
+      await createExpandablePlaylistListViewWidget(
         tester,
         warningMessageVM,
         audioDownloadVM,
@@ -781,7 +781,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      await createWidget(
+      await createExpandablePlaylistListViewWidget(
         tester,
         warningMessageVM,
         audioDownloadVM,
@@ -840,7 +840,7 @@ void main() {
   });
 }
 
-Future<void> createWidget(
+Future<void> createExpandablePlaylistListViewWidget(
     WidgetTester tester,
     WarningMessageVM warningMessageVM,
     AudioDownloadVM audioDownloadVM,
