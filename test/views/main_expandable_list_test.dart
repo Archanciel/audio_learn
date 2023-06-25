@@ -53,7 +53,30 @@ void main() {
     });
 
     testWidgets('should toggle list on press', (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
       SettingsDataService settingsDataService = SettingsDataService();
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -77,13 +100,17 @@ void main() {
 
       final List<Widget> listTileLst =
           tester.widgetList(listTileFinder).toList();
-      expect(listTileLst.length, 7);
+      expect(listTileLst.length, 2);
 
       // hidding the list
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
       expect(listTileFinder, findsNothing);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
 
     testWidgets('check buttons enabled after item selected',
@@ -103,7 +130,7 @@ void main() {
       );
 
       SettingsDataService settingsDataService = SettingsDataService();
- 
+
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
@@ -112,7 +139,7 @@ void main() {
           jsonPathFileName:
               "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
 
-     WarningMessageVM warningMessageVM = WarningMessageVM();
+      WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
       );
@@ -175,14 +202,16 @@ void main() {
       ));
       expect(firstListItemCheckbox.value, isTrue);
 
+      // The Delete button does not exist on the
+      // ExpandableListView.
       // Verify that the Delete button is now enabled.
       // The Delete button must be obtained again
       // since the widget has been recreated !
-      expect(
-        tester.widget<ElevatedButton>(
-            find.widgetWithText(ElevatedButton, 'Delete')),
-        isA<ElevatedButton>().having((b) => b.enabled, 'enabled', true),
-      );
+      // expect(
+      //   tester.widget<ElevatedButton>(
+      //       find.widgetWithText(ElevatedButton, 'Delete')),
+      //   isA<ElevatedButton>().having((b) => b.enabled, 'enabled', true),
+      // );
 
       // Verify that the up and down buttons are now enabled.
       // The Up and Down buttons must be obtained again
@@ -203,7 +232,30 @@ void main() {
     testWidgets(
         'check checkbox remains selected after toggling list up and down',
         (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
       SettingsDataService settingsDataService = SettingsDataService();
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -246,11 +298,13 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
+      // The Delete button does not exist on the
+      // ExpandableListView.
       // testing that the Delete button is disabled
-      Finder deleteButtonFinder = find.byKey(const ValueKey('delete_button'));
-      expect(deleteButtonFinder, findsOneWidget);
-      expect(
-          tester.widget<ElevatedButton>(deleteButtonFinder).enabled, isFalse);
+      // Finder deleteButtonFinder = find.byKey(const ValueKey('Delete'));
+      // expect(deleteButtonFinder, findsOneWidget);
+      // expect(
+      //     tester.widget<ElevatedButton>(deleteButtonFinder).enabled, isFalse);
 
       // testing that the up and down buttons are disabled
       IconButton upButton = tester.widget<IconButton>(
@@ -265,14 +319,16 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
+      // The Delete button does not exist on the
+      // ExpandableListView.
       // Verify that the Delete button is now enabled.
       // The Delete button must be obtained again
       // since the widget has been recreated !
-      expect(
-        tester.widget<ElevatedButton>(
-            find.widgetWithText(ElevatedButton, 'Delete')),
-        isA<ElevatedButton>().having((b) => b.enabled, 'enabled', true),
-      );
+      // expect(
+      //   tester.widget<ElevatedButton>(
+      //       find.widgetWithText(ElevatedButton, 'Delete')),
+      //   isA<ElevatedButton>().having((b) => b.enabled, 'enabled', true),
+      // );
 
       // Verify that the up and down buttons are now enabled.
       // The Up and Down buttons must be obtained again
@@ -293,11 +349,38 @@ void main() {
         matching: find.byWidgetPredicate((widget) => widget is Checkbox),
       ));
       expect(firstListItemCheckbox.value, isTrue);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
 
     testWidgets('check buttons disabled after item unselected',
         (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
       SettingsDataService settingsDataService = SettingsDataService();
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -344,14 +427,16 @@ void main() {
       ));
       expect(firstListItemCheckbox.value, isTrue);
 
+      // The Delete button does not exist on the
+      // ExpandableListView.
       // Verify that the Delete button is now enabled.
       // The Delete button must be obtained again
       // since the widget has been recreated !
-      expect(
-        tester.widget<ElevatedButton>(
-            find.widgetWithText(ElevatedButton, 'Delete')),
-        isA<ElevatedButton>().having((b) => b.enabled, 'enabled', true),
-      );
+      // expect(
+      //   tester.widget<ElevatedButton>(
+      //       find.widgetWithText(ElevatedButton, 'Delete')),
+      //   isA<ElevatedButton>().having((b) => b.enabled, 'enabled', true),
+      // );
 
       // Verify that the up and down buttons are now enabled.
       // The Up and Down buttons must be obtained again
@@ -380,11 +465,13 @@ void main() {
       ));
       expect(firstListItemCheckbox.value, isFalse);
 
+      // The Delete button does not exist on the
+      // ExpandableListView.
       // testing that the Delete button is now disabled
-      Finder deleteButtonFinder = find.byKey(const ValueKey('delete_button'));
-      expect(deleteButtonFinder, findsOneWidget);
-      expect(
-          tester.widget<ElevatedButton>(deleteButtonFinder).enabled, isFalse);
+      // Finder deleteButtonFinder = find.byKey(const ValueKey('Delete'));
+      // expect(deleteButtonFinder, findsOneWidget);
+      // expect(
+      //     tester.widget<ElevatedButton>(deleteButtonFinder).enabled, isFalse);
 
       // testing that the up and down buttons are now disabled
       upButton = tester.widget<IconButton>(
@@ -394,11 +481,38 @@ void main() {
       downButton = tester.widget<IconButton>(
           find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
       expect(downButton.onPressed, isNull);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
 
     testWidgets('ensure only one checkbox is settable',
         (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
       SettingsDataService settingsDataService = SettingsDataService();
+ 
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -460,8 +574,11 @@ void main() {
         matching: find.byWidgetPredicate((widget) => widget is Checkbox),
       ));
       expect(firstListItemCheckbox.value, isFalse);
-    });
 
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
 
     // The Delete button does not exist on the
     // ExpandableListView.
@@ -549,6 +666,20 @@ void main() {
     // });
 
     testWidgets('select and move down item', (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
       SettingsDataService settingsDataService = SettingsDataService();
 
       // Load the settings from the json file. This is necessary
@@ -617,10 +748,28 @@ void main() {
           listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists()[1].url, 'Item 3');
       expect(listViewModel.getUpToDateSelectablePlaylists()[2].url, 'Item 2');
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
 
     testWidgets('select and move down twice before last item',
         (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
       SettingsDataService settingsDataService = SettingsDataService();
 
       // Load the settings from the json file. This is necessary
@@ -691,9 +840,27 @@ void main() {
           listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists()[0].url, 'Item 6');
       expect(listViewModel.getUpToDateSelectablePlaylists()[6].url, 'Item 7');
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
 
     testWidgets('select and move up item', (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
       SettingsDataService settingsDataService = SettingsDataService();
 
       // Load the settings from the json file. This is necessary
@@ -762,10 +929,28 @@ void main() {
           listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists()[3].url, 'Item 5');
       expect(listViewModel.getUpToDateSelectablePlaylists()[4].url, 'Item 4');
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
 
     testWidgets('select and move up twice first item',
         (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
       SettingsDataService settingsDataService = SettingsDataService();
 
       // Load the settings from the json file. This is necessary
@@ -836,6 +1021,10 @@ void main() {
           listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists()[0].url, 'Item 2');
       expect(listViewModel.getUpToDateSelectablePlaylists()[5].url, 'Item 1');
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
 }
