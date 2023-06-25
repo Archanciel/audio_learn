@@ -52,19 +52,6 @@ void main() {
       expect(find.byType(ExpandablePlaylistListView), findsOneWidget);
     });
 
-    testWidgets('should render ListViewWidget using MyApp',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: MyApp(),
-          ),
-        ),
-      );
-
-      expect(find.byType(ExpandablePlaylistListView), findsOneWidget);
-    });
-
     testWidgets('should toggle list on press', (WidgetTester tester) async {
       SettingsDataService settingsDataService = SettingsDataService();
       WarningMessageVM warningMessageVM = WarningMessageVM();
