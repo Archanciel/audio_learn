@@ -62,7 +62,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -99,7 +99,7 @@ void main() {
 
       final List<Widget> listTileLst =
           tester.widgetList(listTileFinder).toList();
-      expect(listTileLst.length, 2);
+      expect(listTileLst.length, 7);
 
       // hidding the list
       await tester.tap(toggleButtonFinder);
@@ -124,7 +124,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -241,7 +241,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -366,7 +366,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -498,7 +498,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -617,7 +617,7 @@ void main() {
     //   ExpandablePlaylistListVM listViewModel =
     //       Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
     //           listen: false);
-    //   expect(listViewModel.getUpToDateSelectablePlaylists().length, 2);
+    //   expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
     //   // Verify that the Delete button is disabled
     //   expect(find.text('Delete'), findsOneWidget);
@@ -675,7 +675,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -714,7 +714,7 @@ void main() {
       ExpandablePlaylistListVM listViewModel =
           Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
               listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists().length, 2);
+      expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
       const String itemToDeleteTextStr = 'Item 2';
@@ -765,7 +765,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -804,7 +804,7 @@ void main() {
       ExpandablePlaylistListVM listViewModel =
           Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
               listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists().length, 2);
+      expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
       const String itemToDeleteTextStr = 'Item 6';
@@ -856,7 +856,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -895,7 +895,7 @@ void main() {
       ExpandablePlaylistListVM listViewModel =
           Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
               listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists().length, 2);
+      expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
       const String itemToDeleteTextStr = 'Item 5';
@@ -946,7 +946,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}settings_update_test_initial_audio_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -985,7 +985,7 @@ void main() {
       ExpandablePlaylistListVM listViewModel =
           Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
               listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists().length, 2);
+      expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
       const String itemToDeleteTextStr = 'Item 1';
