@@ -560,7 +560,9 @@ Future<void> _launchExpandablePlaylistListView({
       ],
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: Scaffold(body: ExpandablePlaylistListView()),
+        home: Scaffold(
+          body: ExpandablePlaylistListView(),
+        ),
       ),
     ),
   );
