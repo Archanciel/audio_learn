@@ -98,7 +98,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       if (doUpdateSettings) {
         // Once some playlists have been deleted from the audio app root
         // dir, the next time the app is started, the ordered playlist
-        // title list in the settings json file is updated.
+        // title list in the settings json file will be updated.
         _updateAndSavePlaylistOrder();
       }
     }
