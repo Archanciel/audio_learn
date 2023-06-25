@@ -57,7 +57,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
   /// Not working yet
   void updateSettingsAndPlaylistJsonFiles() {
-    _audioDownloadVM.loadExistingPlaylists();
+    // _audioDownloadVM.loadExistingPlaylists();
     _audioDownloadVM.updatePlaylistJsonFiles();
     getUpToDateSelectablePlaylists();
   }
