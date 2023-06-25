@@ -39,6 +39,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true,
       );
 
       await createExpandablePlaylistListViewWidget(
@@ -79,6 +80,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true,
       );
 
       await createExpandablePlaylistListViewWidget(
@@ -141,6 +143,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true,
       );
 
       await createExpandablePlaylistListViewWidget(
@@ -258,6 +261,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true,
       );
 
       await createExpandablePlaylistListViewWidget(
@@ -383,6 +387,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true,
       );
 
       await createExpandablePlaylistListViewWidget(
@@ -515,6 +520,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true,
       );
 
       await createExpandablePlaylistListViewWidget(
@@ -594,7 +600,8 @@ void main() {
 
     //   WarningMessageVM warningMessageVM = WarningMessageVM();
     //   AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-    //     warningMessageVM: warningMessageVM,
+        // warningMessageVM: warningMessageVM,
+        // isTest: true,
     //   );
 
     //   await createWidget(
@@ -692,6 +699,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true,
       );
 
       await createExpandablePlaylistListViewWidget(
@@ -782,6 +790,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true,
       );
 
       await createExpandablePlaylistListViewWidget(
@@ -873,6 +882,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true,
       );
 
       await createExpandablePlaylistListViewWidget(
@@ -963,6 +973,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        isTest: true,
       );
 
       await createExpandablePlaylistListViewWidget(
