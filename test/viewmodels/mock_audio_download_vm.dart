@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt;
 
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
