@@ -207,6 +207,10 @@ void main() {
       downButton = tester.widget<IconButton>(
           find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
       expect(downButton.onPressed, isNotNull);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
 
     testWidgets(
