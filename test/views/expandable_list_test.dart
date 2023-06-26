@@ -564,9 +564,9 @@ void main() {
       ));
       expect(firstListItemCheckbox.value, isTrue);
 
-      // Find and select the ListTile with text 'Item 4'
-      String itemTextStr = 'Item 4';
-      await findSelectAndTestListTileCheckbox(
+      // Find and select the ListTile with text 'local_audio_playlist_4'
+      String itemTextStr = 'local_audio_playlist_4';
+      await findThenSelectAndTestListTileCheckbox(
         tester: tester,
         itemTextStr: itemTextStr,
       );
@@ -636,7 +636,7 @@ void main() {
     //   );
 
     //   // Find and select the ListTile item to delete
-    //   const String itemToDeleteTextStr = 'Item 3';
+    //   const String itemToDeleteTextStr = 'local_audio_playlist_3';
 
     //   await findSelectAndTestListTileCheckbox(
     //     tester: tester,
@@ -725,9 +725,9 @@ void main() {
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
-      const String itemToDeleteTextStr = 'Item 2';
+      const String itemToDeleteTextStr = 'local_audio_playlist_2';
 
-      await findSelectAndTestListTileCheckbox(
+      await findThenSelectAndTestListTileCheckbox(
         tester: tester,
         itemTextStr: itemToDeleteTextStr,
       );
@@ -753,8 +753,8 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[1].url, 'Item 3');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[2].url, 'Item 2');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[1].url, 'local_audio_playlist_3');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[2].url, 'local_audio_playlist_2');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -816,9 +816,9 @@ void main() {
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
-      const String itemToDeleteTextStr = 'Item 6';
+      const String itemToDeleteTextStr = 'local_audio_playlist_6';
 
-      await findSelectAndTestListTileCheckbox(
+      await findThenSelectAndTestListTileCheckbox(
         tester: tester,
         itemTextStr: itemToDeleteTextStr,
       );
@@ -846,8 +846,8 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[0].url, 'Item 6');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[6].url, 'Item 7');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[0].url, 'local_audio_playlist_6');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[6].url, 'local_audio_playlist_7');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -908,9 +908,9 @@ void main() {
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
-      const String itemToDeleteTextStr = 'Item 5';
+      const String itemToDeleteTextStr = 'local_audio_playlist_5';
 
-      await findSelectAndTestListTileCheckbox(
+      await findThenSelectAndTestListTileCheckbox(
         tester: tester,
         itemTextStr: itemToDeleteTextStr,
       );
@@ -936,8 +936,8 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[3].url, 'Item 5');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[4].url, 'Item 4');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[3].url, 'local_audio_playlist_5');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[4].url, 'local_audio_playlist_4');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -999,9 +999,9 @@ void main() {
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
-      const String itemToDeleteTextStr = 'Item 1';
+      const String itemToDeleteTextStr = 'local_audio_playlist_1';
 
-      await findSelectAndTestListTileCheckbox(
+      await findThenSelectAndTestListTileCheckbox(
         tester: tester,
         itemTextStr: itemToDeleteTextStr,
       );
@@ -1029,8 +1029,8 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[0].url, 'Item 2');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[5].url, 'Item 1');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[0].url, 'local_audio_playlist_2');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[5].url, 'local_audio_playlist_1');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -1079,7 +1079,7 @@ Future<void> createExpandablePlaylistListViewWidget(
   );
 }
 
-Future<void> findSelectAndTestListTileCheckbox({
+Future<void> findThenSelectAndTestListTileCheckbox({
   required WidgetTester tester,
   required String itemTextStr,
 }) async {
@@ -1093,13 +1093,13 @@ Future<void> findSelectAndTestListTileCheckbox({
   // Assert that the checkbox is not selected
   expect(tester.widget<Checkbox>(checkboxFinder).value, false);
 
-  // now tap the fourth item checkbox
+  // now tap the item checkbox
   await tester.tap(find.descendant(
     of: listItemTileFinder,
     matching: find.byWidgetPredicate((widget) => widget is Checkbox),
   ));
   await tester.pump();
 
-  // Assert that the fourth item checkbox is selected
+  // Assert that the item checkbox is now selected
   expect(tester.widget<Checkbox>(checkboxFinder).value, true);
 }
