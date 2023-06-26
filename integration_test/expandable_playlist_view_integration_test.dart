@@ -387,6 +387,135 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    testWidgets('Select then unselect local playlist', (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      SettingsDataService settingsDataService = SettingsDataService();
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+
+      // mock version of AudioDownloadVM not necessary
+      // because its not necessary to download the
+      // local playlist in order to get its title
+      ExpandablePlaylistListVM expandablePlaylistListVM =
+          ExpandablePlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      expandablePlaylistListVM.getUpToDateSelectablePlaylists();
+
+      const String localPlaylistTitle = 'audio_learn_local_playlist_test';
+
+      await _launchExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        expandablePlaylistListVM: expandablePlaylistListVM,
+        warningMessageVM: warningMessageVM,
+      );
+
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Open the add playlist dialog by tapping the add playlist
+      // button
+      await tester.tap(find.byKey(const Key('addPlaylistButton')));
+      await tester.pumpAndSettle();
+
+      // Enter the title of the local playlist
+      await tester.enterText(
+        find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')),
+        localPlaylistTitle,
+      );
+
+      // Confirm the addition by tapping the confirmation button in
+      // the AlertDialog
+      await tester
+          .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
+      await tester.pumpAndSettle();
+
+      // Close the warning dialog by tapping on the OK button
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
+
+      // The list of Playlist's should have one item now
+      expect(find.byType(ListTile), findsOneWidget);
+
+      // Check if the added item is displayed correctly
+      final PlaylistListItemWidget playlistListItemWidget =
+          tester.widget(find.byType(PlaylistListItemWidget).first);
+      expect(playlistListItemWidget.playlist.title, localPlaylistTitle);
+
+      // Find the ListTile representing the added playlist
+
+      final Finder firstListTileFinder = find.byType(ListTile).first;
+
+      // Retrieve the ListTile widget
+      final ListTile firstPlaylistListTile =
+          tester.widget<ListTile>(firstListTileFinder);
+
+      // Ensure that the title is a Text widget and check its data
+      expect(firstPlaylistListTile.title, isA<Text>());
+      expect((firstPlaylistListTile.title as Text).data, localPlaylistTitle);
+
+      // Alternatively, find the ListTile by its title
+      expect(
+          find.descendant(
+              of: firstListTileFinder,
+              matching: find.text(
+                localPlaylistTitle,
+              )),
+          findsOneWidget);
+
+      // Check the saved local playlist values in the json file
+
+      final newPlaylistPath = path.join(
+        kDownloadAppTestDirWindows,
+        localPlaylistTitle,
+      );
+
+      final newPlaylistFilePathName = path.join(
+        newPlaylistPath,
+        '$localPlaylistTitle.json',
+      );
+
+      // Load playlist from the json file
+      Playlist loadedNewPlaylist = JsonDataService.loadFromFile(
+        jsonPathFileName: newPlaylistFilePathName,
+        type: Playlist,
+      );
+
+      expect(loadedNewPlaylist.title, localPlaylistTitle);
+      expect(loadedNewPlaylist.id, localPlaylistTitle);
+      expect(loadedNewPlaylist.url, '');
+      expect(loadedNewPlaylist.playlistType, PlaylistType.local);
+      expect(loadedNewPlaylist.playlistQuality, PlaylistQuality.voice);
+      expect(loadedNewPlaylist.downloadedAudioLst.length, 0);
+      expect(loadedNewPlaylist.playableAudioLst.length, 0);
+      expect(loadedNewPlaylist.isSelected, false);
+      expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
   });
   group('Settings update test', () {
     testWidgets('After closing and restarting app', (tester) async {
