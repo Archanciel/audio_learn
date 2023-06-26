@@ -88,7 +88,9 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      // Tap the 'Toggle List' button to show the list
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
@@ -256,7 +258,9 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      // Tap the 'Toggle List' button to show the list
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
@@ -370,7 +374,7 @@ void main() {
       );
 
       expect(loadedNewPlaylist.title, localPlaylistTitle);
-      expect(loadedNewPlaylist.id, '');
+      expect(loadedNewPlaylist.id, localPlaylistTitle);
       expect(loadedNewPlaylist.url, '');
       expect(loadedNewPlaylist.playlistType, PlaylistType.local);
       expect(loadedNewPlaylist.playlistQuality, PlaylistQuality.music);
@@ -444,7 +448,9 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      // Tap the 'Toggle List' button to show the list
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
