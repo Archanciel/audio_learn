@@ -39,11 +39,7 @@ class AudioDownloadVM extends ChangeNotifier {
   late Audio _currentDownloadingAudio;
   Audio get currentDownloadingAudio => _currentDownloadingAudio;
 
-  bool _isHighQuality = false;
-  bool get isHighQuality => _isHighQuality;
-  set isHighQuality(bool isHighQuality) {
-    _isHighQuality = isHighQuality;
-  }
+  bool isHighQuality = false;
 
   bool _stopDownloadPressed = false;
   bool get isDownloadStopping => _stopDownloadPressed;
@@ -85,7 +81,7 @@ class AudioDownloadVM extends ChangeNotifier {
       // if the playlist is selected, the audio quality checkbox will be
       // checked or not according to the selected playlist quality
       if (currentPlaylist.isSelected) {
-        _isHighQuality =
+        isHighQuality =
             currentPlaylist.playlistQuality == PlaylistQuality.music;
       }
     }
@@ -108,7 +104,7 @@ class AudioDownloadVM extends ChangeNotifier {
   /// This method has been created in order for the
   /// MockAudioDownloadVM addPlaylist() method to be able
   /// to use the AudioDownloadVM.addPlaylist() logic.
-  /// 
+  ///
   /// Additionally, since the method is called by the
   /// AudioDownloadVM, it contains the logic to add a
   /// playlist and so, if this logic is modified, it
@@ -136,7 +132,9 @@ class AudioDownloadVM extends ChangeNotifier {
 
     if (localPlaylistTitle.isNotEmpty) {
       addedPlaylist = Playlist(
-        id: '',
+        id: localPlaylistTitle, // necessary since the id is used to
+        //                         identify the playlist in the list 
+        //                         of playlist
         title: localPlaylistTitle,
         playlistType: PlaylistType.local,
         playlistQuality: playlistQuality,
@@ -402,19 +400,23 @@ class AudioDownloadVM extends ChangeNotifier {
     Playlist playlist =
         _listOfPlaylist.firstWhere((element) => element.id == playlistId);
 
-    playlist.isSelected = isPlaylistSelected;
+    bool isPlaylistSelectionChanged = playlist.isSelected != isPlaylistSelected;
 
-    // if the playlist is selected, the audio quality checkbox will be
-    // checked or not according to the selected playlist quality
-    if (isPlaylistSelected) {
-      _isHighQuality = playlist.playlistQuality == PlaylistQuality.music;
+    if (isPlaylistSelectionChanged) {
+      playlist.isSelected = isPlaylistSelected;
+
+      // if the playlist is selected, the audio quality checkbox will be
+      // checked or not according to the selected playlist quality
+      if (isPlaylistSelected) {
+        isHighQuality = playlist.playlistQuality == PlaylistQuality.music;
+      }
+
+      // saving the playlist since its isSelected property has been updated
+      JsonDataService.saveToFile(
+        model: playlist,
+        path: playlist.getPlaylistDownloadFilePathName(),
+      );
     }
-
-    // saving the playlist since its isSelected property has been updated
-    JsonDataService.saveToFile(
-      model: playlist,
-      path: playlist.getPlaylistDownloadFilePathName(),
-    );
   }
 
   _notifyDownloadError({
@@ -487,7 +489,7 @@ class AudioDownloadVM extends ChangeNotifier {
   }
 
   void setAudioQuality({required bool isHighQuality}) {
-    _isHighQuality = isHighQuality;
+    isHighQuality = isHighQuality;
 
     notifyListeners();
   }
@@ -897,13 +899,13 @@ class AudioDownloadVM extends ChangeNotifier {
 
     final yt.AudioOnlyStreamInfo audioStreamInfo;
 
-    if (_isHighQuality) {
+    if (isHighQuality) {
       audioStreamInfo = streamManifest.audioOnly.withHighestBitrate();
     } else {
       audioStreamInfo = streamManifest.audioOnly.first;
     }
 
-    audio.isMusicQuality = _isHighQuality;
+    audio.isMusicQuality = isHighQuality;
     final int audioFileSize = audioStreamInfo.size.totalBytes;
     audio.audioFileSize = audioFileSize;
 

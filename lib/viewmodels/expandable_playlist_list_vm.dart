@@ -217,32 +217,39 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     _uniqueSelectedPlaylist = selectedPlaylist;
   }
 
-  /// Method called by PlaylistItemWidget when the user
-  /// clicks on the playlist item checkbox to select
-  /// or unselect the playlist.
+  /// Method called by PlaylistItemWidget when the user clicks on
+  /// the playlist item checkbox to select or unselect the playlist.
+  ///
+  /// Since currently only one playlist can be selected at a time,
+  /// this method unselects all the other playlists if
+  /// {isPlaylistSelected} is true.
   void setPlaylistSelection({
     required int playlistIndex,
     required bool isPlaylistSelected,
   }) {
-    // selecting another playlist or unselecting the currently selected
-    // playlist nullifies the filtered and sorted audio list
+    // selecting another playlist or unselecting the currently
+    // selected playlist nullifies the filtered and sorted audio list
     _sortedFilteredSelectedPlaylistsPlayableAudios = null;
 
     Playlist playlistSelectedOrUnselected =
         _listOfSelectablePlaylists[playlistIndex];
     String playlistSelectedOrUnselectedId = playlistSelectedOrUnselected.id;
 
-    for (Playlist playlist in _listOfSelectablePlaylists) {
-      if (playlist.id == playlistSelectedOrUnselectedId) {
-        _audioDownloadVM.updatePlaylistSelection(
-          playlistId: playlistSelectedOrUnselectedId,
-          isPlaylistSelected: isPlaylistSelected,
-        );
-      } else {
-        _audioDownloadVM.updatePlaylistSelection(
-          playlistId: playlist.id,
-          isPlaylistSelected: false,
-        );
+    if (isPlaylistSelected) {
+      // since only one playlist can be selected at a time, we
+      // unselect all the other playlists
+      for (Playlist playlist in _listOfSelectablePlaylists) {
+        if (playlist.id == playlistSelectedOrUnselectedId) {
+          _audioDownloadVM.updatePlaylistSelection(
+            playlistId: playlistSelectedOrUnselectedId,
+            isPlaylistSelected: true,
+          );
+        } else {
+          _audioDownloadVM.updatePlaylistSelection(
+            playlistId: playlist.id,
+            isPlaylistSelected: false,
+          );
+        }
       }
     }
 
