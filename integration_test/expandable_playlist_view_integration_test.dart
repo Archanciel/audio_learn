@@ -567,7 +567,7 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(isTest: true);
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty

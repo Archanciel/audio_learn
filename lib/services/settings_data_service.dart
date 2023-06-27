@@ -50,7 +50,6 @@ class SettingsDataService {
       Playlists.defaultAudioSort: AudioSortCriterion.audioDownloadDateTime,
     },
   };
-
   Map<SettingType, Map<dynamic, dynamic>> get settings => _settings;
 
   final List<dynamic> _allSettingsKeyLst = [
@@ -60,6 +59,10 @@ class SettingsDataService {
     ...Playlists.values,
     ...AudioSortCriterion.values,
   ];
+
+  final bool _isTest;
+
+  SettingsDataService({bool isTest = false}) : _isTest = isTest;
 
   dynamic get({
     required SettingType settingType,
@@ -114,7 +117,7 @@ class SettingsDataService {
         playlistOrder;
 
     String jsonPathFileName =
-        '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName';
+        '${DirUtil.getPlaylistDownloadHomePath(isTest: _isTest)}${Platform.pathSeparator}$kSettingsFileName';
 
     saveSettingsToFile(jsonPathFileName: jsonPathFileName);
   }
