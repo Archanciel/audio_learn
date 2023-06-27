@@ -31,11 +31,15 @@ class MockExpandablePlaylistListVM extends ExpandablePlaylistListVM {
 }
 
 void main() {
-  group('Testing expandable playlist list located in ExpandableListView functions', () {
+  group(
+      'Testing expandable playlist list located in ExpandableListView functions',
+      () {
     testWidgets(
         'should render ListViewWidget, not using MyApp but ListViewWidget',
         (WidgetTester tester) async {
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -67,7 +71,9 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -130,7 +136,9 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -248,7 +256,9 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -374,7 +384,9 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -507,8 +519,10 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
- 
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
+
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
@@ -588,7 +602,9 @@ void main() {
     // The Delete button does not exist on the
     // ExpandableListView.
     // testWidgets('select and delete item', (WidgetTester tester) async {
-    //   SettingsDataService settingsDataService = SettingsDataService();
+      // SettingsDataService settingsDataService = SettingsDataService(
+      //   isTest: true,
+      // );
 
     //   // Load the settings from the json file. This is necessary
     //   // otherwise the ordered playlist titles will remain empty
@@ -600,8 +616,8 @@ void main() {
 
     //   WarningMessageVM warningMessageVM = WarningMessageVM();
     //   AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-        // warningMessageVM: warningMessageVM,
-        // isTest: true,
+    // warningMessageVM: warningMessageVM,
+    // isTest: true,
     //   );
 
     //   await createWidget(
@@ -686,7 +702,9 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -753,8 +771,10 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[1].title, 'local_audio_playlist_3');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[2].title, 'local_audio_playlist_2');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[1].title,
+          'local_audio_playlist_3');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[2].title,
+          'local_audio_playlist_2');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -777,7 +797,9 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -846,8 +868,10 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[0].url, 'local_audio_playlist_6');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[6].url, 'local_audio_playlist_7');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[0].url,
+          'local_audio_playlist_6');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[6].url,
+          'local_audio_playlist_7');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -869,7 +893,9 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -936,8 +962,10 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[3].url, 'local_audio_playlist_5');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[4].url, 'local_audio_playlist_4');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[3].url,
+          'local_audio_playlist_5');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[4].url,
+          'local_audio_playlist_4');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -960,7 +988,9 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -1029,8 +1059,10 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[0].url, 'local_audio_playlist_2');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[5].url, 'local_audio_playlist_1');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[0].url,
+          'local_audio_playlist_2');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[5].url,
+          'local_audio_playlist_1');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub

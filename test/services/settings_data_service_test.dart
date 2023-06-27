@@ -16,7 +16,7 @@ void main() {
     late SettingsDataService settings;
 
     setUp(() {
-      settings = SettingsDataService();
+      settings = SettingsDataService(isTest: true);
     });
 
     test('Test initial, modified, saved and loaded values', () async {
