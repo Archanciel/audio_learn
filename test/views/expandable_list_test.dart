@@ -846,15 +846,15 @@ void main() {
           find.widgetWithIcon(IconButton, Icons.arrow_drop_up));
       expect(upButton.onPressed, isNotNull);
 
-      Finder iconButtonFinder =
+      Finder dowButtonFinder =
           find.widgetWithIcon(IconButton, Icons.arrow_drop_down);
-      IconButton downButton = tester.widget<IconButton>(iconButtonFinder);
+      IconButton downButton = tester.widget<IconButton>(dowButtonFinder);
       expect(downButton.onPressed, isNotNull);
 
       // Tap the move down button twice
-      await tester.tap(iconButtonFinder);
+      await tester.tap(dowButtonFinder);
       await tester.pump();
-      await tester.tap(iconButtonFinder);
+      await tester.tap(dowButtonFinder);
       await tester.pump();
 
       listViewFinder = find.byType(ExpandablePlaylistListView);
@@ -930,17 +930,17 @@ void main() {
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
-      const String itemToDeleteTextStr = 'local_audio_playlist_5';
+      const String itemToMoveTextStr = 'local_audio_playlist_4';
 
       await findThenSelectAndTestListTileCheckbox(
         tester: tester,
-        itemTextStr: itemToDeleteTextStr,
+        itemTextStr: itemToMoveTextStr,
       );
 
       // Verify that the move buttons are enabled
-      Finder iconButtonFinder =
+      Finder upButtonFinder =
           find.widgetWithIcon(IconButton, Icons.arrow_drop_up);
-      IconButton upButton = tester.widget<IconButton>(iconButtonFinder);
+      IconButton upButton = tester.widget<IconButton>(upButtonFinder);
       expect(upButton.onPressed, isNotNull);
 
       IconButton downButton = tester.widget<IconButton>(
@@ -948,7 +948,7 @@ void main() {
       expect(downButton.onPressed, isNotNull);
 
       // Tap the move up button
-      await tester.tap(iconButtonFinder);
+      await tester.tap(upButtonFinder);
       await tester.pump();
 
       listViewFinder = find.byType(ExpandablePlaylistListView);
@@ -958,10 +958,10 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[3].title,
-          'local_audio_playlist_5');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[4].title,
+      expect(listViewModel.getUpToDateSelectablePlaylists()[2].title,
           'local_audio_playlist_4');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[3].title,
+          'local_audio_playlist_3');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -1033,9 +1033,9 @@ void main() {
       );
 
       // Verify that the move buttons are enabled
-      Finder iconButtonFinder =
+      Finder upButtonFinder =
           find.widgetWithIcon(IconButton, Icons.arrow_drop_up);
-      IconButton upButton = tester.widget<IconButton>(iconButtonFinder);
+      IconButton upButton = tester.widget<IconButton>(upButtonFinder);
       expect(upButton.onPressed, isNotNull);
 
       IconButton downButton = tester.widget<IconButton>(
@@ -1043,9 +1043,9 @@ void main() {
       expect(downButton.onPressed, isNotNull);
 
       // Tap twice the move up button
-      await tester.tap(iconButtonFinder);
+      await tester.tap(upButtonFinder);
       await tester.pump();
-      await tester.tap(iconButtonFinder);
+      await tester.tap(upButtonFinder);
       await tester.pump();
 
       listViewFinder = find.byType(ExpandablePlaylistListView);
@@ -1112,6 +1112,7 @@ Future<void> findThenSelectAndTestListTileCheckbox({
   required String itemTextStr,
 }) async {
   Finder listItemTileFinder = find.widgetWithText(ListTile, itemTextStr);
+  
   // Find the Checkbox widget inside the ListTile
   Finder checkboxFinder = find.descendant(
     of: listItemTileFinder,
@@ -1128,19 +1129,14 @@ Future<void> findThenSelectAndTestListTileCheckbox({
   ));
   await tester.pump();
 
-  // Assert that the item checkbox is now selected
-  // expect(tester.widget<Checkbox>(checkboxFinder).value, true);
-
-  // expect(tester.widget<Checkbox>(find.descendant(
-  //   of: listItemTileFinder,
-  //   matching: find.byWidgetPredicate((widget) => widget is Checkbox),
-  // )).value, true);
+  // Find the Checkbox widget inside the ListTile
 
   listItemTileFinder = find.widgetWithText(ListTile, itemTextStr);
-  // Find the Checkbox widget inside the ListTile
+
   checkboxFinder = find.descendant(
     of: listItemTileFinder,
     matching: find.byType(Checkbox),
   );
+
   expect(tester.widget<Checkbox>(checkboxFinder).value, true);
 }
