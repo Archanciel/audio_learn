@@ -63,7 +63,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -128,7 +128,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -248,7 +248,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -376,7 +376,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -511,7 +511,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -694,7 +694,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -789,7 +789,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -885,7 +885,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -980,7 +980,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
