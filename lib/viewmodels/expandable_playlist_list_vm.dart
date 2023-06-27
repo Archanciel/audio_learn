@@ -253,7 +253,11 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       }
     }
 
-    _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
+    // BUG FIX: when the user unselects the playlist, the
+    // playlist json file will not be updated in the AudioDownloadVM
+    // updatePlaylistSelection method if the following line is not
+    // commented out   
+    // _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
     _isPlaylistSelected = isPlaylistSelected;
 
     if (!_isPlaylistSelected) {
@@ -262,6 +266,13 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       // if no playlist is selected, the quality checkbox is
       // disabled and so must be unchecked
       _audioDownloadVM.isHighQuality = false;
+
+      // BUG FIX: when the user unselects the playlist, the
+      // playlist json file must be updated !
+      _audioDownloadVM.updatePlaylistSelection(
+        playlistId: playlistSelectedOrUnselected.id,
+        isPlaylistSelected: false,
+      );
     } else {
       _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
         selectedPlaylist: playlistSelectedOrUnselected,
