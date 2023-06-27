@@ -491,7 +491,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
 
-    testWidgets('ensure only one checkbox is settable',
+    testWidgets('ensure only one checkbox is selectable',
         (WidgetTester tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -725,11 +725,11 @@ void main() {
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
-      const String itemToDeleteTextStr = 'local_audio_playlist_2';
+      const String playlistToSelectTitle = 'local_audio_playlist_2';
 
       await findThenSelectAndTestListTileCheckbox(
         tester: tester,
-        itemTextStr: itemToDeleteTextStr,
+        itemTextStr: playlistToSelectTitle,
       );
 
       // Verify that the move buttons are enabled
@@ -737,13 +737,13 @@ void main() {
           find.widgetWithIcon(IconButton, Icons.arrow_drop_up));
       expect(upButton.onPressed, isNotNull);
 
-      Finder iconButtonFinder =
+      Finder downIconButtonFinder =
           find.widgetWithIcon(IconButton, Icons.arrow_drop_down);
-      IconButton downButton = tester.widget<IconButton>(iconButtonFinder);
+      IconButton downButton = tester.widget<IconButton>(downIconButtonFinder);
       expect(downButton.onPressed, isNotNull);
 
       // Tap the move down button
-      await tester.tap(iconButtonFinder);
+      await tester.tap(downIconButtonFinder);
       await tester.pump();
 
       listViewFinder = find.byType(ExpandablePlaylistListView);
@@ -753,8 +753,8 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[1].url, 'local_audio_playlist_3');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[2].url, 'local_audio_playlist_2');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[1].title, 'local_audio_playlist_3');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[2].title, 'local_audio_playlist_2');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -1102,4 +1102,9 @@ Future<void> findThenSelectAndTestListTileCheckbox({
 
   // Assert that the item checkbox is now selected
   expect(tester.widget<Checkbox>(checkboxFinder).value, true);
+
+  // expect(tester.widget<Checkbox>(find.descendant(
+  //   of: listItemTileFinder,
+  //   matching: find.byWidgetPredicate((widget) => widget is Checkbox),
+  // )).value, true);
 }
