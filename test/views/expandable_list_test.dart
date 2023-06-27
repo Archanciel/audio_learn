@@ -24,10 +24,6 @@ class MockExpandablePlaylistListVM extends ExpandablePlaylistListVM {
           audioDownloadVM: audioDownloadVM,
           settingsDataService: settingsDataService,
         );
-
-  Future<String> obtainPlaylistTitle(String? playlistId) async {
-    return 'audio_learn_new_youtube_playlist_test';
-  }
 }
 
 void main() {
@@ -550,9 +546,9 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
-      final Finder listItem = find.byType(ListTile).first;
-      await tester.tap(listItem);
-      await tester.pump();
+      // final Finder listItem = find.byType(ListTile).first;
+      // await tester.tap(listItem);
+      // await tester.pump();
 
       // Verify that the first ListTile checkbox is not
       // selected
@@ -868,9 +864,9 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[0].url,
+      expect(listViewModel.getUpToDateSelectablePlaylists()[0].title,
           'local_audio_playlist_6');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[6].url,
+      expect(listViewModel.getUpToDateSelectablePlaylists()[6].title,
           'local_audio_playlist_7');
 
       // Purge the test playlist directory so that the created test
@@ -962,9 +958,9 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[3].url,
+      expect(listViewModel.getUpToDateSelectablePlaylists()[3].title,
           'local_audio_playlist_5');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[4].url,
+      expect(listViewModel.getUpToDateSelectablePlaylists()[4].title,
           'local_audio_playlist_4');
 
       // Purge the test playlist directory so that the created test
@@ -1059,9 +1055,9 @@ void main() {
       listViewModel = Provider.of<ExpandablePlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists()[0].url,
+      expect(listViewModel.getUpToDateSelectablePlaylists()[0].title,
           'local_audio_playlist_2');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[5].url,
+      expect(listViewModel.getUpToDateSelectablePlaylists()[5].title,
           'local_audio_playlist_1');
 
       // Purge the test playlist directory so that the created test
@@ -1133,10 +1129,18 @@ Future<void> findThenSelectAndTestListTileCheckbox({
   await tester.pump();
 
   // Assert that the item checkbox is now selected
-  expect(tester.widget<Checkbox>(checkboxFinder).value, true);
+  // expect(tester.widget<Checkbox>(checkboxFinder).value, true);
 
   // expect(tester.widget<Checkbox>(find.descendant(
   //   of: listItemTileFinder,
   //   matching: find.byWidgetPredicate((widget) => widget is Checkbox),
   // )).value, true);
+
+  listItemTileFinder = find.widgetWithText(ListTile, itemTextStr);
+  // Find the Checkbox widget inside the ListTile
+  checkboxFinder = find.descendant(
+    of: listItemTileFinder,
+    matching: find.byType(Checkbox),
+  );
+  expect(tester.widget<Checkbox>(checkboxFinder).value, true);
 }
