@@ -131,17 +131,23 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
         Provider.of<ExpandablePlaylistListVM>(context, listen: false);
 
     if (localPlaylistTitle.isNotEmpty) {
+      // if the local playlist title is not empty, then add the local
+      // playlist
       expandablePlaylistListVM.addPlaylist(
         localPlaylistTitle: localPlaylistTitle,
         playlistQuality:
             _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
       );
-    } else if (widget.playlistUrl.isNotEmpty) {
-      expandablePlaylistListVM.addPlaylist(
-        playlistUrl: widget.playlistUrl,
-        playlistQuality:
-            _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
-      );
+    } else {
+      // if the local playlist title is empty, then add the Youtube
+      // playlist if the Youtube playlist URL is not empty
+      if (widget.playlistUrl.isNotEmpty) {
+        expandablePlaylistListVM.addPlaylist(
+          playlistUrl: widget.playlistUrl,
+          playlistQuality:
+              _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
+        );
+      }
     }
   }
 
