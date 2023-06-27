@@ -458,33 +458,16 @@ void main() {
       // The list of Playlist's should have one item now
       expect(find.byType(ListTile), findsOneWidget);
 
-      // Check if the added item is displayed correctly
-      final PlaylistListItemWidget playlistListItemWidget =
-          tester.widget(find.byType(PlaylistListItemWidget).first);
-      expect(playlistListItemWidget.playlist.title, localPlaylistTitle);
+      // Verify that the first ListTile checkbox is not
+      // selected
+      Checkbox firstListItemCheckbox = tester.widget<Checkbox>(find.descendant(
+        of: find.byType(ListTile).first,
+        matching: find.byWidgetPredicate((widget) => widget is Checkbox),
+      ));
+      expect(firstListItemCheckbox.value, isFalse);
 
-      // Find the ListTile representing the added playlist
-
-      final Finder firstListTileFinder = find.byType(ListTile).first;
-
-      // Retrieve the ListTile widget
-      final ListTile firstPlaylistListTile =
-          tester.widget<ListTile>(firstListTileFinder);
-
-      // Ensure that the title is a Text widget and check its data
-      expect(firstPlaylistListTile.title, isA<Text>());
-      expect((firstPlaylistListTile.title as Text).data, localPlaylistTitle);
-
-      // Alternatively, find the ListTile by its title
-      expect(
-          find.descendant(
-              of: firstListTileFinder,
-              matching: find.text(
-                localPlaylistTitle,
-              )),
-          findsOneWidget);
-
-      // Check the saved local playlist values in the json file
+      // Check the saved local playlist values in the json file,
+      // before the playlist will be selected
 
       final newPlaylistPath = path.join(
         kDownloadAppTestDirWindows,
@@ -511,6 +494,57 @@ void main() {
       expect(loadedNewPlaylist.playableAudioLst.length, 0);
       expect(loadedNewPlaylist.isSelected, false);
       expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
+
+      // Tap the first ListTile checkbox to select it
+      await tester.tap(find.descendant(
+        of: find.byType(ListTile).first,
+        matching: find.byWidgetPredicate((widget) => widget is Checkbox),
+      ));
+      await tester.pumpAndSettle();
+
+      // Check the saved local playlist values in the json file
+
+      // Load playlist from the json file
+      Playlist reloadedNewPlaylist = JsonDataService.loadFromFile(
+        jsonPathFileName: newPlaylistFilePathName,
+        type: Playlist,
+      );
+
+      expect(reloadedNewPlaylist.title, localPlaylistTitle);
+      expect(reloadedNewPlaylist.id, localPlaylistTitle);
+      expect(reloadedNewPlaylist.url, '');
+      expect(reloadedNewPlaylist.playlistType, PlaylistType.local);
+      expect(reloadedNewPlaylist.playlistQuality, PlaylistQuality.voice);
+      expect(reloadedNewPlaylist.downloadedAudioLst.length, 0);
+      expect(reloadedNewPlaylist.playableAudioLst.length, 0);
+      expect(reloadedNewPlaylist.isSelected, true);
+      expect(reloadedNewPlaylist.downloadPath, newPlaylistPath);
+
+      // Now tap the first ListTile checkbox to unselect it
+      print(audioDownloadVM.listOfPlaylist[0]);
+      await tester.tap(find.descendant(
+        of: find.byType(ListTile).first,
+        matching: find.byWidgetPredicate((widget) => widget is Checkbox),
+      ));
+      await tester.pumpAndSettle();
+
+      // Check the saved local playlist values in the json file
+
+      // Load playlist from the json file
+      Playlist rereloadedNewPlaylist = JsonDataService.loadFromFile(
+        jsonPathFileName: newPlaylistFilePathName,
+        type: Playlist,
+      );
+
+      expect(rereloadedNewPlaylist.title, localPlaylistTitle);
+      expect(rereloadedNewPlaylist.id, localPlaylistTitle);
+      expect(rereloadedNewPlaylist.url, '');
+      expect(rereloadedNewPlaylist.playlistType, PlaylistType.local);
+      expect(rereloadedNewPlaylist.playlistQuality, PlaylistQuality.voice);
+      expect(rereloadedNewPlaylist.downloadedAudioLst.length, 0);
+      expect(rereloadedNewPlaylist.playableAudioLst.length, 0);
+      expect(rereloadedNewPlaylist.isSelected, false);
+      expect(rereloadedNewPlaylist.downloadPath, newPlaylistPath);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub

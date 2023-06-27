@@ -138,7 +138,7 @@ class Playlist {
 
   @override
   String toString() {
-    return title;
+    return '$title isSelected: $isSelected';
   }
 
   String getPlaylistDownloadFilePathName() {
