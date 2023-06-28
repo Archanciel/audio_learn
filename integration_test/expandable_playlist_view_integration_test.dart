@@ -581,7 +581,7 @@ void main() {
     });
 
     testWidgets(
-        'Add Youtube and local playlist and move Youtube playlist to local playlist',
+        'Add Youtube and local playlist, download the Youtube playlist and copy audio to the local playlist',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
