@@ -43,11 +43,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       expect(find.byType(ExpandablePlaylistListView), findsOneWidget);
@@ -86,11 +86,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       // displaying the list
@@ -151,11 +151,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       // displaying the list
@@ -271,11 +271,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       // displaying the list
@@ -399,11 +399,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       // displaying the list
@@ -534,11 +534,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       // displaying the list
@@ -599,9 +599,9 @@ void main() {
     // The Delete button does not exist on the
     // ExpandableListView.
     // testWidgets('select and delete item', (WidgetTester tester) async {
-      // SettingsDataService settingsDataService = SettingsDataService(
-      //   isTest: true,
-      // );
+    // SettingsDataService settingsDataService = SettingsDataService(
+    //   isTest: true,
+    // );
 
     //   // Load the settings from the json file. This is necessary
     //   // otherwise the ordered playlist titles will remain empty
@@ -613,15 +613,15 @@ void main() {
 
     //   WarningMessageVM warningMessageVM = WarningMessageVM();
     //   AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-    // warningMessageVM: warningMessageVM,
+    // warningMessageVM:  warningMessageVM,
     // isTest: true,
     //   );
 
     //   await createWidget(
-    //     tester,
-    //     warningMessageVM,
-    //     audioDownloadVM,
-    //     settingsDataService,
+    //     tester: tester,
+    //     warningMessageVM: warningMessageVM,
+    //     audioDownloadVM: audioDownloadVM,
+    //     settingsDataService: settingsDataService,
     //   );
 
     //   // displaying the list
@@ -717,11 +717,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       // displaying the list
@@ -812,11 +812,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       // displaying the list
@@ -908,11 +908,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       // displaying the list
@@ -1004,11 +1004,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       // displaying the list
@@ -1099,11 +1099,11 @@ void main() {
         isTest: true,
       );
 
-      await createExpandablePlaylistListViewWidget(
-        tester,
-        warningMessageVM,
-        audioDownloadVM,
-        settingsDataService,
+      await _createExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        warningMessageVM: warningMessageVM,
       );
 
       // displaying the list
@@ -1164,11 +1164,14 @@ void main() {
   });
 }
 
-Future<void> createExpandablePlaylistListViewWidget(
-    WidgetTester tester,
-    WarningMessageVM warningMessageVM,
-    AudioDownloadVM audioDownloadVM,
-    SettingsDataService settingsDataService) async {
+/// This constructor instanciates the [ExpandablePlaylistListView]
+/// with the [MockExpandablePlaylistListVM]
+Future<void> _createExpandablePlaylistListView({
+  required WidgetTester tester,
+  required AudioDownloadVM audioDownloadVM,
+  required SettingsDataService settingsDataService,
+  required WarningMessageVM warningMessageVM,
+}) async {
   await tester.pumpWidget(
     MultiProvider(
       providers: [
@@ -1209,7 +1212,7 @@ Future<void> findThenSelectAndTestListTileCheckbox({
   required String itemTextStr,
 }) async {
   Finder listItemTileFinder = find.widgetWithText(ListTile, itemTextStr);
-  
+
   // Find the Checkbox widget inside the ListTile
   Finder checkboxFinder = find.descendant(
     of: listItemTileFinder,
