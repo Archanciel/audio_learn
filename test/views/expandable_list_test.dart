@@ -63,7 +63,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_4_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -103,7 +103,7 @@ void main() {
 
       final List<Widget> listTileLst =
           tester.widgetList(listTileFinder).toList();
-      expect(listTileLst.length, 7);
+      expect(listTileLst.length, 4);
 
       // hidding the list
       await tester.tap(toggleButtonFinder);
@@ -789,7 +789,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_4_playlists_test",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -831,10 +831,10 @@ void main() {
       ExpandablePlaylistListVM listViewModel =
           Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
               listen: false);
-      expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
+      expect(listViewModel.getUpToDateSelectablePlaylists().length, 4);
 
       // Find and select the ListTile to move'
-      const String itemToDeleteTextStr = 'local_audio_playlist_6';
+      const String itemToDeleteTextStr = 'local_audio_playlist_2';
 
       await findThenSelectAndTestListTileCheckbox(
         tester: tester,
@@ -865,9 +865,105 @@ void main() {
           tester.element(listViewFinder),
           listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists()[0].title,
-          'local_audio_playlist_6');
-      expect(listViewModel.getUpToDateSelectablePlaylists()[6].title,
-          'local_audio_playlist_7');
+          'local_audio_playlist_1');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[3].title,
+          'local_audio_playlist_2');
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('select and move down twice over last item',
+        (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_4_playlists_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+
+      await createExpandablePlaylistListViewWidget(
+        tester,
+        warningMessageVM,
+        audioDownloadVM,
+        settingsDataService,
+      );
+
+      // displaying the list
+      final Finder toggleButtonFinder =
+          find.byKey(const ValueKey('playlist_toggle_button'));
+      await tester.tap(toggleButtonFinder);
+      await tester.pump();
+
+      Finder listViewFinder = find.byType(ExpandablePlaylistListView);
+
+      // tester.element(listViewFinder) returns a StatefulElement
+      // which is a BuildContext
+      ExpandablePlaylistListVM listViewModel =
+          Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
+              listen: false);
+      expect(listViewModel.getUpToDateSelectablePlaylists().length, 4);
+
+      // Find and select the ListTile to move'
+      const String itemToDeleteTextStr = 'local_audio_playlist_3';
+
+      await findThenSelectAndTestListTileCheckbox(
+        tester: tester,
+        itemTextStr: itemToDeleteTextStr,
+      );
+
+      // Verify that the move buttons are enabled
+      IconButton upButton = tester.widget<IconButton>(
+          find.widgetWithIcon(IconButton, Icons.arrow_drop_up));
+      expect(upButton.onPressed, isNotNull);
+
+      Finder dowButtonFinder =
+          find.widgetWithIcon(IconButton, Icons.arrow_drop_down);
+      IconButton downButton = tester.widget<IconButton>(dowButtonFinder);
+      expect(downButton.onPressed, isNotNull);
+
+      // Tap the move down button twice
+      await tester.tap(dowButtonFinder);
+      await tester.pump();
+      await tester.tap(dowButtonFinder);
+      await tester.pump();
+
+      listViewFinder = find.byType(ExpandablePlaylistListView);
+
+      // tester.element(listViewFinder) returns a StatefulElement
+      // which is a BuildContext
+      listViewModel = Provider.of<ExpandablePlaylistListVM>(
+          tester.element(listViewFinder),
+          listen: false);
+      expect(listViewModel.getUpToDateSelectablePlaylists()[0].title,
+          'local_audio_playlist_3');
+      expect(listViewModel.getUpToDateSelectablePlaylists()[3].title,
+          'local_audio_playlist_4');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
