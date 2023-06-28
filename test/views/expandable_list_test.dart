@@ -1,3 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:path/path.dart' as path;
+
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
@@ -8,11 +14,6 @@ import 'package:audio_learn/viewmodels/language_provider.dart';
 import 'package:audio_learn/viewmodels/theme_provider.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:audio_learn/views/expandable_playlist_list_view.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:path/path.dart' as path;
 
 class MockExpandablePlaylistListVM extends ExpandablePlaylistListVM {
   MockExpandablePlaylistListVM({
@@ -834,11 +835,11 @@ void main() {
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 4);
 
       // Find and select the ListTile to move'
-      const String itemToDeleteTextStr = 'local_audio_playlist_2';
+      const String itemToMoveTitle = 'local_audio_playlist_2';
 
       await findThenSelectAndTestListTileCheckbox(
         tester: tester,
-        itemTextStr: itemToDeleteTextStr,
+        itemTextStr: itemToMoveTitle,
       );
 
       // Verify that the move buttons are enabled
@@ -930,11 +931,11 @@ void main() {
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 4);
 
       // Find and select the ListTile to move'
-      const String itemToDeleteTextStr = 'local_audio_playlist_3';
+      const String itemToMoveTitle = 'local_audio_playlist_3';
 
       await findThenSelectAndTestListTileCheckbox(
         tester: tester,
-        itemTextStr: itemToDeleteTextStr,
+        itemTextStr: itemToMoveTitle,
       );
 
       // Verify that the move buttons are enabled
@@ -1121,11 +1122,11 @@ void main() {
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
-      const String itemToDeleteTextStr = 'local_audio_playlist_1';
+      const String itemToMoveTitle = 'local_audio_playlist_1';
 
       await findThenSelectAndTestListTileCheckbox(
         tester: tester,
-        itemTextStr: itemToDeleteTextStr,
+        itemTextStr: itemToMoveTitle,
       );
 
       // Verify that the move buttons are enabled
