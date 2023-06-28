@@ -1,3 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:path/path.dart' as path;
+
+import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/services/json_data_service.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
@@ -9,14 +17,6 @@ import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:audio_learn/views/expandable_playlist_list_view.dart';
 import 'package:audio_learn/views/widgets/display_message_widget.dart';
 import 'package:audio_learn/views/widgets/playlist_list_item_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
-import 'package:path/path.dart' as path;
-
-import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 
@@ -567,7 +567,8 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService(isTest: true);
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -576,6 +577,13 @@ void main() {
       settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+          ['local_music', 'audio_learn_new_youtube_playlist_test']);
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
@@ -627,7 +635,7 @@ void main() {
       await tester.tap(find.byKey(const Key('addPlaylistButton')));
       await tester.pumpAndSettle();
 
-      // Enter the title of the local playlist
+      // Enter the title of the local playlist to add
       await tester.enterText(
         find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')),
         localAudioPlaylistTitle,
@@ -688,7 +696,7 @@ void main() {
       );
 
       expect(loadedNewPlaylist.title, localAudioPlaylistTitle);
-      expect(loadedNewPlaylist.id, '');
+      expect(loadedNewPlaylist.id, localAudioPlaylistTitle);
       expect(loadedNewPlaylist.url, '');
       expect(loadedNewPlaylist.playlistType, PlaylistType.local);
       expect(loadedNewPlaylist.playlistQuality, PlaylistQuality.voice);
@@ -696,6 +704,64 @@ void main() {
       expect(loadedNewPlaylist.playableAudioLst.length, 0);
       expect(loadedNewPlaylist.isSelected, false);
       expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
+
+      // reload the settings from the json file to verify it was
+      // updated correctly
+
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+          [
+            'local_music',
+            'audio_learn_new_youtube_playlist_test',
+            'local_audio',
+          ]);
+
+      // now move down the added playlist to the second position
+      // in the list
+
+      // Find and select the ListTile to move'
+      const String playlistToMoveDownTitle = 'local_audio';
+
+      await findThenSelectAndTestListTileCheckbox(
+        tester: tester,
+        itemTextStr: playlistToMoveDownTitle,
+      );
+
+      Finder dowButtonFinder =
+          find.widgetWithIcon(IconButton, Icons.arrow_drop_down);
+      IconButton downButton = tester.widget<IconButton>(dowButtonFinder);
+      expect(downButton.onPressed, isNotNull);
+
+      // Tap the move down button twice
+      await tester.tap(dowButtonFinder);
+      await tester.pump();
+      await tester.tap(dowButtonFinder);
+      await tester.pump();
+
+      // reload the settings from the json file to verify it was
+      // updated correctly
+
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+          [
+            'local_music',
+            'local_audio',
+            'audio_learn_new_youtube_playlist_test',
+          ]);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -736,4 +802,38 @@ Future<void> _launchExpandablePlaylistListView({
     ),
   );
   await tester.pumpAndSettle();
+}
+
+Future<void> findThenSelectAndTestListTileCheckbox({
+  required WidgetTester tester,
+  required String itemTextStr,
+}) async {
+  Finder listItemTileFinder = find.widgetWithText(ListTile, itemTextStr);
+
+  // Find the Checkbox widget inside the ListTile
+  Finder checkboxFinder = find.descendant(
+    of: listItemTileFinder,
+    matching: find.byType(Checkbox),
+  );
+
+  // Assert that the checkbox is not selected
+  expect(tester.widget<Checkbox>(checkboxFinder).value, false);
+
+  // now tap the item checkbox
+  await tester.tap(find.descendant(
+    of: listItemTileFinder,
+    matching: find.byWidgetPredicate((widget) => widget is Checkbox),
+  ));
+  await tester.pump();
+
+  // Find the Checkbox widget inside the ListTile
+
+  listItemTileFinder = find.widgetWithText(ListTile, itemTextStr);
+
+  checkboxFinder = find.descendant(
+    of: listItemTileFinder,
+    matching: find.byType(Checkbox),
+  );
+
+  expect(tester.widget<Checkbox>(checkboxFinder).value, true);
 }
