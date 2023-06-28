@@ -20,6 +20,7 @@ class ScreenMixin {
   }
 
   Widget createTitleCommentRowFunction({
+    Key? titleTextWidgetKey, // key set to the Text widget displaying the title
     required BuildContext context,
     required String value,
   }) {
@@ -31,6 +32,7 @@ class ScreenMixin {
         children: [
           InkWell(
             child: Text(
+              key: titleTextWidgetKey,
               value,
               style: kDialogTextFieldStyle,
             ),

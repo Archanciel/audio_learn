@@ -68,11 +68,16 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
         }
       },
       child: AlertDialog(
-        title: Text(AppLocalizations.of(context)!.addPlaylistDialogTitle),
+        title: Text(
+          key: const Key('playlistConfirmDialogTitleKey'),
+          AppLocalizations.of(context)!.addPlaylistDialogTitle,
+        ),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
               createTitleCommentRowFunction(
+                titleTextWidgetKey:
+                    const Key('playlistTitleCommentConfirmDialogKey'),
                 context: context,
                 value: AppLocalizations.of(context)!.addPlaylistDialogComment,
               ),

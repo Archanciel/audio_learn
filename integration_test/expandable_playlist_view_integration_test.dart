@@ -120,6 +120,16 @@ void main() {
       // Ensure the dialog is shown
       expect(find.byType(AlertDialog), findsOneWidget);
 
+      // Check the value of the AlertDialog dialog title
+      Text alertDialogTitle = tester.widget(
+          find.byKey(const Key('playlistConfirmDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Add Playlist');
+
+      // Check the value of the AlertDialog dialog title
+      Text alertDialogCommentTitleText = tester.widget(
+          find.byKey(const Key('playlistTitleCommentConfirmDialogKey')));
+      expect(alertDialogCommentTitleText.data, 'Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.');
+
       // Check the value of the AlertDialog url Text
       Text confirmUrlText =
           tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
@@ -281,6 +291,16 @@ void main() {
       // Ensure the dialog is shown
       expect(find.byType(AlertDialog), findsOneWidget);
 
+      // Check the value of the AlertDialog dialog title
+      Text alertDialogTitle = tester.widget(
+          find.byKey(const Key('playlistConfirmDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Add Playlist');
+
+      // Check the value of the AlertDialog dialog title
+      Text alertDialogCommentTitleText = tester.widget(
+          find.byKey(const Key('playlistTitleCommentConfirmDialogKey')));
+      expect(alertDialogCommentTitleText.data, 'Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.');
+
       // Check that the value of the AlertDialog url Text is empty
       Text confirmUrlText =
           tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
@@ -391,7 +411,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    
+
     testWidgets('Select then unselect local playlist', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
