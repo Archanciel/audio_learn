@@ -50,7 +50,9 @@ void main() {
         deleteSubDirectoriesAsWell: true,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -225,7 +227,9 @@ void main() {
         deleteSubDirectoriesAsWell: true,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -395,7 +399,9 @@ void main() {
         deleteSubDirectoriesAsWell: true,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService();
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
