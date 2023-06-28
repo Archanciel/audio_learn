@@ -1194,12 +1194,8 @@ Future<void> _createExpandablePlaylistListView({
         ChangeNotifierProvider(create: (_) => warningMessageVM),
       ],
       child: MaterialApp(
-        title: 'MVVM Example',
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: Scaffold(
-          appBar: AppBar(
-            title: const Text('MVVM Example'),
-          ),
           body: ExpandablePlaylistListView(),
         ),
       ),
