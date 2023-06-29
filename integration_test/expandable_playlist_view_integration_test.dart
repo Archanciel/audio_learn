@@ -660,7 +660,9 @@ void main() {
           .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
       await tester.pumpAndSettle();
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the OK button.
+      // If the warning dialog is not closed, tapping on the
+      // 'Add playlist button' button will fail      
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
