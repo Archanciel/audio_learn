@@ -13,10 +13,7 @@ import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
 const int secondsDelay = 8; // 7 works, but 8 is safer
-final String todayDownloadFileNamePrefix = (kAudioFileNamePrefixIncludeTime)
-    ? Audio.downloadDateTimePrefixFormatter.format(DateTime.now())
-    : Audio.downloadDatePrefixFormatter
-        .format(DateTime.now().add(const Duration(seconds: secondsDelay)));
+final String todayDownloadDateOnlyFileNamePrefix = Audio.downloadDatePrefixFormatter.format(DateTime.now());
 
 void main() {
   const String testPlaylistId = 'PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
@@ -79,7 +76,7 @@ void main() {
         ),
       ));
 
-      // tapping on the unique button in the app which calls the 
+      // tapping on the unique button in the app which calls the
       // AudioDownloadVM.downloadPlaylistAudios() method
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
@@ -113,14 +110,14 @@ void main() {
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[0],
         downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[1],
-        downloadFileNamePrefix: todayDownloadFileNamePrefix,
+        downloadFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
       );
 
       // playableAudioLst contains inserted at list start Audio^s
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.playableAudioLst[1],
         downloadedAudioTwo: downloadedPlaylist.playableAudioLst[0],
-        downloadFileNamePrefix: todayDownloadFileNamePrefix,
+        downloadFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
       );
 
       // Checking if there are 3 files in the directory (2 mp3 and 1 json)
@@ -199,7 +196,7 @@ void main() {
         ),
       ));
 
-      // tapping on the unique button in the app which calls the 
+      // tapping on the unique button in the app which calls the
       // AudioDownloadVM.downloadPlaylistAudios() method
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
@@ -234,7 +231,7 @@ void main() {
         downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[1],
         downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[0],
         downloadFileNamePrefix: '230406',
-        todayFileNamePrefix: todayDownloadFileNamePrefix,
+        todayFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
       );
 
       // playableAudioLst contains inserted at list start Audio^s
@@ -242,7 +239,7 @@ void main() {
         downloadedAudioOne: downloadedPlaylist.playableAudioLst[0],
         downloadedAudioTwo: downloadedPlaylist.playableAudioLst[1],
         downloadFileNamePrefix: '230406',
-        todayFileNamePrefix: todayDownloadFileNamePrefix,
+        todayFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
       );
 
       // Checking if there are 3 files in the directory (1 mp3 and 1 json)
@@ -255,7 +252,6 @@ void main() {
     });
   });
   group('Download recreated playlist with short audios', () {
-
     /// This test is used to test recreating the playlist with the
     /// same name. Recreating a playlist with an identical name avoids
     /// to loose time removing from the original playlist the referenced
@@ -278,11 +274,8 @@ void main() {
       // Copying the initial playlist json file with the 1st and 2nd
       // audio whose mp3 were deleted from the playlist dir. A
       // replacing new Youtube playlist with the same title was created
-      // with 2 new audio's. The new playlist id and url are different
-      // from the initial playlist id and url, but in order to simplify
-      // the test, the new playlist contains the same audio's as the
-      // initial playlist ! Those audio's will be downloaded in the same
-      // dir than the initial playlist.
+      // with 2 new audios referenced in it. The new playlist id and url
+      // are of course different from the initial playlist id and url.
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
             "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}$testPlaylistTitle.json",
@@ -349,7 +342,7 @@ void main() {
         recreatedPlaylistWithSameTitleUrl,
       );
 
-      // tapping on the unique button in the app which calls the 
+      // tapping on the unique button in the app which calls the
       // AudioDownloadVM.downloadPlaylistAudios() method
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
@@ -366,6 +359,8 @@ void main() {
 
       Playlist downloadedPlaylist = audioDownloadVM.listOfPlaylist[0];
 
+      // The initial playlist json file was updated with the recreated
+      // playlist id and url as well as with the newly downloaded audios
       checkDownloadedPlaylist(
         downloadedPlaylist: downloadedPlaylist,
         playlistId: recreatedPlaylistId,
@@ -381,43 +376,53 @@ void main() {
 
       // downloadedAudioLst contains added Audio's. Checking the
       // values of the 1st and 2nd audio still in the playlist json
-      // file and deleted from the playlist dir
+      // file and deleted from the playlist dir ...
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[0],
         downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[1],
         downloadFileNamePrefix: '230406',
       );
 
-      if (!kAudioFileNamePrefixIncludeTime) {
-        // if kAudioFileNamePrefixIncludeTime is true,
-        // it is not possible to check the audio file
-        // name because it contains the time when the
-        // audio was downloaded.
-        expect(downloadedPlaylist.downloadedAudioLst[2].audioFileName,
-            '$todayDownloadFileNamePrefix-Really short video 16-05-12.mp3');
-        expect(downloadedPlaylist.downloadedAudioLst[3].audioFileName,
-            '$todayDownloadFileNamePrefix-morning _ cinematic video 19-03-06.mp3');
-      }
+      // ... and the values of the 3rd and 4th audio newly downloaded 
+      // and added to the playlist downloaded audio lst ...
 
-      // playableAudioLst contains inserted at list start Audio's
+      String firstNewAudioFileName =
+          downloadedPlaylist.downloadedAudioLst[2].audioFileName;
+      expect(
+          firstNewAudioFileName.contains('$todayDownloadDateOnlyFileNamePrefix') &&
+              firstNewAudioFileName.contains('Really short video 16-05-12.mp3'),
+          true);
+
+      String secondNewAudioFileName = downloadedPlaylist.downloadedAudioLst[3].audioFileName;
+      expect(secondNewAudioFileName.contains('$todayDownloadDateOnlyFileNamePrefix') &&
+          secondNewAudioFileName.contains('morning _ cinematic video 19-03-06.mp3'), true);
+
+      // playableAudioLst contains inserted at list start Audio's.
+      // Checking the values of the 1st and 2nd audio still in the
+      // playlist json file and deleted from the playlist dir ...
+
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.playableAudioLst[3],
         downloadedAudioTwo: downloadedPlaylist.playableAudioLst[2],
         downloadFileNamePrefix: '230406',
       );
 
-      if (!kAudioFileNamePrefixIncludeTime) {
-        // if kAudioFileNamePrefixIncludeTime is true,
-        // it is not possible to check the audio file
-        // name because it contains the time when the
-        // audio was downloaded.
-        expect(downloadedPlaylist.playableAudioLst[1].audioFileName,
-            '$todayDownloadFileNamePrefix-Really short video 16-05-12.mp3');
-        expect(downloadedPlaylist.playableAudioLst[0].audioFileName,
-            '$todayDownloadFileNamePrefix-morning _ cinematic video 19-03-06.mp3');
-      }
+      // ... and the values of the 3rd and 4th audio newly downloaded 
+      // and inserted at start of to the playlist playable audio list
+      // ...
 
-      // Checking if there are 3 files in the directory (1 mp3 and 1 json)
+      firstNewAudioFileName =
+          downloadedPlaylist.playableAudioLst[1].audioFileName;
+      expect(
+          firstNewAudioFileName.contains('$todayDownloadDateOnlyFileNamePrefix') &&
+              firstNewAudioFileName.contains('Really short video 16-05-12.mp3'),
+          true);
+
+      secondNewAudioFileName = downloadedPlaylist.playableAudioLst[0].audioFileName;
+      expect(secondNewAudioFileName.contains('$todayDownloadDateOnlyFileNamePrefix') &&
+          secondNewAudioFileName.contains('morning _ cinematic video 19-03-06.mp3'), true);
+
+      // Checking if there are 3 files in the directory (2 mp3 and 1 json)
       final List<FileSystemEntity> files =
           directory.listSync(recursive: false, followLinks: false);
 
