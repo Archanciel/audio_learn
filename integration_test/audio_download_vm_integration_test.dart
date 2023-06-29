@@ -79,6 +79,8 @@ void main() {
         ),
       ));
 
+      // tapping on the unique button in the app which calls the 
+      // AudioDownloadVM.downloadPlaylistAudios() method
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
 
@@ -87,7 +89,7 @@ void main() {
       // Waiting 5 seconds only causes MissingPluginException
       // 'No implementation found for method $method on channel $name'
       // when all tsts are run. 7 seconds solve the problem.
-      await Future.delayed(const Duration(seconds: 10));
+      await Future.delayed(const Duration(seconds: secondsDelay));
       await tester.pump();
 
       expect(directory.existsSync(), true);
