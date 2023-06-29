@@ -691,6 +691,23 @@ void main() {
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
+      // Tap the first ListTile checkbox to select it
+      await tester.tap(find.descendant(
+        of: find.byType(ListTile).first,
+        matching: find.byWidgetPredicate((widget) => widget is Checkbox),
+      ));
+      await tester.pumpAndSettle();
+
+      // Tap the 'Download All' button to download the selected playlist
+      await tester.tap(find.byKey(const Key('download_sel_playlists_button')));
+      await tester.pumpAndSettle();
+
+      // Downloading the Youtube playlist audio can not be done in
+      // integration tests because YoutubeExplode can not access to
+      // internet. Instead, the audio file and the playlist json file
+      // including the audio are copied from the test save directory
+      // to the download directory
+
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
