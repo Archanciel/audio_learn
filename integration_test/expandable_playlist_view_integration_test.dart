@@ -698,7 +698,10 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      // Tap the 'Download All' button to download the selected playlist
+      // Tap the 'Download All' button to download the selected playlist.
+      // This download fails because YoutubeExplode can not access to
+      // internet in integration tests in order to download the 
+      // audio's.
       await tester.tap(find.byKey(const Key('download_sel_playlists_button')));
       await tester.pumpAndSettle();
 
