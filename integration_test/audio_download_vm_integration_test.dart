@@ -110,14 +110,14 @@ void main() {
       expect(audioDownloadVM.isHighQuality, false);
 
       // downloadedAudioLst contains added Audio^s
-      checkDownloadedAudios(
+      checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[0],
         downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[1],
         downloadFileNamePrefix: todayDownloadFileNamePrefix,
       );
 
       // playableAudioLst contains inserted at list start Audio^s
-      checkDownloadedAudios(
+      checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.playableAudioLst[1],
         downloadedAudioTwo: downloadedPlaylist.playableAudioLst[0],
         downloadFileNamePrefix: todayDownloadFileNamePrefix,
@@ -173,11 +173,11 @@ void main() {
       expect(downloadedAudioLstBeforeDownload.length, 1);
       expect(playableAudioLstBeforeDownload.length, 1);
 
-      checkAudioTwo(
+      checkPlaylistAudioTwo(
         downloadedAudioTwo: downloadedAudioLstBeforeDownload[0],
         downloadFileNamePrefix: '230406',
       );
-      checkAudioTwo(
+      checkPlaylistAudioTwo(
         downloadedAudioTwo: playableAudioLstBeforeDownload[0],
         downloadFileNamePrefix: '230406',
       );
@@ -199,6 +199,8 @@ void main() {
         ),
       ));
 
+      // tapping on the unique button in the app which calls the 
+      // AudioDownloadVM.downloadPlaylistAudios() method
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
 
@@ -228,7 +230,7 @@ void main() {
       expect(audioDownloadVM.isHighQuality, false);
 
       // downloadedAudioLst contains added Audio^s
-      checkDownloadedAudios(
+      checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[1],
         downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[0],
         downloadFileNamePrefix: '230406',
@@ -236,7 +238,7 @@ void main() {
       );
 
       // playableAudioLst contains inserted at list start Audio^s
-      checkDownloadedAudios(
+      checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.playableAudioLst[0],
         downloadedAudioTwo: downloadedPlaylist.playableAudioLst[1],
         downloadFileNamePrefix: '230406',
@@ -253,13 +255,14 @@ void main() {
     });
   });
   group('Download recreated playlist with short audios', () {
+
     /// This test is used to test recreating the playlist with the
     /// same name. Recreating a playlist with an identical name avoids
     /// to loose time removing from the original playlist the referenced
     /// videos. The recreated playlist audios are downloaded in the same
-    /// dir than the original playlist, The original playlist json file is
-    /// updated with the recreated playlist id and url as well with the
-    /// newly downloaded audios.
+    /// dir than the original playlist, The original playlist json file
+    /// is updated with the recreated playlist id and url as well as
+    /// with the newly downloaded audios.
     testWidgets(
         'Recreated playlist 2 new short audios: initial playlist 1st and 2nd audio were already downloaded and were deleted',
         (WidgetTester tester) async {
@@ -271,11 +274,19 @@ void main() {
       expect(directory.existsSync(), false);
 
       await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
+
+      // Copying the initial playlist json file with the 1st and 2nd
+      // audio whose mp3 were deleted from the playlist dir. A
+      // replacing new Youtube playlist with the same title was created
+      // with 2 new audio's. The new playlist id and url are different
+      // from the initial playlist id and url, but in order to simplify
+      // the test, the new playlist contains the same audio's as the
+      // initial playlist ! Those audio's will be downloaded in the same
+      // dir than the initial playlist.
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
             "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}$testPlaylistTitle.json",
         targetDirectoryPath: testPlaylistDir,
-        targetFileName: '$testPlaylistTitle.json',
       );
 
       final WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -299,14 +310,14 @@ void main() {
       List<Audio> playableAudioLstBeforeDownload =
           downloadedPlaylistBeforeDownload.playableAudioLst;
 
-      checkDownloadedAudios(
+      checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedAudioLstBeforeDownload[0],
         downloadedAudioTwo: downloadedAudioLstBeforeDownload[1],
         downloadFileNamePrefix: '230406',
       );
 
       // playableAudioLst contains inserted at list start Audio^s
-      checkDownloadedAudios(
+      checkPlaylistDownloadedAudios(
         downloadedAudioOne: playableAudioLstBeforeDownload[1],
         downloadedAudioTwo: playableAudioLstBeforeDownload[0],
         downloadFileNamePrefix: '230406',
@@ -338,6 +349,8 @@ void main() {
         recreatedPlaylistWithSameTitleUrl,
       );
 
+      // tapping on the unique button in the app which calls the 
+      // AudioDownloadVM.downloadPlaylistAudios() method
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
 
@@ -366,8 +379,10 @@ void main() {
       expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
       expect(audioDownloadVM.isHighQuality, false);
 
-      // downloadedAudioLst contains added Audio^s
-      checkDownloadedAudios(
+      // downloadedAudioLst contains added Audio's. Checking the
+      // values of the 1st and 2nd audio still in the playlist json
+      // file and deleted from the playlist dir
+      checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[0],
         downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[1],
         downloadFileNamePrefix: '230406',
@@ -384,8 +399,8 @@ void main() {
             '$todayDownloadFileNamePrefix-morning _ cinematic video 19-03-06.mp3');
       }
 
-      // playableAudioLst contains inserted at list start Audio^s
-      checkDownloadedAudios(
+      // playableAudioLst contains inserted at list start Audio's
+      checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.playableAudioLst[3],
         downloadedAudioTwo: downloadedPlaylist.playableAudioLst[2],
         downloadFileNamePrefix: '230406',
@@ -426,25 +441,27 @@ void checkDownloadedPlaylist({
   expect(downloadedPlaylist.downloadPath, playlistDir);
 }
 
-void checkDownloadedAudios({
+// Verify the values of the Audio's extracted from a playlist
+void checkPlaylistDownloadedAudios({
   required Audio downloadedAudioOne,
   required Audio downloadedAudioTwo,
   required String downloadFileNamePrefix,
   String? todayFileNamePrefix,
 }) {
-  checkAudioOne(
+  checkPlaylistAudioOne(
     downloadedAudioOne: downloadedAudioOne,
     downloadFileNamePrefix: downloadFileNamePrefix,
   );
 
-  checkAudioTwo(
+  checkPlaylistAudioTwo(
     downloadedAudioTwo: downloadedAudioTwo,
     todayFileNamePrefix: todayFileNamePrefix,
     downloadFileNamePrefix: downloadFileNamePrefix,
   );
 }
 
-void checkAudioTwo({
+// Verify the values of the second Audio extracted from a playlist
+void checkPlaylistAudioTwo({
   required Audio downloadedAudioTwo,
   String? todayFileNamePrefix,
   required String downloadFileNamePrefix,
@@ -470,10 +487,12 @@ void checkAudioTwo({
     expect(downloadedAudioTwo.audioFileName,
         "${todayFileNamePrefix ?? downloadFileNamePrefix}-audio learn test short video two 23-06-10.mp3");
   }
+
   expect(downloadedAudioTwo.audioFileSize, 61425);
 }
 
-void checkAudioOne({
+// Verify the values of the first Audio extracted from a playlist
+void checkPlaylistAudioOne({
   required Audio downloadedAudioOne,
   required String downloadFileNamePrefix,
 }) {
@@ -489,6 +508,7 @@ void checkAudioOne({
       DateTime.parse("2023-06-10T00:00:00.000"));
   expect(downloadedAudioOne.audioDuration, const Duration(milliseconds: 24000));
   expect(downloadedAudioOne.isMusicQuality, false);
+
   if (!kAudioFileNamePrefixIncludeTime) {
     // if kAudioFileNamePrefixIncludeTime is true,
     // it is not possible to check the audio file
@@ -497,6 +517,7 @@ void checkAudioOne({
     expect(downloadedAudioOne.audioFileName,
         "$downloadFileNamePrefix-audio learn test short video one 23-06-10.mp3");
   }
+
   expect(downloadedAudioOne.audioFileSize, 143679);
 }
 
