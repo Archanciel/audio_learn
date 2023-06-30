@@ -389,12 +389,12 @@ void main() {
       String firstNewAudioFileName =
           downloadedPlaylist.downloadedAudioLst[2].audioFileName;
       expect(
-          firstNewAudioFileName.contains('$todayDownloadDateOnlyFileNamePrefix') &&
+          firstNewAudioFileName.contains(todayDownloadDateOnlyFileNamePrefix) &&
               firstNewAudioFileName.contains('Really short video 16-05-12.mp3'),
           true);
 
       String secondNewAudioFileName = downloadedPlaylist.downloadedAudioLst[3].audioFileName;
-      expect(secondNewAudioFileName.contains('$todayDownloadDateOnlyFileNamePrefix') &&
+      expect(secondNewAudioFileName.contains(todayDownloadDateOnlyFileNamePrefix) &&
           secondNewAudioFileName.contains('morning _ cinematic video 19-03-06.mp3'), true);
 
       // playableAudioLst contains inserted at list start Audio's.
@@ -414,12 +414,12 @@ void main() {
       firstNewAudioFileName =
           downloadedPlaylist.playableAudioLst[1].audioFileName;
       expect(
-          firstNewAudioFileName.contains('$todayDownloadDateOnlyFileNamePrefix') &&
+          firstNewAudioFileName.contains(todayDownloadDateOnlyFileNamePrefix) &&
               firstNewAudioFileName.contains('Really short video 16-05-12.mp3'),
           true);
 
       secondNewAudioFileName = downloadedPlaylist.playableAudioLst[0].audioFileName;
-      expect(secondNewAudioFileName.contains('$todayDownloadDateOnlyFileNamePrefix') &&
+      expect(secondNewAudioFileName.contains(todayDownloadDateOnlyFileNamePrefix) &&
           secondNewAudioFileName.contains('morning _ cinematic video 19-03-06.mp3'), true);
 
       // Checking if there are 3 files in the directory (2 mp3 and 1 json)
