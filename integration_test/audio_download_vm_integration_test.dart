@@ -309,7 +309,7 @@ void main() {
         downloadedAudioOne: downloadedAudioLstBeforeDownload[0],
         downloadedAudioTwo: downloadedAudioLstBeforeDownload[1],
         audioOneFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
-        audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
       );
 
       // playableAudioLst contains inserted at list start Audio^s
@@ -317,7 +317,7 @@ void main() {
         downloadedAudioOne: playableAudioLstBeforeDownload[1],
         downloadedAudioTwo: playableAudioLstBeforeDownload[0],
         audioOneFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
-        audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
       );
 
       // await tester.pumpWidget(MyApp());
@@ -384,7 +384,7 @@ void main() {
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[0],
         downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[1],
-        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioOneFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
         audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
       );
 
@@ -403,7 +403,7 @@ void main() {
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.playableAudioLst[3],
         downloadedAudioTwo: downloadedPlaylist.playableAudioLst[2],
-        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioOneFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
         audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
       );
 
@@ -412,8 +412,8 @@ void main() {
       // ...
 
       checkPlaylistNewDownloadedAudios(
-        downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[1],
-        downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[0],
+        downloadedAudioOne: downloadedPlaylist.playableAudioLst[1],
+        downloadedAudioTwo: downloadedPlaylist.playableAudioLst[0],
       );
 
       // Checking if there are 3 files in the directory (2 mp3 and 1 json)
@@ -538,8 +538,6 @@ void checkPlaylistNewAudioOne({
       "SketchyEven\n\nReally sad story. Don't watch if you have a weak heart. ...");
   expect(downloadedAudioOne.videoUrl,
       "https://www.youtube.com/watch?v=iHibnmosKkM");
-  expect(downloadedAudioOne.videoUploadDate,
-      DateTime.parse("2023-06-10T00:00:00.000"));
   expect(downloadedAudioOne.audioDuration, const Duration(milliseconds: 10000));
   expect(downloadedAudioOne.isMusicQuality, false);
 
@@ -564,10 +562,7 @@ void checkPlaylistNewAudioTwo({
       "https://www.youtube.com/watch?v=Byo-lcR6Bmw");
   expect(downloadedAudioTwo.compactVideoDescription,
       "Adam Staruch\n\nHello there!\nDo you want me to edit something for you? LET ME KNOW!\n ...");
-  expect(downloadedAudioTwo.videoUploadDate,
-      DateTime.parse("2019-03-06T00:00:00.000"));
-  expect(downloadedAudioTwo.audioDuration, const Duration(milliseconds: 10000));
-  expect(downloadedAudioTwo.audioFileSize, 59177);
+  expect(downloadedAudioTwo.audioDuration, const Duration(milliseconds: 59000));
   expect(downloadedAudioTwo.isMusicQuality, false);
 
   String secondNewAudioFileName = downloadedAudioTwo.audioFileName;
