@@ -108,14 +108,14 @@ void main() {
       expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
       expect(audioDownloadVM.isHighQuality, false);
 
-      // downloadedAudioLst contains added Audio^s
+      // downloadedAudioLst contains added Audio's
       checkPlaylistDownloadedAudios(
           downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[0],
           downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[1],
           audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
           audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,);
 
-      // playableAudioLst contains inserted at list start Audio^s
+      // playableAudioLst contains inserted at list start Audio's
       checkPlaylistDownloadedAudios(
           downloadedAudioOne: downloadedPlaylist.playableAudioLst[1],
           downloadedAudioTwo: downloadedPlaylist.playableAudioLst[0],
@@ -228,7 +228,7 @@ void main() {
       expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
       expect(audioDownloadVM.isHighQuality, false);
 
-      // downloadedAudioLst contains added Audio^s
+      // downloadedAudioLst contains added Audio's
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[1],
         downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[0],
@@ -236,7 +236,7 @@ void main() {
         audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
       );
 
-      // playableAudioLst contains inserted at list start Audio^s
+      // playableAudioLst contains inserted at list start Audio's
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.playableAudioLst[0],
         downloadedAudioTwo: downloadedPlaylist.playableAudioLst[1],
@@ -312,7 +312,7 @@ void main() {
         audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
       );
 
-      // playableAudioLst contains inserted at list start Audio^s
+      // playableAudioLst contains inserted at list start Audio's
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: playableAudioLstBeforeDownload[1],
         downloadedAudioTwo: playableAudioLstBeforeDownload[0],
@@ -438,6 +438,9 @@ void checkDownloadedPlaylist({
   expect(downloadedPlaylist.title, playlistTitle);
   expect(downloadedPlaylist.url, playlistUrl);
   expect(downloadedPlaylist.downloadPath, playlistDir);
+  expect(downloadedPlaylist.playlistQuality, PlaylistQuality.voice);
+  expect(downloadedPlaylist.playlistType, PlaylistType.youtube);
+  expect(downloadedPlaylist.isSelected, false);
 }
 
 // Verify the values of the Audio's extracted from a playlist
