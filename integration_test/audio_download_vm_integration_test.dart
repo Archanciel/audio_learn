@@ -108,19 +108,25 @@ void main() {
       expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
       expect(audioDownloadVM.isHighQuality, false);
 
-      // downloadedAudioLst contains added Audio's
+      // Checking the data of the audio contained in the downloaded
+      // audio list which contains 2 downloaded Audio's
       checkPlaylistDownloadedAudios(
-          downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[0],
-          downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[1],
-          audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
-          audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,);
+        downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[0],
+        downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[1],
+        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+      );
 
-      // playableAudioLst contains inserted at list start Audio's
+      // Checking the data of the audio contained in the playable
+      // audio list;
+      //
+      // playableAudioLst contains Audio's inserted at list start
       checkPlaylistDownloadedAudios(
-          downloadedAudioOne: downloadedPlaylist.playableAudioLst[1],
-          downloadedAudioTwo: downloadedPlaylist.playableAudioLst[0],
-          audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
-          audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,);
+        downloadedAudioOne: downloadedPlaylist.playableAudioLst[1],
+        downloadedAudioTwo: downloadedPlaylist.playableAudioLst[0],
+        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+      );
 
       // Checking if there are 3 files in the directory (2 mp3 and 1 json)
       final List<FileSystemEntity> files =
@@ -141,6 +147,11 @@ void main() {
       expect(directory.existsSync(), false);
 
       await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
+
+      // Copying the playlist json file which contains one audio
+      // which was already downloaded and was deleted to the playlist
+      // dir. The video title of the already downloaded audio is
+      // 'audio learn test short video two'
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
             "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}${testPlaylistTitle}_1_audio.json",
@@ -155,6 +166,9 @@ void main() {
       );
       Playlist downloadedPlaylistBeforeDownload =
           audioDownloadVMbeforeDownload.listOfPlaylist[0];
+
+      // Verifying the data of the copied playlist before downloading
+      // the playlist
 
       checkDownloadedPlaylist(
         downloadedPlaylist: downloadedPlaylistBeforeDownload,
@@ -172,10 +186,15 @@ void main() {
       expect(downloadedAudioLstBeforeDownload.length, 1);
       expect(playableAudioLstBeforeDownload.length, 1);
 
+      // Checking the data of the audio contained in the downloaded
+      // audio list
       checkPlaylistAudioTwo(
         downloadedAudioTwo: downloadedAudioLstBeforeDownload[0],
         audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
       );
+
+      // Checking the data of the audio contained in the playable
+      // audio list
       checkPlaylistAudioTwo(
         downloadedAudioTwo: playableAudioLstBeforeDownload[0],
         audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
@@ -213,6 +232,8 @@ void main() {
 
       expect(directory.existsSync(), true);
 
+      // Verifying the data of the playlist after downloading it
+
       Playlist downloadedPlaylist = audioDownloadVM.listOfPlaylist[0];
 
       checkDownloadedPlaylist(
@@ -236,7 +257,7 @@ void main() {
         audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
       );
 
-      // playableAudioLst contains inserted at list start Audio's
+      // playableAudioLst contains Audio's inserted at list start
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.playableAudioLst[0],
         downloadedAudioTwo: downloadedPlaylist.playableAudioLst[1],
@@ -305,6 +326,8 @@ void main() {
       List<Audio> playableAudioLstBeforeDownload =
           downloadedPlaylistBeforeDownload.playableAudioLst;
 
+      // Checking the data of the audio contained in the downloaded
+      // audio list
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: downloadedAudioLstBeforeDownload[0],
         downloadedAudioTwo: downloadedAudioLstBeforeDownload[1],
@@ -312,7 +335,10 @@ void main() {
         audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
       );
 
-      // playableAudioLst contains inserted at list start Audio's
+      // Checking the data of the audio contained in the playable
+      // audio list;
+      //
+      // playableAudioLst contains Audio's inserted at list start
       checkPlaylistDownloadedAudios(
         downloadedAudioOne: playableAudioLstBeforeDownload[1],
         downloadedAudioTwo: playableAudioLstBeforeDownload[0],
@@ -396,7 +422,7 @@ void main() {
         downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[3],
       );
 
-      // playableAudioLst contains inserted at list start Audio's.
+      // playableAudioLst contains Audio's inserted at list start.
       // Checking the values of the 1st and 2nd audio still in the
       // playlist json file and deleted from the playlist dir ...
 
@@ -411,6 +437,10 @@ void main() {
       // and inserted at start of to the playlist playable audio list
       // ...
 
+      // Checking the data of the audio contained in the playable
+      // audio list;
+      //
+      // playableAudioLst contains Audio's inserted at list start
       checkPlaylistNewDownloadedAudios(
         downloadedAudioOne: downloadedPlaylist.playableAudioLst[1],
         downloadedAudioTwo: downloadedPlaylist.playableAudioLst[0],
