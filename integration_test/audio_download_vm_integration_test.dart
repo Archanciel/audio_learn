@@ -348,10 +348,10 @@ void main() {
         playlistDir: localTestPlaylistDir,
       );
 
-      // expect(audioDownloadVM.isDownloading, false);
-      // expect(audioDownloadVM.downloadProgress, 1.0);
-      // expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
-      // expect(audioDownloadVM.isHighQuality, false);
+      expect(audioDownloadVM.isDownloading, false);
+      expect(audioDownloadVM.downloadProgress, 1.0);
+      expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
+      expect(audioDownloadVM.isHighQuality, false);
 
       // Checking the data of the audio contained in the downloaded
       // audio list
