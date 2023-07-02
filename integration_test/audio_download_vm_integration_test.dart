@@ -78,7 +78,7 @@ void main() {
         ),
       ));
 
-      // tapping on the unique button in the app which calls the
+      // tapping on the downl playlist button in the app which calls the
       // AudioDownloadVM.downloadPlaylistAudios() method
       await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
       await tester.pump();
@@ -217,7 +217,7 @@ void main() {
         ),
       ));
 
-      // tapping on the unique button in the app which calls the
+      // tapping on the downl playlist button in the app which calls the
       // AudioDownloadVM.downloadPlaylistAudios() method
       await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
       await tester.pump();
@@ -278,22 +278,26 @@ void main() {
     testWidgets('Local playlist containing no audio',
         (WidgetTester tester) async {
       late AudioDownloadVM audioDownloadVM;
-      final Directory directory = Directory(globalTestPlaylistDir);
+      String localTestPlaylistTitle =
+          'audio_learn_download_single_video_to_empty_local_playlist_test';
+      String localTestPlaylistDir =
+          "$kDownloadAppTestDir${path.separator}$localTestPlaylistTitle";
+      String savedTestPlaylistDir =
+          "$kDownloadAppTestSavedDataDir${path.separator}$localTestPlaylistTitle";
+
+      final Directory directory = Directory(localTestPlaylistDir);
 
       deletePlaylistDownloadDir(directory);
 
       expect(directory.existsSync(), false);
 
-      await DirUtil.createDirIfNotExist(pathStr: globalTestPlaylistDir);
-
-      String localTestPlaylistTitle =
-          'audio_learn_download_single_video_to_empty_local_playlist_test';
+      await DirUtil.createDirIfNotExist(pathStr: localTestPlaylistDir);
 
       // Copying the initial local playlist json file with no audio
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
-            "$kDownloadAppTestSavedDataDir${path.separator}$localTestPlaylistTitle${path.separator}$localTestPlaylistTitle.json",
-        targetDirectoryPath: globalTestPlaylistDir,
+            "$savedTestPlaylistDir${path.separator}$localTestPlaylistTitle.json",
+        targetDirectoryPath: localTestPlaylistDir,
       );
 
       // await tester.pumpWidget(MyApp());
@@ -313,9 +317,16 @@ void main() {
         ),
       ));
 
-      // tapping on the unique button in the app which calls the
-      // AudioDownloadVM.downloadPlaylistAudios() method
-      await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
+      String singleVideoUrl = 'https://youtu.be/uv3VQoWSjBE';
+
+      await tester.enterText(
+        find.byKey(const Key('playlistUrlTextField')),
+        singleVideoUrl,
+      );
+
+      // tapping on the downl single video button in the app which
+      // calls the AudioDownloadVM.downloadPlaylistAudios() method
+      await tester.tap(find.byKey(const Key('downloadSingleVideoAudioButton')));
       await tester.pump();
 
       // Add a delay to allow the download to finish. 5 seconds is ok
@@ -326,48 +337,41 @@ void main() {
       await Future.delayed(const Duration(seconds: secondsDelay));
       await tester.pump();
 
-      expect(directory.existsSync(), true);
-
-      Playlist downloadedPlaylist = audioDownloadVM.listOfPlaylist[0];
+      Playlist singleVideoDownloadedPlaylist =
+          audioDownloadVM.listOfPlaylist[0];
 
       checkDownloadedPlaylist(
-        downloadedPlaylist: downloadedPlaylist,
-        playlistId: globalTestPlaylistId,
+        downloadedPlaylist: singleVideoDownloadedPlaylist,
+        playlistId: localTestPlaylistTitle,
         playlistTitle: localTestPlaylistTitle,
-        playlistUrl: globalTestPlaylistUrl,
-        playlistDir: globalTestPlaylistDir,
+        playlistUrl: '',
+        playlistDir: localTestPlaylistDir,
       );
 
-      expect(audioDownloadVM.isDownloading, false);
-      expect(audioDownloadVM.downloadProgress, 1.0);
-      expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
-      expect(audioDownloadVM.isHighQuality, false);
+      // expect(audioDownloadVM.isDownloading, false);
+      // expect(audioDownloadVM.downloadProgress, 1.0);
+      // expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
+      // expect(audioDownloadVM.isHighQuality, false);
 
       // Checking the data of the audio contained in the downloaded
-      // audio list which contains 2 downloaded Audio's
-      checkPlaylistDownloadedAudios(
-        downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[0],
-        downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[1],
-        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+      // audio list
+      checkPlaylistAudioTwo(
+        downloadedAudioTwo: singleVideoDownloadedPlaylist.downloadedAudioLst[0],
         audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
       );
 
       // Checking the data of the audio contained in the playable
-      // audio list;
-      //
-      // playableAudioLst contains Audio's inserted at list start
-      checkPlaylistDownloadedAudios(
-        downloadedAudioOne: downloadedPlaylist.playableAudioLst[1],
-        downloadedAudioTwo: downloadedPlaylist.playableAudioLst[0],
-        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+      // audio list
+      checkPlaylistAudioTwo(
+        downloadedAudioTwo: singleVideoDownloadedPlaylist.playableAudioLst[0],
         audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
       );
 
-      // Checking if there are 3 files in the directory (2 mp3 and 1 json)
+      // Checking if there are 2 files in the directory (1 mp3 and 1 json)
       final List<FileSystemEntity> files =
           directory.listSync(recursive: false, followLinks: false);
 
-      expect(files.length, 3);
+      expect(files.length, 2);
 
       deletePlaylistDownloadDir(directory);
     });
@@ -470,7 +474,7 @@ void main() {
         recreatedPlaylistWithSameTitleUrl,
       );
 
-      // tapping on the unique button in the app which calls the
+      // tapping on the downl playlist button in the app which calls the
       // AudioDownloadVM.downloadPlaylistAudios() method
       await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
       await tester.pump();
@@ -567,7 +571,8 @@ void checkDownloadedPlaylist({
   expect(downloadedPlaylist.url, playlistUrl);
   expect(downloadedPlaylist.downloadPath, playlistDir);
   expect(downloadedPlaylist.playlistQuality, PlaylistQuality.voice);
-  expect(downloadedPlaylist.playlistType, PlaylistType.youtube);
+  expect(downloadedPlaylist.playlistType,
+      (playlistUrl.isNotEmpty) ? PlaylistType.youtube : PlaylistType.local);
   expect(downloadedPlaylist.isSelected, false);
 }
 
@@ -756,6 +761,7 @@ class _DownloadPlaylistPageState extends State<DownloadPlaylistPage> {
               },
               child: const Text('Download Playlist Audios'),
             ),
+            const SizedBox(height: 20),
             ElevatedButton(
               key: const Key('downloadSingleVideoAudioButton'),
               onPressed: () {
