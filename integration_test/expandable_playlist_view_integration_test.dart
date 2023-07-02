@@ -662,7 +662,7 @@ void main() {
 
       // Close the warning dialog by tapping on the OK button.
       // If the warning dialog is not closed, tapping on the
-      // 'Add playlist button' button will fail      
+      // 'Add playlist button' button will fail
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -700,7 +700,7 @@ void main() {
 
       // Tap the 'Download All' button to download the selected playlist.
       // This download fails because YoutubeExplode can not access to
-      // internet in integration tests in order to download the 
+      // internet in integration tests in order to download the
       // audio's.
       await tester.tap(find.byKey(const Key('download_sel_playlists_button')));
       await tester.pumpAndSettle();
@@ -710,6 +710,30 @@ void main() {
       // internet. Instead, the audio file and the playlist json file
       // including the audio are copied from the test save directory
       // to the download directory
+
+      String newYoutubePlaylistTitle = 'audio_learn_new_youtube_playlist_test';
+      DirUtil.copyFileToDirectorySync(
+        sourceFilePathName:
+            "$kDownloadAppTestSavedDataDir${path.separator}$newYoutubePlaylistTitle${path.separator}$newYoutubePlaylistTitle.json",
+        targetDirectoryPath: testPlaylistDir,
+        overwriteFileIfExist: true
+      );
+      DirUtil.copyFileToDirectorySync(
+        sourceFilePathName:
+            "$kDownloadAppTestSavedDataDir${path.separator}$newYoutubePlaylistTitle${path.separator}230701-224750-audio learn test short video two 23-06-10.mp3",
+        targetDirectoryPath: testPlaylistDir,
+      );
+
+      // now close the app and then restart it in order to load the
+      // copied youtube playlist
+      
+      await _launchExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        expandablePlaylistListVM: expandablePlaylistListVM,
+        warningMessageVM: warningMessageVM,
+      );
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub

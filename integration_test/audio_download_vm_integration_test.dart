@@ -80,7 +80,7 @@ void main() {
 
       // tapping on the unique button in the app which calls the
       // AudioDownloadVM.downloadPlaylistAudios() method
-      await tester.tap(find.byType(ElevatedButton));
+      await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
       await tester.pump();
 
       // Add a delay to allow the download to finish. 5 seconds is ok
@@ -219,7 +219,239 @@ void main() {
 
       // tapping on the unique button in the app which calls the
       // AudioDownloadVM.downloadPlaylistAudios() method
-      await tester.tap(find.byType(ElevatedButton));
+      await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
+      await tester.pump();
+
+      // Add a delay to allow the download to finish. 5 seconds is ok
+      // when running the audio_download_vm_test only.
+      // Waiting 5 seconds only causes MissingPluginException
+      // 'No implementation found for method $method on channel $name'
+      // when all tsts are run. 7 seconds solve the problem.
+      await Future.delayed(const Duration(seconds: secondsDelay));
+      await tester.pump();
+
+      expect(directory.existsSync(), true);
+
+      // Verifying the data of the playlist after downloading it
+
+      Playlist downloadedPlaylist = audioDownloadVM.listOfPlaylist[0];
+
+      checkDownloadedPlaylist(
+        downloadedPlaylist: downloadedPlaylist,
+        playlistId: testPlaylistId,
+        playlistTitle: testPlaylistTitle,
+        playlistUrl: testPlaylistUrl,
+        playlistDir: testPlaylistDir,
+      );
+
+      expect(audioDownloadVM.isDownloading, false);
+      expect(audioDownloadVM.downloadProgress, 1.0);
+      expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
+      expect(audioDownloadVM.isHighQuality, false);
+
+      // downloadedAudioLst contains added Audio's
+      checkPlaylistDownloadedAudios(
+        downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[1],
+        downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[0],
+        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
+      );
+
+      // playableAudioLst contains Audio's inserted at list start
+      checkPlaylistDownloadedAudios(
+        downloadedAudioOne: downloadedPlaylist.playableAudioLst[0],
+        downloadedAudioTwo: downloadedPlaylist.playableAudioLst[1],
+        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
+      );
+
+      // Checking if there are 3 files in the directory (1 mp3 and 1 json)
+      final List<FileSystemEntity> files =
+          directory.listSync(recursive: false, followLinks: false);
+
+      expect(files.length, 2);
+
+      deletePlaylistDownloadDir(directory);
+    });
+  });
+  group('Download short audio of 1 single video', () {
+    testWidgets('Local playlist containing no audio',
+        (WidgetTester tester) async {
+      late AudioDownloadVM audioDownloadVM;
+      final Directory directory = Directory(testPlaylistDir);
+
+      deletePlaylistDownloadDir(directory);
+
+      expect(directory.existsSync(), false);
+
+      await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
+
+      // Copying the initial local playlist json file with no audio
+      await DirUtil.copyFileToDirectory(
+        sourceFilePathName:
+            "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}$testPlaylistTitle.json",
+        targetDirectoryPath: testPlaylistDir,
+      );
+
+      // await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (BuildContext context) {
+          final WarningMessageVM warningMessageVM = WarningMessageVM();
+          audioDownloadVM = AudioDownloadVM(
+            warningMessageVM: warningMessageVM,
+            isTest: true,
+          );
+          return audioDownloadVM;
+        },
+        child: const MaterialApp(
+          home: DownloadPlaylistPage(
+            playlistUrl: testPlaylistUrl,
+          ),
+        ),
+      ));
+
+      // tapping on the unique button in the app which calls the
+      // AudioDownloadVM.downloadPlaylistAudios() method
+      await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
+      await tester.pump();
+
+      // Add a delay to allow the download to finish. 5 seconds is ok
+      // when running the audio_download_vm_test only.
+      // Waiting 5 seconds only causes MissingPluginException
+      // 'No implementation found for method $method on channel $name'
+      // when all tsts are run. 7 seconds solve the problem.
+      await Future.delayed(const Duration(seconds: secondsDelay));
+      await tester.pump();
+
+      expect(directory.existsSync(), true);
+
+      Playlist downloadedPlaylist = audioDownloadVM.listOfPlaylist[0];
+
+      checkDownloadedPlaylist(
+        downloadedPlaylist: downloadedPlaylist,
+        playlistId: testPlaylistId,
+        playlistTitle: testPlaylistTitle,
+        playlistUrl: testPlaylistUrl,
+        playlistDir: testPlaylistDir,
+      );
+
+      expect(audioDownloadVM.isDownloading, false);
+      expect(audioDownloadVM.downloadProgress, 1.0);
+      expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
+      expect(audioDownloadVM.isHighQuality, false);
+
+      // Checking the data of the audio contained in the downloaded
+      // audio list which contains 2 downloaded Audio's
+      checkPlaylistDownloadedAudios(
+        downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[0],
+        downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[1],
+        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+      );
+
+      // Checking the data of the audio contained in the playable
+      // audio list;
+      //
+      // playableAudioLst contains Audio's inserted at list start
+      checkPlaylistDownloadedAudios(
+        downloadedAudioOne: downloadedPlaylist.playableAudioLst[1],
+        downloadedAudioTwo: downloadedPlaylist.playableAudioLst[0],
+        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioTwoFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+      );
+
+      // Checking if there are 3 files in the directory (2 mp3 and 1 json)
+      final List<FileSystemEntity> files =
+          directory.listSync(recursive: false, followLinks: false);
+
+      expect(files.length, 3);
+
+      deletePlaylistDownloadDir(directory);
+    });
+    testWidgets(
+        'Playlist 2 short audios: playlist 1st audio was already downloaded and was deleted',
+        (WidgetTester tester) async {
+      late AudioDownloadVM audioDownloadVM;
+      final Directory directory = Directory(testPlaylistDir);
+
+      deletePlaylistDownloadDir(directory);
+
+      expect(directory.existsSync(), false);
+
+      await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
+
+      // Copying the playlist json file which contains one audio
+      // which was already downloaded and was deleted to the playlist
+      // dir. The video title of the already downloaded audio is
+      // 'audio learn test short video two'
+      await DirUtil.copyFileToDirectory(
+        sourceFilePathName:
+            "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}${testPlaylistTitle}_1_audio.json",
+        targetDirectoryPath: testPlaylistDir,
+        targetFileName: '$testPlaylistTitle.json',
+      );
+
+      final WarningMessageVM warningMessageVM = WarningMessageVM();
+      final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+      Playlist downloadedPlaylistBeforeDownload =
+          audioDownloadVMbeforeDownload.listOfPlaylist[0];
+
+      // Verifying the data of the copied playlist before downloading
+      // the playlist
+
+      checkDownloadedPlaylist(
+        downloadedPlaylist: downloadedPlaylistBeforeDownload,
+        playlistId: testPlaylistId,
+        playlistTitle: testPlaylistTitle,
+        playlistUrl: testPlaylistUrl,
+        playlistDir: testPlaylistDir,
+      );
+
+      List<Audio> downloadedAudioLstBeforeDownload =
+          downloadedPlaylistBeforeDownload.downloadedAudioLst;
+      List<Audio> playableAudioLstBeforeDownload =
+          downloadedPlaylistBeforeDownload.playableAudioLst;
+
+      expect(downloadedAudioLstBeforeDownload.length, 1);
+      expect(playableAudioLstBeforeDownload.length, 1);
+
+      // Checking the data of the audio contained in the downloaded
+      // audio list
+      checkPlaylistAudioTwo(
+        downloadedAudioTwo: downloadedAudioLstBeforeDownload[0],
+        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
+      );
+
+      // Checking the data of the audio contained in the playable
+      // audio list
+      checkPlaylistAudioTwo(
+        downloadedAudioTwo: playableAudioLstBeforeDownload[0],
+        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
+      );
+
+      // await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (BuildContext context) {
+          final WarningMessageVM warningMessageVM = WarningMessageVM();
+          audioDownloadVM = AudioDownloadVM(
+            warningMessageVM: warningMessageVM,
+            isTest: true,
+          );
+          return audioDownloadVM;
+        },
+        child: const MaterialApp(
+          home: DownloadPlaylistPage(
+            playlistUrl: testPlaylistUrl,
+          ),
+        ),
+      ));
+
+      // tapping on the unique button in the app which calls the
+      // AudioDownloadVM.downloadPlaylistAudios() method
+      await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
       await tester.pump();
 
       // Add a delay to allow the download to finish. 5 seconds is ok
@@ -374,7 +606,7 @@ void main() {
 
       // tapping on the unique button in the app which calls the
       // AudioDownloadVM.downloadPlaylistAudios() method
-      await tester.tap(find.byType(ElevatedButton));
+      await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
       await tester.pump();
 
       // Add a delay to allow the download to finish. 5 seconds is ok
@@ -568,21 +800,21 @@ void checkPlaylistNewAudioOne({
   expect(downloadedAudioOne.originalVideoTitle, "Really short video");
   expect(downloadedAudioOne.validVideoTitle, "Really short video");
   expect(downloadedAudioOne.compactVideoDescription,
-      "SketchyEven\n\nReally sad story. Don't watch if you have a weak heart. ...");
+      "Jean-Pierre Schnyder\n\nCette vidéo me sert à tester AudioLearn, l'app Android que je développe. ...");
   expect(downloadedAudioOne.videoUrl,
-      "https://www.youtube.com/watch?v=iHibnmosKkM");
+      "https://www.youtube.com/watch?v=ADt0BYlh1Yo");
   expect(downloadedAudioOne.audioDuration, const Duration(milliseconds: 10000));
   expect(downloadedAudioOne.isMusicQuality, false);
 
   String firstNewAudioFileName = downloadedAudioOne.audioFileName;
   expect(
       firstNewAudioFileName.contains(todayDownloadDateOnlyFileNamePrefix) &&
-          firstNewAudioFileName.contains('Really short video 16-05-12.mp3'),
+          firstNewAudioFileName.contains('Really short video 23-07-01.mp3'),
       true);
 
-  expect(downloadedAudioOne.audioFileSize, 59177);
+  expect(downloadedAudioOne.audioFileSize, 61425);
   expect(downloadedAudioOne.videoUploadDate,
-      DateTime.parse("2016-05-12T00:00:00.000"));
+      DateTime.parse("2023-07-01T00:00:00.000"));
 }
 
 // Verify the values of the first Audio extracted from a playlist
@@ -592,9 +824,9 @@ void checkPlaylistNewAudioTwo({
   expect(downloadedAudioTwo.originalVideoTitle, "morning | cinematic video");
   expect(downloadedAudioTwo.validVideoTitle, "morning _ cinematic video");
   expect(downloadedAudioTwo.videoUrl,
-      "https://www.youtube.com/watch?v=Byo-lcR6Bmw");
+      "https://www.youtube.com/watch?v=nDqolLTOzYk");
   expect(downloadedAudioTwo.compactVideoDescription,
-      "Adam Staruch\n\nHello there!\nDo you want me to edit something for you? LET ME KNOW!\n ...");
+      "Jean-Pierre Schnyder\n\nCette vidéo me sert à tester AudioLearn, l'app Android que je développe. ...");
   expect(downloadedAudioTwo.audioDuration, const Duration(milliseconds: 59000));
   expect(downloadedAudioTwo.isMusicQuality, false);
 
@@ -602,12 +834,12 @@ void checkPlaylistNewAudioTwo({
   expect(
       secondNewAudioFileName.contains(todayDownloadDateOnlyFileNamePrefix) &&
           secondNewAudioFileName
-              .contains('morning _ cinematic video 19-03-06.mp3'),
+              .contains('morning _ cinematic video 23-07-01.mp3'),
       true);
 
-  expect(downloadedAudioTwo.audioFileSize, 360142);
+  expect(downloadedAudioTwo.audioFileSize, 360849);
   expect(downloadedAudioTwo.videoUploadDate,
-      DateTime.parse("2019-03-06T00:00:00.000"));
+      DateTime.parse("2023-07-01T00:00:00.000"));
 }
 
 void deletePlaylistDownloadDir(Directory directory) {
@@ -649,6 +881,7 @@ class _DownloadPlaylistPageState extends State<DownloadPlaylistPage> {
               controller: _urlController,
             ),
             ElevatedButton(
+              key: const Key('downloadPlaylistAudiosButton'),
               onPressed: () {
                 Provider.of<AudioDownloadVM>(context, listen: false)
                     .downloadPlaylistAudios(
@@ -656,6 +889,21 @@ class _DownloadPlaylistPageState extends State<DownloadPlaylistPage> {
                 );
               },
               child: const Text('Download Playlist Audios'),
+            ),
+            ElevatedButton(
+              key: const Key('downloadSingleVideoAudioButton'),
+              onPressed: () {
+                AudioDownloadVM audioDownloadVM =
+                    Provider.of<AudioDownloadVM>(context, listen: false);
+
+                // the downloaded audio will be added to the unique playlist
+                // located in the test audio directory
+                audioDownloadVM.downloadSingleVideoAudio(
+                  videoUrl: _urlController.text,
+                  singleVideoPlaylist: audioDownloadVM.listOfPlaylist[0],
+                );
+              },
+              child: const Text('Download Single Video Audio'),
             ),
           ],
         ),
