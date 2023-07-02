@@ -16,15 +16,15 @@ const int secondsDelay = 8; // 7 works, but 8 is safer
 const String existingAudioDateOnlyFileNamePrefix = '230610';
 final String todayDownloadDateOnlyFileNamePrefix =
     Audio.downloadDatePrefixFormatter.format(DateTime.now());
+const String globalTestPlaylistId = 'PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
+const String globalTestPlaylistUrl =
+    'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
+const String globalTestPlaylistTitle =
+    'audio_learn_test_download_2_small_videos';
+final String globalTestPlaylistDir =
+    '$kDownloadAppTestDir${path.separator}$globalTestPlaylistTitle';
 
 void main() {
-  const String testPlaylistId = 'PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
-  const String testPlaylistUrl =
-      'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
-  const String testPlaylistTitle = 'audio_learn_test_download_2_small_videos';
-  const String testPlaylistDir =
-      '$kDownloadAppTestDir\\audio_learn_test_download_2_small_videos';
-
   // Necessary to avoid FatalFailureException (FatalFailureException: Failed
   // to perform an HTTP request to YouTube due to a fatal failure. In most
   // cases, this error indicates that YouTube most likely changed something,
@@ -55,7 +55,7 @@ void main() {
     testWidgets('Playlist 2 short audios: playlist dir not exist',
         (WidgetTester tester) async {
       late AudioDownloadVM audioDownloadVM;
-      final Directory directory = Directory(testPlaylistDir);
+      final Directory directory = Directory(globalTestPlaylistDir);
 
       deletePlaylistDownloadDir(directory);
 
@@ -73,7 +73,7 @@ void main() {
         },
         child: const MaterialApp(
           home: DownloadPlaylistPage(
-            playlistUrl: testPlaylistUrl,
+            playlistUrl: globalTestPlaylistUrl,
           ),
         ),
       ));
@@ -97,10 +97,10 @@ void main() {
 
       checkDownloadedPlaylist(
         downloadedPlaylist: downloadedPlaylist,
-        playlistId: testPlaylistId,
-        playlistTitle: testPlaylistTitle,
-        playlistUrl: testPlaylistUrl,
-        playlistDir: testPlaylistDir,
+        playlistId: globalTestPlaylistId,
+        playlistTitle: globalTestPlaylistTitle,
+        playlistUrl: globalTestPlaylistUrl,
+        playlistDir: globalTestPlaylistDir,
       );
 
       expect(audioDownloadVM.isDownloading, false);
@@ -140,13 +140,13 @@ void main() {
         'Playlist 2 short audios: playlist 1st audio was already downloaded and was deleted',
         (WidgetTester tester) async {
       late AudioDownloadVM audioDownloadVM;
-      final Directory directory = Directory(testPlaylistDir);
+      final Directory directory = Directory(globalTestPlaylistDir);
 
       deletePlaylistDownloadDir(directory);
 
       expect(directory.existsSync(), false);
 
-      await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
+      await DirUtil.createDirIfNotExist(pathStr: globalTestPlaylistDir);
 
       // Copying the playlist json file which contains one audio
       // which was already downloaded and was deleted to the playlist
@@ -154,9 +154,9 @@ void main() {
       // 'audio learn test short video two'
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
-            "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}${testPlaylistTitle}_1_audio.json",
-        targetDirectoryPath: testPlaylistDir,
-        targetFileName: '$testPlaylistTitle.json',
+            "$kDownloadAppTestSavedDataDir${path.separator}$globalTestPlaylistTitle${path.separator}${globalTestPlaylistTitle}_1_audio.json",
+        targetDirectoryPath: globalTestPlaylistDir,
+        targetFileName: '$globalTestPlaylistTitle.json',
       );
 
       final WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -172,10 +172,10 @@ void main() {
 
       checkDownloadedPlaylist(
         downloadedPlaylist: downloadedPlaylistBeforeDownload,
-        playlistId: testPlaylistId,
-        playlistTitle: testPlaylistTitle,
-        playlistUrl: testPlaylistUrl,
-        playlistDir: testPlaylistDir,
+        playlistId: globalTestPlaylistId,
+        playlistTitle: globalTestPlaylistTitle,
+        playlistUrl: globalTestPlaylistUrl,
+        playlistDir: globalTestPlaylistDir,
       );
 
       List<Audio> downloadedAudioLstBeforeDownload =
@@ -212,7 +212,7 @@ void main() {
         },
         child: const MaterialApp(
           home: DownloadPlaylistPage(
-            playlistUrl: testPlaylistUrl,
+            playlistUrl: globalTestPlaylistUrl,
           ),
         ),
       ));
@@ -238,10 +238,10 @@ void main() {
 
       checkDownloadedPlaylist(
         downloadedPlaylist: downloadedPlaylist,
-        playlistId: testPlaylistId,
-        playlistTitle: testPlaylistTitle,
-        playlistUrl: testPlaylistUrl,
-        playlistDir: testPlaylistDir,
+        playlistId: globalTestPlaylistId,
+        playlistTitle: globalTestPlaylistTitle,
+        playlistUrl: globalTestPlaylistUrl,
+        playlistDir: globalTestPlaylistDir,
       );
 
       expect(audioDownloadVM.isDownloading, false);
@@ -278,19 +278,22 @@ void main() {
     testWidgets('Local playlist containing no audio',
         (WidgetTester tester) async {
       late AudioDownloadVM audioDownloadVM;
-      final Directory directory = Directory(testPlaylistDir);
+      final Directory directory = Directory(globalTestPlaylistDir);
 
       deletePlaylistDownloadDir(directory);
 
       expect(directory.existsSync(), false);
 
-      await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
+      await DirUtil.createDirIfNotExist(pathStr: globalTestPlaylistDir);
+
+      String localTestPlaylistTitle =
+          'audio_learn_download_single_video_to_empty_local_playlist_test';
 
       // Copying the initial local playlist json file with no audio
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
-            "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}$testPlaylistTitle.json",
-        targetDirectoryPath: testPlaylistDir,
+            "$kDownloadAppTestSavedDataDir${path.separator}$localTestPlaylistTitle${path.separator}$localTestPlaylistTitle.json",
+        targetDirectoryPath: globalTestPlaylistDir,
       );
 
       // await tester.pumpWidget(MyApp());
@@ -305,7 +308,7 @@ void main() {
         },
         child: const MaterialApp(
           home: DownloadPlaylistPage(
-            playlistUrl: testPlaylistUrl,
+            playlistUrl: globalTestPlaylistUrl,
           ),
         ),
       ));
@@ -329,10 +332,10 @@ void main() {
 
       checkDownloadedPlaylist(
         downloadedPlaylist: downloadedPlaylist,
-        playlistId: testPlaylistId,
-        playlistTitle: testPlaylistTitle,
-        playlistUrl: testPlaylistUrl,
-        playlistDir: testPlaylistDir,
+        playlistId: globalTestPlaylistId,
+        playlistTitle: localTestPlaylistTitle,
+        playlistUrl: globalTestPlaylistUrl,
+        playlistDir: globalTestPlaylistDir,
       );
 
       expect(audioDownloadVM.isDownloading, false);
@@ -368,143 +371,6 @@ void main() {
 
       deletePlaylistDownloadDir(directory);
     });
-    testWidgets(
-        'Playlist 2 short audios: playlist 1st audio was already downloaded and was deleted',
-        (WidgetTester tester) async {
-      late AudioDownloadVM audioDownloadVM;
-      final Directory directory = Directory(testPlaylistDir);
-
-      deletePlaylistDownloadDir(directory);
-
-      expect(directory.existsSync(), false);
-
-      await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
-
-      // Copying the playlist json file which contains one audio
-      // which was already downloaded and was deleted to the playlist
-      // dir. The video title of the already downloaded audio is
-      // 'audio learn test short video two'
-      await DirUtil.copyFileToDirectory(
-        sourceFilePathName:
-            "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}${testPlaylistTitle}_1_audio.json",
-        targetDirectoryPath: testPlaylistDir,
-        targetFileName: '$testPlaylistTitle.json',
-      );
-
-      final WarningMessageVM warningMessageVM = WarningMessageVM();
-      final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
-        warningMessageVM: warningMessageVM,
-        isTest: true,
-      );
-      Playlist downloadedPlaylistBeforeDownload =
-          audioDownloadVMbeforeDownload.listOfPlaylist[0];
-
-      // Verifying the data of the copied playlist before downloading
-      // the playlist
-
-      checkDownloadedPlaylist(
-        downloadedPlaylist: downloadedPlaylistBeforeDownload,
-        playlistId: testPlaylistId,
-        playlistTitle: testPlaylistTitle,
-        playlistUrl: testPlaylistUrl,
-        playlistDir: testPlaylistDir,
-      );
-
-      List<Audio> downloadedAudioLstBeforeDownload =
-          downloadedPlaylistBeforeDownload.downloadedAudioLst;
-      List<Audio> playableAudioLstBeforeDownload =
-          downloadedPlaylistBeforeDownload.playableAudioLst;
-
-      expect(downloadedAudioLstBeforeDownload.length, 1);
-      expect(playableAudioLstBeforeDownload.length, 1);
-
-      // Checking the data of the audio contained in the downloaded
-      // audio list
-      checkPlaylistAudioTwo(
-        downloadedAudioTwo: downloadedAudioLstBeforeDownload[0],
-        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
-      );
-
-      // Checking the data of the audio contained in the playable
-      // audio list
-      checkPlaylistAudioTwo(
-        downloadedAudioTwo: playableAudioLstBeforeDownload[0],
-        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
-      );
-
-      // await tester.pumpWidget(MyApp());
-      await tester.pumpWidget(ChangeNotifierProvider(
-        create: (BuildContext context) {
-          final WarningMessageVM warningMessageVM = WarningMessageVM();
-          audioDownloadVM = AudioDownloadVM(
-            warningMessageVM: warningMessageVM,
-            isTest: true,
-          );
-          return audioDownloadVM;
-        },
-        child: const MaterialApp(
-          home: DownloadPlaylistPage(
-            playlistUrl: testPlaylistUrl,
-          ),
-        ),
-      ));
-
-      // tapping on the unique button in the app which calls the
-      // AudioDownloadVM.downloadPlaylistAudios() method
-      await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
-      await tester.pump();
-
-      // Add a delay to allow the download to finish. 5 seconds is ok
-      // when running the audio_download_vm_test only.
-      // Waiting 5 seconds only causes MissingPluginException
-      // 'No implementation found for method $method on channel $name'
-      // when all tsts are run. 7 seconds solve the problem.
-      await Future.delayed(const Duration(seconds: secondsDelay));
-      await tester.pump();
-
-      expect(directory.existsSync(), true);
-
-      // Verifying the data of the playlist after downloading it
-
-      Playlist downloadedPlaylist = audioDownloadVM.listOfPlaylist[0];
-
-      checkDownloadedPlaylist(
-        downloadedPlaylist: downloadedPlaylist,
-        playlistId: testPlaylistId,
-        playlistTitle: testPlaylistTitle,
-        playlistUrl: testPlaylistUrl,
-        playlistDir: testPlaylistDir,
-      );
-
-      expect(audioDownloadVM.isDownloading, false);
-      expect(audioDownloadVM.downloadProgress, 1.0);
-      expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
-      expect(audioDownloadVM.isHighQuality, false);
-
-      // downloadedAudioLst contains added Audio's
-      checkPlaylistDownloadedAudios(
-        downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[1],
-        downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[0],
-        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
-        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
-      );
-
-      // playableAudioLst contains Audio's inserted at list start
-      checkPlaylistDownloadedAudios(
-        downloadedAudioOne: downloadedPlaylist.playableAudioLst[0],
-        downloadedAudioTwo: downloadedPlaylist.playableAudioLst[1],
-        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
-        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
-      );
-
-      // Checking if there are 3 files in the directory (1 mp3 and 1 json)
-      final List<FileSystemEntity> files =
-          directory.listSync(recursive: false, followLinks: false);
-
-      expect(files.length, 2);
-
-      deletePlaylistDownloadDir(directory);
-    });
   });
   group('Download recreated playlist with short audios', () {
     /// This test is used to test recreating the playlist with the
@@ -518,13 +384,13 @@ void main() {
         'Recreated playlist with 2 new short audios: initial playlist 1st and 2nd audio already downloaded and deleted',
         (WidgetTester tester) async {
       late AudioDownloadVM audioDownloadVM;
-      final Directory directory = Directory(testPlaylistDir);
+      final Directory directory = Directory(globalTestPlaylistDir);
 
       deletePlaylistDownloadDir(directory);
 
       expect(directory.existsSync(), false);
 
-      await DirUtil.createDirIfNotExist(pathStr: testPlaylistDir);
+      await DirUtil.createDirIfNotExist(pathStr: globalTestPlaylistDir);
 
       // Copying the initial playlist json file with the 1st and 2nd
       // audio whose mp3 were deleted from the playlist dir. A
@@ -533,8 +399,8 @@ void main() {
       // are of course different from the initial playlist id and url.
       await DirUtil.copyFileToDirectory(
         sourceFilePathName:
-            "$kDownloadAppTestSavedDataDir${path.separator}$testPlaylistTitle${path.separator}$testPlaylistTitle.json",
-        targetDirectoryPath: testPlaylistDir,
+            "$kDownloadAppTestSavedDataDir${path.separator}$globalTestPlaylistTitle${path.separator}$globalTestPlaylistTitle.json",
+        targetDirectoryPath: globalTestPlaylistDir,
       );
 
       final WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -547,10 +413,10 @@ void main() {
 
       checkDownloadedPlaylist(
         downloadedPlaylist: downloadedPlaylistBeforeDownload,
-        playlistId: testPlaylistId,
-        playlistTitle: testPlaylistTitle,
-        playlistUrl: testPlaylistUrl,
-        playlistDir: testPlaylistDir,
+        playlistId: globalTestPlaylistId,
+        playlistTitle: globalTestPlaylistTitle,
+        playlistUrl: globalTestPlaylistUrl,
+        playlistDir: globalTestPlaylistDir,
       );
 
       List<Audio> downloadedAudioLstBeforeDownload =
@@ -590,7 +456,7 @@ void main() {
         },
         child: const MaterialApp(
           home: DownloadPlaylistPage(
-            playlistUrl: testPlaylistUrl,
+            playlistUrl: globalTestPlaylistUrl,
           ),
         ),
       ));
@@ -626,9 +492,9 @@ void main() {
       checkDownloadedPlaylist(
         downloadedPlaylist: downloadedPlaylist,
         playlistId: recreatedPlaylistId,
-        playlistTitle: testPlaylistTitle,
+        playlistTitle: globalTestPlaylistTitle,
         playlistUrl: recreatedPlaylistWithSameTitleUrl,
-        playlistDir: testPlaylistDir,
+        playlistDir: globalTestPlaylistDir,
       );
 
       expect(audioDownloadVM.isDownloading, false);
