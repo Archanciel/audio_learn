@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:audio_learn/services/json_data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -372,6 +373,19 @@ void main() {
           directory.listSync(recursive: false, followLinks: false);
 
       expect(files.length, 2);
+
+      // Checking if the playlist json file has been updated with the
+      // downloaded audio data
+
+      String playlistPathFileName =
+          '$localTestPlaylistDir${path.separator}$localTestPlaylistTitle.json';
+
+      Playlist loadedPlaylist = JsonDataService.loadFromFile(
+          jsonPathFileName: playlistPathFileName, type: Playlist);
+
+      compareDeserializedWithOriginalPlaylist(
+          deserializedPlaylist: loadedPlaylist,
+          originalPlaylist: singleVideoDownloadedPlaylist,);
 
       deletePlaylistDownloadDir(directory);
     });
@@ -782,4 +796,74 @@ class _DownloadPlaylistPageState extends State<DownloadPlaylistPage> {
       ),
     );
   }
+}
+
+void compareDeserializedWithOriginalPlaylist({
+  required Playlist deserializedPlaylist,
+  required Playlist originalPlaylist,
+}) {
+  expect(deserializedPlaylist.id, originalPlaylist.id);
+  expect(deserializedPlaylist.title, originalPlaylist.title);
+  expect(deserializedPlaylist.url, originalPlaylist.url);
+  expect(deserializedPlaylist.playlistType, originalPlaylist.playlistType);
+  expect(
+      deserializedPlaylist.playlistQuality, originalPlaylist.playlistQuality);
+  expect(deserializedPlaylist.downloadPath, originalPlaylist.downloadPath);
+  expect(deserializedPlaylist.isSelected, originalPlaylist.isSelected);
+
+  // Compare Audio instances in original and loaded Playlist
+  expect(deserializedPlaylist.downloadedAudioLst.length,
+      originalPlaylist.downloadedAudioLst.length);
+  expect(deserializedPlaylist.playableAudioLst.length,
+      originalPlaylist.playableAudioLst.length);
+
+  for (int i = 0; i < deserializedPlaylist.downloadedAudioLst.length; i++) {
+    Audio originalAudio = originalPlaylist.downloadedAudioLst[i];
+    Audio loadedAudio = deserializedPlaylist.downloadedAudioLst[i];
+
+    compareDeserializedWithOriginalAudio(
+      deserializedAudio: loadedAudio,
+      originalAudio: originalAudio,
+    );
+  }
+
+  for (int i = 0; i < deserializedPlaylist.playableAudioLst.length; i++) {
+    Audio originalAudio = originalPlaylist.playableAudioLst[i];
+    Audio loadedAudio = deserializedPlaylist.playableAudioLst[i];
+
+    compareDeserializedWithOriginalAudio(
+      deserializedAudio: loadedAudio,
+      originalAudio: originalAudio,
+    );
+  }
+}
+
+void compareDeserializedWithOriginalAudio({
+  required Audio deserializedAudio,
+  required Audio originalAudio,
+}) {
+  (deserializedAudio.enclosingPlaylist != null)
+      ? expect(deserializedAudio.enclosingPlaylist!.title,
+          originalAudio.enclosingPlaylist!.title)
+      : expect(
+          deserializedAudio.enclosingPlaylist, originalAudio.enclosingPlaylist);
+  expect(
+      deserializedAudio.originalVideoTitle, originalAudio.originalVideoTitle);
+  expect(deserializedAudio.validVideoTitle, originalAudio.validVideoTitle);
+  expect(deserializedAudio.compactVideoDescription,
+      originalAudio.compactVideoDescription);
+  expect(deserializedAudio.videoUrl, originalAudio.videoUrl);
+  expect(deserializedAudio.audioDownloadDateTime.toIso8601String(),
+      originalAudio.audioDownloadDateTime.toIso8601String());
+  expect(deserializedAudio.audioDownloadDuration,
+      originalAudio.audioDownloadDuration ?? const Duration(milliseconds: 0));
+  expect(
+      deserializedAudio.audioDownloadSpeed, originalAudio.audioDownloadSpeed);
+  expect(deserializedAudio.videoUploadDate.toIso8601String(),
+      originalAudio.videoUploadDate.toIso8601String());
+  expect(deserializedAudio.audioDuration,
+      originalAudio.audioDuration ?? const Duration(milliseconds: 0));
+  expect(deserializedAudio.isMusicQuality, originalAudio.isMusicQuality);
+  expect(deserializedAudio.audioFileName, originalAudio.audioFileName);
+  expect(deserializedAudio.audioFileSize, originalAudio.audioFileSize);
 }
