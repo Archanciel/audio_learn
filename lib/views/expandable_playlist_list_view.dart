@@ -262,7 +262,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         if (value != null) {
                           audioDownloadViewModel.downloadSingleVideoAudio(
                             videoUrl: _playlistUrlController.text.trim(),
-                            singleVideoPlaylist: selectedTargetPlaylist!,
+                            singleVideoTargetPlaylist: selectedTargetPlaylist!,
                           );
                         }
                       });
@@ -554,7 +554,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         focusNode.requestFocus();
                         break;
                       case PlaylistPopupMenuButton.updatePlaylistJson:
-                        Provider.of<ExpandablePlaylistListVM>(context, listen: false)
+                        Provider.of<ExpandablePlaylistListVM>(context,
+                                listen: false)
                             .updateSettingsAndPlaylistJsonFiles();
                         break;
                       default:
@@ -634,7 +635,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                 }
 
                 return ListView.builder(
-                                      key: const Key('audio_list'),
+                  key: const Key('audio_list'),
                   controller: _scrollController,
                   itemCount: (_selectedPlaylistsPlayableAudios.isEmpty)
                       ? 0

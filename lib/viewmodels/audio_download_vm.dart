@@ -133,7 +133,7 @@ class AudioDownloadVM extends ChangeNotifier {
     if (localPlaylistTitle.isNotEmpty) {
       addedPlaylist = Playlist(
         id: localPlaylistTitle, // necessary since the id is used to
-        //                         identify the playlist in the list 
+        //                         identify the playlist in the list
         //                         of playlist
         title: localPlaylistTitle,
         playlistType: PlaylistType.local,
@@ -494,9 +494,11 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// {singleVideoTargetPlaylist} is the playlist to which the single video
+  /// will be added
   Future<void> downloadSingleVideoAudio({
     required String videoUrl,
-    required Playlist singleVideoPlaylist,
+    required Playlist singleVideoTargetPlaylist,
   }) async {
     _audioDownloadError = false;
     _stopDownloadPressed = false;
@@ -551,7 +553,7 @@ class AudioDownloadVM extends ChangeNotifier {
     );
 
     final Audio audio = Audio(
-      enclosingPlaylist: singleVideoPlaylist,
+      enclosingPlaylist: singleVideoTargetPlaylist,
       originalVideoTitle: youtubeVideo.title,
       compactVideoDescription: compactVideoDescription,
       videoUrl: youtubeVideo.url,
@@ -561,7 +563,7 @@ class AudioDownloadVM extends ChangeNotifier {
     );
 
     final List<String> downloadedAudioFileNameLst = DirUtil.listFileNamesInDir(
-      path: singleVideoPlaylist.downloadPath,
+      path: singleVideoTargetPlaylist.downloadPath,
       extension: 'mp3',
     );
 
@@ -572,7 +574,7 @@ class AudioDownloadVM extends ChangeNotifier {
         errorType: ErrorType.downloadAudioFileAlreadyOnAudioDirectory,
         errorArgOne: audio.validVideoTitle,
         errorArgTwo: firstMatch,
-        errorArgThree: singleVideoPlaylist.title,
+        errorArgThree: singleVideoTargetPlaylist.title,
       );
 
       return;
@@ -610,7 +612,15 @@ class AudioDownloadVM extends ChangeNotifier {
     _isDownloading = false;
     _youtubeExplode.close();
 
-    singleVideoPlaylist.addDownloadedAudio(audio);
+    singleVideoTargetPlaylist.addDownloadedAudio(audio);
+
+    // fixed bug which caused the playlist including the single
+    // video audio to be not saved and so the audio was not
+    // displayed in the playlist after restarting the app 
+    JsonDataService.saveToFile(
+      model: singleVideoTargetPlaylist,
+      path: singleVideoTargetPlaylist.getPlaylistDownloadFilePathName(),
+    );
 
     notifyListeners();
   }

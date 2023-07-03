@@ -384,8 +384,9 @@ void main() {
           jsonPathFileName: playlistPathFileName, type: Playlist);
 
       compareDeserializedWithOriginalPlaylist(
-          deserializedPlaylist: loadedPlaylist,
-          originalPlaylist: singleVideoDownloadedPlaylist,);
+        deserializedPlaylist: loadedPlaylist,
+        originalPlaylist: singleVideoDownloadedPlaylist,
+      );
 
       deletePlaylistDownloadDir(directory);
     });
@@ -786,7 +787,7 @@ class _DownloadPlaylistPageState extends State<DownloadPlaylistPage> {
                 // located in the test audio directory
                 audioDownloadVM.downloadSingleVideoAudio(
                   videoUrl: _urlController.text,
-                  singleVideoPlaylist: audioDownloadVM.listOfPlaylist[0],
+                  singleVideoTargetPlaylist: audioDownloadVM.listOfPlaylist[0],
                 );
               },
               child: const Text('Download Single Video Audio'),
@@ -855,8 +856,13 @@ void compareDeserializedWithOriginalAudio({
   expect(deserializedAudio.videoUrl, originalAudio.videoUrl);
   expect(deserializedAudio.audioDownloadDateTime.toIso8601String(),
       originalAudio.audioDownloadDateTime.toIso8601String());
-  expect(deserializedAudio.audioDownloadDuration,
-      originalAudio.audioDownloadDuration ?? const Duration(milliseconds: 0));
+
+  // inMilliseconds is used because the duration is not exactly the same
+  // when it is serialized and deserialized since it is stored in the json
+  // file as a number of milliseconds
+  expect(deserializedAudio.audioDownloadDuration!.inMilliseconds,
+      originalAudio.audioDownloadDuration!.inMilliseconds);
+      
   expect(
       deserializedAudio.audioDownloadSpeed, originalAudio.audioDownloadSpeed);
   expect(deserializedAudio.videoUploadDate.toIso8601String(),
