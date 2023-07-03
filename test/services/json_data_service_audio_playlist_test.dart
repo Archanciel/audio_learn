@@ -64,7 +64,10 @@ void main() {
           JsonDataService.loadFromFile(jsonPathFileName: filePath, type: Audio);
 
       // Compare the deserialized Audio instance with the original Audio instance
-      compareDeserializedWithOriginalAudio(deserializedAudio, originalAudio);
+      compareDeserializedWithOriginalAudio(
+        deserializedAudio: deserializedAudio,
+        originalAudio: originalAudio,
+      );
 
       // Cleanup the temporary directory
       await tempDir.delete(recursive: true);
@@ -116,7 +119,10 @@ void main() {
           JsonDataService.loadFromFile(jsonPathFileName: filePath, type: Audio);
 
       // Compare the deserialized Audio instance with the original Audio instance
-      compareDeserializedWithOriginalAudio(deserializedAudio, originalAudio);
+      compareDeserializedWithOriginalAudio(
+        deserializedAudio: deserializedAudio,
+        originalAudio: originalAudio,
+      );
 
       // Cleanup the temporary directory
       await tempDir.delete(recursive: true);
@@ -127,10 +133,12 @@ void main() {
       String filePath = path.join(tempDir.path, 'audio.json');
       // Create a Playlist with 2 Audio instances
       Playlist testPlaylist = Playlist(
-        url: 'https://www.example.com/playlist-url',
+        id: 'testPlaylist1ID',
         title: 'Test Playlist',
+        url: 'https://www.example.com/playlist-url',
         playlistType: PlaylistType.youtube,
         playlistQuality: PlaylistQuality.voice,
+        isSelected: true,
       );
 
       testPlaylist.downloadPath = 'path/to/downloads';
@@ -138,7 +146,7 @@ void main() {
       Audio audio1 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylist,
         originalVideoTitle: 'Test Video 1',
-        compactVideoDescription: '',
+        compactVideoDescription: 'Test Video 1 Description',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-1',
         audioDownloadDateTime: DateTime.now(),
@@ -154,7 +162,7 @@ void main() {
       Audio audio2 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylist,
         originalVideoTitle: 'Test Video 2',
-        compactVideoDescription: '',
+        compactVideoDescription: 'Test Video 2 Description',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-2',
         audioDownloadDateTime: DateTime.now(),
@@ -178,7 +186,10 @@ void main() {
           jsonPathFileName: filePath, type: Playlist);
 
       // Compare original and loaded Playlist
-      compareDeserializedWithOriginalPlaylist(loadedPlaylist, testPlaylist);
+      compareDeserializedWithOriginalPlaylist(
+        deserializedPlaylist: loadedPlaylist,
+        originalPlaylist: testPlaylist,
+      );
 
       // Cleanup the temporary directory
       await tempDir.delete(recursive: true);
@@ -323,7 +334,10 @@ void main() {
       expect(loadedList.length, testList.length);
 
       for (int i = 0; i < loadedList.length; i++) {
-        compareDeserializedWithOriginalAudio(loadedList[i], testList[i]);
+        compareDeserializedWithOriginalAudio(
+          deserializedAudio: loadedList[i],
+          originalAudio: testList[i],
+        );
       }
 
       // Clean up the test file
@@ -341,10 +355,12 @@ void main() {
     test('saveListToFile() and loadListFromFile() for Playlist list', () {
       // Create an Audio instance
       Playlist testPlaylistOne = Playlist(
-        url: 'https://www.example.com/playlist-url',
+        id: 'testPlaylistID1',
         title: 'Test Playlist One',
+        url: 'https://www.example.com/playlist-url',
         playlistType: PlaylistType.local,
         playlistQuality: PlaylistQuality.music,
+        isSelected: true,
       );
 
       testPlaylistOne.downloadPath = 'path/to/downloads';
@@ -352,7 +368,7 @@ void main() {
       Audio audio1 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistOne,
         originalVideoTitle: 'Test Video 1',
-        compactVideoDescription: '',
+        compactVideoDescription: 'Test Video 1 compact description',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-1',
         audioDownloadDateTime: DateTime.now(),
@@ -368,7 +384,7 @@ void main() {
       Audio audio2 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistOne,
         originalVideoTitle: 'Test Video 2',
-        compactVideoDescription: '',
+        compactVideoDescription: 'Test Video 2 compact description',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-2',
         audioDownloadDateTime: DateTime.now(),
@@ -385,19 +401,20 @@ void main() {
       testPlaylistOne.addDownloadedAudio(audio2);
 
       Playlist testPlaylistTwo = Playlist(
-        url: 'https://www.example.com/playlist-url',
+        id: 'testPlaylistID2',
         title: 'Test Playlist Two',
+        url: 'https://www.example.com/playlist-url',
         playlistType: PlaylistType.youtube,
         playlistQuality: PlaylistQuality.voice,
+        isSelected: false,
       );
 
-      testPlaylistTwo.title = 'Test Playlist Two';
       testPlaylistTwo.downloadPath = 'path/to/downloads';
 
       Audio audio3 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistTwo,
         originalVideoTitle: 'Test Video 1',
-        compactVideoDescription: '',
+        compactVideoDescription: 'Test Video 1 compact description',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-1',
         audioDownloadDateTime: DateTime.now(),
@@ -413,7 +430,7 @@ void main() {
       Audio audio4 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistTwo,
         originalVideoTitle: 'Test Video 2',
-        compactVideoDescription: '',
+        compactVideoDescription: 'Test Video 2 compact description',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.example.com/video-url-2',
         audioDownloadDateTime: DateTime.now(),
@@ -444,7 +461,10 @@ void main() {
       expect(loadedList.length, testList.length);
 
       for (int i = 0; i < loadedList.length; i++) {
-        compareDeserializedWithOriginalPlaylist(loadedList[i], testList[i]);
+        compareDeserializedWithOriginalPlaylist(
+          deserializedPlaylist: loadedList[i],
+          originalPlaylist: testList[i],
+        );
       }
 
       // Clean up the test file
@@ -462,37 +482,50 @@ void main() {
   });
 }
 
-void compareDeserializedWithOriginalPlaylist(
-    Playlist loadedPlaylist, Playlist testPlaylist) {
-  expect(loadedPlaylist.title, testPlaylist.title);
-  expect(loadedPlaylist.downloadPath, testPlaylist.downloadPath);
-  expect(loadedPlaylist.url, testPlaylist.url);
-  expect(loadedPlaylist.playlistType, testPlaylist.playlistType);
-  expect(loadedPlaylist.playlistQuality, testPlaylist.playlistQuality);
+void compareDeserializedWithOriginalPlaylist({
+  required Playlist deserializedPlaylist,
+  required Playlist originalPlaylist,
+}) {
+  expect(deserializedPlaylist.id, originalPlaylist.id);
+  expect(deserializedPlaylist.title, originalPlaylist.title);
+  expect(deserializedPlaylist.url, originalPlaylist.url);
+  expect(deserializedPlaylist.playlistType, originalPlaylist.playlistType);
+  expect(
+      deserializedPlaylist.playlistQuality, originalPlaylist.playlistQuality);
+  expect(deserializedPlaylist.downloadPath, originalPlaylist.downloadPath);
+  expect(deserializedPlaylist.isSelected, originalPlaylist.isSelected);
 
   // Compare Audio instances in original and loaded Playlist
-  expect(loadedPlaylist.downloadedAudioLst.length, testPlaylist.downloadedAudioLst.length);
-  expect(loadedPlaylist.playableAudioLst.length, testPlaylist.playableAudioLst.length);
+  expect(deserializedPlaylist.downloadedAudioLst.length,
+      originalPlaylist.downloadedAudioLst.length);
+  expect(deserializedPlaylist.playableAudioLst.length,
+      originalPlaylist.playableAudioLst.length);
 
-  for (int i = 0; i < loadedPlaylist.downloadedAudioLst.length; i++) {
-    Audio originalAudio = testPlaylist.downloadedAudioLst[i];
-    Audio loadedAudio = loadedPlaylist.downloadedAudioLst[i];
+  for (int i = 0; i < deserializedPlaylist.downloadedAudioLst.length; i++) {
+    Audio originalAudio = originalPlaylist.downloadedAudioLst[i];
+    Audio loadedAudio = deserializedPlaylist.downloadedAudioLst[i];
 
-    compareDeserializedWithOriginalAudio(loadedAudio, originalAudio);
+    compareDeserializedWithOriginalAudio(
+      deserializedAudio: loadedAudio,
+      originalAudio: originalAudio,
+    );
   }
 
-  for (int i = 0; i < loadedPlaylist.playableAudioLst.length; i++) {
-    Audio originalAudio = testPlaylist.playableAudioLst[i];
-    Audio loadedAudio = loadedPlaylist.playableAudioLst[i];
+  for (int i = 0; i < deserializedPlaylist.playableAudioLst.length; i++) {
+    Audio originalAudio = originalPlaylist.playableAudioLst[i];
+    Audio loadedAudio = deserializedPlaylist.playableAudioLst[i];
 
-    compareDeserializedWithOriginalAudio(loadedAudio, originalAudio);
+    compareDeserializedWithOriginalAudio(
+      deserializedAudio: loadedAudio,
+      originalAudio: originalAudio,
+    );
   }
 }
 
-void compareDeserializedWithOriginalAudio(
-  Audio deserializedAudio,
-  Audio originalAudio,
-) {
+void compareDeserializedWithOriginalAudio({
+  required Audio deserializedAudio,
+  required Audio originalAudio,
+}) {
   (deserializedAudio.enclosingPlaylist != null)
       ? expect(deserializedAudio.enclosingPlaylist!.title,
           originalAudio.enclosingPlaylist!.title)
@@ -501,6 +534,8 @@ void compareDeserializedWithOriginalAudio(
   expect(
       deserializedAudio.originalVideoTitle, originalAudio.originalVideoTitle);
   expect(deserializedAudio.validVideoTitle, originalAudio.validVideoTitle);
+  expect(deserializedAudio.compactVideoDescription,
+      originalAudio.compactVideoDescription);
   expect(deserializedAudio.videoUrl, originalAudio.videoUrl);
   expect(deserializedAudio.audioDownloadDateTime.toIso8601String(),
       originalAudio.audioDownloadDateTime.toIso8601String());
