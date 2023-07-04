@@ -139,8 +139,9 @@ class SettingsDataService {
 
     try {
       file.writeAsStringSync(jsonString);
-    } catch (e) {
+    } on PathAccessException catch (e) {
       // the case when installing the app for the first time
+      print(e.toString());
       DirUtil.createAppDirIfNotExist();
       file.writeAsStringSync(jsonString);
     }
@@ -151,22 +152,27 @@ class SettingsDataService {
     required String jsonPathFileName,
   }) {
     final File file = File(jsonPathFileName);
-    if (file.existsSync()) {
-      // if settings json file not exist, then the default Settings values
-      // set in the Settings constructor are used ...
-      final String jsonString = file.readAsStringSync();
-      final Map<String, dynamic> decodedSettings = jsonDecode(jsonString);
-      decodedSettings.forEach((key, value) {
-        final settingType = _parseEnumValue(SettingType.values, key);
-        final subSettings =
-            (value as Map<String, dynamic>).map((subKey, subValue) {
-          return MapEntry(
-            _parseEnumValue(_allSettingsKeyLst, subKey),
-            _parseJsonValue(_allSettingsKeyLst, subValue),
-          );
+    try {
+      if (file.existsSync()) {
+        // if settings json file not exist, then the default Settings values
+        // set in the Settings constructor are used ...
+        final String jsonString = file.readAsStringSync();
+        final Map<String, dynamic> decodedSettings = jsonDecode(jsonString);
+        decodedSettings.forEach((key, value) {
+          final settingType = _parseEnumValue(SettingType.values, key);
+          final subSettings =
+              (value as Map<String, dynamic>).map((subKey, subValue) {
+            return MapEntry(
+              _parseEnumValue(_allSettingsKeyLst, subKey),
+              _parseJsonValue(_allSettingsKeyLst, subValue),
+            );
+          });
+          _settings[settingType] = subSettings;
         });
-        _settings[settingType] = subSettings;
-      });
+      }
+    } on PathAccessException catch (e) {
+      // the case when installing the app for the first time
+      print(e.toString());
     }
   }
 
