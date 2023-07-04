@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:path/path.dart' as path;
 
 import '../constants.dart';
 import '../utils/dir_util.dart';
@@ -137,14 +138,16 @@ class SettingsDataService {
 
     final String jsonString = jsonEncode(convertedSettings);
 
-    try {
-      file.writeAsStringSync(jsonString);
-    } on PathAccessException catch (e) {
-      // the case when installing the app for the first time
-      print(e.toString());
-      DirUtil.createAppDirIfNotExist();
-      file.writeAsStringSync(jsonString);
-    }
+    // try {
+    file.writeAsStringSync(jsonString);
+    // should not happen since the app dir is created in the main.dart
+    // file.
+    // } on PathAccessException catch (e) {
+    //   // the case when installing the app for the first time
+    //   print(e.toString());
+    //   DirUtil.createAppDirIfNotExist();
+    //   file.writeAsStringSync(jsonString);
+    // }
   }
 
   /// Load settings from a JSON file
@@ -171,7 +174,10 @@ class SettingsDataService {
         });
       }
     } on PathAccessException catch (e) {
-      // the case when installing the app for the first time
+      // the case when installing the app and running it for the first
+      // time. The app will start with the default settings. When the
+      // user changes the settings, the settings file will be created
+      // and the settings will loaded the next time the app is started.
       print(e.toString());
     }
   }

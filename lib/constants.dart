@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 const String kApplicationName = "Audio Learn";
 const String kApplicationVersion = '0.5.18';
-const String kDownloadAppDir = '/storage/emulated/0/Download/audios';
+const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
 //const String kDownloadAppDir = '/storage/9016-4EF8/Audio';

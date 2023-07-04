@@ -25,7 +25,7 @@ enum AppBarPopupMenu { en, fr, about }
 Future<void> main(List<String> args) async {
   List<String> myArgs = [];
 
-  if (args.isNotEmpty) {                
+  if (args.isNotEmpty) {
     myArgs = args;
   } else {
     // myArgs = ["delAppDir"]; // used to empty dir on emulator
@@ -48,10 +48,19 @@ Future<void> main(List<String> args) async {
     print('***** $kDownloadAppDir mp3 files deleted *****');
   }
 
+  // check if app dir exists and create it if not. This is case the first
+  // time the app is run.
+  String playlistDownloadHomePath = DirUtil.getPlaylistDownloadHomePath();
+  Directory dir = Directory(playlistDownloadHomePath);
+
+  if (!dir.existsSync()) {
+    dir.createSync();
+  }
+
   final SettingsDataService settingsDataService = SettingsDataService();
   settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
-        '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName',
+        '${playlistDownloadHomePath}${Platform.pathSeparator}$kSettingsFileName',
   );
 
   runApp(MainApp(settingsDataService: settingsDataService));
