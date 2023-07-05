@@ -131,7 +131,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
 
                   showDialog(
                     context: context,
-                    builder: (context) => PlaylistOneSelectedDialogWidget(
+                    builder: (context) => PlaylistOneSelectableDialogWidget(
                       focusNode: focusNode,
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
@@ -162,7 +162,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
 
                   showDialog(
                     context: context,
-                    builder: (context) => PlaylistOneSelectedDialogWidget(
+                    builder: (context) => PlaylistOneSelectableDialogWidget(
                       focusNode: focusNode,
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),

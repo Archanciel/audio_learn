@@ -28,6 +28,7 @@ enum PlaylistPopupMenuButton {
   sortFilterAudios,
   subSortFilterAudios,
   updatePlaylistJson,
+  updateAppPlaylistList,
 }
 
 class ExpandablePlaylistListView extends StatefulWidget {
@@ -196,7 +197,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
 
                     showDialog(
                       context: context,
-                      builder: (context) => PlaylistOneSelectedDialogWidget(
+                      builder: (context) => PlaylistOneSelectableDialogWidget(
                         focusNode: focusNode,
                       ),
                     ).then((_) {

@@ -6,23 +6,23 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../models/playlist.dart';
 import '../../viewmodels/expandable_playlist_list_vm.dart';
 
-class PlaylistOneSelectedDialogWidget extends StatefulWidget {
+class PlaylistOneSelectableDialogWidget extends StatefulWidget {
   final FocusNode focusNode;
   final Playlist? excludedPlaylist;
 
-  const PlaylistOneSelectedDialogWidget({
+  const PlaylistOneSelectableDialogWidget({
     super.key,
     required this.focusNode,
     this.excludedPlaylist,
   });
 
   @override
-  _PlaylistOneSelectedDialogWidgetState createState() =>
-      _PlaylistOneSelectedDialogWidgetState();
+  _PlaylistOneSelectableDialogWidgetState createState() =>
+      _PlaylistOneSelectableDialogWidgetState();
 }
 
-class _PlaylistOneSelectedDialogWidgetState
-    extends State<PlaylistOneSelectedDialogWidget> {
+class _PlaylistOneSelectableDialogWidgetState
+    extends State<PlaylistOneSelectableDialogWidget> {
   Playlist? _selectedPlaylist;
 
   @override
@@ -39,7 +39,7 @@ class _PlaylistOneSelectedDialogWidgetState
               expandablePlaylistVM.getUpToDateSelectablePlaylistsExceptPlaylist(
                   excludedPlaylist: widget.excludedPlaylist!);
         }
-        
+
         return RawKeyboardListener(
           focusNode: widget.focusNode,
           onKey: (event) {
