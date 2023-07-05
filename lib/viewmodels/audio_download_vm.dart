@@ -616,7 +616,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
     // fixed bug which caused the playlist including the single
     // video audio to be not saved and so the audio was not
-    // displayed in the playlist after restarting the app 
+    // displayed in the playlist after restarting the app
     JsonDataService.saveToFile(
       model: singleVideoTargetPlaylist,
       path: singleVideoTargetPlaylist.getPlaylistDownloadFilePathName(),
@@ -760,23 +760,28 @@ class AudioDownloadVM extends ChangeNotifier {
     for (Playlist playlist in _listOfPlaylist) {
       // remove the audios from the playlable audio list which are no
       // longer in the playlist directory
-      for (Audio audio in playlist.playableAudioLst) {
-        if (!File(audio.filePathName).existsSync()) {
-          playlist.removePlayableAudio(audio);
+      int removedPlayableAudioNumber = playlist.updatePlayableAudioLst();
+
+      // update validVideoTitle of the playlists audios. This is useful
+      // when the method computing the validVideoTitle has been improved
+      bool isAnAudioValidVideoTitleChanged = false;
+
+      for (Audio audio in playlist.downloadedAudioLst) {
+        String reCreatedValidVideoTitle =
+            Audio.createValidVideoTitle(audio.originalVideoTitle);
+
+        if (reCreatedValidVideoTitle != audio.validVideoTitle) {
+          audio.validVideoTitle = reCreatedValidVideoTitle;
+          isAnAudioValidVideoTitleChanged = true;
         }
       }
 
-      // update validVideoTitle of the playlists audios. This is useful
-      // when the method computing the validVideoTitle has been improved 
-      for (Audio audio in playlist.downloadedAudioLst) {
-        audio.validVideoTitle =
-            Audio.createValidVideoTitle(audio.originalVideoTitle);
+      if (removedPlayableAudioNumber > 0 || isAnAudioValidVideoTitleChanged) {
+        JsonDataService.saveToFile(
+          model: playlist,
+          path: playlist.getPlaylistDownloadFilePathName(),
+        );
       }
-      
-      JsonDataService.saveToFile(
-        model: playlist,
-        path: playlist.getPlaylistDownloadFilePathName(),
-      );
     }
   }
 
