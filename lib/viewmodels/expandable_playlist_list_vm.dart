@@ -60,6 +60,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     // _audioDownloadVM.loadExistingPlaylists();
     _audioDownloadVM.updatePlaylistJsonFiles();
     getUpToDateSelectablePlaylists();
+
+    notifyListeners();
   }
 
   /// Thanks to this method, when restarting the app, the playlists

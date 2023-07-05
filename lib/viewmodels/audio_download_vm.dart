@@ -754,14 +754,25 @@ class AudioDownloadVM extends ChangeNotifier {
     }
   }
 
-  /// Method called when the user selects the update playlist
+  /// Method called by ExpandablePlaylistVM when the user selects the update playlist
   /// JSON files menu item.
   void updatePlaylistJsonFiles() {
     for (Playlist playlist in _listOfPlaylist) {
+      // remove the audios from the playlable audio list which are no
+      // longer in the playlist directory
+      for (Audio audio in playlist.playableAudioLst) {
+        if (!File(audio.filePathName).existsSync()) {
+          playlist.removePlayableAudio(audio);
+        }
+      }
+
+      // update validVideoTitle of the playlists audios. This is useful
+      // when the method computing the validVideoTitle has been improved 
       for (Audio audio in playlist.downloadedAudioLst) {
         audio.validVideoTitle =
             Audio.createValidVideoTitle(audio.originalVideoTitle);
       }
+      
       JsonDataService.saveToFile(
         model: playlist,
         path: playlist.getPlaylistDownloadFilePathName(),
