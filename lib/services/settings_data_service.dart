@@ -138,16 +138,7 @@ class SettingsDataService {
 
     final String jsonString = jsonEncode(convertedSettings);
 
-    // try {
     file.writeAsStringSync(jsonString);
-    // should not happen since the app dir is created in the main.dart
-    // file.
-    // } on PathAccessException catch (e) {
-    //   // the case when installing the app for the first time
-    //   print(e.toString());
-    //   DirUtil.createAppDirIfNotExist();
-    //   file.writeAsStringSync(jsonString);
-    // }
   }
 
   /// Load settings from a JSON file
