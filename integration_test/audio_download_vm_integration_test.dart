@@ -411,7 +411,7 @@ void main() {
       // Copying the initial local playlist json file with no audio
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$savedTestPlaylistDir",
+            savedTestPlaylistDir,
         destinationRootPath: localTestPlaylistDir,
       );
 

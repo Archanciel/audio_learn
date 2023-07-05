@@ -182,5 +182,8 @@
   "audioNotCopiedFromToPlaylist": "Audio \"{audioTitle}\" NOT copied from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.",
   "audioMovedFromLocalPlaylistToPlaylist": "Audio \"{audioTitle}\" moved from local playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\".",
   "audioMovedFromYoutubePlaylistToPlaylist": "Audio \"{audioTitle}\" moved from Youtube playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\".\n\nIF THE DELETED AUDIO VIDEO \"{audioTitle}\" REMAINS IN THE \"{fromPlaylistTitle}\" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !",
-  "audioCopiedFromToPlaylist": "Audio \"{audioTitle}\" copied from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\"."
+  "audioCopiedFromToPlaylist": "Audio \"{audioTitle}\" copied from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\".",
+  "author": "Author:",
+  "authorName": "Jean-Pierre Schnyder / Switzerland",
+  "aboutAppDescription": "This application allows you to download audio from Youtube playlists as well as from single videos.\n\nThe future version wiil enable you to listen the audios, to add comments to them and to extract significative portions of the audio and share them or combine them in a new summary audio."
 }

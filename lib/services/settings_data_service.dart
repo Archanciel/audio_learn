@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:path/path.dart' as path;
 
 import '../constants.dart';
 import '../utils/dir_util.dart';

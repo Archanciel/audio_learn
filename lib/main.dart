@@ -60,7 +60,7 @@ Future<void> main(List<String> args) async {
   final SettingsDataService settingsDataService = SettingsDataService();
   settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
-        '${playlistDownloadHomePath}${Platform.pathSeparator}$kSettingsFileName',
+        '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
   );
 
   runApp(MainApp(settingsDataService: settingsDataService));
@@ -247,6 +247,7 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
+            // currently not used
             showMenu(
               context: context,
               position: const RelativeRect.fromLTRB(0, 50, 0, 0),
@@ -302,20 +303,34 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
                   });
                   break;
                 case AppBarPopupMenu.about:
-                  showAboutDialog(
+                  showDialog(
                     context: context,
-                    applicationName: kApplicationName,
-                    applicationVersion: kApplicationVersion,
-                    applicationIcon:
-                        Image.asset('assets/images/ic_launcher_cleaner_72.png'),
-                    children: <Widget>[
-                      const Text('Author:'),
-                      const Text('Jean-Pierre Schnyder / Switzerland'),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text('Some description about your app'),
-                      ),
-                    ],
+                    builder: (BuildContext context) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          textTheme: const TextTheme(
+                            bodyMedium: TextStyle(
+                                color:
+                                    Colors.white), // or another color you need
+                          ),
+                        ),
+                        child: AboutDialog(
+                          applicationName: kApplicationName,
+                          applicationVersion: kApplicationVersion,
+                          applicationIcon: Image.asset(
+                              'assets/images/ic_launcher_cleaner_72.png'),
+                          children: <Widget>[
+                            Text(AppLocalizations.of(context)!.author),
+                            Text(AppLocalizations.of(context)!.authorName),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text(AppLocalizations.of(context)!
+                                  .aboutAppDescription),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   );
                   break;
                 default:
