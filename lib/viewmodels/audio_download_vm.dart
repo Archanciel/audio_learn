@@ -1,8 +1,10 @@
 // dart file located in lib\viewmodels
 
+import 'package:audio_learn/constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
+import 'package:path/path.dart' as path;
 
 // importing youtube_explode_dart as yt enables to name the app Model
 // playlist class as Playlist so it does not conflict with
@@ -62,10 +64,10 @@ class AudioDownloadVM extends ChangeNotifier {
   }) : _warningMessageVM = warningMessageVM {
     _playlistsHomePath = DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
 
-    _loadExistingPlaylists();
+    loadExistingPlaylists();
   }
 
-  void _loadExistingPlaylists() {
+  void loadExistingPlaylists() {
     List<String> playlistPathFileNameLst = DirUtil.listPathFileNamesInSubDirs(
       path: _playlistsHomePath,
       extension: 'json',
@@ -86,7 +88,9 @@ class AudioDownloadVM extends ChangeNotifier {
       }
     }
 
-    notifyListeners();
+//    notifyListeners(); not necessary since the unique
+//                       Consumer<AudioDownloadVM> is not concerned
+//                       by the _listOfPlaylist changes
   }
 
   Future<Playlist?> addPlaylist({
@@ -758,6 +762,17 @@ class AudioDownloadVM extends ChangeNotifier {
   /// JSON files menu item.
   void updatePlaylistJsonFiles() {
     for (Playlist playlist in _listOfPlaylist) {
+      bool isPlaylistDownloadPathUpdated = false;
+
+      String currentPlaylistDownloadHomePath =
+          path.dirname(playlist.downloadPath);
+
+      if (currentPlaylistDownloadHomePath != _playlistsHomePath) {
+        playlist.downloadPath =
+            _playlistsHomePath + path.separator + playlist.title;
+        isPlaylistDownloadPathUpdated = true;
+      }
+
       // remove the audios from the playlable audio list which are no
       // longer in the playlist directory
       int removedPlayableAudioNumber = playlist.updatePlayableAudioLst();
@@ -776,7 +791,9 @@ class AudioDownloadVM extends ChangeNotifier {
         }
       }
 
-      if (removedPlayableAudioNumber > 0 || isAnAudioValidVideoTitleChanged) {
+      if (isPlaylistDownloadPathUpdated ||
+          removedPlayableAudioNumber > 0 ||
+          isAnAudioValidVideoTitleChanged) {
         JsonDataService.saveToFile(
           model: playlist,
           path: playlist.getPlaylistDownloadFilePathName(),

@@ -55,9 +55,20 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     return listOfSelectablePlaylistsCopy;
   }
 
-  /// Not working yet
   void updateSettingsAndPlaylistJsonFiles() {
-    // _audioDownloadVM.loadExistingPlaylists();
+    _audioDownloadVM.loadExistingPlaylists();
+
+    List<Playlist> listOfPlaylist = _audioDownloadVM.listOfPlaylist;
+
+    for (Playlist playlist in listOfPlaylist) {
+      if (!_listOfSelectablePlaylists
+          .any((element) => element.title == playlist.title)) {
+        _listOfSelectablePlaylists.add(playlist);
+      }
+    }
+
+    _updateAndSavePlaylistOrder();
+
     _audioDownloadVM.updatePlaylistJsonFiles();
     // getUpToDateSelectablePlaylists();
 
@@ -258,7 +269,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     // BUG FIX: when the user unselects the playlist, the
     // playlist json file will not be updated in the AudioDownloadVM
     // updatePlaylistSelection method if the following line is not
-    // commented out   
+    // commented out
     // _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
     _isPlaylistSelected = isPlaylistSelected;
 
