@@ -4,7 +4,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:on_audio_query/on_audio_query.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -50,9 +50,6 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
 
   final AudioPlayerVM _audioPlayerViwModel = AudioPlayerVM();
 
-  //define on audio plugin
-  final OnAudioQuery _audioQuery = OnAudioQuery();
-
   final ScrollController _scrollController = ScrollController();
 
   List<Audio> _selectedPlaylistsPlayableAudios = [];
@@ -61,7 +58,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
   @override
   void initState() {
     super.initState();
-    requestStoragePermission();
+    requestMultiplePermissions();
   }
 
   @override
@@ -76,16 +73,33 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
   ///     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
   ///     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
   ///     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-  void requestStoragePermission() async {
-    //only if the platform is not web, coz web have no permissions
-    if (!kIsWeb && !Platform.isWindows) {
-      bool permissionStatus = await _audioQuery.permissionsStatus();
-      if (!permissionStatus) {
-        await _audioQuery.permissionsRequest();
-      }
+  void requestMultiplePermissions() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+      Permission
+          .manageExternalStorage, // Android 11 (API level 30) or higher only
+      Permission.microphone,
+      Permission.mediaLibrary,
+      Permission.speech,
+      Permission.audio,
+      Permission.videos,
+      Permission.notification
+    ].request();
 
-      //ensure build method is called
-      setState(() {});
+    // Vous pouvez maintenant vérifier l'état de chaque permission
+    if (!statuses[Permission.storage]!.isGranted ||
+        !statuses[Permission.manageExternalStorage]!.isGranted ||
+        !statuses[Permission.microphone]!.isGranted ||
+        !statuses[Permission.mediaLibrary]!.isGranted ||
+        !statuses[Permission.speech]!.isGranted ||
+        !statuses[Permission.audio]!.isGranted ||
+        !statuses[Permission.videos]!.isGranted ||
+        !statuses[Permission.notification]!.isGranted) {
+      // Une ou plusieurs permissions n'ont pas été accordées.
+      // Vous pouvez désactiver les fonctionnalités correspondantes dans
+      // votre application ou montrer une alerte à l'utilisateur.
+    } else {
+      // Toutes les permissions ont été accordées, vous pouvez continuer avec vos fonctionnalités.
     }
   }
 
