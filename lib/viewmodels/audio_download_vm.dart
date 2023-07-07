@@ -18,7 +18,7 @@ import '../utils/dir_util.dart';
 import 'warning_message_vm.dart';
 
 class AudioDownloadVM extends ChangeNotifier {
-  final List<Playlist> _listOfPlaylist = [];
+  List<Playlist> _listOfPlaylist = [];
   List<Playlist> get listOfPlaylist => _listOfPlaylist;
 
   late yt.YoutubeExplode _youtubeExplode;
@@ -67,6 +67,11 @@ class AudioDownloadVM extends ChangeNotifier {
   }
 
   void loadExistingPlaylists() {
+    // reinitializing the list of playlist is necessary since
+    // loadExistingPlaylists() is also called by ExpandablePlaylistVM.
+    // updateSettingsAndPlaylistJsonFiles() method.
+    _listOfPlaylist = [];
+    
     List<String> playlistPathFileNameLst = DirUtil.listPathFileNamesInSubDirs(
       path: _playlistsHomePath,
       extension: 'json',
@@ -760,13 +765,25 @@ class AudioDownloadVM extends ChangeNotifier {
   /// Method called by ExpandablePlaylistVM when the user selects the update playlist
   /// JSON files menu item.
   void updatePlaylistJsonFiles() {
-    for (Playlist playlist in _listOfPlaylist) {
+    List<Playlist> copyOfList = List<Playlist>.from(_listOfPlaylist);
+
+    for (Playlist playlist in copyOfList) {
       bool isPlaylistDownloadPathUpdated = false;
+
+      if (!Directory(playlist.downloadPath).existsSync()) {
+        // the case if the playlist dir has been deleted by the user
+        // or by another app
+        _listOfPlaylist.remove(playlist);
+        continue;
+      }
 
       String currentPlaylistDownloadHomePath =
           path.dirname(playlist.downloadPath);
 
       if (currentPlaylistDownloadHomePath != _playlistsHomePath) {
+        // the case if the playlist dir obtained from another audio
+        // dir was copied on the app audio dir. Then, it must be
+        // updated to the app audio dir
         playlist.downloadPath =
             _playlistsHomePath + path.separator + playlist.title;
         isPlaylistDownloadPathUpdated = true;

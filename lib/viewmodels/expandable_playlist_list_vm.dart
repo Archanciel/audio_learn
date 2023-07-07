@@ -55,22 +55,35 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     return listOfSelectablePlaylistsCopy;
   }
 
+  /// Method called when the user choose the update playlist
+  /// json file menu item.
   void updateSettingsAndPlaylistJsonFiles() {
     _audioDownloadVM.loadExistingPlaylists();
+
+    _audioDownloadVM.updatePlaylistJsonFiles();
 
     List<Playlist> listOfPlaylist = _audioDownloadVM.listOfPlaylist;
 
     for (Playlist playlist in listOfPlaylist) {
       if (!_listOfSelectablePlaylists
           .any((element) => element.title == playlist.title)) {
+        // the case if the playlist dir was added to the app
+        // audio dir
         _listOfSelectablePlaylists.add(playlist);
       }
     }
 
-    _updateAndSavePlaylistOrder();
+    List<Playlist> copyOfList = List<Playlist>.from(_listOfSelectablePlaylists);
 
-    _audioDownloadVM.updatePlaylistJsonFiles();
-    // getUpToDateSelectablePlaylists();
+    for (Playlist playlist in copyOfList) {
+      if (!listOfPlaylist.any((element) => element.title == playlist.title)) {
+        // the case if the playlist dir was removed from the app
+        // audio dir
+        _listOfSelectablePlaylists.remove(playlist);
+      }
+    }
+
+    _updateAndSavePlaylistOrder();
 
     notifyListeners();
   }
