@@ -36,10 +36,13 @@ Future<void> main(List<String> args) async {
   //
   // Setting the TransferDataViewModel transfer data Map
   bool deleteAppDir = kDeleteAppDir;
+  bool isTest = false;
 
   if (myArgs.isNotEmpty) {
     if (myArgs.contains("delAppDir")) {
       deleteAppDir = true;
+    } else if (myArgs.contains("test")) {
+      isTest = true;
     }
   }
 
@@ -50,35 +53,43 @@ Future<void> main(List<String> args) async {
 
   // check if app dir exists and create it if not. This is case the first
   // time the app is run.
-  String playlistDownloadHomePath = DirUtil.getPlaylistDownloadHomePath();
+  String playlistDownloadHomePath =
+      DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
   Directory dir = Directory(playlistDownloadHomePath);
 
   if (!dir.existsSync()) {
     dir.createSync();
   }
 
-  final SettingsDataService settingsDataService = SettingsDataService();
+  final SettingsDataService settingsDataService =
+      SettingsDataService(isTest: isTest);
   settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
         '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
   );
 
-  runApp(MainApp(settingsDataService: settingsDataService));
+  runApp(MainApp(
+    settingsDataService: settingsDataService,
+    isTest: isTest,
+  ));
 }
 
 class MainApp extends StatelessWidget {
   final SettingsDataService _settingsDataService;
+  bool _isTest;
 
-  const MainApp({
+  MainApp({
     required SettingsDataService settingsDataService,
+    bool isTest = false,
     super.key,
-  }) : _settingsDataService = settingsDataService;
+  }) : _isTest = isTest, _settingsDataService = settingsDataService;
 
   @override
   Widget build(BuildContext context) {
     WarningMessageVM warningMessageVM = WarningMessageVM();
     AudioDownloadVM audioDownloadVM = AudioDownloadVM(
       warningMessageVM: warningMessageVM,
+      isTest: _isTest,
     );
     ExpandablePlaylistListVM expandablePlaylistListVM =
         ExpandablePlaylistListVM(
