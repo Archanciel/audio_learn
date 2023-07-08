@@ -330,7 +330,7 @@ void main() {
     });
   });
   group('Settings update test', () {
-    testWidgets('After closing and restarting app', (tester) async {
+    testWidgets('After moving down a playlist item', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -368,7 +368,7 @@ void main() {
 
       app.main(['test']);
       await tester.pumpAndSettle();
-      
+
       // Tap the 'Toggle List' button to show the list. If the list
       // is not opened, checking that a ListTile with the title of
       // the playlist was added to the list will fail

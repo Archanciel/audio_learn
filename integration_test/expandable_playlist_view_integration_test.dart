@@ -741,7 +741,7 @@ void main() {
     });
   });
   group('Settings update test', () {
-    testWidgets('After closing and restarting app', (tester) async {
+    testWidgets('After moving down a playlist item', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
