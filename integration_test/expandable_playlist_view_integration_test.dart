@@ -19,6 +19,7 @@ import 'package:audio_learn/views/widgets/display_message_widget.dart';
 import 'package:audio_learn/views/widgets/playlist_list_item_widget.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
+import 'package:audio_learn/main.dart' as app;
 
 import '../test/viewmodels/mock_audio_download_vm.dart';
 
@@ -49,6 +50,12 @@ void main() {
         rootPath: kDownloadAppTestDirWindows,
         deleteSubDirectoriesAsWell: true,
       );
+
+      // Since we have to use a mock AudioDownloadVM to add the
+      // youtube playlist, we can not use app.main() to start the
+      // app because app.main() uses the real AudioDownloadVM
+      // and we don't want to make the main.dart file dependent
+      // of a mock class. So we have to start the app by hand.
 
       SettingsDataService settingsDataService = SettingsDataService(
         isTest: true,
@@ -238,40 +245,10 @@ void main() {
         deleteSubDirectoriesAsWell: true,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService(
-        isTest: true,
-      );
-      WarningMessageVM warningMessageVM = WarningMessageVM();
-      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-        warningMessageVM: warningMessageVM,
-        isTest: true,
-      );
-
-      // mock version of AudioDownloadVM not necessary
-      // because its not necessary to download the
-      // local playlist in order to get its title
-      ExpandablePlaylistListVM expandablePlaylistListVM =
-          ExpandablePlaylistListVM(
-        warningMessageVM: warningMessageVM,
-        audioDownloadVM: audioDownloadVM,
-        settingsDataService: settingsDataService,
-      );
-
-      // calling getUpToDateSelectablePlaylists() loads all the
-      // playlist json files from the app dir and so enables
-      // expandablePlaylistListVM to know which playlists are
-      // selected and which are not
-      expandablePlaylistListVM.getUpToDateSelectablePlaylists();
-
       const String localPlaylistTitle = 'audio_learn_local_playlist_test';
 
-      await _launchExpandablePlaylistListView(
-        tester: tester,
-        audioDownloadVM: audioDownloadVM,
-        settingsDataService: settingsDataService,
-        expandablePlaylistListVM: expandablePlaylistListVM,
-        warningMessageVM: warningMessageVM,
-      );
+      app.main(['test']);
+      await tester.pumpAndSettle();
 
       // Tap the 'Toggle List' button to show the list. If the list
       // is not opened, checking that a ListTile with the title of
@@ -413,7 +390,6 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-
     testWidgets('Select then unselect local playlist', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -422,40 +398,10 @@ void main() {
         deleteSubDirectoriesAsWell: true,
       );
 
-      SettingsDataService settingsDataService = SettingsDataService(
-        isTest: true,
-      );
-      WarningMessageVM warningMessageVM = WarningMessageVM();
-      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-        warningMessageVM: warningMessageVM,
-        isTest: true,
-      );
-
-      // mock version of AudioDownloadVM not necessary
-      // because its not necessary to download the
-      // local playlist in order to get its title
-      ExpandablePlaylistListVM expandablePlaylistListVM =
-          ExpandablePlaylistListVM(
-        warningMessageVM: warningMessageVM,
-        audioDownloadVM: audioDownloadVM,
-        settingsDataService: settingsDataService,
-      );
-
-      // calling getUpToDateSelectablePlaylists() loads all the
-      // playlist json files from the app dir and so enables
-      // expandablePlaylistListVM to know which playlists are
-      // selected and which are not
-      expandablePlaylistListVM.getUpToDateSelectablePlaylists();
-
       const String localPlaylistTitle = 'audio_learn_local_playlist_test';
 
-      await _launchExpandablePlaylistListView(
-        tester: tester,
-        audioDownloadVM: audioDownloadVM,
-        settingsDataService: settingsDataService,
-        expandablePlaylistListVM: expandablePlaylistListVM,
-        warningMessageVM: warningMessageVM,
-      );
+      app.main(['test']);
+      await tester.pumpAndSettle();
 
       // Tap the 'Toggle List' button to show the list. If the list
       // is not opened, checking that a ListTile with the title of
@@ -550,7 +496,6 @@ void main() {
       expect(reloadedNewPlaylist.downloadPath, newPlaylistPath);
 
       // Now tap the first ListTile checkbox to unselect it
-      print(audioDownloadVM.listOfPlaylist[0]);
       await tester.tap(find.descendant(
         of: find.byType(ListTile).first,
         matching: find.byWidgetPredicate((widget) => widget is Checkbox),
@@ -589,6 +534,12 @@ void main() {
         rootPath: kDownloadAppTestDirWindows,
         deleteSubDirectoriesAsWell: true,
       );
+
+      // Since we have to use a mock AudioDownloadVM to add the
+      // youtube playlist, we can not use app.main() to start the
+      // app because app.main() uses the real AudioDownloadVM
+      // and we don't want to make the main.dart file dependent
+      // of a mock class. So we have to start the app by hand.
 
       // Adding the Youtube playlist
 
@@ -774,39 +725,11 @@ void main() {
           ),
           ['local_music', 'audio_learn_new_youtube_playlist_test']);
 
-      WarningMessageVM warningMessageVM = WarningMessageVM();
-      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-        warningMessageVM: warningMessageVM,
-        isTest: true,
-      );
-
-      // mock version of AudioDownloadVM not necessary
-      // because its not necessary to download the
-      // local playlist which will be added in order to get
-      // its title
-      ExpandablePlaylistListVM expandablePlaylistListVM =
-          ExpandablePlaylistListVM(
-        warningMessageVM: warningMessageVM,
-        audioDownloadVM: audioDownloadVM,
-        settingsDataService: settingsDataService,
-      );
-
-      // calling getUpToDateSelectablePlaylists() loads all the
-      // playlist json files from the app dir and so enables
-      // expandablePlaylistListVM to know which playlists are
-      // selected and which are not
-      expandablePlaylistListVM.getUpToDateSelectablePlaylists();
-
       const String localMusicPlaylistTitle = 'local_music';
       const String localAudioPlaylistTitle = 'local_audio';
 
-      await _launchExpandablePlaylistListView(
-        tester: tester,
-        audioDownloadVM: audioDownloadVM,
-        settingsDataService: settingsDataService,
-        expandablePlaylistListVM: expandablePlaylistListVM,
-        warningMessageVM: warningMessageVM,
-      );
+      app.main(['test']);
+      await tester.pumpAndSettle();
 
       // Tap the 'Toggle List' button to show the list. If the list
       // is not opened, checking that a ListTile with the title of

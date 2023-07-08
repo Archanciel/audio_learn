@@ -23,15 +23,6 @@ import 'package:audio_learn/main.dart' as app;
 
 void main() {
   const String youtubePlaylistId = 'PLzwWSJNcZTMTSAE8iabVB6BCAfFGHHfah';
-  const String youtubePlaylistUrl =
-      'https://youtube.com/playlist?list=$youtubePlaylistId';
-// url used in integration_test/audio_download_vm_integration_test.dart
-// which works:
-// 'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
-  const String youtubePlaylistTitle = 'audio_learn_new_youtube_playlist_test';
-
-  const String testPlaylistDir =
-      '$kDownloadAppTestDir\\audio_learn_new_youtube_playlist_test';
 
   // Necessary to avoid FatalFailureException (FatalFailureException: Failed
   // to perform an HTTP request to YouTube due to a fatal failure. In most
