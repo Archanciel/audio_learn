@@ -30,8 +30,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   List<Playlist> _listOfSelectablePlaylists = [];
   List<Audio>? _sortedFilteredSelectedPlaylistsPlayableAudios;
 
-  Playlist? _uniqueSelectedPlaylist;
-  Playlist? get uniqueSelectedPlaylist => _uniqueSelectedPlaylist;
+  Playlist? _uniqueTargetPlaylist;
+  Playlist? get uniqueTargetPlaylist => _uniqueTargetPlaylist;
 
   ExpandablePlaylistListVM({
     required WarningMessageVM warningMessageVM,
@@ -237,10 +237,10 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   /// Method used by PlaylistOneSelectedDialogWidget to select
   /// only one playlist to which the audios will be moved or
   /// copied.
-  void setUniqueSelectedPlaylist({
-    Playlist? selectedPlaylist,
+  void setUniqueTargetPlaylist({
+    Playlist? uniqueTargetPlaylist,
   }) {
-    _uniqueSelectedPlaylist = selectedPlaylist;
+    _uniqueTargetPlaylist = uniqueTargetPlaylist;
   }
 
   /// Method called by PlaylistItemWidget when the user clicks on
@@ -428,6 +428,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       targetPlaylist: targetPlaylist,
     );
 
+    _uniqueTargetPlaylist = null;
     _removeAudioFromSortedFilteredPlayableAudioList(audio);
 
     notifyListeners();
@@ -441,6 +442,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
       audio: audio,
       targetPlaylist: targetPlaylist,
     );
+
+    _uniqueTargetPlaylist = null;
 
     notifyListeners();
   }

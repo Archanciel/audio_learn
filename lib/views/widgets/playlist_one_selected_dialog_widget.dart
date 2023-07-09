@@ -47,8 +47,8 @@ class _PlaylistOneSelectableDialogWidgetState
                 event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
               // executing the same code as in the 'Confirm' ElevatedButton
               // onPressed callback
-              expandablePlaylistVM.setUniqueSelectedPlaylist(
-                selectedPlaylist: _selectedPlaylist,
+              expandablePlaylistVM.setUniqueTargetPlaylist(
+                uniqueTargetPlaylist: _selectedPlaylist,
               );
               Navigator.of(context).pop();
             }
@@ -78,8 +78,8 @@ class _PlaylistOneSelectableDialogWidgetState
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  expandablePlaylistVM.setUniqueSelectedPlaylist(
-                    selectedPlaylist: _selectedPlaylist,
+                  expandablePlaylistVM.setUniqueTargetPlaylist(
+                    uniqueTargetPlaylist: _selectedPlaylist,
                   );
                   Navigator.of(context).pop();
                 },
@@ -87,6 +87,9 @@ class _PlaylistOneSelectableDialogWidgetState
               ),
               ElevatedButton(
                 onPressed: () {
+                  expandablePlaylistVM.setUniqueTargetPlaylist(
+                    uniqueTargetPlaylist: null,
+                  );
                   Navigator.of(context).pop();
                 },
                 child: Text(AppLocalizations.of(context)!.cancel),

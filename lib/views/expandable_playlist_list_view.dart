@@ -1,4 +1,3 @@
-
 import 'package:another_flushbar/flushbar.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:flutter/material.dart';
@@ -218,7 +217,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           Provider.of<ExpandablePlaylistListVM>(context,
                               listen: false);
                       selectedTargetPlaylist =
-                          expandablePlaylistVM.uniqueSelectedPlaylist;
+                          expandablePlaylistVM.uniqueTargetPlaylist;
 
                       if (selectedTargetPlaylist == null) {
                         return;
