@@ -188,7 +188,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   Provider.of<ExpandablePlaylistListVM>(
                     context,
                     listen: false,
-                  ).deleteAudio(audio: audio);
+                  ).deleteAudioMp3(audio: audio);
                   break;
                 case AudioPopupMenuAction.deleteAudioFromPlaylistAswell:
                   Provider.of<ExpandablePlaylistListVM>(
