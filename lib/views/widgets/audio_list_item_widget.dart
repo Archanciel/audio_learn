@@ -123,7 +123,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.moveAudioToPlaylist:
-                  Playlist? selectedTargetPlaylist;
+                  Playlist? uniqueTargetPlaylist;
 
                   // Using FocusNode to enable clicking on Enter to close
                   // the dialog
@@ -139,16 +139,16 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                     ExpandablePlaylistListVM expandablePlaylistVM =
                         Provider.of<ExpandablePlaylistListVM>(context,
                             listen: false);
-                    selectedTargetPlaylist =
+                    uniqueTargetPlaylist =
                         expandablePlaylistVM.uniqueTargetPlaylist;
 
-                    if (selectedTargetPlaylist == null) {
+                    if (uniqueTargetPlaylist == null) {
                       return;
                     }
 
                     expandablePlaylistVM.moveAudioToPlaylist(
                       audio: audio,
-                      targetPlaylist: selectedTargetPlaylist!,
+                      targetPlaylist: uniqueTargetPlaylist!,
                     );
                   });
                   focusNode.requestFocus();

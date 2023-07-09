@@ -423,6 +423,9 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     required Audio audio,
     required Playlist targetPlaylist,
   }) {
+    // display a warning as well to indiquate that the audio video
+    // should be removed from the Youtube playlist as well if the
+    // the playlis type is Youtube
     _audioDownloadVM.moveAudioToPlaylist(
       audio: audio,
       targetPlaylist: targetPlaylist,
