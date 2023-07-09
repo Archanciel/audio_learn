@@ -71,7 +71,7 @@ class AudioDownloadVM extends ChangeNotifier {
     // loadExistingPlaylists() is also called by ExpandablePlaylistVM.
     // updateSettingsAndPlaylistJsonFiles() method.
     _listOfPlaylist = [];
-    
+
     List<String> playlistPathFileNameLst = DirUtil.listPathFileNamesInSubDirs(
       path: _playlistsHomePath,
       extension: 'json',
@@ -723,8 +723,9 @@ class AudioDownloadVM extends ChangeNotifier {
   }
 
   /// Physically deletes the audio file from the audio playlist
-  /// directory.
-  void deleteAudio({
+  /// directory and removes the audio from the playlist playable
+  /// audio list.
+  void deleteAudioMp3({
     required Audio audio,
   }) {
     DirUtil.deleteFileIfExist(audio.filePathName);

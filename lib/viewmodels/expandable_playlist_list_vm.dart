@@ -450,10 +450,12 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
   /// Physically deletes the audio file from the audio playlist
   /// directory.
-  void deleteAudio({
+  void deleteAudioMp3({
     required Audio audio,
   }) {
-    _audioDownloadVM.deleteAudio(audio: audio);
+    // delete the audio file from the audio playlist directory
+    // and removes the audio from the its playlist playable audio list
+    _audioDownloadVM.deleteAudioMp3(audio: audio);
 
     _removeAudioFromSortedFilteredPlayableAudioList(audio);
 
