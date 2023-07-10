@@ -76,9 +76,9 @@ Future<void> main(List<String> args) async {
 
 class MainApp extends StatelessWidget {
   final SettingsDataService _settingsDataService;
-  bool _isTest;
+  final bool _isTest;
 
-  MainApp({
+  const MainApp({
     required SettingsDataService settingsDataService,
     bool isTest = false,
     super.key,
