@@ -664,11 +664,10 @@ void main() {
 
       String newYoutubePlaylistTitle = 'audio_learn_new_youtube_playlist_test';
       DirUtil.copyFileToDirectorySync(
-        sourceFilePathName:
-            "$kDownloadAppTestSavedDataDir${path.separator}$newYoutubePlaylistTitle${path.separator}$newYoutubePlaylistTitle.json",
-        targetDirectoryPath: testPlaylistDir,
-        overwriteFileIfExist: true
-      );
+          sourceFilePathName:
+              "$kDownloadAppTestSavedDataDir${path.separator}$newYoutubePlaylistTitle${path.separator}$newYoutubePlaylistTitle.json",
+          targetDirectoryPath: testPlaylistDir,
+          overwriteFileIfExist: true);
       DirUtil.copyFileToDirectorySync(
         sourceFilePathName:
             "$kDownloadAppTestSavedDataDir${path.separator}$newYoutubePlaylistTitle${path.separator}230701-224750-audio learn test short video two 23-06-10.mp3",
@@ -677,7 +676,7 @@ void main() {
 
       // now close the app and then restart it in order to load the
       // copied youtube playlist
-      
+
       await _launchExpandablePlaylistListView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
@@ -881,7 +880,8 @@ void main() {
     });
   });
   group('Copy or move audio test', () {
-    testWidgets('Copy audio twice, then 3rd time click on cancel button', (tester) async {
+    testWidgets('Copy audio twice, then 3rd time click on cancel button',
+        (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -896,6 +896,9 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
+      // TODO: to delete
+      String localMusicPlaylistTitle = 'local_music';
+      String localAudioPlaylistTitle = 'local_audio';
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
 
@@ -906,6 +909,7 @@ void main() {
       settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+      // end to delete
 
       app.main(['test']);
       await tester.pumpAndSettle();
@@ -916,150 +920,17 @@ void main() {
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
-      // Tap the first ListTile checkbox to select it
-      await tester.tap(find.descendant(
-        of: find.byType(ListTile).first,
-        matching: find.byWidgetPredicate((widget) => widget is Checkbox),
-      ));
+      // Find the ListTile Playlist containing the audio to copy to
+      // the target local playlist
+      final Finder sourcePlaylistItemFinder =
+          find.text('audio_learn_test_download_2_small_videos');
+      expect(sourcePlaylistItemFinder, findsOneWidget);
+
+      // Tap the ListTile Playlist checkbox to select it
+      await tester.tap(sourcePlaylistItemFinder);
+
+      // Wait for the tap to be processed and for any animations to complete.
       await tester.pumpAndSettle();
-
-      // The playlist list displays two items, but the audio
-      // list is empty
-      expect(find.byType(ListView), findsNWidgets(2));
-      expect(find.byType(ListTile), findsNWidgets(2));
-
-      // Open the add playlist dialog by tapping the add playlist
-      // button
-      await tester.tap(find.byKey(const Key('addPlaylistButton')));
-      await tester.pumpAndSettle();
-
-      // Enter the title of the local playlist to add
-      await tester.enterText(
-        find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')),
-        localAudioPlaylistTitle,
-      );
-
-      // Check the value of the AlertDialog local playlist title
-      // TextField
-      TextField localPlaylistTitleTextField = tester.widget(
-          find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')));
-      expect(
-        localPlaylistTitleTextField.controller!.text,
-        localAudioPlaylistTitle,
-      );
-
-      // Confirm the addition by tapping the confirmation button in
-      // the AlertDialog
-      await tester
-          .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
-      await tester.pumpAndSettle();
-
-      // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
-
-      // Check the value of the warning dialog message
-      Text warningDialogMessage =
-          tester.widget(find.byKey(const Key('warningDialogMessage')));
-      expect(warningDialogMessage.data,
-          'Playlist "$localAudioPlaylistTitle" of audio quality added at end of list of playlists.');
-
-      // Close the warning dialog by tapping on the OK button
-      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
-      await tester.pumpAndSettle();
-
-      // The list of Playlist's should have three items now
-      expect(find.byType(ListTile), findsNWidgets(3));
-
-      // Check if the added item is displayed correctly
-      final PlaylistListItemWidget playlistListItemWidget =
-          tester.widget(find.byType(PlaylistListItemWidget).first);
-      expect(playlistListItemWidget.playlist.title, localMusicPlaylistTitle);
-
-      // Check the saved local playlist values in the json file
-
-      final newPlaylistPath = path.join(
-        kDownloadAppTestDirWindows,
-        localAudioPlaylistTitle,
-      );
-
-      final newPlaylistFilePathName = path.join(
-        newPlaylistPath,
-        '$localAudioPlaylistTitle.json',
-      );
-
-      // Load playlist from the json file
-      Playlist loadedNewPlaylist = JsonDataService.loadFromFile(
-        jsonPathFileName: newPlaylistFilePathName,
-        type: Playlist,
-      );
-
-      expect(loadedNewPlaylist.title, localAudioPlaylistTitle);
-      expect(loadedNewPlaylist.id, localAudioPlaylistTitle);
-      expect(loadedNewPlaylist.url, '');
-      expect(loadedNewPlaylist.playlistType, PlaylistType.local);
-      expect(loadedNewPlaylist.playlistQuality, PlaylistQuality.voice);
-      expect(loadedNewPlaylist.downloadedAudioLst.length, 0);
-      expect(loadedNewPlaylist.playableAudioLst.length, 0);
-      expect(loadedNewPlaylist.isSelected, false);
-      expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
-
-      // reload the settings from the json file to verify it was
-      // updated correctly
-
-      settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
-              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
-
-      expect(
-          settingsDataService.get(
-            settingType: SettingType.playlists,
-            settingSubType: Playlists.orderedTitleLst,
-          ),
-          [
-            'local_music',
-            'audio_learn_new_youtube_playlist_test',
-            'local_audio',
-          ]);
-
-      // now move down the added playlist to the second position
-      // in the list
-
-      // Find and select the ListTile to move'
-      const String playlistToMoveDownTitle = 'local_audio';
-
-      await findThenSelectAndTestListTileCheckbox(
-        tester: tester,
-        itemTextStr: playlistToMoveDownTitle,
-      );
-
-      Finder dowButtonFinder =
-          find.widgetWithIcon(IconButton, Icons.arrow_drop_down);
-      IconButton downButton = tester.widget<IconButton>(dowButtonFinder);
-      expect(downButton.onPressed, isNotNull);
-
-      // Tap the move down button twice
-      await tester.tap(dowButtonFinder);
-      await tester.pump();
-      await tester.tap(dowButtonFinder);
-      await tester.pump();
-
-      // reload the settings from the json file to verify it was
-      // updated correctly
-
-      settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
-              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
-
-      expect(
-          settingsDataService.get(
-            settingType: SettingType.playlists,
-            settingSubType: Playlists.orderedTitleLst,
-          ),
-          [
-            'local_music',
-            'local_audio',
-            'audio_learn_new_youtube_playlist_test',
-          ]);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
