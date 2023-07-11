@@ -75,12 +75,12 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                 child: Text(AppLocalizations.of(context)!.displayAudioInfo),
               ),
               PopupMenuItem<AudioPopupMenuAction>(
-                key: const Key('popup_menu_display_audio_info'),
+                key: const Key('popup_menu_move_audio_to_playlist'),
                 value: AudioPopupMenuAction.moveAudioToPlaylist,
                 child: Text(AppLocalizations.of(context)!.moveAudioToPlaylist),
               ),
               PopupMenuItem<AudioPopupMenuAction>(
-                key: const Key('popup_menu_display_audio_info'),
+                key: const Key('popup_menu_copy_audio_to_playlist'),
                 value: AudioPopupMenuAction.copyAudioToPlaylist,
                 child: Text(AppLocalizations.of(context)!.copyAudioToPlaylist),
               ),

@@ -922,15 +922,58 @@ void main() {
 
       // Find the ListTile Playlist containing the audio to copy to
       // the target local playlist
-      final Finder sourcePlaylistItemFinder =
+
+      // First, find the Playlist ListTile Text widget
+      final Finder sourcePlaylistListTileTextWidgetFinder =
           find.text('audio_learn_test_download_2_small_videos');
-      expect(sourcePlaylistItemFinder, findsOneWidget);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder sourcePlaylistListTileWidgetFinder = find.ancestor(
+        of: sourcePlaylistListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the Playlist ListTile
+      // and tap on it to select the playlist
+      final Finder sourcePlaylistListTileCheckboxWidgetFinder = find.descendant(
+        of: sourcePlaylistListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
 
       // Tap the ListTile Playlist checkbox to select it
-      await tester.tap(sourcePlaylistItemFinder);
-
-      // Wait for the tap to be processed and for any animations to complete.
+      await tester.tap(sourcePlaylistListTileCheckboxWidgetFinder);
       await tester.pumpAndSettle();
+
+      // Now we want to tap the popup menu of the Audio ListTile
+      // "audio learn test short video one"
+
+      // First, find the Audio sublist ListTile Text widget
+      final Finder sourceAudioListTileTextWidgetFinder = find.text('audio learn test short video one');
+
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      final Finder sourceAudioListTileWidgetFinder = find.ancestor(
+        of: sourceAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the leading menu icon button of the Audio ListTile and tap
+      // on it
+      final Finder sourceAudioListTileLeadingMenuIconButton = find.descendant(
+        of: sourceAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(sourceAudioListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the popup menu item and tap on it
+      final Finder popupMenuItem = find.byKey(const Key("popup_menu_copy_audio_to_playlist"));
+
+      await tester.tap(popupMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
