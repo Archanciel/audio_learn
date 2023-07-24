@@ -129,7 +129,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
+                Expanded( // necessary to avoid Exception
                   child: Column(
                     children: [
                       Expanded(
