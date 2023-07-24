@@ -1,4 +1,3 @@
-
 import 'package:another_flushbar/flushbar.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +45,8 @@ class ExpandablePlaylistListView extends StatefulWidget {
 class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
     with ScreenMixin {
   final TextEditingController _playlistUrlController = TextEditingController();
+  final TextEditingController _smallTextFieldController =
+      TextEditingController();
 
   final AudioPlayerVM _audioPlayerViwModel = AudioPlayerVM();
 
@@ -123,209 +124,245 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
               );
             },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: TextField(
-                  key: const Key('playlistUrlTextField'),
-                  controller: _playlistUrlController,
-                  decoration: InputDecoration(
-                    labelText:
-                        AppLocalizations.of(context)!.ytPlaylistLinkLabel,
-                    hintText:
-                        AppLocalizations.of(context)!.ytPlaylistLinkHintText,
-                    border: const OutlineInputBorder(),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: kRowWidthSeparator,
-              ),
-              SizedBox(
-                width: kSmallButtonWidth,
-                child: ElevatedButton(
-                  key: const Key('addPlaylistButton'),
-                  style: ButtonStyle(
-                    shape: widget.appElevatedButtonRoundedShape,
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(
-                          horizontal: kSmallButtonInsidePadding),
-                    ),
-                  ),
-                  onPressed: () {
-                    final String playlistUrl =
-                        _playlistUrlController.text.trim();
-                    // Using FocusNode to enable clicking on Enter to close
-                    // the dialog
-                    final FocusNode focusNode = FocusNode();
-                    showDialog<void>(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        return AddPlaylistDialogWidget(
-                          playlistUrl: playlistUrl,
-                          focusNode: focusNode,
-                        );
-                      },
-                    );
-                    focusNode.requestFocus();
-                  },
-                  child: Text(AppLocalizations.of(context)!.addPlaylist),
-                ),
-              ),
-              const SizedBox(
-                width: kRowWidthSeparator,
-              ),
-              SizedBox(
-                width: kSmallButtonWidth,
-                child: ElevatedButton(
-                  key: const Key('downloadSingleVideoButton'),
-                  style: ButtonStyle(
-                    shape: widget.appElevatedButtonRoundedShape,
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(
-                          horizontal: kSmallButtonInsidePadding),
-                    ),
-                  ),
-                  onPressed: () {
-                    ExpandablePlaylistListVM expandablePlaylistListVM =
-                        Provider.of<ExpandablePlaylistListVM>(context,
-                            listen: false);
-
-                    // disabling the sorted filtered playable audio list
-                    // downloading audios of selected playlists so that
-                    // the currently displayed audio list is not sorted
-                    // or/and filtered. This way, the newly downloaded
-                    // audio will be added at top of the displayed audio
-                    // list.
-                    expandablePlaylistListVM
-                        .disableSortedFilteredPlayableAudioLst();
-
-                    Playlist? selectedTargetPlaylist;
-
-                    // Using FocusNode to enable clicking on Enter to close
-                    // the dialog
-                    final FocusNode focusNode = FocusNode();
-
-                    showDialog(
-                      context: context,
-                      builder: (context) => PlaylistOneSelectableDialogWidget(
-                        focusNode: focusNode,
+          SizedBox(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 6,
+                        child: TextField(
+                          key: const Key('playlistUrlTextField'),
+                          controller: _playlistUrlController,
+                          style: const TextStyle(fontSize: 15),
+                          decoration: InputDecoration(
+                            labelText:
+                                AppLocalizations.of(context)!.ytPlaylistLinkLabel,
+                            hintText:
+                                AppLocalizations.of(context)!.ytPlaylistLinkHintText,
+                            border: const OutlineInputBorder(),
+                            isDense: true,
+                            contentPadding: EdgeInsets.all(10),
+                          ),
+                        ),
                       ),
-                    ).then((_) {
-                      ExpandablePlaylistListVM expandablePlaylistVM =
+                       const SizedBox(
+                        height:
+                            kRowHeightSeparator, // controls the space between TextFields
+                      ),
+                      Expanded(
+                        flex: 4, // controls the height ratio
+                        child: TextField(
+                          key: const Key('selectedPlaylistTextField'),
+                          maxLines: 1,
+                          style: const TextStyle(fontSize: 12),
+                          readOnly: true,
+                          controller:
+                              _smallTextFieldController, // define a new controller for this field
+                          decoration: const InputDecoration(
+                            labelText: 'Selected playlists',
+                            border: OutlineInputBorder(),
+                            isDense: true,
+                            contentPadding: EdgeInsets.all(10),
+                          ),
+                        ),
+                      ),
+                   ],
+                  ),
+                ),
+                const SizedBox(
+                  width: kRowWidthSeparator,
+                ),
+                SizedBox(
+                  width: kSmallButtonWidth,
+                  child: ElevatedButton(
+                    key: const Key('addPlaylistButton'),
+                    style: ButtonStyle(
+                      shape: widget.appElevatedButtonRoundedShape,
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            horizontal: kSmallButtonInsidePadding),
+                      ),
+                    ),
+                    onPressed: () {
+                      final String playlistUrl =
+                          _playlistUrlController.text.trim();
+                      // Using FocusNode to enable clicking on Enter to close
+                      // the dialog
+                      final FocusNode focusNode = FocusNode();
+                      showDialog<void>(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return AddPlaylistDialogWidget(
+                            playlistUrl: playlistUrl,
+                            focusNode: focusNode,
+                          );
+                        },
+                      );
+                      focusNode.requestFocus();
+                    },
+                    child: Text(AppLocalizations.of(context)!.addPlaylist),
+                  ),
+                ),
+                const SizedBox(
+                  width: kRowWidthSeparator,
+                ),
+                SizedBox(
+                  width: kSmallButtonWidth,
+                  child: ElevatedButton(
+                    key: const Key('downloadSingleVideoButton'),
+                    style: ButtonStyle(
+                      shape: widget.appElevatedButtonRoundedShape,
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            horizontal: kSmallButtonInsidePadding),
+                      ),
+                    ),
+                    onPressed: () {
+                      ExpandablePlaylistListVM expandablePlaylistListVM =
                           Provider.of<ExpandablePlaylistListVM>(context,
                               listen: false);
-                      selectedTargetPlaylist =
-                          expandablePlaylistVM.uniqueSelectedPlaylist;
 
-                      if (selectedTargetPlaylist == null) {
-                        return;
-                      }
+                      // disabling the sorted filtered playable audio list
+                      // downloading audios of selected playlists so that
+                      // the currently displayed audio list is not sorted
+                      // or/and filtered. This way, the newly downloaded
+                      // audio will be added at top of the displayed audio
+                      // list.
+                      expandablePlaylistListVM
+                          .disableSortedFilteredPlayableAudioLst();
+
+                      Playlist? selectedTargetPlaylist;
 
                       // Using FocusNode to enable clicking on Enter to close
                       // the dialog
                       final FocusNode focusNode = FocusNode();
 
-                      // confirming or not the addition of the single video
-                      // audio to the selected playlist
                       showDialog(
                         context: context,
-                        builder: (context) => RawKeyboardListener(
-                          // Using FocusNode to enable clicking on Enter to close
-                          // the dialog
+                        builder: (context) => PlaylistOneSelectableDialogWidget(
                           focusNode: focusNode,
-                          onKey: (event) {
-                            if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-                                event.isKeyPressed(
-                                    LogicalKeyboardKey.numpadEnter)) {
-                              // executing the same code as in the 'Ok'
-                              // ElevatedButton onPressed callback
-                              Navigator.of(context).pop('ok');
-                            }
-                          },
-                          child: AlertDialog(
-                            title: Text(AppLocalizations.of(context)!
-                                .confirmDialogTitle),
-                            content: Text(
-                              AppLocalizations.of(context)!
-                                  .confirmSingleVideoAudioPlaylistTitle(
-                                selectedTargetPlaylist!.title,
-                              ),
-                              style: kDialogTextFieldStyle,
-                            ),
-                            actions: [
-                              TextButton(
-                                child: const Text('Ok'),
-                                onPressed: () {
-                                  Navigator.of(context).pop('ok');
-                                },
-                              ),
-                              TextButton(
-                                child:
-                                    Text(AppLocalizations.of(context)!.cancel),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          ),
                         ),
-                      ).then((value) {
-                        if (value != null) {
-                          audioDownloadViewModel.downloadSingleVideoAudio(
-                            videoUrl: _playlistUrlController.text.trim(),
-                            singleVideoTargetPlaylist: selectedTargetPlaylist!,
-                          );
+                      ).then((_) {
+                        ExpandablePlaylistListVM expandablePlaylistVM =
+                            Provider.of<ExpandablePlaylistListVM>(context,
+                                listen: false);
+                        selectedTargetPlaylist =
+                            expandablePlaylistVM.uniqueSelectedPlaylist;
+
+                        if (selectedTargetPlaylist == null) {
+                          return;
                         }
+
+                        // Using FocusNode to enable clicking on Enter to close
+                        // the dialog
+                        final FocusNode focusNode = FocusNode();
+
+                        // confirming or not the addition of the single video
+                        // audio to the selected playlist
+                        showDialog(
+                          context: context,
+                          builder: (context) => RawKeyboardListener(
+                            // Using FocusNode to enable clicking on Enter to close
+                            // the dialog
+                            focusNode: focusNode,
+                            onKey: (event) {
+                              if (event
+                                      .isKeyPressed(LogicalKeyboardKey.enter) ||
+                                  event.isKeyPressed(
+                                      LogicalKeyboardKey.numpadEnter)) {
+                                // executing the same code as in the 'Ok'
+                                // ElevatedButton onPressed callback
+                                Navigator.of(context).pop('ok');
+                              }
+                            },
+                            child: AlertDialog(
+                              title: Text(AppLocalizations.of(context)!
+                                  .confirmDialogTitle),
+                              content: Text(
+                                AppLocalizations.of(context)!
+                                    .confirmSingleVideoAudioPlaylistTitle(
+                                  selectedTargetPlaylist!.title,
+                                ),
+                                style: kDialogTextFieldStyle,
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text('Ok'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop('ok');
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text(
+                                      AppLocalizations.of(context)!.cancel),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ).then((value) {
+                          if (value != null) {
+                            audioDownloadViewModel.downloadSingleVideoAudio(
+                              videoUrl: _playlistUrlController.text.trim(),
+                              singleVideoTargetPlaylist:
+                                  selectedTargetPlaylist!,
+                            );
+                          }
+                        });
+                        focusNode.requestFocus();
                       });
                       focusNode.requestFocus();
-                    });
-                    focusNode.requestFocus();
-                  },
-                  child: Text(
-                      AppLocalizations.of(context)!.downloadSingleVideoAudio),
-                ),
-              ),
-              const SizedBox(
-                width: kRowWidthSeparator,
-              ),
-              SizedBox(
-                width: kSmallestButtonWidth,
-                child: ElevatedButton(
-                  key: const Key('stopDownloadingButton'),
-                  style: ButtonStyle(
-                    shape: widget.appElevatedButtonRoundedShape,
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(
-                          horizontal: kSmallButtonInsidePadding),
-                    ),
+                    },
+                    child: Text(
+                        AppLocalizations.of(context)!.downloadSingleVideoAudio),
                   ),
-                  onPressed: audioDownloadViewModel.isDownloading &&
-                          !audioDownloadViewModel.isDownloadStopping
-                      ? () {
-                          // Flushbar creation must be located before calling
-                          // the stopDownload method, otherwise the flushbar
-                          // will be located higher.
-                          Flushbar(
-                            flushbarPosition: FlushbarPosition.TOP,
-                            message: AppLocalizations.of(context)!
-                                .audioDownloadingStopping,
-                            duration: const Duration(seconds: 8),
-                            backgroundColor: Colors.purple.shade900,
-                            messageColor: Colors.white,
-                            margin: kFlushbarEdgeInsets,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
-                          ).show(context);
-                          audioDownloadViewModel.stopDownload();
-                        }
-                      : null,
-                  child: Text(AppLocalizations.of(context)!.stopDownload),
                 ),
-              ),
-            ],
+                const SizedBox(
+                  width: kRowWidthSeparator,
+                ),
+                SizedBox(
+                  width: kSmallestButtonWidth,
+                  child: ElevatedButton(
+                    key: const Key('stopDownloadingButton'),
+                    style: ButtonStyle(
+                      shape: widget.appElevatedButtonRoundedShape,
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            horizontal: kSmallButtonInsidePadding),
+                      ),
+                    ),
+                    onPressed: audioDownloadViewModel.isDownloading &&
+                            !audioDownloadViewModel.isDownloadStopping
+                        ? () {
+                            // Flushbar creation must be located before calling
+                            // the stopDownload method, otherwise the flushbar
+                            // will be located higher.
+                            Flushbar(
+                              flushbarPosition: FlushbarPosition.TOP,
+                              message: AppLocalizations.of(context)!
+                                  .audioDownloadingStopping,
+                              duration: const Duration(seconds: 8),
+                              backgroundColor: Colors.purple.shade900,
+                              messageColor: Colors.white,
+                              margin: kFlushbarEdgeInsets,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                            ).show(context);
+                            audioDownloadViewModel.stopDownload();
+                          }
+                        : null,
+                    child: Text(AppLocalizations.of(context)!.stopDownload),
+                  ),
+                ),
+              ],
+            ),
           ),
           // displaying the currently downloading audiodownload
           // informations.
