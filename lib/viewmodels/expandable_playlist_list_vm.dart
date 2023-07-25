@@ -133,11 +133,23 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
 
     if (selectedPlaylistIndex != -1) {
       _isPlaylistSelected = true;
+
+      // required so that the TextField keyed by 
+      // 'selectedPlaylistTextField' below the playlist URL TextField
+      // is initialized at app startup
+      _uniqueSelectedPlaylist = _listOfSelectablePlaylists[selectedPlaylistIndex];
+
       _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
         selectedPlaylist: _listOfSelectablePlaylists[selectedPlaylistIndex],
       );
     } else {
       _isPlaylistSelected = false;
+
+      // required so that the TextField keyed by 
+      // 'selectedPlaylistTextField' below the playlist URL TextField
+      // is initialized at app startup
+      _uniqueSelectedPlaylist = null;
+
       _disableAllButtonsIfNoPlaylistIsSelected();
     }
 
@@ -241,6 +253,8 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     Playlist? selectedPlaylist,
   }) {
     _uniqueSelectedPlaylist = selectedPlaylist;
+
+    notifyListeners();
   }
 
   /// Method called by PlaylistItemWidget when the user clicks on
@@ -299,10 +313,20 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
         playlistId: playlistSelectedOrUnselected.id,
         isPlaylistSelected: false,
       );
+
+      // required so that the TextField keyed by
+      // 'selectedPlaylistTextField' below
+      // the playlist URL TextField is updated
+      _uniqueSelectedPlaylist = null;
     } else {
       _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
         selectedPlaylist: playlistSelectedOrUnselected,
       );
+
+      // required so that the TextField keyed by
+      // 'selectedPlaylistTextField' below
+      // the playlist URL TextField is updated
+      _uniqueSelectedPlaylist = playlistSelectedOrUnselected;
     }
 
     notifyListeners();

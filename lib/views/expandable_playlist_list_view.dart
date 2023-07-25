@@ -129,7 +129,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded( // necessary to avoid Exception
+                Expanded(
+                  // necessary to avoid Exception
                   child: Column(
                     children: [
                       Expanded(
@@ -139,17 +140,17 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           controller: _playlistUrlController,
                           style: const TextStyle(fontSize: 15),
                           decoration: InputDecoration(
-                            labelText:
-                                AppLocalizations.of(context)!.ytPlaylistLinkLabel,
-                            hintText:
-                                AppLocalizations.of(context)!.ytPlaylistLinkHintText,
+                            labelText: AppLocalizations.of(context)!
+                                .ytPlaylistLinkLabel,
+                            hintText: AppLocalizations.of(context)!
+                                .ytPlaylistLinkHintText,
                             border: const OutlineInputBorder(),
                             isDense: true,
                             contentPadding: const EdgeInsets.all(10),
                           ),
                         ),
                       ),
-                       const SizedBox(
+                      const SizedBox(
                         height:
                             kRowHeightSeparator, // controls the space between TextFields
                       ),
@@ -157,19 +158,24 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         flex: 4, // controls the height ratio
                         child: TextField(
                           key: const Key('selectedPlaylistTextField'),
-                          maxLines: 1,
-                          style: const TextStyle(fontSize: 12),
                           readOnly: true,
-                          controller:
-                              _smallTextFieldController,
+                          controller: TextEditingController(
+                            text: Provider.of<ExpandablePlaylistListVM>(context)
+                                    .uniqueSelectedPlaylist
+                                    ?.title ??
+                                '',
+                          ),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             isDense: true,
                             contentPadding: EdgeInsets.all(10),
                           ),
+                          style: const TextStyle(
+                            fontSize: 12,
+                          ),
                         ),
                       ),
-                   ],
+                    ],
                   ),
                 ),
                 const SizedBox(
