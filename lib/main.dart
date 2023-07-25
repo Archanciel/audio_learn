@@ -164,10 +164,13 @@ class MainApp extends StatelessWidget {
                             kIconColor, // Set Checkbox check color
                           ),
                         ),
-                    inputDecorationTheme: InputDecorationTheme(
-                      fillColor: Colors.grey[900],
+                    // determines the background color and border of
+                    // TextField
+                    inputDecorationTheme: const InputDecorationTheme(
+                      // fillColor: Colors.grey[900],
+                      fillColor: Colors.black,
                       filled: true,
-                      border: const OutlineInputBorder(),
+                      border: OutlineInputBorder(),
                     ),
                     textSelectionTheme: TextSelectionThemeData(
                       cursorColor: Colors.white,

@@ -145,7 +145,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                 AppLocalizations.of(context)!.ytPlaylistLinkHintText,
                             border: const OutlineInputBorder(),
                             isDense: true,
-                            contentPadding: EdgeInsets.all(10),
+                            contentPadding: const EdgeInsets.all(10),
                           ),
                         ),
                       ),
@@ -161,10 +161,9 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           style: const TextStyle(fontSize: 12),
                           readOnly: true,
                           controller:
-                              _smallTextFieldController, // define a new controller for this field
+                              _smallTextFieldController,
                           decoration: const InputDecoration(
-                            labelText: 'Selected playlists',
-                            border: OutlineInputBorder(),
+                            border: InputBorder.none,
                             isDense: true,
                             contentPadding: EdgeInsets.all(10),
                           ),
