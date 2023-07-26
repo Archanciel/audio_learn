@@ -441,6 +441,11 @@ void main() {
       ));
       expect(firstListItemCheckbox.value, isFalse);
 
+      // Verify that the selected playlist TextField is empty
+      TextField selectedPlaylistTextField = tester.widget(find.byKey(
+          const Key('selectedPlaylistTextField')));
+      expect(selectedPlaylistTextField.controller!.text, '');
+
       // Check the saved local playlist values in the json file,
       // before the playlist will be selected
 
@@ -477,6 +482,12 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
+      // Verify that the selected playlist TextField contains the
+      // title of the selected playlist
+      selectedPlaylistTextField = tester.widget(find.byKey(
+          const Key('selectedPlaylistTextField')));
+      expect(selectedPlaylistTextField.controller!.text, localPlaylistTitle);
+
       // Check the saved local playlist values in the json file
 
       // Load playlist from the json file
@@ -501,6 +512,11 @@ void main() {
         matching: find.byWidgetPredicate((widget) => widget is Checkbox),
       ));
       await tester.pumpAndSettle();
+
+      // Verify that the selected playlist TextField is empty
+      selectedPlaylistTextField = tester.widget(find.byKey(
+          const Key('selectedPlaylistTextField')));
+      expect(selectedPlaylistTextField.controller!.text, '');
 
       // Check the saved local playlist values in the json file
 
