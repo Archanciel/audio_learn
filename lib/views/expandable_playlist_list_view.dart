@@ -151,10 +151,6 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           maxLines: 1,
                         ),
                       ),
-                      // const SizedBox(
-                      //   height:
-                      //       0, // controls the space between TextFields
-                      // ),
                       Expanded(
                         flex: 3, // controls the height ratio
                         child: TextField(
@@ -179,6 +175,9 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       ),
                     ],
                   ),
+                ),
+                const SizedBox(
+                  width: kRowWidthSeparator,
                 ),
                 SizedBox(
                   width: kSmallButtonWidth,
