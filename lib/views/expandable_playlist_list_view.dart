@@ -125,7 +125,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
             },
           ),
           SizedBox(
-            height: 50,
+            height: 40,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -134,7 +134,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                   child: Column(
                     children: [
                       Expanded(
-                        flex: 6,
+                        flex: 7,
                         child: TextField(
                           key: const Key('playlistUrlTextField'),
                           controller: _playlistUrlController,
@@ -146,16 +146,17 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                 .ytPlaylistLinkHintText,
                             border: const OutlineInputBorder(),
                             isDense: true,
-                            contentPadding: const EdgeInsets.all(10),
+                            contentPadding: const EdgeInsets.all(2),
                           ),
+                          maxLines: 1,
                         ),
                       ),
-                      const SizedBox(
-                        height:
-                            kRowHeightSeparator, // controls the space between TextFields
-                      ),
+                      // const SizedBox(
+                      //   height:
+                      //       0, // controls the space between TextFields
+                      // ),
                       Expanded(
-                        flex: 4, // controls the height ratio
+                        flex: 3, // controls the height ratio
                         child: TextField(
                           key: const Key('selectedPlaylistTextField'),
                           readOnly: true,
@@ -168,18 +169,16 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             isDense: true,
-                            contentPadding: EdgeInsets.all(10),
+                            contentPadding: EdgeInsets.all(2),
                           ),
                           style: const TextStyle(
                             fontSize: 12,
                           ),
+                          maxLines: 1,
                         ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  width: kRowWidthSeparator,
                 ),
                 SizedBox(
                   width: kSmallButtonWidth,
