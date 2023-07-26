@@ -250,7 +250,7 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
               child: Text(
                 AppLocalizations.of(context)!.title,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 17),
+                style: const TextStyle(fontSize: 17),
               ),
             ),
             InkWell(
