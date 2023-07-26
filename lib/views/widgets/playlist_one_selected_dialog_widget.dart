@@ -10,10 +10,24 @@ class PlaylistOneSelectableDialogWidget extends StatefulWidget {
   final FocusNode focusNode;
   final Playlist? excludedPlaylist;
 
+  // Displaying the audio only checkbox is useful when the dialog is used
+  // in order to move an Audio file to a destination playlist.
+  //
+  // Setting the checkbox to true has the effect that the Audio entry in
+  // the source playlist is not deleted, which has the advantage that it
+  // is not necessary to remove the Audio video link from the Youtube
+  // source playlist in order to avoid to redownload it the next time
+  // download all is applyed to the source playlist.
+  //
+  // In any case, the moved Audio playlist entry is added to the
+  // destination playlist.
+  final bool isAudioOnlyCheckboxDisplayed;
+
   const PlaylistOneSelectableDialogWidget({
     super.key,
     required this.focusNode,
     this.excludedPlaylist,
+    this.isAudioOnlyCheckboxDisplayed = false,
   });
 
   @override
@@ -76,6 +90,18 @@ class _PlaylistOneSelectableDialogWidgetState
               ),
             ),
             actions: [
+              Text(AppLocalizations.of(context)!.keepAudioEntryInSourcePlaylist),
+              Checkbox(
+                value: true,
+                onChanged: (bool? newValue) {
+                  setState(() {
+                    // _ignoreCase = newValue!;
+                  });
+                  // now clicking on Enter works since the
+                  // Checkbox is not focused anymore
+                  // _audioTitleSubStringFocusNode.requestFocus();
+                },
+              ),
               ElevatedButton(
                 onPressed: () {
                   expandablePlaylistVM.setUniqueSelectedPlaylist(
