@@ -82,7 +82,8 @@ class MainApp extends StatelessWidget {
     required SettingsDataService settingsDataService,
     bool isTest = false,
     super.key,
-  }) : _isTest = isTest, _settingsDataService = settingsDataService;
+  })  : _isTest = isTest,
+        _settingsDataService = settingsDataService;
 
   @override
   Widget build(BuildContext context) {
@@ -243,9 +244,15 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          // mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(AppLocalizations.of(context)!.title),
+            Flexible(
+              child: Text(
+                AppLocalizations.of(context)!.title,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 17),
+              ),
+            ),
             InkWell(
               key: const Key('image_open_youtube'),
               onTap: () async {
@@ -254,7 +261,7 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
                 );
               },
               child: Image.asset('assets/images/youtube-logo-png-2069.png',
-                  height: 47),
+                  height: 38),
             ),
           ],
         ),
