@@ -97,17 +97,15 @@ class ScreenMixin {
             child: Text(label),
           ),
           Expanded(
-            child: InkWell(
-              child: TextField(
-                key: valueTextFieldWidgetKey,
-                controller: controller,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(8),
-                ),
-                focusNode: textFieldFocusNode,
+            child: TextField(
+              key: valueTextFieldWidgetKey,
+              controller: controller,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                isDense: true,
+                contentPadding: EdgeInsets.all(8),
               ),
+              focusNode: textFieldFocusNode,
             ),
           ),
         ],
