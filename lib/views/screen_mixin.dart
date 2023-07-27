@@ -103,6 +103,8 @@ class ScreenMixin {
                 controller: controller,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(8),
                 ),
                 focusNode: textFieldFocusNode,
               ),
