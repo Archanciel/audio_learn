@@ -134,7 +134,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                   child: Column(
                     children: [
                       Expanded(
-                        flex: 7,
+                        flex: 6, // controls the height ratio
                         child: TextField(
                           key: const Key('playlistUrlTextField'),
                           controller: _playlistUrlController,
@@ -152,7 +152,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         ),
                       ),
                       Expanded(
-                        flex: 3, // controls the height ratio
+                        flex: 4, // controls the height ratio
                         child: TextField(
                           key: const Key('selectedPlaylistTextField'),
                           readOnly: true,
