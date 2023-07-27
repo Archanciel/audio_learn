@@ -24,6 +24,12 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
 
 class _SortAndFilterAudioDialogWidgetState
     extends State<SortAndFilterAudioDialogWidget> {
+  final InputDecoration _dialogTextFieldDecoration = const InputDecoration(
+    isDense: true, //  better aligns the text vertically
+    contentPadding: EdgeInsets.all(8),
+    border: OutlineInputBorder(),
+  );
+
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash
@@ -61,16 +67,17 @@ class _SortAndFilterAudioDialogWidgetState
 
   @override
   void initState() {
-    super.initState();    
-    
-    // Add this line to request focus on the TextField after the build 
+    super.initState();
+
+    // Add this line to request focus on the TextField after the build
     // method has been called
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(
         _audioTitleSubStringFocusNode,
       );
-    });            
+    });
   }
+
   @override
   void dispose() {
     _startFileSizeController.dispose();
@@ -219,7 +226,7 @@ class _SortAndFilterAudioDialogWidgetState
                           key: const Key('audioTitleSubStringTextField'),
                           focusNode: _audioTitleSubStringFocusNode,
                           style: kDialogTextFieldStyle,
-                          decoration: kDialogTextFieldDecoration,
+                          decoration: _dialogTextFieldDecoration,
                           controller: _audioTitleSubStringController,
                           keyboardType: TextInputType.text,
                           onChanged: (value) {
@@ -308,7 +315,7 @@ class _SortAndFilterAudioDialogWidgetState
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               style: kDialogTextFieldStyle,
-                              decoration: kDialogTextFieldDecoration,
+                              decoration: _dialogTextFieldDecoration,
                               controller: _startDownloadDateTimeController,
                               keyboardType: TextInputType.number,
                             ),
@@ -347,7 +354,7 @@ class _SortAndFilterAudioDialogWidgetState
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               style: kDialogTextFieldStyle,
-                              decoration: kDialogTextFieldDecoration,
+                              decoration: _dialogTextFieldDecoration,
                               controller: _endDownloadDateTimeController,
                               keyboardType: TextInputType.number,
                             ),
@@ -386,7 +393,7 @@ class _SortAndFilterAudioDialogWidgetState
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               style: kDialogTextFieldStyle,
-                              decoration: kDialogTextFieldDecoration,
+                              decoration: _dialogTextFieldDecoration,
                               controller: _startUploadDateTimeController,
                               keyboardType: TextInputType.number,
                             ),
@@ -425,7 +432,7 @@ class _SortAndFilterAudioDialogWidgetState
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               style: kDialogTextFieldStyle,
-                              decoration: kDialogTextFieldDecoration,
+                              decoration: _dialogTextFieldDecoration,
                               controller: _endUploadDateTimeController,
                               keyboardType: TextInputType.number,
                             ),
@@ -449,7 +456,7 @@ class _SortAndFilterAudioDialogWidgetState
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               style: kDialogTextFieldStyle,
-                              decoration: kDialogTextFieldDecoration,
+                              decoration: _dialogTextFieldDecoration,
                               controller: _startFileSizeController,
                               keyboardType: TextInputType.number,
                             ),
@@ -461,7 +468,7 @@ class _SortAndFilterAudioDialogWidgetState
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               style: kDialogTextFieldStyle,
-                              decoration: kDialogTextFieldDecoration,
+                              decoration: _dialogTextFieldDecoration,
                               controller: _endFileSizeController,
                               keyboardType: TextInputType.number,
                             ),
@@ -485,7 +492,7 @@ class _SortAndFilterAudioDialogWidgetState
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               style: kDialogTextFieldStyle,
-                              decoration: kDialogTextFieldDecoration,
+                              decoration: _dialogTextFieldDecoration,
                               controller: _startAudioDurationController,
                               keyboardType: TextInputType.number,
                             ),
@@ -497,7 +504,7 @@ class _SortAndFilterAudioDialogWidgetState
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               style: kDialogTextFieldStyle,
-                              decoration: kDialogTextFieldDecoration,
+                              decoration: _dialogTextFieldDecoration,
                               controller: _endAudioDurationController,
                               keyboardType: TextInputType.number,
                             ),

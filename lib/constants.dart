@@ -72,11 +72,6 @@ const TextStyle kDialogTextFieldStyle = TextStyle(
 
 const double kDialogTextFieldHeight = 32.0;
 
-const InputDecoration kDialogTextFieldDecoration = InputDecoration(
-  isDense: true, //  better aligns the text vertically
-  border: InputBorder.none,
-);
-
 const String kYoutubeUrl = 'https://www.youtube.com/';
 
 // true makes sense if audios are played in 
