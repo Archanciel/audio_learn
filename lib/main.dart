@@ -180,6 +180,10 @@ class MainApp extends StatelessWidget {
                     ),
                   )
                 : ThemeData.light().copyWith(
+                    colorScheme: ThemeData.light().colorScheme.copyWith(
+                          background: Colors.white,
+                          surface: Colors.white,
+                        ),
                     primaryColor: Colors.white,
                     scaffoldBackgroundColor: Colors.white,
                     iconTheme: ThemeData.light().iconTheme.copyWith(
@@ -193,6 +197,16 @@ class MainApp extends StatelessWidget {
                             Colors.white, // Set button text color in light mode
                       ),
                     ),
+                    textTheme: ThemeData.light().textTheme.copyWith(
+                          bodyMedium: ThemeData.light()
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: kButtonColor),
+                          titleMedium: ThemeData.light()
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(color: Colors.black),
+                        ),
                     checkboxTheme: ThemeData.light().checkboxTheme.copyWith(
                           checkColor: MaterialStateProperty.all(
                             Colors.white, // Set Checkbox fill color
@@ -201,6 +215,22 @@ class MainApp extends StatelessWidget {
                             kIconColor, // Set Checkbox check color
                           ),
                         ),
+                    // determines the background color and border of
+                    // TextField
+                    inputDecorationTheme: const InputDecorationTheme(
+                      // fillColor: Colors.grey[900],
+                      fillColor: Colors.white,
+                      filled: true,
+                      border: OutlineInputBorder(),
+                    ),
+                    textSelectionTheme: TextSelectionThemeData(
+                      cursorColor: Colors.black,
+                      selectionColor: Colors.grey.withOpacity(0.3),
+                      selectionHandleColor: Colors.grey.withOpacity(0.5),
+                    ),
+                    // is required so that the icon color of the
+                    // ListTile items are correct. In dark mode, this
+                    // is specification is not required, I don't know why.
                     listTileTheme: ThemeData.light().listTileTheme.copyWith(
                           iconColor: kIconColor, // Set icon color in light mode
                         ),
