@@ -357,30 +357,88 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return Theme(
-                        data: Theme.of(context).copyWith(
-                          textTheme: const TextTheme(
-                            bodyMedium: TextStyle(
-                                color:
-                                    Colors.white), // or another color you need
-                          ),
-                        ),
-                        child: AboutDialog(
-                          applicationName: kApplicationName,
-                          applicationVersion: kApplicationVersion,
-                          applicationIcon: Image.asset(
-                              'assets/images/ic_launcher_cleaner_72.png'),
-                          children: <Widget>[
-                            Text(AppLocalizations.of(context)!.author),
-                            Text(AppLocalizations.of(context)!.authorName),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text(AppLocalizations.of(context)!
-                                  .aboutAppDescription),
-                            ),
-                          ],
-                        ),
-                      );
+                      bool isDarkTheme =
+                          themeProvider.currentTheme == AppTheme.dark;
+                      return isDarkTheme
+                          ? Theme(
+                              // Theme is required in dark mode in order
+                              // to improve the text color of the application
+                              // version so that it is better visible (white
+                              // instead of blue)
+                              data: Theme.of(context).copyWith(
+                                textTheme: const TextTheme(
+                                  bodyMedium: TextStyle(
+                                      color: Colors
+                                          .white), // or another color you need
+                                ),
+                              ),
+                              child: AboutDialog(
+                                applicationName: kApplicationName,
+                                applicationVersion: kApplicationVersion,
+                                applicationIcon: Image.asset(
+                                    'assets/images/ic_launcher_cleaner_72.png'),
+                                children: <Widget>[
+                                  Text(
+                                    AppLocalizations.of(context)!.author,
+                                    style: TextStyle(
+                                        color: isDarkTheme
+                                            ? Colors.white
+                                            : Colors.black),
+                                  ),
+                                  Text(
+                                    AppLocalizations.of(context)!.authorName,
+                                    style: TextStyle(
+                                        color: isDarkTheme
+                                            ? Colors.white
+                                            : Colors.black),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .aboutAppDescription,
+                                      style: TextStyle(
+                                          color: isDarkTheme
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : AboutDialog(
+                              applicationName: kApplicationName,
+                              applicationVersion: kApplicationVersion,
+                              applicationIcon: Image.asset(
+                                  'assets/images/ic_launcher_cleaner_72.png'),
+                              children: <Widget>[
+                                Text(
+                                  AppLocalizations.of(context)!.author,
+                                  style: TextStyle(
+                                      color: isDarkTheme
+                                          ? Colors.white
+                                          : Colors.black),
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)!.authorName,
+                                  style: TextStyle(
+                                      color: isDarkTheme
+                                          ? Colors.white
+                                          : Colors.black),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .aboutAppDescription,
+                                    style: TextStyle(
+                                        color: isDarkTheme
+                                            ? Colors.white
+                                            : Colors.black),
+                                  ),
+                                ),
+                              ],
+                            );
                     },
                   );
                   break;
