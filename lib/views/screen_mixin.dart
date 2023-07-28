@@ -5,6 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../constants.dart';
 
 class ScreenMixin {
+  static const double CHECKBOX_WIDTH_HEIGHT = 20.0;
+
   Future<void> openUrlInExternalApp({
     required String url,
   }) async {

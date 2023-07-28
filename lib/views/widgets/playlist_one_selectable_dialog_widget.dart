@@ -1,10 +1,13 @@
+import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/playlist.dart';
+import '../../services/settings_data_service.dart';
 import '../../viewmodels/expandable_playlist_list_vm.dart';
+import '../../viewmodels/theme_provider.dart';
 
 class PlaylistOneSelectableDialogWidget extends StatefulWidget {
   final FocusNode focusNode;
@@ -41,6 +44,8 @@ class _PlaylistOneSelectableDialogWidgetState
 
   @override
   Widget build(BuildContext context) {
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;
     return Consumer<ExpandablePlaylistListVM>(
       builder: (context, expandablePlaylistVM, _) {
         List<Playlist> upToDateSelectablePlaylists;
@@ -90,17 +95,35 @@ class _PlaylistOneSelectableDialogWidgetState
               ),
             ),
             actions: [
-              Text(AppLocalizations.of(context)!.keepAudioEntryInSourcePlaylist),
-              Checkbox(
-                value: true,
-                onChanged: (bool? newValue) {
-                  setState(() {
-                    // _ignoreCase = newValue!;
-                  });
-                  // now clicking on Enter works since the
-                  // Checkbox is not focused anymore
-                  // _audioTitleSubStringFocusNode.requestFocus();
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(width: 45.0,),
+                  Flexible(
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .keepAudioEntryInSourcePlaylist,
+                      style: TextStyle(
+                        color: isDarkTheme ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
+                    height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
+                    child: Checkbox(
+                      value: true,
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          // _ignoreCase = newValue!;
+                        });
+                        // now clicking on Enter works since the
+                        // Checkbox is not focused anymore
+                        // _audioTitleSubStringFocusNode.requestFocus();
+                      },
+                    ),
+                  ),
+                ],
               ),
               ElevatedButton(
                 onPressed: () {
