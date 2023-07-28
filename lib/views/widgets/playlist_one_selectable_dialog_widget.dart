@@ -98,8 +98,7 @@ class _PlaylistOneSelectableDialogWidgetState
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(width: 45.0,),
-                  Flexible(
+                  Expanded(
                     child: Text(
                       AppLocalizations.of(context)!
                           .keepAudioEntryInSourcePlaylist,
