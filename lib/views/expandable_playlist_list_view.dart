@@ -19,7 +19,7 @@ import 'widgets/audio_list_item_widget.dart';
 import 'screen_mixin.dart';
 import 'widgets/display_message_widget.dart';
 import 'widgets/playlist_list_item_widget.dart';
-import 'widgets/playlist_one_selected_dialog_widget.dart';
+import 'widgets/playlist_one_selectable_dialog_widget.dart';
 import 'widgets/sort_and_filter_audio_dialog_widget.dart';
 
 enum PlaylistPopupMenuButton {

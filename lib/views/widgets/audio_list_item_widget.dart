@@ -14,7 +14,7 @@ import '../../../utils/time_util.dart';
 import '../../constants.dart';
 import '../screen_mixin.dart';
 import 'audio_info_dialog_widget.dart';
-import 'playlist_one_selected_dialog_widget.dart';
+import 'playlist_one_selectable_dialog_widget.dart';
 
 enum AudioPopupMenuAction {
   openYoutubeVideo,
