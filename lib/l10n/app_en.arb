@@ -175,7 +175,7 @@
   "confirmDialogTitle": "CONFIRMATION",
   "confirmSingleVideoAudioPlaylistTitle": "Confirm playlist \"{title}\" for downloading single video audio.",
   "playlistJsonFileSizeLabel": "JSON file size",
-  "playlistOneSelectedDialogTitle": "Select a Playlist",
+  "playlistOneSelectedDialogTitle": "Select a playlist",
   "confirmButton": "Confirm",
   "enclosingPlaylistLabel": "Enclosing playlist",
   "audioNotMovedFromToPlaylist": "Audio \"{audioTitle}\" NOT moved from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.",

@@ -176,7 +176,7 @@
   "confirmDialogTitle": "CONFIRMATION",
   "confirmSingleVideoAudioPlaylistTitle": "Confirmez la playlist \"{title}\" sélectionnée pour le téléchargement de l'audio de la vidéo unique.",
   "playlistJsonFileSizeLabel": "Taille fichier JSON",
-  "playlistOneSelectedDialogTitle": "Sélectionnez une Playlist",
+  "playlistOneSelectedDialogTitle": "Sélectionnez une playlist",
   "confirmButton": "Confirmer",
   "enclosingPlaylistLabel": "Playlist englobante",
   "audioNotMovedFromToPlaylist": "L'audio \"{audioTitle}\" n'a pas été déplacé de la playlist \"{fromPlaylistTitle}\" vers la playlist \"{toPlaylistTitle}\" car il est déjà présent dans cette playlist.",
