@@ -128,6 +128,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   // Using FocusNode to enable clicking on Enter to close
                   // the dialog
                   final FocusNode focusNode = FocusNode();
+                  ExpandablePlaylistListVM expandablePlaylistVM =
+                      getAndInitializeExpandablePlaylistListVM(context);
 
                   showDialog(
                     context: context,
@@ -136,13 +138,12 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
                   ).then((_) {
-                    ExpandablePlaylistListVM expandablePlaylistVM =
-                        Provider.of<ExpandablePlaylistListVM>(context,
-                            listen: false);
                     selectedTargetPlaylist =
                         expandablePlaylistVM.uniqueSelectedPlaylist;
 
                     if (selectedTargetPlaylist == null) {
+                      // the case if no playlist was selected and
+                      // Confirm button was pressed
                       return;
                     }
 
@@ -159,6 +160,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   // Using FocusNode to enable clicking on Enter to close
                   // the dialog
                   final FocusNode focusNode = FocusNode();
+                  ExpandablePlaylistListVM expandablePlaylistVM =
+                      getAndInitializeExpandablePlaylistListVM(context);
 
                   showDialog(
                     context: context,
@@ -167,9 +170,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
                   ).then((_) {
-                    ExpandablePlaylistListVM expandablePlaylistVM =
-                        Provider.of<ExpandablePlaylistListVM>(context,
-                            listen: false);
                     selectedTargetPlaylist =
                         expandablePlaylistVM.uniqueSelectedPlaylist;
 
@@ -207,6 +207,23 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
       subtitle: Text(_buildSubTitle(context)),
       trailing: _buildPlayButton(),
     );
+  }
+
+  ExpandablePlaylistListVM getAndInitializeExpandablePlaylistListVM(
+      BuildContext context) {
+    ExpandablePlaylistListVM expandablePlaylistVM =
+        Provider.of<ExpandablePlaylistListVM>(context, listen: false);
+
+    // Resetting the selected playlist to null,
+    // otherwise, if the user selects a playlist, click
+    // on Confirm button and then opens the dialog again and
+    // clicks on the Cancel button, the previously selected
+    // playlist used as target playlist is still selected
+    expandablePlaylistVM.setUniqueSelectedPlaylist(
+      selectedPlaylist: null,
+    );
+
+    return expandablePlaylistVM;
   }
 
   String _buildSubTitle(BuildContext context) {
