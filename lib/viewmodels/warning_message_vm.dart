@@ -275,6 +275,8 @@ class WarningMessageVM extends ChangeNotifier {
   String get movedAudioValidVideoTitle => _movedAudioValidVideoTitle;
   String _movedFromPlaylistTitle = '';
   String get movedFromPlaylistTitle => _movedFromPlaylistTitle;
+  bool _keepAudioDataInSourcePlaylist = true;
+  bool get keepAudioDataInSourcePlaylist => _keepAudioDataInSourcePlaylist;
   String _movedToPlaylistTitle = '';
   String get movedToPlaylistTitle => _movedToPlaylistTitle;
   void setAudioNotMovedFromToPlaylistTitles(
@@ -296,9 +298,12 @@ class WarningMessageVM extends ChangeNotifier {
       {required String movedAudioValidVideoTitle,
       required String movedFromPlaylistTitle,
       required PlaylistType movedFromPlaylistType,
-      required String movedToPlaylistTitle}) {
+      required String movedToPlaylistTitle,
+      required bool keepAudioDataInSourcePlaylist,
+      }) {
     _movedAudioValidVideoTitle = movedAudioValidVideoTitle;
     _movedFromPlaylistTitle = movedFromPlaylistTitle;
+    _keepAudioDataInSourcePlaylist = keepAudioDataInSourcePlaylist;
     _movedFromPlaylistType = movedFromPlaylistType;
     _movedToPlaylistTitle = movedToPlaylistTitle;
 

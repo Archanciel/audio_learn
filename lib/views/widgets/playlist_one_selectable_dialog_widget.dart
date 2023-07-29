@@ -41,6 +41,7 @@ class PlaylistOneSelectableDialogWidget extends StatefulWidget {
 class _PlaylistOneSelectableDialogWidgetState
     extends State<PlaylistOneSelectableDialogWidget> {
   Playlist? _selectedPlaylist;
+  bool _keepAudioDataInSourcePlaylist = true;
 
   @override
   Widget build(BuildContext context) {
@@ -111,10 +112,10 @@ class _PlaylistOneSelectableDialogWidgetState
                     width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
                     height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
                     child: Checkbox(
-                      value: true,
+                      value: _keepAudioDataInSourcePlaylist,
                       onChanged: (bool? newValue) {
                         setState(() {
-                          // _ignoreCase = newValue!;
+                          _keepAudioDataInSourcePlaylist = newValue!;
                         });
                         // now clicking on Enter works since the
                         // Checkbox is not focused anymore
@@ -129,7 +130,7 @@ class _PlaylistOneSelectableDialogWidgetState
                   expandablePlaylistVM.setUniqueSelectedPlaylist(
                     selectedPlaylist: _selectedPlaylist,
                   );
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(_keepAudioDataInSourcePlaylist);
                 },
                 child: Text(AppLocalizations.of(context)!.confirmButton),
               ),

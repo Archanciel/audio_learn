@@ -446,10 +446,12 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   void moveAudioToPlaylist({
     required Audio audio,
     required Playlist targetPlaylist,
+    required bool keepAudioDataInSourcePlaylist
   }) {
     _audioDownloadVM.moveAudioToPlaylist(
       audio: audio,
       targetPlaylist: targetPlaylist,
+      keepAudioDataInSourcePlaylist: keepAudioDataInSourcePlaylist
     );
 
     _removeAudioFromSortedFilteredPlayableAudioList(audio);

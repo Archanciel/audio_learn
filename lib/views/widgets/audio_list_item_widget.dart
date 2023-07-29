@@ -137,7 +137,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       focusNode: focusNode,
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
-                  ).then((_) {
+                  ).then((keepAudioDataInSourcePlaylist) {
                     selectedTargetPlaylist =
                         expandablePlaylistVM.uniqueSelectedPlaylist;
 
@@ -150,6 +150,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                     expandablePlaylistVM.moveAudioToPlaylist(
                       audio: audio,
                       targetPlaylist: selectedTargetPlaylist!,
+                      keepAudioDataInSourcePlaylist:
+                          keepAudioDataInSourcePlaylist,
                     );
                   });
                   focusNode.requestFocus();

@@ -270,12 +270,21 @@ class DisplayMessageWidget extends StatelessWidget {
               _warningMessageVM.movedToPlaylistTitle,
             );
           } else {
-            audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
-                .audioMovedFromYoutubePlaylistToPlaylist(
-              _warningMessageVM.movedAudioValidVideoTitle,
-              _warningMessageVM.movedFromPlaylistTitle,
-              _warningMessageVM.movedToPlaylistTitle,
-            );
+            if (!_warningMessageVM.keepAudioDataInSourcePlaylist) {
+              audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioMovedFromYoutubePlaylistToPlaylistPlaylistWarning(
+                _warningMessageVM.movedAudioValidVideoTitle,
+                _warningMessageVM.movedFromPlaylistTitle,
+                _warningMessageVM.movedToPlaylistTitle,
+              );
+            } else {
+              audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioMovedFromYoutubePlaylistToPlaylist(
+                _warningMessageVM.movedAudioValidVideoTitle,
+                _warningMessageVM.movedFromPlaylistTitle,
+                _warningMessageVM.movedToPlaylistTitle,
+              );
+            }
           }
           _displayWarningDialog(
             context: _context,

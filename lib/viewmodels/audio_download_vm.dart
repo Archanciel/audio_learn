@@ -649,10 +649,10 @@ class AudioDownloadVM extends ChangeNotifier {
     }
   }
 
-  void moveAudioToPlaylist({
-    required Audio audio,
-    required Playlist targetPlaylist,
-  }) {
+  void moveAudioToPlaylist(
+      {required Audio audio,
+      required Playlist targetPlaylist,
+      required bool keepAudioDataInSourcePlaylist}) {
     Playlist fromPlaylist = audio.enclosingPlaylist!;
 
     bool wasFileMoved = DirUtil.moveFileToDirectorySync(
@@ -669,7 +669,10 @@ class AudioDownloadVM extends ChangeNotifier {
       return;
     }
 
-    fromPlaylist.removeDownloadedAudio(audio);
+    if (!keepAudioDataInSourcePlaylist) {
+      fromPlaylist.removeDownloadedAudio(audio);
+    }
+
     targetPlaylist.addDownloadedAudio(audio);
 
     JsonDataService.saveToFile(
@@ -686,7 +689,8 @@ class AudioDownloadVM extends ChangeNotifier {
         movedAudioValidVideoTitle: audio.validVideoTitle,
         movedFromPlaylistTitle: fromPlaylist.title,
         movedFromPlaylistType: fromPlaylist.playlistType,
-        movedToPlaylistTitle: targetPlaylist.title);
+        movedToPlaylistTitle: targetPlaylist.title,
+        keepAudioDataInSourcePlaylist: keepAudioDataInSourcePlaylist);
   }
 
   void copyAudioToPlaylist({
