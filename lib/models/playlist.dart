@@ -113,6 +113,17 @@ class Playlist {
     playableAudioLst.insert(0, downloadedAudio);
   }
 
+  /// Adds the moved audio to the playableAudioLst and sets the
+  /// enclosingPlaylist to this as well as the movedFromPlaylistTitle.
+  void addMovedAudio({
+    required Audio movedAudio,
+    required String movedFromPlaylistTitle,
+  }) {
+    movedAudio.enclosingPlaylist = this;
+    movedAudio.movedFromPlaylistTitle = movedFromPlaylistTitle;
+    playableAudioLst.insert(0, movedAudio);
+  }
+
   /// Removes the downloaded audio from the downloadedAudioLst
   /// and from the playableAudioLst.
   void removeDownloadedAudioFromDownloadAndPlayableAudioLst({
@@ -139,6 +150,15 @@ class Playlist {
     }
 
     playableAudioLst.remove(downloadedAudio);
+  }
+
+  void setMovedAudioToPlaylistTitle({
+    required String videoUrl,
+    required String movedToPlaylistTitle,
+  }) {
+    downloadedAudioLst
+        .firstWhere((audio) => audio.videoUrl == videoUrl)
+        .movedToPlaylistTitle = movedToPlaylistTitle;
   }
 
   /// Used when uploading the Playlist json file. Since the

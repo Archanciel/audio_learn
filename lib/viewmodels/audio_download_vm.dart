@@ -678,13 +678,20 @@ class AudioDownloadVM extends ChangeNotifier {
       fromPlaylist.removeDownloadedAudioFromPlayableAudioLstOnly(
         downloadedAudio: audio,
       );
+      fromPlaylist.setMovedAudioToPlaylistTitle(
+        videoUrl: audio.videoUrl,
+        movedToPlaylistTitle: targetPlaylist.title,
+      );
     } else {
       fromPlaylist.removeDownloadedAudioFromDownloadAndPlayableAudioLst(
         downloadedAudio: audio,
       );
     }
 
-    targetPlaylist.addDownloadedAudio(audio);
+    targetPlaylist.addMovedAudio(
+      movedAudio: audio,
+      movedFromPlaylistTitle: fromPlaylist.title,
+    );
 
     JsonDataService.saveToFile(
       model: fromPlaylist,
