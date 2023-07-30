@@ -12,6 +12,8 @@ void main() {
     test('sort by title', () {
       final Audio zebra = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Zebra ?',
         compactVideoDescription: '',
         validVideoTitle: 'Zebra',
@@ -27,6 +29,8 @@ void main() {
       );
       final Audio apple = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Apple ?',
         compactVideoDescription: '',
         validVideoTitle: 'Apple',
@@ -42,6 +46,8 @@ void main() {
       );
       final Audio bananna = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Bananna ?',
         compactVideoDescription: '',
         validVideoTitle: 'Bananna',
@@ -104,6 +110,8 @@ void main() {
     test('sort by title starting with non language chars', () {
       Audio title = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: "'title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "'title",
@@ -120,6 +128,8 @@ void main() {
 
       Audio avecPercentTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: "%avec percent title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "%avec percent title",
@@ -136,6 +146,8 @@ void main() {
 
       Audio percentTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: "%percent title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "%percent title",
@@ -152,6 +164,8 @@ void main() {
 
       Audio powerTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: "power title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "power title",
@@ -168,6 +182,8 @@ void main() {
 
       Audio amenTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: "#'amen title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "#'amen title",
@@ -184,6 +200,8 @@ void main() {
 
       Audio epicure = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: "ÉPICURE - La mort n'est rien 📏",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "ÉPICURE - La mort n'est rien",
@@ -200,6 +218,8 @@ void main() {
 
       Audio ninetyFiveTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: "%95 title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "%95 title",
@@ -216,6 +236,8 @@ void main() {
 
       Audio ninetyThreeTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: "93 title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "93 title",
@@ -232,6 +254,8 @@ void main() {
 
       Audio ninetyFourTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: "#94 title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "#94 title",
@@ -248,6 +272,8 @@ void main() {
 
       Audio echapper = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: "Échapper à l'illusion de l'esprit",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "Échapper à l'illusion de l'esprit",
@@ -264,7 +290,9 @@ void main() {
 
       Audio evidentTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: "évident title",
+         movedFromPlaylist: null,
+        movedToPlaylist: null,
+       originalVideoTitle: "évident title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "évident title",
         videoUrl: 'videoUrl',
@@ -280,7 +308,9 @@ void main() {
 
       Audio aLireTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: "à lire title",
+         movedFromPlaylist: null,
+        movedToPlaylist: null,
+       originalVideoTitle: "à lire title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "à lire title",
         videoUrl: 'videoUrl',
@@ -296,7 +326,9 @@ void main() {
 
       Audio nineTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: "9 title",
+          movedFromPlaylist: null,
+        movedToPlaylist: null,
+      originalVideoTitle: "9 title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "9 title",
         videoUrl: 'videoUrl',
@@ -312,7 +344,9 @@ void main() {
 
       Audio eightTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: "8 title",
+           movedFromPlaylist: null,
+        movedToPlaylist: null,
+     originalVideoTitle: "8 title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "8 title",
         videoUrl: 'videoUrl',
@@ -328,7 +362,9 @@ void main() {
 
       Audio eventuelTitle = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: "éventuel title",
+         movedFromPlaylist: null,
+        movedToPlaylist: null,
+       originalVideoTitle: "éventuel title",
         compactVideoDescription: 'compactVideoDescription',
         validVideoTitle: "éventuel title",
         videoUrl: 'videoUrl',
@@ -470,7 +506,9 @@ void main() {
     test('filter and sort by title and description with search word in title only', () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Zebra ?',
+          movedFromPlaylist: null,
+        movedToPlaylist: null,
+      originalVideoTitle: 'Zebra ?',
         compactVideoDescription: '',
         validVideoTitle: 'Zebra 1',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -485,6 +523,8 @@ void main() {
       );
       final Audio apple = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Apple ?',
         compactVideoDescription: '',
         validVideoTitle: 'Apple',
@@ -500,7 +540,9 @@ void main() {
       );
       final Audio zebra3 = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Zebra ?',
+         movedFromPlaylist: null,
+        movedToPlaylist: null,
+       originalVideoTitle: 'Zebra ?',
         compactVideoDescription: '',
         validVideoTitle: 'Zebra 3',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -515,6 +557,8 @@ void main() {
       );
       final Audio bananna = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Bananna ?',
         compactVideoDescription: '',
         validVideoTitle: 'Bananna',
@@ -530,7 +574,9 @@ void main() {
       );
       final Audio zebra2 = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Zebra ?',
+            movedFromPlaylist: null,
+        movedToPlaylist: null,
+    originalVideoTitle: 'Zebra ?',
         compactVideoDescription: '',
         validVideoTitle: 'Zebra 2',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -643,7 +689,9 @@ void main() {
         () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Zebra ?',
+            movedFromPlaylist: null,
+        movedToPlaylist: null,
+    originalVideoTitle: 'Zebra ?',
         compactVideoDescription: 'Julien Bam',
         validVideoTitle: 'Zebra 1',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -658,7 +706,9 @@ void main() {
       );
       final Audio apple = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Apple ?',
+             movedFromPlaylist: null,
+        movedToPlaylist: null,
+   originalVideoTitle: 'Apple ?',
         compactVideoDescription: 'description',
         validVideoTitle: 'Apple',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -673,7 +723,9 @@ void main() {
       );
       final Audio zebra3 = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Zebra ?',
+           movedFromPlaylist: null,
+        movedToPlaylist: null,
+     originalVideoTitle: 'Zebra ?',
         compactVideoDescription: 'Julien Bam',
         validVideoTitle: 'Zebra 3',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -688,7 +740,9 @@ void main() {
       );
       final Audio bananna = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Bananna ?',
+           movedFromPlaylist: null,
+        movedToPlaylist: null,
+     originalVideoTitle: 'Bananna ?',
         compactVideoDescription: '',
         validVideoTitle: 'Bananna',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -703,7 +757,9 @@ void main() {
       );
       final Audio zebra2 = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Zebra ?',
+            movedFromPlaylist: null,
+        movedToPlaylist: null,
+    originalVideoTitle: 'Zebra ?',
         compactVideoDescription: 'Julien Goal',
         validVideoTitle: 'Zebra 2',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -776,7 +832,9 @@ void main() {
         () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Zebra ?',
+          movedFromPlaylist: null,
+        movedToPlaylist: null,
+      originalVideoTitle: 'Zebra ?',
         compactVideoDescription: 'Julien Bam',
         validVideoTitle: 'Zebra 1',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -791,7 +849,9 @@ void main() {
       );
       final Audio apple = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Apple ?',
+            movedFromPlaylist: null,
+        movedToPlaylist: null,
+    originalVideoTitle: 'Apple ?',
         compactVideoDescription: 'description',
         validVideoTitle: 'Apple Julien',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -926,7 +986,9 @@ void main() {
       );
       final Audio apple = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Apple ?',
+           movedFromPlaylist: null,
+        movedToPlaylist: null,
+     originalVideoTitle: 'Apple ?',
         compactVideoDescription: 'description',
         validVideoTitle: 'Apple Julien',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -941,7 +1003,9 @@ void main() {
       );
       final Audio zebra3 = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Zebra ?',
+          movedFromPlaylist: null,
+        movedToPlaylist: null,
+      originalVideoTitle: 'Zebra ?',
         compactVideoDescription: 'Julien Bam',
         validVideoTitle: 'Zebra 3',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -956,7 +1020,9 @@ void main() {
       );
       final Audio bananna = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Bananna ?',
+         movedFromPlaylist: null,
+        movedToPlaylist: null,
+       originalVideoTitle: 'Bananna ?',
         compactVideoDescription: '',
         validVideoTitle: 'Bananna',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
@@ -971,7 +1037,9 @@ void main() {
       );
       final Audio zebra2 = Audio.fullConstructor(
         enclosingPlaylist: null,
-        originalVideoTitle: 'Zebra ?',
+            movedFromPlaylist: null,
+        movedToPlaylist: null,
+    originalVideoTitle: 'Zebra ?',
         compactVideoDescription: 'Julien Goal',
         validVideoTitle: 'Zebra 2',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',

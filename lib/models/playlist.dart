@@ -65,7 +65,7 @@ class Playlist {
       isSelected: json['isSelected'],
     );
 
-    // Deserialize the Audio instances in the 
+    // Deserialize the Audio instances in the
     // downloadedAudioLst
     if (json['downloadedAudioLst'] != null) {
       for (var audioJson in json['downloadedAudioLst']) {
@@ -115,12 +115,29 @@ class Playlist {
 
   /// Removes the downloaded audio from the downloadedAudioLst
   /// and from the playableAudioLst.
-  void removeDownloadedAudio(Audio downloadedAudio) {
+  void removeDownloadedAudioFromDownloadAndPlayableAudioLst({
+    required Audio downloadedAudio,
+  }) {
     if (downloadedAudio.enclosingPlaylist == this) {
       downloadedAudio.enclosingPlaylist = null;
     }
 
     downloadedAudioLst.remove(downloadedAudio);
+    playableAudioLst.remove(downloadedAudio);
+  }
+
+  /// Removes the downloaded audio from the playableAudioLst only.
+  ///
+  /// This is used when the downloaded audio is moved to another
+  /// playlist and is keeped in downloadedAudioLst of the source
+  /// playlist so that it will not be downloaded again.
+  void removeDownloadedAudioFromPlayableAudioLstOnly({
+    required Audio downloadedAudio,
+  }) {
+    if (downloadedAudio.enclosingPlaylist == this) {
+      downloadedAudio.enclosingPlaylist = null;
+    }
+
     playableAudioLst.remove(downloadedAudio);
   }
 

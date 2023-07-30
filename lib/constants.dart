@@ -23,6 +23,7 @@ const String kDownloadAppTestSavedDataDir =
 const String kDownloadAppTestDirWindows =
     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
 
+// usefull to delete all files in the audio dir of the emulator
 const bool kDeleteAppDir = false;
 
 const double kAudioDefaultSpeed = 1.0;

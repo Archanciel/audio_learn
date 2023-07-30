@@ -26,7 +26,7 @@ void main() {
       expect(playlist.playableAudioLst[2].originalVideoTitle, 'C');
     });
 
-    test('remove audio from downloaded audio list', () {
+    test('remove audio from downloaded and playable audio list', () {
       Playlist playlist = Playlist(
         url: 'https://example.com/playlist2',
         playlistType: PlaylistType.youtube,
@@ -37,11 +37,38 @@ void main() {
 
       expect(playlist.playableAudioLst.length, 3);
 
-      playlist.removeDownloadedAudio(playlist.playableAudioLst[1]);
+      playlist.removeDownloadedAudioFromDownloadAndPlayableAudioLst(
+        downloadedAudio: playlist.playableAudioLst[1],
+      );
 
       expect(playlist.downloadedAudioLst.length, 2);
       expect(playlist.downloadedAudioLst[0].originalVideoTitle, 'C');
       expect(playlist.downloadedAudioLst[1].originalVideoTitle, 'B');
+
+      expect(playlist.playableAudioLst.length, 2);
+      expect(playlist.playableAudioLst[0].originalVideoTitle, 'B');
+      expect(playlist.playableAudioLst[1].originalVideoTitle, 'C');
+    });
+
+    test('remove audio from playable audio list only', () {
+      Playlist playlist = Playlist(
+        url: 'https://example.com/playlist2',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.voice,
+      );
+
+      addDownloadedAudios(playlist);
+
+      expect(playlist.playableAudioLst.length, 3);
+
+      playlist.removeDownloadedAudioFromPlayableAudioLstOnly(
+        downloadedAudio: playlist.playableAudioLst[1],
+      );
+
+      expect(playlist.downloadedAudioLst.length, 3);
+      expect(playlist.downloadedAudioLst[0].originalVideoTitle, 'C');
+      expect(playlist.downloadedAudioLst[1].originalVideoTitle, 'A');
+      expect(playlist.downloadedAudioLst[2].originalVideoTitle, 'B');
 
       expect(playlist.playableAudioLst.length, 2);
       expect(playlist.playableAudioLst[0].originalVideoTitle, 'B');

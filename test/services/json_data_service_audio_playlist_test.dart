@@ -42,6 +42,8 @@ void main() {
       // Create an Audio instance
       Audio originalAudio = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Test Video Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -97,6 +99,8 @@ void main() {
       // Create an Audio instance
       Audio originalAudio = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Test Video Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -131,6 +135,25 @@ void main() {
       // Create a temporary directory to store the serialized Audio object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'audio.json');
+
+      Playlist testFromPlaylist = Playlist(
+        id: 'testFromPlaylist1ID',
+        title: 'Test From Playlist',
+        url: 'https://www.example.com/playlist-url',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.voice,
+        isSelected: true,
+      );
+
+      Playlist testToPlaylist = Playlist(
+        id: 'testToPlaylist1ID',
+        title: 'Test To Playlist',
+        url: 'https://www.example.com/playlist-url',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.voice,
+        isSelected: true,
+      );
+
       // Create a Playlist with 2 Audio instances
       Playlist testPlaylist = Playlist(
         id: 'testPlaylist1ID',
@@ -145,6 +168,8 @@ void main() {
 
       Audio audio1 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylist,
+        movedFromPlaylist: testFromPlaylist,
+        movedToPlaylist: null,
         originalVideoTitle: 'Test Video 1',
         compactVideoDescription: 'Test Video 1 Description',
         validVideoTitle: 'Test Video Title',
@@ -161,6 +186,8 @@ void main() {
 
       Audio audio2 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylist,
+        movedFromPlaylist: null,
+        movedToPlaylist: testToPlaylist,
         originalVideoTitle: 'Test Video 2',
         compactVideoDescription: 'Test Video 2 Description',
         validVideoTitle: 'Test Video Title',
@@ -257,6 +284,8 @@ void main() {
       // Create an Audio instance
       Audio originalAudio = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Test Video Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -289,6 +318,8 @@ void main() {
       // Create an Audio instance
       Audio audioOne = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Test Video One Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -305,6 +336,8 @@ void main() {
 
       Audio audioTwo = Audio.fullConstructor(
         enclosingPlaylist: null,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Test Video Two Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -367,6 +400,8 @@ void main() {
 
       Audio audio1 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistOne,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Test Video 1',
         compactVideoDescription: 'Test Video 1 compact description',
         validVideoTitle: 'Test Video Title',
@@ -383,6 +418,8 @@ void main() {
 
       Audio audio2 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistOne,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Test Video 2',
         compactVideoDescription: 'Test Video 2 compact description',
         validVideoTitle: 'Test Video Title',
@@ -413,6 +450,8 @@ void main() {
 
       Audio audio3 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistTwo,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Test Video 1',
         compactVideoDescription: 'Test Video 1 compact description',
         validVideoTitle: 'Test Video Title',
@@ -429,6 +468,8 @@ void main() {
 
       Audio audio4 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylistTwo,
+        movedFromPlaylist: null,
+        movedToPlaylist: null,
         originalVideoTitle: 'Test Video 2',
         compactVideoDescription: 'Test Video 2 compact description',
         validVideoTitle: 'Test Video Title',
@@ -531,6 +572,16 @@ void compareDeserializedWithOriginalAudio({
           originalAudio.enclosingPlaylist!.title)
       : expect(
           deserializedAudio.enclosingPlaylist, originalAudio.enclosingPlaylist);
+  (deserializedAudio.movedFromPlaylist != null)
+      ? expect(deserializedAudio.movedFromPlaylist!.title,
+          originalAudio.movedFromPlaylist!.title)
+      : expect(
+          deserializedAudio.movedFromPlaylist, originalAudio.movedFromPlaylist);
+  (deserializedAudio.movedToPlaylist != null)
+      ? expect(deserializedAudio.movedToPlaylist!.title,
+          originalAudio.movedToPlaylist!.title)
+      : expect(
+          deserializedAudio.movedToPlaylist, originalAudio.movedToPlaylist);
   expect(
       deserializedAudio.originalVideoTitle, originalAudio.originalVideoTitle);
   expect(deserializedAudio.validVideoTitle, originalAudio.validVideoTitle);

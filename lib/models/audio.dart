@@ -19,6 +19,12 @@ class Audio {
   // Playlist in which the video is referenced
   Playlist? enclosingPlaylist;
 
+  // Playlist from which the Audio was moved
+  Playlist? movedFromPlaylist;
+
+  // Playlist to which the Audio was moved
+  Playlist? movedToPlaylist;
+
   // Video title displayed on Youtube
   final String originalVideoTitle;
 
@@ -101,9 +107,12 @@ class Audio {
         audioFileName =
             '${buildDownloadDatePrefix(audioDownloadDateTime)}${createValidVideoTitle(originalVideoTitle)} ${buildUploadDateSuffix(videoUploadDate)}.mp3';
 
-  /// This constructor requires all instance variables
+  /// This constructor requires all instance variables. It is used
+  /// by the fromJson factory constructor.
   Audio.fullConstructor({
     required this.enclosingPlaylist,
+    required this.movedFromPlaylist,
+    required this.movedToPlaylist,
     required this.originalVideoTitle,
     required this.compactVideoDescription,
     required this.validVideoTitle,
@@ -124,6 +133,8 @@ class Audio {
     return Audio.fullConstructor(
       enclosingPlaylist:
           null, // You'll need to handle this separately, see note below
+      movedFromPlaylist: json['movedFromPlaylist'],
+      movedToPlaylist: json['movedToPlaylist'],
       originalVideoTitle: json['originalVideoTitle'],
       compactVideoDescription: json['compactVideoDescription'] ?? '',
       validVideoTitle: json['validVideoTitle'],
@@ -145,6 +156,8 @@ class Audio {
   // Method: converts an instance of Audio to a JSON object
   Map<String, dynamic> toJson() {
     return {
+      'movedFromPlaylist': movedFromPlaylist,
+      'movedToPlaylist': movedToPlaylist,
       'originalVideoTitle': originalVideoTitle,
       'compactVideoDescription': compactVideoDescription,
       'validVideoTitle': validVideoTitle,

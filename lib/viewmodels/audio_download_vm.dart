@@ -669,8 +669,19 @@ class AudioDownloadVM extends ChangeNotifier {
       return;
     }
 
-    if (!keepAudioDataInSourcePlaylist) {
-      fromPlaylist.removeDownloadedAudio(audio);
+    if (keepAudioDataInSourcePlaylist) {
+      // Keeping audio data in source playlist downloadedAudioLst
+      // means that the audio will not be redownloaded if the
+      // Download All is applyed to the source playlist. But since
+      // the audio is moved to the target playlist, it will has to
+      // be removed from the source playlist playableAudioLst.
+      fromPlaylist.removeDownloadedAudioFromPlayableAudioLstOnly(
+        downloadedAudio: audio,
+      );
+    } else {
+      fromPlaylist.removeDownloadedAudioFromDownloadAndPlayableAudioLst(
+        downloadedAudio: audio,
+      );
     }
 
     targetPlaylist.addDownloadedAudio(audio);
@@ -751,7 +762,9 @@ class AudioDownloadVM extends ChangeNotifier {
     Playlist? enclosingPlaylist = audio.enclosingPlaylist;
 
     // if (enclosingPlaylist != null) {
-    enclosingPlaylist!.removeDownloadedAudio(audio);
+    enclosingPlaylist!.removeDownloadedAudioFromDownloadAndPlayableAudioLst(
+      downloadedAudio: audio,
+    );
 
     JsonDataService.saveToFile(
       model: enclosingPlaylist,
