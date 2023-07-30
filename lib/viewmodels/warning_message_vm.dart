@@ -294,13 +294,13 @@ class WarningMessageVM extends ChangeNotifier {
 
   PlaylistType _movedFromPlaylistType = PlaylistType.youtube;
   PlaylistType get movedFromPlaylistType => _movedFromPlaylistType;
-  void setAudioMovedFromToPlaylistTitles(
-      {required String movedAudioValidVideoTitle,
-      required String movedFromPlaylistTitle,
-      required PlaylistType movedFromPlaylistType,
-      required String movedToPlaylistTitle,
-      required bool keepAudioDataInSourcePlaylist,
-      }) {
+  void setAudioMovedFromToPlaylistTitles({
+    required String movedAudioValidVideoTitle,
+    required String movedFromPlaylistTitle,
+    required PlaylistType movedFromPlaylistType,
+    required String movedToPlaylistTitle,
+    required bool keepAudioDataInSourcePlaylist,
+  }) {
     _movedAudioValidVideoTitle = movedAudioValidVideoTitle;
     _movedFromPlaylistTitle = movedFromPlaylistTitle;
     _keepAudioDataInSourcePlaylist = keepAudioDataInSourcePlaylist;

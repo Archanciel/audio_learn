@@ -20,10 +20,10 @@ class Audio {
   Playlist? enclosingPlaylist;
 
   // Playlist from which the Audio was moved
-  Playlist? movedFromPlaylist;
+  String? movedFromPlaylistTitle;
 
   // Playlist to which the Audio was moved
-  Playlist? movedToPlaylist;
+  String? movedToPlaylistTitle;
 
   // Video title displayed on Youtube
   final String originalVideoTitle;
@@ -111,8 +111,8 @@ class Audio {
   /// by the fromJson factory constructor.
   Audio.fullConstructor({
     required this.enclosingPlaylist,
-    required this.movedFromPlaylist,
-    required this.movedToPlaylist,
+    required this.movedFromPlaylistTitle,
+    required this.movedToPlaylistTitle,
     required this.originalVideoTitle,
     required this.compactVideoDescription,
     required this.validVideoTitle,
@@ -133,8 +133,8 @@ class Audio {
     return Audio.fullConstructor(
       enclosingPlaylist:
           null, // You'll need to handle this separately, see note below
-      movedFromPlaylist: json['movedFromPlaylist'],
-      movedToPlaylist: json['movedToPlaylist'],
+      movedFromPlaylistTitle: json['movedFromPlaylistTitle'],
+      movedToPlaylistTitle: json['movedToPlaylistTitle'],
       originalVideoTitle: json['originalVideoTitle'],
       compactVideoDescription: json['compactVideoDescription'] ?? '',
       validVideoTitle: json['validVideoTitle'],
@@ -156,8 +156,8 @@ class Audio {
   // Method: converts an instance of Audio to a JSON object
   Map<String, dynamic> toJson() {
     return {
-      'movedFromPlaylist': movedFromPlaylist,
-      'movedToPlaylist': movedToPlaylist,
+      'movedFromPlaylistTitle': movedFromPlaylistTitle,
+      'movedToPlaylistTitle': movedToPlaylistTitle,
       'originalVideoTitle': originalVideoTitle,
       'compactVideoDescription': compactVideoDescription,
       'validVideoTitle': validVideoTitle,
