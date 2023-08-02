@@ -708,6 +708,7 @@ class AudioDownloadVM extends ChangeNotifier {
         movedFromPlaylistTitle: fromPlaylist.title,
         movedFromPlaylistType: fromPlaylist.playlistType,
         movedToPlaylistTitle: targetPlaylist.title,
+        movedToPlaylistType: targetPlaylist.playlistType,
         keepAudioDataInSourcePlaylist: keepAudioDataInSourcePlaylist);
   }
 

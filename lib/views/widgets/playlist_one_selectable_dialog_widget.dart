@@ -96,35 +96,37 @@ class _PlaylistOneSelectableDialogWidgetState
               ),
             ),
             actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      AppLocalizations.of(context)!
-                          .keepAudioEntryInSourcePlaylist,
-                      style: TextStyle(
-                        color: isDarkTheme ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
-                    height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
-                    child: Checkbox(
-                      value: _keepAudioDataInSourcePlaylist,
-                      onChanged: (bool? newValue) {
-                        setState(() {
-                          _keepAudioDataInSourcePlaylist = newValue!;
-                        });
-                        // now clicking on Enter works since the
-                        // Checkbox is not focused anymore
-                        // _audioTitleSubStringFocusNode.requestFocus();
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              (widget.excludedPlaylist!.playlistType == PlaylistType.youtube)
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .keepAudioEntryInSourcePlaylist,
+                            style: TextStyle(
+                              color: isDarkTheme ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
+                          height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
+                          child: Checkbox(
+                            value: _keepAudioDataInSourcePlaylist,
+                            onChanged: (bool? newValue) {
+                              setState(() {
+                                _keepAudioDataInSourcePlaylist = newValue!;
+                              });
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
+                              // _audioTitleSubStringFocusNode.requestFocus();
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(),
               ElevatedButton(
                 onPressed: () {
                   expandablePlaylistVM.setUniqueSelectedPlaylist(

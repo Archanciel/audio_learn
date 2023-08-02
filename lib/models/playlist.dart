@@ -113,14 +113,22 @@ class Playlist {
     playableAudioLst.insert(0, downloadedAudio);
   }
 
-  /// Adds the moved audio to the playableAudioLst and sets the
-  /// enclosingPlaylist to this as well as the movedFromPlaylistTitle.
+  /// Adds the moved audio to the downloadedAudioLst and to the
+  /// playableAudioLst. Adding the audio to the downloadedAudioLst
+  /// is necessary even if the audio was not downloaded from this
+  /// playlist so that if the audio is then moved to another
+  /// playlist, the moving action will not fail since moving is
+  /// done from the downloadedAudioLst.
+  /// 
+  /// Before, sets the enclosingPlaylist to this as well as the
+  /// movedFromPlaylistTitle.
   void addMovedAudio({
     required Audio movedAudio,
     required String movedFromPlaylistTitle,
   }) {
     movedAudio.enclosingPlaylist = this;
     movedAudio.movedFromPlaylistTitle = movedFromPlaylistTitle;
+    downloadedAudioLst.add(movedAudio);
     playableAudioLst.insert(0, movedAudio);
   }
 

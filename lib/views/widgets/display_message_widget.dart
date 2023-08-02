@@ -263,27 +263,55 @@ class DisplayMessageWidget extends StatelessWidget {
           String audioMovedFromToPlaylistMessage;
 
           if (_warningMessageVM.movedFromPlaylistType == PlaylistType.local) {
-            audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
-                .audioMovedFromLocalPlaylistToPlaylist(
-              _warningMessageVM.movedAudioValidVideoTitle,
-              _warningMessageVM.movedFromPlaylistTitle,
-              _warningMessageVM.movedToPlaylistTitle,
-            );
+            if (_warningMessageVM.movedToPlaylistType == PlaylistType.local)
+              audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioMovedFromLocalPlaylistToLocalPlaylist(
+                _warningMessageVM.movedAudioValidVideoTitle,
+                _warningMessageVM.movedFromPlaylistTitle,
+                _warningMessageVM.movedToPlaylistTitle,
+              );
+            else {
+              audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioMovedFromLocalPlaylistToYoutubePlaylist(
+                _warningMessageVM.movedAudioValidVideoTitle,
+                _warningMessageVM.movedFromPlaylistTitle,
+                _warningMessageVM.movedToPlaylistTitle,
+              );
+            }
           } else {
             if (!_warningMessageVM.keepAudioDataInSourcePlaylist) {
-              audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
-                  .audioMovedFromYoutubePlaylistToPlaylistPlaylistWarning(
-                _warningMessageVM.movedAudioValidVideoTitle,
-                _warningMessageVM.movedFromPlaylistTitle,
-                _warningMessageVM.movedToPlaylistTitle,
-              );
+              if (_warningMessageVM.movedToPlaylistType ==
+                  PlaylistType.local) {
+                audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                    .audioMovedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(
+                  _warningMessageVM.movedAudioValidVideoTitle,
+                  _warningMessageVM.movedFromPlaylistTitle,
+                  _warningMessageVM.movedToPlaylistTitle,
+                );
+              } else {
+                audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                    .audioMovedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning(
+                  _warningMessageVM.movedAudioValidVideoTitle,
+                  _warningMessageVM.movedFromPlaylistTitle,
+                  _warningMessageVM.movedToPlaylistTitle,
+                );
+              }
             } else {
-              audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
-                  .audioMovedFromYoutubePlaylistToPlaylist(
-                _warningMessageVM.movedAudioValidVideoTitle,
-                _warningMessageVM.movedFromPlaylistTitle,
-                _warningMessageVM.movedToPlaylistTitle,
-              );
+              if (_warningMessageVM.movedToPlaylistType == PlaylistType.local)
+                audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                    .audioMovedFromYoutubePlaylistToLocalPlaylist(
+                  _warningMessageVM.movedAudioValidVideoTitle,
+                  _warningMessageVM.movedFromPlaylistTitle,
+                  _warningMessageVM.movedToPlaylistTitle,
+                );
+              else {
+                audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                    .audioMovedFromYoutubePlaylistToYoutubePlaylist(
+                  _warningMessageVM.movedAudioValidVideoTitle,
+                  _warningMessageVM.movedFromPlaylistTitle,
+                  _warningMessageVM.movedToPlaylistTitle,
+                );
+              }
             }
           }
           _displayWarningDialog(

@@ -180,12 +180,17 @@
   "enclosingPlaylistLabel": "Enclosing playlist",
   "audioNotMovedFromToPlaylist": "Audio \"{audioTitle}\" NOT moved from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.",
   "audioNotCopiedFromToPlaylist": "Audio \"{audioTitle}\" NOT copied from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.",
-  "audioMovedFromLocalPlaylistToPlaylist": "Audio \"{audioTitle}\" moved from local playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\".",
-  "audioMovedFromYoutubePlaylistToPlaylistPlaylistWarning": "Audio \"{audioTitle}\" moved from Youtube playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\".\n\nIF THE DELETED AUDIO VIDEO \"{audioTitle}\" REMAINS IN THE \"{fromPlaylistTitle}\" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !",
-  "audioMovedFromYoutubePlaylistToPlaylist": "Audio \"{audioTitle}\" moved from Youtube playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\".",
+  "audioMovedFromLocalPlaylistToLocalPlaylist": "Audio \"{audioTitle}\" moved from local playlist \"{fromPlaylistTitle}\" to local playlist \"{toPlaylistTitle}\".",
+  "audioMovedFromLocalPlaylistToYoutubePlaylist": "Audio \"{audioTitle}\" moved from local playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\".",
+  "audioMovedFromYoutubePlaylistToLocalPlaylistPlaylistWarning": "Audio \"{audioTitle}\" moved from Youtube playlist \"{fromPlaylistTitle}\" to local playlist \"{toPlaylistTitle}\".\n\nIF THE DELETED AUDIO VIDEO \"{audioTitle}\" REMAINS IN THE \"{fromPlaylistTitle}\" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !",
+  "audioMovedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning": "Audio \"{audioTitle}\" moved from Youtube playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\".\n\nIF THE DELETED AUDIO VIDEO \"{audioTitle}\" REMAINS IN THE \"{fromPlaylistTitle}\" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !",
+  "audioMovedFromYoutubePlaylistToLocalPlaylist": "Audio \"{audioTitle}\" moved from Youtube playlist \"{fromPlaylistTitle}\" to local playlist \"{toPlaylistTitle}\".",
+  "audioMovedFromYoutubePlaylistToYoutubePlaylist": "Audio \"{audioTitle}\" moved from Youtube playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\".",
   "audioCopiedFromToPlaylist": "Audio \"{audioTitle}\" copied from playlist \"{fromPlaylistTitle}\" to playlist \"{toPlaylistTitle}\".",
   "author": "Author:",
   "authorName": "Jean-Pierre Schnyder / Switzerland",
   "aboutAppDescription": "This application allows you to download audio from Youtube playlists or from single video links.\n\nThe future version will enable you to listen the audios, to add comments to them and to extract significative portions of the audio and share them or combine them in a new summary audio.",
-  "keepAudioEntryInSourcePlaylist": "Keep audio entry in source playlist"
+  "keepAudioEntryInSourcePlaylist": "Keep audio entry in source playlist",
+  "movedFromPlaylistLabel": "Moved from playlist",
+  "movedToPlaylistLabel": "Moved to playlist"
 }
