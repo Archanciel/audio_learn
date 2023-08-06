@@ -9,7 +9,6 @@ import 'package:path/path.dart' as path;
 // playlist class as Playlist so it does not conflict with
 // youtube_explode_dart Playlist class name.
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt;
-import 'package:audioplayers/audioplayers.dart';
 
 import '../services/json_data_service.dart';
 import '../models/audio.dart';
@@ -331,8 +330,6 @@ class AudioDownloadVM extends ChangeNotifier {
         audioDuration: audioDuration!,
       );
 
-      audio.audioPlayer = AudioPlayer();
-
       final bool alreadyDownloaded = downloadedAudioValidVideoTitleLst.any(
           (validVideoTitle) => validVideoTitle.contains(audio.validVideoTitle));
 
@@ -589,8 +586,6 @@ class AudioDownloadVM extends ChangeNotifier {
     } catch (e) {
       // file was not found in the downloaded audio directory
     }
-
-    audio.audioPlayer = AudioPlayer();
 
     Stopwatch stopwatch = Stopwatch()..start();
 
