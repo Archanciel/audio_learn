@@ -136,8 +136,8 @@ void main() {
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'audio.json');
 
-      final String testFromPlaylistTitle = 'testFromPlaylist1ID';
-      final String testToPlaylistTitle = 'testToPlaylist1ID';
+      const String testFromPlaylistTitle = 'testFromPlaylist1ID';
+      const String testToPlaylistTitle = 'testToPlaylist1ID';
 
       // Create a Playlist with 2 Audio instances
       Playlist testPlaylist = Playlist(

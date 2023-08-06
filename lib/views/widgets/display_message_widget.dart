@@ -263,14 +263,14 @@ class DisplayMessageWidget extends StatelessWidget {
           String audioMovedFromToPlaylistMessage;
 
           if (_warningMessageVM.movedFromPlaylistType == PlaylistType.local) {
-            if (_warningMessageVM.movedToPlaylistType == PlaylistType.local)
+            if (_warningMessageVM.movedToPlaylistType == PlaylistType.local) {
               audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
                   .audioMovedFromLocalPlaylistToLocalPlaylist(
                 _warningMessageVM.movedAudioValidVideoTitle,
                 _warningMessageVM.movedFromPlaylistTitle,
                 _warningMessageVM.movedToPlaylistTitle,
               );
-            else {
+            } else {
               audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
                   .audioMovedFromLocalPlaylistToYoutubePlaylist(
                 _warningMessageVM.movedAudioValidVideoTitle,
@@ -297,14 +297,14 @@ class DisplayMessageWidget extends StatelessWidget {
                 );
               }
             } else {
-              if (_warningMessageVM.movedToPlaylistType == PlaylistType.local)
+              if (_warningMessageVM.movedToPlaylistType == PlaylistType.local) {
                 audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
                     .audioMovedFromYoutubePlaylistToLocalPlaylist(
                   _warningMessageVM.movedAudioValidVideoTitle,
                   _warningMessageVM.movedFromPlaylistTitle,
                   _warningMessageVM.movedToPlaylistTitle,
                 );
-              else {
+              } else {
                 audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
                     .audioMovedFromYoutubePlaylistToYoutubePlaylist(
                   _warningMessageVM.movedAudioValidVideoTitle,
