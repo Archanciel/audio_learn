@@ -644,13 +644,14 @@ class AudioDownloadVM extends ChangeNotifier {
     }
   }
 
-  void moveAudioToPlaylist(
-      {required Audio audio,
-      required Playlist targetPlaylist,
-      required bool keepAudioDataInSourcePlaylist}) {
+  void moveAudioToPlaylist({
+    required Audio audio,
+    required Playlist targetPlaylist,
+    required bool keepAudioDataInSourcePlaylist,
+  }) {
     Playlist fromPlaylist = audio.enclosingPlaylist!;
 
-    bool wasFileMoved = DirUtil.moveFileToDirectorySync(
+    bool wasFileMoved = DirUtil.moveFileToDirectoryIfNotExistSync(
       sourceFilePathName: audio.filePathName,
       targetDirectoryPath: targetPlaylist.downloadPath,
     );
@@ -674,7 +675,7 @@ class AudioDownloadVM extends ChangeNotifier {
         downloadedAudio: audio,
       );
       fromPlaylist.setMovedAudioToPlaylistTitle(
-        videoUrl: audio.videoUrl,
+        audioFileName: audio.audioFileName,
         movedToPlaylistTitle: targetPlaylist.title,
       );
     } else {
@@ -684,7 +685,7 @@ class AudioDownloadVM extends ChangeNotifier {
     }
 
     targetPlaylist.addMovedAudio(
-      movedAudio: audio,
+      movedAudio: audio.copy(), // copy() is important here to avoid bugs
       movedFromPlaylistTitle: fromPlaylist.title,
     );
 

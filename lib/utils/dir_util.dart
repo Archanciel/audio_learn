@@ -202,9 +202,9 @@ class DirUtil {
   /// have the same name than the source file name.
   ///
   /// Returns true if the file has been moved, false
-  /// otherwise in case the moved file already exist in
+  /// otherwise which happens if the moved file already exist in
   /// the target dir.
-  static bool moveFileToDirectorySync({
+  static bool moveFileToDirectoryIfNotExistSync({
     required String sourceFilePathName,
     required String targetDirectoryPath,
     String? targetFileName,

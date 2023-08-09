@@ -127,6 +127,27 @@ class Audio {
     required this.audioFileSize,
   });
 
+  /// Returns a copy of the current Audio instance
+  Audio copy() {
+    return Audio.fullConstructor(
+      enclosingPlaylist: enclosingPlaylist,
+      movedFromPlaylistTitle: movedFromPlaylistTitle,
+      movedToPlaylistTitle: movedToPlaylistTitle,
+      originalVideoTitle: originalVideoTitle,
+      compactVideoDescription: compactVideoDescription,
+      validVideoTitle: validVideoTitle,
+      videoUrl: videoUrl,
+      audioDownloadDateTime: audioDownloadDateTime,
+      audioDownloadDuration: audioDownloadDuration,
+      audioDownloadSpeed: audioDownloadSpeed,
+      videoUploadDate: videoUploadDate,
+      audioDuration: audioDuration,
+      isMusicQuality: isMusicQuality,
+      audioFileName: audioFileName,
+      audioFileSize: audioFileSize,
+    );
+  }
+
   /// Factory constructor: creates an instance of Audio from a
   /// JSON object
   factory Audio.fromJson(Map<String, dynamic> json) {

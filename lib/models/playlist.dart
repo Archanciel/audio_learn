@@ -119,17 +119,34 @@ class Playlist {
   /// playlist so that if the audio is then moved to another
   /// playlist, the moving action will not fail since moving is
   /// done from the downloadedAudioLst.
-  /// 
+  ///
   /// Before, sets the enclosingPlaylist to this as well as the
   /// movedFromPlaylistTitle.
   void addMovedAudio({
     required Audio movedAudio,
     required String movedFromPlaylistTitle,
   }) {
+    Audio? existingDownloadedAudio;
+
+    try {
+      existingDownloadedAudio = downloadedAudioLst.firstWhere(
+        (audio) => audio.audioFileName == movedAudio.audioFileName,
+      );
+    } catch (e) {
+      existingDownloadedAudio = null;
+    }
+
     movedAudio.enclosingPlaylist = this;
     movedAudio.movedFromPlaylistTitle = movedFromPlaylistTitle;
-    downloadedAudioLst.add(movedAudio);
-    playableAudioLst.insert(0, movedAudio);
+
+    if (existingDownloadedAudio != null) {
+      existingDownloadedAudio.movedFromPlaylistTitle = movedFromPlaylistTitle;
+      existingDownloadedAudio.movedToPlaylistTitle = title;
+      playableAudioLst.insert(0, existingDownloadedAudio);
+    } else {
+      downloadedAudioLst.add(movedAudio);
+      playableAudioLst.insert(0, movedAudio);
+    }
   }
 
   /// Removes the downloaded audio from the downloadedAudioLst
@@ -161,11 +178,11 @@ class Playlist {
   }
 
   void setMovedAudioToPlaylistTitle({
-    required String videoUrl,
+    required String audioFileName,
     required String movedToPlaylistTitle,
   }) {
     downloadedAudioLst
-        .firstWhere((audio) => audio.videoUrl == videoUrl)
+        .firstWhere((audio) => audio.audioFileName == audioFileName)
         .movedToPlaylistTitle = movedToPlaylistTitle;
   }
 
