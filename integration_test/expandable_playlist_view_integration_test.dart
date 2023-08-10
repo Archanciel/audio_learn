@@ -1109,11 +1109,26 @@ void main() {
       // Now find the confirm button and tap on it
       await tester.tap(find.byKey(const Key('confirmButton')));
       await tester.pumpAndSettle();
-      
+
+      // Now verifying the confirm warning dialog message
+
+      final Text warningDialogMessageTextWidget =
+          tester.widget<Text>(find.byKey(const Key('warningDialogMessage')));
+
+      expect(warningDialogMessageTextWidget.data,
+          'Audio "audio learn test short video one" déplacé de la playlist Youtube "audio_learn_test_download_2_small_videos" vers la playlist locale "local_audio_playlist_2".');
+
       // Now find the ok button of the confirm warning dialog
       // and tap on it
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
+
+      // TODO: Verify that the audio was moved to the target playlist
+      // and verify the source and target playlist json file content.
+      //
+      // Then move back and remove and remove back ...
+      //
+      // Then test moving moved audio to a different playlist
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
