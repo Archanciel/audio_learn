@@ -685,7 +685,7 @@ class AudioDownloadVM extends ChangeNotifier {
     }
 
     targetPlaylist.addMovedAudio(
-      movedAudio: audio.copy(), // copy() is important here to avoid bugs
+      movedAudio: audio,
       movedFromPlaylistTitle: fromPlaylist.title,
     );
 

@@ -126,6 +126,10 @@ class Playlist {
     required Audio movedAudio,
     required String movedFromPlaylistTitle,
   }) {
+    // Creating a copy of the audio to be moved so that the passed
+    // original audio will not be modified by this method.
+    Audio movedAudioCopy = movedAudio.copy();
+
     Audio? existingDownloadedAudio;
 
     try {
@@ -136,16 +140,19 @@ class Playlist {
       existingDownloadedAudio = null;
     }
 
-    movedAudio.enclosingPlaylist = this;
-    movedAudio.movedFromPlaylistTitle = movedFromPlaylistTitle;
+    movedAudioCopy.enclosingPlaylist = this;
+    movedAudioCopy.movedFromPlaylistTitle = movedFromPlaylistTitle;
 
     if (existingDownloadedAudio != null) {
+      // the case if the audio was moved to this playlist a first
+      // time and then moved back to the source playlist or moved
+      // to another playlist and then moved back to this playlist.
       existingDownloadedAudio.movedFromPlaylistTitle = movedFromPlaylistTitle;
       existingDownloadedAudio.movedToPlaylistTitle = title;
       playableAudioLst.insert(0, existingDownloadedAudio);
     } else {
-      downloadedAudioLst.add(movedAudio);
-      playableAudioLst.insert(0, movedAudio);
+      downloadedAudioLst.add(movedAudioCopy);
+      playableAudioLst.insert(0, movedAudioCopy);
     }
   }
 
