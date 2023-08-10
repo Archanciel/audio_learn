@@ -128,6 +128,7 @@ class _PlaylistOneSelectableDialogWidgetState
                     )
                   : Container(),
               ElevatedButton(
+                key: const Key('confirmButton'),
                 onPressed: () {
                   expandablePlaylistVM.setUniqueSelectedPlaylist(
                     selectedPlaylist: _selectedPlaylist,

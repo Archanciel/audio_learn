@@ -442,8 +442,8 @@ void main() {
       expect(firstListItemCheckbox.value, isFalse);
 
       // Verify that the selected playlist TextField is empty
-      TextField selectedPlaylistTextField = tester.widget(find.byKey(
-          const Key('selectedPlaylistTextField')));
+      TextField selectedPlaylistTextField =
+          tester.widget(find.byKey(const Key('selectedPlaylistTextField')));
       expect(selectedPlaylistTextField.controller!.text, '');
 
       // Check the saved local playlist values in the json file,
@@ -484,8 +484,8 @@ void main() {
 
       // Verify that the selected playlist TextField contains the
       // title of the selected playlist
-      selectedPlaylistTextField = tester.widget(find.byKey(
-          const Key('selectedPlaylistTextField')));
+      selectedPlaylistTextField =
+          tester.widget(find.byKey(const Key('selectedPlaylistTextField')));
       expect(selectedPlaylistTextField.controller!.text, localPlaylistTitle);
 
       // Check the saved local playlist values in the json file
@@ -514,8 +514,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify that the selected playlist TextField is empty
-      selectedPlaylistTextField = tester.widget(find.byKey(
-          const Key('selectedPlaylistTextField')));
+      selectedPlaylistTextField =
+          tester.widget(find.byKey(const Key('selectedPlaylistTextField')));
       expect(selectedPlaylistTextField.controller!.text, '');
 
       // Check the saved local playlist values in the json file
@@ -961,7 +961,8 @@ void main() {
       // "audio learn test short video one"
 
       // First, find the Audio sublist ListTile Text widget
-      final Finder sourceAudioListTileTextWidgetFinder = find.text('audio learn test short video one');
+      final Finder sourceAudioListTileTextWidgetFinder =
+          find.text('audio learn test short video one');
 
       // Then obtain the Audio ListTile widget enclosing the Text widget by
       // finding its ancestor
@@ -982,7 +983,8 @@ void main() {
       await tester.pumpAndSettle(); // Wait for popup menu to appear
 
       // Now find the popup menu item and tap on it
-      final Finder popupMenuItem = find.byKey(const Key("popup_menu_copy_audio_to_playlist"));
+      final Finder popupMenuItem =
+          find.byKey(const Key("popup_menu_copy_audio_to_playlist"));
 
       await tester.tap(popupMenuItem);
       await tester.pumpAndSettle(); // Wait for tap action to complete
@@ -991,7 +993,8 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Move audio from Youtube to local playlist, then move it back, then remove it, then remove it back',
+    testWidgets(
+        'Move audio from Youtube to local playlist, then move it back, then remove it, then remove it back',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -1007,7 +1010,8 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      const String youtubeMusicPlaylistTitle = 'audio_learn_test_download_2_small_videos';
+      const String youtubeMusicPlaylistTitle =
+          'audio_learn_test_download_2_small_videos';
       const String localAudioPlaylistTitle = 'local_audio_playlist_2';
       const String movedAudioTitle = 'audio learn test short video one';
 
@@ -1060,7 +1064,8 @@ void main() {
       // "audio learn test short video one"
 
       // First, find the Audio sublist ListTile Text widget
-      final Finder sourceAudioListTileTextWidgetFinder = find.text(movedAudioTitle);
+      final Finder sourceAudioListTileTextWidgetFinder =
+          find.text(movedAudioTitle);
 
       // Then obtain the Audio ListTile widget enclosing the Text widget by
       // finding its ancestor
@@ -1081,36 +1086,34 @@ void main() {
       await tester.pumpAndSettle(); // Wait for popup menu to appear
 
       // Now find the popup menu item and tap on it
-      final Finder popupMenuItem = find.byKey(const Key("popup_menu_move_audio_to_playlist"));
+      final Finder popupMenuItem =
+          find.byKey(const Key("popup_menu_move_audio_to_playlist"));
 
       await tester.tap(popupMenuItem);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
-
-
-
-
       // Find the RadioListTile target playlist to which the audio
-      // will moved to
+      // will be moved
 
-      // First, find the Playlist RadioListTile Text widget
-      final Finder targetPlaylistRadioListTileTextWidgetFinder =
-          find.text(localAudioPlaylistTitle);
+      final Finder radioListTile = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is RadioListTile &&
+            widget.title is Text &&
+            (widget.title as Text).data == localAudioPlaylistTitle,
+      );
 
-      // Then obtain the Playlist ListTile widget enclosing the Text widget
-      // by finding its ancestor
-      // final Finder targetPlaylistRadioListTileWidgetFinder = find.ancestor(
-      //   of: targetPlaylistRadioListTileTextWidgetFinder,
-      //   matching: find.byType(RadioListTile),
-      // );
-
-      // Now tap the RadioListTile playlist to select it
-      await tester.tap(targetPlaylistRadioListTileTextWidgetFinder.last);
+      // Tap the target playlist RadioListTile to select it
+      await tester.tap(radioListTile);
       await tester.pumpAndSettle();
 
-
-
-
+      // Now find the confirm button and tap on it
+      await tester.tap(find.byKey(const Key('confirmButton')));
+      await tester.pumpAndSettle();
+      
+      // Now find the ok button of the confirm warning dialog
+      // and tap on it
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
