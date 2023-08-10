@@ -159,13 +159,14 @@ class Playlist {
 
   /// Removes the downloaded audio from the downloadedAudioLst
   /// and from the playableAudioLst.
+  ///
+  /// This is used when the downloaded audio is moved to another
+  /// playlist and is not keeped in downloadedAudioLst of the source
+  /// playlist. In this case, the user is advised to remove the
+  /// corresponding video from the playlist on Youtube.
   void removeDownloadedAudioFromDownloadAndPlayableAudioLst({
     required Audio downloadedAudio,
   }) {
-    if (downloadedAudio.enclosingPlaylist == this) {
-      downloadedAudio.enclosingPlaylist = null;
-    }
-
     downloadedAudioLst.remove(downloadedAudio);
     playableAudioLst.remove(downloadedAudio);
   }
@@ -178,10 +179,6 @@ class Playlist {
   void removeDownloadedAudioFromPlayableAudioLstOnly({
     required Audio downloadedAudio,
   }) {
-    if (downloadedAudio.enclosingPlaylist == this) {
-      downloadedAudio.enclosingPlaylist = null;
-    }
-
     playableAudioLst.remove(downloadedAudio);
   }
 
