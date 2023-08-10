@@ -149,6 +149,7 @@ class Playlist {
       // to another playlist and then moved back to this playlist.
       existingDownloadedAudio.movedFromPlaylistTitle = movedFromPlaylistTitle;
       existingDownloadedAudio.movedToPlaylistTitle = title;
+      existingDownloadedAudio.enclosingPlaylist = this;
       playableAudioLst.insert(0, existingDownloadedAudio);
     } else {
       downloadedAudioLst.add(movedAudioCopy);
