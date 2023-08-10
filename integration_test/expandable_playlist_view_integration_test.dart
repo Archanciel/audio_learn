@@ -542,7 +542,7 @@ void main() {
     });
 
     testWidgets(
-        'Add Youtube and local playlist, download the Youtube playlist and copy audio to the local playlist',
+        'Add Youtube and local playlist, download the Youtube playlist and restart the app',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -912,9 +912,6 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      // TODO: to delete
-      String localMusicPlaylistTitle = 'local_music';
-      String localAudioPlaylistTitle = 'local_audio';
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
 
@@ -925,7 +922,6 @@ void main() {
       settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
-      // end to delete
 
       app.main(['test']);
       await tester.pumpAndSettle();
@@ -990,6 +986,131 @@ void main() {
 
       await tester.tap(popupMenuItem);
       await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('Move audio from Youtube to local playlist, then move it back, then remove it, then remove it back',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}copy_move_audio_integr_test_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      const String youtubeMusicPlaylistTitle = 'audio_learn_test_download_2_small_videos';
+      const String localAudioPlaylistTitle = 'local_audio_playlist_2';
+      const String movedAudioTitle = 'audio learn test short video one';
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the ListTile Playlist containing the audio to copy to
+      // the target local playlist
+
+      // First, find the Playlist ListTile Text widget
+      final Finder sourcePlaylistListTileTextWidgetFinder =
+          find.text(youtubeMusicPlaylistTitle);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder sourcePlaylistListTileWidgetFinder = find.ancestor(
+        of: sourcePlaylistListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the Playlist ListTile
+      // and tap on it to select the playlist
+      final Finder sourcePlaylistListTileCheckboxWidgetFinder = find.descendant(
+        of: sourcePlaylistListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
+
+      // Tap the ListTile Playlist checkbox to select it
+      await tester.tap(sourcePlaylistListTileCheckboxWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now we want to tap the popup menu of the Audio ListTile
+      // "audio learn test short video one"
+
+      // First, find the Audio sublist ListTile Text widget
+      final Finder sourceAudioListTileTextWidgetFinder = find.text(movedAudioTitle);
+
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      final Finder sourceAudioListTileWidgetFinder = find.ancestor(
+        of: sourceAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the leading menu icon button of the Audio ListTile and tap
+      // on it
+      final Finder sourceAudioListTileLeadingMenuIconButton = find.descendant(
+        of: sourceAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(sourceAudioListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the popup menu item and tap on it
+      final Finder popupMenuItem = find.byKey(const Key("popup_menu_move_audio_to_playlist"));
+
+      await tester.tap(popupMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+
+
+
+
+      // Find the RadioListTile target playlist to which the audio
+      // will moved to
+
+      // First, find the Playlist RadioListTile Text widget
+      final Finder targetPlaylistRadioListTileTextWidgetFinder =
+          find.text(localAudioPlaylistTitle);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      // final Finder targetPlaylistRadioListTileWidgetFinder = find.ancestor(
+      //   of: targetPlaylistRadioListTileTextWidgetFinder,
+      //   matching: find.byType(RadioListTile),
+      // );
+
+      // Now tap the RadioListTile playlist to select it
+      await tester.tap(targetPlaylistRadioListTileTextWidgetFinder.last);
+      await tester.pumpAndSettle();
+
+
+
+
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
