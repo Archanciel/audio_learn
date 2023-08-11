@@ -13,7 +13,7 @@ import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
-const int secondsDelay = 8; // 7 works, but 8 is safer
+const int secondsDelay = 10; // 7 works, but 10 is safer
 const String existingAudioDateOnlyFileNamePrefix = '230610';
 final String todayDownloadDateOnlyFileNamePrefix =
     Audio.downloadDatePrefixFormatter.format(DateTime.now());
@@ -47,7 +47,10 @@ void main() {
       );
 
       expect(audioDownloadVM.listOfPlaylist, []);
+
+      // this check fails if the secondsDelay value is too small
       expect(audioDownloadVM.isDownloading, false);
+
       expect(audioDownloadVM.downloadProgress, 0.0);
       expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
       expect(audioDownloadVM.isHighQuality, false);
@@ -104,7 +107,9 @@ void main() {
         playlistDir: globalTestPlaylistDir,
       );
 
+      // this check fails if the secondsDelay value is too small
       expect(audioDownloadVM.isDownloading, false);
+
       expect(audioDownloadVM.downloadProgress, 1.0);
       expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
       expect(audioDownloadVM.isHighQuality, false);
@@ -245,7 +250,9 @@ void main() {
         playlistDir: globalTestPlaylistDir,
       );
 
+      // this check fails if the secondsDelay value is too small
       expect(audioDownloadVM.isDownloading, false);
+
       expect(audioDownloadVM.downloadProgress, 1.0);
       expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
       expect(audioDownloadVM.isHighQuality, false);
@@ -349,7 +356,9 @@ void main() {
         playlistDir: localTestPlaylistDir,
       );
 
+      // this check fails if the secondsDelay value is too small
       expect(audioDownloadVM.isDownloading, false);
+
       expect(audioDownloadVM.downloadProgress, 1.0);
       expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
       expect(audioDownloadVM.isHighQuality, false);
@@ -410,8 +419,7 @@ void main() {
 
       // Copying the initial local playlist json file with no audio
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
-        sourceRootPath:
-            savedTestPlaylistDir,
+        sourceRootPath: savedTestPlaylistDir,
         destinationRootPath: localTestPlaylistDir,
       );
 
@@ -463,7 +471,9 @@ void main() {
         playlistDir: localTestPlaylistDir,
       );
 
+      // this check fails if the secondsDelay value is too small
       expect(audioDownloadVM.isDownloading, false);
+
       expect(audioDownloadVM.downloadProgress, 1.0);
       expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
       expect(audioDownloadVM.isHighQuality, false);
@@ -640,7 +650,9 @@ void main() {
         playlistDir: globalTestPlaylistDir,
       );
 
+      // this check fails if the secondsDelay value is too small
       expect(audioDownloadVM.isDownloading, false);
+
       expect(audioDownloadVM.downloadProgress, 1.0);
       expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
       expect(audioDownloadVM.isHighQuality, false);
@@ -986,7 +998,7 @@ void compareDeserializedWithOriginalAudio({
   // file as a number of milliseconds
   expect(deserializedAudio.audioDownloadDuration!.inMilliseconds,
       originalAudio.audioDownloadDuration!.inMilliseconds);
-      
+
   expect(
       deserializedAudio.audioDownloadSpeed, originalAudio.audioDownloadSpeed);
   expect(deserializedAudio.videoUploadDate.toIso8601String(),
