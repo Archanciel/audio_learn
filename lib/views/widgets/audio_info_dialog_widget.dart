@@ -50,17 +50,26 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   label: AppLocalizations.of(context)!.validVideoTitleLabel,
                   value: audio.validVideoTitle),
               createInfoRowFunction(
+                  valueTextWidgetKey: const Key('enclosingPlaylistTitleKey'),
                   context: context,
                   label: AppLocalizations.of(context)!.enclosingPlaylistLabel,
-                  value: (audio.enclosingPlaylist == null) ? '' : audio.enclosingPlaylist!.title),
+                  value: (audio.enclosingPlaylist == null)
+                      ? ''
+                      : audio.enclosingPlaylist!.title),
               createInfoRowFunction(
+                  valueTextWidgetKey: const Key('movedFromPlaylistTitleKey'),
                   context: context,
                   label: AppLocalizations.of(context)!.movedFromPlaylistLabel,
-                  value: (audio.movedFromPlaylistTitle == null) ? '' : audio.movedFromPlaylistTitle!),
+                  value: (audio.movedFromPlaylistTitle == null)
+                      ? ''
+                      : audio.movedFromPlaylistTitle!),
               createInfoRowFunction(
+                  valueTextWidgetKey: const Key('movedToPlaylistTitleKey'),
                   context: context,
                   label: AppLocalizations.of(context)!.movedToPlaylistLabel,
-                  value: (audio.movedToPlaylistTitle == null) ? '' : audio.movedToPlaylistTitle!),
+                  value: (audio.movedToPlaylistTitle == null)
+                      ? ''
+                      : audio.movedToPlaylistTitle!),
               createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.videoUrlLabel,
@@ -113,6 +122,7 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
         ),
         actions: <Widget>[
           TextButton(
+            key: const Key('audioInfoOkButtonKey'),
             child: const Text('Ok'),
             onPressed: () {
               Navigator.of(context).pop();
