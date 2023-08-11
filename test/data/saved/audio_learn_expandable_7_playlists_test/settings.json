@@ -1,1 +1,15 @@
-{"SettingType.appTheme":{"SettingType.appTheme":"AppTheme.dark"},"SettingType.language":{"SettingType.language":"Language.english"},"SettingType.playlists":{"Playlists.rootPath":"/storage/emulated/0/Download/audios","Playlists.pathLst":"[/EMPTY, /BOOKS, /MUSIC]","Playlists.orderedTitleLst":"[local_audio_playlist_1, local_audio_playlist_2, local_audio_playlist_3, local_audio_playlist_4, local_audio_playlist_5, local_audio_playlist_6, local_audio_playlist_7]","Playlists.isMusicQualityByDefault":"false","Playlists.defaultAudioSort":"AudioSortCriterion.audioDownloadDateTime"}}
+{
+    "SettingType.appTheme": {
+        "SettingType.appTheme": "AppTheme.dark"
+    },
+    "SettingType.language": {
+        "SettingType.language": "Language.english"
+    },
+    "SettingType.playlists": {
+        "Playlists.defaultAudioSort": "AudioSortCriterion.audioDownloadDateTime",
+        "Playlists.isMusicQualityByDefault": "false",
+        "Playlists.orderedTitleLst": "[local_audio_playlist_1, local_audio_playlist_2, local_audio_playlist_3, local_audio_playlist_4, local_audio_playlist_5, local_audio_playlist_6, local_audio_playlist_7]",
+        "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",
+        "Playlists.rootPath": "/storage/emulated/0/Download/audios"
+    }
+}

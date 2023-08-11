@@ -40,7 +40,7 @@ class SettingsDataService {
   // default settings are set in the constructor, namely default language
   // and default theme
   final Map<SettingType, Map<dynamic, dynamic>> _settings = {
-    SettingType.appTheme: {SettingType.appTheme: AppTheme.light},
+    SettingType.appTheme: {SettingType.appTheme: AppTheme.dark},
     SettingType.language: {SettingType.language: Language.english},
     SettingType.playlists: {
       Playlists.rootPath: kDownloadAppDir,
