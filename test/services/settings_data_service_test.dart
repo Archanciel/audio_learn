@@ -31,7 +31,7 @@ void main() {
           settings.get(
               settingType: SettingType.appTheme,
               settingSubType: SettingType.appTheme),
-          AppTheme.light);
+          AppTheme.dark);
       expect(
           settings.get(
               settingType: SettingType.language,
