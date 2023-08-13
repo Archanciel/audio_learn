@@ -7,9 +7,13 @@ import 'package:audioplayers/audioplayers.dart';
 import '../models/audio.dart';
 
 class AudioPlayerVM extends ChangeNotifier {
-  Future<void> play(Audio audio) async {
+  /// Play an audio file located in the device file system.
+  /// 
+  /// Example: filePathName =
+  /// '/storage/emulated/0/Download/audio/230628-audio short 23-06-10.mp3'
+  Future<void> playFromFileSource(Audio audio) async {
     final file = File(audio.filePathName);
-    
+
     if (!await file.exists()) {
       print('File not found: ${audio.filePathName}');
     }
@@ -23,6 +27,30 @@ class AudioPlayerVM extends ChangeNotifier {
 
     await audioPlayer.play(DeviceFileSource(audio.filePathName));
     await audioPlayer.setPlaybackRate(audio.playSpeed);
+    audio.isPlaying = true;
+
+    notifyListeners();
+  }
+
+  /// Play an audio file located in the assets folder.
+  /// 
+  /// Example: filePathName = 'audio/Sirdalud.mp3' if
+  /// the audio file is located in the assets/audio folder.
+  Future<void> playFromAssets(Audio audio) async {
+    final file = File(audio.filePathName);
+    
+    if (!await file.exists()) {
+      print('File not found: ${audio.filePathName}');
+    }
+
+    AudioPlayer? audioPlayer = audio.audioPlayer;
+
+    if (audioPlayer == null) {
+      audioPlayer = AudioPlayer();
+      audio.audioPlayer = audioPlayer;
+    }
+
+    await audioPlayer.play(AssetSource(audio.filePathName));
     audio.isPlaying = true;
 
     notifyListeners();

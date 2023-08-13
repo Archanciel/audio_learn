@@ -697,7 +697,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                     return AudioListItemWidget(
                       audio: audio,
                       onPlayPressedFunction: (Audio audio) {
-                        _audioPlayerViwModel.play(audio);
+                        _audioPlayerViwModel.playFromFileSource(audio);
                       },
                       onStopPressedFunction: (Audio audio) {
                         _audioPlayerViwModel.stop(audio);

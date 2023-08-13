@@ -87,7 +87,9 @@ class Audio {
   bool _isPaused = false;
   bool get isPaused => _isPaused;
 
-  // AudioPlayer of the current audio
+  // AudioPlayer of the current audio. Enables to play, pause, stop
+  // the audio. It is initialized when the audio is played for the
+  // first time.
   AudioPlayer? audioPlayer;
 
   double playSpeed = kAudioDefaultSpeed;

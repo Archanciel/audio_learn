@@ -293,7 +293,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
           return IconButton(
             icon: const Icon(Icons.play_arrow),
             onPressed: () {
-              audioPlayerViewModel.play(audio);
+              audioPlayerViewModel.playFromFileSource(audio);
             },
           );
         }
