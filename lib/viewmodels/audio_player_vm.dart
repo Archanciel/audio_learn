@@ -36,6 +36,10 @@ class AudioPlayerVM extends ChangeNotifier {
   /// 
   /// Example: filePathName = 'audio/Sirdalud.mp3' if
   /// the audio file is located in the assets/audio folder.
+  /// 
+  /// Path separator must be / and not \ since the assets/audio
+  /// path is defined in the pubspec.yaml file.
+
   Future<void> playFromAssets(Audio audio) async {
     final file = File(audio.filePathName);
     
