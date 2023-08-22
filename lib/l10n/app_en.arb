@@ -192,5 +192,6 @@
   "aboutAppDescription": "This application allows you to download audio from Youtube playlists or from single video links.\n\nThe future version will enable you to listen the audios, to add comments to them and to extract significative portions of the audio and share them or combine them in a new summary audio.",
   "keepAudioEntryInSourcePlaylist": "Keep audio entry in source playlist",
   "movedFromPlaylistLabel": "Moved from playlist",
-  "movedToPlaylistLabel": "Moved to playlist"
+  "movedToPlaylistLabel": "Moved to playlist",
+  "downloadSingleVideoButtonTooltip": "Download single video audio"
 }

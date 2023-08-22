@@ -96,8 +96,10 @@ class _PlaylistOneSelectableDialogWidgetState
               ),
             ),
             actions: [
-              (widget.excludedPlaylist!.playlistType == PlaylistType.youtube)
-                  ? Row(
+              (widget.excludedPlaylist != null && widget.excludedPlaylist!.playlistType == PlaylistType.youtube)
+                  ? Row( // in this case, the audio is moved from a Youtube
+                         // playlist and so the keep audio entry in source
+                         // playlist checkbox is displayed
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
@@ -126,7 +128,12 @@ class _PlaylistOneSelectableDialogWidgetState
                         ),
                       ],
                     )
-                  : Container(),
+                  : Container(), // widget.excludedPlaylist == null in the 
+                                 // situation of downloading a single video
+                                 // audio. This is tested by 'Bug fix
+                                 // verification with partial download single
+                                 // video audio' integration test
+
               ElevatedButton(
                 key: const Key('confirmButton'),
                 onPressed: () {
@@ -138,6 +145,7 @@ class _PlaylistOneSelectableDialogWidgetState
                 child: Text(AppLocalizations.of(context)!.confirmButton),
               ),
               ElevatedButton(
+                key: const Key('cancelButton'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
