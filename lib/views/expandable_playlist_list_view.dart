@@ -178,6 +178,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                 SizedBox(
                   width: kSmallButtonWidth,
                   child: Tooltip(
+                    message: AppLocalizations.of(context)!.addPlaylistButtonTooltip,
                     child: ElevatedButton(
                       key: const Key('addPlaylistButton'),
                       style: ButtonStyle(
@@ -333,36 +334,39 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                 ),
                 SizedBox(
                   width: kSmallestButtonWidth,
-                  child: ElevatedButton(
-                    key: const Key('stopDownloadingButton'),
-                    style: ButtonStyle(
-                      shape: widget.appElevatedButtonRoundedShape,
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(
-                            horizontal: kSmallButtonInsidePadding),
+                  child: Tooltip(
+                    message: AppLocalizations.of(context)!.stopDownloadingButtonTooltip,
+                    child: ElevatedButton(
+                      key: const Key('stopDownloadingButton'),
+                      style: ButtonStyle(
+                        shape: widget.appElevatedButtonRoundedShape,
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                          const EdgeInsets.symmetric(
+                              horizontal: kSmallButtonInsidePadding),
+                        ),
                       ),
+                      onPressed: audioDownloadViewModel.isDownloading &&
+                              !audioDownloadViewModel.isDownloadStopping
+                          ? () {
+                              // Flushbar creation must be located before calling
+                              // the stopDownload method, otherwise the flushbar
+                              // will be located higher.
+                              Flushbar(
+                                flushbarPosition: FlushbarPosition.TOP,
+                                message: AppLocalizations.of(context)!
+                                    .audioDownloadingStopping,
+                                duration: const Duration(seconds: 8),
+                                backgroundColor: Colors.purple.shade900,
+                                messageColor: Colors.white,
+                                margin: kFlushbarEdgeInsets,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                              ).show(context);
+                              audioDownloadViewModel.stopDownload();
+                            }
+                          : null,
+                      child: Text(AppLocalizations.of(context)!.stopDownload),
                     ),
-                    onPressed: audioDownloadViewModel.isDownloading &&
-                            !audioDownloadViewModel.isDownloadStopping
-                        ? () {
-                            // Flushbar creation must be located before calling
-                            // the stopDownload method, otherwise the flushbar
-                            // will be located higher.
-                            Flushbar(
-                              flushbarPosition: FlushbarPosition.TOP,
-                              message: AppLocalizations.of(context)!
-                                  .audioDownloadingStopping,
-                              duration: const Duration(seconds: 8),
-                              backgroundColor: Colors.purple.shade900,
-                              messageColor: Colors.white,
-                              margin: kFlushbarEdgeInsets,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
-                            ).show(context);
-                            audioDownloadViewModel.stopDownload();
-                          }
-                        : null,
-                    child: Text(AppLocalizations.of(context)!.stopDownload),
                   ),
                 ),
               ],
@@ -411,21 +415,24 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
             children: <Widget>[
               SizedBox(
                 width: 75,
-                child: ElevatedButton(
-                  key: const Key('playlist_toggle_button'),
-                  style: ButtonStyle(
-                    shape: widget.appElevatedButtonRoundedShape,
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(
-                          horizontal: kSmallButtonInsidePadding),
+                child: Tooltip(
+                  message: AppLocalizations.of(context)!.playlistToggleButtonTooltip,
+                  child: ElevatedButton(
+                    key: const Key('playlist_toggle_button'),
+                    style: ButtonStyle(
+                      shape: widget.appElevatedButtonRoundedShape,
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            horizontal: kSmallButtonInsidePadding),
+                      ),
                     ),
+                    onPressed: () {
+                      Provider.of<ExpandablePlaylistListVM>(context,
+                              listen: false)
+                          .toggleList();
+                    },
+                    child: const Text('Playlists'),
                   ),
-                  onPressed: () {
-                    Provider.of<ExpandablePlaylistListVM>(context,
-                            listen: false)
-                        .toggleList();
-                  },
-                  child: const Text('Playlists'),
                 ),
               ),
               Expanded(
@@ -466,44 +473,47 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
               ),
               SizedBox(
                 width: 90,
-                child: ElevatedButton(
-                  key: const Key('download_sel_playlists_button'),
-                  style: ButtonStyle(
-                    shape: widget.appElevatedButtonRoundedShape,
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(
-                          horizontal: kSmallButtonInsidePadding),
+                child: Tooltip(
+                  message: AppLocalizations.of(context)!.downloadSelPlaylistsButtonTooltip,
+                  child: ElevatedButton(
+                    key: const Key('download_sel_playlists_button'),
+                    style: ButtonStyle(
+                      shape: widget.appElevatedButtonRoundedShape,
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            horizontal: kSmallButtonInsidePadding),
+                      ),
                     ),
+                    onPressed: (Provider.of<ExpandablePlaylistListVM>(context)
+                                .isButtonDownloadSelPlaylistsEnabled &&
+                            !Provider.of<AudioDownloadVM>(context).isDownloading)
+                        ? () {
+                            ExpandablePlaylistListVM expandablePlaylistListVM =
+                                Provider.of<ExpandablePlaylistListVM>(context,
+                                    listen: false);
+                
+                            // disable the sorted filtered playable audio list
+                            // downloading audios of selected playlists so that
+                            // the currently displayed audio list is not sorted
+                            // or/and filtered. This way, the newly downloaded
+                            // audio will be added at top of the displayed audio
+                            // list.
+                            expandablePlaylistListVM
+                                .disableSortedFilteredPlayableAudioLst();
+                
+                            List<Playlist> selectedPlaylists =
+                                expandablePlaylistListVM.getSelectedPlaylists();
+                
+                            // currently only one playlist can be selected and
+                            // downloaded at a time.
+                            Provider.of<AudioDownloadVM>(context, listen: false)
+                                .downloadPlaylistAudios(
+                                    playlistUrl: selectedPlaylists[0].url);
+                          }
+                        : null,
+                    child: Text(
+                        AppLocalizations.of(context)!.downloadSelectedPlaylists),
                   ),
-                  onPressed: (Provider.of<ExpandablePlaylistListVM>(context)
-                              .isButtonDownloadSelPlaylistsEnabled &&
-                          !Provider.of<AudioDownloadVM>(context).isDownloading)
-                      ? () {
-                          ExpandablePlaylistListVM expandablePlaylistListVM =
-                              Provider.of<ExpandablePlaylistListVM>(context,
-                                  listen: false);
-
-                          // disable the sorted filtered playable audio list
-                          // downloading audios of selected playlists so that
-                          // the currently displayed audio list is not sorted
-                          // or/and filtered. This way, the newly downloaded
-                          // audio will be added at top of the displayed audio
-                          // list.
-                          expandablePlaylistListVM
-                              .disableSortedFilteredPlayableAudioLst();
-
-                          List<Playlist> selectedPlaylists =
-                              expandablePlaylistListVM.getSelectedPlaylists();
-
-                          // currently only one playlist can be selected and
-                          // downloaded at a time.
-                          Provider.of<AudioDownloadVM>(context, listen: false)
-                              .downloadPlaylistAudios(
-                                  playlistUrl: selectedPlaylists[0].url);
-                        }
-                      : null,
-                  child: Text(
-                      AppLocalizations.of(context)!.downloadSelectedPlaylists),
                 ),
               ),
               Tooltip(

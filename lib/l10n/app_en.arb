@@ -193,5 +193,9 @@
   "keepAudioEntryInSourcePlaylist": "Keep audio entry in source playlist",
   "movedFromPlaylistLabel": "Moved from playlist",
   "movedToPlaylistLabel": "Moved to playlist",
-  "downloadSingleVideoButtonTooltip": "Download single video audio"
+  "downloadSingleVideoButtonTooltip": "Download single video audio",
+  "addPlaylistButtonTooltip": "Add Youtube or local playlist",
+  "stopDownloadingButtonTooltip": "Stop downloading",
+  "playlistToggleButtonTooltip": "Show/hide playlists",
+  "downloadSelPlaylistsButtonTooltip": "Download audios of selected playlists"
 }
