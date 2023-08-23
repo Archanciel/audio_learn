@@ -54,6 +54,7 @@ class ScreenMixin {
     required BuildContext context,
     required String label,
     required String value,
+    bool isTextBold = false,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -61,13 +62,21 @@ class ScreenMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Text(label),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontWeight: isTextBold ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
           ),
           Expanded(
             child: InkWell(
               child: Text(
                 key: valueTextWidgetKey,
                 value,
+                style: TextStyle(
+                  fontWeight: isTextBold ? FontWeight.bold : FontWeight.normal,
+                ),
               ),
               onTap: () {
                 Clipboard.setData(
