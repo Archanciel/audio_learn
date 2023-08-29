@@ -519,6 +519,7 @@ class _SortAndFilterAudioDialogWidgetState
           ),
           actions: [
             ElevatedButton(
+              key: const Key('applySortFilterButton'),
               onPressed: () {
                 // Apply sorting and filtering options
                 print('Sorting option: $_selectedSortingOption');
@@ -544,6 +545,7 @@ class _SortAndFilterAudioDialogWidgetState
               child: Text(AppLocalizations.of(context)!.apply),
             ),
             ElevatedButton(
+              key: const Key('cancelSortFilterButton'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
