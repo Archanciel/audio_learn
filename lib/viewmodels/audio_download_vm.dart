@@ -229,7 +229,12 @@ class AudioDownloadVM extends ChangeNotifier {
           path: updatedPlaylist.getPlaylistDownloadFilePathName(),
         );
 
-        return updatedPlaylist;
+        // since the playlist was not added, but updated, null
+        // is returned to avoid that the playlist is added to
+        // the orderedTitleLst in the SettingsDataService json
+        // file, which will cause a bug when filtering audios
+        // of a playlist
+        return null;
       }
 
       // Adding the playlist to the application
