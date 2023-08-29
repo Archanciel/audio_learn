@@ -21,7 +21,7 @@ import 'views/expandable_playlist_list_view.dart';
 import 'views/screen_mixin.dart';
 
 enum AppBarPopupMenu { en, fr, about }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 Future<void> main(List<String> args) async {
   List<String> myArgs = [];
 
