@@ -49,7 +49,7 @@ class Audio {
   final DateTime videoUploadDate;
 
   // Stored audio file name
-  final String audioFileName;
+  String audioFileName;
 
   // Duration of downloaded audio
   final Duration? audioDuration;

@@ -403,6 +403,35 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  void renameAudioFile({
+    required Audio audio,
+    required String modifiedAudioFileName,
+  }) {
+    if (audio.audioFileName == modifiedAudioFileName) {
+      return;
+    }
+
+    if (!DirUtil.renameFile(
+      fileToRenameFilePathName: audio.filePathName,
+      newFileName: modifiedAudioFileName,
+    )) {
+      return;
+    }
+
+    Playlist enclosingPlaylist = audio.enclosingPlaylist!;
+    enclosingPlaylist.renameDownloadedAndPlayableAudioFile(
+      oldFileName: audio.audioFileName,
+      newFileName: modifiedAudioFileName,
+    );
+
+    JsonDataService.saveToFile(
+      model: enclosingPlaylist,
+      path: enclosingPlaylist.getPlaylistDownloadFilePathName(),
+    );
+
+    notifyListeners();
+  }
+
   void updatePlaylistSelection({
     required String playlistId,
     required bool isPlaylistSelected,

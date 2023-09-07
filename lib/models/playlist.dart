@@ -313,4 +313,37 @@ class Playlist {
       return isSortAscending ? compareResult : -compareResult;
     });
   }
+
+  void renameDownloadedAndPlayableAudioFile({
+    required String oldFileName,
+    required String newFileName,
+  }) {
+    Audio? existingDownloadedAudio;
+
+    try {
+      existingDownloadedAudio = downloadedAudioLst.firstWhere(
+        (audio) => audio.audioFileName == oldFileName,
+      );
+    } catch (e) {
+      existingDownloadedAudio = null;
+    }
+
+    if (existingDownloadedAudio != null) {
+      existingDownloadedAudio.audioFileName = newFileName;
+    }
+
+    Audio? existingPlayableAudio;
+
+    try {
+      existingPlayableAudio = playableAudioLst.firstWhere(
+        (audio) => audio.audioFileName == oldFileName,
+      );
+    } catch (e) {
+      existingPlayableAudio = null;
+    }
+
+    if (existingPlayableAudio != null) {
+      existingPlayableAudio.audioFileName = newFileName;
+    }
+  }
 }

@@ -95,10 +95,13 @@ class ScreenMixin {
     // containing the value
     required BuildContext context,
     required String label,
-    required String value,
     required TextEditingController controller,
     FocusNode? textFieldFocusNode,
   }) {
+    // Set the cursor position at the start of the TextField
+    controller.value = controller.value.copyWith(
+      selection: const TextSelection.collapsed(offset: 0),
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Row(

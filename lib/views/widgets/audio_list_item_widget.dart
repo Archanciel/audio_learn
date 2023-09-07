@@ -15,11 +15,13 @@ import '../../constants.dart';
 import '../screen_mixin.dart';
 import 'audio_info_dialog_widget.dart';
 import 'playlist_one_selectable_dialog_widget.dart';
+import 'rename_audio_file_dialog_widget.dart';
 
 enum AudioPopupMenuAction {
   openYoutubeVideo,
   copyYoutubeVideoUrl,
   displayAudioInfo,
+  renameAudioFile,
   moveAudioToPlaylist,
   copyAudioToPlaylist,
   deleteAudio,
@@ -75,6 +77,11 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                 child: Text(AppLocalizations.of(context)!.displayAudioInfo),
               ),
               PopupMenuItem<AudioPopupMenuAction>(
+                key: const Key('popup_menu_rename_audio_file'),
+                value: AudioPopupMenuAction.renameAudioFile,
+                child: Text(AppLocalizations.of(context)!.renameAudioFile),
+              ),
+              PopupMenuItem<AudioPopupMenuAction>(
                 key: const Key('popup_menu_move_audio_to_playlist'),
                 value: AudioPopupMenuAction.moveAudioToPlaylist,
                 child: Text(AppLocalizations.of(context)!.moveAudioToPlaylist),
@@ -115,6 +122,22 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                     barrierDismissible: true,
                     builder: (BuildContext context) {
                       return AudioInfoDialogWidget(
+                        audio: audio,
+                        focusNode: focusNode,
+                      );
+                    },
+                  );
+                  focusNode.requestFocus();
+                  break;
+                case AudioPopupMenuAction.renameAudioFile:
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
+                  final FocusNode focusNode = FocusNode();
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return RenameAudioFileDialogWidget(
                         audio: audio,
                         focusNode: focusNode,
                       );

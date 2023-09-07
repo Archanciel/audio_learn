@@ -248,6 +248,32 @@ class DirUtil {
 
     return true;
   }
+
+  /// Return false in case a file named as newFileName already
+  /// exist. In this case, the file is not renamed.
+  static bool renameFile({
+    required String fileToRenameFilePathName,
+    required String newFileName,
+  }) {
+    File sourceFile = File(fileToRenameFilePathName);
+
+    // Get the directory of the source file
+    String dirPath = path.dirname(fileToRenameFilePathName);
+
+    // Create the new file path with the new file name
+    String newFilePathName = path.join(dirPath, newFileName);
+
+    // Check if a file with the new name already exists
+    if (File(newFilePathName).existsSync()) {
+      print('A file with the new name already exists.');
+      return false;
+    }
+
+    // Rename the file
+    sourceFile.renameSync(newFilePathName);
+
+    return true;
+  }
 }
 
 Future<void> main() async {

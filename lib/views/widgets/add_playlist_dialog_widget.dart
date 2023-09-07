@@ -91,7 +91,6 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                       const Key('playlistLocalTitleConfirmDialogTextField'),
                   context: context,
                   label: AppLocalizations.of(context)!.localPlaylistTitleLabel,
-                  value: '',
                   controller: _localPlaylistTitleTextEditingController,
                   textFieldFocusNode: _localPlaylistTitleFocusNode),
               createCheckboxRowFunction(
