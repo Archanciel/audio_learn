@@ -5,10 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/audio.dart';
-import '../../models/playlist.dart';
 import '../../utils/ui_util.dart';
 import '../../viewmodels/audio_download_vm.dart';
-import '../../viewmodels/expandable_playlist_list_vm.dart';
 
 class RenameAudioFileDialogWidget extends StatefulWidget {
   final Audio audio;
@@ -31,7 +29,7 @@ class _RenameAudioFileDialogWidgetState
       TextEditingController();
   final FocusNode _audioFileNameFocusNode = FocusNode();
 
-  bool _isChecked = false;
+  final bool _isChecked = false;
 
   @override
   void initState() {
