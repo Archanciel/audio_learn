@@ -1,3 +1,4 @@
+import 'package:audio_learn/models/audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -30,7 +31,8 @@ void main() {
 // url used in integration_test/audio_download_vm_integration_test.dart
 // which works:
 // 'https://youtube.com/playlist?list=PLzwWSJNcZTMRB9ILve6fEIS_OHGrV5R2o';
-  const String youtubeNewPlaylistTitle = 'audio_learn_new_youtube_playlist_test';
+  const String youtubeNewPlaylistTitle =
+      'audio_learn_new_youtube_playlist_test';
 
   const String testPlaylistDir =
       '$kDownloadAppTestDir\\audio_learn_new_youtube_playlist_test';
@@ -194,7 +196,8 @@ void main() {
 
       // Ensure that the title is a Text widget and check its data
       expect(firstPlaylistListTile.title, isA<Text>());
-      expect((firstPlaylistListTile.title as Text).data, youtubeNewPlaylistTitle);
+      expect(
+          (firstPlaylistListTile.title as Text).data, youtubeNewPlaylistTitle);
 
       // Alternatively, find the ListTile by its title
       expect(
@@ -1148,10 +1151,12 @@ void main() {
         extension: 'mp3',
       );
 
-      expect(sourcePlaylistMp3Lst, ["230628-033813-audio learn test short video two 23-06-10.mp3"]);
-      expect(targetPlaylistMp3Lst, ["230628-033811-audio learn test short video one 23-06-10.mp3"]);
+      expect(sourcePlaylistMp3Lst,
+          ["230628-033813-audio learn test short video two 23-06-10.mp3"]);
+      expect(targetPlaylistMp3Lst,
+          ["230628-033811-audio learn test short video one 23-06-10.mp3"]);
 
-      // Find the target ListTile Playlist containing the audio moved 
+      // Find the target ListTile Playlist containing the audio moved
       // from the source playlist
 
       // First, find the Playlist ListTile Text widget
@@ -1208,20 +1213,20 @@ void main() {
       await tester.tap(popupDisplayAudioInfoMenuItem);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
-      // Now verifying the display audio info audio moved dialog 
+      // Now verifying the display audio info audio moved dialog
       // elements
 
       // Verify the enclosing playlist title of the moved audio
 
-      final Text enclosingPlaylistTitleTextWidget =
-          tester.widget<Text>(find.byKey(const Key('enclosingPlaylistTitleKey')));
+      final Text enclosingPlaylistTitleTextWidget = tester
+          .widget<Text>(find.byKey(const Key('enclosingPlaylistTitleKey')));
 
       expect(enclosingPlaylistTitleTextWidget.data, localAudioPlaylistTitle);
 
       // Verify the moved from playlist title of the moved audio
 
-      final Text movedFromPlaylistTitleTextWidget =
-          tester.widget<Text>(find.byKey(const Key('movedFromPlaylistTitleKey')));
+      final Text movedFromPlaylistTitleTextWidget = tester
+          .widget<Text>(find.byKey(const Key('movedFromPlaylistTitleKey')));
 
       expect(movedFromPlaylistTitleTextWidget.data, youtubeAudioPlaylistTitle);
 
@@ -1239,8 +1244,7 @@ void main() {
 
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets(
-        'Bug fix verification with partial download single video audio',
+    testWidgets('Bug fix verification with partial download single video audio',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -1293,6 +1297,200 @@ void main() {
       // download can not be done in the test environment
       await tester.tap(find.byKey(const Key('cancelButton')));
       await tester.pumpAndSettle();
+
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Bug fix verification on audio suppression from playlist as well',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_short",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Bug fix verification on audio suppression from playlist as well',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}delete_audio_from_audio_learn_short_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      const String youtubeAudioPlaylistTitle = 'audio_learn_short';
+      const String audioToDeleteTitle =
+          '15 minutes de Janco pour retourner un climatosceptique';
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the ListTile Playlist containing the audio to move to
+      // the target local playlist
+
+      // First, find the Playlist ListTile Text widget
+      final Finder sourcePlaylistListTileTextWidgetFinder =
+          find.text(youtubeAudioPlaylistTitle);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder sourcePlaylistListTileWidgetFinder = find.ancestor(
+        of: sourcePlaylistListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the Playlist ListTile
+      // and tap on it to select the playlist
+      final Finder sourcePlaylistListTileCheckboxWidgetFinder = find.descendant(
+        of: sourcePlaylistListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
+
+      // Tap the ListTile Playlist checkbox to select it
+      await tester.tap(sourcePlaylistListTileCheckboxWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now we want to tap the popup menu of the Audio ListTile
+      // "audio learn test short video one"
+
+      // First, find the Audio sublist ListTile Text widget
+      final Finder sourceAudioListTileTextWidgetFinder =
+          find.text(audioToDeleteTitle).first;
+
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      final Finder sourceAudioListTileWidgetFinder = find.ancestor(
+        of: sourceAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the leading menu icon button of the Audio ListTile and tap
+      // on it
+      final Finder sourceAudioListTileLeadingMenuIconButton = find.descendant(
+        of: sourceAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(sourceAudioListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the popup menu item and tap on it
+      final Finder popupDeleteAudioFromPlaylistAsWellMenuItem =
+          find.byKey(const Key("popup_menu_delete_audio_from_playlist_aswell"));
+
+      await tester.tap(popupDeleteAudioFromPlaylistAsWellMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Ensure the warning dialog is shown
+      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+
+      // Check the value of the warning dialog title
+      Text warningDialogTitle =
+          tester.widget(find.byKey(const Key('warningDialogTitle')));
+      expect(warningDialogTitle.data, 'WARNING');
+
+      // Check the value of the warning dialog message
+      Text warningDialogMessage =
+          tester.widget(find.byKey(const Key('warningDialogMessage')));
+      expect(warningDialogMessage.data,
+          'If the deleted audio video "$audioToDeleteTitle" remains in the "$youtubeAudioPlaylistTitle" Youtube playlist, it will be downloaded again the next time you download the playlist !');
+
+      // Close the warning dialog by tapping on the OK button
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
+
+      // Check the saved youtube audio playlist values in the json file
+
+      final youtubeAudioPlaylistPath = path.join(
+        kDownloadAppTestDirWindows,
+        youtubeAudioPlaylistTitle,
+      );
+
+      final youtubeAudioPlaylistFilePathName = path.join(
+        youtubeAudioPlaylistPath,
+        '$youtubeAudioPlaylistTitle.json',
+      );
+
+      // Load playlist from the json file
+      Playlist loadedYoutubeAudioPlaylist = JsonDataService.loadFromFile(
+        jsonPathFileName: youtubeAudioPlaylistFilePathName,
+        type: Playlist,
+      );
+
+      final expectedAudioPlaylistFilePathName = path.join(
+        youtubeAudioPlaylistPath,
+        '${youtubeAudioPlaylistTitle}_expected.json',
+      );
+
+      // Load playlist from the json file
+      Playlist loadedExpectedAudioPlaylist = JsonDataService.loadFromFile(
+        jsonPathFileName: expectedAudioPlaylistFilePathName,
+        type: Playlist,
+      );
+
+      int loadedDownloadedAudioLastItemIndex =
+          loadedYoutubeAudioPlaylist.downloadedAudioLst.length - 1;
+      expect(
+        loadedYoutubeAudioPlaylist
+            .downloadedAudioLst[loadedDownloadedAudioLastItemIndex]
+            .audioFileName,
+        loadedYoutubeAudioPlaylist.playableAudioLst[0].audioFileName,
+      );
+
+      expect(loadedYoutubeAudioPlaylist.downloadedAudioLst[loadedDownloadedAudioLastItemIndex].audioFileName,
+          loadedExpectedAudioPlaylist.downloadedAudioLst[loadedDownloadedAudioLastItemIndex].audioFileName);
+      expect(loadedYoutubeAudioPlaylist.playableAudioLst[0].audioFileName,
+          loadedExpectedAudioPlaylist.playableAudioLst[0].audioFileName);
 
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });

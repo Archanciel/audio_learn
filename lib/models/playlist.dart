@@ -167,6 +167,12 @@ class Playlist {
   void removeDownloadedAudioFromDownloadAndPlayableAudioLst({
     required Audio downloadedAudio,
   }) {
+    // right code
+    // downloadedAudioLst.removeWhere(
+    //     (Audio audio) => audio.audioFileName == downloadedAudio.audioFileName);
+    // playableAudioLst.removeWhere(
+    //     (Audio audio) => audio.audioFileName == downloadedAudio.audioFileName);
+
     downloadedAudioLst.remove(downloadedAudio);
     playableAudioLst.remove(downloadedAudio);
   }

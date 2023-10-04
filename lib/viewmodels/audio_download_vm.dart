@@ -776,8 +776,8 @@ class AudioDownloadVM extends ChangeNotifier {
   }
 
   /// Physically deletes the audio file from the audio playlist
-  /// directory and removes the audio from the playlist playable
-  /// audio list.
+  /// directory and removes the audio reference from the playlist
+  /// playable audio list.
   void deleteAudioMp3({
     required Audio audio,
   }) {
@@ -788,10 +788,12 @@ class AudioDownloadVM extends ChangeNotifier {
     audio.enclosingPlaylist!.removePlayableAudio(audio);
   }
 
-  /// User selected the audio menu item "Delete audio
-  /// from playlist aswell". This method deletes the audio
-  /// from the playlist json file and from the audio playlist
-  /// directory.
+  /// User selected the audio menu item "Delete audio from
+  /// playlist aswell". This method physically deletes the audio
+  /// file from the audio playlist directory as well as deleting
+  /// the audio reference from the playlist downloaded audio list
+  /// and from the playlist playable audio list. This means that
+  /// the playlist json file is modified.
   void deleteAudioFromPlaylistAswell({
     required Audio audio,
   }) {
