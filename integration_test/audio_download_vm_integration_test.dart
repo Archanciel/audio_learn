@@ -862,6 +862,9 @@ void checkPlaylistNewAudioTwo({
   expect(downloadedAudioTwo.audioFileSize, 360849);
   expect(downloadedAudioTwo.videoUploadDate,
       DateTime.parse("2023-07-01T00:00:00.000"));
+      // DateTime.parse("2023-07-01 18:48:13.000Z")); this
+      // uncomprehensible error happened several times when
+      // running the test on 04-10-2023 !
 }
 
 void deletePlaylistDownloadDir(Directory directory) {
