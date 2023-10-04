@@ -1,5 +1,7 @@
 // dart file located in lib\viewmodels
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -15,6 +17,10 @@ import '../models/audio.dart';
 import '../models/playlist.dart';
 import '../utils/dir_util.dart';
 import 'warning_message_vm.dart';
+
+// global variables used by the AudioDownloadVM in order
+// to avoid multiple downloads of the same playlist
+List<String> downloadingPlaylistUrls = [];
 
 class AudioDownloadVM extends ChangeNotifier {
   List<Playlist> _listOfPlaylist = [];
@@ -265,6 +271,18 @@ class AudioDownloadVM extends ChangeNotifier {
   Future<void> downloadPlaylistAudios({
     required String playlistUrl,
   }) async {
+
+    // if the playlist is already being downloaded, then
+    // the method is not executed. This avoids that the
+    // audios of the playlist are downloaded multiple times
+    // if the user clicks multiple times on the download
+    // button.
+    if (downloadingPlaylistUrls.contains(playlistUrl)) {
+      return;
+    } else {
+      downloadingPlaylistUrls.add(playlistUrl);
+    }
+
     _stopDownloadPressed = false;
     _youtubeExplode = yt.YoutubeExplode();
 
@@ -281,12 +299,22 @@ class AudioDownloadVM extends ChangeNotifier {
         errorType: ErrorType.noInternet,
         errorArgOne: e.toString(),
       );
+
+      // removing the playlist url from the downloadingPlaylistUrls
+      // list since the playlist download has failed
+      downloadingPlaylistUrls.remove(playlistUrl);
+      
       return;
     } catch (e) {
       _notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
         errorArgOne: e.toString(),
       );
+
+      // removing the playlist url from the downloadingPlaylistUrls
+      // list since the playlist download has failed
+      downloadingPlaylistUrls.remove(playlistUrl);
+
       return;
     }
 
@@ -399,6 +427,10 @@ class AudioDownloadVM extends ChangeNotifier {
 
     _isDownloading = false;
     _youtubeExplode.close();
+
+    // removing the playlist url from the downloadingPlaylistUrls
+    // list since the playlist download has finished
+    downloadingPlaylistUrls.remove(playlistUrl);
 
     notifyListeners();
   }
