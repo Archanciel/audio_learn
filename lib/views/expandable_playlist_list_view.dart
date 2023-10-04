@@ -487,7 +487,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                     onPressed: (Provider.of<ExpandablePlaylistListVM>(context)
                                 .isButtonDownloadSelPlaylistsEnabled &&
                             !Provider.of<AudioDownloadVM>(context).isDownloading)
-                        ? () {
+                        ? () async {
                             ExpandablePlaylistListVM expandablePlaylistListVM =
                                 Provider.of<ExpandablePlaylistListVM>(context,
                                     listen: false);
@@ -506,7 +506,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                 
                             // currently only one playlist can be selected and
                             // downloaded at a time.
-                            Provider.of<AudioDownloadVM>(context, listen: false)
+                            await Provider.of<AudioDownloadVM>(context, listen: false)
                                 .downloadPlaylistAudios(
                                     playlistUrl: selectedPlaylists[0].url);
                           }
