@@ -1244,7 +1244,9 @@ void main() {
 
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Bug fix verification with partial download single video audio',
+  });
+  group('Bug fix tests', () {
+    testWidgets('Verifying with partial download of single video audio',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -1300,41 +1302,7 @@ void main() {
 
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets(
-        'Bug fix verification on audio suppression from playlist as well',
-        (tester) async {
-      // Purge the test playlist directory if it exists so that the
-      // playlist list is empty
-      DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
-        deleteSubDirectoriesAsWell: true,
-      );
-
-      // Copy the test initial audio data to the app dir
-      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
-        sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_short",
-        destinationRootPath: kDownloadAppTestDirWindows,
-      );
-
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
-
-      // Load the settings from the json file. This is necessary
-      // otherwise the ordered playlist titles will remain empty
-      // and the playlist list will not be filled with the
-      // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
-              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
-
-      app.main(['test']);
-      await tester.pumpAndSettle();
-
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
-    });
-    testWidgets(
-        'Bug fix verification on audio suppression from playlist as well',
+    testWidgets('Verifying execution of "Delete audio from playlist as well" playlist menu item',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
