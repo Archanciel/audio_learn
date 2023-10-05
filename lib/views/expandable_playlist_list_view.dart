@@ -178,7 +178,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                 SizedBox(
                   width: kSmallButtonWidth,
                   child: Tooltip(
-                    message: AppLocalizations.of(context)!.addPlaylistButtonTooltip,
+                    message:
+                        AppLocalizations.of(context)!.addPlaylistButtonTooltip,
                     child: ElevatedButton(
                       key: const Key('addPlaylistButton'),
                       style: ButtonStyle(
@@ -216,7 +217,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                 SizedBox(
                   width: kSmallButtonWidth,
                   child: Tooltip(
-                    message: AppLocalizations.of(context)!.downloadSingleVideoButtonTooltip,
+                    message: AppLocalizations.of(context)!
+                        .downloadSingleVideoButtonTooltip,
                     child: ElevatedButton(
                       key: const Key('downloadSingleVideoButton'),
                       style: ButtonStyle(
@@ -230,7 +232,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         ExpandablePlaylistListVM expandablePlaylistListVM =
                             Provider.of<ExpandablePlaylistListVM>(context,
                                 listen: false);
-                  
+
                         // disabling the sorted filtered playable audio list
                         // downloading audios of selected playlists so that
                         // the currently displayed audio list is not sorted
@@ -239,16 +241,17 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         // list.
                         expandablePlaylistListVM
                             .disableSortedFilteredPlayableAudioLst();
-                  
+
                         Playlist? selectedTargetPlaylist;
-                  
+
                         // Using FocusNode to enable clicking on Enter to close
                         // the dialog
                         final FocusNode focusNode = FocusNode();
-                  
+
                         showDialog(
                           context: context,
-                          builder: (context) => PlaylistOneSelectableDialogWidget(
+                          builder: (context) =>
+                              PlaylistOneSelectableDialogWidget(
                             focusNode: focusNode,
                           ),
                         ).then((_) {
@@ -257,15 +260,15 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                                   listen: false);
                           selectedTargetPlaylist =
                               expandablePlaylistVM.uniqueSelectedPlaylist;
-                  
+
                           if (selectedTargetPlaylist == null) {
                             return;
                           }
-                  
+
                           // Using FocusNode to enable clicking on Enter to close
                           // the dialog
                           final FocusNode focusNode = FocusNode();
-                  
+
                           // confirming or not the addition of the single video
                           // audio to the selected playlist
                           showDialog(
@@ -275,8 +278,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                               // the dialog
                               focusNode: focusNode,
                               onKey: (event) {
-                                if (event
-                                        .isKeyPressed(LogicalKeyboardKey.enter) ||
+                                if (event.isKeyPressed(
+                                        LogicalKeyboardKey.enter) ||
                                     event.isKeyPressed(
                                         LogicalKeyboardKey.numpadEnter)) {
                                   // executing the same code as in the 'Ok'
@@ -324,8 +327,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         });
                         focusNode.requestFocus();
                       },
-                      child: Text(
-                          AppLocalizations.of(context)!.downloadSingleVideoAudio),
+                      child: Text(AppLocalizations.of(context)!
+                          .downloadSingleVideoAudio),
                     ),
                   ),
                 ),
@@ -335,7 +338,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                 SizedBox(
                   width: kSmallestButtonWidth,
                   child: Tooltip(
-                    message: AppLocalizations.of(context)!.stopDownloadingButtonTooltip,
+                    message: AppLocalizations.of(context)!
+                        .stopDownloadingButtonTooltip,
                     child: ElevatedButton(
                       key: const Key('stopDownloadingButton'),
                       style: ButtonStyle(
@@ -416,7 +420,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
               SizedBox(
                 width: 75,
                 child: Tooltip(
-                  message: AppLocalizations.of(context)!.playlistToggleButtonTooltip,
+                  message:
+                      AppLocalizations.of(context)!.playlistToggleButtonTooltip,
                   child: ElevatedButton(
                     key: const Key('playlist_toggle_button'),
                     style: ButtonStyle(
@@ -474,7 +479,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
               SizedBox(
                 width: 90,
                 child: Tooltip(
-                  message: AppLocalizations.of(context)!.downloadSelPlaylistsButtonTooltip,
+                  message: AppLocalizations.of(context)!
+                      .downloadSelPlaylistsButtonTooltip,
                   child: ElevatedButton(
                     key: const Key('download_sel_playlists_button'),
                     style: ButtonStyle(
@@ -486,12 +492,13 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                     ),
                     onPressed: (Provider.of<ExpandablePlaylistListVM>(context)
                                 .isButtonDownloadSelPlaylistsEnabled &&
-                            !Provider.of<AudioDownloadVM>(context).isDownloading)
+                            !Provider.of<AudioDownloadVM>(context)
+                                .isDownloading)
                         ? () async {
                             ExpandablePlaylistListVM expandablePlaylistListVM =
                                 Provider.of<ExpandablePlaylistListVM>(context,
                                     listen: false);
-                
+
                             // disable the sorted filtered playable audio list
                             // downloading audios of selected playlists so that
                             // the currently displayed audio list is not sorted
@@ -500,19 +507,20 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                             // list.
                             expandablePlaylistListVM
                                 .disableSortedFilteredPlayableAudioLst();
-                
+
                             List<Playlist> selectedPlaylists =
                                 expandablePlaylistListVM.getSelectedPlaylists();
-                
+
                             // currently only one playlist can be selected and
                             // downloaded at a time.
-                            await Provider.of<AudioDownloadVM>(context, listen: false)
+                            await Provider.of<AudioDownloadVM>(context,
+                                    listen: false)
                                 .downloadPlaylistAudios(
                                     playlistUrl: selectedPlaylists[0].url);
                           }
                         : null,
-                    child: Text(
-                        AppLocalizations.of(context)!.downloadSelectedPlaylists),
+                    child: Text(AppLocalizations.of(context)!
+                        .downloadSelectedPlaylists),
                   ),
                 ),
               ),
@@ -711,15 +719,6 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                     final audio = _selectedPlaylistsPlayableAudios[index];
                     return AudioListItemWidget(
                       audio: audio,
-                      onPlayPressedFunction: (Audio audio) {
-                        _audioPlayerViwModel.playFromFileSource(audio);
-                      },
-                      onStopPressedFunction: (Audio audio) {
-                        _audioPlayerViwModel.stop(audio);
-                      },
-                      onPausePressedFunction: (Audio audio) {
-                        _audioPlayerViwModel.pause(audio);
-                      },
                     );
                   },
                 );

@@ -8,10 +8,18 @@ import '../models/audio.dart';
 
 class AudioPlayerVM extends ChangeNotifier {
   /// Play an audio file located in the device file system.
-  /// 
+  ///
   /// Example: filePathName =
   /// '/storage/emulated/0/Download/audio/230628-audio short 23-06-10.mp3'
-  Future<void> playFromFileSource(Audio audio) async {
+  /// 
+  /// {playBackRate} is the speed of playing the audio file. It is 1.0 by
+  /// default. In this case, the speed of playing the audio file is the one
+  /// defined in the audio instance itself. If {playBackRate} is different
+  /// from 1.0, the speed of the audio file is changed to {playBackRate}.
+  Future<void> playFromFileSource({
+    required Audio audio,
+    double playBackRate = 1.0,
+  }) async {
     final file = File(audio.filePathName);
 
     if (!await file.exists()) {
@@ -26,23 +34,24 @@ class AudioPlayerVM extends ChangeNotifier {
     }
 
     await audioPlayer.play(DeviceFileSource(audio.filePathName));
-    await audioPlayer.setPlaybackRate(audio.playSpeed);
+    await audioPlayer.setPlaybackRate(
+        (playBackRate == 1.0) ? audio.playSpeed : playBackRate);
     audio.isPlaying = true;
 
     notifyListeners();
   }
 
   /// Play an audio file located in the assets folder.
-  /// 
+  ///
   /// Example: filePathName = 'audio/Sirdalud.mp3' if
   /// the audio file is located in the assets/audio folder.
-  /// 
+  ///
   /// Path separator must be / and not \ since the assets/audio
   /// path is defined in the pubspec.yaml file.
 
   Future<void> playFromAssets(Audio audio) async {
     final file = File(audio.filePathName);
-    
+
     if (!await file.exists()) {
       print('File not found: ${audio.filePathName}');
     }

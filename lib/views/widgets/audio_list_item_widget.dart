@@ -30,16 +30,10 @@ enum AudioPopupMenuAction {
 
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
-  final void Function(Audio audio) onPlayPressedFunction;
-  final void Function(Audio audio) onStopPressedFunction;
-  final void Function(Audio audio) onPausePressedFunction;
 
   const AudioListItemWidget({
     super.key,
     required this.audio,
-    required this.onPlayPressedFunction,
-    required this.onStopPressedFunction,
-    required this.onPausePressedFunction,
   });
 
   @override
@@ -316,7 +310,10 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
           return IconButton(
             icon: const Icon(Icons.play_arrow),
             onPressed: () {
-              audioPlayerViewModel.playFromFileSource(audio);
+              audioPlayerViewModel.playFromFileSource(
+                audio: audio,
+                playBackRate: 1.25,
+              );
             },
           );
         }
