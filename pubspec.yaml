@@ -25,7 +25,7 @@ dependencies:
   another_flushbar: ^1.12.29
   url_launcher: ^6.1.10
   path: ^1.8.3
-  permission_handler: ^11.0.0
+  permission_handler: ^11.0.1
 
 dev_dependencies:
   flutter_test:
