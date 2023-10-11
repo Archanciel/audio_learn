@@ -2,13 +2,13 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
+import '../services/permission_requester_service.dart';
 import '../utils/ui_util.dart';
 import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/audio_player_vm.dart';
@@ -54,7 +54,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
   @override
   void initState() {
     super.initState();
-    requestMultiplePermissions();
+    PermissionRequesterService.requestMultiplePermissions();
   }
 
   @override
@@ -62,41 +62,6 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
     _playlistUrlController.dispose();
     _scrollController.dispose();
     super.dispose();
-  }
-
-  /// Requires adding the lines below to the main and debug AndroidManifest.xml
-  /// files in order to work on S20 - Android 13 !
-  ///     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-  ///     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
-  ///     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-  void requestMultiplePermissions() async {
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.storage,
-      Permission
-          .manageExternalStorage, // Android 11 (API level 30) or higher only
-      Permission.microphone,
-      Permission.mediaLibrary,
-      Permission.speech,
-      Permission.audio,
-      Permission.videos,
-      Permission.notification
-    ].request();
-
-    // Vous pouvez maintenant vérifier l'état de chaque permission
-    if (!statuses[Permission.storage]!.isGranted ||
-        !statuses[Permission.manageExternalStorage]!.isGranted ||
-        !statuses[Permission.microphone]!.isGranted ||
-        !statuses[Permission.mediaLibrary]!.isGranted ||
-        !statuses[Permission.speech]!.isGranted ||
-        !statuses[Permission.audio]!.isGranted ||
-        !statuses[Permission.videos]!.isGranted ||
-        !statuses[Permission.notification]!.isGranted) {
-      // Une ou plusieurs permissions n'ont pas été accordées.
-      // Vous pouvez désactiver les fonctionnalités correspondantes dans
-      // votre application ou montrer une alerte à l'utilisateur.
-    } else {
-      // Toutes les permissions ont été accordées, vous pouvez continuer avec vos fonctionnalités.
-    }
   }
 
   @override
