@@ -792,4 +792,96 @@ void main() {
       );
     },
   );
+  group(
+    'DateTimeParser.roundDateTimeToHour()',
+    () {
+      test(
+        'rounding date time to next hour',
+        () {
+          final DateTime dateTime = DateTime(2021, 1, 1, 13, 35);
+          final DateTime roundedDateTime =
+              DateTimeParser.roundDateTimeToHour(dateTime);
+          expect(roundedDateTime, DateTime(2021, 1, 1, 14, 0));
+        },
+      );
+      test(
+        'rounding date time to next hour 30 minutes',
+        () {
+          final DateTime dateTime = DateTime(2021, 1, 1, 13, 30);
+          final DateTime roundedDateTime =
+              DateTimeParser.roundDateTimeToHour(dateTime);
+          expect(roundedDateTime, DateTime(2021, 1, 1, 14, 0));
+        },
+      );
+      test(
+        'rounding date time to hour',
+        () {
+          final DateTime dateTime = DateTime(2021, 1, 1, 13, 25);
+          final DateTime roundedDateTime =
+              DateTimeParser.roundDateTimeToHour(dateTime);
+          expect(roundedDateTime, DateTime(2021, 1, 1, 13, 0));
+        },
+      );
+    },
+  );
+  group(
+    'DateTimeParser.truncateDateTimeToMinute()',
+    () {
+      test(
+        'truncating date time + 30 seconds to minute',
+        () {
+          final DateTime dateTime = DateTime(2021, 1, 1, 13, 25, 30);
+          final DateTime truncatedDateTime =
+              DateTimeParser.truncateDateTimeToMinute(dateTime);
+          expect(truncatedDateTime, DateTime(2021, 1, 1, 13, 25));
+        },
+      );
+      test(
+        'truncating date time + 59 seconds to minute',
+        () {
+          final DateTime dateTime = DateTime(2021, 1, 1, 13, 25, 59);
+          final DateTime truncatedDateTime =
+              DateTimeParser.truncateDateTimeToMinute(dateTime);
+          expect(truncatedDateTime, DateTime(2021, 1, 1, 13, 25));
+        },
+      );
+      test(
+        'truncating date time + 1 seconds to minute',
+        () {
+          final DateTime dateTime = DateTime(2021, 1, 1, 13, 25, 1);
+          final DateTime truncatedDateTime =
+              DateTimeParser.truncateDateTimeToMinute(dateTime);
+          expect(truncatedDateTime, DateTime(2021, 1, 1, 13, 25));
+        },
+      );
+    },
+  );
+  group(
+    'DateTimeParser.truncateDateTimeToDay()',
+    () {
+      test(
+        'positive times string',
+        () {
+          const String timeStr = '13:35 3:05,0:05, 0:05,3:u5 3:5, 3-05 3-5';
+
+          List<String> parsedTimeStrLst =
+              DateTimeParser.parseAllHHMMTimeStr(timeStr);
+
+          expect(parsedTimeStrLst, ['13:35', '3:05', '0:05', '0:05']);
+        },
+      );
+      test(
+        'negative times string',
+        () {
+          const String negativeTimeStr =
+              '-13:35 -3:05,-0:05,-3-05 -3:u5, -3:5 -3-5';
+
+          List<String> parsedNegTimeStrLst =
+              DateTimeParser.parseAllHHMMTimeStr(negativeTimeStr);
+
+          expect(parsedNegTimeStrLst, ['-13:35', '-3:05', '-0:05']);
+        },
+      );
+    },
+  );
  }
