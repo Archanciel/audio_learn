@@ -55,6 +55,12 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
   void initState() {
     super.initState();
     PermissionRequesterService.requestMultiplePermissions();
+
+    // enabling to download a playlist in the emulator in which
+    // pasting a URL is not possible
+    // if (kPastedPlaylistUrl.isNotEmpty) {
+    //   _playlistUrlController.text = kPastedPlaylistUrl;
+    // }
   }
 
   @override

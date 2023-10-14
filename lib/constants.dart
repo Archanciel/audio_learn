@@ -23,6 +23,12 @@ const String kDownloadAppTestSavedDataDir =
 const String kDownloadAppTestDirWindows =
     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
 
+// this constant enables to download a playlist in the emulator in which
+// pasting a URL is not possible. The constant is used in
+// _ExpandablePlaylistListViewState.initState().
+// const String kPastedPlaylistUrl =
+//     'https://youtube.com/playlist?list=PLzwWSJNcZTMSOMooR_y9PtJlJLpEKWbAv&si=LJ7w9Ms_ymqwJdT';
+
 // usefull to delete all files in the audio dir of the emulator
 const bool kDeleteAppDir = false;
 
@@ -49,7 +55,8 @@ const double kSmallButtonInsidePadding = 3.0;
 const double kDefaultMargin = 15.0;
 const kFlushbarEdgeInsets = EdgeInsets.fromLTRB(15, 78, 15, 0);
 const double kRoundedButtonBorderRadius = 11.0;
-const Color kIconColor = Color.fromARGB(246, 44, 61, 255);  // rgba(44, 61, 246, 255)
+const Color kIconColor =
+    Color.fromARGB(246, 44, 61, 255); // rgba(44, 61, 246, 255)
 const Color kButtonColor = Color(0xFF3D3EC2);
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
@@ -75,6 +82,6 @@ const double kDialogTextFieldHeight = 32.0;
 
 const String kYoutubeUrl = 'https://www.youtube.com/';
 
-// true makes sense if audios are played in 
+// true makes sense if audios are played in
 // Smart AudioBook app
 const bool kAudioFileNamePrefixIncludeTime = true;
