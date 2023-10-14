@@ -860,26 +860,30 @@ void main() {
     'DateTimeParser.truncateDateTimeToDay()',
     () {
       test(
-        'positive times string',
+        'truncating date time + 0 hour 25 minutes 30 seconds to date only DateTime',
         () {
-          const String timeStr = '13:35 3:05,0:05, 0:05,3:u5 3:5, 3-05 3-5';
-
-          List<String> parsedTimeStrLst =
-              DateTimeParser.parseAllHHMMTimeStr(timeStr);
-
-          expect(parsedTimeStrLst, ['13:35', '3:05', '0:05', '0:05']);
+          final DateTime dateTime = DateTime(2021, 1, 1, 0, 25, 30);
+          final DateTime truncatedDateTime =
+              DateTimeParser.truncateDateTimeToDay(dateTime);
+          expect(truncatedDateTime, DateTime(2021, 1, 1));
         },
       );
       test(
-        'negative times string',
+        'truncating date time + 0 hour 0 minute 30 seconds to date only DateTime',
         () {
-          const String negativeTimeStr =
-              '-13:35 -3:05,-0:05,-3-05 -3:u5, -3:5 -3-5';
-
-          List<String> parsedNegTimeStrLst =
-              DateTimeParser.parseAllHHMMTimeStr(negativeTimeStr);
-
-          expect(parsedNegTimeStrLst, ['-13:35', '-3:05', '-0:05']);
+          final DateTime dateTime = DateTime(2021, 1, 1, 0, 0, 30);
+          final DateTime truncatedDateTime =
+              DateTimeParser.truncateDateTimeToDay(dateTime);
+          expect(truncatedDateTime, DateTime(2021, 1, 1));
+        },
+      );
+      test(
+        'truncating date time + 0 hour 0 minute 0 seconds 10 milliseconds to date only DateTime',
+        () {
+          final DateTime dateTime = DateTime(2021, 1, 1, 0, 0, 0, 10);
+          final DateTime truncatedDateTime =
+              DateTimeParser.truncateDateTimeToDay(dateTime);
+          expect(truncatedDateTime, DateTime(2021, 1, 1));
         },
       );
     },
