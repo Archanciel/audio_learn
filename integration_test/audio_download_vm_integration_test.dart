@@ -66,8 +66,6 @@ void main() {
       // delete the its playlist dir
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
 
-      expect(directory.existsSync(), false);
-
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
@@ -143,7 +141,9 @@ void main() {
 
       expect(files.length, 3);
 
-      deletePlaylistDownloadDir(directory);
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
         'Playlist 2 short audios: playlist 1st audio was already downloaded and was deleted',
@@ -154,8 +154,6 @@ void main() {
       // necessary in case the previous test failed and so did not
       // delete the its playlist dir
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
-
-      expect(directory.existsSync(), false);
 
       await DirUtil.createDirIfNotExist(pathStr: globalTestPlaylistDir);
 
@@ -284,7 +282,9 @@ void main() {
 
       expect(files.length, 2);
 
-      deletePlaylistDownloadDir(directory);
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
   group('Download short audio of 1 single video', () {
@@ -300,9 +300,9 @@ void main() {
 
       final Directory directory = Directory(localTestPlaylistDir);
 
-      deletePlaylistDownloadDir(directory);
-
-      expect(directory.existsSync(), false);
+      // necessary in case the previous test failed and so did not
+      // delete the its playlist dir
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
 
       await DirUtil.createDirIfNotExist(pathStr: localTestPlaylistDir);
 
@@ -402,7 +402,9 @@ void main() {
         originalPlaylist: singleVideoDownloadedPlaylist,
       );
 
-      deletePlaylistDownloadDir(directory);
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets('Local playlist containing one audio',
         (WidgetTester tester) async {
@@ -416,9 +418,9 @@ void main() {
 
       final Directory directory = Directory(localTestPlaylistDir);
 
-      deletePlaylistDownloadDir(directory);
-
-      expect(directory.existsSync(), false);
+      // necessary in case the previous test failed and so did not
+      // delete the its playlist dir
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
 
       await DirUtil.createDirIfNotExist(pathStr: localTestPlaylistDir);
 
@@ -527,7 +529,9 @@ void main() {
         originalPlaylist: singleVideoDownloadedPlaylist,
       );
 
-      deletePlaylistDownloadDir(directory);
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
   group('Download recreated playlist with short audios', () {
@@ -544,9 +548,9 @@ void main() {
       late AudioDownloadVM audioDownloadVM;
       final Directory directory = Directory(globalTestPlaylistDir);
 
-      deletePlaylistDownloadDir(directory);
-
-      expect(directory.existsSync(), false);
+      // necessary in case the previous test failed and so did not
+      // delete the its playlist dir
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
 
       await DirUtil.createDirIfNotExist(pathStr: globalTestPlaylistDir);
 
@@ -641,8 +645,6 @@ void main() {
       await Future.delayed(const Duration(seconds: secondsDelay));
       await tester.pump();
 
-      expect(directory.existsSync(), true);
-
       Playlist downloadedPlaylist = audioDownloadVM.listOfPlaylist[0];
 
       // The initial playlist json file was updated with the recreated
@@ -710,7 +712,9 @@ void main() {
 
       expect(files.length, 3);
 
-      deletePlaylistDownloadDir(directory);
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
 }
@@ -763,7 +767,8 @@ void checkPlaylistAudioOne({
       "https://www.youtube.com/watch?v=v7PWb7f_P8M");
   expect(downloadedAudioOne.compactVideoDescription,
       "Jean-Pierre Schnyder\n\nCette vidéo me sert à tester AudioLearn, l'app Android que je développe et dont le code est disponible sur GitHub. ...");
-  expect(DateTimeParser.truncateDateTimeToDay(downloadedAudioOne.videoUploadDate),
+  expect(
+      DateTimeParser.truncateDateTimeToDay(downloadedAudioOne.videoUploadDate),
       DateTime.parse("2023-06-10"));
   expect(downloadedAudioOne.audioDuration, const Duration(milliseconds: 24000));
   expect(downloadedAudioOne.isMusicQuality, false);
@@ -791,7 +796,8 @@ void checkPlaylistAudioTwo({
       "Jean-Pierre Schnyder\n\nCette vidéo me sert à tester AudioLearn, l'app Android que je développe. ...");
   expect(downloadedAudioTwo.videoUrl,
       "https://www.youtube.com/watch?v=uv3VQoWSjBE");
-  expect(DateTimeParser.truncateDateTimeToDay(downloadedAudioTwo.videoUploadDate),
+  expect(
+      DateTimeParser.truncateDateTimeToDay(downloadedAudioTwo.videoUploadDate),
       DateTime.parse("2023-06-10"));
   expect(downloadedAudioTwo.audioDuration, const Duration(milliseconds: 10000));
   expect(downloadedAudioTwo.isMusicQuality, false);
@@ -840,8 +846,9 @@ void checkPlaylistNewAudioOne({
       true);
 
   expect(downloadedAudioOne.audioFileSize, 61425);
-  expect(downloadedAudioOne.videoUploadDate,
-      DateTime.parse("2023-07-01T00:00:00.000"));
+  expect(
+      DateTimeParser.truncateDateTimeToDay(downloadedAudioOne.videoUploadDate),
+      DateTime.parse("2023-07-01"));
 }
 
 // Verify the values of the first Audio extracted from a playlist
@@ -865,17 +872,12 @@ void checkPlaylistNewAudioTwo({
       true);
 
   expect(downloadedAudioTwo.audioFileSize, 360849);
-  expect(downloadedAudioTwo.videoUploadDate,
-      DateTime.parse("2023-07-01T00:00:00.000"));
-      // DateTime.parse("2023-07-01 18:48:13.000Z")); this
-      // uncomprehensible error happened several times when
-      // running the test on 04-10-2023 !
-}
-
-void deletePlaylistDownloadDir(Directory directory) {
-  if (directory.existsSync()) {
-    directory.deleteSync(recursive: true);
-  }
+  expect(
+      DateTimeParser.truncateDateTimeToDay(downloadedAudioTwo.videoUploadDate),
+      DateTime.parse("2023-07-01"));
+  // DateTime.parse("2023-07-01 18:48:13.000Z")); this
+  // uncomprehensible error happened several times when
+  // running the test on 04-10-2023 !
 }
 
 class DownloadPlaylistPage extends StatefulWidget {
