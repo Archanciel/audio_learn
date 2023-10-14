@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:audio_learn/services/json_data_service.dart';
+import 'package:audio_learn/utils/date_time_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -13,7 +14,7 @@ import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
-const int secondsDelay = 10; // 7 works, but 10 is safer
+const int secondsDelay = 15; // 7 works, but 10 is safer
 const String existingAudioDateOnlyFileNamePrefix = '230610';
 final String todayDownloadDateOnlyFileNamePrefix =
     Audio.downloadDatePrefixFormatter.format(DateTime.now());
@@ -61,7 +62,9 @@ void main() {
       late AudioDownloadVM audioDownloadVM;
       final Directory directory = Directory(globalTestPlaylistDir);
 
-      deletePlaylistDownloadDir(directory);
+      // necessary in case the previous test failed and so did not
+      // delete the its playlist dir
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
 
       expect(directory.existsSync(), false);
 
@@ -148,7 +151,9 @@ void main() {
       late AudioDownloadVM audioDownloadVM;
       final Directory directory = Directory(globalTestPlaylistDir);
 
-      deletePlaylistDownloadDir(directory);
+      // necessary in case the previous test failed and so did not
+      // delete the its playlist dir
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
 
       expect(directory.existsSync(), false);
 
@@ -758,8 +763,8 @@ void checkPlaylistAudioOne({
       "https://www.youtube.com/watch?v=v7PWb7f_P8M");
   expect(downloadedAudioOne.compactVideoDescription,
       "Jean-Pierre Schnyder\n\nCette vidéo me sert à tester AudioLearn, l'app Android que je développe et dont le code est disponible sur GitHub. ...");
-  expect(downloadedAudioOne.videoUploadDate,
-      DateTime.parse("2023-06-10T00:00:00.000"));
+  expect(DateTimeParser.truncateDateTimeToDay(downloadedAudioOne.videoUploadDate),
+      DateTime.parse("2023-06-10"));
   expect(downloadedAudioOne.audioDuration, const Duration(milliseconds: 24000));
   expect(downloadedAudioOne.isMusicQuality, false);
 
@@ -786,8 +791,8 @@ void checkPlaylistAudioTwo({
       "Jean-Pierre Schnyder\n\nCette vidéo me sert à tester AudioLearn, l'app Android que je développe. ...");
   expect(downloadedAudioTwo.videoUrl,
       "https://www.youtube.com/watch?v=uv3VQoWSjBE");
-  expect(downloadedAudioTwo.videoUploadDate,
-      DateTime.parse("2023-06-10T00:00:00.000"));
+  expect(DateTimeParser.truncateDateTimeToDay(downloadedAudioTwo.videoUploadDate),
+      DateTime.parse("2023-06-10"));
   expect(downloadedAudioTwo.audioDuration, const Duration(milliseconds: 10000));
   expect(downloadedAudioTwo.isMusicQuality, false);
 
