@@ -14,7 +14,7 @@ import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
-const int secondsDelay = 15; // 7 works, but 10 is safer
+const int secondsDelay = 10; // 7 works, but 10 is safer
 const String existingAudioDateOnlyFileNamePrefix = '230610';
 final String todayDownloadDateOnlyFileNamePrefix =
     Audio.downloadDatePrefixFormatter.format(DateTime.now());
