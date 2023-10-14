@@ -890,8 +890,8 @@ class _DownloadPlaylistPageState extends State<DownloadPlaylistPage> {
 
   @override
   void initState() {
-    _urlController.text = widget.playlistUrl;
     super.initState();
+    _urlController.text = widget.playlistUrl;
   }
 
   @override

@@ -34,6 +34,8 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
 
   @override
   void initState() {
+    super.initState();
+
     // Add this line to request focus on the TextField after the build
     // method has been called
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -41,8 +43,6 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
         _localPlaylistTitleFocusNode,
       );
     });
-
-    super.initState();
   }
 
   @override

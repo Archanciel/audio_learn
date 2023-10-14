@@ -33,6 +33,8 @@ class _RenameAudioFileDialogWidgetState
 
   @override
   void initState() {
+    super.initState();
+
     // Add this line to request focus on the TextField after the build
     // method has been called
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -41,8 +43,6 @@ class _RenameAudioFileDialogWidgetState
       );
       _audioFileNameTextEditingController.text = widget.audio.audioFileName;
     });
-
-    super.initState();
   }
 
   @override
