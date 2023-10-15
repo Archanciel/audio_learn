@@ -29,8 +29,6 @@ class _RenameAudioFileDialogWidgetState
       TextEditingController();
   final FocusNode _audioFileNameFocusNode = FocusNode();
 
-  final bool _isChecked = false;
-
   @override
   void initState() {
     super.initState();
