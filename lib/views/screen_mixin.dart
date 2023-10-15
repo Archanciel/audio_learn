@@ -7,6 +7,111 @@ import '../constants.dart';
 mixin ScreenMixin {
   static const double CHECKBOX_WIDTH_HEIGHT = 20.0;
 
+  final ThemeData themeDataDark = ThemeData.dark().copyWith(
+    colorScheme: ThemeData.dark().colorScheme.copyWith(
+          background: Colors.black,
+          surface: Colors.black,
+        ),
+    primaryColor: Colors.black,
+    scaffoldBackgroundColor: Colors.black,
+    iconTheme: ThemeData.dark().iconTheme.copyWith(
+          color: kIconColor, // Set icon color in dark mode
+        ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: kButtonColor, // Set button color in dark mode
+        foregroundColor: Colors.white, // Set button text color in dark mode
+      ),
+    ),
+    textTheme: ThemeData.dark().textTheme.copyWith(
+          bodyMedium: ThemeData.dark()
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: kButtonColor),
+          titleMedium: ThemeData.dark()
+              .textTheme
+              .titleMedium!
+              .copyWith(color: Colors.white),
+        ),
+    checkboxTheme: ThemeData.dark().checkboxTheme.copyWith(
+          checkColor: MaterialStateProperty.all(
+            Colors.white, // Set Checkbox fill color
+          ),
+          fillColor: MaterialStateProperty.all(
+            kIconColor, // Set Checkbox check color
+          ),
+        ),
+    // determines the background color and border of
+    // TextField
+    inputDecorationTheme: const InputDecorationTheme(
+      // fillColor: Colors.grey[900],
+      fillColor: Colors.black,
+      filled: true,
+      border: OutlineInputBorder(),
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: Colors.white,
+      selectionColor: Colors.white.withOpacity(0.3),
+      selectionHandleColor: Colors.white.withOpacity(0.5),
+    ),
+  );
+
+  final ThemeData themeDataLight = ThemeData.light().copyWith(
+    colorScheme: ThemeData.light().colorScheme.copyWith(
+          background: Colors.white,
+          surface: Colors.white,
+        ),
+    primaryColor: Colors.white,
+    scaffoldBackgroundColor: Colors.white,
+    iconTheme: ThemeData.light().iconTheme.copyWith(
+          color: kIconColor, // Set icon color in light mode
+        ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: kButtonColor, // Set button color in light mode
+        foregroundColor: Colors.white, // Set button text color in light mode
+      ),
+    ),
+    textTheme: ThemeData.light().textTheme.copyWith(
+          bodyMedium: ThemeData.light()
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: kButtonColor),
+          titleMedium: ThemeData.light()
+              .textTheme
+              .titleMedium!
+              .copyWith(color: Colors.black),
+        ),
+    checkboxTheme: ThemeData.light().checkboxTheme.copyWith(
+          checkColor: MaterialStateProperty.all(
+            Colors.white, // Set Checkbox fill color
+          ),
+          fillColor: MaterialStateProperty.all(
+            kIconColor, // Set Checkbox check color
+          ),
+        ),
+    // determines the background color and border of
+    // TextField
+    inputDecorationTheme: const InputDecorationTheme(
+      // fillColor: Colors.grey[900],
+      fillColor: Colors.white,
+      filled: true,
+      border: OutlineInputBorder(),
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: Colors.black,
+      selectionColor: Colors.grey.withOpacity(0.3),
+      selectionHandleColor: Colors.grey.withOpacity(0.5),
+    ),
+    // is required so that the icon color of the
+    // ListTile items are correct. In dark mode, this
+    // is specification is not required, I don't know why.
+    listTileTheme: ThemeData.light().listTileTheme.copyWith(
+          iconColor: kIconColor, // Set icon color in light mode
+        ),
+    // Add any other customizations for light mode
+  );
+
   Future<void> openUrlInExternalApp({
     required String url,
   }) async {

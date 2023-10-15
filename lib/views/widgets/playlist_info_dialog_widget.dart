@@ -13,7 +13,7 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
   final int playlistJsonFileSize;
   final FocusNode focusNode;
 
-  const PlaylistInfoDialogWidget({
+  PlaylistInfoDialogWidget({
     required this.playlist,
     required this.playlistJsonFileSize,
     required this.focusNode,
