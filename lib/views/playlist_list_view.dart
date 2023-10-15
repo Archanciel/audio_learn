@@ -11,7 +11,7 @@ import '../models/playlist.dart';
 import '../services/permission_requester_service.dart';
 import '../utils/ui_util.dart';
 import '../viewmodels/audio_download_vm.dart';
-import '../viewmodels/expandable_playlist_list_vm.dart';
+import '../viewmodels/playlist_list_vm.dart';
 import 'widgets/add_playlist_dialog_widget.dart';
 import 'widgets/audio_learn_snackbar.dart';
 import 'widgets/audio_list_item_widget.dart';
@@ -28,21 +28,19 @@ enum PlaylistPopupMenuButton {
   updateAppPlaylistList,
 }
 
-class ExpandablePlaylistListView extends StatefulWidget {
+class PlaylistListView extends StatefulWidget {
   final MaterialStateProperty<RoundedRectangleBorder>
       appElevatedButtonRoundedShape =
       MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius)));
 
-  ExpandablePlaylistListView({super.key});
+  PlaylistListView({super.key});
 
   @override
-  State<ExpandablePlaylistListView> createState() =>
-      _ExpandablePlaylistListViewState();
+  State<PlaylistListView> createState() => _PlaylistListViewState();
 }
 
-class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
-    with ScreenMixin {
+class _PlaylistListViewState extends State<PlaylistListView> with ScreenMixin {
   final TextEditingController _playlistUrlController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -122,7 +120,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           key: const Key('selectedPlaylistTextField'),
                           readOnly: true,
                           controller: TextEditingController(
-                            text: Provider.of<ExpandablePlaylistListVM>(context)
+                            text: Provider.of<PlaylistListVM>(context)
                                     .uniqueSelectedPlaylist
                                     ?.title ??
                                 '',
@@ -198,9 +196,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         ),
                       ),
                       onPressed: () {
-                        ExpandablePlaylistListVM expandablePlaylistListVM =
-                            Provider.of<ExpandablePlaylistListVM>(context,
-                                listen: false);
+                        PlaylistListVM expandablePlaylistListVM =
+                            Provider.of<PlaylistListVM>(context, listen: false);
 
                         // disabling the sorted filtered playable audio list
                         // downloading audios of selected playlists so that
@@ -224,8 +221,8 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                             focusNode: focusNode,
                           ),
                         ).then((_) {
-                          ExpandablePlaylistListVM expandablePlaylistVM =
-                              Provider.of<ExpandablePlaylistListVM>(context,
+                          PlaylistListVM expandablePlaylistVM =
+                              Provider.of<PlaylistListVM>(context,
                                   listen: false);
                           selectedTargetPlaylist =
                               expandablePlaylistVM.uniqueSelectedPlaylist;
@@ -401,8 +398,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       ),
                     ),
                     onPressed: () {
-                      Provider.of<ExpandablePlaylistListVM>(context,
-                              listen: false)
+                      Provider.of<PlaylistListVM>(context, listen: false)
                           .toggleList();
                     },
                     child: const Text('Playlists'),
@@ -412,11 +408,10 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
               Expanded(
                 child: IconButton(
                   key: const Key('move_up_playlist_button'),
-                  onPressed: Provider.of<ExpandablePlaylistListVM>(context)
+                  onPressed: Provider.of<PlaylistListVM>(context)
                           .isButtonMoveUpPlaylistEnabled
                       ? () {
-                          Provider.of<ExpandablePlaylistListVM>(context,
-                                  listen: false)
+                          Provider.of<PlaylistListVM>(context, listen: false)
                               .moveSelectedItemUp();
                         }
                       : null,
@@ -430,11 +425,10 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
               Expanded(
                 child: IconButton(
                   key: const Key('move_down_playlist_button'),
-                  onPressed: Provider.of<ExpandablePlaylistListVM>(context)
+                  onPressed: Provider.of<PlaylistListVM>(context)
                           .isButtonDownPlaylistEnabled
                       ? () {
-                          Provider.of<ExpandablePlaylistListVM>(context,
-                                  listen: false)
+                          Provider.of<PlaylistListVM>(context, listen: false)
                               .moveSelectedItemDown();
                         }
                       : null,
@@ -459,13 +453,13 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                             horizontal: kSmallButtonInsidePadding),
                       ),
                     ),
-                    onPressed: (Provider.of<ExpandablePlaylistListVM>(context)
+                    onPressed: (Provider.of<PlaylistListVM>(context)
                                 .isButtonDownloadSelPlaylistsEnabled &&
                             !Provider.of<AudioDownloadVM>(context)
                                 .isDownloading)
                         ? () async {
-                            ExpandablePlaylistListVM expandablePlaylistListVM =
-                                Provider.of<ExpandablePlaylistListVM>(context,
+                            PlaylistListVM expandablePlaylistListVM =
+                                Provider.of<PlaylistListVM>(context,
                                     listen: false);
 
                             // disable the sorted filtered playable audio list
@@ -509,7 +503,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                       },
                     ),
                     value: audioDownloadViewModel.isHighQuality,
-                    onChanged: (Provider.of<ExpandablePlaylistListVM>(context)
+                    onChanged: (Provider.of<PlaylistListVM>(context)
                                 .isButtonMoveUpPlaylistEnabled &&
                             !Provider.of<AudioDownloadVM>(context)
                                 .isDownloading)
@@ -536,7 +530,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                 width: 35,
                 child: PopupMenuButton<PlaylistPopupMenuButton>(
                   key: const Key('audio_popup_menu_button'),
-                  enabled: (Provider.of<ExpandablePlaylistListVM>(context)
+                  enabled: (Provider.of<PlaylistListVM>(context)
                       .isButtonAudioPopupMenuEnabled),
                   onSelected: (PlaylistPopupMenuButton value) {
                     // Handle menu item selection
@@ -550,7 +544,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           builder: (BuildContext context) {
                             return SortAndFilterAudioDialogWidget(
                               selectedPlaylistAudioLst:
-                                  Provider.of<ExpandablePlaylistListVM>(context)
+                                  Provider.of<PlaylistListVM>(context)
                                       .getSelectedPlaylistsPlayableAudios(
                                 subFilterAndSort: false,
                               ),
@@ -560,8 +554,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         ).then((result) {
                           if (result != null) {
                             List<Audio> returnedAudioList = result;
-                            Provider.of<ExpandablePlaylistListVM>(context,
-                                    listen: false)
+                            Provider.of<PlaylistListVM>(context, listen: false)
                                 .setSortedFilteredSelectedPlaylistsPlayableAudios(
                                     returnedAudioList);
                           }
@@ -577,7 +570,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                           builder: (BuildContext context) {
                             return SortAndFilterAudioDialogWidget(
                               selectedPlaylistAudioLst:
-                                  Provider.of<ExpandablePlaylistListVM>(context)
+                                  Provider.of<PlaylistListVM>(context)
                                       .getSelectedPlaylistsPlayableAudios(
                                 subFilterAndSort: true,
                               ),
@@ -587,8 +580,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         ).then((result) {
                           if (result != null) {
                             List<Audio> returnedAudioList = result;
-                            Provider.of<ExpandablePlaylistListVM>(context,
-                                    listen: false)
+                            Provider.of<PlaylistListVM>(context, listen: false)
                                 .setSortedFilteredSelectedPlaylistsPlayableAudios(
                                     returnedAudioList);
                           }
@@ -596,8 +588,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
                         focusNode.requestFocus();
                         break;
                       case PlaylistPopupMenuButton.updatePlaylistJson:
-                        Provider.of<ExpandablePlaylistListVM>(context,
-                                listen: false)
+                        Provider.of<PlaylistListVM>(context, listen: false)
                             .updateSettingsAndPlaylistJsonFiles();
                         break;
                       default:
@@ -632,7 +623,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
               ),
             ],
           ),
-          Consumer<ExpandablePlaylistListVM>(
+          Consumer<PlaylistListVM>(
             builder: (context, expandablePlaylistListVM, child) {
               if (expandablePlaylistListVM.isListExpanded) {
                 List<Playlist> upToDateSelectablePlaylists =
@@ -660,7 +651,7 @@ class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
             },
           ),
           Expanded(
-            child: Consumer<ExpandablePlaylistListVM>(
+            child: Consumer<PlaylistListVM>(
               builder: (context, expandablePlaylistListVM, child) {
                 _selectedPlaylistsPlayableAudios = expandablePlaylistListVM
                     .getSelectedPlaylistsPlayableAudios();

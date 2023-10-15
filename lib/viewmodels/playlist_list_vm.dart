@@ -8,7 +8,7 @@ import 'audio_download_vm.dart';
 import 'warning_message_vm.dart';
 
 /// List view model used in ExpandableListView
-class ExpandablePlaylistListVM extends ChangeNotifier {
+class PlaylistListVM extends ChangeNotifier {
   bool _isListExpanded = false;
   bool _isButtonDownloadSelPlaylistsEnabled = false;
   bool _isButtonMoveUpPlaylistEnabled = false;
@@ -33,7 +33,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
   Playlist? _uniqueSelectedPlaylist;
   Playlist? get uniqueSelectedPlaylist => _uniqueSelectedPlaylist;
 
-  ExpandablePlaylistListVM({
+  PlaylistListVM({
     required WarningMessageVM warningMessageVM,
     required AudioDownloadVM audioDownloadVM,
     required SettingsDataService settingsDataService,
@@ -134,10 +134,11 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     if (selectedPlaylistIndex != -1) {
       _isPlaylistSelected = true;
 
-      // required so that the TextField keyed by 
+      // required so that the TextField keyed by
       // 'selectedPlaylistTextField' below the playlist URL TextField
       // is initialized at app startup
-      _uniqueSelectedPlaylist = _listOfSelectablePlaylists[selectedPlaylistIndex];
+      _uniqueSelectedPlaylist =
+          _listOfSelectablePlaylists[selectedPlaylistIndex];
 
       _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
         selectedPlaylist: _listOfSelectablePlaylists[selectedPlaylistIndex],
@@ -145,7 +146,7 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     } else {
       _isPlaylistSelected = false;
 
-      // required so that the TextField keyed by 
+      // required so that the TextField keyed by
       // 'selectedPlaylistTextField' below the playlist URL TextField
       // is initialized at app startup
       _uniqueSelectedPlaylist = null;
@@ -443,16 +444,14 @@ class ExpandablePlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  void moveAudioToPlaylist({
-    required Audio audio,
-    required Playlist targetPlaylist,
-    required bool keepAudioDataInSourcePlaylist
-  }) {
+  void moveAudioToPlaylist(
+      {required Audio audio,
+      required Playlist targetPlaylist,
+      required bool keepAudioDataInSourcePlaylist}) {
     _audioDownloadVM.moveAudioToPlaylist(
-      audio: audio,
-      targetPlaylist: targetPlaylist,
-      keepAudioDataInSourcePlaylist: keepAudioDataInSourcePlaylist
-    );
+        audio: audio,
+        targetPlaylist: targetPlaylist,
+        keepAudioDataInSourcePlaylist: keepAudioDataInSourcePlaylist);
 
     _removeAudioFromSortedFilteredPlayableAudioList(audio);
 

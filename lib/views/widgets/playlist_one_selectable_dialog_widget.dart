@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/playlist.dart';
 import '../../services/settings_data_service.dart';
-import '../../viewmodels/expandable_playlist_list_vm.dart';
+import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/theme_provider.dart';
 
 class PlaylistOneSelectableDialogWidget extends StatefulWidget {
@@ -47,7 +47,7 @@ class _PlaylistOneSelectableDialogWidgetState
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;
-    return Consumer<ExpandablePlaylistListVM>(
+    return Consumer<PlaylistListVM>(
       builder: (context, expandablePlaylistVM, _) {
         List<Playlist> upToDateSelectablePlaylists;
 
@@ -96,10 +96,13 @@ class _PlaylistOneSelectableDialogWidgetState
               ),
             ),
             actions: [
-              (widget.excludedPlaylist != null && widget.excludedPlaylist!.playlistType == PlaylistType.youtube)
-                  ? Row( // in this case, the audio is moved from a Youtube
-                         // playlist and so the keep audio entry in source
-                         // playlist checkbox is displayed
+              (widget.excludedPlaylist != null &&
+                      widget.excludedPlaylist!.playlistType ==
+                          PlaylistType.youtube)
+                  ? Row(
+                      // in this case, the audio is moved from a Youtube
+                      // playlist and so the keep audio entry in source
+                      // playlist checkbox is displayed
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
@@ -128,11 +131,11 @@ class _PlaylistOneSelectableDialogWidgetState
                         ),
                       ],
                     )
-                  : Container(), // widget.excludedPlaylist == null in the 
-                                 // situation of downloading a single video
-                                 // audio. This is tested by 'Bug fix
-                                 // verification with partial download single
-                                 // video audio' integration test
+                  : Container(), // widget.excludedPlaylist == null in the
+              // situation of downloading a single video
+              // audio. This is tested by 'Bug fix
+              // verification with partial download single
+              // video audio' integration test
 
               ElevatedButton(
                 key: const Key('confirmButton'),

@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/playlist.dart';
-import '../../viewmodels/expandable_playlist_list_vm.dart';
+import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/warning_message_vm.dart';
 import '../screen_mixin.dart';
 import 'playlist_info_dialog_widget.dart';
@@ -29,7 +29,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ExpandablePlaylistListVM>(
+    return Consumer<PlaylistListVM>(
       builder: (context, expandablePlaylistListVM, child) {
         return ListTile(
           leading: IconButton(

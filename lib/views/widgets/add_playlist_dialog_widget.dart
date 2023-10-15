@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../models/audio.dart';
 import '../../models/playlist.dart';
 import '../../utils/ui_util.dart';
-import '../../viewmodels/expandable_playlist_list_vm.dart';
+import '../../viewmodels/playlist_list_vm.dart';
 
 class AddPlaylistDialogWidget extends StatefulWidget {
   final String playlistUrl;
@@ -131,8 +131,8 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
 
   void _addPlaylist(BuildContext context) {
     String localPlaylistTitle = _localPlaylistTitleTextEditingController.text;
-    ExpandablePlaylistListVM expandablePlaylistListVM =
-        Provider.of<ExpandablePlaylistListVM>(context, listen: false);
+    PlaylistListVM expandablePlaylistListVM =
+        Provider.of<PlaylistListVM>(context, listen: false);
 
     if (localPlaylistTitle.isNotEmpty) {
       // if the local playlist title is not empty, then add the local

@@ -9,13 +9,13 @@ import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/audio_player_vm.dart';
-import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
+import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:audio_learn/viewmodels/language_provider.dart';
 import 'package:audio_learn/viewmodels/theme_provider.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
-import 'package:audio_learn/views/expandable_playlist_list_view.dart';
+import 'package:audio_learn/views/playlist_list_view.dart';
 
-class MockExpandablePlaylistListVM extends ExpandablePlaylistListVM {
+class MockExpandablePlaylistListVM extends PlaylistListVM {
   MockExpandablePlaylistListVM({
     required WarningMessageVM warningMessageVM,
     required AudioDownloadVM audioDownloadVM,
@@ -50,7 +50,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      expect(find.byType(ExpandablePlaylistListView), findsOneWidget);
+      expect(find.byType(PlaylistListView), findsOneWidget);
     });
 
     testWidgets('should toggle list on press', (WidgetTester tester) async {
@@ -730,13 +730,13 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
-      Finder listViewFinder = find.byType(ExpandablePlaylistListView);
+      Finder listViewFinder = find.byType(PlaylistListView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
-      ExpandablePlaylistListVM listViewModel =
-          Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
-              listen: false);
+      PlaylistListVM listViewModel = Provider.of<PlaylistListVM>(
+          tester.element(listViewFinder),
+          listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
@@ -761,11 +761,11 @@ void main() {
       await tester.tap(downIconButtonFinder);
       await tester.pump();
 
-      listViewFinder = find.byType(ExpandablePlaylistListView);
+      listViewFinder = find.byType(PlaylistListView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
-      listViewModel = Provider.of<ExpandablePlaylistListVM>(
+      listViewModel = Provider.of<PlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists()[1].title,
@@ -825,13 +825,13 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
-      Finder listViewFinder = find.byType(ExpandablePlaylistListView);
+      Finder listViewFinder = find.byType(PlaylistListView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
-      ExpandablePlaylistListVM listViewModel =
-          Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
-              listen: false);
+      PlaylistListVM listViewModel = Provider.of<PlaylistListVM>(
+          tester.element(listViewFinder),
+          listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 4);
 
       // Find and select the ListTile to move'
@@ -858,11 +858,11 @@ void main() {
       await tester.tap(dowButtonFinder);
       await tester.pump();
 
-      listViewFinder = find.byType(ExpandablePlaylistListView);
+      listViewFinder = find.byType(PlaylistListView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
-      listViewModel = Provider.of<ExpandablePlaylistListVM>(
+      listViewModel = Provider.of<PlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists()[0].title,
@@ -921,13 +921,13 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
-      Finder listViewFinder = find.byType(ExpandablePlaylistListView);
+      Finder listViewFinder = find.byType(PlaylistListView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
-      ExpandablePlaylistListVM listViewModel =
-          Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
-              listen: false);
+      PlaylistListVM listViewModel = Provider.of<PlaylistListVM>(
+          tester.element(listViewFinder),
+          listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 4);
 
       // Find and select the ListTile to move'
@@ -954,11 +954,11 @@ void main() {
       await tester.tap(dowButtonFinder);
       await tester.pump();
 
-      listViewFinder = find.byType(ExpandablePlaylistListView);
+      listViewFinder = find.byType(PlaylistListView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
-      listViewModel = Provider.of<ExpandablePlaylistListVM>(
+      listViewModel = Provider.of<PlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists()[0].title,
@@ -1017,13 +1017,13 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pumpAndSettle();
 
-      Finder listViewFinder = find.byType(ExpandablePlaylistListView);
+      Finder listViewFinder = find.byType(PlaylistListView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
-      ExpandablePlaylistListVM listViewModel =
-          Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
-              listen: false);
+      PlaylistListVM listViewModel = Provider.of<PlaylistListVM>(
+          tester.element(listViewFinder),
+          listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
@@ -1048,11 +1048,11 @@ void main() {
       await tester.tap(upButtonFinder);
       await tester.pump();
 
-      listViewFinder = find.byType(ExpandablePlaylistListView);
+      listViewFinder = find.byType(PlaylistListView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
-      listViewModel = Provider.of<ExpandablePlaylistListVM>(
+      listViewModel = Provider.of<PlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists()[2].title,
@@ -1112,13 +1112,13 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
-      Finder listViewFinder = find.byType(ExpandablePlaylistListView);
+      Finder listViewFinder = find.byType(PlaylistListView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
-      ExpandablePlaylistListVM listViewModel =
-          Provider.of<ExpandablePlaylistListVM>(tester.element(listViewFinder),
-              listen: false);
+      PlaylistListVM listViewModel = Provider.of<PlaylistListVM>(
+          tester.element(listViewFinder),
+          listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists().length, 7);
 
       // Find and select the ListTile to move'
@@ -1145,11 +1145,11 @@ void main() {
       await tester.tap(upButtonFinder);
       await tester.pump();
 
-      listViewFinder = find.byType(ExpandablePlaylistListView);
+      listViewFinder = find.byType(PlaylistListView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
-      listViewModel = Provider.of<ExpandablePlaylistListVM>(
+      listViewModel = Provider.of<PlaylistListVM>(
           tester.element(listViewFinder),
           listen: false);
       expect(listViewModel.getUpToDateSelectablePlaylists()[0].title,
@@ -1164,7 +1164,7 @@ void main() {
   });
 }
 
-/// This constructor instanciates the [ExpandablePlaylistListView]
+/// This constructor instanciates the [PlaylistListView]
 /// with the [MockExpandablePlaylistListVM]
 Future<void> _createExpandablePlaylistListView({
   required WidgetTester tester,
@@ -1175,7 +1175,7 @@ Future<void> _createExpandablePlaylistListView({
   await tester.pumpWidget(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<ExpandablePlaylistListVM>(
+        ChangeNotifierProvider<PlaylistListVM>(
             create: (_) => MockExpandablePlaylistListVM(
                   warningMessageVM: warningMessageVM,
                   audioDownloadVM: audioDownloadVM,
@@ -1196,7 +1196,7 @@ Future<void> _createExpandablePlaylistListView({
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: Scaffold(
-          body: ExpandablePlaylistListView(),
+          body: PlaylistListView(),
         ),
       ),
     ),

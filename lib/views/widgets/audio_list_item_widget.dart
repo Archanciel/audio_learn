@@ -1,7 +1,7 @@
 // dart file located in lib\views
 
 import 'package:audio_learn/models/playlist.dart';
-import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
+import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -145,7 +145,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   // Using FocusNode to enable clicking on Enter to close
                   // the dialog
                   final FocusNode focusNode = FocusNode();
-                  ExpandablePlaylistListVM expandablePlaylistVM =
+                  PlaylistListVM expandablePlaylistVM =
                       getAndInitializeExpandablePlaylistListVM(context);
 
                   showDialog(
@@ -179,7 +179,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   // Using FocusNode to enable clicking on Enter to close
                   // the dialog
                   final FocusNode focusNode = FocusNode();
-                  ExpandablePlaylistListVM expandablePlaylistVM =
+                  PlaylistListVM expandablePlaylistVM =
                       getAndInitializeExpandablePlaylistListVM(context);
 
                   showDialog(
@@ -204,13 +204,13 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.deleteAudio:
-                  Provider.of<ExpandablePlaylistListVM>(
+                  Provider.of<PlaylistListVM>(
                     context,
                     listen: false,
                   ).deleteAudioMp3(audio: audio);
                   break;
                 case AudioPopupMenuAction.deleteAudioFromPlaylistAswell:
-                  Provider.of<ExpandablePlaylistListVM>(
+                  Provider.of<PlaylistListVM>(
                     context,
                     listen: false,
                   ).deleteAudioFromPlaylistAswell(audio: audio);
@@ -228,10 +228,10 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     );
   }
 
-  ExpandablePlaylistListVM getAndInitializeExpandablePlaylistListVM(
+  PlaylistListVM getAndInitializeExpandablePlaylistListVM(
       BuildContext context) {
-    ExpandablePlaylistListVM expandablePlaylistVM =
-        Provider.of<ExpandablePlaylistListVM>(context, listen: false);
+    PlaylistListVM expandablePlaylistVM =
+        Provider.of<PlaylistListVM>(context, listen: false);
 
     // Resetting the selected playlist to null,
     // otherwise, if the user selects a playlist, click

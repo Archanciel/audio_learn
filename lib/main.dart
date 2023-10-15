@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
+import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
@@ -17,7 +17,7 @@ import 'viewmodels/audio_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
 import 'viewmodels/warning_message_vm.dart';
-import 'views/expandable_playlist_list_view.dart';
+import 'views/playlist_list_view.dart';
 import 'views/screen_mixin.dart';
 
 enum AppBarPopupMenu { en, fr, about }
@@ -92,8 +92,7 @@ class MainApp extends StatelessWidget with ScreenMixin {
       warningMessageVM: warningMessageVM,
       isTest: _isTest,
     );
-    ExpandablePlaylistListVM expandablePlaylistListVM =
-        ExpandablePlaylistListVM(
+    PlaylistListVM expandablePlaylistListVM = PlaylistListVM(
       warningMessageVM: warningMessageVM,
       audioDownloadVM: audioDownloadVM,
       settingsDataService: _settingsDataService,
@@ -159,9 +158,14 @@ class MainApp extends StatelessWidget with ScreenMixin {
 ///
 /// To fix this issue, you can wrap your Scaffold in a new widget,
 /// like MyHomePage, which will have access to the correct context.
-class MyHomePage extends StatelessWidget with ScreenMixin {
+class MyHomePage extends StatefulWidget with ScreenMixin {
   MyHomePage({super.key});
 
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
@@ -181,7 +185,7 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
             InkWell(
               key: const Key('image_open_youtube'),
               onTap: () async {
-                await openUrlInExternalApp(
+                await widget.openUrlInExternalApp(
                   url: kYoutubeUrl,
                 );
               },
@@ -331,7 +335,7 @@ class MyHomePage extends StatelessWidget with ScreenMixin {
           ),
         ],
       ),
-      body: ExpandablePlaylistListView(),
+      body: PlaylistListView(),
     );
   }
 }

@@ -10,11 +10,11 @@ import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/services/json_data_service.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/audio_player_vm.dart';
-import 'package:audio_learn/viewmodels/expandable_playlist_list_vm.dart';
+import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:audio_learn/viewmodels/language_provider.dart';
 import 'package:audio_learn/viewmodels/theme_provider.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
-import 'package:audio_learn/views/expandable_playlist_list_view.dart';
+import 'package:audio_learn/views/playlist_list_view.dart';
 import 'package:audio_learn/views/widgets/display_message_widget.dart';
 import 'package:audio_learn/views/widgets/playlist_list_item_widget.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
@@ -77,8 +77,7 @@ void main() {
       // because YoutubeExplode can not access to internet
       // in integration tests in order to download the playlist
       // and so obtain the playlist title
-      ExpandablePlaylistListVM expandablePlaylistListVM =
-          ExpandablePlaylistListVM(
+      PlaylistListVM expandablePlaylistListVM = PlaylistListVM(
         warningMessageVM: warningMessageVM,
         audioDownloadVM: mockAudioDownloadVM,
         settingsDataService: settingsDataService,
@@ -580,8 +579,7 @@ void main() {
       // because YoutubeExplode can not access to internet
       // in integration tests in order to download the playlist
       // and so obtain the playlist title
-      ExpandablePlaylistListVM expandablePlaylistListVM =
-          ExpandablePlaylistListVM(
+      PlaylistListVM expandablePlaylistListVM = PlaylistListVM(
         warningMessageVM: warningMessageVM,
         audioDownloadVM: mockAudioDownloadVM,
         settingsDataService: settingsDataService,
@@ -1301,7 +1299,8 @@ void main() {
 
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Verifying execution of "Delete audio from playlist as well" playlist menu item',
+    testWidgets(
+        'Verifying execution of "Delete audio from playlist as well" playlist menu item',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -1454,8 +1453,13 @@ void main() {
         loadedYoutubeAudioPlaylist.playableAudioLst[0].audioFileName,
       );
 
-      expect(loadedYoutubeAudioPlaylist.downloadedAudioLst[loadedDownloadedAudioLastItemIndex].audioFileName,
-          loadedExpectedAudioPlaylist.downloadedAudioLst[loadedDownloadedAudioLastItemIndex].audioFileName);
+      expect(
+          loadedYoutubeAudioPlaylist
+              .downloadedAudioLst[loadedDownloadedAudioLastItemIndex]
+              .audioFileName,
+          loadedExpectedAudioPlaylist
+              .downloadedAudioLst[loadedDownloadedAudioLastItemIndex]
+              .audioFileName);
       expect(loadedYoutubeAudioPlaylist.playableAudioLst[0].audioFileName,
           loadedExpectedAudioPlaylist.playableAudioLst[0].audioFileName);
 
@@ -1468,7 +1472,7 @@ Future<void> _launchExpandablePlaylistListView({
   required tester,
   required AudioDownloadVM audioDownloadVM,
   required SettingsDataService settingsDataService,
-  required ExpandablePlaylistListVM expandablePlaylistListVM,
+  required PlaylistListVM expandablePlaylistListVM,
   required WarningMessageVM warningMessageVM,
 }) async {
   await tester.pumpWidget(
@@ -1490,7 +1494,7 @@ Future<void> _launchExpandablePlaylistListView({
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: Scaffold(
-          body: ExpandablePlaylistListView(),
+          body: PlaylistListView(),
         ),
       ),
     ),
