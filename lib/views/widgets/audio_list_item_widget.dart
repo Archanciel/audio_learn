@@ -1,15 +1,15 @@
 // dart file located in lib\views
 
-import 'package:audio_learn/models/playlist.dart';
-import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../models/audio.dart';
+import '../../../models/playlist.dart';
 import '../../../utils/ui_util.dart';
 import '../../../viewmodels/audio_player_vm.dart';
+import '../../../viewmodels/playlist_list_vm.dart';
 import '../../../utils/time_util.dart';
 import '../../constants.dart';
 import '../screen_mixin.dart';
