@@ -207,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: _appBarTitleLst[_currentIndex],
-        leading: const AppBarLeadingIconMenuWidget(),
+        leading: AppBarLeadingIconMenuWidget(themeProvider: themeProvider),
         actions: appBarApplicationActionLst,
       ),
       body: PlaylistListView(),

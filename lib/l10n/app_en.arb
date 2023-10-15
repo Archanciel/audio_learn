@@ -202,5 +202,7 @@
   "addPlaylistButtonTooltip": "Add Youtube or local playlist",
   "stopDownloadingButtonTooltip": "Stop downloading",
   "playlistToggleButtonTooltip": "Show/hide playlists",
-  "downloadSelPlaylistsButtonTooltip": "Download audios of selected playlists"
+  "downloadSelPlaylistsButtonTooltip": "Download audios of selected playlists",
+  "option1": "Option one",
+  "option2": "Option two"
 }
