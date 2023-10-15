@@ -45,7 +45,6 @@ class ExpandablePlaylistListView extends StatefulWidget {
 class _ExpandablePlaylistListViewState extends State<ExpandablePlaylistListView>
     with ScreenMixin {
   final TextEditingController _playlistUrlController = TextEditingController();
-  final AudioPlayerVM _audioPlayerViwModel = AudioPlayerVM();
   final ScrollController _scrollController = ScrollController();
 
   List<Audio> _selectedPlaylistsPlayableAudios = [];

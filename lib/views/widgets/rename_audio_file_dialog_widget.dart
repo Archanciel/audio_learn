@@ -117,10 +117,10 @@ class _RenameAudioFileDialogWidgetState
     AudioDownloadVM audioDownloadVM =
         Provider.of<AudioDownloadVM>(context, listen: false);
 
-      audioDownloadVM.renameAudioFile(
-        audio: widget.audio,
-        modifiedAudioFileName: audioFileName,
-      );
+    audioDownloadVM.renameAudioFile(
+      audio: widget.audio,
+      modifiedAudioFileName: audioFileName,
+    );
   }
 
   String formatDownloadSpeed({
