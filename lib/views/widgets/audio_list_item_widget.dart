@@ -31,7 +31,7 @@ enum AudioPopupMenuAction {
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
 
-  AudioListItemWidget({
+  const AudioListItemWidget({
     super.key,
     required this.audio,
   });
