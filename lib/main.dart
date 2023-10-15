@@ -172,28 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Flexible(
-              child: Text(
-                AppLocalizations.of(context)!.title,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 17),
-              ),
-            ),
-            InkWell(
-              key: const Key('image_open_youtube'),
-              onTap: () async {
-                await widget.openUrlInExternalApp(
-                  url: kYoutubeUrl,
-                );
-              },
-              child: Image.asset('assets/images/youtube-logo-png-2069.png',
-                  height: 38),
-            ),
-          ],
-        ),
+        title: AppBarTitlePlaylistView(myHomePage: widget),
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
@@ -336,6 +315,43 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: PlaylistListView(),
+    );
+  }
+}
+
+/// When the PlaylistView screen is displayed, the AppBarTitlePlaylistView
+/// is displayed in the AppBar title:
+class AppBarTitlePlaylistView extends StatelessWidget {
+  const AppBarTitlePlaylistView({
+    super.key,
+    required this.myHomePage,
+  });
+
+  final MyHomePage myHomePage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Flexible(
+          child: Text(
+            AppLocalizations.of(context)!.title,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 17),
+          ),
+        ),
+        InkWell(
+          key: const Key('image_open_youtube'),
+          onTap: () async {
+            await myHomePage.openUrlInExternalApp(
+              url: kYoutubeUrl,
+            );
+          },
+          child: Image.asset('assets/images/youtube-logo-png-2069.png',
+              height: 38),
+        ),
+      ],
     );
   }
 }
