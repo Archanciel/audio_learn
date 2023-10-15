@@ -18,6 +18,7 @@ import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
 import 'viewmodels/warning_message_vm.dart';
 import 'views/playlist_list_view.dart';
+import 'views/widgets/appbar_leading_icon_menu_widget.dart';
 import 'views/screen_mixin.dart';
 
 enum AppBarPopupMenu { en, fr, about }
@@ -191,6 +192,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
+    // This list is used to display the application action icons
+    // displayed in in the AppBar after the AppBar title
     List<Widget> appBarApplicationActionLst = [
       IconButton(
         onPressed: () {
@@ -298,34 +301,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: _appBarTitleLst[_currentIndex],
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            // currently not used
-            showMenu(
-              context: context,
-              position: const RelativeRect.fromLTRB(0, 50, 0, 0),
-              items: [
-                const PopupMenuItem<String>(
-                  key: Key('leadingMenuOption1'),
-                  value: 'option1',
-                  child: Text('Option 1'),
-                ),
-                const PopupMenuItem<String>(
-                  key: Key('leadingMenuOption2'),
-                  value: 'option2',
-                  child: Text('Option 2'),
-                ),
-              ],
-              elevation: 8,
-            ).then((value) {
-              if (value != null) {
-                print('Selected: $value');
-                // Handle menu item selection here
-              }
-            });
-          },
-        ),
+        leading: const AppBarLeadingIconMenuWidget(),
         actions: appBarApplicationActionLst,
       ),
       body: PlaylistListView(),
