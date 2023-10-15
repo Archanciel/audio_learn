@@ -7,7 +7,7 @@ import '../constants.dart';
 mixin ScreenMixin {
   static const double CHECKBOX_WIDTH_HEIGHT = 20.0;
 
-  final ThemeData themeDataDark = ThemeData.dark().copyWith(
+  static ThemeData themeDataDark = ThemeData.dark().copyWith(
     colorScheme: ThemeData.dark().colorScheme.copyWith(
           background: Colors.black,
           surface: Colors.black,
@@ -56,7 +56,7 @@ mixin ScreenMixin {
     ),
   );
 
-  final ThemeData themeDataLight = ThemeData.light().copyWith(
+  static ThemeData themeDataLight = ThemeData.light().copyWith(
     colorScheme: ThemeData.light().colorScheme.copyWith(
           background: Colors.white,
           surface: Colors.white,

@@ -129,8 +129,8 @@ class MainApp extends StatelessWidget with ScreenMixin {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: themeProvider.currentTheme == AppTheme.dark
-                ? themeDataDark
-                : themeDataLight,
+                ? ScreenMixin.themeDataDark
+                : ScreenMixin.themeDataLight,
             home: MyHomePage(),
           );
         },
