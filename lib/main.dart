@@ -166,13 +166,138 @@ class MyHomePage extends StatefulWidget with ScreenMixin {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _currentIndex = 0;
+  final PageController _pageController = PageController();
+
+  final List<Widget> _appBarTitleLst = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    final List<IconData> _screenNavigationIconLst = [
+      Icons.timer,
+      Icons.book,
+      Icons.list,
+    ];
+
+    _appBarTitleLst.add(
+      AppBarTitlePlaylistView(myHomePage: widget),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
+    List<Widget> appBarApplicationActionLst = [
+      IconButton(
+        onPressed: () {
+          Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+        },
+        icon: Icon(themeProvider.currentTheme == AppTheme.dark
+            ? Icons.light_mode
+            : Icons.dark_mode),
+      ),
+      PopupMenuButton<AppBarPopupMenu>(
+        onSelected: (AppBarPopupMenu value) {
+          switch (value) {
+            case AppBarPopupMenu.en:
+              Locale newLocale = const Locale('en');
+              AppLocalizations.delegate.load(newLocale).then((localizations) {
+                Provider.of<LanguageProvider>(context, listen: false)
+                    .changeLocale(newLocale);
+              });
+              break;
+            case AppBarPopupMenu.fr:
+              Locale newLocale = const Locale('fr');
+              AppLocalizations.delegate.load(newLocale).then((localizations) {
+                Provider.of<LanguageProvider>(context, listen: false)
+                    .changeLocale(newLocale);
+              });
+              break;
+            case AppBarPopupMenu.about:
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  bool isDarkTheme =
+                      themeProvider.currentTheme == AppTheme.dark;
+                  AboutDialog aboutDialog = AboutDialog(
+                    applicationName: kApplicationName,
+                    applicationVersion: kApplicationVersion,
+                    applicationIcon:
+                        Image.asset('assets/images/ic_launcher_cleaner_72.png'),
+                    children: <Widget>[
+                      Text(
+                        AppLocalizations.of(context)!.author,
+                        style: TextStyle(
+                            color: isDarkTheme ? Colors.white : Colors.black),
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.authorName,
+                        style: TextStyle(
+                            color: isDarkTheme ? Colors.white : Colors.black),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          AppLocalizations.of(context)!.aboutAppDescription,
+                          style: TextStyle(
+                              color: isDarkTheme ? Colors.white : Colors.black),
+                        ),
+                      ),
+                    ],
+                  );
+                  return isDarkTheme
+                      ? Theme(
+                          // Theme is required in dark mode in order
+                          // to improve the text color of the application
+                          // version so that it is better visible (white
+                          // instead of blue)
+                          data: Theme.of(context).copyWith(
+                            textTheme: const TextTheme(
+                              bodyMedium: TextStyle(
+                                  color: Colors
+                                      .white), // or another color you need
+                            ),
+                          ),
+                          child: aboutDialog,
+                        )
+                      : aboutDialog;
+                },
+              );
+              break;
+            default:
+              break;
+          }
+        },
+        itemBuilder: (BuildContext context) {
+          return [
+            PopupMenuItem<AppBarPopupMenu>(
+              key: const Key('appBarMenuEnglish'),
+              value: AppBarPopupMenu.en,
+              child: Text(AppLocalizations.of(context)!
+                  .translate(AppLocalizations.of(context)!.english)),
+            ),
+            PopupMenuItem<AppBarPopupMenu>(
+              key: const Key('appBarMenuFrench'),
+              value: AppBarPopupMenu.fr,
+              child: Text(AppLocalizations.of(context)!
+                  .translate(AppLocalizations.of(context)!.french)),
+            ),
+            PopupMenuItem<AppBarPopupMenu>(
+              key: const Key('appBarMenuAbout'),
+              value: AppBarPopupMenu.about,
+              child: Text(AppLocalizations.of(context)!.about),
+            ),
+          ];
+        },
+      ),
+    ];
     return Scaffold(
       appBar: AppBar(
-        title: AppBarTitlePlaylistView(myHomePage: widget),
+        title: _appBarTitleLst[_currentIndex],
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
@@ -201,118 +326,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           },
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-            },
-            icon: Icon(themeProvider.currentTheme == AppTheme.dark
-                ? Icons.light_mode
-                : Icons.dark_mode),
-          ),
-          PopupMenuButton<AppBarPopupMenu>(
-            onSelected: (AppBarPopupMenu value) {
-              switch (value) {
-                case AppBarPopupMenu.en:
-                  Locale newLocale = const Locale('en');
-                  AppLocalizations.delegate
-                      .load(newLocale)
-                      .then((localizations) {
-                    Provider.of<LanguageProvider>(context, listen: false)
-                        .changeLocale(newLocale);
-                  });
-                  break;
-                case AppBarPopupMenu.fr:
-                  Locale newLocale = const Locale('fr');
-                  AppLocalizations.delegate
-                      .load(newLocale)
-                      .then((localizations) {
-                    Provider.of<LanguageProvider>(context, listen: false)
-                        .changeLocale(newLocale);
-                  });
-                  break;
-                case AppBarPopupMenu.about:
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      bool isDarkTheme =
-                          themeProvider.currentTheme == AppTheme.dark;
-                      AboutDialog aboutDialog = AboutDialog(
-                        applicationName: kApplicationName,
-                        applicationVersion: kApplicationVersion,
-                        applicationIcon: Image.asset(
-                            'assets/images/ic_launcher_cleaner_72.png'),
-                        children: <Widget>[
-                          Text(
-                            AppLocalizations.of(context)!.author,
-                            style: TextStyle(
-                                color:
-                                    isDarkTheme ? Colors.white : Colors.black),
-                          ),
-                          Text(
-                            AppLocalizations.of(context)!.authorName,
-                            style: TextStyle(
-                                color:
-                                    isDarkTheme ? Colors.white : Colors.black),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              AppLocalizations.of(context)!.aboutAppDescription,
-                              style: TextStyle(
-                                  color: isDarkTheme
-                                      ? Colors.white
-                                      : Colors.black),
-                            ),
-                          ),
-                        ],
-                      );
-                      return isDarkTheme
-                          ? Theme(
-                              // Theme is required in dark mode in order
-                              // to improve the text color of the application
-                              // version so that it is better visible (white
-                              // instead of blue)
-                              data: Theme.of(context).copyWith(
-                                textTheme: const TextTheme(
-                                  bodyMedium: TextStyle(
-                                      color: Colors
-                                          .white), // or another color you need
-                                ),
-                              ),
-                              child: aboutDialog,
-                            )
-                          : aboutDialog;
-                    },
-                  );
-                  break;
-                default:
-                  break;
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem<AppBarPopupMenu>(
-                  key: const Key('appBarMenuEnglish'),
-                  value: AppBarPopupMenu.en,
-                  child: Text(AppLocalizations.of(context)!
-                      .translate(AppLocalizations.of(context)!.english)),
-                ),
-                PopupMenuItem<AppBarPopupMenu>(
-                  key: const Key('appBarMenuFrench'),
-                  value: AppBarPopupMenu.fr,
-                  child: Text(AppLocalizations.of(context)!
-                      .translate(AppLocalizations.of(context)!.french)),
-                ),
-                PopupMenuItem<AppBarPopupMenu>(
-                  key: const Key('appBarMenuAbout'),
-                  value: AppBarPopupMenu.about,
-                  child: Text(AppLocalizations.of(context)!.about),
-                ),
-              ];
-            },
-          ),
-        ],
+        actions: appBarApplicationActionLst,
       ),
       body: PlaylistListView(),
     );
