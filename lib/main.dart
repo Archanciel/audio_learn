@@ -130,7 +130,7 @@ class MainApp extends StatelessWidget with ScreenMixin {
             theme: themeProvider.currentTheme == AppTheme.dark
                 ? ScreenMixin.themeDataDark
                 : ScreenMixin.themeDataLight,
-            home: MyHomePage(),
+            home: const MyHomePage(),
           );
         },
       ),
@@ -159,7 +159,7 @@ class MainApp extends StatelessWidget with ScreenMixin {
 /// To fix this issue, you can wrap your Scaffold in a new widget,
 /// like MyHomePage, which will have access to the correct context.
 class MyHomePage extends StatefulWidget with ScreenMixin {
-  MyHomePage({super.key});
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -169,21 +169,22 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   final PageController _pageController = PageController();
 
-  final List<Widget> _appBarTitleLst = [];
+  final List<IconData> _screenNavigationIconLst = [
+    Icons.timer,
+    Icons.book,
+    Icons.list,
+  ];
+
+  // contains a list of widgets which build the AppBar title. Each
+  // widget is specific to the screen currently displayed.
+  final List<Widget> _appBarTitleWidgetLst = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
-    final List<IconData> _screenNavigationIconLst = [
-      Icons.timer,
-      Icons.book,
-      Icons.list,
-    ];
-
-    _appBarTitleLst.add(
-      AppBarTitlePlaylistView(myHomePage: widget),
+    _appBarTitleWidgetLst.add(
+      AppBarTitleForPlaylistView(playlistViewHomePage: widget),
     );
   }
 
@@ -192,7 +193,10 @@ class _MyHomePageState extends State<MyHomePage> {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     // This list is used to display the application action icons
-    // displayed in in the AppBar after the AppBar title
+    // displayed in in the AppBar after the AppBar title. The
+    // content of the list is the same for all displayable screens
+    // since it enables to select the light or dark theme and to
+    // select the app language.
     List<Widget> appBarApplicationActionLst = [
       IconButton(
         onPressed: () {
@@ -206,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: _appBarTitleLst[_currentIndex],
+        title: _appBarTitleWidgetLst[_currentIndex],
         leading: AppBarLeadingIconMenuWidget(themeProvider: themeProvider),
         actions: appBarApplicationActionLst,
       ),
@@ -217,13 +221,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
 /// When the PlaylistView screen is displayed, the AppBarTitlePlaylistView
 /// is displayed in the AppBar title:
-class AppBarTitlePlaylistView extends StatelessWidget {
-  const AppBarTitlePlaylistView({
+class AppBarTitleForPlaylistView extends StatelessWidget {
+  const AppBarTitleForPlaylistView({
     super.key,
-    required this.myHomePage,
+    required this.playlistViewHomePage,
   });
 
-  final MyHomePage myHomePage;
+  final MyHomePage playlistViewHomePage;
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +244,7 @@ class AppBarTitlePlaylistView extends StatelessWidget {
         InkWell(
           key: const Key('image_open_youtube'),
           onTap: () async {
-            await myHomePage.openUrlInExternalApp(
+            await playlistViewHomePage.openUrlInExternalApp(
               url: kYoutubeUrl,
             );
           },
