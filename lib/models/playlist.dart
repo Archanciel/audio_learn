@@ -275,7 +275,7 @@ class Playlist {
   }) {
     _sortAudioLst(
       lstToSort: downloadedAudioLst,
-      audioSortCriteriomn: audioSortCriteriomn,
+      audioSortCriterion: audioSortCriteriomn,
       isSortAscending: isSortAscending,
     );
   }
@@ -286,21 +286,21 @@ class Playlist {
   }) {
     _sortAudioLst(
       lstToSort: playableAudioLst,
-      audioSortCriteriomn: audioSortCriteriomn,
+      audioSortCriterion: audioSortCriteriomn,
       isSortAscending: isSortAscending,
     );
   }
 
   void _sortAudioLst({
     required List<Audio> lstToSort,
-    required AudioSortCriterion audioSortCriteriomn,
+    required AudioSortCriterion audioSortCriterion,
     required bool isSortAscending,
   }) {
     lstToSort.sort((a, b) {
       dynamic aValue;
       dynamic bValue;
 
-      switch (audioSortCriteriomn) {
+      switch (audioSortCriterion) {
         case AudioSortCriterion.validVideoTitle:
           aValue = a.validVideoTitle;
           bValue = b.validVideoTitle;

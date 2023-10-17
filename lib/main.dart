@@ -18,9 +18,13 @@ import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
 import 'viewmodels/warning_message_vm.dart';
 import 'views/playlist_list_view.dart';
+import 'views/audio_player_view.dart';
 import 'views/widgets/appbar_leading_popup_menu_widget.dart';
 import 'views/widgets/appbar_application_right_popup_menu_widget.dart';
 import 'views/screen_mixin.dart';
+
+const Duration pageTransitionDuration = Duration(milliseconds: 20);
+const Curve pageTransitionCurve = Curves.ease;
 
 Future<void> main(List<String> args) async {
   List<String> myArgs = [];
@@ -172,12 +176,17 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<IconData> _screenNavigationIconLst = [
     Icons.timer,
     Icons.book,
-    Icons.list,
+    // Icons.list,
   ];
 
   // contains a list of widgets which build the AppBar title. Each
-  // widget is specific to the screen currently displayed.
+  // widget is specific to the screen currently displayed. This list
+  // is filled in the initState() method.
   final List<Widget> _appBarTitleWidgetLst = [];
+
+  // contains the list of screens displayable on the application home
+  // page. This list is filled in the initState() method.
+  final List<StatefulWidget> _screenWidgetLst = [];
 
   @override
   void initState() {
@@ -186,6 +195,13 @@ class _MyHomePageState extends State<MyHomePage> {
     _appBarTitleWidgetLst.add(
       AppBarTitleForPlaylistView(playlistViewHomePage: widget),
     );
+
+    _appBarTitleWidgetLst.add(
+      AppBarTitleForPlaylistView(playlistViewHomePage: widget),
+    );
+
+    _screenWidgetLst.add(PlaylistListView());
+    _screenWidgetLst.add(AudioPlayerView());
   }
 
   @override
@@ -218,8 +234,56 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: AppBarLeadingPopupMenuWidget(themeProvider: themeProvider),
         actions: appBarApplicationActionLst,
       ),
-      body: PlaylistListView(),
+      // body: _buildPageView(_screenWidgetLst[_currentIndex]),
+      body: _screenWidgetLst[_currentIndex],
     );
+  }
+
+  Expanded _buildPageView(StatefulWidget screenWidget) {
+    return Expanded(
+      child: PageView.builder(
+        itemCount:
+            _screenNavigationIconLst.length, // specifies the number of pages
+        //                           that can be swiped by dragging left or right
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        itemBuilder: (context, index) {
+          return screenWidget;
+        },
+      ),
+    );
+  }
+
+  Row _buildIconButtonRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: _screenNavigationIconLst.asMap().entries.map((entry) {
+        return IconButton(
+          icon: Icon(entry.value),
+          onPressed: () => _changePage(entry.key),
+          color: _currentIndex == entry.key ? Colors.blue : Colors.grey,
+          iconSize:
+              24, // Set this if you want to control the icon's visual size
+          padding: EdgeInsets
+              .zero, // This is crucial to avoid default IconButton padding
+        );
+      }).toList(),
+    );
+  }
+
+  void _changePage(int index) {
+    _onPageChanged(index);
+    _pageController.animateToPage(
+      index,
+      duration: pageTransitionDuration, // Use constant
+      curve: pageTransitionCurve, // Use constant
+    );
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 }
 

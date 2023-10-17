@@ -11,11 +11,19 @@ class AudioPlayerVM extends ChangeNotifier {
   ///
   /// Example: filePathName =
   /// '/storage/emulated/0/Download/audio/230628-audio short 23-06-10.mp3'
-  /// 
+  ///
   /// {playBackRate} is the speed of playing the audio file. It is 1.0 by
   /// default. In this case, the speed of playing the audio file is the one
   /// defined in the audio instance itself. If {playBackRate} is different
   /// from 1.0, the speed of the audio file is changed to {playBackRate}.
+
+  Duration _duration = const Duration();
+  Duration _position = const Duration();
+
+  Duration get position => _position;
+  Duration get duration => _duration;
+  Duration get remaining => _duration - _position;
+
   Future<void> playFromFileSource({
     required Audio audio,
     double playBackRate = 1.0,
@@ -33,7 +41,9 @@ class AudioPlayerVM extends ChangeNotifier {
       audio.audioPlayer = audioPlayer;
     }
 
-    await audioPlayer.play(DeviceFileSource(audio.filePathName));
+    await audioPlayer.play(DeviceFileSource(
+      audio.filePathName,
+    ));
     await audioPlayer.setPlaybackRate(
         (playBackRate == 1.0) ? audio.playSpeed : playBackRate);
     audio.isPlaying = true;
@@ -49,7 +59,9 @@ class AudioPlayerVM extends ChangeNotifier {
   /// Path separator must be / and not \ since the assets/audio
   /// path is defined in the pubspec.yaml file.
 
-  Future<void> playFromAssets(Audio audio) async {
+  Future<void> playFromAssets(
+    Audio audio,
+  ) async {
     final file = File(audio.filePathName);
 
     if (!await file.exists()) {
@@ -69,7 +81,9 @@ class AudioPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> pause(Audio audio) async {
+  Future<void> pause(
+    Audio audio,
+  ) async {
     // Stop the audio
     if (audio.isPaused) {
       await audio.audioPlayer!.resume();
@@ -82,10 +96,42 @@ class AudioPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> stop(Audio audio) async {
+  Future<void> stop(
+    Audio audio,
+  ) async {
     // Stop the audio
     await audio.audioPlayer!.stop();
     audio.isPlaying = false;
+    notifyListeners();
+  }
+
+  void seekBy(
+    Audio audio,
+    Duration duration,
+  ) async {
+    await audio.audioPlayer!.seek(_position + duration);
+    notifyListeners();
+  }
+
+  void seekTo(
+    Audio audio,
+    Duration position,
+  ) async {
+    await audio.audioPlayer!.seek(position);
+    notifyListeners();
+  }
+
+  void skipToStart(
+    Audio audio,
+  ) async {
+    await audio.audioPlayer!.seek(Duration.zero);
+    notifyListeners();
+  }
+
+  void skipToEnd(
+    Audio audio,
+  ) async {
+    await audio.audioPlayer!.seek(_duration);
     notifyListeners();
   }
 }
