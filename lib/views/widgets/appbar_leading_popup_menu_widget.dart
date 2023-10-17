@@ -5,11 +5,11 @@ import '../../../viewmodels/theme_provider.dart';
 
 enum AppBarPopupMenu { option1, option2 }
 
-/// The AppBarApplicationLeadingIconMenuWidget is used to display the
-/// leading icon of the AppBar. When the icon is clicked, a menu is
-/// displayed. Curently, the menu is not used.
-class AppBarLeadingIconMenuWidget extends StatelessWidget {
-  const AppBarLeadingIconMenuWidget({
+/// The AppBarLeadingPopupMenuWidget is used to display the leading
+/// popup menu icon of the AppBar. The displayed items are specific
+/// to the currently displayed screen. Curently, the menu is not used.
+class AppBarLeadingPopupMenuWidget extends StatelessWidget {
+  const AppBarLeadingPopupMenuWidget({
     super.key,
     required this.themeProvider,
   });

@@ -18,7 +18,7 @@ import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
 import 'viewmodels/warning_message_vm.dart';
 import 'views/playlist_list_view.dart';
-import 'views/widgets/appbar_leading_icon_menu_widget.dart';
+import 'views/widgets/appbar_leading_popup_menu_widget.dart';
 import 'views/widgets/appbar_application_right_popup_menu_widget.dart';
 import 'views/screen_mixin.dart';
 
@@ -215,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: _appBarTitleWidgetLst[_currentIndex],
-        leading: AppBarLeadingIconMenuWidget(themeProvider: themeProvider),
+        leading: AppBarLeadingPopupMenuWidget(themeProvider: themeProvider),
         actions: appBarApplicationActionLst,
       ),
       body: PlaylistListView(),
