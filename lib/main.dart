@@ -19,7 +19,7 @@ import 'viewmodels/theme_provider.dart';
 import 'viewmodels/warning_message_vm.dart';
 import 'views/playlist_list_view.dart';
 import 'views/widgets/appbar_leading_icon_menu_widget.dart';
-import 'views/widgets/appbar_application_popup_menu_widget.dart';
+import 'views/widgets/appbar_application_right_popup_menu_widget.dart';
 import 'views/screen_mixin.dart';
 
 Future<void> main(List<String> args) async {
@@ -190,24 +190,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(
+      context,
+      listen: false,
+    );
 
     // This list is used to display the application action icons
-    // displayed in in the AppBar after the AppBar title. The
+    // located in in the AppBar after the AppBar title. The
     // content of the list is the same for all displayable screens
     // since it enables to select the light or dark theme and to
     // select the app language.
     List<Widget> appBarApplicationActionLst = [
       IconButton(
         onPressed: () {
-          Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+          themeProvider.toggleTheme();
         },
         icon: Icon(themeProvider.currentTheme == AppTheme.dark
             ? Icons.light_mode
             : Icons.dark_mode),
       ),
-      AppBarApplicationPopupMenuWidget(themeProvider: themeProvider),
+      AppBarApplicationRightPopupMenuWidget(themeProvider: themeProvider),
     ];
+
     return Scaffold(
       appBar: AppBar(
         title: _appBarTitleWidgetLst[_currentIndex],

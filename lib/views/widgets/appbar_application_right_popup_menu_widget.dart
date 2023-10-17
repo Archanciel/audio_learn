@@ -9,8 +9,14 @@ import '../../../viewmodels/theme_provider.dart';
 
 enum AppBarPopupMenu { en, fr, about }
 
-class AppBarApplicationPopupMenuWidget extends StatelessWidget {
-  const AppBarApplicationPopupMenuWidget({
+/// This widget is the popup menu button widget which is displayed
+/// on the right side of the application appbar. It contains menu items
+/// to change the application language and to display the about dialog.
+/// 
+/// The menu items are defined in the enum AppBarPopupMenu. Up to now
+/// the popup menu widget is identical for all screens.
+class AppBarApplicationRightPopupMenuWidget extends StatelessWidget {
+  const AppBarApplicationRightPopupMenuWidget({
     super.key,
     required this.themeProvider,
   });
@@ -40,8 +46,7 @@ class AppBarApplicationPopupMenuWidget extends StatelessWidget {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                bool isDarkTheme =
-                    themeProvider.currentTheme == AppTheme.dark;
+                bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;
                 AboutDialog aboutDialog = AboutDialog(
                   applicationName: kApplicationName,
                   applicationVersion: kApplicationVersion,
@@ -77,8 +82,8 @@ class AppBarApplicationPopupMenuWidget extends StatelessWidget {
                         data: Theme.of(context).copyWith(
                           textTheme: const TextTheme(
                             bodyMedium: TextStyle(
-                                color: Colors
-                                    .white), // or another color you need
+                                color:
+                                    Colors.white), // or another color you need
                           ),
                         ),
                         child: aboutDialog,
