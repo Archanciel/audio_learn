@@ -234,8 +234,8 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: AppBarLeadingPopupMenuWidget(themeProvider: themeProvider),
         actions: appBarApplicationActionLst,
       ),
-      // body: _buildPageView(_screenWidgetLst[_currentIndex]),
-      body: _screenWidgetLst[_currentIndex],
+      body: _buildPageView(_screenWidgetLst[_currentIndex]),
+      // body: _screenWidgetLst[_currentIndex],
     );
   }
 
