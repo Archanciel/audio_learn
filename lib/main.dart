@@ -174,9 +174,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final PageController _pageController = PageController();
 
   final List<IconData> _screenNavigationIconLst = [
-    Icons.timer,
-    Icons.book,
-    // Icons.list,
+    Icons.download,
+    // Icons.audiotrack,
+    // Icons.edit,
   ];
 
   // contains a list of widgets which build the AppBar title. Each
@@ -196,11 +196,11 @@ class _MyHomePageState extends State<MyHomePage> {
       AppBarTitleForPlaylistView(playlistViewHomePage: widget),
     );
 
-    _appBarTitleWidgetLst.add(
-      AppBarTitleForPlaylistView(playlistViewHomePage: widget),
-    );
+    // _appBarTitleWidgetLst.add(
+    //   AppBarTitleForPlaylistView(playlistViewHomePage: widget),
+    // );
 
-    _screenWidgetLst.add(PlaylistListView());
+    // _screenWidgetLst.add(PlaylistListView());
     _screenWidgetLst.add(AudioPlayerView());
   }
 
