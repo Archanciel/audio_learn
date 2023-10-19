@@ -299,6 +299,9 @@ class AppBarTitleForPlaylistView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // changing the build code to imitate working
+    // chatgpt_main_draggable.dart does not eliminate
+    // the error !
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
