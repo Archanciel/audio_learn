@@ -246,7 +246,6 @@ class _MyHomePageState extends State<MyHomePage> {
           _buildIconButtonRow(),
         ],
       ),
-      // body: _screenWidgetLst[_currentIndex],
     );
   }
 
