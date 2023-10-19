@@ -175,8 +175,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<IconData> _screenNavigationIconLst = [
     Icons.download,
-    // Icons.audiotrack,
-    // Icons.edit,
+    Icons.audiotrack,
+    Icons.edit,
   ];
 
   // contains a list of widgets which build the AppBar title. Each
@@ -196,11 +196,16 @@ class _MyHomePageState extends State<MyHomePage> {
       AppBarTitleForPlaylistView(playlistViewHomePage: widget),
     );
 
-    // _appBarTitleWidgetLst.add(
-    //   AppBarTitleForPlaylistView(playlistViewHomePage: widget),
-    // );
+    _appBarTitleWidgetLst.add(
+      AppBarTitleForPlaylistView(playlistViewHomePage: widget),
+    );
 
-    // _screenWidgetLst.add(PlaylistListView());
+    _appBarTitleWidgetLst.add(
+      AppBarTitleForPlaylistView(playlistViewHomePage: widget),
+    );
+
+    _screenWidgetLst.add(PlaylistListView());
+    _screenWidgetLst.add(AudioPlayerView());
     _screenWidgetLst.add(AudioPlayerView());
   }
 
