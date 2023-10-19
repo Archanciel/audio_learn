@@ -19,6 +19,7 @@ import 'viewmodels/theme_provider.dart';
 import 'viewmodels/warning_message_vm.dart';
 import 'views/playlist_list_view.dart';
 import 'views/audio_player_view.dart';
+import 'views/media_player_view.dart';
 import 'views/widgets/appbar_leading_popup_menu_widget.dart';
 import 'views/widgets/appbar_application_right_popup_menu_widget.dart';
 import 'views/screen_mixin.dart';
@@ -206,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _screenWidgetLst.add(PlaylistListView());
     _screenWidgetLst.add(AudioPlayerView());
-    _screenWidgetLst.add(AudioPlayerView());
+    _screenWidgetLst.add(MediaPlayerView());
   }
 
   @override
