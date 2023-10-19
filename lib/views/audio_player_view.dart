@@ -21,7 +21,7 @@ class AudioPlayerView extends StatefulWidget {
       playlistQuality: PlaylistQuality.voice,
     );
 
-    pl.downloadPath = 'audio';
+    pl.downloadPath = "C:\\Users\\Jean-Pierre\\Downloads\\Audio\\audio_learn_short";
     
     return pl;
   }
@@ -38,7 +38,7 @@ class AudioPlayerView extends StatefulWidget {
       audioDuration: Duration.zero,
     );
 
-    au.audioFileName = 'myAudio.mp3';
+    au.audioFileName = "231004-214317-Eleven Labs  -  L'IA qui crée des livres audio avec des VOIX en français 23-09-24.mp3";
 
     return au;
   }
@@ -144,7 +144,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
               onPressed: (() {
                 widget.audio.isPlaying
                     ? viewModel.pause(widget.audio)
-                    : viewModel.playFromAssets(widget.audio);
+                    : viewModel.playFromFileSource(audio: widget.audio);
               }),
               icon: Icon(widget.audio.isPlaying ? Icons.pause : Icons.play_arrow),
             ),
