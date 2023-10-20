@@ -1,6 +1,5 @@
 // dart file located in lib\viewmodels
 
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -143,6 +142,8 @@ class AudioDownloadVM extends ChangeNotifier {
     _warningMessageVM.isPlaylistUrlInvalid = false;
 
     if (localPlaylistTitle.isNotEmpty) {
+      // handling creation of a local playlist
+
       addedPlaylist = Playlist(
         id: localPlaylistTitle, // necessary since the id is used to
         //                         identify the playlist in the list
@@ -183,6 +184,8 @@ class AudioDownloadVM extends ChangeNotifier {
 
       return null;
     } else {
+      // handling creation of a Youtube playlist
+
       // get Youtube playlist
       String? playlistId;
       yt.Playlist youtubePlaylist;
@@ -270,7 +273,6 @@ class AudioDownloadVM extends ChangeNotifier {
   Future<void> downloadPlaylistAudios({
     required String playlistUrl,
   }) async {
-
     // if the playlist is already being downloaded, then
     // the method is not executed. This avoids that the
     // audios of the playlist are downloaded multiple times
@@ -302,7 +304,7 @@ class AudioDownloadVM extends ChangeNotifier {
       // removing the playlist url from the downloadingPlaylistUrls
       // list since the playlist download has failed
       downloadingPlaylistUrls.remove(playlistUrl);
-      
+
       return;
     } catch (e) {
       _notifyDownloadError(
