@@ -312,7 +312,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
             onPressed: () {
               audioPlayerViewModel.playFromFileSource(
                 audio: audio,
-                playBackRate: 1.25,
               );
             },
           );

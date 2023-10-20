@@ -26,7 +26,6 @@ class AudioPlayerVM extends ChangeNotifier {
 
   Future<void> playFromFileSource({
     required Audio audio,
-    double playBackRate = 1.0,
   }) async {
     final file = File(audio.filePathName);
 
@@ -44,8 +43,7 @@ class AudioPlayerVM extends ChangeNotifier {
     await audioPlayer.play(DeviceFileSource(
       audio.filePathName,
     ));
-    await audioPlayer.setPlaybackRate(
-        (playBackRate == 1.0) ? audio.audioPlaySpeed : playBackRate);
+    await audioPlayer.setPlaybackRate(audio.audioPlaySpeed);
     audio.isPlaying = true;
 
     notifyListeners();
