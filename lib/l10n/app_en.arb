@@ -87,7 +87,7 @@
       "url": {}
     }
   },
-  "playlistWithUrlAlreadyInListOfPlaylists": "Playlist \"{title}\" with this URL \"{url}\" is already in the list of playlists.",
+  "playlistWithUrlAlreadyInListOfPlaylists": "Playlist \"{title}\" with this URL \"{url}\" is already in the list of playlists and so won't be recreated.",
   "@playlistWithUrlAlreadyInListOfPlaylists": {
     "description": "Warning announcing that the playlist with the URL is already in the list of playlists.",
     "placeholders": {
@@ -95,7 +95,7 @@
       "title": {}
     }
   },
-  "localPlaylistWithTitleAlreadyInListOfPlaylists": "Local playlist \"{title}\" exist already in the list of playlists and so will not be created again.",
+  "localPlaylistWithTitleAlreadyInListOfPlaylists": "Local playlist \"{title}\" already exists in the list of playlists and so won't be recreated.",
   "@localPlaylistWithTitleAlreadyInListOfPlaylists": {
     "description": "Warning announcing that the local playlist with the title is already in the list of playlists and so will not be created.",
     "placeholders": {
