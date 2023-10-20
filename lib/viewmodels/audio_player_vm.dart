@@ -45,7 +45,7 @@ class AudioPlayerVM extends ChangeNotifier {
       audio.filePathName,
     ));
     await audioPlayer.setPlaybackRate(
-        (playBackRate == 1.0) ? audio.playSpeed : playBackRate);
+        (playBackRate == 1.0) ? audio.audioPlaySpeed : playBackRate);
     audio.isPlaying = true;
 
     notifyListeners();

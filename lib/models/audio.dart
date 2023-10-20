@@ -92,9 +92,14 @@ class Audio {
   // first time.
   AudioPlayer? audioPlayer;
 
-  double playSpeed = kAudioDefaultSpeed;
+  double audioPlaySpeed = kAudioDefaultPlaySpeed;
 
-  bool isMusicQuality = false;
+  bool isAudioMusicQuality = false;
+  bool get isMusicQuality => isAudioMusicQuality;
+  set isMusicQuality(bool isMusicQuality) {
+    isAudioMusicQuality = isMusicQuality;
+    audioPlaySpeed = (isMusicQuality) ? 1.0 : kAudioDefaultPlaySpeed;
+  }
 
   Audio({
     required this.enclosingPlaylist,
@@ -124,7 +129,8 @@ class Audio {
     required this.audioDownloadSpeed,
     required this.videoUploadDate,
     required this.audioDuration,
-    required this.isMusicQuality,
+    required this.isAudioMusicQuality,
+    required this.audioPlaySpeed,
     required this.audioFileName,
     required this.audioFileSize,
   });
@@ -144,7 +150,8 @@ class Audio {
       audioDownloadSpeed: audioDownloadSpeed,
       videoUploadDate: videoUploadDate,
       audioDuration: audioDuration,
-      isMusicQuality: isMusicQuality,
+      isAudioMusicQuality: isAudioMusicQuality,
+      audioPlaySpeed: audioPlaySpeed,
       audioFileName: audioFileName,
       audioFileSize: audioFileSize,
     );
@@ -170,7 +177,8 @@ class Audio {
           : json['audioDownloadSpeed'],
       videoUploadDate: DateTime.parse(json['videoUploadDate']),
       audioDuration: Duration(milliseconds: json['audioDurationMs'] ?? 0),
-      isMusicQuality: json['isMusicQuality'] ?? false,
+      isAudioMusicQuality: json['isAudioMusicQuality'] ?? false,
+      audioPlaySpeed: json['audioPlaySpeed'] ?? kAudioDefaultPlaySpeed,
       audioFileName: json['audioFileName'],
       audioFileSize: json['audioFileSize'],
     );
@@ -191,7 +199,8 @@ class Audio {
           (audioDownloadSpeed.isFinite) ? audioDownloadSpeed : -1.0,
       'videoUploadDate': videoUploadDate.toIso8601String(),
       'audioDurationMs': audioDuration?.inMilliseconds,
-      'isMusicQuality': isMusicQuality,
+      'isAudioMusicQuality': isAudioMusicQuality,
+      'audioPlaySpeed': audioPlaySpeed,
       'audioFileName': audioFileName,
       'audioFileSize': audioFileSize,
     };

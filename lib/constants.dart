@@ -32,7 +32,7 @@ const String kDownloadAppTestDirWindows =
 // usefull to delete all files in the audio dir of the emulator
 const bool kDeleteAppDir = false;
 
-const double kAudioDefaultSpeed = 1.0;
+const double kAudioDefaultPlaySpeed = 1.25;
 
 const String kSecretClientCodeJsonFileName =
     'code_secret_client_923487935936-po8d733kjvrnee3l3ik3r5mebe8ebhr7.apps.googleusercontent.com.json';

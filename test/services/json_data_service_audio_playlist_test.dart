@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart' as path;
 
+import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/services/json_data_service.dart';
@@ -53,7 +54,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime(2023, 3, 1),
         audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -110,7 +112,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime(2023, 3, 1),
         audioDuration: null,
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -164,7 +167,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime.now().subtract(const Duration(days: 10)),
         audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -182,7 +186,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime.now().subtract(const Duration(days: 5)),
         audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -280,7 +285,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime(2023, 3, 1),
         audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -314,7 +320,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime(2023, 3, 1),
         audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -332,7 +339,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime(2023, 3, 1),
         audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -396,7 +404,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime.now().subtract(const Duration(days: 10)),
         audioDuration: null,
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -414,7 +423,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime.now().subtract(const Duration(days: 5)),
         audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -446,7 +456,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime.now().subtract(const Duration(days: 10)),
         audioDuration: null,
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -464,7 +475,8 @@ void main() {
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime.now().subtract(const Duration(days: 5)),
         audioDuration: const Duration(minutes: 5, seconds: 30),
-        isMusicQuality: false,
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -588,7 +600,9 @@ void compareDeserializedWithOriginalAudio({
   expect(deserializedAudio.audioDownloadDuration!.inMilliseconds,
       originalAudio.audioDownloadDuration!.inMilliseconds);
 
-  expect(deserializedAudio.isMusicQuality, originalAudio.isMusicQuality);
+  expect(
+      deserializedAudio.isAudioMusicQuality, originalAudio.isAudioMusicQuality);
+  expect(deserializedAudio.audioPlaySpeed, originalAudio.audioPlaySpeed);
   expect(deserializedAudio.audioFileName, originalAudio.audioFileName);
   expect(deserializedAudio.audioFileSize, originalAudio.audioFileSize);
 }
