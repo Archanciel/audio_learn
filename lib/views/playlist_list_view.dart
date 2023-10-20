@@ -256,6 +256,11 @@ class _PlaylistListViewState extends State<PlaylistListView> with ScreenMixin {
                               child: AlertDialog(
                                 title: Text(AppLocalizations.of(context)!
                                     .confirmDialogTitle),
+                                actionsPadding:
+                                    // reduces the top vertical space between the buttons
+                                    // and the content
+                                    EdgeInsets.fromLTRB(10, 0, 10,
+                                        10), // Adjust the value as needed
                                 content: Text(
                                   AppLocalizations.of(context)!
                                       .confirmSingleVideoAudioPlaylistTitle(

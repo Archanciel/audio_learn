@@ -281,10 +281,12 @@ void main() {
       expect(alertDialogCommentTitleText.data,
           'Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.');
 
-      // Check that the value of the AlertDialog url Text is empty
-      Text confirmUrlText =
-          tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
-      expect(confirmUrlText.data, '');
+      // Check that the AlertDialog url Text is not displayed since
+
+      expect(
+        find.byKey(const Key('playlistUrlConfirmDialogText')),
+        findsNothing,
+      );
 
       // Enter the title of the local playlist
       await tester.enterText(
@@ -989,10 +991,7 @@ void main() {
       await tester.tap(popupCopyMenuItem);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
-
       // TODO you must continue coding the test
-
-
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub

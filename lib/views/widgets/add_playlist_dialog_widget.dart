@@ -72,6 +72,10 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
           key: const Key('playlistConfirmDialogTitleKey'),
           AppLocalizations.of(context)!.addPlaylistDialogTitle,
         ),
+        actionsPadding:
+            // reduces the top vertical space between the buttons
+            // and the content
+            EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
@@ -81,19 +85,8 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                 context: context,
                 value: AppLocalizations.of(context)!.addPlaylistDialogComment,
               ),
-              createInfoRowFunction(
-                  valueTextWidgetKey: const Key('playlistUrlConfirmDialogText'),
-                  context: context,
-                  label: AppLocalizations.of(context)!.youtubePlaylistUrlLabel,
-                  value: widget.playlistUrl),
-              createEditableRowFunction(
-                  valueTextFieldWidgetKey:
-                      const Key('playlistLocalTitleConfirmDialogTextField'),
-                  context: context,
-                  label: AppLocalizations.of(context)!.localPlaylistTitleLabel,
-                  controller: _localPlaylistTitleTextEditingController,
-                  textFieldFocusNode: _localPlaylistTitleFocusNode),
               createCheckboxRowFunction(
+                // displaying music quality checkbox
                 checkBoxWidgetKey:
                     const Key('playlistQualityConfirmDialogCheckBox'),
                 context: context,
@@ -105,6 +98,24 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                   });
                 },
               ),
+              (widget.playlistUrl.isNotEmpty)
+                  ? createInfoRowFunction(
+                      // displaying the playlist URL
+                      valueTextWidgetKey:
+                          const Key('playlistUrlConfirmDialogText'),
+                      context: context,
+                      label:
+                          AppLocalizations.of(context)!.youtubePlaylistUrlLabel,
+                      value: widget.playlistUrl)
+                  : Container(),
+              createEditableRowFunction(
+                  // displaying the local playlist title TextField
+                  valueTextFieldWidgetKey:
+                      const Key('playlistLocalTitleConfirmDialogTextField'),
+                  context: context,
+                  label: AppLocalizations.of(context)!.localPlaylistTitleLabel,
+                  controller: _localPlaylistTitleTextEditingController,
+                  textFieldFocusNode: _localPlaylistTitleFocusNode),
             ],
           ),
         ),

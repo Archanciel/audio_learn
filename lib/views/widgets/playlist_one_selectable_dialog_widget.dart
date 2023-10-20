@@ -9,6 +9,8 @@ import '../../services/settings_data_service.dart';
 import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/theme_provider.dart';
 
+/// This dialog is used to select a single playlist among the
+/// displayed playlists.
 class PlaylistOneSelectableDialogWidget extends StatefulWidget {
   final FocusNode focusNode;
   final Playlist? excludedPlaylist;
@@ -76,62 +78,75 @@ class _PlaylistOneSelectableDialogWidgetState
           child: AlertDialog(
             title: Text(
                 AppLocalizations.of(context)!.playlistOneSelectedDialogTitle),
+            actionsPadding:
+                // reduces the top vertical space between the buttons
+                // and the content
+                EdgeInsets.fromLTRB(
+                    10, 0, 10, 10), // Adjust the value as needed
             content: SizedBox(
               width: double.maxFinite,
-              child: ListView.builder(
-                itemCount: upToDateSelectablePlaylists.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return RadioListTile<Playlist>(
-                    title: Text(upToDateSelectablePlaylists[index].title),
-                    value: upToDateSelectablePlaylists[index],
-                    groupValue: _selectedPlaylist,
-                    onChanged: (Playlist? value) {
-                      setState(() {
-                        _selectedPlaylist = value;
-                      });
-                    },
-                  );
-                },
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // Use minimum space
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: upToDateSelectablePlaylists.length,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return RadioListTile<Playlist>(
+                          title: Text(upToDateSelectablePlaylists[index].title),
+                          value: upToDateSelectablePlaylists[index],
+                          groupValue: _selectedPlaylist,
+                          onChanged: (Playlist? value) {
+                            setState(() {
+                              _selectedPlaylist = value;
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  (widget.excludedPlaylist != null &&
+                          widget.excludedPlaylist!.playlistType ==
+                              PlaylistType.youtube)
+                      ? Row(
+                          // in this case, the audio is moved from a Youtube
+                          // playlist and so the keep audio entry in source
+                          // playlist checkbox is displayed
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .keepAudioEntryInSourcePlaylist,
+                                style: TextStyle(
+                                  color:
+                                      isDarkTheme ? Colors.white : Colors.black,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
+                              height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
+                              child: Checkbox(
+                                value: _keepAudioDataInSourcePlaylist,
+                                onChanged: (bool? newValue) {
+                                  setState(() {
+                                    _keepAudioDataInSourcePlaylist = newValue!;
+                                  });
+                                  // now clicking on Enter works since the
+                                  // Checkbox is not focused anymore
+                                  // _audioTitleSubStringFocusNode.requestFocus();
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(), // widget.excludedPlaylist == null in the
+                ],
               ),
             ),
             actions: [
-              (widget.excludedPlaylist != null &&
-                      widget.excludedPlaylist!.playlistType ==
-                          PlaylistType.youtube)
-                  ? Row(
-                      // in this case, the audio is moved from a Youtube
-                      // playlist and so the keep audio entry in source
-                      // playlist checkbox is displayed
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            AppLocalizations.of(context)!
-                                .keepAudioEntryInSourcePlaylist,
-                            style: TextStyle(
-                              color: isDarkTheme ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
-                          height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
-                          child: Checkbox(
-                            value: _keepAudioDataInSourcePlaylist,
-                            onChanged: (bool? newValue) {
-                              setState(() {
-                                _keepAudioDataInSourcePlaylist = newValue!;
-                              });
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              // _audioTitleSubStringFocusNode.requestFocus();
-                            },
-                          ),
-                        ),
-                      ],
-                    )
-                  : Container(), // widget.excludedPlaylist == null in the
               // situation of downloading a single video
               // audio. This is tested by 'Bug fix
               // verification with partial download single

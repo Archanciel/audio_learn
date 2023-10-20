@@ -280,8 +280,7 @@ class DisplayMessageWidget extends StatelessWidget {
             }
           } else {
             if (!_warningMessageVM.keepAudioDataInSourcePlaylist) {
-              if (_warningMessageVM.movedToPlaylistType ==
-                  PlaylistType.local) {
+              if (_warningMessageVM.movedToPlaylistType == PlaylistType.local) {
                 audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
                     .audioMovedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(
                   _warningMessageVM.movedAudioValidVideoTitle,
@@ -383,6 +382,10 @@ class DisplayMessageWidget extends StatelessWidget {
             key: const Key('warningDialogTitle'),
             alertDialogTitle,
           ),
+          actionsPadding:
+              // reduces the top vertical space between the buttons
+              // and the content
+              EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
           content: Text(
             key: const Key('warningDialogMessage'),
             message,
