@@ -6,7 +6,9 @@ import 'package:audioplayers/audioplayers.dart';
 
 import '../models/audio.dart';
 
-class AudioPlayerVM extends ChangeNotifier {
+/// Used in the AudioListItemWidget to play, pause, or stop
+/// the current audio.
+class AudioIndividualPlayerVM extends ChangeNotifier {
   /// Play an audio file located in the device file system.
   ///
   /// Example: filePathName =
@@ -16,14 +18,6 @@ class AudioPlayerVM extends ChangeNotifier {
   /// default. In this case, the speed of playing the audio file is the one
   /// defined in the audio instance itself. If {playBackRate} is different
   /// from 1.0, the speed of the audio file is changed to {playBackRate}.
-
-  Duration _duration = const Duration();
-  Duration _position = const Duration();
-
-  Duration get position => _position;
-  Duration get duration => _duration;
-  Duration get remaining => _duration - _position;
-
   Future<void> playFromFileSource({
     required Audio audio,
   }) async {
@@ -56,7 +50,6 @@ class AudioPlayerVM extends ChangeNotifier {
   ///
   /// Path separator must be / and not \ since the assets/audio
   /// path is defined in the pubspec.yaml file.
-
   Future<void> playFromAssets(
     Audio audio,
   ) async {
@@ -100,36 +93,6 @@ class AudioPlayerVM extends ChangeNotifier {
     // Stop the audio
     await audio.audioPlayer!.stop();
     audio.isPlaying = false;
-    notifyListeners();
-  }
-
-  void seekBy(
-    Audio audio,
-    Duration duration,
-  ) async {
-    await audio.audioPlayer!.seek(_position + duration);
-    notifyListeners();
-  }
-
-  void seekTo(
-    Audio audio,
-    Duration position,
-  ) async {
-    await audio.audioPlayer!.seek(position);
-    notifyListeners();
-  }
-
-  void skipToStart(
-    Audio audio,
-  ) async {
-    await audio.audioPlayer!.seek(Duration.zero);
-    notifyListeners();
-  }
-
-  void skipToEnd(
-    Audio audio,
-  ) async {
-    await audio.audioPlayer!.seek(_duration);
     notifyListeners();
   }
 }

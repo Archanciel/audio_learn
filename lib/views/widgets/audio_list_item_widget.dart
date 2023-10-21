@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../models/audio.dart';
 import '../../../models/playlist.dart';
 import '../../../utils/ui_util.dart';
-import '../../../viewmodels/audio_player_vm.dart';
+import '../../viewmodels/audio_individual_player_vm.dart';
 import '../../../viewmodels/playlist_list_vm.dart';
 import '../../../utils/time_util.dart';
 import '../../constants.dart';
@@ -279,8 +279,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   }
 
   Widget _buildPlayButton() {
-    return Consumer<AudioPlayerVM>(
-      builder: (context, audioPlayerViewModel, child) {
+    return Consumer<AudioIndividualPlayerVM>(
+      builder: (context, audioIndividualPlayerVM, child) {
         if (audio.isPlaying) {
           return Row(
             mainAxisSize: MainAxisSize.min,
@@ -289,19 +289,19 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   ? IconButton(
                       icon: const Icon(Icons.play_arrow),
                       onPressed: () {
-                        audioPlayerViewModel.pause(audio);
+                        audioIndividualPlayerVM.pause(audio);
                       },
                     )
                   : IconButton(
                       icon: const Icon(Icons.pause),
                       onPressed: () {
-                        audioPlayerViewModel.pause(audio);
+                        audioIndividualPlayerVM.pause(audio);
                       },
                     ),
               IconButton(
                 icon: const Icon(Icons.stop),
                 onPressed: () {
-                  audioPlayerViewModel.stop(audio);
+                  audioIndividualPlayerVM.stop(audio);
                 },
               ),
             ],
@@ -310,7 +310,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
           return IconButton(
             icon: const Icon(Icons.play_arrow),
             onPressed: () {
-              audioPlayerViewModel.playFromFileSource(
+              audioIndividualPlayerVM.playFromFileSource(
                 audio: audio,
               );
             },

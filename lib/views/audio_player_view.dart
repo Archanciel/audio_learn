@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/audio.dart';
 import '../models/playlist.dart';
-import '../viewmodels/audio_player_vm.dart';
+import '../viewmodels/audio_global_player_vm.dart';
 
 class AudioPlayerView extends StatefulWidget {
   final Audio audio;
@@ -19,8 +19,9 @@ class AudioPlayerView extends StatefulWidget {
       playlistQuality: PlaylistQuality.voice,
     );
 
-    pl.downloadPath = "C:\\Users\\Jean-Pierre\\Downloads\\Audio\\audio_learn_short";
-    
+    pl.downloadPath =
+        "C:\\Users\\Jean-Pierre\\Downloads\\Audio\\audio_learn_short";
+
     return pl;
   }
 
@@ -36,8 +37,9 @@ class AudioPlayerView extends StatefulWidget {
       audioDuration: Duration.zero,
     );
 
-    au.audioFileName = "231004-214317-Eleven Labs  -  L'IA qui crée des livres audio avec des VOIX en français 23-09-24.mp3";
-
+    au.audioFileName =
+        "231004-214307-15 minutes de Janco pour retourner un climatosceptique 23-10-01.mp3";
+    
     return au;
   }
 
@@ -53,7 +55,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AudioPlayerVM(),
+      create: (_) => AudioGlobalPlayerVM(
+        currentAudio: widget.audio,
+      ),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Audio Player'),
@@ -79,15 +83,14 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
   }
 
   Widget _buildSlider() {
-    return Consumer<AudioPlayerVM>(
-      builder: (context, viewModel, child) {
+    return Consumer<AudioGlobalPlayerVM>(
+      builder: (context, audioGlobalPlayerVM, child) {
         return Slider(
-          value: viewModel.position.inSeconds.toDouble(),
+          value: audioGlobalPlayerVM.position.inSeconds.toDouble(),
           min: 0.0,
-          max: viewModel.duration.inSeconds.toDouble(),
+          max: audioGlobalPlayerVM.duration.inSeconds.toDouble(),
           onChanged: (double value) {
-            viewModel.seekTo(
-              widget.audio,
+            audioGlobalPlayerVM.seekTo(
               Duration(seconds: value.toInt()),
             );
           },
@@ -97,19 +100,19 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
   }
 
   Widget _buildPositions() {
-    return Consumer<AudioPlayerVM>(
-      builder: (context, viewModel, child) {
+    return Consumer<AudioGlobalPlayerVM>(
+      builder: (context, audioGlobalPlayerVM, child) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                _formatDuration(viewModel.position),
+                _formatDuration(audioGlobalPlayerVM.position),
                 style: const TextStyle(fontSize: 20.0),
               ),
               Text(
-                _formatDuration(viewModel.remaining),
+                _formatDuration(audioGlobalPlayerVM.remaining),
                 style: const TextStyle(fontSize: 20.0),
               ),
             ],
@@ -127,28 +130,29 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
   }
 
   Widget _buildPlayButtons() {
-    return Consumer<AudioPlayerVM>(
-      builder: (context, viewModel, child) {
+    return Consumer<AudioGlobalPlayerVM>(
+      builder: (context, audioGlobalPlayerVM, child) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
               iconSize: _audioIconSizeMedium,
-              onPressed: () => viewModel.skipToStart(widget.audio),
+              onPressed: () => audioGlobalPlayerVM.skipToStart(),
               icon: const Icon(Icons.skip_previous),
             ),
             IconButton(
               iconSize: _audioIconSizeLarge,
               onPressed: (() {
-                widget.audio.isPlaying
-                    ? viewModel.pause(widget.audio)
-                    : viewModel.playFromFileSource(audio: widget.audio);
+                audioGlobalPlayerVM.isPlaying
+                    ? audioGlobalPlayerVM.pause()
+                    : audioGlobalPlayerVM.playFromFile();
               }),
-              icon: Icon(widget.audio.isPlaying ? Icons.pause : Icons.play_arrow),
+              icon:
+                  Icon(audioGlobalPlayerVM.isPlaying ? Icons.pause : Icons.play_arrow),
             ),
             IconButton(
               iconSize: _audioIconSizeMedium,
-              onPressed: () => viewModel.skipToEnd(widget.audio),
+              onPressed: () => audioGlobalPlayerVM.skipToEnd(),
               icon: const Icon(Icons.skip_next),
             ),
           ],
@@ -158,8 +162,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
   }
 
   Widget _buildPositionButtons() {
-    return Consumer<AudioPlayerVM>(
-      builder: (context, viewModel, child) {
+    return Consumer<AudioGlobalPlayerVM>(
+      builder: (context, audioGlobalPlayerVM, child) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -176,8 +180,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                         Expanded(
                           child: IconButton(
                             iconSize: _audioIconSizeMedium,
-                            onPressed: () => viewModel.seekBy(
-                              widget.audio,
+                            onPressed: () => audioGlobalPlayerVM.seekBy(
                               const Duration(minutes: -1),
                             ),
                             icon: const Icon(Icons.fast_rewind),
@@ -186,8 +189,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                         Expanded(
                           child: IconButton(
                             iconSize: _audioIconSizeMedium,
-                            onPressed: () => viewModel.seekBy(
-                              widget.audio,
+                            onPressed: () => audioGlobalPlayerVM.seekBy(
                               const Duration(seconds: -10),
                             ),
                             icon: const Icon(Icons.fast_rewind),
@@ -196,8 +198,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                         Expanded(
                           child: IconButton(
                             iconSize: _audioIconSizeMedium,
-                            onPressed: () => viewModel.seekBy(
-                              widget.audio,
+                            onPressed: () => audioGlobalPlayerVM.seekBy(
                               const Duration(seconds: 10),
                             ),
                             icon: const Icon(Icons.fast_forward),
@@ -206,8 +207,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                         Expanded(
                           child: IconButton(
                             iconSize: _audioIconSizeMedium,
-                            onPressed: () => viewModel.seekBy(
-                              widget.audio,
+                            onPressed: () => audioGlobalPlayerVM.seekBy(
                               const Duration(minutes: 1),
                             ),
                             icon: const Icon(Icons.fast_forward),

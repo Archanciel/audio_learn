@@ -13,7 +13,7 @@ import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
-import 'viewmodels/audio_player_vm.dart';
+import 'viewmodels/audio_individual_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
 import 'viewmodels/warning_message_vm.dart';
@@ -112,7 +112,7 @@ class MainApp extends StatelessWidget with ScreenMixin {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => audioDownloadVM),
-        ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
+        ChangeNotifierProvider(create: (_) => AudioIndividualPlayerVM()),
         ChangeNotifierProvider(
             create: (_) => ThemeProvider(
                   appSettings: _settingsDataService,

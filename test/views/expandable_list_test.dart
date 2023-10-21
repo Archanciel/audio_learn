@@ -8,7 +8,7 @@ import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
-import 'package:audio_learn/viewmodels/audio_player_vm.dart';
+import 'package:audio_learn/viewmodels/audio_individual_player_vm.dart';
 import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:audio_learn/viewmodels/language_provider.dart';
 import 'package:audio_learn/viewmodels/theme_provider.dart';
@@ -1182,7 +1182,7 @@ Future<void> _createExpandablePlaylistListView({
                   settingsDataService: settingsDataService,
                 )),
         ChangeNotifierProvider(create: (_) => audioDownloadVM),
-        ChangeNotifierProvider(create: (_) => AudioPlayerVM()),
+        ChangeNotifierProvider(create: (_) => AudioIndividualPlayerVM()),
         ChangeNotifierProvider(
             create: (_) => ThemeProvider(
                   appSettings: settingsDataService,
