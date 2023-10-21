@@ -212,7 +212,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 5.0),
+                  const SizedBox(height: 4.0),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -220,7 +220,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                         child: Text(
                           '1 m',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 21.0),
+                          style: TextStyle(fontSize: 18.0),
                         ),
                       ),
                       Expanded(
