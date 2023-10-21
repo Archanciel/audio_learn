@@ -6,12 +6,10 @@ import '../models/playlist.dart';
 import '../viewmodels/audio_player_vm.dart';
 
 class AudioPlayerView extends StatefulWidget {
-  final Playlist playlist;
   final Audio audio;
 
   AudioPlayerView({Key? key})
-      : playlist = _createPlaylist(),
-        audio = _createAudio(),
+      : audio = _createAudio(),
         super(key: key);
 
   static Playlist _createPlaylist() {
