@@ -24,23 +24,15 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }
 
   void _initializePlayer() async {
-    // Assuming filePath is the full path to your audio file
-    String audioFilePathName = currentAudio.filePathName;
+    _audioPlayer.onDurationChanged.listen((duration) {
+      _duration = duration;
+      notifyListeners();
+    });
 
-    // Check if the file exists before attempting to play it
-    if (await File(audioFilePathName).exists()) {
-      _audioPlayer.onDurationChanged.listen((duration) {
-        _duration = duration;
-        notifyListeners();
-      });
-
-      _audioPlayer.onPositionChanged.listen((position) {
-        _position = position;
-        notifyListeners();
-      });
-    } else {
-      print('Audio file does not exist at $audioFilePathName');
-    }
+    _audioPlayer.onPositionChanged.listen((position) {
+      _position = position;
+      notifyListeners();
+    });
   }
 
   bool get isPlaying => _audioPlayer.state == PlayerState.playing;
@@ -52,7 +44,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
     // Check if the file exists before attempting to play it
     if (File(audioFilePathName).existsSync()) {
-      _audioPlayer.play(DeviceFileSource(audioFilePathName)); // <-- Directly using play method
+      _audioPlayer.play(DeviceFileSource(
+          audioFilePathName)); // <-- Directly using play method
       notifyListeners();
     } else {
       print('Audio file does not exist at $audioFilePathName');

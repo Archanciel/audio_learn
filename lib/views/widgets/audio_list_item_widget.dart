@@ -9,6 +9,7 @@ import '../../../models/audio.dart';
 import '../../../models/playlist.dart';
 import '../../../utils/ui_util.dart';
 import '../../viewmodels/audio_individual_player_vm.dart';
+import '../../viewmodels/audio_global_player_vm.dart';
 import '../../../viewmodels/playlist_list_vm.dart';
 import '../../../utils/time_util.dart';
 import '../../constants.dart';
@@ -38,6 +39,9 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
+    final AudioGlobalPlayerVM audioGlobalPlayerVM =
+        Provider.of<AudioGlobalPlayerVM>(context, listen: false);
+
     return ListTile(
       leading: IconButton(
         icon: const Icon(Icons.menu),
@@ -222,8 +226,22 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
           });
         },
       ),
-      title: Text(audio.validVideoTitle),
-      subtitle: Text(_buildSubTitle(context)),
+      title: GestureDetector(
+        onTap: () {
+          audioGlobalPlayerVM
+              .currentAudio = audio;
+          audioGlobalPlayerVM.playFromFile();
+        },
+        child: Text(audio.validVideoTitle),
+      ),
+      subtitle: GestureDetector(
+        onTap: () {
+          audioGlobalPlayerVM
+              .currentAudio = audio;
+          audioGlobalPlayerVM.playFromFile();
+        },
+        child: Text(_buildSubTitle(context)),
+      ),
       trailing: _buildPlayButton(),
     );
   }
