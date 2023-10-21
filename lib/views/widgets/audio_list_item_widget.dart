@@ -31,10 +31,12 @@ enum AudioPopupMenuAction {
 
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
+  final Function(int) onPageChanged;
 
   const AudioListItemWidget({
     super.key,
     required this.audio,
+    required this.onPageChanged,
   });
 
   @override
@@ -228,22 +230,25 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
       ),
       title: GestureDetector(
         onTap: () {
-          audioGlobalPlayerVM
-              .currentAudio = audio;
-          audioGlobalPlayerVM.playFromFile();
+          dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
         },
         child: Text(audio.validVideoTitle),
       ),
       subtitle: GestureDetector(
         onTap: () {
-          audioGlobalPlayerVM
-              .currentAudio = audio;
-          audioGlobalPlayerVM.playFromFile();
+          dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
         },
         child: Text(_buildSubTitle(context)),
       ),
       trailing: _buildPlayButton(),
     );
+  }
+
+  void dragToAudioPlayerViewAndPlayAudio(AudioGlobalPlayerVM audioGlobalPlayerVM) {
+    audioGlobalPlayerVM
+        .currentAudio = audio;
+    audioGlobalPlayerVM.playFromFile();
+    onPageChanged(1); // dragging to the AudioPlayerView screen
   }
 
   PlaylistListVM getAndInitializeExpandablePlaylistListVM(

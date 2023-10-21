@@ -1498,7 +1498,7 @@ Future<void> _launchExpandablePlaylistListView({
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: Scaffold(
-          body: PlaylistListView(),
+          body: PlaylistListView(onPageChanged: changePage,),
         ),
       ),
     ),
@@ -1539,3 +1539,20 @@ Future<void> findThenSelectAndTestListTileCheckbox({
 
   expect(tester.widget<Checkbox>(checkboxFinder).value, true);
 }
+
+
+  void changePage(int index) {
+    onPageChanged(index);
+    // _pageController.animateToPage(
+    //   index,
+    //   duration: pageTransitionDuration, // Use constant
+    //   curve: pageTransitionCurve, // Use constant
+    // );
+  }
+
+  void onPageChanged(int index) {
+    // setState(() {
+    //   _currentIndex = index;
+    // });
+  }
+

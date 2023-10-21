@@ -34,7 +34,12 @@ class PlaylistListView extends StatefulWidget {
       MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius)));
 
-  PlaylistListView({super.key});
+
+  final Function(int) onPageChanged;
+  PlaylistListView({
+    super.key,
+    required this.onPageChanged,
+  });
 
   @override
   State<PlaylistListView> createState() => _PlaylistListViewState();
@@ -684,6 +689,7 @@ class _PlaylistListViewState extends State<PlaylistListView> with ScreenMixin {
                     final audio = _selectedPlaylistsPlayableAudios[index];
                     return AudioListItemWidget(
                       audio: audio,
+                      onPageChanged: widget.onPageChanged,
                     );
                   },
                 );

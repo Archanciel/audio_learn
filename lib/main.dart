@@ -245,7 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
       AppBarTitleForPlaylistView(playlistViewHomePage: widget),
     );
 
-    _screenWidgetLst.add(PlaylistListView());
+    _screenWidgetLst.add(PlaylistListView(onPageChanged: changePage));
     _screenWidgetLst.add(AudioPlayerView());
     _screenWidgetLst.add(MediaPlayerView());
   }
@@ -296,7 +296,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _screenNavigationIconLst.length, // specifies the number of pages
         //                           that can be swiped by dragging left or right
         controller: _pageController,
-        onPageChanged: _onPageChanged,
+        onPageChanged: onPageChanged,
         itemBuilder: (context, index) {
           return screenWidget;
         },
@@ -310,7 +310,7 @@ class _MyHomePageState extends State<MyHomePage> {
       children: _screenNavigationIconLst.asMap().entries.map((entry) {
         return IconButton(
           icon: Icon(entry.value),
-          onPressed: () => _changePage(entry.key),
+          onPressed: () => changePage(entry.key),
           color: _currentIndex == entry.key ? Colors.blue : Colors.grey,
           iconSize:
               24, // Set this if you want to control the icon's visual size
@@ -321,8 +321,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _changePage(int index) {
-    _onPageChanged(index);
+  void changePage(int index) {
+    onPageChanged(index);
     _pageController.animateToPage(
       index,
       duration: pageTransitionDuration, // Use constant
@@ -330,7 +330,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _onPageChanged(int index) {
+  void onPageChanged(int index) {
     setState(() {
       _currentIndex = index;
     });
