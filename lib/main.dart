@@ -93,38 +93,8 @@ class MainApp extends StatelessWidget with ScreenMixin {
   })  : _isTest = isTest,
         _settingsDataService = settingsDataService;
 
-  Playlist createPlaylist() {
-    final pl = Playlist(
-      url: 'url',
-      playlistType: PlaylistType.local,
-      playlistQuality: PlaylistQuality.voice,
-    );
-    pl.downloadPath =
-        "/storage/emulated/0/Download/audiolear/audio_learn_short";
-    return pl;
-  }
-
-  Audio createAudio() {
-    final au = Audio(
-      enclosingPlaylist: createPlaylist(),
-      originalVideoTitle: 'originalVideoTitle',
-      compactVideoDescription: 'compactVideoDescription',
-      videoUrl: 'videoUrl',
-      audioDownloadDateTime: DateTime.now(),
-      audioDownloadDuration: Duration.zero,
-      videoUploadDate: DateTime.now(),
-      audioDuration: Duration.zero,
-    );
-
-    au.audioFileName =
-        "231021-125211-5 Concepts de Code que j'aurais aimé connaître AVANT d'apprendre à coder (personne n'en parle) 22-06-03.mp3";
-    
-    return au;
-  }
-
   @override
   Widget build(BuildContext context) {
-    Audio tempAudio = createAudio();
     WarningMessageVM warningMessageVM = WarningMessageVM();
     AudioDownloadVM audioDownloadVM = AudioDownloadVM(
       warningMessageVM: warningMessageVM,
@@ -147,9 +117,7 @@ class MainApp extends StatelessWidget with ScreenMixin {
         ChangeNotifierProvider(create: (_) => audioDownloadVM),
         ChangeNotifierProvider(create: (_) => AudioIndividualPlayerVM()),
         ChangeNotifierProvider(
-          create: (_) => AudioGlobalPlayerVM(
-            currentAudio: tempAudio,
-          ),
+          create: (_) => AudioGlobalPlayerVM(),
         ),
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(

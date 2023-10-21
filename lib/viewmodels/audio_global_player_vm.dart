@@ -7,7 +7,7 @@ import '../models/audio.dart';
 /// Used in the AudioPlayerView screen to manage the audio playing
 /// position modifications.
 class AudioGlobalPlayerVM extends ChangeNotifier {
-  Audio currentAudio;
+  late Audio currentAudio;
   late AudioPlayer _audioPlayer;
   Duration _duration = const Duration();
   Duration _position = const Duration();
@@ -16,9 +16,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   Duration get duration => _duration;
   Duration get remaining => _duration - _position;
 
-  AudioGlobalPlayerVM({
-    required this.currentAudio,
-  }) {
+  AudioGlobalPlayerVM() {
     _audioPlayer = AudioPlayer();
     _initializePlayer();
   }

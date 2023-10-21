@@ -48,9 +48,9 @@ class AudioPlayerView extends StatefulWidget {
 }
 
 class _AudioPlayerViewState extends State<AudioPlayerView> {
-  final double _audioIconSizeSmaller = 40;
-  final double _audioIconSizeMedium = 50;
-  final double _audioIconSizeLarge = 80;
+  final double _audioIconSizeSmaller = 30;
+  final double _audioIconSizeMedium = 40;
+  final double _audioIconSizeLarge = 70;
 
   @override
   Widget build(BuildContext context) {
@@ -212,6 +212,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 5.0),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
