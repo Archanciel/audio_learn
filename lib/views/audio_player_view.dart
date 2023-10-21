@@ -39,7 +39,7 @@ class AudioPlayerView extends StatefulWidget {
 
     au.audioFileName =
         "231004-214307-15 minutes de Janco pour retourner un climatosceptique 23-10-01.mp3";
-    
+
     return au;
   }
 
@@ -54,30 +54,25 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AudioGlobalPlayerVM(
-        currentAudio: widget.audio,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Audio Player'),
       ),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Audio Player'),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 10.0),
-            Column(
-              children: [
-                const SizedBox(height: 16.0),
-                _buildSlider(),
-                _buildPositions(),
-              ],
-            ),
-            _buildPlayButtons(),
-            _buildPositionButtons()
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 10.0),
+          Column(
+            children: [
+              const SizedBox(height: 16.0),
+              _buildSlider(),
+              _buildPositions(),
+            ],
+          ),
+          _buildPlayButtons(),
+          _buildPositionButtons()
+        ],
       ),
     );
   }
@@ -147,8 +142,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                     ? audioGlobalPlayerVM.pause()
                     : audioGlobalPlayerVM.playFromFile();
               }),
-              icon:
-                  Icon(audioGlobalPlayerVM.isPlaying ? Icons.pause : Icons.play_arrow),
+              icon: Icon(audioGlobalPlayerVM.isPlaying
+                  ? Icons.pause
+                  : Icons.play_arrow),
             ),
             IconButton(
               iconSize: _audioIconSizeMedium,

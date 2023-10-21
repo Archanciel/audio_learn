@@ -8,21 +8,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
-import 'package:audio_learn/constants.dart';
-import 'package:audio_learn/utils/dir_util.dart';
-import 'package:audio_learn/viewmodels/audio_download_vm.dart';
+import 'constants.dart';
+import 'models/audio.dart';
+import 'models/playlist.dart';
+import 'viewmodels/playlist_list_vm.dart';
+import 'viewmodels/audio_download_vm.dart';
 import 'viewmodels/audio_individual_player_vm.dart';
+import 'viewmodels/audio_global_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
 import 'viewmodels/warning_message_vm.dart';
-import 'views/playlist_list_view.dart';
-import 'views/audio_player_view.dart';
-import 'views/media_player_view.dart';
+import 'services/settings_data_service.dart';
+import 'utils/dir_util.dart';
 import 'views/widgets/appbar_leading_popup_menu_widget.dart';
 import 'views/widgets/appbar_application_right_popup_menu_widget.dart';
 import 'views/screen_mixin.dart';
+import 'views/playlist_list_view.dart';
+import 'views/audio_player_view.dart';
+import 'views/media_player_view.dart';
 
 const Duration pageTransitionDuration = Duration(milliseconds: 20);
 const Curve pageTransitionCurve = Curves.ease;
@@ -90,8 +93,38 @@ class MainApp extends StatelessWidget with ScreenMixin {
   })  : _isTest = isTest,
         _settingsDataService = settingsDataService;
 
+  Playlist createPlaylist() {
+    final pl = Playlist(
+      url: 'url',
+      playlistType: PlaylistType.local,
+      playlistQuality: PlaylistQuality.voice,
+    );
+    pl.downloadPath =
+        "/storage/emulated/0/Download/audiolear/audio_learn_short";
+    return pl;
+  }
+
+  Audio createAudio() {
+    final au = Audio(
+      enclosingPlaylist: createPlaylist(),
+      originalVideoTitle: 'originalVideoTitle',
+      compactVideoDescription: 'compactVideoDescription',
+      videoUrl: 'videoUrl',
+      audioDownloadDateTime: DateTime.now(),
+      audioDownloadDuration: Duration.zero,
+      videoUploadDate: DateTime.now(),
+      audioDuration: Duration.zero,
+    );
+
+    au.audioFileName =
+        "231021-125211-5 Concepts de Code que j'aurais aimé connaître AVANT d'apprendre à coder (personne n'en parle) 22-06-03.mp3";
+    
+    return au;
+  }
+
   @override
   Widget build(BuildContext context) {
+    Audio tempAudio = createAudio();
     WarningMessageVM warningMessageVM = WarningMessageVM();
     AudioDownloadVM audioDownloadVM = AudioDownloadVM(
       warningMessageVM: warningMessageVM,
@@ -114,13 +147,20 @@ class MainApp extends StatelessWidget with ScreenMixin {
         ChangeNotifierProvider(create: (_) => audioDownloadVM),
         ChangeNotifierProvider(create: (_) => AudioIndividualPlayerVM()),
         ChangeNotifierProvider(
-            create: (_) => ThemeProvider(
-                  appSettings: _settingsDataService,
-                )),
+          create: (_) => AudioGlobalPlayerVM(
+            currentAudio: tempAudio,
+          ),
+        ),
         ChangeNotifierProvider(
-            create: (_) => LanguageProvider(
-                  appSettings: _settingsDataService,
-                )),
+          create: (_) => ThemeProvider(
+            appSettings: _settingsDataService,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(
+            appSettings: _settingsDataService,
+          ),
+        ),
         ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
         ChangeNotifierProvider(create: (_) => warningMessageVM),
       ],
