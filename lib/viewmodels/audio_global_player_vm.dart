@@ -7,7 +7,7 @@ import '../models/audio.dart';
 /// Used in the AudioPlayerView screen to manage the audio playing
 /// position modifications.
 class AudioGlobalPlayerVM extends ChangeNotifier {
-  late Audio currentAudio;
+  Audio? currentAudio;
   late AudioPlayer _audioPlayer;
   Duration _duration = const Duration();
   Duration _position = const Duration();
@@ -36,9 +36,14 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   bool get isPlaying => _audioPlayer.state == PlayerState.playing;
 
   void playFromFile() {
-    // <-- Renamed from playFromAssets
-    // Assuming filePath is the full path to your audio file
-    String audioFilePathName = currentAudio.filePathName;
+    if (currentAudio == null) {
+      // the case if the user has selected the AudioPlayerView screen
+      // without yet having choosed an audio file to listen. Later, you
+      // will store the last played audio file in the settings.
+      return;
+    }
+
+    String audioFilePathName = currentAudio!.filePathName;
 
     // Check if the file exists before attempting to play it
     if (File(audioFilePathName).existsSync()) {

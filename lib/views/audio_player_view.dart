@@ -1,49 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/audio.dart';
-import '../models/playlist.dart';
 import '../viewmodels/audio_global_player_vm.dart';
 
 class AudioPlayerView extends StatefulWidget {
-  final Audio audio;
 
   AudioPlayerView({Key? key})
-      : audio = _createAudio(),
-        super(key: key);
+      : super(key: key);
 
-  static Playlist _createPlaylist() {
-    final pl = Playlist(
-      url: 'url',
-      playlistType: PlaylistType.local,
-      playlistQuality: PlaylistQuality.voice,
-    );
-
-    pl.downloadPath =
-        "C:\\Users\\Jean-Pierre\\Downloads\\Audio\\audio_learn_short";
-
-    return pl;
-  }
-
-  static Audio _createAudio() {
-    final au = Audio(
-      enclosingPlaylist: _createPlaylist(),
-      originalVideoTitle: 'originalVideoTitle',
-      compactVideoDescription: 'compactVideoDescription',
-      videoUrl: 'videoUrl',
-      audioDownloadDateTime: DateTime.now(),
-      audioDownloadDuration: Duration.zero,
-      videoUploadDate: DateTime.now(),
-      audioDuration: Duration.zero,
-    );
-
-    au.audioFileName =
-        "231004-214307-15 minutes de Janco pour retourner un climatosceptique 23-10-01.mp3";
-
-    return au;
-  }
-
-  @override
+ @override
   _AudioPlayerViewState createState() => _AudioPlayerViewState();
 }
 
