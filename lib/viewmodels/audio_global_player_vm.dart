@@ -50,7 +50,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       await _audioPlayer.play(DeviceFileSource(
           audioFilePathName)); // <-- Directly using play method
       await _audioPlayer.setPlaybackRate(currentAudio!.audioPlaySpeed);
-      currentAudio!.isPlaying = true;
+      currentAudio!.isPlayingOnGlobalAudioPlayerVM = true;
 
       notifyListeners();
     } else {

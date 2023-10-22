@@ -38,7 +38,7 @@ class AudioIndividualPlayerVM extends ChangeNotifier {
       audio.filePathName,
     ));
     await audioPlayer.setPlaybackRate(audio.audioPlaySpeed);
-    audio.isPlaying = true;
+    audio.isPlayingOnIndividualAudioPlayerVM = true;
 
     notifyListeners();
   }
@@ -67,7 +67,7 @@ class AudioIndividualPlayerVM extends ChangeNotifier {
     }
 
     await audioPlayer.play(AssetSource(audio.filePathName));
-    audio.isPlaying = true;
+    audio.isPlayingOnIndividualAudioPlayerVM = true;
 
     notifyListeners();
   }
@@ -92,7 +92,7 @@ class AudioIndividualPlayerVM extends ChangeNotifier {
   ) async {
     // Stop the audio
     await audio.audioPlayer!.stop();
-    audio.isPlaying = false;
+    audio.isPlayingOnIndividualAudioPlayerVM = false;
     notifyListeners();
   }
 }

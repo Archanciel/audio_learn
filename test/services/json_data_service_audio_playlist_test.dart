@@ -56,6 +56,8 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -114,6 +116,8 @@ void main() {
         audioDuration: null,
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -169,6 +173,8 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -188,6 +194,8 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -287,6 +295,8 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -322,6 +332,8 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -341,6 +353,8 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -406,6 +420,8 @@ void main() {
         audioDuration: null,
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -425,6 +441,8 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -458,6 +476,8 @@ void main() {
         audioDuration: null,
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -477,6 +497,8 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnIndividualAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: false,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );

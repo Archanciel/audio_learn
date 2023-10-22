@@ -306,7 +306,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   Widget _buildPlayButton() {
     return Consumer<AudioIndividualPlayerVM>(
       builder: (context, audioIndividualPlayerVM, child) {
-        if (audio.isPlaying) {
+        if (audio.isPlayingOnIndividualAudioPlayerVM) {
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [

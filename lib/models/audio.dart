@@ -77,12 +77,8 @@ class Audio {
 
   // State of the audio
 
-  bool _isPlaying = false;
-  bool get isPlaying => _isPlaying;
-  set isPlaying(bool isPlaying) {
-    _isPlaying = isPlaying;
-    _isPaused = false;
-  }
+  bool isPlayingOnIndividualAudioPlayerVM = false;
+  bool isPlayingOnGlobalAudioPlayerVM = false;
 
   bool _isPaused = false;
   bool get isPaused => _isPaused;
@@ -131,6 +127,8 @@ class Audio {
     required this.audioDuration,
     required this.isAudioMusicQuality,
     required this.audioPlaySpeed,
+    required this.isPlayingOnIndividualAudioPlayerVM,
+    required this.isPlayingOnGlobalAudioPlayerVM,
     required this.audioFileName,
     required this.audioFileSize,
   });
@@ -152,6 +150,8 @@ class Audio {
       audioDuration: audioDuration,
       isAudioMusicQuality: isAudioMusicQuality,
       audioPlaySpeed: audioPlaySpeed,
+      isPlayingOnIndividualAudioPlayerVM: isPlayingOnIndividualAudioPlayerVM,
+      isPlayingOnGlobalAudioPlayerVM: isPlayingOnGlobalAudioPlayerVM,
       audioFileName: audioFileName,
       audioFileSize: audioFileSize,
     );
@@ -179,6 +179,10 @@ class Audio {
       audioDuration: Duration(milliseconds: json['audioDurationMs'] ?? 0),
       isAudioMusicQuality: json['isAudioMusicQuality'] ?? false,
       audioPlaySpeed: json['audioPlaySpeed'] ?? kAudioDefaultPlaySpeed,
+      isPlayingOnIndividualAudioPlayerVM:
+          json['isPlayingOnIndividualAudioPlayerVM'] ?? false,
+      isPlayingOnGlobalAudioPlayerVM:
+          json['isPlayingOnGlobalAudioPlayerVM'] ?? false,
       audioFileName: json['audioFileName'],
       audioFileSize: json['audioFileSize'],
     );
@@ -201,6 +205,8 @@ class Audio {
       'audioDurationMs': audioDuration?.inMilliseconds,
       'isAudioMusicQuality': isAudioMusicQuality,
       'audioPlaySpeed': audioPlaySpeed,
+      'isPlayingOnIndividualAudioPlayerVM': isPlayingOnIndividualAudioPlayerVM,
+      'isPlayingOnGlobalAudioPlayerVM': isPlayingOnGlobalAudioPlayerVM,
       'audioFileName': audioFileName,
       'audioFileSize': audioFileSize,
     };
