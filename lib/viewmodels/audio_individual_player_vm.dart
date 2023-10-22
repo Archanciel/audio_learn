@@ -18,7 +18,7 @@ class AudioIndividualPlayerVM extends ChangeNotifier {
   /// default. In this case, the speed of playing the audio file is the one
   /// defined in the audio instance itself. If {playBackRate} is different
   /// from 1.0, the speed of the audio file is changed to {playBackRate}.
-  Future<void> playFromFileSource({
+  Future<void> playFromAudioFile({
     required Audio audio,
   }) async {
     final file = File(audio.filePathName);

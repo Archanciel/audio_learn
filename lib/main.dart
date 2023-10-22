@@ -9,8 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'constants.dart';
-import 'models/audio.dart';
-import 'models/playlist.dart';
 import 'viewmodels/playlist_list_vm.dart';
 import 'viewmodels/audio_download_vm.dart';
 import 'viewmodels/audio_individual_player_vm.dart';

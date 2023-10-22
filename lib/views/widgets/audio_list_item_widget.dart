@@ -230,13 +230,15 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
       ),
       title: GestureDetector(
         onTap: () {
-          dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
+          dragToAudioPlayerViewAndPlayAudio(
+              audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
         },
         child: Text(audio.validVideoTitle),
       ),
       subtitle: GestureDetector(
         onTap: () {
-          dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
+          dragToAudioPlayerViewAndPlayAudio(
+              audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
         },
         child: Text(_buildSubTitle(context)),
       ),
@@ -244,10 +246,10 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     );
   }
 
-  void dragToAudioPlayerViewAndPlayAudio(AudioGlobalPlayerVM audioGlobalPlayerVM) {
-    audioGlobalPlayerVM
-        .currentAudio = audio;
-    audioGlobalPlayerVM.playFromFile();
+  void dragToAudioPlayerViewAndPlayAudio(
+      AudioGlobalPlayerVM audioGlobalPlayerVM) {
+    audioGlobalPlayerVM.currentAudio = audio;
+    audioGlobalPlayerVM.playFromCurrentAudioFile();
     onPageChanged(1); // dragging to the AudioPlayerView screen
   }
 
@@ -333,7 +335,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
           return IconButton(
             icon: const Icon(Icons.play_arrow),
             onPressed: () {
-              audioIndividualPlayerVM.playFromFileSource(
+              audioIndividualPlayerVM.playFromAudioFile(
                 audio: audio,
               );
             },

@@ -4,11 +4,9 @@ import 'package:provider/provider.dart';
 import '../viewmodels/audio_global_player_vm.dart';
 
 class AudioPlayerView extends StatefulWidget {
+  AudioPlayerView({Key? key}) : super(key: key);
 
-  AudioPlayerView({Key? key})
-      : super(key: key);
-
- @override
+  @override
   _AudioPlayerViewState createState() => _AudioPlayerViewState();
 }
 
@@ -105,7 +103,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
               onPressed: (() {
                 audioGlobalPlayerVM.isPlaying
                     ? audioGlobalPlayerVM.pause()
-                    : audioGlobalPlayerVM.playFromFile();
+                    : audioGlobalPlayerVM.playFromCurrentAudioFile();
               }),
               icon: Icon(audioGlobalPlayerVM.isPlaying
                   ? Icons.pause

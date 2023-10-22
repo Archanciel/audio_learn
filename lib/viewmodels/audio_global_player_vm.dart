@@ -35,7 +35,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   bool get isPlaying => _audioPlayer.state == PlayerState.playing;
 
-  void playFromFile() {
+  Future<void> playFromCurrentAudioFile() async {
     if (currentAudio == null) {
       // the case if the user has selected the AudioPlayerView screen
       // without yet having choosed an audio file to listen. Later, you
@@ -47,8 +47,11 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
     // Check if the file exists before attempting to play it
     if (File(audioFilePathName).existsSync()) {
-      _audioPlayer.play(DeviceFileSource(
+      await _audioPlayer.play(DeviceFileSource(
           audioFilePathName)); // <-- Directly using play method
+      await _audioPlayer.setPlaybackRate(currentAudio!.audioPlaySpeed);
+      currentAudio!.isPlaying = true;
+
       notifyListeners();
     } else {
       print('Audio file does not exist at $audioFilePathName');
