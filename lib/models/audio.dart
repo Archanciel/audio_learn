@@ -79,6 +79,8 @@ class Audio {
 
   bool isPlayingOnIndividualAudioPlayerVM = false;
   bool isPlayingOnGlobalAudioPlayerVM = false;
+  int audioPositionSeconds = 0;
+
 
   bool _isPaused = false;
   bool get isPaused => _isPaused;
@@ -129,6 +131,7 @@ class Audio {
     required this.audioPlaySpeed,
     required this.isPlayingOnIndividualAudioPlayerVM,
     required this.isPlayingOnGlobalAudioPlayerVM,
+    required this.audioPositionSeconds,
     required this.audioFileName,
     required this.audioFileSize,
   });
@@ -151,7 +154,7 @@ class Audio {
       isAudioMusicQuality: isAudioMusicQuality,
       audioPlaySpeed: audioPlaySpeed,
       isPlayingOnIndividualAudioPlayerVM: isPlayingOnIndividualAudioPlayerVM,
-      isPlayingOnGlobalAudioPlayerVM: isPlayingOnGlobalAudioPlayerVM,
+      isPlayingOnGlobalAudioPlayerVM: isPlayingOnGlobalAudioPlayerVM, audioPositionSeconds: audioPositionSeconds, 
       audioFileName: audioFileName,
       audioFileSize: audioFileSize,
     );
@@ -183,6 +186,7 @@ class Audio {
           json['isPlayingOnIndividualAudioPlayerVM'] ?? false,
       isPlayingOnGlobalAudioPlayerVM:
           json['isPlayingOnGlobalAudioPlayerVM'] ?? false,
+      audioPositionSeconds: json['audioPositionSeconds'] ?? 0,
       audioFileName: json['audioFileName'],
       audioFileSize: json['audioFileSize'],
     );
@@ -207,6 +211,7 @@ class Audio {
       'audioPlaySpeed': audioPlaySpeed,
       'isPlayingOnIndividualAudioPlayerVM': isPlayingOnIndividualAudioPlayerVM,
       'isPlayingOnGlobalAudioPlayerVM': isPlayingOnGlobalAudioPlayerVM,
+      'audioPositionSeconds': audioPositionSeconds,
       'audioFileName': audioFileName,
       'audioFileSize': audioFileSize,
     };

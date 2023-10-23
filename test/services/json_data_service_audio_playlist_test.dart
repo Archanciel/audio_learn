@@ -58,6 +58,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -118,6 +119,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -175,6 +177,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -196,6 +199,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -297,6 +301,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -334,6 +339,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -355,6 +361,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -422,6 +429,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -443,6 +451,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -478,6 +487,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -499,6 +509,7 @@ void main() {
         audioPlaySpeed: kAudioDefaultPlaySpeed,
         isPlayingOnIndividualAudioPlayerVM: false,
         isPlayingOnGlobalAudioPlayerVM: false,
+        audioPositionSeconds: 0,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );

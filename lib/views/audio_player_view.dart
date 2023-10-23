@@ -10,10 +10,42 @@ class AudioPlayerView extends StatefulWidget {
   _AudioPlayerViewState createState() => _AudioPlayerViewState();
 }
 
-class _AudioPlayerViewState extends State<AudioPlayerView> {
+class _AudioPlayerViewState extends State<AudioPlayerView>
+    with WidgetsBindingObserver {
   final double _audioIconSizeSmaller = 30;
   final double _audioIconSizeMedium = 40;
   final double _audioIconSizeLarge = 70;
+
+  @override
+  initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      // App resumed from background
+      case AppLifecycleState.resumed:
+        // Provider.of<AudioGlobalPlayerVM>(context, listen: false).resume();
+        break;
+      // App paused and sent to background
+      case AppLifecycleState.paused:
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
+        Provider.of<AudioGlobalPlayerVM>(context, listen: false)
+            .updateAndSaveCurrentAudio();
+        break;
+      default:
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +61,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
           Column(
             children: [
               const SizedBox(height: 16.0),
-              _buildSlider(),
+              _buildAudioSlider(),
               _buildPositions(),
             ],
           ),
@@ -40,15 +72,16 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
     );
   }
 
-  Widget _buildSlider() {
+  Widget _buildAudioSlider() {
     return Consumer<AudioGlobalPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
         return Slider(
-          value: audioGlobalPlayerVM.position.inSeconds.toDouble(),
+          value: audioGlobalPlayerVM.currentAudioPosition.inSeconds.toDouble(),
           min: 0.0,
-          max: audioGlobalPlayerVM.duration.inSeconds.toDouble(),
+          max: audioGlobalPlayerVM.currentAudioTotalDuration.inSeconds
+              .toDouble(),
           onChanged: (double value) {
-            audioGlobalPlayerVM.seekTo(
+            audioGlobalPlayerVM.goToAudioPlayPosition(
               Duration(seconds: value.toInt()),
             );
           },
@@ -57,6 +90,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
     );
   }
 
+  /// Displays under the audio slider at left the current position
+  /// and at right the remaining time of the audio file.
   Widget _buildPositions() {
     return Consumer<AudioGlobalPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
@@ -66,11 +101,12 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                _formatDuration(audioGlobalPlayerVM.position),
+                _formatDuration(audioGlobalPlayerVM.currentAudioPosition),
                 style: const TextStyle(fontSize: 20.0),
               ),
               Text(
-                _formatDuration(audioGlobalPlayerVM.remaining),
+                _formatDuration(
+                    audioGlobalPlayerVM.currentAudioRemainingDuration),
                 style: const TextStyle(fontSize: 20.0),
               ),
             ],
@@ -139,7 +175,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                         Expanded(
                           child: IconButton(
                             iconSize: _audioIconSizeMedium,
-                            onPressed: () => audioGlobalPlayerVM.seekBy(
+                            onPressed: () =>
+                                audioGlobalPlayerVM.changeAudioPlayPosition(
                               const Duration(minutes: -1),
                             ),
                             icon: const Icon(Icons.fast_rewind),
@@ -148,7 +185,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                         Expanded(
                           child: IconButton(
                             iconSize: _audioIconSizeMedium,
-                            onPressed: () => audioGlobalPlayerVM.seekBy(
+                            onPressed: () =>
+                                audioGlobalPlayerVM.changeAudioPlayPosition(
                               const Duration(seconds: -10),
                             ),
                             icon: const Icon(Icons.fast_rewind),
@@ -157,7 +195,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                         Expanded(
                           child: IconButton(
                             iconSize: _audioIconSizeMedium,
-                            onPressed: () => audioGlobalPlayerVM.seekBy(
+                            onPressed: () =>
+                                audioGlobalPlayerVM.changeAudioPlayPosition(
                               const Duration(seconds: 10),
                             ),
                             icon: const Icon(Icons.fast_forward),
@@ -166,7 +205,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView> {
                         Expanded(
                           child: IconButton(
                             iconSize: _audioIconSizeMedium,
-                            onPressed: () => audioGlobalPlayerVM.seekBy(
+                            onPressed: () =>
+                                audioGlobalPlayerVM.changeAudioPlayPosition(
                               const Duration(minutes: 1),
                             ),
                             icon: const Icon(Icons.fast_forward),
