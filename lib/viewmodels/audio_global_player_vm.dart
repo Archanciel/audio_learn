@@ -8,7 +8,7 @@ import '../services/json_data_service.dart';
 /// Used in the AudioPlayerView screen to manage the audio playing
 /// position modifications.
 class AudioGlobalPlayerVM extends ChangeNotifier {
-  Audio? currentAudio;
+  Audio? _currentAudio;
   late AudioPlayer _audioPlayer;
   Duration _currentAudioTotalDuration = const Duration();
   Duration _currentAudioPosition = const Duration();
@@ -45,22 +45,30 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   bool get isPlaying => _audioPlayer.state == PlayerState.playing;
 
+  void setCurrentAudio(Audio audio) {
+    _currentAudio = audio;
+    _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
+    audio.enclosingPlaylist!.setCurrentPlayableAudio(audio);
+
+    notifyListeners();
+  }
+
   Future<void> playFromCurrentAudioFile() async {
-    if (currentAudio == null) {
+    if (_currentAudio == null) {
       // the case if the user has selected the AudioPlayerView screen
       // without yet having choosed an audio file to listen. Later, you
       // will store the last played audio file in the settings.
       return;
     }
 
-    String audioFilePathName = currentAudio!.filePathName;
+    String audioFilePathName = _currentAudio!.filePathName;
 
     // Check if the file exists before attempting to play it
     if (File(audioFilePathName).existsSync()) {
       await _audioPlayer.play(DeviceFileSource(
           audioFilePathName)); // <-- Directly using play method
-      await _audioPlayer.setPlaybackRate(currentAudio!.audioPlaySpeed);
-      currentAudio!.isPlayingOnGlobalAudioPlayerVM = true;
+      await _audioPlayer.setPlaybackRate(_currentAudio!.audioPlaySpeed);
+      _currentAudio!.isPlayingOnGlobalAudioPlayerVM = true;
 
       notifyListeners();
     } else {
@@ -70,7 +78,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   void pause() {
     _audioPlayer.pause();
-    currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
+    _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
 
     notifyListeners();
   }
@@ -99,7 +107,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   /// Method called when the user clicks on the '>|' buttons
   void skipToEnd() {
     _audioPlayer.seek(_currentAudioTotalDuration);
-    currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
+    _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
 
     notifyListeners();
   }
@@ -112,9 +120,9 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }
 
   void updateAndSaveCurrentAudio() {
-    if (currentAudio != null) {
-      currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
-      Playlist? currentAudioPlaylist = currentAudio!.enclosingPlaylist;
+    if (_currentAudio != null) {
+      _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
+      Playlist? currentAudioPlaylist = _currentAudio!.enclosingPlaylist;
       JsonDataService.saveToFile(
         model: currentAudioPlaylist!,
         path: currentAudioPlaylist.getPlaylistDownloadFilePathName(),
