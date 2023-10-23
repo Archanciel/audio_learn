@@ -47,7 +47,14 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   void setCurrentAudio(Audio audio) {
     _currentAudio = audio;
-    _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
+    // te next instruction causes an error: Failed assertion: line 194 
+    // pos 15: 'value >= min && value <= max': Value 3.0 is not between
+    // minimum 0.0 and maximum 0.0
+    // _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
+
+    // The next instructions solves the previous error
+    _currentAudioPosition = const Duration();
+    changeAudioPlayPosition(Duration(seconds: audio.audioPositionSeconds));
     audio.enclosingPlaylist!.setCurrentPlayableAudio(audio);
 
     notifyListeners();
