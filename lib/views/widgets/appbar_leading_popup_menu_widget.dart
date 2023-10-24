@@ -47,6 +47,7 @@ class AppBarLeadingPopupMenuWidget extends StatelessWidget {
           ),
         ];
       },
+      icon: const Icon(Icons.menu),
     );
   }
 }
