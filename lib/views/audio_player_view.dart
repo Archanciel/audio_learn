@@ -19,7 +19,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   @override
   initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
