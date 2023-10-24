@@ -200,15 +200,15 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     _appBarTitleWidgetLst.add(
-      AppBarTitleForPlaylistView(playlistViewHomePage: widget),
+      AppBarTitleForPlaylistDownloadView(playlistViewHomePage: widget),
     );
 
     _appBarTitleWidgetLst.add(
-      AppBarTitleForPlaylistView(playlistViewHomePage: widget),
+      AppBarTitleForPlaylistDownloadView(playlistViewHomePage: widget),
     );
 
     _appBarTitleWidgetLst.add(
-      AppBarTitleForPlaylistView(playlistViewHomePage: widget),
+      AppBarTitleForPlaylistDownloadView(playlistViewHomePage: widget),
     );
 
     _screenWidgetLst.add(PlaylistDownloadView(onPageChanged: changePage));
@@ -305,8 +305,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 /// When the PlaylistView screen is displayed, the AppBarTitlePlaylistView
 /// is displayed in the AppBar title:
-class AppBarTitleForPlaylistView extends StatelessWidget {
-  const AppBarTitleForPlaylistView({
+class AppBarTitleForPlaylistDownloadView extends StatelessWidget {
+  const AppBarTitleForPlaylistDownloadView({
     super.key,
     required this.playlistViewHomePage,
   });
