@@ -13,10 +13,10 @@ import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:audio_learn/viewmodels/language_provider.dart';
 import 'package:audio_learn/viewmodels/theme_provider.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
-import 'package:audio_learn/views/playlist_list_view.dart';
+import 'package:audio_learn/views/playlist_download_view.dart';
 
-class MockExpandablePlaylistListVM extends PlaylistListVM {
-  MockExpandablePlaylistListVM({
+class MockPlaylistDownloadViewVM extends PlaylistListVM {
+  MockPlaylistDownloadViewVM({
     required WarningMessageVM warningMessageVM,
     required AudioDownloadVM audioDownloadVM,
     required SettingsDataService settingsDataService,
@@ -29,7 +29,7 @@ class MockExpandablePlaylistListVM extends PlaylistListVM {
 
 void main() {
   group(
-      'Testing expandable playlist list located in ExpandableListView functions',
+      'Testing expandable playlist list located in PlaylistDownloadView functions',
       () {
     testWidgets(
         'should render ListViewWidget, not using MyApp but ListViewWidget',
@@ -43,14 +43,14 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
         warningMessageVM: warningMessageVM,
       );
 
-      expect(find.byType(PlaylistListView), findsOneWidget);
+      expect(find.byType(PlaylistDownloadView), findsOneWidget);
     });
 
     testWidgets('should toggle list on press', (WidgetTester tester) async {
@@ -86,7 +86,7 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -151,7 +151,7 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -271,7 +271,7 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -399,7 +399,7 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -534,7 +534,7 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -717,7 +717,7 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -730,7 +730,7 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
-      Finder listViewFinder = find.byType(PlaylistListView);
+      Finder listViewFinder = find.byType(PlaylistDownloadView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
@@ -761,7 +761,7 @@ void main() {
       await tester.tap(downIconButtonFinder);
       await tester.pump();
 
-      listViewFinder = find.byType(PlaylistListView);
+      listViewFinder = find.byType(PlaylistDownloadView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
@@ -812,7 +812,7 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -825,7 +825,7 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
-      Finder listViewFinder = find.byType(PlaylistListView);
+      Finder listViewFinder = find.byType(PlaylistDownloadView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
@@ -858,7 +858,7 @@ void main() {
       await tester.tap(dowButtonFinder);
       await tester.pump();
 
-      listViewFinder = find.byType(PlaylistListView);
+      listViewFinder = find.byType(PlaylistDownloadView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
@@ -908,7 +908,7 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -921,7 +921,7 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
-      Finder listViewFinder = find.byType(PlaylistListView);
+      Finder listViewFinder = find.byType(PlaylistDownloadView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
@@ -954,7 +954,7 @@ void main() {
       await tester.tap(dowButtonFinder);
       await tester.pump();
 
-      listViewFinder = find.byType(PlaylistListView);
+      listViewFinder = find.byType(PlaylistDownloadView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
@@ -1004,7 +1004,7 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -1017,7 +1017,7 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pumpAndSettle();
 
-      Finder listViewFinder = find.byType(PlaylistListView);
+      Finder listViewFinder = find.byType(PlaylistDownloadView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
@@ -1048,7 +1048,7 @@ void main() {
       await tester.tap(upButtonFinder);
       await tester.pump();
 
-      listViewFinder = find.byType(PlaylistListView);
+      listViewFinder = find.byType(PlaylistDownloadView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
@@ -1099,7 +1099,7 @@ void main() {
         isTest: true,
       );
 
-      await _createExpandablePlaylistListView(
+      await _createPlaylistDownloadView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
@@ -1112,7 +1112,7 @@ void main() {
       await tester.tap(toggleButtonFinder);
       await tester.pump();
 
-      Finder listViewFinder = find.byType(PlaylistListView);
+      Finder listViewFinder = find.byType(PlaylistDownloadView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
@@ -1145,7 +1145,7 @@ void main() {
       await tester.tap(upButtonFinder);
       await tester.pump();
 
-      listViewFinder = find.byType(PlaylistListView);
+      listViewFinder = find.byType(PlaylistDownloadView);
 
       // tester.element(listViewFinder) returns a StatefulElement
       // which is a BuildContext
@@ -1164,9 +1164,9 @@ void main() {
   });
 }
 
-/// This constructor instanciates the [PlaylistListView]
-/// with the [MockExpandablePlaylistListVM]
-Future<void> _createExpandablePlaylistListView({
+/// This constructor instanciates the [PlaylistDownloadView]
+/// with the [MockPlaylistDownloadViewVM]
+Future<void> _createPlaylistDownloadView({
   required WidgetTester tester,
   required AudioDownloadVM audioDownloadVM,
   required SettingsDataService settingsDataService,
@@ -1176,7 +1176,7 @@ Future<void> _createExpandablePlaylistListView({
     MultiProvider(
       providers: [
         ChangeNotifierProvider<PlaylistListVM>(
-            create: (_) => MockExpandablePlaylistListVM(
+            create: (_) => MockPlaylistDownloadViewVM(
                   warningMessageVM: warningMessageVM,
                   audioDownloadVM: audioDownloadVM,
                   settingsDataService: settingsDataService,
@@ -1196,7 +1196,9 @@ Future<void> _createExpandablePlaylistListView({
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: Scaffold(
-          body: PlaylistListView(onPageChanged: changePage,),
+          body: PlaylistDownloadView(
+            onPageChanged: changePage,
+          ),
         ),
       ),
     ),
@@ -1237,19 +1239,17 @@ Future<void> findThenSelectAndTestListTileCheckbox({
   expect(tester.widget<Checkbox>(checkboxFinder).value, true);
 }
 
+void changePage(int index) {
+  onPageChanged(index);
+  // _pageController.animateToPage(
+  //   index,
+  //   duration: pageTransitionDuration, // Use constant
+  //   curve: pageTransitionCurve, // Use constant
+  // );
+}
 
-  void changePage(int index) {
-    onPageChanged(index);
-    // _pageController.animateToPage(
-    //   index,
-    //   duration: pageTransitionDuration, // Use constant
-    //   curve: pageTransitionCurve, // Use constant
-    // );
-  }
-
-  void onPageChanged(int index) {
-    // setState(() {
-    //   _currentIndex = index;
-    // });
-  }
-
+void onPageChanged(int index) {
+  // setState(() {
+  //   _currentIndex = index;
+  // });
+}

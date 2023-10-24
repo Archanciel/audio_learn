@@ -28,24 +28,24 @@ enum PlaylistPopupMenuButton {
   updateAppPlaylistList,
 }
 
-class PlaylistListView extends StatefulWidget {
+class PlaylistDownloadView extends StatefulWidget {
   final MaterialStateProperty<RoundedRectangleBorder>
       appElevatedButtonRoundedShape =
       MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius)));
 
-
   final Function(int) onPageChanged;
-  PlaylistListView({
+  PlaylistDownloadView({
     super.key,
     required this.onPageChanged,
   });
 
   @override
-  State<PlaylistListView> createState() => _PlaylistListViewState();
+  State<PlaylistDownloadView> createState() => _PlaylistDownloadViewState();
 }
 
-class _PlaylistListViewState extends State<PlaylistListView> with ScreenMixin {
+class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
+    with ScreenMixin {
   final TextEditingController _playlistUrlController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 

@@ -21,7 +21,7 @@ import 'utils/dir_util.dart';
 import 'views/widgets/appbar_leading_popup_menu_widget.dart';
 import 'views/widgets/appbar_application_right_popup_menu_widget.dart';
 import 'views/screen_mixin.dart';
-import 'views/playlist_list_view.dart';
+import 'views/playlist_download_view.dart';
 import 'views/audio_player_view.dart';
 import 'views/media_player_view.dart';
 
@@ -211,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
       AppBarTitleForPlaylistView(playlistViewHomePage: widget),
     );
 
-    _screenWidgetLst.add(PlaylistListView(onPageChanged: changePage));
+    _screenWidgetLst.add(PlaylistDownloadView(onPageChanged: changePage));
     _screenWidgetLst.add(AudioPlayerView());
     _screenWidgetLst.add(MediaPlayerView());
   }

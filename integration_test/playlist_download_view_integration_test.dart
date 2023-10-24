@@ -14,7 +14,7 @@ import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:audio_learn/viewmodels/language_provider.dart';
 import 'package:audio_learn/viewmodels/theme_provider.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
-import 'package:audio_learn/views/playlist_list_view.dart';
+import 'package:audio_learn/views/playlist_download_view.dart';
 import 'package:audio_learn/views/widgets/display_message_widget.dart';
 import 'package:audio_learn/views/widgets/playlist_list_item_widget.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
@@ -43,7 +43,7 @@ void main() {
   // If this issue persists, please report it on the project's GitHub page.
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Expandable Playlist View test', () {
+  group('Playlist Download View test', () {
     testWidgets('Add Youtube playlist', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -1498,7 +1498,9 @@ Future<void> _launchExpandablePlaylistListView({
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: Scaffold(
-          body: PlaylistListView(onPageChanged: changePage,),
+          body: PlaylistDownloadView(
+            onPageChanged: changePage,
+          ),
         ),
       ),
     ),
@@ -1540,19 +1542,17 @@ Future<void> findThenSelectAndTestListTileCheckbox({
   expect(tester.widget<Checkbox>(checkboxFinder).value, true);
 }
 
+void changePage(int index) {
+  onPageChanged(index);
+  // _pageController.animateToPage(
+  //   index,
+  //   duration: pageTransitionDuration, // Use constant
+  //   curve: pageTransitionCurve, // Use constant
+  // );
+}
 
-  void changePage(int index) {
-    onPageChanged(index);
-    // _pageController.animateToPage(
-    //   index,
-    //   duration: pageTransitionDuration, // Use constant
-    //   curve: pageTransitionCurve, // Use constant
-    // );
-  }
-
-  void onPageChanged(int index) {
-    // setState(() {
-    //   _currentIndex = index;
-    // });
-  }
-
+void onPageChanged(int index) {
+  // setState(() {
+  //   _currentIndex = index;
+  // });
+}
