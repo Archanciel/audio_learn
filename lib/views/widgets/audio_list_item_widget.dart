@@ -248,7 +248,10 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
 
   void dragToAudioPlayerViewAndPlayAudio(
       AudioGlobalPlayerVM audioGlobalPlayerVM) {
+    print(
+        '********** ${audio.validVideoTitle}. Position: ${audio.audioPositionSeconds}');
     audioGlobalPlayerVM.setCurrentAudio(audio);
+    audioGlobalPlayerVM.goToAudioPlayPosition(Duration(seconds: audio.audioPositionSeconds));
     audioGlobalPlayerVM.playFromCurrentAudioFile();
     onPageChanged(1); // dragging to the AudioPlayerView screen
   }

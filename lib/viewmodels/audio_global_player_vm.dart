@@ -47,14 +47,13 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   void setCurrentAudio(Audio audio) {
     _currentAudio = audio;
-    // te next instruction causes an error: Failed assertion: line 194 
+    // without setting _currentAudioTotalDuration to the 
+    // the next instruction causes an error: Failed assertion: line 194 
     // pos 15: 'value >= min && value <= max': Value 3.0 is not between
     // minimum 0.0 and maximum 0.0
-    // _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
+    _currentAudioTotalDuration = audio.audioDuration!;
+    _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
 
-    // The next instructions solves the previous error
-    _currentAudioPosition = const Duration();
-    changeAudioPlayPosition(Duration(seconds: audio.audioPositionSeconds));
     audio.enclosingPlaylist!.setCurrentPlayableAudio(audio);
 
     notifyListeners();
@@ -92,14 +91,17 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   /// Method called when the user clicks on the '<<' or '>>' buttons
   void changeAudioPlayPosition(Duration positiveOrNegativeDuration) {
-    _audioPlayer.seek(_currentAudioPosition + positiveOrNegativeDuration);
+    _currentAudioPosition += positiveOrNegativeDuration;
+    _audioPlayer.seek(_currentAudioPosition);
+    print('######## changeAudioPlayPosition audioPosition: $_currentAudioPosition');
 
     notifyListeners();
   }
 
   /// Method called when the user clicks on the audio slider
-  void goToAudioPlayPosition(Duration position) {
-    _audioPlayer.seek(position);
+  void goToAudioPlayPosition(Duration position) async {
+    await _audioPlayer.seek(position);
+    _currentAudioPosition = position;
 
     notifyListeners();
   }
