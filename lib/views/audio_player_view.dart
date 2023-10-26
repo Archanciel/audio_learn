@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../viewmodels/audio_global_player_vm.dart';
+import 'screen_mixin.dart';
 
 class AudioPlayerView extends StatefulWidget {
   AudioPlayerView({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class AudioPlayerView extends StatefulWidget {
 }
 
 class _AudioPlayerViewState extends State<AudioPlayerView>
-    with WidgetsBindingObserver {
+    with WidgetsBindingObserver, ScreenMixin {
   final double _audioIconSizeSmaller = 30;
   final double _audioIconSizeMedium = 40;
   final double _audioIconSizeLarge = 70;
@@ -31,14 +32,19 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
-      // App resumed from background
       case AppLifecycleState.resumed:
+        writeToLogFile(
+            message:
+                'WidgetsBinding didChangeAppLifecycleState(): app resumed'); // Provider.of<AudioGlobalPlayerVM>(context, listen: false).resume();
         // Provider.of<AudioGlobalPlayerVM>(context, listen: false).resume();
         break;
       // App paused and sent to background
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
       case AppLifecycleState.detached:
+        writeToLogFile(
+            message:
+                'WidgetsBinding didChangeAppLifecycleState(): app inactive, paused or closed');
         Provider.of<AudioGlobalPlayerVM>(context, listen: false)
             .updateAndSaveCurrentAudio();
         break;

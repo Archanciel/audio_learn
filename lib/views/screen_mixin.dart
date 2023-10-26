@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
 
 import '../constants.dart';
+import '../utils/dir_util.dart';
 
 mixin ScreenMixin {
   static const double CHECKBOX_WIDTH_HEIGHT = 20.0;
@@ -253,5 +255,25 @@ mixin ScreenMixin {
         ],
       ),
     );
+  }
+
+  void writeToLogFile({
+    required String message,
+  }) {
+    String filePathName =
+        '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}audio_learn_app_log.txt';
+    if (File(filePathName).existsSync()) {
+      // Append the new line to the existing content
+      File(filePathName).writeAsStringSync(
+        '${DateTime.now().toString()} $message\n',
+        mode: FileMode.append,
+      );
+    } else {
+      // Create the file
+      File(filePathName).writeAsStringSync(
+        '$message ${DateTime.now().toString()}\n',
+        mode: FileMode.write,
+      );
+    }
   }
 }
