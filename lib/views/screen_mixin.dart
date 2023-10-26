@@ -271,7 +271,7 @@ mixin ScreenMixin {
     } else {
       // Create the file
       File(filePathName).writeAsStringSync(
-        '$message ${DateTime.now().toString()}\n',
+        '${DateTime.now().toString()} $message\n',
         mode: FileMode.write,
       );
     }

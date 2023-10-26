@@ -21,6 +21,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    writeToLogFile(message: '_AudioPlayerViewState.initState() app opened');
   }
 
   @override
