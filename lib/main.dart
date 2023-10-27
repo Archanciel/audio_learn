@@ -75,9 +75,18 @@ Future<void> main(List<String> args) async {
         '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
   );
 
+  await setWindowsAppVersionSize();
+
+  runApp(MainApp(
+    settingsDataService: settingsDataService,
+    isTest: isTest,
+  ));
+}
+
+Future<void> setWindowsAppVersionSize() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-
+  
   WindowOptions windowOptions = const WindowOptions(
     size: Size(500, 715),
     center: true,
@@ -90,11 +99,6 @@ Future<void> main(List<String> args) async {
     await windowManager.show();
     await windowManager.focus();
   });
-
-  runApp(MainApp(
-    settingsDataService: settingsDataService,
-    isTest: isTest,
-  ));
 }
 
 class MainApp extends StatelessWidget with ScreenMixin {
