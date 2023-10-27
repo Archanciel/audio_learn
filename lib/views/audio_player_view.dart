@@ -21,7 +21,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    writeToLogFile(message: '_AudioPlayerViewState.initState() app opened');
+    // writeToLogFile(message: '_AudioPlayerViewState.initState() app opened');
   }
 
   @override
@@ -34,18 +34,17 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        writeToLogFile(
-            message:
-                'WidgetsBinding didChangeAppLifecycleState(): app resumed'); // Provider.of<AudioGlobalPlayerVM>(context, listen: false).resume();
-        // Provider.of<AudioGlobalPlayerVM>(context, listen: false).resume();
+        // writeToLogFile(
+        //     message:
+        //         'WidgetsBinding didChangeAppLifecycleState(): app resumed'); // Provider.of<AudioGlobalPlayerVM>(context, listen: false).resume();
         break;
       // App paused and sent to background
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
       case AppLifecycleState.detached:
-        writeToLogFile(
-            message:
-                'WidgetsBinding didChangeAppLifecycleState(): app inactive, paused or closed');
+        // writeToLogFile(
+        //     message:
+        //         'WidgetsBinding didChangeAppLifecycleState(): app inactive, paused or closed');
         Provider.of<AudioGlobalPlayerVM>(context, listen: false)
             .updateAndSaveCurrentAudio();
         break;

@@ -20,6 +20,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   bool get isPlaying => _audioPlayer.state == PlayerState.playing;
 
+  late DateTime _lastCurrentAudioSaveDateTime;
+
   AudioGlobalPlayerVM() {
     // the next line is necessary since _audioPlayer.dispose() is
     // called in _initializePlayer()
@@ -46,6 +48,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
     _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
     audio.enclosingPlaylist!.setCurrentPlayableAudio(audio);
+    _lastCurrentAudioSaveDateTime = DateTime.now();
 
     _initializePlayer();
   }
@@ -176,8 +179,21 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   void updateAndSaveCurrentAudio() {
     _currentAudio!.audioPositionSeconds =_currentAudioPosition.inSeconds;
-    print(
-        'updateAndSaveCurrentAudio() currentAudio!.audioPositionSeconds: ${_currentAudio!.audioPositionSeconds}');
+
+    // saving the current audio position only every 30 seconds
+
+    DateTime now = DateTime.now();
+
+    if (_lastCurrentAudioSaveDateTime.add(const Duration(seconds: 30))
+        .isAfter(now)) {
+      return;
+    }
+
+    _lastCurrentAudioSaveDateTime = now;
+
+    // print(
+    //     'updateAndSaveCurrentAudio() at $_lastCurrentAudioSaveDateTime currentAudio!.audioPositionSeconds: ${_currentAudio!.audioPositionSeconds}');
+
     Playlist? currentAudioPlaylist = _currentAudio!.enclosingPlaylist;
     JsonDataService.saveToFile(
       model: currentAudioPlaylist!,
