@@ -9,6 +9,7 @@ import '../services/json_data_service.dart';
 /// position modifications.
 class AudioGlobalPlayerVM extends ChangeNotifier {
   Audio? _currentAudio;
+  Audio? get currentAudio => _currentAudio;
   late AudioPlayer _audioPlayer;
   Duration _currentAudioTotalDuration = const Duration();
   Duration _currentAudioPosition = const Duration();

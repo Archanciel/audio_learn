@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../viewmodels/audio_global_player_vm.dart';
+import '../constants.dart';
 import 'screen_mixin.dart';
 
 class AudioPlayerView extends StatefulWidget {
@@ -13,9 +14,8 @@ class AudioPlayerView extends StatefulWidget {
 
 class _AudioPlayerViewState extends State<AudioPlayerView>
     with WidgetsBindingObserver, ScreenMixin {
-  final double _audioIconSizeSmaller = 30;
   final double _audioIconSizeMedium = 40;
-  final double _audioIconSizeLarge = 70;
+  final double _audioIconSizeLarge = 80;
 
   @override
   initState() {
@@ -64,15 +64,15 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 10.0),
+          _buildPlayButton(),
           Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const SizedBox(height: 16.0),
+              _buildStartEndButtonsWithTitle(),
               _buildAudioSlider(),
-              _buildPositions(),
+              _buildPositionButtons(),
             ],
           ),
-          _buildPlayButtons(),
-          _buildPositionButtons()
         ],
       ),
     );
@@ -81,39 +81,40 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildAudioSlider() {
     return Consumer<AudioGlobalPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
-        return Slider(
-          value: audioGlobalPlayerVM.currentAudioPosition.inSeconds.toDouble(),
-          min: 0.0,
-          max: audioGlobalPlayerVM.currentAudioTotalDuration.inSeconds
-              .toDouble(),
-          onChanged: (double value) {
-            audioGlobalPlayerVM.goToAudioPlayPosition(
-              Duration(seconds: value.toInt()),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  /// Displays under the audio slider at left the current position
-  /// and at right the remaining time of the audio file.
-  Widget _buildPositions() {
-    return Consumer<AudioGlobalPlayerVM>(
-      builder: (context, audioGlobalPlayerVM, child) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: kDefaultMargin),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
                 _formatDuration(audioGlobalPlayerVM.currentAudioPosition),
-                style: const TextStyle(fontSize: 20.0),
+                style: const TextStyle(fontSize: 15.0),
+              ),
+              Expanded(
+                child: SliderTheme(
+                  data: const SliderThemeData(
+                    thumbShape: RoundSliderThumbShape(
+                        enabledThumbRadius:
+                            8.0), // Adjust the radius as you need
+                  ),
+                  child: Slider(
+                    value: audioGlobalPlayerVM.currentAudioPosition.inSeconds
+                        .toDouble(),
+                    min: 0.0,
+                    max: audioGlobalPlayerVM.currentAudioTotalDuration.inSeconds
+                        .toDouble(),
+                    onChanged: (double value) {
+                      audioGlobalPlayerVM.goToAudioPlayPosition(
+                        Duration(seconds: value.toInt()),
+                      );
+                    },
+                  ),
+                ),
               ),
               Text(
                 _formatDuration(
                     audioGlobalPlayerVM.currentAudioRemainingDuration),
-                style: const TextStyle(fontSize: 20.0),
+                style: const TextStyle(fontSize: 15.0),
               ),
             ],
           ),
@@ -129,17 +130,12 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     return '$twoDigitMinutes:$twoDigitSeconds';
   }
 
-  Widget _buildPlayButtons() {
+  Widget _buildPlayButton() {
     return Consumer<AudioGlobalPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
         return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              iconSize: _audioIconSizeMedium,
-              onPressed: () => audioGlobalPlayerVM.skipToStart(),
-              icon: const Icon(Icons.skip_previous),
-            ),
             IconButton(
               iconSize: _audioIconSizeLarge,
               onPressed: (() {
@@ -150,6 +146,32 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               icon: Icon(audioGlobalPlayerVM.isPlaying
                   ? Icons.pause
                   : Icons.play_arrow),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildStartEndButtonsWithTitle() {
+    return Consumer<AudioGlobalPlayerVM>(
+      builder: (context, audioGlobalPlayerVM, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              iconSize: _audioIconSizeMedium,
+              onPressed: () => audioGlobalPlayerVM.skipToStart(),
+              icon: const Icon(Icons.skip_previous),
+            ),
+            Expanded(
+              child: Text(
+                audioGlobalPlayerVM.currentAudio?.validVideoTitle ?? '',
+                style: const TextStyle(fontSize: 15.0),
+                maxLines: 4,
+                textAlign: TextAlign.center,
+                // overflow: TextOverflow.ellipsis,
+              ),
             ),
             IconButton(
               iconSize: _audioIconSizeMedium,
@@ -236,21 +258,21 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         child: Text(
                           '10 s',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 21.0),
+                          style: TextStyle(fontSize: 18.0),
                         ),
                       ),
                       Expanded(
                         child: Text(
                           '10 s',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 21.0),
+                          style: TextStyle(fontSize: 18.0),
                         ),
                       ),
                       Expanded(
                         child: Text(
                           '1 m',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 21.0),
+                          style: TextStyle(fontSize: 18.0),
                         ),
                       ),
                     ],

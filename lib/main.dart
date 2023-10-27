@@ -75,7 +75,7 @@ Future<void> main(List<String> args) async {
         '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
   );
 
-  await setWindowsAppVersionSize();
+  // await setWindowsAppVersionSize();
 
   runApp(MainApp(
     settingsDataService: settingsDataService,
