@@ -18,45 +18,64 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   Duration get currentAudioRemainingDuration =>
       _currentAudioTotalDuration - _currentAudioPosition;
 
+  bool get isPlaying => _audioPlayer.state == PlayerState.playing;
+
   AudioGlobalPlayerVM() {
+    // the next line is necessary since _audioPlayer.dispose() is
+    // called in _initializePlayer()
     _audioPlayer = AudioPlayer();
 
     _initializePlayer();
   }
 
-  void _initializePlayer() async {
-    _audioPlayer.onDurationChanged.listen((duration) {
-      _currentAudioTotalDuration = duration;
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
 
-      notifyListeners();
-    });
-
-    _audioPlayer.onPositionChanged.listen((position) {
-      // called each time the audio position has been changed
-      // by the user, either clicking on or dragging the audio slider
-      // or clicking on the '<<' or '>>' or '|<' or '>|' buttons as
-      // well as on play or pause buttons.
-      _currentAudioPosition = position;
-      updateAndSaveCurrentAudio();
-
-      notifyListeners();
-    });
+    super.dispose();
   }
-
-  bool get isPlaying => _audioPlayer.state == PlayerState.playing;
 
   void setCurrentAudio(Audio audio) {
     _currentAudio = audio;
-    // without setting _currentAudioTotalDuration to the 
-    // the next instruction causes an error: Failed assertion: line 194 
+
+    // without setting _currentAudioTotalDuration to the
+    // the next instruction causes an error: Failed assertion: line 194
     // pos 15: 'value >= min && value <= max': Value 3.0 is not between
     // minimum 0.0 and maximum 0.0
-    _currentAudioTotalDuration = audio.audioDuration!;
-    _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
+    _currentAudioTotalDuration = audio.audioDuration ?? const Duration();
 
+    _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
     audio.enclosingPlaylist!.setCurrentPlayableAudio(audio);
 
-    notifyListeners();
+    _initializePlayer();
+  }
+
+  void _initializePlayer() {
+    _audioPlayer.dispose();
+    _audioPlayer = AudioPlayer();
+
+    // Assuming filePath is the full path to your audio file
+    String audioFilePathName = _currentAudio?.filePathName ?? '';
+
+    // Check if the file exists before attempting to play it
+    if (audioFilePathName.isNotEmpty && File(audioFilePathName).existsSync()) {
+      _audioPlayer.onDurationChanged.listen((duration) {
+        _currentAudioTotalDuration = duration;
+        notifyListeners();
+      });
+
+      _audioPlayer.onPositionChanged.listen((position) {
+        if (isPlaying) {
+          // this test avoids that when selecting another audio
+          // the selected audio position is set to 0 since the
+          // passed position value is 0 !
+          _currentAudioPosition = position;
+          updateAndSaveCurrentAudio();
+        }
+
+        notifyListeners();
+      });
+    }
   }
 
   Future<void> playFromCurrentAudioFile() async {
@@ -77,65 +96,92 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       _currentAudio!.isPlayingOnGlobalAudioPlayerVM = true;
 
       notifyListeners();
-    } else {
-      print('Audio file does not exist at $audioFilePathName');
     }
   }
 
-  void pause() {
-    _audioPlayer.pause();
+  Future<void> pause() async {
+    await _audioPlayer.pause();
     _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
 
     notifyListeners();
   }
 
   /// Method called when the user clicks on the '<<' or '>>' buttons
-  void changeAudioPlayPosition(Duration positiveOrNegativeDuration) {
-    _currentAudioPosition += positiveOrNegativeDuration;
-    _audioPlayer.seek(_currentAudioPosition);
-    print('######## changeAudioPlayPosition audioPosition: $_currentAudioPosition');
+  Future<void> changeAudioPlayPosition(
+      Duration positiveOrNegativeDuration) async {
+
+    Duration currentAudioDuration =
+        _currentAudio!.audioDuration ?? Duration.zero;
+    Duration newAudioPosition =
+        _currentAudioPosition + positiveOrNegativeDuration;
+
+    // Check if the new audio position is within the audio duration.
+    // If not, set the audio position to the beginning or the end
+    // of the audio. This is necessary to avoid a slider error.
+    //
+    // This fixes the bug when clicking on >> after having clicked
+    // on >| or clicking on << after having clicked on |<.
+    if (newAudioPosition < Duration.zero) {
+      _currentAudioPosition = Duration.zero;
+    } else if (newAudioPosition > currentAudioDuration) {
+      _currentAudioPosition = currentAudioDuration;
+    } else {
+      _currentAudioPosition = newAudioPosition;
+    }
+
+    // necessary so that the audio position is stored on the
+    // audio
+    _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
+
+    await _audioPlayer.seek(_currentAudioPosition);
 
     notifyListeners();
   }
 
   /// Method called when the user clicks on the audio slider
-  void goToAudioPlayPosition(Duration position) async {
+  Future<void> goToAudioPlayPosition(Duration position) async {
+    _currentAudioPosition = position; // Immediately update the position
+
+    // necessary so that the audio position is stored on the
+    // audio
+    _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
+
     await _audioPlayer.seek(position);
-    _currentAudioPosition = position;
 
     notifyListeners();
   }
 
-  /// Method called when the user clicks on the '|<' buttons
-  void skipToStart() {
-    _audioPlayer.seek(Duration.zero);
+  Future<void> skipToStart() async {
+    _currentAudioPosition = Duration.zero;
+    // necessary so that the audio position is stored on the
+    // audio
+    _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
+
+    await _audioPlayer.seek(_currentAudioPosition);
 
     notifyListeners();
   }
 
-  /// Method called when the user clicks on the '>|' buttons
-  void skipToEnd() {
-    _audioPlayer.seek(_currentAudioTotalDuration);
+  Future<void> skipToEnd() async {
+    _currentAudioPosition = _currentAudioTotalDuration;
+    // necessary so that the audio position is stored on the
+    // audio
+    _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
     _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
 
+    await _audioPlayer.seek(_currentAudioTotalDuration);
+
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-
-    super.dispose();
   }
 
   void updateAndSaveCurrentAudio() {
-    if (_currentAudio != null) {
-      _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
-      Playlist? currentAudioPlaylist = _currentAudio!.enclosingPlaylist;
-      JsonDataService.saveToFile(
-        model: currentAudioPlaylist!,
-        path: currentAudioPlaylist.getPlaylistDownloadFilePathName(),
-      );
-    }
+    _currentAudio!.audioPositionSeconds =_currentAudioPosition.inSeconds;
+    print(
+        'updateAndSaveCurrentAudio() currentAudio!.audioPositionSeconds: ${_currentAudio!.audioPositionSeconds}');
+    Playlist? currentAudioPlaylist = _currentAudio!.enclosingPlaylist;
+    JsonDataService.saveToFile(
+      model: currentAudioPlaylist!,
+      path: currentAudioPlaylist.getPlaylistDownloadFilePathName(),
+    );
   }
 }
