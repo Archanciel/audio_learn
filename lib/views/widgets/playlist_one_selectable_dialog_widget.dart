@@ -81,7 +81,7 @@ class _PlaylistOneSelectableDialogWidgetState
             actionsPadding:
                 // reduces the top vertical space between the buttons
                 // and the content
-                EdgeInsets.fromLTRB(
+                const EdgeInsets.fromLTRB(
                     10, 0, 10, 10), // Adjust the value as needed
             content: SizedBox(
               width: double.maxFinite,

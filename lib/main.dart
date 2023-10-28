@@ -234,8 +234,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     _screenWidgetLst.add(PlaylistDownloadView(onPageChanged: changePage));
-    _screenWidgetLst.add(AudioPlayerView());
-    _screenWidgetLst.add(MediaPlayerView());
+    _screenWidgetLst.add(const AudioPlayerView());
+    _screenWidgetLst.add(const MediaPlayerView());
   }
 
   @override

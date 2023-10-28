@@ -385,7 +385,7 @@ class DisplayMessageWidget extends StatelessWidget {
           actionsPadding:
               // reduces the top vertical space between the buttons
               // and the content
-              EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
+              const EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
           content: Text(
             key: const Key('warningDialogMessage'),
             message,

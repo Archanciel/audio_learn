@@ -264,7 +264,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                                 actionsPadding:
                                     // reduces the top vertical space between the buttons
                                     // and the content
-                                    EdgeInsets.fromLTRB(10, 0, 10,
+                                    const EdgeInsets.fromLTRB(10, 0, 10,
                                         10), // Adjust the value as needed
                                 content: Text(
                                   AppLocalizations.of(context)!

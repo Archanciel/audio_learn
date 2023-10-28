@@ -6,7 +6,7 @@ import '../constants.dart';
 import 'screen_mixin.dart';
 
 class AudioPlayerView extends StatefulWidget {
-  AudioPlayerView({Key? key}) : super(key: key);
+  const AudioPlayerView({Key? key}) : super(key: key);
 
   @override
   _AudioPlayerViewState createState() => _AudioPlayerViewState();
