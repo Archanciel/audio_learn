@@ -21,7 +21,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // writeToLogFile(message: '_AudioPlayerViewState.initState() app opened');
+    // writeToLogFile(message: '_AudioPlayerViewState.initState() AudioPlayerView opened');
   }
 
   @override
@@ -31,6 +31,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   }
 
   @override
+  /// WidgetsBindingObserver method called when the app's lifecycle
+  /// state changes.
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
@@ -138,10 +140,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
           children: [
             IconButton(
               iconSize: _audioIconSizeLarge,
-              onPressed: (() {
+              onPressed: (() async {
                 audioGlobalPlayerVM.isPlaying
-                    ? audioGlobalPlayerVM.pause()
-                    : audioGlobalPlayerVM.playFromCurrentAudioFile();
+                    ? await audioGlobalPlayerVM.pause()
+                    : await audioGlobalPlayerVM.playFromCurrentAudioFile();
               }),
               icon: Icon(audioGlobalPlayerVM.isPlaying
                   ? Icons.pause

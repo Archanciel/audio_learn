@@ -229,15 +229,15 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
         },
       ),
       title: GestureDetector(
-        onTap: () {
-          dragToAudioPlayerViewAndPlayAudio(
+        onTap: () async {
+          await dragToAudioPlayerView(
               audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
         },
         child: Text(audio.validVideoTitle),
       ),
       subtitle: GestureDetector(
-        onTap: () {
-          dragToAudioPlayerViewAndPlayAudio(
+        onTap: () async {
+          await dragToAudioPlayerView(
               audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
         },
         child: Text(_buildSubTitle(context)),
@@ -246,6 +246,9 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     );
   }
 
+  /// Method called when the user clicks on the audio list item.
+  /// This switches to the AudioPlayerView screen and plays the
+  /// clicked audio.
   Future<void> dragToAudioPlayerViewAndPlayAudio(
       AudioGlobalPlayerVM audioGlobalPlayerVM) async {
     audioGlobalPlayerVM.setCurrentAudio(audio);
@@ -253,7 +256,21 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
       Duration(seconds: audio.audioPositionSeconds),
     );
     await audioGlobalPlayerVM.playFromCurrentAudioFile();
-    onPageChanged(1); // dragging to the AudioPlayerView screen
+
+    // dragging to the AudioPlayerView screen
+    onPageChanged(ScreenMixin.AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX);
+  }
+
+  /// Method called when the user clicks on the audio list item.
+  /// This switches to the AudioPlayerView screen without playing
+  /// the clicked audio.
+  Future<void> dragToAudioPlayerView(
+      AudioGlobalPlayerVM audioGlobalPlayerVM) async {
+    audioGlobalPlayerVM.setCurrentAudio(audio);
+    await audioGlobalPlayerVM.goToAudioPlayPosition(
+      Duration(seconds: audio.audioPositionSeconds),
+    );
+    onPageChanged(ScreenMixin.AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX); // dragging to the AudioPlayerView screen
   }
 
   PlaylistListVM getAndInitializeExpandablePlaylistListVM(
@@ -307,40 +324,33 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   }
 
   Widget _buildPlayButton() {
-    return Consumer<AudioIndividualPlayerVM>(
-      builder: (context, audioIndividualPlayerVM, child) {
-        if (audio.isPlayingOnIndividualAudioPlayerVM) {
+    return Consumer<AudioGlobalPlayerVM>(
+      builder: (context, audioGlobalPlayerVM, child) {
+        if (audio.isPlayingOnGlobalAudioPlayerVM) {
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               (audio.isPaused)
                   ? IconButton(
                       icon: const Icon(Icons.play_arrow),
-                      onPressed: () {
-                        audioIndividualPlayerVM.pause(audio);
-                      },
+                      onPressed: () async {
+                        await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM);
+                      }, // dragging to the AudioPlayerView screen                      },
                     )
                   : IconButton(
                       icon: const Icon(Icons.pause),
                       onPressed: () {
-                        audioIndividualPlayerVM.pause(audio);
+                        audioGlobalPlayerVM.pause();
                       },
                     ),
-              IconButton(
-                icon: const Icon(Icons.stop),
-                onPressed: () {
-                  audioIndividualPlayerVM.stop(audio);
-                },
-              ),
             ],
           );
         } else {
           return IconButton(
             icon: const Icon(Icons.play_arrow),
-            onPressed: () {
-              audioIndividualPlayerVM.playFromAudioFile(
-                audio: audio,
-              );
+            onPressed: () async {
+              await dragToAudioPlayerViewAndPlayAudio(
+                  audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
             },
           );
         }

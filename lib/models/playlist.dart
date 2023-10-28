@@ -26,9 +26,15 @@ class Playlist {
   // device.
   List<Audio> playableAudioLst = [];
 
-  // If a playable audio is or has been playing, this variable
-  // contains the index of the audio in the playableAudioLst.
-  int currentPlayableAudioIndex = -1;
+  // This variable contains the index of the audio in the playableAudioLst
+  // which is currently playing. The effect is that this value is the index
+  // of the audio that was the last played audio from the playlist. This
+  // means that if the AudioPlayerView is opened without having clicked on
+  // a playlist audio item, then this audio will be playing. This happens
+  // only if the audio playlist is selected in the PlaylistDownloadView, i.e.
+  // referenced in the app settings.json file. The value -1 means that no
+  // playlist audio has been played.
+  int currentOrPastPlayableAudioIndex = -1;
 
   Playlist({
     this.url = '',
@@ -48,7 +54,7 @@ class Playlist {
     required this.playlistQuality,
     required this.downloadPath,
     required this.isSelected,
-    required this.currentPlayableAudioIndex,
+    required this.currentOrPastPlayableAudioIndex,
   });
 
   /// Factory constructor: creates an instance of Playlist from a
@@ -68,7 +74,8 @@ class Playlist {
       ),
       downloadPath: json['downloadPath'],
       isSelected: json['isSelected'],
-      currentPlayableAudioIndex: json['currentPlayableAudioIndex'] ?? -1,
+      currentOrPastPlayableAudioIndex:
+          json['currentOrPastPlayableAudioIndex'] ?? -1,
     );
 
     // Deserialize the Audio instances in the
@@ -108,7 +115,7 @@ class Playlist {
       'playableAudioLst':
           playableAudioLst.map((audio) => audio.toJson()).toList(),
       'isSelected': isSelected,
-      'currentPlayableAudioIndex': currentPlayableAudioIndex,
+      'currentOrPastPlayableAudioIndex': currentOrPastPlayableAudioIndex,
     };
   }
 
@@ -359,15 +366,18 @@ class Playlist {
     }
   }
 
-  void setCurrentPlayableAudio(Audio audio) {
-    currentPlayableAudioIndex = playableAudioLst.indexWhere((item) => item.audioFileName == audio.audioFileName);
+  void setCurrentOrPastPlayableAudio(Audio audio) {
+    currentOrPastPlayableAudioIndex = playableAudioLst
+        .indexWhere((item) => item.audioFileName == audio.audioFileName);
   }
 
-  Audio? getCurrentPlayableAudio() {
-    if (currentPlayableAudioIndex == -1) {
+  /// Returns the currently playing or the playlist audio which was played
+  /// lastly. If no valid audio index is found, returns null. 
+  Audio? getCurrentOrPastPlayableAudio() {
+    if (currentOrPastPlayableAudioIndex == -1) {
       return null;
     }
-    
-    return playableAudioLst[currentPlayableAudioIndex];
+
+    return playableAudioLst[currentOrPastPlayableAudioIndex];
   }
 }

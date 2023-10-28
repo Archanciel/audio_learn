@@ -29,6 +29,8 @@ import 'views/media_player_view.dart';
 const Duration pageTransitionDuration = Duration(milliseconds: 20);
 const Curve pageTransitionCurve = Curves.ease;
 
+late AudioGlobalPlayerVM audioGlobalPlayerVM;
+
 Future<void> main(List<String> args) async {
   List<String> myArgs = [];
 
@@ -86,7 +88,7 @@ Future<void> main(List<String> args) async {
 Future<void> setWindowsAppVersionSize() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-  
+
   WindowOptions windowOptions = const WindowOptions(
     size: Size(500, 715),
     center: true,
@@ -126,6 +128,13 @@ class MainApp extends StatelessWidget with ScreenMixin {
       settingsDataService: _settingsDataService,
     );
 
+    // the global audioGlobalPlayerVM variable is created
+    // here since it needs expandablePlaylistListVM which is
+    // created above
+    audioGlobalPlayerVM = AudioGlobalPlayerVM(
+      playlistListVM: expandablePlaylistListVM,
+    );
+
     // calling getUpToDateSelectablePlaylists() loads all the
     // playlist json files from the app dir and so enables
     // expandablePlaylistListVM to know which playlists are
@@ -137,7 +146,9 @@ class MainApp extends StatelessWidget with ScreenMixin {
         ChangeNotifierProvider(create: (_) => audioDownloadVM),
         ChangeNotifierProvider(create: (_) => AudioIndividualPlayerVM()),
         ChangeNotifierProvider(
-          create: (_) => AudioGlobalPlayerVM(),
+          create: (_) {
+            return audioGlobalPlayerVM;
+          },
         ),
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(
@@ -244,6 +255,10 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       listen: false,
     );
+    AudioGlobalPlayerVM audioGlobalPlayerVM = Provider.of<AudioGlobalPlayerVM>(
+      context,
+      listen: false,
+    );
 
     // This list is used to display the application action icons
     // located in in the AppBar after the AppBar title. The
@@ -271,7 +286,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: [
           _buildPageView(_screenWidgetLst[_currentIndex]),
-          _buildIconButtonRow(),
+          _buildIconButtonRow(audioGlobalPlayerVM),
         ],
       ),
     );
@@ -284,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _screenNavigationIconLst.length, // specifies the number of pages
         //                           that can be swiped by dragging left or right
         controller: _pageController,
-        onPageChanged: onPageChanged,
+        onPageChanged: onPageChangedFunction,
         itemBuilder: (context, index) {
           return screenWidget;
         },
@@ -292,13 +307,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Row _buildIconButtonRow() {
+  Row _buildIconButtonRow(AudioGlobalPlayerVM audioGlobalPlayerVM) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: _screenNavigationIconLst.asMap().entries.map((entry) {
         return IconButton(
           icon: Icon(entry.value),
-          onPressed: () => changePage(entry.key),
+          onPressed: () async {
+            changePage(entry.key);
+          },
           color: _currentIndex == entry.key ? Colors.blue : Colors.grey,
           iconSize:
               24, // Set this if you want to control the icon's visual size
@@ -310,7 +327,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void changePage(int index) {
-    onPageChanged(index);
+    onPageChangedFunction(index);
     _pageController.animateToPage(
       index,
       duration: pageTransitionDuration, // Use constant
@@ -318,7 +335,11 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void onPageChanged(int index) {
+  void onPageChangedFunction(int index) async {
+    // if (index == ScreenMixin.AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX) {
+    //   await audioGlobalPlayerVM.setCurrentAudioFromSelectedPlaylist();
+    // }
+
     setState(() {
       _currentIndex = index;
     });

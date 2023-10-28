@@ -82,8 +82,11 @@ class Audio {
   int audioPositionSeconds = 0;
 
 
-  bool _isPaused = false;
+  bool _isPaused = true;
   bool get isPaused => _isPaused;
+  set isPaused(bool isPaused) {
+    _isPaused = isPaused;
+  }
 
   // AudioPlayer of the current audio. Enables to play, pause, stop
   // the audio. It is initialized when the audio is played for the

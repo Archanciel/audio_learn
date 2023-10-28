@@ -8,6 +8,9 @@ import '../utils/dir_util.dart';
 
 mixin ScreenMixin {
   static const double CHECKBOX_WIDTH_HEIGHT = 20.0;
+  static const int PLAYLIST_DOWNLOAD_VIEW_DRAGGABLE_INDEX = 0;
+  static const int AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX = 1;
+  static const int MEDIA_PLAYER_VIEW_DRAGGABLE_INDEX = 2;
 
   static ThemeData themeDataDark = ThemeData.dark().copyWith(
     colorScheme: ThemeData.dark().colorScheme.copyWith(
