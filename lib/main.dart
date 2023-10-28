@@ -29,8 +29,6 @@ import 'views/media_player_view.dart';
 const Duration pageTransitionDuration = Duration(milliseconds: 20);
 const Curve pageTransitionCurve = Curves.ease;
 
-late AudioGlobalPlayerVM audioGlobalPlayerVM;
-
 Future<void> main(List<String> args) async {
   List<String> myArgs = [];
 
@@ -131,7 +129,7 @@ class MainApp extends StatelessWidget with ScreenMixin {
     // the global audioGlobalPlayerVM variable is created
     // here since it needs expandablePlaylistListVM which is
     // created above
-    audioGlobalPlayerVM = AudioGlobalPlayerVM(
+    AudioGlobalPlayerVM audioGlobalPlayerVM = AudioGlobalPlayerVM(
       playlistListVM: expandablePlaylistListVM,
     );
 
