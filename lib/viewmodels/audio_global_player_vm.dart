@@ -96,7 +96,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   /// icon or drag to this screen.
   ///
   /// This switches to the AudioPlayerView screen without playing
-  /// the selected playlist current or last played audio.
+  /// the selected playlist current or last played audio which
+  /// is displayed correctly in the AudioPlayerView screen.
   Future<void> setCurrentAudioFromSelectedPlaylist() async {
     Audio? currentOrPastPlaylisAudio = _playlistListVM
         .getSelectedPlaylists()

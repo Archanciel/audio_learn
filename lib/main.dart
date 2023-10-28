@@ -12,7 +12,6 @@ import 'package:window_manager/window_manager.dart';
 import 'constants.dart';
 import 'viewmodels/playlist_list_vm.dart';
 import 'viewmodels/audio_download_vm.dart';
-import 'viewmodels/audio_individual_player_vm.dart';
 import 'viewmodels/audio_global_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
@@ -139,10 +138,15 @@ class MainApp extends StatelessWidget with ScreenMixin {
     // selected and which are not
     expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
+    // must be called after
+    // expandablePlaylistListVM.getUpToDateSelectablePlaylists() 
+    // otherwise the list of selected playlists is empty instead
+    // of containing one selected playlist (as valid now)
+    audioGlobalPlayerVM.setCurrentAudioFromSelectedPlaylist();
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => audioDownloadVM),
-        ChangeNotifierProvider(create: (_) => AudioIndividualPlayerVM()),
         ChangeNotifierProvider(
           create: (_) {
             return audioGlobalPlayerVM;
