@@ -358,25 +358,22 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     AudioGlobalPlayerVM audioGlobalPlayerVM,
     Audio audio,
   ) {
+    Widget iconContent; // This will hold the content of the play button
+
     if (audio.audioPositionSeconds > 0) {
-      // the audio is paused on a non zero position
-      return InkWell(
-        onTap: () async =>
-            await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM),
-        child: const CircleAvatar(
-          backgroundColor:
-              kDarkAndLightIconColor, // background color of the circle
-          radius: 10, // you can adjust the size
-          child: Icon(
-            Icons.play_arrow,
-            color: Colors.white, // icon color
-            size: 19, // icon size
-          ),
+      // the audio is paused on a non-zero position
+      iconContent = const CircleAvatar(
+        backgroundColor:
+            kDarkAndLightIconColor, // background color of the circle
+        radius: 10, // you can adjust the size
+        child: Icon(
+          Icons.play_arrow,
+          color: Colors.white, // icon color
+          size: 18, // icon size
         ),
       );
     } else {
-      // the audio is paused at position zero, i.e. if it was not
-      //  played ...
+      // the audio is paused at position zero, i.e. if it was not played ...
       Color backgroundColor; // Define a variable to hold the background
       //                        color for the play button. Necessary if
       //                        changing the app theme.
@@ -387,19 +384,25 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
         backgroundColor = Colors.white;
       }
 
-      return InkWell(
-        onTap: () async =>
-            await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM),
-        child: CircleAvatar(
-          backgroundColor: backgroundColor, // background color of the circle
-          radius: 12, // you can adjust the size
-          child: const Icon(
-            Icons.play_arrow,
-            color: kDarkAndLightIconColor, // icon color
-            size: 24, // icon size
-          ),
+      iconContent = CircleAvatar(
+        backgroundColor: backgroundColor, // background color of the circle
+        radius: 12, // you can adjust the size
+        child: const Icon(
+          Icons.play_arrow,
+          color: kDarkAndLightIconColor, // icon color
+          size: 24, // icon size
         ),
       );
     }
+
+    // Return the icon wrapped inside a Container to ensure horizontal alignment
+    return InkWell(
+      onTap: () async =>
+          await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM),
+      child: Container(
+        width: 45, // Adjust this width based on the size of your largest icon
+        child: Center(child: iconContent),
+      ),
+    );
   }
 }
