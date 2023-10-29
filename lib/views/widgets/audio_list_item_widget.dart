@@ -331,7 +331,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
             mainAxisSize: MainAxisSize.min,
             children: [
               (audio.isPaused)
-                  ? _buildPlayIcon(audioGlobalPlayerVM, audio)
+                  ? _buildPlayIcon(context, audioGlobalPlayerVM, audio)
                   : IconButton(
                       icon: const Icon(Icons.pause),
                       onPressed: () {
@@ -354,35 +354,49 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   }
 
   InkWell _buildPlayIcon(
+    BuildContext context,
     AudioGlobalPlayerVM audioGlobalPlayerVM,
     Audio audio,
   ) {
     if (audio.audioPositionSeconds > 0) {
+      // the audio is paused on a non zero position
       return InkWell(
         onTap: () async =>
             await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM),
         child: const CircleAvatar(
           backgroundColor:
               kDarkAndLightIconColor, // background color of the circle
-          radius: 8, // you can adjust the size
+          radius: 10, // you can adjust the size
           child: Icon(
             Icons.play_arrow,
             color: Colors.white, // icon color
-            size: 15, // icon size
+            size: 19, // icon size
           ),
         ),
       );
     } else {
+      // the audio is paused at position zero, i.e. if it was not
+      //  played ...
+      Color backgroundColor; // Define a variable to hold the background
+      //                        color for the play button. Necessary if
+      //                        changing the app theme.
+
+      if (Theme.of(context).brightness == Brightness.dark) {
+        backgroundColor = Colors.black;
+      } else {
+        backgroundColor = Colors.white;
+      }
+
       return InkWell(
         onTap: () async =>
             await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM),
-        child: const CircleAvatar(
-          backgroundColor: Colors.black, // background color of the circle
+        child: CircleAvatar(
+          backgroundColor: backgroundColor, // background color of the circle
           radius: 12, // you can adjust the size
-          child: Icon(
+          child: const Icon(
             Icons.play_arrow,
             color: kDarkAndLightIconColor, // icon color
-            size: 20, // icon size
+            size: 24, // icon size
           ),
         ),
       );
