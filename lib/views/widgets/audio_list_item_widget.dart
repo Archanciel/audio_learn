@@ -269,7 +269,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     await audioGlobalPlayerVM.goToAudioPlayPosition(
       Duration(seconds: audio.audioPositionSeconds),
     );
-    onPageChanged(ScreenMixin.AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX); // dragging to the AudioPlayerView screen
+    onPageChanged(ScreenMixin
+        .AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX); // dragging to the AudioPlayerView screen
   }
 
   PlaylistListVM getAndInitializeExpandablePlaylistListVM(
@@ -330,12 +331,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
             mainAxisSize: MainAxisSize.min,
             children: [
               (audio.isPaused)
-                  ? IconButton(
-                      icon: const Icon(Icons.play_arrow),
-                      onPressed: () async {
-                        await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM);
-                      }, // dragging to the AudioPlayerView screen                      },
-                    )
+                  ? _buildPlayIcon(audioGlobalPlayerVM, audio)
                   : IconButton(
                       icon: const Icon(Icons.pause),
                       onPressed: () {
@@ -355,5 +351,41 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
         }
       },
     );
+  }
+
+  InkWell _buildPlayIcon(
+    AudioGlobalPlayerVM audioGlobalPlayerVM,
+    Audio audio,
+  ) {
+    if (audio.audioPositionSeconds > 0) {
+      return InkWell(
+        onTap: () async =>
+            await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM),
+        child: const CircleAvatar(
+          backgroundColor:
+              kDarkAndLightIconColor, // background color of the circle
+          radius: 8, // you can adjust the size
+          child: Icon(
+            Icons.play_arrow,
+            color: Colors.white, // icon color
+            size: 15, // icon size
+          ),
+        ),
+      );
+    } else {
+      return InkWell(
+        onTap: () async =>
+            await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM),
+        child: const CircleAvatar(
+          backgroundColor: Colors.black, // background color of the circle
+          radius: 12, // you can adjust the size
+          child: Icon(
+            Icons.play_arrow,
+            color: kDarkAndLightIconColor, // icon color
+            size: 20, // icon size
+          ),
+        ),
+      );
+    }
   }
 }

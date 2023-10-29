@@ -20,7 +20,7 @@ mixin ScreenMixin {
     primaryColor: Colors.black,
     scaffoldBackgroundColor: Colors.black,
     iconTheme: ThemeData.dark().iconTheme.copyWith(
-          color: kIconColor, // Set icon color in dark mode
+          color: kDarkAndLightIconColor, // Set icon color in dark mode
         ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -43,7 +43,7 @@ mixin ScreenMixin {
             Colors.white, // Set Checkbox fill color
           ),
           fillColor: MaterialStateProperty.all(
-            kIconColor, // Set Checkbox check color
+            kDarkAndLightIconColor, // Set Checkbox check color
           ),
         ),
     // determines the background color and border of
@@ -69,7 +69,7 @@ mixin ScreenMixin {
     primaryColor: Colors.white,
     scaffoldBackgroundColor: Colors.white,
     iconTheme: ThemeData.light().iconTheme.copyWith(
-          color: kIconColor, // Set icon color in light mode
+          color: kDarkAndLightIconColor, // Set icon color in light mode
         ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -92,7 +92,7 @@ mixin ScreenMixin {
             Colors.white, // Set Checkbox fill color
           ),
           fillColor: MaterialStateProperty.all(
-            kIconColor, // Set Checkbox check color
+            kDarkAndLightIconColor, // Set Checkbox check color
           ),
         ),
     // determines the background color and border of
@@ -112,7 +112,7 @@ mixin ScreenMixin {
     // ListTile items are correct. In dark mode, this
     // is specification is not required, I don't know why.
     listTileTheme: ThemeData.light().listTileTheme.copyWith(
-          iconColor: kIconColor, // Set icon color in light mode
+          iconColor: kDarkAndLightIconColor, // Set icon color in light mode
         ),
     // Add any other customizations for light mode
   );

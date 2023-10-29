@@ -55,7 +55,7 @@ const double kSmallButtonInsidePadding = 3.0;
 const double kDefaultMargin = 15.0;
 const kFlushbarEdgeInsets = EdgeInsets.fromLTRB(15, 78, 15, 0);
 const double kRoundedButtonBorderRadius = 11.0;
-const Color kIconColor =
+const Color kDarkAndLightIconColor =
     Color.fromARGB(246, 44, 61, 255); // rgba(44, 61, 246, 255)
 const Color kButtonColor = Color(0xFF3D3EC2);
 
