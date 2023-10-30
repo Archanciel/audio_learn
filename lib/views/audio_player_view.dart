@@ -30,10 +30,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     super.dispose();
   }
 
-  @override
-
   /// WidgetsBindingObserver method called when the app's lifecycle
   /// state changes.
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:

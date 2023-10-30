@@ -1,7 +1,3 @@
-// dart file located in lib
-
-// ignore_for_file: avoid_print
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
