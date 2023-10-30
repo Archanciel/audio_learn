@@ -225,17 +225,25 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateAndSaveCurrentAudio() {
+  void updateAndSaveCurrentAudio({
+    bool forceSave = false,
+  }) {
+    // necessary so that the audio position is stored on the
+    // audio. Must not be located after the if which can return
+    // without saving the audio position. This would cause the
+    // play icon's appearance to be wrong.
     _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
-
-    // saving the current audio position only every 30 seconds
 
     DateTime now = DateTime.now();
 
-    if (_lastCurrentAudioSaveDateTime
-        .add(const Duration(seconds: 30))
-        .isAfter(now)) {
-      return;
+    if (!forceSave) {
+      // saving the current audio position only every 30 seconds
+
+      if (_lastCurrentAudioSaveDateTime
+          .add(const Duration(seconds: 30))
+          .isAfter(now)) {
+        return;
+      }
     }
 
     _lastCurrentAudioSaveDateTime = now;

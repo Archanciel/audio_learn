@@ -43,17 +43,16 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       // App paused and sent to background
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
-      case AppLifecycleState.detached:
         // writeToLogFile(
         //     message:
         //         'WidgetsBinding didChangeAppLifecycleState(): app inactive, paused or closed');
 
-        AudioGlobalPlayerVM audioGlobalPlayerVM =
-            Provider.of<AudioGlobalPlayerVM>(
+        Provider.of<AudioGlobalPlayerVM>(
           context,
           listen: false,
-        );
-
+        ).updateAndSaveCurrentAudio(forceSave: true);
+        break;
+      case AppLifecycleState.detached:
         // If the app is closed while an audio is playing, ensures
         // that the audio player is disposed. Otherwise, the audio
         // will continue playing. If we close the emulator, when
@@ -64,9 +63,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         // WARNING: must be positioned after calling
         // updateAndSaveCurrentAudio() method, otherwise the audio
         // player remains playing !
-        audioGlobalPlayerVM.dispose();
-        
-        audioGlobalPlayerVM.updateAndSaveCurrentAudio();
+        Provider.of<AudioGlobalPlayerVM>(
+          context,
+          listen: false,
+        ).dispose();
         break;
       default:
         break;
