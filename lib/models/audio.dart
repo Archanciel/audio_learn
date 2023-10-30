@@ -77,10 +77,8 @@ class Audio {
 
   // State of the audio
 
-  bool isPlayingOnIndividualAudioPlayerVM = false;
   bool isPlayingOnGlobalAudioPlayerVM = false;
   int audioPositionSeconds = 0;
-
 
   bool _isPaused = true;
   bool get isPaused => _isPaused;
@@ -132,7 +130,6 @@ class Audio {
     required this.audioDuration,
     required this.isAudioMusicQuality,
     required this.audioPlaySpeed,
-    required this.isPlayingOnIndividualAudioPlayerVM,
     required this.isPlayingOnGlobalAudioPlayerVM,
     required this.audioPositionSeconds,
     required this.audioFileName,
@@ -156,8 +153,8 @@ class Audio {
       audioDuration: audioDuration,
       isAudioMusicQuality: isAudioMusicQuality,
       audioPlaySpeed: audioPlaySpeed,
-      isPlayingOnIndividualAudioPlayerVM: isPlayingOnIndividualAudioPlayerVM,
-      isPlayingOnGlobalAudioPlayerVM: isPlayingOnGlobalAudioPlayerVM, audioPositionSeconds: audioPositionSeconds, 
+      isPlayingOnGlobalAudioPlayerVM: isPlayingOnGlobalAudioPlayerVM,
+      audioPositionSeconds: audioPositionSeconds,
       audioFileName: audioFileName,
       audioFileSize: audioFileSize,
     );
@@ -185,8 +182,6 @@ class Audio {
       audioDuration: Duration(milliseconds: json['audioDurationMs'] ?? 0),
       isAudioMusicQuality: json['isAudioMusicQuality'] ?? false,
       audioPlaySpeed: json['audioPlaySpeed'] ?? kAudioDefaultPlaySpeed,
-      isPlayingOnIndividualAudioPlayerVM:
-          json['isPlayingOnIndividualAudioPlayerVM'] ?? false,
       isPlayingOnGlobalAudioPlayerVM:
           json['isPlayingOnGlobalAudioPlayerVM'] ?? false,
       audioPositionSeconds: json['audioPositionSeconds'] ?? 0,
@@ -212,7 +207,6 @@ class Audio {
       'audioDurationMs': audioDuration?.inMilliseconds,
       'isAudioMusicQuality': isAudioMusicQuality,
       'audioPlaySpeed': audioPlaySpeed,
-      'isPlayingOnIndividualAudioPlayerVM': isPlayingOnIndividualAudioPlayerVM,
       'isPlayingOnGlobalAudioPlayerVM': isPlayingOnGlobalAudioPlayerVM,
       'audioPositionSeconds': audioPositionSeconds,
       'audioFileName': audioFileName,
