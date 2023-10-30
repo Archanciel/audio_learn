@@ -353,6 +353,12 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     );
   }
 
+  /// This method build the audio play buttons displayed at right
+  /// position of the playlist audio ListTile. According of the
+  /// audio state - is it playing or paused, and if not playing,
+  /// is it paused at a certain position or is its position zero,
+  /// the icon type and icon color are different. The current
+  /// application theme is also integrated.
   InkWell _buildPlayIcon(
     BuildContext context,
     AudioGlobalPlayerVM audioGlobalPlayerVM,
