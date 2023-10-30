@@ -334,8 +334,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   ? _buildPlayIcon(context, audioGlobalPlayerVM, audio)
                   : IconButton(
                       icon: const Icon(Icons.pause),
-                      onPressed: () {
-                        audioGlobalPlayerVM.pause();
+                      onPressed: () async {
+                        await audioGlobalPlayerVM.pause();
                       },
                     ),
             ],
