@@ -49,130 +49,129 @@ class _PlaylistOneSelectableDialogWidgetState
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;
-    return Consumer<PlaylistListVM>(
-      builder: (context, expandablePlaylistVM, _) {
-        List<Playlist> upToDateSelectablePlaylists;
+    PlaylistListVM expandablePlaylistVM = Provider.of<PlaylistListVM>(
+      context,
+      listen: false,
+    );
+    List<Playlist> upToDateSelectablePlaylists;
 
-        if (widget.excludedPlaylist == null) {
-          upToDateSelectablePlaylists =
-              expandablePlaylistVM.getUpToDateSelectablePlaylists();
-        } else {
-          upToDateSelectablePlaylists =
-              expandablePlaylistVM.getUpToDateSelectablePlaylistsExceptPlaylist(
-                  excludedPlaylist: widget.excludedPlaylist!);
+    if (widget.excludedPlaylist == null) {
+      upToDateSelectablePlaylists =
+          expandablePlaylistVM.getUpToDateSelectablePlaylists();
+    } else {
+      upToDateSelectablePlaylists =
+          expandablePlaylistVM.getUpToDateSelectablePlaylistsExceptPlaylist(
+              excludedPlaylist: widget.excludedPlaylist!);
+    }
+
+    return RawKeyboardListener(
+      focusNode: widget.focusNode,
+      onKey: (event) {
+        if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
+            event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
+          // executing the same code as in the 'Confirm' ElevatedButton
+          // onPressed callback
+          expandablePlaylistVM.setUniqueSelectedPlaylist(
+            selectedPlaylist: _selectedPlaylist,
+          );
+          Navigator.of(context).pop();
         }
+      },
+      child: AlertDialog(
+        title:
+            Text(AppLocalizations.of(context)!.playlistOneSelectedDialogTitle),
+        actionsPadding:
+            // reduces the top vertical space between the buttons
+            // and the content
+            const EdgeInsets.fromLTRB(
+                10, 0, 10, 10), // Adjust the value as needed
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // Use minimum space
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: upToDateSelectablePlaylists.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return RadioListTile<Playlist>(
+                      title: Text(upToDateSelectablePlaylists[index].title),
+                      value: upToDateSelectablePlaylists[index],
+                      groupValue: _selectedPlaylist,
+                      onChanged: (Playlist? value) {
+                        setState(() {
+                          _selectedPlaylist = value;
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
+              (widget.excludedPlaylist != null &&
+                      widget.excludedPlaylist!.playlistType ==
+                          PlaylistType.youtube)
+                  ? Row(
+                      // in this case, the audio is moved from a Youtube
+                      // playlist and so the keep audio entry in source
+                      // playlist checkbox is displayed
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .keepAudioEntryInSourcePlaylist,
+                            style: TextStyle(
+                              color: isDarkTheme ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
+                          height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
+                          child: Checkbox(
+                            value: _keepAudioDataInSourcePlaylist,
+                            onChanged: (bool? newValue) {
+                              setState(() {
+                                _keepAudioDataInSourcePlaylist = newValue!;
+                              });
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
+                              // _audioTitleSubStringFocusNode.requestFocus();
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(), // widget.excludedPlaylist == null in the
+            ],
+          ),
+        ),
+        actions: [
+          // situation of downloading a single video
+          // audio. This is tested by 'Bug fix
+          // verification with partial download single
+          // video audio' integration test
 
-        return RawKeyboardListener(
-          focusNode: widget.focusNode,
-          onKey: (event) {
-            if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-                event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-              // executing the same code as in the 'Confirm' ElevatedButton
-              // onPressed callback
+          ElevatedButton(
+            key: const Key('confirmButton'),
+            onPressed: () {
               expandablePlaylistVM.setUniqueSelectedPlaylist(
                 selectedPlaylist: _selectedPlaylist,
               );
-              Navigator.of(context).pop();
-            }
-          },
-          child: AlertDialog(
-            title: Text(
-                AppLocalizations.of(context)!.playlistOneSelectedDialogTitle),
-            actionsPadding:
-                // reduces the top vertical space between the buttons
-                // and the content
-                const EdgeInsets.fromLTRB(
-                    10, 0, 10, 10), // Adjust the value as needed
-            content: SizedBox(
-              width: double.maxFinite,
-              child: Column(
-                mainAxisSize: MainAxisSize.min, // Use minimum space
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: upToDateSelectablePlaylists.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return RadioListTile<Playlist>(
-                          title: Text(upToDateSelectablePlaylists[index].title),
-                          value: upToDateSelectablePlaylists[index],
-                          groupValue: _selectedPlaylist,
-                          onChanged: (Playlist? value) {
-                            setState(() {
-                              _selectedPlaylist = value;
-                            });
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                  (widget.excludedPlaylist != null &&
-                          widget.excludedPlaylist!.playlistType ==
-                              PlaylistType.youtube)
-                      ? Row(
-                          // in this case, the audio is moved from a Youtube
-                          // playlist and so the keep audio entry in source
-                          // playlist checkbox is displayed
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .keepAudioEntryInSourcePlaylist,
-                                style: TextStyle(
-                                  color:
-                                      isDarkTheme ? Colors.white : Colors.black,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
-                              height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
-                              child: Checkbox(
-                                value: _keepAudioDataInSourcePlaylist,
-                                onChanged: (bool? newValue) {
-                                  setState(() {
-                                    _keepAudioDataInSourcePlaylist = newValue!;
-                                  });
-                                  // now clicking on Enter works since the
-                                  // Checkbox is not focused anymore
-                                  // _audioTitleSubStringFocusNode.requestFocus();
-                                },
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(), // widget.excludedPlaylist == null in the
-                ],
-              ),
-            ),
-            actions: [
-              // situation of downloading a single video
-              // audio. This is tested by 'Bug fix
-              // verification with partial download single
-              // video audio' integration test
-
-              ElevatedButton(
-                key: const Key('confirmButton'),
-                onPressed: () {
-                  expandablePlaylistVM.setUniqueSelectedPlaylist(
-                    selectedPlaylist: _selectedPlaylist,
-                  );
-                  Navigator.of(context).pop(_keepAudioDataInSourcePlaylist);
-                },
-                child: Text(AppLocalizations.of(context)!.confirmButton),
-              ),
-              ElevatedButton(
-                key: const Key('cancelButton'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(AppLocalizations.of(context)!.cancel),
-              ),
-            ],
+              Navigator.of(context).pop(_keepAudioDataInSourcePlaylist);
+            },
+            child: Text(AppLocalizations.of(context)!.confirmButton),
           ),
-        );
-      },
+          ElevatedButton(
+            key: const Key('cancelButton'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(AppLocalizations.of(context)!.cancel),
+          ),
+        ],
+      ),
     );
   }
 }
