@@ -28,6 +28,10 @@ enum PlaylistPopupMenuButton {
   updateAppPlaylistList,
 }
 
+/// Class not used for the moment. It was previoused that it would
+/// be located after the PlaylistDownloadView to list the playable
+/// audios of the selected playlist. May be deleted because not shure
+/// to be useful.
 class PlaylistAudioView extends StatefulWidget {
   final MaterialStateProperty<RoundedRectangleBorder>
       appElevatedButtonRoundedShape =
