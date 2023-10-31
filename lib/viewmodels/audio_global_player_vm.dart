@@ -24,7 +24,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   bool get isPlaying => _audioPlayer.state == PlayerState.playing;
 
-  late DateTime _lastCurrentAudioSaveDateTime;
+  late DateTime _currentAudioLastSaveDateTime;
 
   AudioGlobalPlayerVM({
     required PlaylistListVM playlistListVM,
@@ -43,11 +43,23 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     super.dispose();
   }
 
+  void setNextAudio() {
+    Audio? nextAudio = _playlistListVM.getNextPlayableAudio(
+      _currentAudio!,
+    );
+
+    if (nextAudio == null) {
+      return;
+    }
+
+    setCurrentAudio(nextAudio);
+  }
+
   void setCurrentAudio(Audio audio) {
     setCurrentAudioAndInitializeAudioPlayer(audio);
 
     audio.enclosingPlaylist!.setCurrentOrPastPlayableAudio(audio);
-    _lastCurrentAudioSaveDateTime = DateTime.now();
+    _currentAudioLastSaveDateTime = DateTime.now();
   }
 
   void setCurrentAudioAndInitializeAudioPlayer(Audio audio) {
@@ -214,6 +226,14 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }
 
   Future<void> skipToEnd() async {
+    if (_currentAudioPosition == _currentAudioTotalDuration) { // using Audio == operator
+      setNextAudio();
+
+      notifyListeners();
+
+      return;
+    }
+
     _currentAudioPosition = _currentAudioTotalDuration;
     // necessary so that the audio position is stored on the
     // audio
@@ -239,14 +259,12 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     if (!forceSave) {
       // saving the current audio position only every 30 seconds
 
-      if (_lastCurrentAudioSaveDateTime
+      if (_currentAudioLastSaveDateTime
           .add(const Duration(seconds: 30))
           .isAfter(now)) {
         return;
       }
     }
-
-    _lastCurrentAudioSaveDateTime = now;
 
     // print(
     //     'updateAndSaveCurrentAudio() at $_lastCurrentAudioSaveDateTime currentAudio!.audioPositionSeconds: ${_currentAudio!.audioPositionSeconds}');
@@ -256,5 +274,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       model: currentAudioPlaylist!,
       path: currentAudioPlaylist.getPlaylistDownloadFilePathName(),
     );
+
+    _currentAudioLastSaveDateTime = now;
   }
 }
