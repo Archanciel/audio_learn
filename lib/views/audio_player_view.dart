@@ -5,6 +5,8 @@ import '../viewmodels/audio_global_player_vm.dart';
 import '../constants.dart';
 import 'screen_mixin.dart';
 
+/// Screen enabling the user to play an audio, change the playing
+/// position or go to a previous, next or selected audio.
 class AudioPlayerView extends StatefulWidget {
   const AudioPlayerView({Key? key}) : super(key: key);
 
