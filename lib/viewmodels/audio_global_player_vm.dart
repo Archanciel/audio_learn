@@ -43,35 +43,19 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     super.dispose();
   }
 
-  void setNextAudio() {
-    Audio? nextAudio = _playlistListVM.getNextPlayableAudio(
-      currentAudio: _currentAudio!,
-    );
+  void setCurrentPlaylist({
+    required Playlist selectedPlaylist,
+  }) {}
 
-    if (nextAudio == null) {
-      return;
-    }
-
-    setCurrentAudio(nextAudio);
-  }
-
-  void setPreviousAudio() {
-    Audio? previousAudio = _playlistListVM.getPreviousPlayableAudio(
-      currentAudio: _currentAudio!,
-    );
-
-    if (previousAudio == null) {
-      return;
-    }
-
-    setCurrentAudio(previousAudio);
-  }
-
+  /// Method called when the user clicks on the audio title or sub
+  /// title or when he clicks on a play icon.
+  /// 
+  /// Method called also by setNextAudio() or setPreviousAudio().
   void setCurrentAudio(Audio audio) {
     setCurrentAudioAndInitializeAudioPlayer(audio);
 
     audio.enclosingPlaylist!.setCurrentOrPastPlayableAudio(audio);
-    _currentAudioLastSaveDateTime = DateTime.now();
+    updateAndSaveCurrentAudio(forceSave: true);
   }
 
   void setCurrentAudioAndInitializeAudioPlayer(Audio audio) {
@@ -86,6 +70,34 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
 
     _initializeAudioPlayer();
+  }
+
+  /// Method called by skipToEnd() if the audio is positioned at
+  /// end.
+  void setNextAudio() {
+    Audio? nextAudio = _playlistListVM.getNextPlayableAudio(
+      currentAudio: _currentAudio!,
+    );
+
+    if (nextAudio == null) {
+      return;
+    }
+
+    setCurrentAudio(nextAudio);
+  }
+
+  /// Method called by skipToStart() if the audio is positioned at
+  /// start.
+  void setPreviousAudio() {
+    Audio? previousAudio = _playlistListVM.getPreviousPlayableAudio(
+      currentAudio: _currentAudio!,
+    );
+
+    if (previousAudio == null) {
+      return;
+    }
+
+    setCurrentAudio(previousAudio);
   }
 
   void _initializeAudioPlayer() {
@@ -228,6 +240,9 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   Future<void> skipToStart() async {
     if (_currentAudioPosition.inSeconds == 0) {
+      // situation when the user clicks on |< when the audio
+      // position is at audio start. The case if the user clicked
+      // twice on the |< icon. 
       setPreviousAudio();
 
       notifyListeners();
@@ -247,6 +262,9 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   Future<void> skipToEnd() async {
     if (_currentAudioPosition == _currentAudioTotalDuration) {
+      // situation when the user clicks on >| when the audio
+      // position is at audio end. The case if the user clicked
+      // twice on the >| icon. 
       setNextAudio();
 
       notifyListeners();

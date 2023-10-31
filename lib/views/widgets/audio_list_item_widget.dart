@@ -401,7 +401,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
       );
     }
 
-    // Return the icon wrapped inside a Container to ensure horizontal alignment
+    // Return the icon wrapped inside a Container to ensure
+    // horizontal alignment
     return InkWell(
       onTap: () async =>
           await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM),
