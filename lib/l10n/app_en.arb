@@ -204,5 +204,6 @@
   "playlistToggleButtonTooltip": "Show/hide playlists",
   "downloadSelPlaylistsButtonTooltip": "Download audios of selected playlists",
   "option1": "Option one",
-  "option2": "Option two"
+  "option2": "Option two",
+  "audioOneSelectedDialogTitle": "Select an audio"
 }

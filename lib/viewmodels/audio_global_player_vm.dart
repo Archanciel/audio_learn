@@ -317,4 +317,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
     _currentAudioLastSaveDateTime = now;
   }
+
+  List<Audio> getPlayableAudiosContainedInCurrentAudioEnclosingPlaylist() {
+    return _currentAudio!.enclosingPlaylist!.playableAudioLst;
+  }
 }

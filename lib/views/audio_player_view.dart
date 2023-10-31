@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/audio.dart';
 import '../viewmodels/audio_global_player_vm.dart';
 import '../constants.dart';
 import 'screen_mixin.dart';
+import 'widgets/audio_one_selectable_dialog_widget.dart';
 
 /// Screen enabling the user to play an audio, change the playing
 /// position or go to a previous, next or selected audio.
@@ -195,10 +197,13 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 // overflow: TextOverflow.ellipsis,
               ),
             ),
-            IconButton(
-              iconSize: _audioIconSizeMedium,
-              onPressed: () => audioGlobalPlayerVM.skipToEnd(),
-              icon: const Icon(Icons.skip_next),
+            GestureDetector(
+              onLongPress: () => _displayOtherAudiosDialog(),
+              child: IconButton(
+                iconSize: _audioIconSizeMedium,
+                onPressed: () => audioGlobalPlayerVM.skipToEnd(),
+                icon: const Icon(Icons.skip_next),
+              ),
             ),
           ],
         );
@@ -306,5 +311,21 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         );
       },
     );
+  }
+
+  void _displayOtherAudiosDialog() {
+    // Using FocusNode to enable clicking on Enter to close
+    // the dialog
+    final FocusNode focusNode = FocusNode();
+
+    showDialog(
+      context: context,
+      builder: (context) => AudioOneSelectableDialogWidget(
+        focusNode: focusNode,
+      ),
+    ).then((selectedAudio) {
+      print(selectedAudio);
+      focusNode.requestFocus();
+    });
   }
 }
