@@ -49,16 +49,16 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   /// Method called when the user clicks on the audio title or sub
   /// title or when he clicks on a play icon.
-  /// 
+  ///
   /// Method called also by setNextAudio() or setPreviousAudio().
-  void setCurrentAudio(Audio audio) {
-    setCurrentAudioAndInitializeAudioPlayer(audio);
+  Future<void> setCurrentAudio(Audio audio) async {
+    await _setCurrentAudioAndInitializeAudioPlayer(audio);
 
     audio.enclosingPlaylist!.setCurrentOrPastPlayableAudio(audio);
     updateAndSaveCurrentAudio(forceSave: true);
   }
 
-  void setCurrentAudioAndInitializeAudioPlayer(Audio audio) {
+  Future<void> _setCurrentAudioAndInitializeAudioPlayer(Audio audio) async {
     _currentAudio = audio;
 
     // without setting _currentAudioTotalDuration to the
@@ -70,11 +70,13 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
 
     _initializeAudioPlayer();
+
+    await _audioPlayer.seek(_currentAudioPosition);
   }
 
   /// Method called by skipToEnd() if the audio is positioned at
   /// end.
-  void setNextAudio() {
+  Future<void> _setNextAudio() async {
     Audio? nextAudio = _playlistListVM.getNextPlayableAudio(
       currentAudio: _currentAudio!,
     );
@@ -83,12 +85,12 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       return;
     }
 
-    setCurrentAudio(nextAudio);
+    await setCurrentAudio(nextAudio);
   }
 
   /// Method called by skipToStart() if the audio is positioned at
   /// start.
-  void setPreviousAudio() {
+  Future<void> _setPreviousAudio() async {
     Audio? previousAudio = _playlistListVM.getPreviousPlayableAudio(
       currentAudio: _currentAudio!,
     );
@@ -97,7 +99,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       return;
     }
 
-    setCurrentAudio(previousAudio);
+    await setCurrentAudio(previousAudio);
   }
 
   void _initializeAudioPlayer() {
@@ -144,11 +146,11 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       return;
     }
 
-    setCurrentAudioAndInitializeAudioPlayer(currentOrPastPlaylisAudio);
+    await _setCurrentAudioAndInitializeAudioPlayer(currentOrPastPlaylisAudio);
 
-    await goToAudioPlayPosition(
-      Duration(seconds: _currentAudio!.audioPositionSeconds),
-    );
+    // await goToAudioPlayPosition(
+    //   Duration(seconds: _currentAudio!.audioPositionSeconds),
+    // );
   }
 
   Future<void> playFromCurrentAudioFile() async {
@@ -242,8 +244,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     if (_currentAudioPosition.inSeconds == 0) {
       // situation when the user clicks on |< when the audio
       // position is at audio start. The case if the user clicked
-      // twice on the |< icon. 
-      setPreviousAudio();
+      // twice on the |< icon.
+      await _setPreviousAudio();
 
       notifyListeners();
 
@@ -263,9 +265,9 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   Future<void> skipToEnd() async {
     if (_currentAudioPosition == _currentAudioTotalDuration) {
       // situation when the user clicks on >| when the audio
-      // position is at audio end. The case if the user clicked
-      // twice on the >| icon. 
-      setNextAudio();
+      // position is at audio end. This is the case if the user
+      // clicks twice on the >| icon.
+      await _setNextAudio();
 
       notifyListeners();
 

@@ -250,7 +250,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   /// and plays the clicked audio.
   Future<void> dragToAudioPlayerViewAndPlayAudio(
       AudioGlobalPlayerVM audioGlobalPlayerVM) async {
-    audioGlobalPlayerVM.setCurrentAudio(audio);
+    await audioGlobalPlayerVM.setCurrentAudio(audio);
     await audioGlobalPlayerVM.goToAudioPlayPosition(
       Duration(seconds: audio.audioPositionSeconds),
     );
@@ -265,7 +265,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   /// the clicked audio.
   Future<void> dragToAudioPlayerView(
       AudioGlobalPlayerVM audioGlobalPlayerVM) async {
-    audioGlobalPlayerVM.setCurrentAudio(audio);
+    await audioGlobalPlayerVM.setCurrentAudio(audio);
     await audioGlobalPlayerVM.goToAudioPlayPosition(
       Duration(seconds: audio.audioPositionSeconds),
     );
