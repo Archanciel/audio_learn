@@ -45,7 +45,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   void setNextAudio() {
     Audio? nextAudio = _playlistListVM.getNextPlayableAudio(
-      _currentAudio!,
+      currentAudio: _currentAudio!,
     );
 
     if (nextAudio == null) {
@@ -53,6 +53,18 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     }
 
     setCurrentAudio(nextAudio);
+  }
+
+  void setPreviousAudio() {
+    Audio? previousAudio = _playlistListVM.getPreviousPlayableAudio(
+      currentAudio: _currentAudio!,
+    );
+
+    if (previousAudio == null) {
+      return;
+    }
+
+    setCurrentAudio(previousAudio);
   }
 
   void setCurrentAudio(Audio audio) {
@@ -215,6 +227,14 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }
 
   Future<void> skipToStart() async {
+    if (_currentAudioPosition.inSeconds == 0) {
+      setPreviousAudio();
+
+      notifyListeners();
+
+      return;
+    }
+
     _currentAudioPosition = Duration.zero;
     // necessary so that the audio position is stored on the
     // audio
@@ -226,7 +246,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }
 
   Future<void> skipToEnd() async {
-    if (_currentAudioPosition == _currentAudioTotalDuration) { // using Audio == operator
+    if (_currentAudioPosition == _currentAudioTotalDuration) {
       setNextAudio();
 
       notifyListeners();

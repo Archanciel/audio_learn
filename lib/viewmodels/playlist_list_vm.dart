@@ -611,12 +611,14 @@ class PlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  Audio? getNextPlayableAudio(Audio currentAudio) {
+  Audio? getNextPlayableAudio({
+    required Audio currentAudio,
+  }) {
     List<Audio> playableAudioLst =
         currentAudio.enclosingPlaylist!.playableAudioLst;
 
-    int currentAudioIndex = playableAudioLst
-        .indexWhere((audio) => audio == currentAudio); // using Audio == operator
+    int currentAudioIndex = playableAudioLst.indexWhere(
+        (audio) => audio == currentAudio); // using Audio == operator
 
     if (currentAudioIndex == -1) {
       return null;
@@ -627,5 +629,25 @@ class PlaylistListVM extends ChangeNotifier {
     }
 
     return playableAudioLst[currentAudioIndex + 1];
+  }
+
+  Audio? getPreviousPlayableAudio({
+    required Audio currentAudio,
+  }) {
+    List<Audio> playableAudioLst =
+        currentAudio.enclosingPlaylist!.playableAudioLst;
+
+    int currentAudioIndex = playableAudioLst.indexWhere(
+        (audio) => audio == currentAudio); // using Audio == operator
+
+    if (currentAudioIndex == -1) {
+      return null;
+    }
+
+    if (currentAudioIndex == 0) {
+      return null;
+    }
+
+    return playableAudioLst[currentAudioIndex - 1];
   }
 }
