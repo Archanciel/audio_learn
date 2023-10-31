@@ -368,7 +368,7 @@ class Playlist {
 
   void setCurrentOrPastPlayableAudio(Audio audio) {
     currentOrPastPlayableAudioIndex = playableAudioLst
-        .indexWhere((item) => item.audioFileName == audio.audioFileName);
+        .indexWhere((item) => item == audio); // using Audio == operator
   }
 
   /// Returns the currently playing or the playlist audio which was played

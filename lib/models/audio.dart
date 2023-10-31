@@ -218,7 +218,7 @@ class Audio {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Audio && other.videoUrl == videoUrl;
+    return other is Audio && other.audioFileName == audioFileName;
   }
 
   @override
