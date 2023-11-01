@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/audio.dart';
 import '../viewmodels/audio_global_player_vm.dart';
 import '../constants.dart';
 import 'screen_mixin.dart';

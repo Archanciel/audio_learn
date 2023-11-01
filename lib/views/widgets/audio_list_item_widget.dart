@@ -406,7 +406,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     return InkWell(
       onTap: () async =>
           await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM),
-      child: Container(
+      child: SizedBox(
         width: 45, // Adjust this width based on the size of your largest icon
         child: Center(child: iconContent),
       ),
