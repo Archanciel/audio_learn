@@ -38,10 +38,14 @@ class PlaylistAudioView extends StatefulWidget {
       MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius)));
 
-  final Function(int) onPageChanged;
+  // this instance variable stores the function defined in
+  // _MyHomePageState which causes the PageView widget to drag
+  // to another screen according to the passed index.
+  final Function(int) onPageChangedFunction;
+  
   PlaylistAudioView({
     super.key,
-    required this.onPageChanged,
+    required this.onPageChangedFunction,
   });
 
   @override
@@ -693,7 +697,7 @@ class _PlaylistAudioViewState extends State<PlaylistAudioView>
                     final audio = _selectedPlaylistsPlayableAudios[index];
                     return AudioListItemWidget(
                       audio: audio,
-                      onPageChanged: widget.onPageChanged,
+                      onPageChangedFunction: widget.onPageChangedFunction,
                     );
                   },
                 );

@@ -1497,7 +1497,7 @@ Future<void> _launchExpandablePlaylistListView({
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: Scaffold(
           body: PlaylistDownloadView(
-            onPageChanged: changePage,
+            onPageChangedFunction: changePage,
           ),
         ),
       ),

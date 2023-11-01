@@ -1195,7 +1195,7 @@ Future<void> _createPlaylistDownloadView({
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: Scaffold(
           body: PlaylistDownloadView(
-            onPageChanged: changePage,
+            onPageChangedFunction: changePage,
           ),
         ),
       ),

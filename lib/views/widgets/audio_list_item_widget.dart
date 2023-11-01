@@ -30,12 +30,16 @@ enum AudioPopupMenuAction {
 
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
-  final Function(int) onPageChanged;
+
+  // this instance variable stores the function defined in
+  // _MyHomePageState which causes the PageView widget to drag
+  // to another screen according to the passed index.
+  final Function(int) onPageChangedFunction;
 
   const AudioListItemWidget({
     super.key,
     required this.audio,
-    required this.onPageChanged,
+    required this.onPageChangedFunction,
   });
 
   @override
@@ -257,7 +261,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     await audioGlobalPlayerVM.playFromCurrentAudioFile();
 
     // dragging to the AudioPlayerView screen
-    onPageChanged(ScreenMixin.AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX);
+    onPageChangedFunction(ScreenMixin.AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX);
   }
 
   /// Method called when the user clicks on the audio list item.
@@ -269,8 +273,9 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     await audioGlobalPlayerVM.goToAudioPlayPosition(
       Duration(seconds: audio.audioPositionSeconds),
     );
-    onPageChanged(ScreenMixin
-        .AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX); // dragging to the AudioPlayerView screen
+    // dragging to the AudioPlayerView screen
+    onPageChangedFunction(ScreenMixin
+        .AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX);
   }
 
   PlaylistListVM getAndInitializeExpandablePlaylistListVM(

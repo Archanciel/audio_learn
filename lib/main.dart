@@ -24,6 +24,16 @@ import 'views/media_player_view.dart';
 const Duration pageTransitionDuration = Duration(milliseconds: 20);
 const Curve pageTransitionCurve = Curves.ease;
 
+// This global variable is initialized when instanciating the
+// unique AudioGlobalPlayerVM instance. The reason why this
+// variable is global is that it is used in the
+// onPageChangedFunction which is set to the PageView widget
+// responsible for handling screen dragging. It would not be
+// possible to pass the AudioGlobalPlayerVM instance to the
+// PageView widget since the onPageChangedFunction must have
+// only an int parameter.
+late AudioGlobalPlayerVM globalAudioGlobalPlayerVM;
+
 Future<void> main(List<String> args) async {
   List<String> myArgs = [];
 
@@ -128,6 +138,8 @@ class MainApp extends StatelessWidget with ScreenMixin {
       playlistListVM: expandablePlaylistListVM,
     );
 
+    globalAudioGlobalPlayerVM = audioGlobalPlayerVM;
+
     // calling getUpToDateSelectablePlaylists() loads all the
     // playlist json files from the app dir and so enables
     // expandablePlaylistListVM to know which playlists are
@@ -135,7 +147,7 @@ class MainApp extends StatelessWidget with ScreenMixin {
     expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
     // must be called after
-    // expandablePlaylistListVM.getUpToDateSelectablePlaylists() 
+    // expandablePlaylistListVM.getUpToDateSelectablePlaylists()
     // otherwise the list of selected playlists is empty instead
     // of containing one selected playlist (as valid now)
     audioGlobalPlayerVM.setCurrentAudioFromSelectedPlaylist();
@@ -209,6 +221,8 @@ class MyHomePage extends StatefulWidget with ScreenMixin {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
+
+  // _pageController is the PageView controller
   final PageController _pageController = PageController();
 
   final List<IconData> _screenNavigationIconLst = [
@@ -242,7 +256,8 @@ class _MyHomePageState extends State<MyHomePage> {
       AppBarTitleForPlaylistDownloadView(playlistViewHomePage: widget),
     );
 
-    _screenWidgetLst.add(PlaylistDownloadView(onPageChanged: changePage));
+    _screenWidgetLst
+        .add(PlaylistDownloadView(onPageChangedFunction: changePage));
     _screenWidgetLst.add(const AudioPlayerView());
     _screenWidgetLst.add(const MediaPlayerView());
   }
@@ -292,6 +307,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Expanded _buildPageView(StatefulWidget screenWidget) {
     return Expanded(
+      // PageView enables changing screen by dragging
       child: PageView.builder(
         itemCount:
             _screenNavigationIconLst.length, // specifies the number of pages
@@ -324,8 +340,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  /// This function causes PageView to drag to the screen
+  /// associated to the passed index.
   void changePage(int index) {
     onPageChangedFunction(index);
+
+    // _pageController is the PageView controller
     _pageController.animateToPage(
       index,
       duration: pageTransitionDuration, // Use constant
@@ -333,10 +353,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  /// This function is passed as the onPageChanged: parameter
+  /// of the PageView builder. The function is called each time
+  /// the PageView drag to another screen.
   void onPageChangedFunction(int index) async {
-    // if (index == ScreenMixin.AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX) {
-    //   await audioGlobalPlayerVM.setCurrentAudioFromSelectedPlaylist();
-    // }
+    if (index == ScreenMixin.AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX) {
+      // dragging to the AudioPlayerView screen requires to set
+      // the current audio defined on the currently selected playlist.
+      await globalAudioGlobalPlayerVM.setCurrentAudioFromSelectedPlaylist();
+    }
 
     setState(() {
       _currentIndex = index;
