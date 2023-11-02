@@ -15,13 +15,7 @@ import 'viewmodels/warning_message_vm.dart';
 import 'services/settings_data_service.dart';
 import 'utils/dir_util.dart';
 import 'views/my_home_page.dart';
-import 'views/widgets/appbar_leading_popup_menu_widget.dart';
-import 'views/widgets/appbar_application_right_popup_menu_widget.dart';
 import 'views/screen_mixin.dart';
-import 'views/playlist_download_view.dart';
-import 'views/audio_player_view.dart';
-import 'views/media_player_view.dart';
-import 'views/widgets/appbar_title_for_playlist_download_view.dart';
 
 Future<void> main(List<String> args) async {
   List<String> myArgs = [];

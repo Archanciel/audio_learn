@@ -1,8 +1,9 @@
 {
-  "title": "Download Audio",
-  "@title": {
+  "appBarTitleDownloadAudio": "Download Audio",
+  "@tiappBarTitleDownloadAudiotle": {
     "description": "The page title displayed in the appbar."
   },
+  "appBarTitleAudioPlayer": "Audio Player",
   "toggleList": "Toggle List",
   "delete": "Delete",
   "moveItemUp": "Move item up",

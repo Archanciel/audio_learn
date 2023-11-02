@@ -11,6 +11,7 @@ import '../views/playlist_download_view.dart';
 import '../views/audio_player_view.dart';
 import '../views/media_player_view.dart';
 import '../views/widgets/appbar_title_for_playlist_download_view.dart';
+import 'widgets/appbar_title_for_audio_player_view.dart';
 
 /// Before enclosing Scaffold in MyHomePage, this exception was
 /// thrown:
@@ -73,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     _appBarTitleWidgetLst.add(
-      AppBarTitleForPlaylistDownloadView(playlistViewHomePage: widget),
+      AppBarTitleForAudioPlayerView(playlistViewHomePage: widget),
     );
 
     _appBarTitleWidgetLst.add(

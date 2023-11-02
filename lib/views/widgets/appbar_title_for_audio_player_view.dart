@@ -4,10 +4,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../constants.dart';
 import '../my_home_page.dart';
 
-/// When the PlaylistView screen is displayed, the AppBarTitlePlaylistView
+/// When the AudioPlayerView screen is displayed, the AppBarTitleForAudioPlayerView
 /// is displayed in the AppBar title:
-class AppBarTitleForPlaylistDownloadView extends StatelessWidget {
-  const AppBarTitleForPlaylistDownloadView({
+class AppBarTitleForAudioPlayerView extends StatelessWidget {
+  const AppBarTitleForAudioPlayerView({
     super.key,
     required this.playlistViewHomePage,
   });
@@ -24,20 +24,10 @@ class AppBarTitleForPlaylistDownloadView extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            AppLocalizations.of(context)!.appBarTitleDownloadAudio,
+            AppLocalizations.of(context)!.appBarTitleAudioPlayer,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontSize: 17),
           ),
-        ),
-        InkWell(
-          key: const Key('image_open_youtube'),
-          onTap: () async {
-            await playlistViewHomePage.openUrlInExternalApp(
-              url: kYoutubeUrl,
-            );
-          },
-          child: Image.asset('assets/images/youtube-logo-png-2069.png',
-              height: 38),
         ),
       ],
     );

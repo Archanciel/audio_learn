@@ -1,8 +1,9 @@
 {
-  "title": "Télécharg Audio",
-  "@title": {
-    "description": "Le titre de la page title affiché dans l'appbar."
+  "appBarTitleDownloadAudio": "Télécharg Audio",
+  "@appBarTitleDownloadAudio": {
+    "description": "Le titre de la page affiché dans l'appbar."
   },
+  "appBarTitleAudioPlayer": "Lecteur Audio",
   "toggleList": "Basculer la liste",
   "delete": "Supprimer",
   "moveItemUp": "Déplacer l'élément vers le haut",
