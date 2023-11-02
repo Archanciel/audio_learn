@@ -12,8 +12,6 @@ import '../../viewmodels/theme_provider.dart';
 /// This dialog is used to select a single playlist among the
 /// displayed playlists.
 class AudioOneSelectableDialogWidget extends StatefulWidget {
-  final FocusNode focusNode;
-
   // Displaying the audio only checkbox is useful when the dialog is used
   // in order to move an Audio file to a destination playlist.
   //
@@ -29,7 +27,6 @@ class AudioOneSelectableDialogWidget extends StatefulWidget {
 
   const AudioOneSelectableDialogWidget({
     super.key,
-    required this.focusNode,
     this.isAudioOnlyCheckboxDisplayed = false,
   });
 
@@ -40,8 +37,28 @@ class AudioOneSelectableDialogWidget extends StatefulWidget {
 
 class _AudioOneSelectableDialogWidgetState
     extends State<AudioOneSelectableDialogWidget> {
+  // Using FocusNode to enable clicking on Enter to close
+  // the dialog
+  final FocusNode _focusNode = FocusNode();
+
   Audio? _selectedAudio;
   bool _keepAudioDataInSourcePlaylist = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Request focus when the widget is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    // Dispose the focus node when the widget is disposed
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +71,7 @@ class _AudioOneSelectableDialogWidgetState
         .getPlayableAudiosContainedInCurrentAudioEnclosingPlaylist();
 
     return RawKeyboardListener(
-      focusNode: widget.focusNode,
+      focusNode: _focusNode,
       onKey: (event) {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {

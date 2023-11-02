@@ -313,18 +313,11 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   }
 
   void _displayOtherAudiosDialog() {
-    // Using FocusNode to enable clicking on Enter to close
-    // the dialog
-    final FocusNode focusNode = FocusNode();
-
     showDialog(
       context: context,
-      builder: (context) => AudioOneSelectableDialogWidget(
-        focusNode: focusNode,
-      ),
+      builder: (context) => const AudioOneSelectableDialogWidget(),
     ).then((selectedAudio) {
       print(selectedAudio);
-      focusNode.requestFocus();
     });
   }
 }
