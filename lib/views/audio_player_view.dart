@@ -80,7 +80,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Audio Player'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

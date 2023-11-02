@@ -37,6 +37,8 @@ class PlaylistDownloadView extends StatefulWidget {
   // this instance variable stores the function defined in
   // _MyHomePageState which causes the PageView widget to drag
   // to another screen according to the passed index.
+  // This function is necessary since it is passed to the
+  // constructor of AudioListItemWidget.
   final Function(int) onPageChangedFunction;
 
   PlaylistDownloadView({

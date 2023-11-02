@@ -5,6 +5,17 @@ import 'dart:io';
 
 import '../constants.dart';
 import '../utils/dir_util.dart';
+import '../viewmodels/audio_global_player_vm.dart';
+
+// This global variable is initialized when instanciating the
+// unique AudioGlobalPlayerVM instance. The reason why this
+// variable is global is that it is used in the
+// onPageChangedFunction which is set to the PageView widget
+// responsible for handling screen dragging. It would not be
+// possible to pass the AudioGlobalPlayerVM instance to the
+// PageView widget since the onPageChangedFunction must have
+// only an int parameter.
+late AudioGlobalPlayerVM globalAudioGlobalPlayerVM;
 
 mixin ScreenMixin {
   static const double CHECKBOX_WIDTH_HEIGHT = 20.0;

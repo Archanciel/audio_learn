@@ -12,7 +12,6 @@ class _MediaPlayerViewState extends State<MediaPlayerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Opus'),
         actions: [
           IconButton(
             icon: const Icon(Icons.bluetooth_audio),
