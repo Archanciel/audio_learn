@@ -465,6 +465,9 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Since currently only one playlist is selectable, if the playlist
+  /// selection status is changed, the playlist json file will be
+  /// updated.
   void updatePlaylistSelection({
     required String playlistId,
     required bool isPlaylistSelected,
