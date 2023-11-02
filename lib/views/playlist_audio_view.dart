@@ -223,15 +223,10 @@ class _PlaylistAudioViewState extends State<PlaylistAudioView>
 
                         Playlist? selectedTargetPlaylist;
 
-                        // Using FocusNode to enable clicking on Enter to close
-                        // the dialog
-                        final FocusNode focusNode = FocusNode();
-
                         showDialog(
                           context: context,
                           builder: (context) =>
-                              PlaylistOneSelectableDialogWidget(
-                            focusNode: focusNode,
+                              const PlaylistOneSelectableDialogWidget(
                           ),
                         ).then((_) {
                           PlaylistListVM expandablePlaylistVM =
@@ -309,7 +304,6 @@ class _PlaylistAudioViewState extends State<PlaylistAudioView>
                           });
                           focusNode.requestFocus();
                         });
-                        focusNode.requestFocus();
                       },
                       child: Text(AppLocalizations.of(context)!
                           .downloadSingleVideoAudio),
