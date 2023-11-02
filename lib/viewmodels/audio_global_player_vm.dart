@@ -228,6 +228,10 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
     await _audioPlayer.seek(_currentAudioPosition);
 
+    // now, when clicking on position buttons, the playlist.json file
+    // is updated
+    updateAndSaveCurrentAudio(forceSave: true);
+    
     notifyListeners();
   }
 
