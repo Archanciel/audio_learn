@@ -54,6 +54,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   ///
   /// Method called also by setNextAudio() or setPreviousAudio().
   Future<void> setCurrentAudio(Audio audio) async {
+    await pause();
     await _setCurrentAudioAndInitializeAudioPlayer(audio);
 
     audio.enclosingPlaylist!.setCurrentOrPastPlayableAudio(audio);
@@ -141,16 +142,17 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   /// the selected playlist current or last played audio which
   /// is displayed correctly in the AudioPlayerView screen.
   Future<void> setCurrentAudioFromSelectedPlaylist() async {
-    Audio? currentOrPastPlaylisAudio = _playlistListVM
+    Audio? currentOrPastPlaylistAudio = _playlistListVM
         .getSelectedPlaylists()
         .first
         .getCurrentOrPastPlayableAudio();
-    if (currentOrPastPlaylisAudio == null) {
+    if (currentOrPastPlaylistAudio == null ||
+        _currentAudio == currentOrPastPlaylistAudio) {
       // the case if no audio in the selected playlist was ever played
       return;
     }
 
-    await _setCurrentAudioAndInitializeAudioPlayer(currentOrPastPlaylisAudio);
+    await _setCurrentAudioAndInitializeAudioPlayer(currentOrPastPlaylistAudio);
 
     // await goToAudioPlayPosition(
     //   Duration(seconds: _currentAudio!.audioPositionSeconds),
@@ -193,8 +195,10 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   Future<void> pause() async {
     await _audioPlayer.pause();
-    // _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
-    _currentAudio!.invertPaused();
+
+    if (_currentAudio!.isPlayingOnGlobalAudioPlayerVM) {
+      _currentAudio!.isPaused = true;
+    }
 
     notifyListeners();
   }
@@ -231,7 +235,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     // now, when clicking on position buttons, the playlist.json file
     // is updated
     updateAndSaveCurrentAudio(forceSave: true);
-    
+
     notifyListeners();
   }
 

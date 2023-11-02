@@ -58,7 +58,7 @@ class _AudioOneSelectableDialogWidgetState
   void dispose() {
     // Dispose the focus node when the widget is disposed
     _focusNode.dispose();
-    
+
     super.dispose();
   }
 
@@ -74,12 +74,12 @@ class _AudioOneSelectableDialogWidgetState
 
     return RawKeyboardListener(
       focusNode: _focusNode,
-      onKey: (event) {
+      onKey: (event) async {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
           // executing the same code as in the 'Confirm' ElevatedButton
           // onPressed callback
-          audioGlobalPlayerVM.setCurrentAudio(_selectedAudio!);
+          await audioGlobalPlayerVM.setCurrentAudio(_selectedAudio!);
           Navigator.of(context).pop(_selectedAudio);
         }
       },

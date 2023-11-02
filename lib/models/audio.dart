@@ -224,10 +224,6 @@ class Audio {
   @override
   int get hashCode => videoUrl.hashCode;
 
-  void invertPaused() {
-    _isPaused = !_isPaused;
-  }
-
   String get filePathName {
     return '${enclosingPlaylist!.downloadPath}${Platform.pathSeparator}$audioFileName';
   }

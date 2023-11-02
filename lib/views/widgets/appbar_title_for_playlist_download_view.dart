@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../constants.dart';
-import '../my_home_page.dart';
+import '../../views/screen_mixin.dart';
 
 /// When the PlaylistView screen is displayed, the AppBarTitlePlaylistView
 /// is displayed in the AppBar title:
-class AppBarTitleForPlaylistDownloadView extends StatelessWidget {
+class AppBarTitleForPlaylistDownloadView extends StatelessWidget
+    with ScreenMixin {
   const AppBarTitleForPlaylistDownloadView({
     super.key,
-    required this.playlistViewHomePage,
   });
-
-  final MyHomePage playlistViewHomePage;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +30,7 @@ class AppBarTitleForPlaylistDownloadView extends StatelessWidget {
         InkWell(
           key: const Key('image_open_youtube'),
           onTap: () async {
-            await playlistViewHomePage.openUrlInExternalApp(
+            await openUrlInExternalApp(
               url: kYoutubeUrl,
             );
           },
