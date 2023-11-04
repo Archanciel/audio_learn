@@ -128,6 +128,16 @@ mixin ScreenMixin {
     // Add any other customizations for light mode
   );
 
+
+  /// Lightens a color by a given percentage [0-1]
+  static Color lighten(Color color, double amount) {
+    assert(amount >= 0 && amount <= 1, 'Amount should be between 0 and 1');
+    int r = color.red + ((255 - color.red) * amount).toInt();
+    int g = color.green + ((255 - color.green) * amount).toInt();
+    int b = color.blue + ((255 - color.blue) * amount).toInt();
+    return Color.fromARGB(color.alpha, r, g, b);
+  }
+
   Future<void> openUrlInExternalApp({
     required String url,
   }) async {

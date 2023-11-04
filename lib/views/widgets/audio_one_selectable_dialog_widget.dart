@@ -71,8 +71,10 @@ class _AudioOneSelectableDialogWidgetState
         Provider.of<AudioGlobalPlayerVM>(context, listen: false);
     Audio currentAudio = audioGlobalPlayerVM.currentAudio!;
     TextStyle currentAudioTextStyle = TextStyle(
-      color: Colors.white,
-      backgroundColor: kDarkAndLightIconColor,
+      color: (isDarkTheme)
+          ? ScreenMixin.lighten(kDarkAndLightIconColor, 0.4)
+          : kDarkAndLightIconColor,
+      fontWeight: FontWeight.bold,
     );
 
     List<Audio> playableAudioLst = audioGlobalPlayerVM
@@ -110,7 +112,9 @@ class _AudioOneSelectableDialogWidgetState
                     return RadioListTile<Audio>(
                       title: Text(
                         audio.validVideoTitle,
-                        style: (audio == currentAudio) ? currentAudioTextStyle : null,
+                        style: (audio == currentAudio)
+                            ? currentAudioTextStyle
+                            : null,
                       ),
                       value: playableAudioLst[index],
                       groupValue: _selectedAudio,

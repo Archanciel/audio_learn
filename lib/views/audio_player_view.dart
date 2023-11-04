@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../services/settings_data_service.dart';
 import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_global_player_vm.dart';
 import '../constants.dart';
+import '../viewmodels/theme_provider.dart';
 import 'screen_mixin.dart';
 import 'widgets/audio_one_selectable_dialog_widget.dart';
 
@@ -110,7 +112,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             children: [
               Text(
                 audioGlobalPlayerVM.currentAudioPosition.HHmmssZeroHH(),
-                style: const TextStyle(fontSize: 15.0),
+                style: const TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Expanded(
                 child: SliderTheme(
@@ -136,7 +141,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               Text(
                 audioGlobalPlayerVM.currentAudioRemainingDuration
                     .HHmmssZeroHH(),
-                style: const TextStyle(fontSize: 15.0),
+                style: const TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -171,6 +179,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildStartEndButtonsWithTitle() {
     return Consumer<AudioGlobalPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
+        ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -184,7 +194,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 onTap: () => _displayOtherAudiosDialog(),
                 child: Text(
                   audioGlobalPlayerVM.getCurrentAudioTitle(),
-                  style: const TextStyle(fontSize: 15.0),
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                   maxLines: 4,
                   textAlign: TextAlign.center,
                   // overflow: TextOverflow.ellipsis,
@@ -272,28 +285,28 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         child: Text(
                           '1 m',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 18.0),
+                          style: kPositionButtonTextStyle,
                         ),
                       ),
                       Expanded(
                         child: Text(
                           '10 s',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 18.0),
+                          style: kPositionButtonTextStyle,
                         ),
                       ),
                       Expanded(
                         child: Text(
                           '10 s',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 18.0),
+                          style: kPositionButtonTextStyle,
                         ),
                       ),
                       Expanded(
                         child: Text(
                           '1 m',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 18.0),
+                          style: kPositionButtonTextStyle,
                         ),
                       ),
                     ],

@@ -85,3 +85,10 @@ const String kYoutubeUrl = 'https://www.youtube.com/';
 // true makes sense if audios are played in
 // Smart AudioBook app
 const bool kAudioFileNamePrefixIncludeTime = true;
+
+const kPositionButtonTextStyle = TextStyle(
+  // the color is the one defined in textTheme bodyMedium
+  // specified in the ScreenMixin theme's
+  fontSize: 18.0,
+  fontWeight: FontWeight.bold,
+);
