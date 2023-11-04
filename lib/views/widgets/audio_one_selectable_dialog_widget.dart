@@ -8,7 +8,11 @@ import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/audio_global_player_vm.dart';
+import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/theme_provider.dart';
+import 'audio_info_dialog_widget.dart';
+import 'audio_list_item_widget.dart';
+import 'rename_audio_file_dialog_widget.dart';
 
 /// This dialog is used to select a single playlist among the
 /// displayed playlists.
@@ -37,7 +41,7 @@ class AudioOneSelectableDialogWidget extends StatefulWidget {
 }
 
 class _AudioOneSelectableDialogWidgetState
-    extends State<AudioOneSelectableDialogWidget> {
+    extends State<AudioOneSelectableDialogWidget> with ScreenMixin {
   // Using FocusNode to enable clicking on Enter to close
   // the dialog
   final FocusNode _focusNode = FocusNode();
@@ -109,20 +113,138 @@ class _AudioOneSelectableDialogWidgetState
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     Audio audio = playableAudioLst[index];
-                    return RadioListTile<Audio>(
-                      title: Text(
-                        audio.validVideoTitle,
-                        style: (audio == currentAudio)
-                            ? currentAudioTextStyle
-                            : null,
+                    return ListTile(
+                      // leading: IconButton(
+                      //   icon: const Icon(Icons.menu),
+                      //   onPressed: () {
+                      //     final RenderBox listTileBox =
+                      //         context.findRenderObject() as RenderBox;
+                      //     final Offset listTilePosition =
+                      //         listTileBox.localToGlobal(Offset.zero);
+
+                      //     showMenu(
+                      //       context: context,
+                      //       position: RelativeRect.fromLTRB(
+                      //         listTilePosition.dx - listTileBox.size.width,
+                      //         listTilePosition.dy,
+                      //         0,
+                      //         0,
+                      //       ),
+                      //       items: [
+                      //         PopupMenuItem<AudioPopupMenuAction>(
+                      //           key: const Key('popup_menu_open_youtube_video'),
+                      //           value: AudioPopupMenuAction.openYoutubeVideo,
+                      //           child: Text(AppLocalizations.of(context)!
+                      //               .openYoutubeVideo),
+                      //         ),
+                      //         PopupMenuItem<AudioPopupMenuAction>(
+                      //           key: const Key('popup_copy_youtube_video_url'),
+                      //           value: AudioPopupMenuAction.copyYoutubeVideoUrl,
+                      //           child: Text(AppLocalizations.of(context)!
+                      //               .copyYoutubeVideoUrl),
+                      //         ),
+                      //         PopupMenuItem<AudioPopupMenuAction>(
+                      //           key: const Key('popup_menu_display_audio_info'),
+                      //           value: AudioPopupMenuAction.displayAudioInfo,
+                      //           child: Text(AppLocalizations.of(context)!
+                      //               .displayAudioInfo),
+                      //         ),
+                      //         PopupMenuItem<AudioPopupMenuAction>(
+                      //           key: const Key('popup_menu_rename_audio_file'),
+                      //           value: AudioPopupMenuAction.renameAudioFile,
+                      //           child: Text(AppLocalizations.of(context)!
+                      //               .renameAudioFile),
+                      //         ),
+                      //         PopupMenuItem<AudioPopupMenuAction>(
+                      //           key: const Key('popup_menu_delete_audio'),
+                      //           value: AudioPopupMenuAction.deleteAudio,
+                      //           child: Text(
+                      //               AppLocalizations.of(context)!.deleteAudio),
+                      //         ),
+                      //         PopupMenuItem<AudioPopupMenuAction>(
+                      //           key: const Key(
+                      //               'popup_menu_delete_audio_from_playlist_aswell'),
+                      //           value: AudioPopupMenuAction
+                      //               .deleteAudioFromPlaylistAswell,
+                      //           child: Text(AppLocalizations.of(context)!
+                      //               .deleteAudioFromPlaylistAswell),
+                      //         ),
+                      //       ],
+                      //       elevation: 8,
+                      //     ).then((value) {
+                      //       if (value != null) {
+                      //         switch (value) {
+                      //           case AudioPopupMenuAction.openYoutubeVideo:
+                      //             openUrlInExternalApp(url: audio.videoUrl);
+                      //             break;
+                      //           case AudioPopupMenuAction.copyYoutubeVideoUrl:
+                      //             Clipboard.setData(
+                      //                 ClipboardData(text: audio.videoUrl));
+                      //             break;
+                      //           case AudioPopupMenuAction.displayAudioInfo:
+                      //             // Using FocusNode to enable clicking on Enter to close
+                      //             // the dialog
+                      //             final FocusNode focusNode = FocusNode();
+                      //             showDialog<void>(
+                      //               context: context,
+                      //               barrierDismissible: true,
+                      //               builder: (BuildContext context) {
+                      //                 return AudioInfoDialogWidget(
+                      //                   audio: audio,
+                      //                   focusNode: focusNode,
+                      //                 );
+                      //               },
+                      //             );
+                      //             focusNode.requestFocus();
+                      //             break;
+                      //           case AudioPopupMenuAction.renameAudioFile:
+                      //             // Using FocusNode to enable clicking on Enter to close
+                      //             // the dialog
+                      //             final FocusNode focusNode = FocusNode();
+                      //             showDialog<void>(
+                      //               context: context,
+                      //               barrierDismissible: true,
+                      //               builder: (BuildContext context) {
+                      //                 return RenameAudioFileDialogWidget(
+                      //                   audio: audio,
+                      //                   focusNode: focusNode,
+                      //                 );
+                      //               },
+                      //             );
+                      //             focusNode.requestFocus();
+                      //             break;
+                      //           case AudioPopupMenuAction.deleteAudio:
+                      //             Provider.of<PlaylistListVM>(
+                      //               context,
+                      //               listen: false,
+                      //             ).deleteAudioMp3(audio: audio);
+                      //             break;
+                      //           case AudioPopupMenuAction
+                      //                 .deleteAudioFromPlaylistAswell:
+                      //             Provider.of<PlaylistListVM>(
+                      //               context,
+                      //               listen: false,
+                      //             ).deleteAudioFromPlaylistAswell(audio: audio);
+                      //             break;
+                      //           default:
+                      //             break;
+                      //         }
+                      //       }
+                      //     });
+                      //   },
+                      // ),
+                      title: GestureDetector(
+                        onTap: () async {
+                          await audioGlobalPlayerVM.setCurrentAudio(audio);
+                          Navigator.of(context).pop(audio);
+                        },
+                        child: Text(
+                          audio.validVideoTitle,
+                          style: (audio == currentAudio)
+                              ? currentAudioTextStyle
+                              : null,
+                        ),
                       ),
-                      value: playableAudioLst[index],
-                      groupValue: _selectedAudio,
-                      onChanged: (Audio? value) {
-                        setState(() {
-                          _selectedAudio = value;
-                        });
-                      },
                     );
                   },
                 ),
@@ -163,19 +285,6 @@ class _AudioOneSelectableDialogWidgetState
           ),
         ),
         actions: [
-          // situation of downloading a single video
-          // audio. This is tested by 'Bug fix
-          // verification with partial download single
-          // video audio' integration test
-
-          ElevatedButton(
-            key: const Key('confirmButton'),
-            onPressed: () {
-              audioGlobalPlayerVM.setCurrentAudio(_selectedAudio!);
-              Navigator.of(context).pop(_selectedAudio);
-            },
-            child: Text(AppLocalizations.of(context)!.confirmButton),
-          ),
           ElevatedButton(
             key: const Key('cancelButton'),
             onPressed: () {
