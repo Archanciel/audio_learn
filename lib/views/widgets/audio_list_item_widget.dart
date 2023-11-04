@@ -10,7 +10,7 @@ import '../../../models/playlist.dart';
 import '../../../utils/ui_util.dart';
 import '../../viewmodels/audio_global_player_vm.dart';
 import '../../../viewmodels/playlist_list_vm.dart';
-import '../../../utils/time_util.dart';
+import '../../utils/duration_expansion.dart';
 import '../../constants.dart';
 import '../screen_mixin.dart';
 import 'audio_info_dialog_widget.dart';

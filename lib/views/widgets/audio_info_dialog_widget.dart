@@ -1,9 +1,9 @@
-import 'package:audio_learn/utils/time_util.dart';
-import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../utils/duration_expansion.dart';
+import '../../views/screen_mixin.dart';
 import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../utils/ui_util.dart';

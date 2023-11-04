@@ -1,4 +1,4 @@
-import 'package:audio_learn/utils/time_util.dart';
+import 'package:audio_learn/utils/duration_expansion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

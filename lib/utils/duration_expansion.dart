@@ -6,40 +6,45 @@ import 'package:intl/intl.dart';
 extension DurationExpansion on Duration {
   static final NumberFormat numberFormatTwoInt = NumberFormat('00');
 
-  /// returns the Duration formatted as HH:mm
+  /// Returns the Duration formatted as HH:mm.
+  ///
+  /// This method is added to the Duration class by the extension
+  /// FormattedDayHourMinute class located in date_time_parser.dart.
   String HHmm() {
     int durationMinute = inMinutes.remainder(60);
     String minusStr = '';
 
-    if (inMinutes < 0) {
+    if (inMicroseconds < 0) {
       minusStr = '-';
     }
 
     return "$minusStr${inHours.abs()}:${numberFormatTwoInt.format(durationMinute.abs())}";
   }
 
-  /// returns the Duration formatted as HH:mm:ss
   String HHmmss() {
     int durationMinute = inMinutes.remainder(60);
     int durationSecond = inSeconds.remainder(60);
     String minusStr = '';
 
-    if (inMinutes < 0) {
+    if (inMicroseconds < 0) {
       minusStr = '-';
     }
 
     return "$minusStr${inHours.abs()}:${numberFormatTwoInt.format(durationMinute.abs())}:${numberFormatTwoInt.format(durationSecond.abs())}";
   }
 
-  /// returns the Duration formatted as dd:HH:mm
+  /// Returns the Duration formatted as dd:HH:mm
+  ///
+  /// This method is added to the Duration class by the extension
+  /// FormattedDayHourMinute class located in date_time_parser.dart.
   String ddHHmm() {
     int durationMinute = inMinutes.remainder(60);
-    String minusStr = '';
     int durationHour =
         Duration(minutes: (inMinutes - durationMinute)).inHours.remainder(24);
     int durationDay = Duration(hours: (inHours - durationHour)).inDays;
+    String minusStr = '';
 
-    if (inMinutes < 0) {
+    if (inMicroseconds < 0) {
       minusStr = '-';
     }
 
@@ -52,10 +57,31 @@ extension DurationExpansion on Duration {
   /// Example: 1:45:24 or 45:24 if 0:45:24.
   String HHmmssZeroHH() {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
-    String hours = (inHours > 0) ? '$inHours:' : '';
-    String twoDigitMinutes = twoDigits(inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(inSeconds.remainder(60));
+    String hours = '';
 
-    return '$hours$twoDigitMinutes:$twoDigitSeconds';
+    if (inHours > 0) {
+      hours = '$inHours:';
+    } else if (inHours == 0) {
+      hours = '';
+    } else {
+      hours = '${inHours.abs()}:';
+    }
+
+    String twoDigitMinutes;
+
+    if (hours.isEmpty) {
+      twoDigitMinutes = inMinutes.remainder(60).abs().toString();
+    } else {
+      twoDigitMinutes = twoDigits(inMinutes.remainder(60).abs());
+    }
+
+    String twoDigitSeconds = twoDigits(inSeconds.remainder(60).abs());
+    String minusStr = '';
+
+    if (inMicroseconds < 0) {
+      minusStr = '-';
+    }
+
+    return '$minusStr$hours$twoDigitMinutes:$twoDigitSeconds';
   }
 }

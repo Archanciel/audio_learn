@@ -1,46 +1,4 @@
-// adding method HHmm which returns the Duration formatted as HH:mm
-import 'package:intl/intl.dart';
-
 import '../constants.dart';
-
-extension FormattedDayHourMinute on Duration {
-  static final NumberFormat numberFormatTwoInt = NumberFormat('00');
-
-  // ignore: non_constant_identifier_names
-
-  /// Returns the Duration formatted as HH:mm.
-  ///
-  /// This method is added to the Duration class by the extension
-  /// FormattedDayHourMinute class located in date_time_parser.dart.
-  String HHmm() {
-    int durationMinute = inMinutes.remainder(60);
-    String minusStr = '';
-
-    if (inMinutes < 0) {
-      minusStr = '-';
-    }
-
-    return "$minusStr${inHours.abs()}:${numberFormatTwoInt.format(durationMinute.abs())}";
-  }
-
-  /// Returns the Duration formatted as dd:HH:mm
-  ///
-  /// This method is added to the Duration class by the extension
-  /// FormattedDayHourMinute class located in date_time_parser.dart.
-  String ddHHmm() {
-    int durationMinute = inMinutes.remainder(60);
-    String minusStr = '';
-    int durationHour =
-        Duration(minutes: (inMinutes - durationMinute)).inHours.remainder(24);
-    int durationDay = Duration(hours: (inHours - durationHour)).inDays;
-
-    if (inMinutes < 0) {
-      minusStr = '-';
-    }
-
-    return "$minusStr${numberFormatTwoInt.format(durationDay.abs())}:${numberFormatTwoInt.format(durationHour.abs())}:${numberFormatTwoInt.format(durationMinute.abs())}";
-  }
-}
 
 class DateTimeParser {
   static final RegExp regExpYYYYDateTime =
@@ -347,7 +305,7 @@ class DateTimeParser {
   /// object with the same year, month, day, hour, and minute as the input,
   /// but with seconds and milliseconds set to zero. Essentially, it rounds
   /// the input DateTime object down to the nearest minute.
-  /// 
+  ///
   /// englishDateTimeFormat.format(dateTime) returns a String formatted as
   /// yyyy-MM-dd HH:mm. Then this String is parsed by englishDateTimeFormat
   /// and returns a DateTime object with the same year, month, day, hour, and
@@ -355,12 +313,12 @@ class DateTimeParser {
   static DateTime truncateDateTimeToMinute(DateTime dateTime) {
     return englishDateTimeFormat.parse(englishDateTimeFormat.format(dateTime));
   }
-  
+
   /// This method takes a DateTime object as input and returns a new DateTime
   /// object with the same year, month, day as the input, but with hours
   /// minutes, seconds and milliseconds set to zero. Essentially, it rounds
   /// the input DateTime object down to a date object.
-  /// 
+  ///
   /// englishDateFormat.format(dateTime) returns a String formatted as
   /// yyyy-MM-dd. Then this String is parsed by englishDateTimeFormat
   /// and returns a DateTime object with the same year, month, day

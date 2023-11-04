@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_global_player_vm.dart';
 import '../constants.dart';
 import 'screen_mixin.dart';
@@ -79,8 +80,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      ),
+      appBar: AppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -109,7 +109,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                _formatDuration(audioGlobalPlayerVM.currentAudioPosition),
+                audioGlobalPlayerVM.currentAudioPosition.HHmmssZeroHH(),
                 style: const TextStyle(fontSize: 15.0),
               ),
               Expanded(
@@ -134,8 +134,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 ),
               ),
               Text(
-                _formatDuration(
-                    audioGlobalPlayerVM.currentAudioRemainingDuration),
+                audioGlobalPlayerVM.currentAudioRemainingDuration
+                    .HHmmssZeroHH(),
                 style: const TextStyle(fontSize: 15.0),
               ),
             ],
@@ -143,14 +143,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         );
       },
     );
-  }
-
-  String _formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    String hours = duration.inHours.toString();
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return '$hours:$twoDigitMinutes:$twoDigitSeconds';
   }
 
   Widget _buildPlayButton() {

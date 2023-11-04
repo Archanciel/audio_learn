@@ -333,4 +333,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   List<Audio> getPlayableAudiosContainedInCurrentAudioEnclosingPlaylist() {
     return _currentAudio!.enclosingPlaylist!.playableAudioLst;
   }
+
+  String getCurrentAudioTitle() {
+    return '${_currentAudio!.validVideoTitle} \n ${_currentAudio}';
+  }
 }
