@@ -611,27 +611,9 @@ class PlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  Audio? getNextPlayableAudio({
-    required Audio currentAudio,
-  }) {
-    List<Audio> playableAudioLst =
-        currentAudio.enclosingPlaylist!.playableAudioLst;
-
-    int currentAudioIndex = playableAudioLst.indexWhere(
-        (audio) => audio == currentAudio); // using Audio == operator
-
-    if (currentAudioIndex == -1) {
-      return null;
-    }
-
-    if (currentAudioIndex == playableAudioLst.length - 1) {
-      return null;
-    }
-
-    return playableAudioLst[currentAudioIndex + 1];
-  }
-
-  Audio? getPreviousPlayableAudio({
+  /// Returns the audio contained in the playableAudioLst which
+  /// has been downloaded right after the current audio.
+  Audio? getSubsequentlyDownloadedPlayableAudio({
     required Audio currentAudio,
   }) {
     List<Audio> playableAudioLst =
@@ -645,9 +627,35 @@ class PlaylistListVM extends ChangeNotifier {
     }
 
     if (currentAudioIndex == 0) {
+      // means the current audio is the newest downloaded audio available
+      // in the playableAudioLst
       return null;
     }
 
     return playableAudioLst[currentAudioIndex - 1];
+  }
+
+  /// Returns the audio contained in the playableAudioLst which
+  /// has been downloaded right before the current audio.
+  Audio? getPreviouslyDownloadedPlayableAudio({
+    required Audio currentAudio,
+  }) {
+    List<Audio> playableAudioLst =
+        currentAudio.enclosingPlaylist!.playableAudioLst;
+
+    int currentAudioIndex = playableAudioLst.indexWhere(
+        (audio) => audio == currentAudio); // using Audio == operator
+
+    if (currentAudioIndex == -1) {
+      return null;
+    }
+
+    if (currentAudioIndex == playableAudioLst.length - 1) {
+      // means the current audio is the oldest downloaded audio available
+      // in the playableAudioLst
+      return null;
+    }
+
+    return playableAudioLst[currentAudioIndex + 1];
   }
 }

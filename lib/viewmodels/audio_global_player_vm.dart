@@ -83,7 +83,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   /// Method called by skipToEnd() if the audio is positioned at
   /// end.
   Future<void> _setNextAudio() async {
-    Audio? nextAudio = _playlistListVM.getNextPlayableAudio(
+    Audio? nextAudio = _playlistListVM.getSubsequentlyDownloadedPlayableAudio(
       currentAudio: _currentAudio!,
     );
 
@@ -97,7 +97,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   /// Method called by skipToStart() if the audio is positioned at
   /// start.
   Future<void> _setPreviousAudio() async {
-    Audio? previousAudio = _playlistListVM.getPreviousPlayableAudio(
+    Audio? previousAudio = _playlistListVM.getPreviouslyDownloadedPlayableAudio(
       currentAudio: _currentAudio!,
     );
 
@@ -331,8 +331,10 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     _currentAudioLastSaveDateTime = now;
   }
 
+  /// the returned list is ordered by download time, placing
+  /// latest downloaded audios at end of list.
   List<Audio> getPlayableAudiosContainedInCurrentAudioEnclosingPlaylist() {
-    return _currentAudio!.enclosingPlaylist!.playableAudioLst;
+    return _currentAudio!.enclosingPlaylist!.playableAudioLst.reversed.toList();
   }
 
   String getCurrentAudioTitle() {

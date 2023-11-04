@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../services/settings_data_service.dart';
 import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_global_player_vm.dart';
 import '../constants.dart';
-import '../viewmodels/theme_provider.dart';
 import 'screen_mixin.dart';
 import 'widgets/audio_one_selectable_dialog_widget.dart';
 
@@ -179,8 +177,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildStartEndButtonsWithTitle() {
     return Consumer<AudioGlobalPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
-        ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
-
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
