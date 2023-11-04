@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/audio_global_player_vm.dart';
@@ -68,8 +69,13 @@ class _AudioOneSelectableDialogWidgetState
     bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;
     AudioGlobalPlayerVM audioGlobalPlayerVM =
         Provider.of<AudioGlobalPlayerVM>(context, listen: false);
+    Audio currentAudio = audioGlobalPlayerVM.currentAudio!;
+    TextStyle currentAudioTextStyle = TextStyle(
+      color: Colors.white,
+      backgroundColor: kDarkAndLightIconColor,
+    );
 
-    List<Audio> selectableAudios = audioGlobalPlayerVM
+    List<Audio> playableAudioLst = audioGlobalPlayerVM
         .getPlayableAudiosContainedInCurrentAudioEnclosingPlaylist();
 
     return RawKeyboardListener(
@@ -97,12 +103,16 @@ class _AudioOneSelectableDialogWidgetState
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: selectableAudios.length,
+                  itemCount: playableAudioLst.length,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
+                    Audio audio = playableAudioLst[index];
                     return RadioListTile<Audio>(
-                      title: Text(selectableAudios[index].validVideoTitle),
-                      value: selectableAudios[index],
+                      title: Text(
+                        audio.validVideoTitle,
+                        style: (audio == currentAudio) ? currentAudioTextStyle : null,
+                      ),
+                      value: playableAudioLst[index],
                       groupValue: _selectedAudio,
                       onChanged: (Audio? value) {
                         setState(() {
