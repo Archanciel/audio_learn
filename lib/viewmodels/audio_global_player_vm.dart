@@ -5,6 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
 import '../services/json_data_service.dart';
+import '../utils/duration_expansion.dart';
 import 'playlist_list_vm.dart';
 
 /// Used in the AudioPlayerView screen to manage the audio playing
@@ -335,6 +336,6 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }
 
   String getCurrentAudioTitle() {
-    return '${_currentAudio!.validVideoTitle} \n ${_currentAudio}';
+    return '${_currentAudio!.validVideoTitle}\n${_currentAudio!.audioDuration!.HHmmssZeroHH()}';
   }
 }

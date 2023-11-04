@@ -180,12 +180,15 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               icon: const Icon(Icons.skip_previous),
             ),
             Expanded(
-              child: Text(
-                audioGlobalPlayerVM.currentAudio?.validVideoTitle ?? '',
-                style: const TextStyle(fontSize: 15.0),
-                maxLines: 4,
-                textAlign: TextAlign.center,
-                // overflow: TextOverflow.ellipsis,
+              child: GestureDetector(
+                onTap: () => _displayOtherAudiosDialog(),
+                child: Text(
+                  audioGlobalPlayerVM.getCurrentAudioTitle(),
+                  style: const TextStyle(fontSize: 15.0),
+                  maxLines: 4,
+                  textAlign: TextAlign.center,
+                  // overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
             GestureDetector(
