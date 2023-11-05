@@ -17,8 +17,8 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
     required this.playlist,
     required this.playlistJsonFileSize,
     required this.focusNode,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

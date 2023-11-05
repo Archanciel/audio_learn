@@ -70,15 +70,15 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     _appBarTitleWidgetLst.add(
-      AppBarTitleForPlaylistDownloadView(),
+      const AppBarTitleForPlaylistDownloadView(),
     );
 
     _appBarTitleWidgetLst.add(
-      AppBarTitleForAudioPlayerView(),
+      const AppBarTitleForAudioPlayerView(),
     );
 
     _appBarTitleWidgetLst.add(
-      AppBarTitleForPlaylistDownloadView(),
+      const AppBarTitleForPlaylistDownloadView(),
     );
 
     _screenWidgetLst

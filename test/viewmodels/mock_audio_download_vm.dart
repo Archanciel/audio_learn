@@ -2,7 +2,6 @@
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
-import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
 class MockAudioDownloadVM extends AudioDownloadVM {
   final List<Playlist> _playlistLst = [];
@@ -13,12 +12,9 @@ class MockAudioDownloadVM extends AudioDownloadVM {
   }
 
   MockAudioDownloadVM({
-    required WarningMessageVM warningMessageVM,
-    bool isTest = false,
-  }) : super(
-          warningMessageVM: warningMessageVM,
-          isTest: isTest,
-        );
+    required super.warningMessageVM,
+    super.isTest,
+  });
 
   @override
   Future<void> downloadPlaylistAudios({

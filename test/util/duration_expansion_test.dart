@@ -88,7 +88,7 @@ void main() {
       'Duration -13 hours 35 minutes 23 seconds',
       () {
         final Duration duration = const Duration(microseconds: 0) -
-            Duration(hours: 13, minutes: 35, seconds: 23);
+            const Duration(hours: 13, minutes: 35, seconds: 23);
 
         expect(duration.HHmmssZeroHH(), '-13:35:23');
       },

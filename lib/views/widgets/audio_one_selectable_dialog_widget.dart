@@ -8,11 +8,7 @@ import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/audio_global_player_vm.dart';
-import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/theme_provider.dart';
-import 'audio_info_dialog_widget.dart';
-import 'audio_list_item_widget.dart';
-import 'rename_audio_file_dialog_widget.dart';
 
 /// This dialog is used to select a single playlist among the
 /// displayed playlists.

@@ -15,8 +15,8 @@ class RenameAudioFileDialogWidget extends StatefulWidget {
   const RenameAudioFileDialogWidget({
     required this.audio,
     required this.focusNode,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<RenameAudioFileDialogWidget> createState() =>

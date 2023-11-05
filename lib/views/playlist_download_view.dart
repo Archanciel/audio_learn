@@ -224,7 +224,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         showDialog(
                           context: context,
                           builder: (context) =>
-                              PlaylistOneSelectableDialogWidget(
+                              const PlaylistOneSelectableDialogWidget(
                           ),
                         ).then((_) {
                           PlaylistListVM expandablePlaylistVM =

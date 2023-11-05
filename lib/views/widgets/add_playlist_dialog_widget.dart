@@ -16,8 +16,8 @@ class AddPlaylistDialogWidget extends StatefulWidget {
   const AddPlaylistDialogWidget({
     required this.playlistUrl,
     required this.focusNode,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AddPlaylistDialogWidget> createState() =>

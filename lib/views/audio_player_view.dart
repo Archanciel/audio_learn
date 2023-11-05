@@ -10,7 +10,7 @@ import 'widgets/audio_one_selectable_dialog_widget.dart';
 /// Screen enabling the user to play an audio, change the playing
 /// position or go to a previous, next or selected audio.
 class AudioPlayerView extends StatefulWidget {
-  const AudioPlayerView({Key? key}) : super(key: key);
+  const AudioPlayerView({super.key});
 
   @override
   _AudioPlayerViewState createState() => _AudioPlayerViewState();

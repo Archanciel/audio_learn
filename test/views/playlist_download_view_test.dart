@@ -16,14 +16,10 @@ import 'package:audio_learn/views/playlist_download_view.dart';
 
 class MockPlaylistDownloadViewVM extends PlaylistListVM {
   MockPlaylistDownloadViewVM({
-    required WarningMessageVM warningMessageVM,
-    required AudioDownloadVM audioDownloadVM,
-    required SettingsDataService settingsDataService,
-  }) : super(
-          warningMessageVM: warningMessageVM,
-          audioDownloadVM: audioDownloadVM,
-          settingsDataService: settingsDataService,
-        );
+    required super.warningMessageVM,
+    required super.audioDownloadVM,
+    required super.settingsDataService,
+  });
 }
 
 void main() {
