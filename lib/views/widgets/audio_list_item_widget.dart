@@ -28,6 +28,9 @@ enum AudioPopupMenuAction {
   deleteAudioFromPlaylistAswell,
 }
 
+/// This widget is used in the PlaylistDownloadView ListView which
+/// display the playable audios of the selected playlist.
+/// AudioListItemWidget displays the audio item content. 
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
 
@@ -48,6 +51,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
         Provider.of<AudioGlobalPlayerVM>(context, listen: false);
 
     return ListTile(
+      // generating the audio item left (leading) menu ...
       leading: IconButton(
         icon: const Icon(Icons.menu),
         onPressed: () {
@@ -373,10 +377,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
       );
     } else {
       // the audio is paused at position zero, i.e. if it was not played ...
-      Color backgroundColor; // Define a variable to hold the background
-      //                        color for the play button. Necessary if
-      //                        changing the app theme.
-
+      Color backgroundColor;
+      
       if (Theme.of(context).brightness == Brightness.dark) {
         backgroundColor = Colors.black;
       } else {
