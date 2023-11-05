@@ -371,9 +371,10 @@ class Playlist {
         .indexWhere((item) => item == audio); // using Audio == operator
   }
 
-  /// Returns the currently playing or the playlist audio which was played
-  /// lastly. If no valid audio index is found, returns null. 
-  Audio? getCurrentOrPastPlayableAudio() {
+  /// Returns the currently playing audio or the playlist audio
+  /// which was played the last time. If no valid audio index is
+  /// found, returns null.
+  Audio? getCurrentOrLastlyPlayedAudioContainedInPlayableAudioLst() {
     if (currentOrPastPlayableAudioIndex == -1) {
       return null;
     }

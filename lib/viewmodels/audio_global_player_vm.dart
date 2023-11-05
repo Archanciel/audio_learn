@@ -146,7 +146,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     Audio? currentOrPastPlaylistAudio = _playlistListVM
         .getSelectedPlaylists()
         .first
-        .getCurrentOrPastPlayableAudio();
+        .getCurrentOrLastlyPlayedAudioContainedInPlayableAudioLst();
     if (currentOrPastPlaylistAudio == null ||
         _currentAudio == currentOrPastPlaylistAudio) {
       // the case if no audio in the selected playlist was ever played
@@ -173,7 +173,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       _currentAudio = _playlistListVM
           .getSelectedPlaylists()
           .first
-          .getCurrentOrPastPlayableAudio();
+          .getCurrentOrLastlyPlayedAudioContainedInPlayableAudioLst();
       if (_currentAudio == null) {
         // the case if no audio in the selected playlist was ever played
         return;
