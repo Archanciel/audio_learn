@@ -49,9 +49,10 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }) {}
 
   /// Method called when the user clicks on the audio title or sub
-  /// title or when he clicks on a play icon or when he select an
+  /// title or when he clicks on a play icon or when he selects an
   /// audio in the AudioOneSelectableDialogWidget displayed by
-  /// long pressing on the >| button of the AudioPlayerView screen.
+  /// clicking on the audio title on the AudioPlayerView or by
+  /// long pressing on the >| button.
   ///
   /// Method called also by setNextAudio() or setPreviousAudio().
   Future<void> setCurrentAudio(Audio audio) async {
