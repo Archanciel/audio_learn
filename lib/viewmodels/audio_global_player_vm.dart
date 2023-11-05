@@ -177,10 +177,10 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   Future<void> playFromCurrentAudioFile() async {
     if (_currentAudio == null) {
-      // the case if the AudioPlayerView is opened directly and not
-      // after the user has selected an audio in the audio list of
-      // the selected playlist and if the user clicks on the play
-      // button.
+      // the case if the AudioPlayerView is opened directly by
+      // dragging to it or clicking on the title or sub title
+      // of an audio and not after the user has clicked on the
+      // audio play icon button.
       //
       // Getting the first selected playlist makes sense since
       // currently only one playlist can be selected at a time
