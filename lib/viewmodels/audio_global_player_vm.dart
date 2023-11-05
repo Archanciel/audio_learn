@@ -137,10 +137,11 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       });
 
       _audioPlayer.onPositionChanged.listen((position) {
-        if (isPlaying) {
+        if (_audioPlayer.state == PlayerState.playing) {
           // this test avoids that when selecting another audio
           // the selected audio position is set to 0 since the
-          // passed position value is 0 !
+          // passed position value of an AudioPlayer not playing
+          // is 0 !
           _currentAudioPosition = position;
           updateAndSaveCurrentAudio();
         }
@@ -295,6 +296,31 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       // position is at audio end. This is the case if the user
       // clicks twice on the >| icon.
       await _setNextAudio();
+
+      notifyListeners();
+
+      return;
+    }
+
+    _currentAudioPosition = _currentAudioTotalDuration;
+    // necessary so that the audio position is stored on the
+    // audio
+    _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
+    _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
+
+    await _audioPlayer.seek(_currentAudioTotalDuration);
+
+    notifyListeners();
+  }
+
+  Future<void> skipToEndAndPlay() async {
+    if (_currentAudioPosition >=
+        _currentAudioTotalDuration - const Duration(seconds: 1)) {
+      // situation when the user clicks on >| when the audio
+      // position is at audio end. This is the case if the user
+      // clicks twice on the >| icon.
+      await _setNextAudio();
+      await playFromCurrentAudioFile();
 
       notifyListeners();
 
