@@ -95,6 +95,19 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     await setCurrentAudio(nextAudio);
   }
 
+  Future<void> _setNextAudioAndplay() async {
+    Audio? nextAudio = _playlistListVM.getSubsequentlyDownloadedPlayableAudio(
+      currentAudio: _currentAudio!,
+    );
+    if (nextAudio == null) {
+      // the case if the current audio is the last downloaded
+      // audio
+      return;
+    }
+    await setCurrentAudio(nextAudio);
+    await playFromCurrentAudioFile();
+  }
+
   /// Method called by skipToStart() if the audio is positioned at
   /// start.
   Future<void> _setPreviousAudio() async {
