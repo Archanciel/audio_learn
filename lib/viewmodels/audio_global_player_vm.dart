@@ -237,6 +237,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       _currentAudioPosition = Duration.zero;
     } else if (newAudioPosition > currentAudioDuration) {
       // subtracting 1 second is necessary to avoid a slider error
+      // which happens when clicking on AudioListItemWidget play icon
       _currentAudioPosition = currentAudioDuration - const Duration(seconds: 1);
     } else {
       _currentAudioPosition = newAudioPosition;
@@ -301,6 +302,9 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
       return;
     }
+
+    // _currentAudioPosition =
+    //     _currentAudioTotalDuration - const Duration(seconds: 1);
 
     _currentAudioPosition = _currentAudioTotalDuration;
     // necessary so that the audio position is stored on the
