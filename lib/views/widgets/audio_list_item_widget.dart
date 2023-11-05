@@ -378,7 +378,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     } else {
       // the audio is paused at position zero, i.e. if it was not played ...
       Color backgroundColor;
-      
+
       if (Theme.of(context).brightness == Brightness.dark) {
         backgroundColor = Colors.black;
       } else {
@@ -396,7 +396,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
       );
     }
 
-    // Return the icon wrapped inside a Container to ensure
+    // Return the icon wrapped inside a SizedBox to ensure
     // horizontal alignment
     return InkWell(
       onTap: () async =>
