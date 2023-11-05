@@ -292,7 +292,15 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }
 
   Future<void> skipToEnd() async {
-    if (_currentAudioPosition == _currentAudioTotalDuration) {
+    if (_currentAudioPosition >=
+        _currentAudioTotalDuration - const Duration(seconds: 1)) {
+      // subtracting 1 second and saving current audio is necessary
+      // to avoid a slider erro which happens when clicking on
+      // AudioListItemWidget play icon
+      _currentAudioPosition =
+          _currentAudioTotalDuration - const Duration(seconds: 1);
+      updateAndSaveCurrentAudio();
+
       // situation when the user clicks on >| when the audio
       // position is at audio end. This is the case if the user
       // clicks twice on the >| icon.
@@ -303,6 +311,12 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       return;
     }
 
+    // subtracting 1 second is necessary to avoid a slider error
+    // which happens when clicking on AudioListItemWidget play icon
+    //
+    // I commented out next code since commenting it does not
+    // causes a slider error happening when clicking on
+    // AudioListItemWidget play icon. to see if realy ok !
     // _currentAudioPosition =
     //     _currentAudioTotalDuration - const Duration(seconds: 1);
 
