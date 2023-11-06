@@ -146,6 +146,11 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
           updateAndSaveCurrentAudio();
         }
 
+        _audioPlayer.onPlayerComplete.listen((event) {
+          // Play next audio when current audio finishes.
+          skipToEndAndPlay();
+        });
+
         notifyListeners();
       });
     }
