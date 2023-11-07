@@ -123,10 +123,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                             8.0), // Adjust the radius as you need
                   ),
                   child: Slider(
-                    value: audioGlobalPlayerVM.currentAudioPosition.inSeconds
-                        .toDouble(),
                     min: 0.0,
                     max: audioGlobalPlayerVM.currentAudioTotalDuration.inSeconds
+                        .toDouble(),
+                    value: audioGlobalPlayerVM.currentAudioPosition.inSeconds
                         .toDouble(),
                     onChanged: (double value) {
                       audioGlobalPlayerVM.goToAudioPlayPosition(
@@ -204,7 +204,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               onLongPress: () => _displayOtherAudiosDialog(),
               child: IconButton(
                 iconSize: _audioIconSizeMedium,
-                onPressed: () => audioGlobalPlayerVM.skipToEnd(),
+                // onPressed: () => audioGlobalPlayerVM.skipToEndNoPlay(),
+                onPressed: () => audioGlobalPlayerVM.skipToEndAndPlay(),
                 icon: const Icon(Icons.skip_next),
               ),
             ),

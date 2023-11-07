@@ -56,7 +56,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   ///
   /// Method called also by setNextAudio() or setPreviousAudio().
   Future<void> setCurrentAudio(Audio audio) async {
-    await pause();
+    // await pause();
     await _setCurrentAudioAndInitializeAudioPlayer(audio);
 
     audio.enclosingPlaylist!.setCurrentOrPastPlayableAudio(audio);
@@ -68,7 +68,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   Future<void> _setCurrentAudioAndInitializeAudioPlayer(Audio audio) async {
     _currentAudio = audio;
 
-    // without setting _currentAudioTotalDuration to the
+    // without setting _currentAudioTotalDuration to the audio duration,
     // the next instruction causes an error: Failed assertion: line 194
     // pos 15: 'value >= min && value <= max': Value 3.0 is not between
     // minimum 0.0 and maximum 0.0
@@ -81,8 +81,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     await _audioPlayer.seek(_currentAudioPosition);
   }
 
-  /// Method called by skipToEnd() if the audio is positioned at
-  /// end.
+  /// Method called by skipToEndNoPlay() if the audio is positioned
+  /// at end and by playNextAudio().
   Future<void> _setNextAudio() async {
     Audio? nextAudio = _playlistListVM.getSubsequentlyDownloadedPlayableAudio(
       currentAudio: _currentAudio!,
@@ -143,12 +143,14 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
           // passed position value of an AudioPlayer not playing
           // is 0 !
           _currentAudioPosition = position;
+          // notifyListeners(); // not solving slider error
           updateAndSaveCurrentAudio();
         }
 
         _audioPlayer.onPlayerComplete.listen((event) {
           // Play next audio when current audio finishes.
-          skipToEndAndPlay();
+          playNextAudio();
+          // notifyListeners(); // not solving slider error
         });
 
         notifyListeners();
@@ -221,6 +223,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
       _currentAudio!.isPaused = true;
     }
 
+    updateAndSaveCurrentAudio();
     notifyListeners();
   }
 
@@ -296,7 +299,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> skipToEnd() async {
+  /// Method not used for the moment
+  Future<void> skipToEndNoPlay() async {
     if (_currentAudioPosition >=
         _currentAudioTotalDuration - const Duration(seconds: 1)) {
       // subtracting 1 second and saving current audio is necessary
@@ -339,24 +343,40 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   Future<void> skipToEndAndPlay() async {
     if (_currentAudioPosition >=
         _currentAudioTotalDuration - const Duration(seconds: 1)) {
+      // subtracting 1 second and saving current audio is necessary
+      // to avoid a slider erro which happens when clicking on
+      // AudioListItemWidget play icon
+      _currentAudioPosition =
+          _currentAudioTotalDuration - const Duration(seconds: 1);
+      updateAndSaveCurrentAudio();
+
       // situation when the user clicks on >| when the audio
       // position is at audio end. This is the case if the user
       // clicks twice on the >| icon.
-      await _setNextAudio();
-      await playFromCurrentAudioFile();
-
-      notifyListeners();
+      await playNextAudio();
 
       return;
     }
 
-    _currentAudioPosition = _currentAudioTotalDuration;
-    // necessary so that the audio position is stored on the
-    // audio
-    _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
+    // part of method executed when the user click the first time
+    // on the >| icon button
+
+    // subtracting 1 second and saving current audio is necessary
+    // to avoid a slider erro which happens when clicking on
+    // AudioListItemWidget play icon
+    _currentAudioPosition =
+        _currentAudioTotalDuration - const Duration(seconds: 1);
     _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
+    updateAndSaveCurrentAudio();
 
     await _audioPlayer.seek(_currentAudioTotalDuration);
+
+    notifyListeners();
+  }
+
+  Future<void> playNextAudio() async {
+    await _setNextAudio();
+    await playFromCurrentAudioFile();
 
     notifyListeners();
   }
