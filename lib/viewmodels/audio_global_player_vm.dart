@@ -143,14 +143,12 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
           // passed position value of an AudioPlayer not playing
           // is 0 !
           _currentAudioPosition = position;
-          // notifyListeners(); // not solving slider error
           updateAndSaveCurrentAudio();
         }
 
         _audioPlayer.onPlayerComplete.listen((event) {
           // Play next audio when current audio finishes.
           playNextAudio();
-          // notifyListeners(); // not solving slider error
         });
 
         notifyListeners();
