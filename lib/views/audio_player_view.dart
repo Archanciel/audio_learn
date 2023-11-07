@@ -103,6 +103,18 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildAudioSlider() {
     return Consumer<AudioGlobalPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
+        // Obtaining the slider values here (when audioGlobalPlayerVM
+        // call notifyListeners()) avoids that the slider generate
+        // a 'Value xxx.x is not between minimum 0.0 and maximum 0.0'
+        // error
+        double sliderValue =
+            audioGlobalPlayerVM.currentAudioPosition.inSeconds.toDouble();
+        double maxDuration =
+            audioGlobalPlayerVM.currentAudioTotalDuration.inSeconds.toDouble();
+
+        // Ensure the slider value is within the range
+        sliderValue = sliderValue.clamp(0.0, maxDuration);
+
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: kDefaultMargin),
           child: Row(
@@ -124,10 +136,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   ),
                   child: Slider(
                     min: 0.0,
-                    max: audioGlobalPlayerVM.currentAudioTotalDuration.inSeconds
-                        .toDouble(),
-                    value: audioGlobalPlayerVM.currentAudioPosition.inSeconds
-                        .toDouble(),
+                    max: maxDuration,
+                    value: sliderValue,
                     onChanged: (double value) {
                       audioGlobalPlayerVM.goToAudioPlayPosition(
                         Duration(seconds: value.toInt()),
