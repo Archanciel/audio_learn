@@ -207,7 +207,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   ),
                   maxLines: 4,
                   textAlign: TextAlign.center,
-                  // overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
@@ -291,7 +290,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     children: [
                       Expanded(
                         child: GestureDetector(
-                          onTap: () => audioGlobalPlayerVM.changeAudioPlayPosition(
+                          onTap: () =>
+                              audioGlobalPlayerVM.changeAudioPlayPosition(
                             const Duration(minutes: -1),
                           ),
                           child: const Text(
@@ -303,7 +303,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       ),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () => audioGlobalPlayerVM.changeAudioPlayPosition(
+                          onTap: () =>
+                              audioGlobalPlayerVM.changeAudioPlayPosition(
                             const Duration(seconds: -10),
                           ),
                           child: const Text(
@@ -315,7 +316,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       ),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () => audioGlobalPlayerVM.changeAudioPlayPosition(
+                          onTap: () =>
+                              audioGlobalPlayerVM.changeAudioPlayPosition(
                             const Duration(seconds: 10),
                           ),
                           child: const Text(
@@ -327,7 +329,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       ),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () => audioGlobalPlayerVM.changeAudioPlayPosition(
+                          onTap: () =>
+                              audioGlobalPlayerVM.changeAudioPlayPosition(
                             const Duration(minutes: 1),
                           ),
                           child: const Text(
