@@ -130,9 +130,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               Expanded(
                 child: SliderTheme(
                   data: const SliderThemeData(
+                    trackHeight: 2.0,
                     thumbShape: RoundSliderThumbShape(
                         enabledThumbRadius:
-                            8.0), // Adjust the radius as you need
+                            6.0), // Adjust the radius as you need
                   ),
                   child: Slider(
                     min: 0.0,
@@ -285,35 +286,55 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     ),
                   ),
                   const SizedBox(height: 4.0),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: Text(
-                          '1 m',
-                          textAlign: TextAlign.center,
-                          style: kPositionButtonTextStyle,
+                        child: GestureDetector(
+                          onTap: () => audioGlobalPlayerVM.changeAudioPlayPosition(
+                            const Duration(minutes: -1),
+                          ),
+                          child: const Text(
+                            '1 m',
+                            textAlign: TextAlign.center,
+                            style: kPositionButtonTextStyle,
+                          ),
                         ),
                       ),
                       Expanded(
-                        child: Text(
-                          '10 s',
-                          textAlign: TextAlign.center,
-                          style: kPositionButtonTextStyle,
+                        child: GestureDetector(
+                          onTap: () => audioGlobalPlayerVM.changeAudioPlayPosition(
+                            const Duration(seconds: -10),
+                          ),
+                          child: const Text(
+                            '10 s',
+                            textAlign: TextAlign.center,
+                            style: kPositionButtonTextStyle,
+                          ),
                         ),
                       ),
                       Expanded(
-                        child: Text(
-                          '10 s',
-                          textAlign: TextAlign.center,
-                          style: kPositionButtonTextStyle,
+                        child: GestureDetector(
+                          onTap: () => audioGlobalPlayerVM.changeAudioPlayPosition(
+                            const Duration(seconds: 10),
+                          ),
+                          child: const Text(
+                            '10 s',
+                            textAlign: TextAlign.center,
+                            style: kPositionButtonTextStyle,
+                          ),
                         ),
                       ),
                       Expanded(
-                        child: Text(
-                          '1 m',
-                          textAlign: TextAlign.center,
-                          style: kPositionButtonTextStyle,
+                        child: GestureDetector(
+                          onTap: () => audioGlobalPlayerVM.changeAudioPlayPosition(
+                            const Duration(minutes: 1),
+                          ),
+                          child: const Text(
+                            '1 m',
+                            textAlign: TextAlign.center,
+                            style: kPositionButtonTextStyle,
+                          ),
                         ),
                       ),
                     ],
