@@ -44,16 +44,11 @@ const String kGoogleApiKey = 'AIzaSyDhywmh5EKopsNsaszzMkLJ719aQa2NHBw';
 /// be performed.
 const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
-const double kVerticalFieldDistance = 23.0;
-const double kVerticalFieldDistanceAddSubScreen = 1.0;
-const double kResetButtonBottomDistance = 5.0;
 const double kRowWidthSeparator = 3.0;
-const double kRowHeightSeparator = 3.0;
 const double kSmallestButtonWidth = 40.0;
 const double kSmallButtonWidth = 48.0;
 const double kSmallButtonInsidePadding = 3.0;
-const double kDefaultMargin = 15.0;
-const kFlushbarEdgeInsets = EdgeInsets.fromLTRB(15, 78, 15, 0);
+const double kDefaultMargin = 5.0;
 const double kRoundedButtonBorderRadius = 11.0;
 const Color kDarkAndLightIconColor =
     Color.fromARGB(246, 44, 61, 255); // rgba(44, 61, 246, 255)
