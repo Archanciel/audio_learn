@@ -338,7 +338,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                                 duration: const Duration(seconds: 8),
                                 backgroundColor: Colors.purple.shade900,
                                 messageColor: Colors.white,
-                                margin: kFlushbarEdgeInsets,
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(8)),
                               ).show(context);
