@@ -168,16 +168,19 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              iconSize: _audioIconSizeLarge,
-              onPressed: (() async {
-                audioGlobalPlayerVM.isPlaying
-                    ? await audioGlobalPlayerVM.pause()
-                    : await audioGlobalPlayerVM.playFromCurrentAudioFile();
-              }),
-              icon: Icon(audioGlobalPlayerVM.isPlaying
-                  ? Icons.pause
-                  : Icons.play_arrow),
+            Padding(
+              padding: const EdgeInsets.all(90.0),
+              child: IconButton(
+                iconSize: _audioIconSizeLarge,
+                onPressed: (() async {
+                  audioGlobalPlayerVM.isPlaying
+                      ? await audioGlobalPlayerVM.pause()
+                      : await audioGlobalPlayerVM.playFromCurrentAudioFile();
+                }),
+                icon: Icon(audioGlobalPlayerVM.isPlaying
+                    ? Icons.pause
+                    : Icons.play_arrow),
+              ),
             ),
           ],
         );
