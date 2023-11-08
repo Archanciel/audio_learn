@@ -123,8 +123,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               Text(
                 audioGlobalPlayerVM.currentAudioPosition.HHmmssZeroHH(),
                 style: const TextStyle(
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
+                  fontSize: kTitleFontSize,
                 ),
               ),
               Expanded(
@@ -151,8 +150,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 audioGlobalPlayerVM.currentAudioRemainingDuration
                     .HHmmssZeroHH(),
                 style: const TextStyle(
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
+                  fontSize: kTitleFontSize,
                 ),
               ),
             ],
@@ -205,10 +203,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 child: Text(
                   audioGlobalPlayerVM.getCurrentAudioTitle(),
                   style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+                    fontSize: kTitleFontSize,
                   ),
-                  maxLines: 4,
+                  maxLines: 5,
                   textAlign: TextAlign.center,
                 ),
               ),

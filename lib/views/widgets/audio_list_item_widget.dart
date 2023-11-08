@@ -230,7 +230,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
           await dragToAudioPlayerView(
               audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
         },
-        child: Text(audio.validVideoTitle),
+        child: Text(audio.validVideoTitle,
+            style: const TextStyle(fontSize: kTitleFontSize)),
       ),
       subtitle: GestureDetector(
         onTap: () async {

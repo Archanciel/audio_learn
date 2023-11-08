@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.7.5';
+const String kApplicationVersion = '0.7.6';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
@@ -84,6 +84,7 @@ const bool kAudioFileNamePrefixIncludeTime = true;
 const kPositionButtonTextStyle = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
-  fontSize: 18.0,
-  fontWeight: FontWeight.bold,
+  fontSize: 17.0,
 );
+
+const double kTitleFontSize = 15.0;

@@ -43,7 +43,7 @@ mixin ScreenMixin {
           bodyMedium: ThemeData.dark()
               .textTheme
               .bodyMedium!
-              .copyWith(color: kButtonColor),
+              .copyWith(color: Colors.white),
           titleMedium: ThemeData.dark()
               .textTheme
               .titleMedium!
