@@ -798,7 +798,7 @@ class AudioDownloadVM extends ChangeNotifier {
       return;
     }
 
-    targetPlaylist.addDownloadedAudio(audio);
+    targetPlaylist.addCopiedAudio(audio);
 
     JsonDataService.saveToFile(
       model: targetPlaylist,

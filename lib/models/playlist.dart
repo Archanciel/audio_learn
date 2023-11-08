@@ -132,11 +132,27 @@ class Playlist {
   ///                            last downloaded audio]
   /// playableAudioLst order: [last available downloaded audio, ...,
   ///                          first available downloaded audio]
-
   void addDownloadedAudio(Audio downloadedAudio) {
     downloadedAudio.enclosingPlaylist = this;
     downloadedAudioLst.add(downloadedAudio);
     playableAudioLst.insert(0, downloadedAudio);
+  }
+
+  /// Adds the copied audio to the downloadedAudioLst and to
+  /// the playableAudioLst.
+  /// 
+  /// downloadedAudioLst order: [first downloaded audio, ...,
+  ///                            last downloaded audio]
+  /// playableAudioLst order: [last available downloaded audio, ...,
+  ///                          first available downloaded audio]
+  void addCopiedAudio(Audio copiedAudio) {
+    // Creating a copy of the audio to be copied so that the passed
+    // original audio will not be modified by this method.
+    Audio audioCopy = copiedAudio.copy();
+    audioCopy.enclosingPlaylist = this;
+
+    downloadedAudioLst.add(audioCopy);
+    playableAudioLst.insert(0, audioCopy);
   }
 
   /// Adds the moved audio to the downloadedAudioLst and to the
