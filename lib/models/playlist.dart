@@ -31,13 +31,14 @@ class Playlist {
   //              available downloaded audio]
   List<Audio> playableAudioLst = [];
 
-  // This variable contains the index of the audio in the playableAudioLst
-  // which is currently playing. The effect is that this value is the index
-  // of the audio that was the last played audio from the playlist. This
-  // means that if the AudioPlayerView is opened without having clicked on
-  // a playlist audio item, then this audio will be playing. This happens
-  // only if the audio playlist is selected in the PlaylistDownloadView, i.e.
-  // referenced in the app settings.json file. The value -1 means that no
+  // This variable contains the index of the audio in the
+  // playableAudioLst which is currently playing. The effect is that
+  // this value is the index of the audio that was the last played
+  // audio from the playlist. This means that if the AudioPlayerView
+  // is opened without having clicked on a playlist audio item, then
+  // this audio will be playing. This happens only if the audio
+  // playlist is selected in the PlaylistDownloadView, i.e. referenced
+  // in the app settings.json file. The value -1 means that no
   // playlist audio has been played.
   int currentOrPastPlayableAudioIndex = -1;
 
