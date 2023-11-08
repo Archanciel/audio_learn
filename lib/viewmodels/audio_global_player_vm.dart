@@ -242,9 +242,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     if (newAudioPosition < Duration.zero) {
       _currentAudioPosition = Duration.zero;
     } else if (newAudioPosition > currentAudioDuration) {
-      // subtracting 1 second is necessary to avoid a slider error
-      // which happens when clicking on AudioListItemWidget play icon
-      _currentAudioPosition = currentAudioDuration - const Duration(seconds: 1);
+      _currentAudioPosition = currentAudioDuration;
     } else {
       _currentAudioPosition = newAudioPosition;
     }
@@ -299,13 +297,10 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   /// Method not used for the moment
   Future<void> skipToEndNoPlay() async {
-    if (_currentAudioPosition >=
-        _currentAudioTotalDuration - const Duration(seconds: 1)) {
-      // subtracting 1 second and saving current audio is necessary
-      // to avoid a slider erro which happens when clicking on
-      // AudioListItemWidget play icon
+    if (_currentAudioPosition ==
+        _currentAudioTotalDuration) {
       _currentAudioPosition =
-          _currentAudioTotalDuration - const Duration(seconds: 1);
+          _currentAudioTotalDuration;
       updateAndSaveCurrentAudio();
 
       // situation when the user clicks on >| when the audio
@@ -339,13 +334,10 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }
 
   Future<void> skipToEndAndPlay() async {
-    if (_currentAudioPosition >=
-        _currentAudioTotalDuration - const Duration(seconds: 1)) {
-      // subtracting 1 second and saving current audio is necessary
-      // to avoid a slider erro which happens when clicking on
-      // AudioListItemWidget play icon
+    if (_currentAudioPosition ==
+        _currentAudioTotalDuration) {
       _currentAudioPosition =
-          _currentAudioTotalDuration - const Duration(seconds: 1);
+          _currentAudioTotalDuration;
       updateAndSaveCurrentAudio();
 
       // situation when the user clicks on >| when the audio
@@ -359,11 +351,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     // part of method executed when the user click the first time
     // on the >| icon button
 
-    // subtracting 1 second and saving current audio is necessary
-    // to avoid a slider erro which happens when clicking on
-    // AudioListItemWidget play icon
     _currentAudioPosition =
-        _currentAudioTotalDuration - const Duration(seconds: 1);
+        _currentAudioTotalDuration;
     _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
     updateAndSaveCurrentAudio();
 
