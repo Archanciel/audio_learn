@@ -165,7 +165,11 @@ class Audio {
   factory Audio.fromJson(Map<String, dynamic> json) {
     return Audio.fullConstructor(
       enclosingPlaylist:
-          null, // You'll need to handle this separately, see note below
+          null, // the enclosing playlist is not stored in the Audio JSON
+                // object. It is set when the Playlist is created from 
+                // the Playlist JSON file in the Playlist factory method
+                // Playlist.fromJson(Map<String, dynamic> json).
+
       movedFromPlaylistTitle: json['movedFromPlaylistTitle'],
       movedToPlaylistTitle: json['movedToPlaylistTitle'],
       originalVideoTitle: json['originalVideoTitle'],

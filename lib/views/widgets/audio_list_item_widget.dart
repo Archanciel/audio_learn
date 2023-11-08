@@ -30,7 +30,9 @@ enum AudioPopupMenuAction {
 
 /// This widget is used in the PlaylistDownloadView ListView which
 /// display the playable audios of the selected playlist.
-/// AudioListItemWidget displays the audio item content. 
+/// AudioListItemWidget displays the audio item content as well
+/// as the audio item left menu and the audio item right play or
+/// pause button.
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
 

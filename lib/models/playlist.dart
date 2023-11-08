@@ -20,10 +20,15 @@ class Playlist {
 
   // Contains the audios once referenced in the Youtube playlist
   // which were downloaded.
+  //
+  // List order: [first downloaded audio, ..., last downloaded audio]
   List<Audio> downloadedAudioLst = [];
 
   // Contains the downloaded audios currently available on the
   // device.
+  //
+  // List order: [last available downloaded audio, ..., first
+  //              available downloaded audio]
   List<Audio> playableAudioLst = [];
 
   // This variable contains the index of the audio in the playableAudioLst
@@ -121,6 +126,12 @@ class Playlist {
 
   /// Adds the downloaded audio to the downloadedAudioLst and to
   /// the playableAudioLst.
+  /// 
+  /// downloadedAudioLst order: [first downloaded audio, ...,
+  ///                            last downloaded audio]
+  /// playableAudioLst order: [last available downloaded audio, ...,
+  ///                          first available downloaded audio]
+
   void addDownloadedAudio(Audio downloadedAudio) {
     downloadedAudio.enclosingPlaylist = this;
     downloadedAudioLst.add(downloadedAudio);
@@ -212,7 +223,9 @@ class Playlist {
 
   /// Used when uploading the Playlist json file. Since the
   /// json file contains the playable audio list in the right
-  /// order, using add and not insert maintains the right order !
+  /// order, i.e. [last available downloaded audio, ..., first
+  ///              available downloaded audio]
+  /// using add and not insert maintains the right order !
   void addPlayableAudio(Audio playableAudio) {
     playableAudio.enclosingPlaylist = this;
     playableAudioLst.add(playableAudio);
@@ -265,6 +278,10 @@ class Playlist {
   ///
   /// Returns the number of audios removed from the playable audio
   /// list.
+  /// 
+  /// playableAudioLst order: [last available downloaded audio, ...,
+  ///                          first available downloaded audio]
+
   int updatePlayableAudioLst() {
     int removedPlayableAudioNumber = 0;
 
