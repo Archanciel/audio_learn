@@ -146,7 +146,12 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
           updateAndSaveCurrentAudio();
         }
 
-        _audioPlayer.onPlayerComplete.listen((event) {
+        _audioPlayer.onPlayerComplete.listen((event) async {
+          // solves the problem of playing the last playable audio
+          // when the current audio which is not before the last
+          // audio is terminated
+          await _audioPlayer.dispose();
+
           // Play next audio when current audio finishes.
           playNextAudio();
         });
@@ -297,10 +302,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   /// Method not used for the moment
   Future<void> skipToEndNoPlay() async {
-    if (_currentAudioPosition ==
-        _currentAudioTotalDuration) {
-      _currentAudioPosition =
-          _currentAudioTotalDuration;
+    if (_currentAudioPosition == _currentAudioTotalDuration) {
+      _currentAudioPosition = _currentAudioTotalDuration;
       updateAndSaveCurrentAudio();
 
       // situation when the user clicks on >| when the audio
@@ -334,10 +337,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }
 
   Future<void> skipToEndAndPlay() async {
-    if (_currentAudioPosition ==
-        _currentAudioTotalDuration) {
-      _currentAudioPosition =
-          _currentAudioTotalDuration;
+    if (_currentAudioPosition == _currentAudioTotalDuration) {
+      _currentAudioPosition = _currentAudioTotalDuration;
       updateAndSaveCurrentAudio();
 
       // situation when the user clicks on >| when the audio
@@ -351,8 +352,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     // part of method executed when the user click the first time
     // on the >| icon button
 
-    _currentAudioPosition =
-        _currentAudioTotalDuration;
+    _currentAudioPosition = _currentAudioTotalDuration;
     _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
     updateAndSaveCurrentAudio();
 
