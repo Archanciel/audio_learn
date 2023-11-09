@@ -78,27 +78,56 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     await _setCurrentAudioPosition();
   }
 
-  /// If the audio was paused less than 1 minute ago,
-  /// the next play position will be reduced by 2 seconds.
-  /// If the audio was paused more than 1 minute ago but less than
-  /// 1 hour ago, the next play position will be reduced by 20 seconds.
-  /// If the audio was paused more than 1 hour ago, the next play
-  /// position will be reduced by 30 seconds.
+  /// Adjusts the playback start position of the current audio based on the elapsed
+  /// time since it was last paused.
+  ///
+  /// This method applies a decrement to the saved play position to accommodate
+  /// for human memory retention and comfort when resuming audio playback.
+  ///
+  /// The decrement is determined by the duration for which the audio has been paused:
+  /// - If the audio was paused less than a minute ago, the play position will be
+  ///   rewound by 2 seconds to help recall the immediate context.
+  /// - If the audio was paused more than a minute ago but less than an hour, the
+  ///   play position will be rewound by 20 seconds to re-establish context without
+  ///   significant overlap.
+  /// - If the audio was paused for an hour or longer, the play position will be
+  ///   rewound by 30 seconds to cater for a longer gap in listening continuity.
+  ///
+  /// The play position will not be adjusted to a negative value; if the rewind
+  /// operation results in a negative position, it will be set to the start of the
+  /// audio.
+  ///
+  /// Precondition:
+  /// The `_currentAudio` must be non-null and must have a valid `audioPositionSeconds`.
+  ///
+  /// Postcondition:
+  /// The `_currentAudioPosition` will be updated to reflect the adjusted play position,
+  /// and the audio player will seek to this new position.
+  ///
+  /// If the `audioPausedDateTime` is null, indicating that the audio has not been paused,
+  /// the audio player's position will not be adjusted.
   Future<void> _setCurrentAudioPosition() async {
     DateTime? audioPausedDateTime = _currentAudio!.audioPausedDateTime;
 
     if (audioPausedDateTime != null) {
-      if (DateTime.now().difference(audioPausedDateTime).inSeconds < 60) {
-        _currentAudioPosition =
-            Duration(seconds: _currentAudio!.audioPositionSeconds - 2);
-      } else if (DateTime.now().difference(audioPausedDateTime).inSeconds <
-          3600) {
-        _currentAudioPosition =
-            Duration(seconds: _currentAudio!.audioPositionSeconds - 20);
+      final int pausedDurationSecs =
+          DateTime.now().difference(audioPausedDateTime).inSeconds;
+      int rewindSeconds = 0;
+
+      if (pausedDurationSecs < 60) {
+        rewindSeconds = 2;
+      } else if (pausedDurationSecs < 3600) {
+        rewindSeconds = 20;
       } else {
-        _currentAudioPosition =
-            Duration(seconds: _currentAudio!.audioPositionSeconds - 30);
+        rewindSeconds = 30;
       }
+
+      int newPositionSeconds =
+          _currentAudio!.audioPositionSeconds - rewindSeconds;
+      // Ensure the new position is not negative
+      _currentAudioPosition = Duration(
+          seconds: newPositionSeconds.clamp(
+              0, _currentAudio!.audioDuration!.inSeconds));
 
       await _audioPlayer.seek(_currentAudioPosition);
     }
