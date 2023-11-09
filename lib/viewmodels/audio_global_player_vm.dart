@@ -74,8 +74,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     // minimum 0.0 and maximum 0.0
     _currentAudioTotalDuration = audio.audioDuration ?? const Duration();
 
-    _initializeAudioPlayer();
     await _setCurrentAudioPosition();
+    _initializeAudioPlayer();
   }
 
   /// Adjusts the playback start position of the current audio based on the elapsed
