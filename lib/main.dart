@@ -133,7 +133,9 @@ class MainApp extends StatelessWidget with ScreenMixin {
     // expandablePlaylistListVM.getUpToDateSelectablePlaylists()
     // otherwise the list of selected playlists is empty instead
     // of containing one selected playlist (as valid now)
-    audioGlobalPlayerVM.setCurrentAudioFromSelectedPlaylist();
+
+    // not necessary
+    // audioGlobalPlayerVM.setCurrentAudioFromSelectedPlaylist();
 
     return MultiProvider(
       providers: [

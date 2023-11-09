@@ -25,7 +25,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   bool get isPlaying => _audioPlayer.state == PlayerState.playing;
 
-  late DateTime _currentAudioLastSaveDateTime;
+  DateTime _currentAudioLastSaveDateTime = DateTime.now();
 
   AudioGlobalPlayerVM({
     required PlaylistListVM playlistListVM,
@@ -153,7 +153,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
           await _audioPlayer.dispose();
 
           // Play next audio when current audio finishes.
-          playNextAudio();
+          await playNextAudio();
         });
 
         notifyListeners();
@@ -330,6 +330,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     // audio
     _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
     _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
+    updateAndSaveCurrentAudio();
 
     await _audioPlayer.seek(_currentAudioTotalDuration);
 
@@ -362,6 +363,10 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   }
 
   Future<void> playNextAudio() async {
+    _currentAudio!.isPaused = true;
+    _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
+    updateAndSaveCurrentAudio();
+
     await _setNextAudio();
     await playFromCurrentAudioFile();
 
