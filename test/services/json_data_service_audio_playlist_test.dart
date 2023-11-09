@@ -35,7 +35,7 @@ void main() {
   const jsonPath = 'test.json';
 
   group('JsonDataService individual', () {
-    test('saveToFile and loadFromFile for one Audio instance', () async {
+    test('saveToFile and loadFromFile for one Audio instance, audioPausedDateTime == null', () async {
       // Create a temporary directory to store the serialized Audio object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'audio.json');
@@ -60,6 +60,51 @@ void main() {
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+
+      // Save the Audio instance to a file
+      JsonDataService.saveToFile(model: originalAudio, path: filePath);
+
+      // Load the Audio instance from the file
+      Audio deserializedAudio =
+          JsonDataService.loadFromFile(jsonPathFileName: filePath, type: Audio);
+
+      // Compare the deserialized Audio instance with the original Audio instance
+      compareDeserializedWithOriginalAudio(
+        deserializedAudio: deserializedAudio,
+        originalAudio: originalAudio,
+      );
+
+      // Cleanup the temporary directory
+      await tempDir.delete(recursive: true);
+    });
+    test('saveToFile and loadFromFile for one Audio instance, audioPausedDateTime not null', () async {
+      // Create a temporary directory to store the serialized Audio object
+      Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
+      String filePath = path.join(tempDir.path, 'audio.json');
+
+      // Create an Audio instance
+      Audio originalAudio = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        movedFromPlaylistTitle: null,
+        movedToPlaylistTitle: null,
+        originalVideoTitle: 'Test Video Title',
+        compactVideoDescription: '',
+        validVideoTitle: 'Test Video Title',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 50, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
+        isPlayingOnGlobalAudioPlayerVM: true,
+        isPaused: true,
+        audioPausedDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioPositionSeconds: 1800,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -354,21 +399,21 @@ void main() {
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
-        originalVideoTitle: 'Test Video Two Title',
+        originalVideoTitle: 'Test Video Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
         videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
         audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
-        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadDuration: const Duration(minutes: 50, seconds: 30),
         audioDownloadSpeed: 1000000,
         videoUploadDate: DateTime(2023, 3, 1),
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOnGlobalAudioPlayerVM: true,
         isPaused: true,
-        audioPausedDateTime: null,
-        audioPositionSeconds: 0,
+        audioPausedDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioPositionSeconds: 1800,
         audioFileName: 'Test Video Title.mp3',
         audioFileSize: 330000000,
       );
@@ -647,6 +692,13 @@ void compareDeserializedWithOriginalAudio({
   expect(
       deserializedAudio.isAudioMusicQuality, originalAudio.isAudioMusicQuality);
   expect(deserializedAudio.audioPlaySpeed, originalAudio.audioPlaySpeed);
+  expect(deserializedAudio.isPlayingOnGlobalAudioPlayerVM,
+      originalAudio.isPlayingOnGlobalAudioPlayerVM);
+  expect(deserializedAudio.isPaused, originalAudio.isPaused);
+  expect(deserializedAudio.audioPausedDateTime?.toIso8601String(),
+      originalAudio.audioPausedDateTime?.toIso8601String());
+  expect(deserializedAudio.audioPositionSeconds,
+      originalAudio.audioPositionSeconds);
   expect(deserializedAudio.audioFileName, originalAudio.audioFileName);
   expect(deserializedAudio.audioFileSize, originalAudio.audioFileSize);
 }
