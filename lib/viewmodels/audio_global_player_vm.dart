@@ -56,7 +56,6 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   ///
   /// Method called also by setNextAudio() or setPreviousAudio().
   Future<void> setCurrentAudio(Audio audio) async {
-    // await pause();
     await _setCurrentAudioAndInitializeAudioPlayer(audio);
 
     audio.enclosingPlaylist!.setCurrentOrPastPlayableAudio(audio);
@@ -65,6 +64,20 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Method called indirectly when the user clicks on the audio title
+  /// or sub title or when he clicks on a play icon or when he selects
+  /// an audio in the AudioOneSelectableDialogWidget displayed by
+  /// clicking on the audio title on the AudioPlayerView or by
+  /// long pressing on the >| button.
+  ///
+  /// Method called indirectly also by setNextAudio() or
+  /// setPreviousAudio().
+  /// 
+  /// Method called indirectly also when the user clicks on the
+  /// AudioPlayerView icon or drag to this screen. This switches to
+  /// the AudioPlayerView screen without playing the selected playlist
+  /// current or last played audio which is displayed correctly in the
+  /// AudioPlayerView screen.
   Future<void> _setCurrentAudioAndInitializeAudioPlayer(Audio audio) async {
     _currentAudio = audio;
 
@@ -74,7 +87,15 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     // minimum 0.0 and maximum 0.0
     _currentAudioTotalDuration = audio.audioDuration ?? const Duration();
 
-    await _setCurrentAudioPosition();
+    // setting the audio position to the audio position stored on the
+    // audio. The advantage is that when the AudioPlayerView is opened
+    // the audio position is set to the last position played.
+    //
+    // Then, when the user clicks on the play icon, the audio position
+    // is reduced according to the time elapsed since the audio was
+    // paused, which is done in _setCurrentAudioPosition().
+    _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
+
     _initializeAudioPlayer();
   }
 
@@ -261,7 +282,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
     // Check if the file exists before attempting to play it
     if (File(audioFilePathName).existsSync()) {
-      _setCurrentAudioPosition();
+      await _setCurrentAudioPosition();
 
       await _audioPlayer.play(DeviceFileSource(
           audioFilePathName)); // <-- Directly using play method
