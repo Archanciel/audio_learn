@@ -74,11 +74,34 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     // minimum 0.0 and maximum 0.0
     _currentAudioTotalDuration = audio.audioDuration ?? const Duration();
 
-    _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
-
     _initializeAudioPlayer();
+    await _setCurrentAudioPosition();
+  }
 
-    await _audioPlayer.seek(_currentAudioPosition);
+  /// If the audio was paused less than 1 minute ago,
+  /// the next play position will be reduced by 2 seconds.
+  /// If the audio was paused more than 1 minute ago but less than
+  /// 1 hour ago, the next play position will be reduced by 20 seconds.
+  /// If the audio was paused more than 1 hour ago, the next play
+  /// position will be reduced by 30 seconds.
+  Future<void> _setCurrentAudioPosition() async {
+    DateTime? audioPausedDateTime = _currentAudio!.audioPausedDateTime;
+
+    if (audioPausedDateTime != null) {
+      if (DateTime.now().difference(audioPausedDateTime).inSeconds < 60) {
+        _currentAudioPosition =
+            Duration(seconds: _currentAudio!.audioPositionSeconds - 2);
+      } else if (DateTime.now().difference(audioPausedDateTime).inSeconds <
+          3600) {
+        _currentAudioPosition =
+            Duration(seconds: _currentAudio!.audioPositionSeconds - 20);
+      } else {
+        _currentAudioPosition =
+            Duration(seconds: _currentAudio!.audioPositionSeconds - 30);
+      }
+
+      await _audioPlayer.seek(_currentAudioPosition);
+    }
   }
 
   /// Method called by skipToEndNoPlay() if the audio is positioned
@@ -209,6 +232,8 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
     // Check if the file exists before attempting to play it
     if (File(audioFilePathName).existsSync()) {
+      _setCurrentAudioPosition();
+
       await _audioPlayer.play(DeviceFileSource(
           audioFilePathName)); // <-- Directly using play method
       await _audioPlayer.setPlaybackRate(_currentAudio!.audioPlaySpeed);
@@ -224,9 +249,10 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
     if (_currentAudio!.isPlayingOnGlobalAudioPlayerVM) {
       _currentAudio!.isPaused = true;
+      _currentAudio!.audioPausedDateTime = DateTime.now();
     }
 
-    updateAndSaveCurrentAudio();
+    updateAndSaveCurrentAudio(forceSave: true);
     notifyListeners();
   }
 
