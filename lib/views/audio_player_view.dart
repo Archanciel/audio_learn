@@ -122,9 +122,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             children: [
               Text(
                 audioGlobalPlayerVM.currentAudioPosition.HHmmssZeroHH(),
-                style: const TextStyle(
-                  fontSize: kTitleFontSize,
-                ),
+                style: kSliderValueTextStyle,
               ),
               Expanded(
                 child: SliderTheme(
@@ -149,9 +147,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               Text(
                 audioGlobalPlayerVM.currentAudioRemainingDuration
                     .HHmmssZeroHH(),
-                style: const TextStyle(
-                  fontSize: kTitleFontSize,
-                ),
+                style: kSliderValueTextStyle,
               ),
             ],
           ),
