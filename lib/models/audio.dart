@@ -80,11 +80,19 @@ class Audio {
   bool isPlayingOnGlobalAudioPlayerVM = false;
   int audioPositionSeconds = 0;
 
-  bool _isPaused = true;
-  bool get isPaused => _isPaused;
-  set isPaused(bool isPaused) {
-    _isPaused = isPaused;
-  }
+  bool isPaused = true;
+
+  // Usefull in order to reduce the next play position according
+  // to the value of the duration between the time the audio was
+  // paused and the time the audio was played again.
+  //
+  // For example, if the audio was paused for less than 1 minute,
+  // the next play position will be reduced by 2 seconds.
+  // If the audio was paused for more than 1 minute and less than
+  // 1 hour, the next play position will be reduced by 20 seconds.
+  // If the audio was paused for more than 1 hour, the next play
+  // position will be reduced by 30 seconds.
+  DateTime? audioPausedDateTime;
 
   // AudioPlayer of the current audio. Enables to play, pause, stop
   // the audio. It is initialized when the audio is played for the
@@ -131,6 +139,8 @@ class Audio {
     required this.isAudioMusicQuality,
     required this.audioPlaySpeed,
     required this.isPlayingOnGlobalAudioPlayerVM,
+    required this.isPaused,
+    required this.audioPausedDateTime,
     required this.audioPositionSeconds,
     required this.audioFileName,
     required this.audioFileSize,
@@ -154,6 +164,8 @@ class Audio {
       isAudioMusicQuality: isAudioMusicQuality,
       audioPlaySpeed: audioPlaySpeed,
       isPlayingOnGlobalAudioPlayerVM: isPlayingOnGlobalAudioPlayerVM,
+      isPaused: isPaused,
+      audioPausedDateTime: audioPausedDateTime,
       audioPositionSeconds: audioPositionSeconds,
       audioFileName: audioFileName,
       audioFileSize: audioFileSize,
@@ -188,6 +200,10 @@ class Audio {
       audioPlaySpeed: json['audioPlaySpeed'] ?? kAudioDefaultPlaySpeed,
       isPlayingOnGlobalAudioPlayerVM:
           json['isPlayingOnGlobalAudioPlayerVM'] ?? false,
+      isPaused: json['isPaused'] ?? true,
+      audioPausedDateTime: (json['audioPausedDateTime'] == null)
+          ? null
+          : DateTime.parse(json['audioPausedDateTime']),
       audioPositionSeconds: json['audioPositionSeconds'] ?? 0,
       audioFileName: json['audioFileName'],
       audioFileSize: json['audioFileSize'],
@@ -212,6 +228,9 @@ class Audio {
       'isAudioMusicQuality': isAudioMusicQuality,
       'audioPlaySpeed': audioPlaySpeed,
       'isPlayingOnGlobalAudioPlayerVM': isPlayingOnGlobalAudioPlayerVM,
+      'isPaused': isPaused,
+      'audioPausedDateTime':
+          (audioPausedDateTime == null) ? null : audioPausedDateTime!.toIso8601String(),
       'audioPositionSeconds': audioPositionSeconds,
       'audioFileName': audioFileName,
       'audioFileSize': audioFileSize,
