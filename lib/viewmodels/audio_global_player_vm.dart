@@ -379,7 +379,6 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   /// Method not used for the moment
   Future<void> skipToEndNoPlay() async {
     if (_currentAudioPosition == _currentAudioTotalDuration) {
-      _currentAudioPosition = _currentAudioTotalDuration;
       updateAndSaveCurrentAudio();
 
       // situation when the user clicks on >| when the audio
@@ -413,9 +412,9 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Method called when the user clicks on the >| icon.
   Future<void> skipToEndAndPlay() async {
     if (_currentAudioPosition == _currentAudioTotalDuration) {
-      _currentAudioPosition = _currentAudioTotalDuration;
       updateAndSaveCurrentAudio();
 
       // situation when the user clicks on >| when the audio

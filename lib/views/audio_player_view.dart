@@ -210,7 +210,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               onLongPress: () => _displayOtherAudiosDialog(),
               child: IconButton(
                 iconSize: _audioIconSizeMedium,
-                // onPressed: () => audioGlobalPlayerVM.skipToEndNoPlay(),
                 onPressed: () => audioGlobalPlayerVM.skipToEndAndPlay(),
                 icon: const Icon(Icons.skip_next),
               ),
