@@ -72,7 +72,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
   ///
   /// Method called indirectly also by setNextAudio() or
   /// setPreviousAudio().
-  /// 
+  ///
   /// Method called indirectly also when the user clicks on the
   /// AudioPlayerView icon or drag to this screen. This switches to
   /// the AudioPlayerView screen without playing the selected playlist
@@ -483,11 +483,17 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   /// the returned list is ordered by download time, placing
   /// latest downloaded audios at end of list.
-  List<Audio> getPlayableAudiosContainedInCurrentAudioEnclosingPlaylist() {
+  List<Audio> getPlayableAudiosOrderedByDownloadTime() {
     return _currentAudio!.enclosingPlaylist!.playableAudioLst.reversed.toList();
   }
 
   String getCurrentAudioTitle() {
     return '${_currentAudio!.validVideoTitle}\n${_currentAudio!.audioDuration!.HHmmssZeroHH()}';
+  }
+
+  int getCurrentAudioIndex() {
+    return _currentAudio!.enclosingPlaylist!.playableAudioLst.reversed
+        .toList()
+        .indexWhere((element) => element == _currentAudio);
   }
 }
