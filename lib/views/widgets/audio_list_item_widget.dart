@@ -324,7 +324,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   Widget _buildPlayButton() {
     return Consumer<AudioPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
-        if (audio.isPlayingOnGlobalAudioPlayerVM) {
+        if (audio.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd) {
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -364,8 +364,12 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   ) {
     Widget iconContent; // This will hold the content of the play button
 
-    if (audio.audioPositionSeconds > 0) {
-      // the audio is paused on a non-zero position
+// TODO: replace next if by testing audio.
+// isPlayingOrPausedWithPositionBetweenAudioStartAndEnd
+    if (audio.audioPositionSeconds > 0 &&
+        audio.audioPositionSeconds < audio.audioDuration!.inSeconds) {
+      // the audio is paused on a non-zero position and non end
+      // position, i.e. if it was played and paused ...
       iconContent = const CircleAvatar(
         backgroundColor:
             kDarkAndLightIconColor, // background color of the circle

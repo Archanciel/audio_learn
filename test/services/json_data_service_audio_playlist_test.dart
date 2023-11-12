@@ -35,7 +35,9 @@ void main() {
   const jsonPath = 'test.json';
 
   group('JsonDataService individual', () {
-    test('saveToFile and loadFromFile for one Audio instance, audioPausedDateTime == null', () async {
+    test(
+        'saveToFile and loadFromFile for one Audio instance, audioPausedDateTime == null',
+        () async {
       // Create a temporary directory to store the serialized Audio object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'audio.json');
@@ -56,7 +58,7 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
@@ -80,7 +82,9 @@ void main() {
       // Cleanup the temporary directory
       await tempDir.delete(recursive: true);
     });
-    test('saveToFile and loadFromFile for one Audio instance, audioPausedDateTime not null', () async {
+    test(
+        'saveToFile and loadFromFile for one Audio instance, audioPausedDateTime not null',
+        () async {
       // Create a temporary directory to store the serialized Audio object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'audio.json');
@@ -101,7 +105,7 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: true,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: true,
         isPaused: true,
         audioPausedDateTime: DateTime(2023, 3, 24, 20, 5, 32),
         audioPositionSeconds: 1800,
@@ -163,7 +167,7 @@ void main() {
         audioDuration: null,
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
@@ -222,7 +226,7 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
@@ -245,7 +249,7 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
@@ -348,7 +352,7 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
@@ -387,7 +391,7 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
@@ -410,7 +414,7 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: true,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: true,
         isPaused: true,
         audioPausedDateTime: DateTime(2023, 3, 24, 20, 5, 32),
         audioPositionSeconds: 1800,
@@ -479,7 +483,7 @@ void main() {
         audioDuration: null,
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
@@ -502,7 +506,7 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
@@ -539,7 +543,7 @@ void main() {
         audioDuration: null,
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
@@ -562,7 +566,7 @@ void main() {
         audioDuration: const Duration(minutes: 5, seconds: 30),
         isAudioMusicQuality: false,
         audioPlaySpeed: kAudioDefaultPlaySpeed,
-        isPlayingOnGlobalAudioPlayerVM: false,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
         isPaused: true,
         audioPausedDateTime: null,
         audioPositionSeconds: 0,
@@ -692,8 +696,8 @@ void compareDeserializedWithOriginalAudio({
   expect(
       deserializedAudio.isAudioMusicQuality, originalAudio.isAudioMusicQuality);
   expect(deserializedAudio.audioPlaySpeed, originalAudio.audioPlaySpeed);
-  expect(deserializedAudio.isPlayingOnGlobalAudioPlayerVM,
-      originalAudio.isPlayingOnGlobalAudioPlayerVM);
+  expect(deserializedAudio.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd,
+      originalAudio.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd);
   expect(deserializedAudio.isPaused, originalAudio.isPaused);
   expect(deserializedAudio.audioPausedDateTime?.toIso8601String(),
       originalAudio.audioPausedDateTime?.toIso8601String());

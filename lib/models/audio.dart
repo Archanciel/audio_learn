@@ -77,7 +77,9 @@ class Audio {
 
   // State of the audio
 
-  bool isPlayingOnGlobalAudioPlayerVM = false;
+  // true if the audio is currently playing or if it is paused
+  // with its position is between 0 and its total duration.
+  bool isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
   int audioPositionSeconds = 0;
 
   bool isPaused = true;
@@ -138,7 +140,7 @@ class Audio {
     required this.audioDuration,
     required this.isAudioMusicQuality,
     required this.audioPlaySpeed,
-    required this.isPlayingOnGlobalAudioPlayerVM,
+    required this.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd,
     required this.isPaused,
     required this.audioPausedDateTime,
     required this.audioPositionSeconds,
@@ -163,7 +165,8 @@ class Audio {
       audioDuration: audioDuration,
       isAudioMusicQuality: isAudioMusicQuality,
       audioPlaySpeed: audioPlaySpeed,
-      isPlayingOnGlobalAudioPlayerVM: isPlayingOnGlobalAudioPlayerVM,
+      isPlayingOrPausedWithPositionBetweenAudioStartAndEnd:
+          isPlayingOrPausedWithPositionBetweenAudioStartAndEnd,
       isPaused: isPaused,
       audioPausedDateTime: audioPausedDateTime,
       audioPositionSeconds: audioPositionSeconds,
@@ -178,9 +181,9 @@ class Audio {
     return Audio.fullConstructor(
       enclosingPlaylist:
           null, // the enclosing playlist is not stored in the Audio JSON
-                // object. It is set when the Playlist is created from 
-                // the Playlist JSON file in the Playlist factory method
-                // Playlist.fromJson(Map<String, dynamic> json).
+      // object. It is set when the Playlist is created from
+      // the Playlist JSON file in the Playlist factory method
+      // Playlist.fromJson(Map<String, dynamic> json).
 
       movedFromPlaylistTitle: json['movedFromPlaylistTitle'],
       movedToPlaylistTitle: json['movedToPlaylistTitle'],
@@ -198,8 +201,8 @@ class Audio {
       audioDuration: Duration(milliseconds: json['audioDurationMs'] ?? 0),
       isAudioMusicQuality: json['isAudioMusicQuality'] ?? false,
       audioPlaySpeed: json['audioPlaySpeed'] ?? kAudioDefaultPlaySpeed,
-      isPlayingOnGlobalAudioPlayerVM:
-          json['isPlayingOnGlobalAudioPlayerVM'] ?? false,
+      isPlayingOrPausedWithPositionBetweenAudioStartAndEnd:
+          json['isPlayingOrPausedWithPositionBetweenAudioStartAndEnd'] ?? false,
       isPaused: json['isPaused'] ?? true,
       audioPausedDateTime: (json['audioPausedDateTime'] == null)
           ? null
@@ -227,10 +230,12 @@ class Audio {
       'audioDurationMs': audioDuration?.inMilliseconds,
       'isAudioMusicQuality': isAudioMusicQuality,
       'audioPlaySpeed': audioPlaySpeed,
-      'isPlayingOnGlobalAudioPlayerVM': isPlayingOnGlobalAudioPlayerVM,
+      'isPlayingOrPausedWithPositionBetweenAudioStartAndEnd':
+          isPlayingOrPausedWithPositionBetweenAudioStartAndEnd,
       'isPaused': isPaused,
-      'audioPausedDateTime':
-          (audioPausedDateTime == null) ? null : audioPausedDateTime!.toIso8601String(),
+      'audioPausedDateTime': (audioPausedDateTime == null)
+          ? null
+          : audioPausedDateTime!.toIso8601String(),
       'audioPositionSeconds': audioPositionSeconds,
       'audioFileName': audioFileName,
       'audioFileSize': audioFileSize,

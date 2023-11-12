@@ -287,7 +287,8 @@ class AudioPlayerVM extends ChangeNotifier {
       await _audioPlayer.play(DeviceFileSource(
           audioFilePathName)); // <-- Directly using play method
       await _audioPlayer.setPlaybackRate(_currentAudio!.audioPlaySpeed);
-      _currentAudio!.isPlayingOnGlobalAudioPlayerVM = true;
+      _currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd =
+          true;
       _currentAudio!.isPaused = false;
 
       notifyListeners();
@@ -297,7 +298,7 @@ class AudioPlayerVM extends ChangeNotifier {
   Future<void> pause() async {
     await _audioPlayer.pause();
 
-    if (_currentAudio!.isPlayingOnGlobalAudioPlayerVM) {
+    if (_currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd) {
       _currentAudio!.isPaused = true;
       _currentAudio!.audioPausedDateTime = DateTime.now();
     }
@@ -404,7 +405,7 @@ class AudioPlayerVM extends ChangeNotifier {
     // necessary so that the audio position is stored on the
     // audio
     _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
-    _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
+    _currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
     updateAndSaveCurrentAudio();
 
     await _audioPlayer.seek(_currentAudioTotalDuration);
@@ -412,14 +413,13 @@ class AudioPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Method called when the user clicks on the >| icon.
+  /// Method called when the user clicks on the >| icon,
+  /// either the first time or the second time.
   Future<void> skipToEndAndPlay() async {
     if (_currentAudioPosition == _currentAudioTotalDuration) {
-      updateAndSaveCurrentAudio();
-
       // situation when the user clicks on >| when the audio
-      // position is at audio end. This is the case if the user
-      // clicks twice on the >| icon.
+      // position is at audio end. This is also the case when
+      // the user clicks twice on the >| icon.
       await playNextAudio();
 
       return;
@@ -429,7 +429,7 @@ class AudioPlayerVM extends ChangeNotifier {
     // on the >| icon button
 
     _currentAudioPosition = _currentAudioTotalDuration;
-    _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
+    _currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
     updateAndSaveCurrentAudio();
 
     await _audioPlayer.seek(_currentAudioTotalDuration);
@@ -437,9 +437,16 @@ class AudioPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Method called when _audioPlayer.onPlayerComplete happens,
+  /// i.e. when the current audio is terminated and when
+  /// skipToEndAndPlay() is executed after the user clicked
+  /// the second time on the >| icon button.
   Future<void> playNextAudio() async {
     _currentAudio!.isPaused = true;
-    _currentAudio!.isPlayingOnGlobalAudioPlayerVM = false;
+
+    // set to false since the audio playing position is set to
+    // audio end
+    _currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
     updateAndSaveCurrentAudio();
 
     await _setNextAudio();
