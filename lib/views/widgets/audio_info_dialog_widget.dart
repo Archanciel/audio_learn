@@ -39,7 +39,8 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
         actionsPadding:
             // reduces the top vertical space between the buttons
             // and the content
-            const EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
+            const EdgeInsets.fromLTRB(
+                10, 0, 10, 10), // Adjust the value as needed
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
@@ -49,12 +50,20 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   value: audio.originalVideoTitle),
               createInfoRowFunction(
                   context: context,
+                  label: AppLocalizations.of(context)!.videoUrlLabel,
+                  value: audio.videoUrl),
+              createInfoRowFunction(
+                  context: context,
                   label: AppLocalizations.of(context)!.compactVideoDescription,
                   value: audio.compactVideoDescription),
               createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.validVideoTitleLabel,
                   value: audio.validVideoTitle),
+              createInfoRowFunction(
+                  context: context,
+                  label: AppLocalizations.of(context)!.videoUploadDateLabel,
+                  value: frenchDateFormat.format(audio.videoUploadDate)),
               createInfoRowFunction(
                   valueTextWidgetKey: const Key('enclosingPlaylistTitleKey'),
                   context: context,
@@ -78,10 +87,6 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
                       : audio.movedToPlaylistTitle!),
               createInfoRowFunction(
                   context: context,
-                  label: AppLocalizations.of(context)!.videoUrlLabel,
-                  value: audio.videoUrl),
-              createInfoRowFunction(
-                  context: context,
                   label:
                       AppLocalizations.of(context)!.audioDownloadDateTimeLabel,
                   value:
@@ -100,12 +105,26 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   )),
               createInfoRowFunction(
                   context: context,
-                  label: AppLocalizations.of(context)!.videoUploadDateLabel,
-                  value: frenchDateFormat.format(audio.videoUploadDate)),
-              createInfoRowFunction(
-                  context: context,
                   label: AppLocalizations.of(context)!.audioDurationLabel,
                   value: audio.audioDuration!.HHmmss()),
+              createInfoRowFunction(
+                  context: context,
+                  label: AppLocalizations.of(context)!.audioPositionLabel,
+                  value:
+                      Duration(seconds: audio.audioPositionSeconds).HHmmss()),
+              createInfoRowFunction(
+                  context: context,
+                  label: AppLocalizations.of(context)!.audioStateLabel,
+                  value: defineAudioStateStr(
+                    context: context,
+                    audio: audio,
+                  )),
+              createInfoRowFunction(
+                  context: context,
+                  label: AppLocalizations.of(context)!.audioPausedDateTimeLabel,
+                  value: (audio.audioPausedDateTime != null)
+                      ? frenchDateTimeFormat.format(audio.audioPausedDateTime!)
+                      : ''),
               createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.audioFileNameLabel,
@@ -123,6 +142,10 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   value: (audio.isMusicQuality)
                       ? AppLocalizations.of(context)!.yes
                       : AppLocalizations.of(context)!.no),
+              createInfoRowFunction(
+                  context: context,
+                  label: AppLocalizations.of(context)!.audioPlaySpeedLabel,
+                  value: audio.audioPlaySpeed.toString()),
             ],
           ),
         ),
@@ -155,5 +178,20 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
     }
 
     return audioDownloadSpeedStr;
+  }
+
+  String defineAudioStateStr({
+    required BuildContext context,
+    required Audio audio,
+  }) {
+    if (audio.audioPositionSeconds == 0) {
+      return AppLocalizations.of(context)!.audioStateNotStarted;
+    } else if (audio.audioPositionSeconds == audio.audioDuration!.inSeconds) {
+      return AppLocalizations.of(context)!.audioStateStopped;
+    } else if (audio.isPaused) {
+      return AppLocalizations.of(context)!.audioStatePaused;
+    } else {
+      return AppLocalizations.of(context)!.audioStatePlaying;
+    }
   }
 }

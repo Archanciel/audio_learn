@@ -207,5 +207,13 @@
   "downloadSelPlaylistsButtonTooltip": "Télécharger les audios des playlists sélectionnées",
   "option1": "Option une",
   "option2": "Option deux",
-  "audioOneSelectedDialogTitle": "Sélectionnez un audio"
+  "audioOneSelectedDialogTitle": "Sélectionnez un audio",
+  "audioPositionLabel": "Position audio",
+  "audioStateLabel": "État audio",
+  "audioStatePaused": "En pause",
+  "audioStatePlaying": "En lecture",
+  "audioStateStopped": "Arrêté",
+  "audioStateNotStarted": "Non démarré",
+  "audioPausedDateTimeLabel": "Date/heure pause",
+  "audioPlaySpeedLabel": "Vitesse lecture"
 }

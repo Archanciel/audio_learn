@@ -151,7 +151,7 @@
   "playlistTitleLabel": "Playlist title",
   "playlistIdLabel": "Playlist ID",
   "playlistUrlLabel": "Playlist URL",
-  "playlistDownloadPathLabel": "Playlist download path",  
+  "playlistDownloadPathLabel": "Playlist download path",
   "playlistLastDownloadDateTimeLabel": "Playlist last downl date time",
   "playlistIsSelectedLabel": "Playlist is selected",
   "playlistTotalAudioNumberLabel": "Playlist total audio number",
@@ -206,5 +206,13 @@
   "downloadSelPlaylistsButtonTooltip": "Download audios of selected playlists",
   "option1": "Option one",
   "option2": "Option two",
-  "audioOneSelectedDialogTitle": "Select an audio"
+  "audioOneSelectedDialogTitle": "Select an audio",
+  "audioPositionLabel": "Audio position",
+  "audioStateLabel": "Audio state",
+  "audioStatePaused": "Paused",
+  "audioStatePlaying": "Playing",
+  "audioStateStopped": "Stopped",
+  "audioStateNotStarted": "Not started",
+  "audioPausedDateTimeLabel": "Date/time paused",
+  "audioPlaySpeedLabel": "Play speed"
 }
