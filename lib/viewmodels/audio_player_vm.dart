@@ -79,6 +79,13 @@ class AudioPlayerVM extends ChangeNotifier {
   /// current or last played audio which is displayed correctly in the
   /// AudioPlayerView screen.
   Future<void> _setCurrentAudioAndInitializeAudioPlayer(Audio audio) async {
+    if (_currentAudio != null && !_currentAudio!.isPaused) {
+      _currentAudio!.isPaused = true;
+      // saving the previous current audio state before changing
+      // the current audio
+      updateAndSaveCurrentAudio(forceSave: true);
+    }
+
     _currentAudio = audio;
 
     // without setting _currentAudioTotalDuration to the audio duration,
