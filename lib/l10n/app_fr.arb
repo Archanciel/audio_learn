@@ -214,6 +214,6 @@
   "audioStatePlaying": "En lecture",
   "audioStateStopped": "Arrêté",
   "audioStateNotStarted": "Non démarré",
-  "audioPausedDateTimeLabel": "Date/heure pause",
+  "audioPausedDateTimeLabel": "Date/heure mise en pause",
   "audioPlaySpeedLabel": "Vitesse lecture"
 }
