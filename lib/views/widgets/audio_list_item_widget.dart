@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../models/audio.dart';
 import '../../../models/playlist.dart';
 import '../../../utils/ui_util.dart';
-import '../../viewmodels/audio_global_player_vm.dart';
+import '../../viewmodels/audio_player_vm.dart';
 import '../../../viewmodels/playlist_list_vm.dart';
 import '../../utils/duration_expansion.dart';
 import '../../constants.dart';
@@ -49,8 +49,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
-    final AudioGlobalPlayerVM audioGlobalPlayerVM =
-        Provider.of<AudioGlobalPlayerVM>(context, listen: false);
+    final AudioPlayerVM audioGlobalPlayerVM =
+        Provider.of<AudioPlayerVM>(context, listen: false);
 
     return ListTile(
       // generating the audio item left (leading) menu ...
@@ -248,7 +248,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   /// play icon button. This switches to the AudioPlayerView screen
   /// and plays the clicked audio.
   Future<void> dragToAudioPlayerViewAndPlayAudio(
-      AudioGlobalPlayerVM audioGlobalPlayerVM) async {
+      AudioPlayerVM audioGlobalPlayerVM) async {
     await audioGlobalPlayerVM.setCurrentAudio(audio);
     await audioGlobalPlayerVM.goToAudioPlayPosition(
       Duration(seconds: audio.audioPositionSeconds),
@@ -262,15 +262,13 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   /// Method called when the user clicks on the audio list item.
   /// This switches to the AudioPlayerView screen without playing
   /// the clicked audio.
-  Future<void> dragToAudioPlayerView(
-      AudioGlobalPlayerVM audioGlobalPlayerVM) async {
+  Future<void> dragToAudioPlayerView(AudioPlayerVM audioGlobalPlayerVM) async {
     await audioGlobalPlayerVM.setCurrentAudio(audio);
     await audioGlobalPlayerVM.goToAudioPlayPosition(
       Duration(seconds: audio.audioPositionSeconds),
     );
     // dragging to the AudioPlayerView screen
-    onPageChangedFunction(ScreenMixin
-        .AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX);
+    onPageChangedFunction(ScreenMixin.AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX);
   }
 
   PlaylistListVM getAndInitializeExpandablePlaylistListVM(
@@ -324,7 +322,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   }
 
   Widget _buildPlayButton() {
-    return Consumer<AudioGlobalPlayerVM>(
+    return Consumer<AudioPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
         if (audio.isPlayingOnGlobalAudioPlayerVM) {
           return Row(
@@ -361,7 +359,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   /// application theme is also integrated.
   InkWell _buildPlayIcon(
     BuildContext context,
-    AudioGlobalPlayerVM audioGlobalPlayerVM,
+    AudioPlayerVM audioGlobalPlayerVM,
     Audio audio,
   ) {
     Widget iconContent; // This will hold the content of the play button

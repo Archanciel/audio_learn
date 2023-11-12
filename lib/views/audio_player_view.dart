@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/duration_expansion.dart';
-import '../viewmodels/audio_global_player_vm.dart';
+import '../viewmodels/audio_player_vm.dart';
 import '../constants.dart';
 import 'screen_mixin.dart';
 import 'widgets/audio_one_selectable_dialog_widget.dart';
@@ -51,7 +51,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         //     message:
         //         'WidgetsBinding didChangeAppLifecycleState(): app inactive, paused or closed');
 
-        Provider.of<AudioGlobalPlayerVM>(
+        Provider.of<AudioPlayerVM>(
           context,
           listen: false,
         ).updateAndSaveCurrentAudio(forceSave: true);
@@ -67,7 +67,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         // WARNING: must be positioned after calling
         // updateAndSaveCurrentAudio() method, otherwise the audio
         // player remains playing !
-        Provider.of<AudioGlobalPlayerVM>(
+        Provider.of<AudioPlayerVM>(
           context,
           listen: false,
         ).dispose();
@@ -101,7 +101,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   }
 
   Widget _buildAudioSlider() {
-    return Consumer<AudioGlobalPlayerVM>(
+    return Consumer<AudioPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
         // Obtaining the slider values here (when audioGlobalPlayerVM
         // call notifyListeners()) avoids that the slider generate
@@ -157,7 +157,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   }
 
   Widget _buildPlayButton() {
-    return Consumer<AudioGlobalPlayerVM>(
+    return Consumer<AudioPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -183,7 +183,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   }
 
   Widget _buildStartEndButtonsWithTitle() {
-    return Consumer<AudioGlobalPlayerVM>(
+    return Consumer<AudioPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -196,7 +196,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  _displayOtherAudiosDialog(audioGlobalPlayerVM.getCurrentAudioIndex());
+                  _displayOtherAudiosDialog(
+                      audioGlobalPlayerVM.getCurrentAudioIndex());
                 },
                 child: Text(
                   audioGlobalPlayerVM.getCurrentAudioTitle(),
@@ -209,7 +210,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               ),
             ),
             GestureDetector(
-              onLongPress: () => _displayOtherAudiosDialog(audioGlobalPlayerVM.getCurrentAudioIndex()),
+              onLongPress: () => _displayOtherAudiosDialog(
+                  audioGlobalPlayerVM.getCurrentAudioIndex()),
               child: IconButton(
                 iconSize: _audioIconSizeMedium,
                 onPressed: () => audioGlobalPlayerVM.skipToEndAndPlay(),
@@ -223,7 +225,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   }
 
   Widget _buildPositionButtons() {
-    return Consumer<AudioGlobalPlayerVM>(
+    return Consumer<AudioPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
         return Column(
           mainAxisSize: MainAxisSize.min,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../viewmodels/audio_global_player_vm.dart';
+import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/theme_provider.dart';
 import '../services/settings_data_service.dart';
 import '../views/widgets/appbar_leading_popup_menu_widget.dart';
@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       listen: false,
     );
-    AudioGlobalPlayerVM audioGlobalPlayerVM = Provider.of<AudioGlobalPlayerVM>(
+    AudioPlayerVM audioGlobalPlayerVM = Provider.of<AudioPlayerVM>(
       context,
       listen: false,
     );
@@ -146,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Row _buildIconButtonRow(AudioGlobalPlayerVM audioGlobalPlayerVM) {
+  Row _buildIconButtonRow(AudioPlayerVM audioGlobalPlayerVM) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: _screenNavigationIconLst.asMap().entries.map((entry) {

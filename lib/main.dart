@@ -8,7 +8,7 @@ import 'package:window_manager/window_manager.dart';
 import 'constants.dart';
 import 'viewmodels/playlist_list_vm.dart';
 import 'viewmodels/audio_download_vm.dart';
-import 'viewmodels/audio_global_player_vm.dart';
+import 'viewmodels/audio_player_vm.dart';
 import 'viewmodels/language_provider.dart';
 import 'viewmodels/theme_provider.dart';
 import 'viewmodels/warning_message_vm.dart';
@@ -117,7 +117,7 @@ class MainApp extends StatelessWidget with ScreenMixin {
     // the global audioGlobalPlayerVM variable is created
     // here since it needs expandablePlaylistListVM which is
     // created above
-    AudioGlobalPlayerVM audioGlobalPlayerVM = AudioGlobalPlayerVM(
+    AudioPlayerVM audioGlobalPlayerVM = AudioPlayerVM(
       playlistListVM: expandablePlaylistListVM,
     );
 
@@ -176,5 +176,3 @@ class MainApp extends StatelessWidget with ScreenMixin {
     );
   }
 }
-
-

@@ -9,8 +9,8 @@ import '../utils/duration_expansion.dart';
 import 'playlist_list_vm.dart';
 
 /// Used in the AudioPlayerView screen to manage the audio playing
-/// position modifications.
-class AudioGlobalPlayerVM extends ChangeNotifier {
+/// position modifications and much more ...
+class AudioPlayerVM extends ChangeNotifier {
   Audio? _currentAudio;
   Audio? get currentAudio => _currentAudio;
   final PlaylistListVM _playlistListVM;
@@ -27,7 +27,7 @@ class AudioGlobalPlayerVM extends ChangeNotifier {
 
   DateTime _currentAudioLastSaveDateTime = DateTime.now();
 
-  AudioGlobalPlayerVM({
+  AudioPlayerVM({
     required PlaylistListVM playlistListVM,
   }) : _playlistListVM = playlistListVM {
     // the next line is necessary since _audioPlayer.dispose() is

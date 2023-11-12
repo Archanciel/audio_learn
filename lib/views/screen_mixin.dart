@@ -5,7 +5,7 @@ import 'dart:io';
 
 import '../constants.dart';
 import '../utils/dir_util.dart';
-import '../viewmodels/audio_global_player_vm.dart';
+import '../viewmodels/audio_player_vm.dart';
 
 // This global variable is initialized when instanciating the
 // unique AudioGlobalPlayerVM instance. The reason why this
@@ -15,7 +15,7 @@ import '../viewmodels/audio_global_player_vm.dart';
 // possible to pass the AudioGlobalPlayerVM instance to the
 // PageView widget since the onPageChangedFunction must have
 // only an int parameter.
-late AudioGlobalPlayerVM globalAudioGlobalPlayerVM;
+late AudioPlayerVM globalAudioGlobalPlayerVM;
 
 mixin ScreenMixin {
   static const double CHECKBOX_WIDTH_HEIGHT = 20.0;
@@ -127,7 +127,6 @@ mixin ScreenMixin {
         ),
     // Add any other customizations for light mode
   );
-
 
   /// Lightens a color by a given percentage [0-1]
   static Color lighten(Color color, double amount) {

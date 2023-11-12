@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/audio.dart';
 import '../../services/settings_data_service.dart';
-import '../../viewmodels/audio_global_player_vm.dart';
+import '../../viewmodels/audio_player_vm.dart';
 import '../../viewmodels/theme_provider.dart';
 
 /// This dialog is used to select a single playlist among the
@@ -77,8 +77,8 @@ class _AudioOneSelectableDialogWidgetState
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;
-    AudioGlobalPlayerVM audioGlobalPlayerVM =
-        Provider.of<AudioGlobalPlayerVM>(context, listen: false);
+    AudioPlayerVM audioGlobalPlayerVM =
+        Provider.of<AudioPlayerVM>(context, listen: false);
     Audio currentAudio = audioGlobalPlayerVM.currentAudio!;
     TextStyle currentAudioTextStyle = const TextStyle(
       // color: (isDarkTheme)
@@ -139,7 +139,9 @@ class _AudioOneSelectableDialogWidgetState
                         child: Text(
                           audio.validVideoTitle,
                           style: TextStyle(
-                            color: (index == currentAudioIndex) ? Colors.blue : null,
+                            color: (index == currentAudioIndex)
+                                ? Colors.blue
+                                : null,
                           ),
                         ),
                       ),
