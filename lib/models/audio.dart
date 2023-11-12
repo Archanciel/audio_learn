@@ -96,11 +96,6 @@ class Audio {
   // position will be reduced by 30 seconds.
   DateTime? audioPausedDateTime;
 
-  // AudioPlayer of the current audio. Enables to play, pause, stop
-  // the audio. It is initialized when the audio is played for the
-  // first time.
-  AudioPlayer? audioPlayer;
-
   double audioPlaySpeed = kAudioDefaultPlaySpeed;
 
   bool isAudioMusicQuality = false;
