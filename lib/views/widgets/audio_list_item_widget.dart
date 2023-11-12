@@ -364,10 +364,9 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   ) {
     Widget iconContent; // This will hold the content of the play button
 
-// TODO: replace next if by testing audio.
-// isPlayingOrPausedWithPositionBetweenAudioStartAndEnd
-    if (audio.audioPositionSeconds > 0 &&
-        audio.audioPositionSeconds < audio.audioDuration!.inSeconds) {
+    if (audio.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd) {
+    // if (audio.audioPositionSeconds > 0 &&
+    //     audio.audioPositionSeconds < audio.audioDuration!.inSeconds) {
       // the audio is paused on a non-zero position and non end
       // position, i.e. if it was played and paused ...
       iconContent = const CircleAvatar(
