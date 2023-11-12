@@ -8,6 +8,8 @@ import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../utils/ui_util.dart';
 
+/// This dialog is used to display audio informations. It is used
+/// in the AudioListItemWidget left (leading:) menu.
 class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
   final FocusNode focusNode;
