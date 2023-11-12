@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/audio_global_player_vm.dart';
@@ -26,10 +25,10 @@ class AudioOneSelectableDialogWidget extends StatefulWidget {
   // destination playlist.
   final bool isAudioOnlyCheckboxDisplayed;
 
-  AudioOneSelectableDialogWidget({
+  const AudioOneSelectableDialogWidget({
     super.key,
     this.isAudioOnlyCheckboxDisplayed = false,
-  }) {}
+  });
 
   @override
   _AudioOneSelectableDialogWidgetState createState() =>
