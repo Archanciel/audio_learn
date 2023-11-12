@@ -1,3 +1,4 @@
+import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -136,10 +137,13 @@ class _AudioOneSelectableDialogWidgetState
                           await audioGlobalPlayerVM.setCurrentAudio(audio);
                           Navigator.of(context).pop(audio);
                         },
-                        child: Text(audio.validVideoTitle),
+                        child: Text(
+                          audio.validVideoTitle,
+                          style: TextStyle(
+                            color: (index == currentAudioIndex) ? Colors.blue : null,
+                          ),
+                        ),
                       ),
-                      tileColor:
-                          index == currentAudioIndex ? Colors.blue : null,
                     );
                   },
                 ),
