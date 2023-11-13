@@ -47,6 +47,8 @@ void main() {
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -94,6 +96,8 @@ void main() {
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -156,6 +160,8 @@ void main() {
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -215,6 +221,8 @@ void main() {
         enclosingPlaylist: testPlaylist,
         movedFromPlaylistTitle: testFromPlaylistTitle,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video 1',
         compactVideoDescription: 'Test Video 1 Description',
         validVideoTitle: 'Test Video Title',
@@ -237,7 +245,7 @@ void main() {
       Audio audio2 = Audio.fullConstructor(
         enclosingPlaylist: testPlaylist,
         movedFromPlaylistTitle: null,
-        movedToPlaylistTitle: testToPlaylistTitle,
+        movedToPlaylistTitle: testToPlaylistTitle,copiedFromPlaylistTitle: null,copiedToPlaylistTitle: testToPlaylistTitle,
         originalVideoTitle: 'Test Video 2',
         compactVideoDescription: 'Test Video 2 Description',
         validVideoTitle: 'Test Video Title',
@@ -341,6 +349,8 @@ void main() {
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -380,6 +390,8 @@ void main() {
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video One Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -403,6 +415,8 @@ void main() {
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video Title',
         compactVideoDescription: '',
         validVideoTitle: 'Test Video Title',
@@ -472,6 +486,8 @@ void main() {
         enclosingPlaylist: testPlaylistOne,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video 1',
         compactVideoDescription: 'Test Video 1 compact description',
         validVideoTitle: 'Test Video Title',
@@ -495,6 +511,8 @@ void main() {
         enclosingPlaylist: testPlaylistOne,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video 2',
         compactVideoDescription: 'Test Video 2 compact description',
         validVideoTitle: 'Test Video Title',
@@ -532,6 +550,8 @@ void main() {
         enclosingPlaylist: testPlaylistTwo,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video 1',
         compactVideoDescription: 'Test Video 1 compact description',
         validVideoTitle: 'Test Video Title',
@@ -555,6 +575,8 @@ void main() {
         enclosingPlaylist: testPlaylistTwo,
         movedFromPlaylistTitle: null,
         movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
         originalVideoTitle: 'Test Video 2',
         compactVideoDescription: 'Test Video 2 compact description',
         validVideoTitle: 'Test Video Title',
@@ -672,6 +694,16 @@ void compareDeserializedWithOriginalAudio({
           originalAudio.movedToPlaylistTitle)
       : expect(deserializedAudio.movedToPlaylistTitle,
           originalAudio.movedToPlaylistTitle);
+  (deserializedAudio.copiedFromPlaylistTitle != null)
+      ? expect(deserializedAudio.copiedFromPlaylistTitle,
+          originalAudio.copiedFromPlaylistTitle)
+      : expect(deserializedAudio.copiedFromPlaylistTitle,
+          originalAudio.copiedFromPlaylistTitle);
+  (deserializedAudio.copiedToPlaylistTitle != null)
+      ? expect(deserializedAudio.copiedToPlaylistTitle,
+          originalAudio.copiedToPlaylistTitle)
+      : expect(deserializedAudio.copiedToPlaylistTitle,
+          originalAudio.copiedToPlaylistTitle);
   expect(
       deserializedAudio.originalVideoTitle, originalAudio.originalVideoTitle);
   expect(deserializedAudio.validVideoTitle, originalAudio.validVideoTitle);

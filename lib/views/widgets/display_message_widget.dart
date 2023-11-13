@@ -324,13 +324,44 @@ class DisplayMessageWidget extends StatelessWidget {
         return const SizedBox.shrink();
       case WarningMessageType.audioCopiedFromToPlaylist:
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          String audioCopiedFromToPlaylistMessage;
+
+          if (_warningMessageVM.copiedFromPlaylistType == PlaylistType.local) {
+            if (_warningMessageVM.copiedToPlaylistType == PlaylistType.local) {
+              audioCopiedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioCopiedFromLocalPlaylistToLocalPlaylist(
+                _warningMessageVM.copiedAudioValidVideoTitle,
+                _warningMessageVM.copiedFromPlaylistTitle,
+                _warningMessageVM.copiedToPlaylistTitle,
+              );
+            } else {
+              audioCopiedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioCopiedFromLocalPlaylistToYoutubePlaylist(
+                _warningMessageVM.copiedAudioValidVideoTitle,
+                _warningMessageVM.copiedFromPlaylistTitle,
+                _warningMessageVM.copiedToPlaylistTitle,
+              );
+            }
+          } else {
+            if (_warningMessageVM.copiedToPlaylistType == PlaylistType.local) {
+              audioCopiedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioCopiedFromYoutubePlaylistToLocalPlaylist(
+                _warningMessageVM.copiedAudioValidVideoTitle,
+                _warningMessageVM.copiedFromPlaylistTitle,
+                _warningMessageVM.copiedToPlaylistTitle,
+              );
+            } else {
+              audioCopiedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioCopiedFromYoutubePlaylistToYoutubePlaylist(
+                _warningMessageVM.copiedAudioValidVideoTitle,
+                _warningMessageVM.copiedFromPlaylistTitle,
+                _warningMessageVM.copiedToPlaylistTitle,
+              );
+            }
+          }
           _displayWarningDialog(
             context: _context,
-            message: AppLocalizations.of(context)!.audioCopiedFromToPlaylist(
-              _warningMessageVM.copiedAudioValidVideoTitle,
-              _warningMessageVM.copiedFromPlaylistTitle,
-              _warningMessageVM.copiedToPlaylistTitle,
-            ),
+            message: audioCopiedFromToPlaylistMessage,
             warningMessageVM: _warningMessageVM,
             warningMode: WarningMode.confirm,
           );
@@ -385,7 +416,8 @@ class DisplayMessageWidget extends StatelessWidget {
           actionsPadding:
               // reduces the top vertical space between the buttons
               // and the content
-              const EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
+              const EdgeInsets.fromLTRB(
+                  10, 0, 10, 10), // Adjust the value as needed
           content: Text(
             key: const Key('warningDialogMessage'),
             message,

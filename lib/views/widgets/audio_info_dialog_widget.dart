@@ -86,6 +86,20 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
                       ? ''
                       : audio.movedToPlaylistTitle!),
               createInfoRowFunction(
+                  valueTextWidgetKey: const Key('copiedFromPlaylistTitleKey'),
+                  context: context,
+                  label: AppLocalizations.of(context)!.copiedFromPlaylistLabel,
+                  value: (audio.copiedFromPlaylistTitle == null)
+                      ? ''
+                      : audio.copiedFromPlaylistTitle!),
+              createInfoRowFunction(
+                  valueTextWidgetKey: const Key('copiedToPlaylistTitleKey'),
+                  context: context,
+                  label: AppLocalizations.of(context)!.copiedToPlaylistLabel,
+                  value: (audio.copiedToPlaylistTitle == null)
+                      ? ''
+                      : audio.copiedToPlaylistTitle!),
+              createInfoRowFunction(
                   context: context,
                   label:
                       AppLocalizations.of(context)!.audioDownloadDateTimeLabel,

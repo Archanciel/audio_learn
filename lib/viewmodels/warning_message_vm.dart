@@ -279,10 +279,11 @@ class WarningMessageVM extends ChangeNotifier {
   bool get keepAudioDataInSourcePlaylist => _keepAudioDataInSourcePlaylist;
   String _movedToPlaylistTitle = '';
   String get movedToPlaylistTitle => _movedToPlaylistTitle;
-  void setAudioNotMovedFromToPlaylistTitles(
-      {required String movedAudioValidVideoTitle,
-      required String movedFromPlaylistTitle,
-      required String movedToPlaylistTitle}) {
+  void setAudioNotMovedFromToPlaylistTitles({
+    required String movedAudioValidVideoTitle,
+    required String movedFromPlaylistTitle,
+    required String movedToPlaylistTitle,
+  }) {
     _movedAudioValidVideoTitle = movedAudioValidVideoTitle;
     _movedFromPlaylistTitle = movedFromPlaylistTitle;
     _movedToPlaylistTitle = movedToPlaylistTitle;
@@ -322,10 +323,15 @@ class WarningMessageVM extends ChangeNotifier {
   String get copiedFromPlaylistTitle => _copiedFromPlaylistTitle;
   String _copiedToPlaylistTitle = '';
   String get copiedToPlaylistTitle => _copiedToPlaylistTitle;
-  void setAudioNotCopiedFromToPlaylistTitles(
-      {required String copiedAudioValidVideoTitle,
-      required String copiedFromPlaylistTitle,
-      required String copiedToPlaylistTitle}) {
+  late PlaylistType _copiedFromPlaylistType;
+  PlaylistType get copiedFromPlaylistType => _copiedFromPlaylistType;
+  late PlaylistType _copiedToPlaylistType;
+  PlaylistType get copiedToPlaylistType => _copiedToPlaylistType;
+  void setAudioNotCopiedFromToPlaylistTitles({
+    required String copiedAudioValidVideoTitle,
+    required String copiedFromPlaylistTitle,
+    required String copiedToPlaylistTitle,
+  }) {
     _copiedAudioValidVideoTitle = copiedAudioValidVideoTitle;
     _copiedFromPlaylistTitle = copiedFromPlaylistTitle;
     _copiedToPlaylistTitle = copiedToPlaylistTitle;
@@ -335,13 +341,18 @@ class WarningMessageVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setAudioCopiedFromToPlaylistTitles(
-      {required String copiedAudioValidVideoTitle,
-      required String copiedFromPlaylistTitle,
-      required String copiedToPlaylistTitle}) {
+  void setAudioCopiedFromToPlaylistTitles({
+    required String copiedAudioValidVideoTitle,
+    required String copiedFromPlaylistTitle,
+    required PlaylistType copiedFromPlaylistType,
+    required String copiedToPlaylistTitle,
+    required PlaylistType copiedToPlaylistType,
+  }) {
     _copiedAudioValidVideoTitle = copiedAudioValidVideoTitle;
     _copiedFromPlaylistTitle = copiedFromPlaylistTitle;
     _copiedToPlaylistTitle = copiedToPlaylistTitle;
+    _copiedFromPlaylistType = copiedFromPlaylistType;
+    _copiedToPlaylistType = copiedToPlaylistType;
 
     _warningMessageType = WarningMessageType.audioCopiedFromToPlaylist;
 

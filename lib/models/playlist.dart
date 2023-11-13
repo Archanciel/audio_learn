@@ -127,7 +127,7 @@ class Playlist {
 
   /// Adds the downloaded audio to the downloadedAudioLst and to
   /// the playableAudioLst.
-  /// 
+  ///
   /// downloadedAudioLst order: [first downloaded audio, ...,
   ///                            last downloaded audio]
   /// playableAudioLst order: [last available downloaded audio, ...,
@@ -140,16 +140,20 @@ class Playlist {
 
   /// Adds the copied audio to the downloadedAudioLst and to
   /// the playableAudioLst.
-  /// 
+  ///
   /// downloadedAudioLst order: [first downloaded audio, ...,
   ///                            last downloaded audio]
   /// playableAudioLst order: [last available downloaded audio, ...,
   ///                          first available downloaded audio]
-  void addCopiedAudio(Audio copiedAudio) {
+  void addCopiedAudio({
+    required Audio copiedAudio,
+    required String copiedFromPlaylistTitle,
+  }) {
     // Creating a copy of the audio to be copied so that the passed
     // original audio will not be modified by this method.
     Audio audioCopy = copiedAudio.copy();
     audioCopy.enclosingPlaylist = this;
+    audioCopy.copiedFromPlaylistTitle = copiedFromPlaylistTitle;
 
     downloadedAudioLst.add(audioCopy);
     playableAudioLst.insert(0, audioCopy);
@@ -210,12 +214,10 @@ class Playlist {
     required Audio downloadedAudio,
   }) {
     // removes from the list all audios with the same audioFileName
-    downloadedAudioLst.removeWhere(
-        (Audio audio) => audio== downloadedAudio);
+    downloadedAudioLst.removeWhere((Audio audio) => audio == downloadedAudio);
 
     // removes from the list all audios with the same audioFileName
-    playableAudioLst.removeWhere(
-        (Audio audio) => audio == downloadedAudio);
+    playableAudioLst.removeWhere((Audio audio) => audio == downloadedAudio);
   }
 
   /// Removes the downloaded audio from the playableAudioLst only.
@@ -236,6 +238,15 @@ class Playlist {
     downloadedAudioLst
         .firstWhere((audio) => audio.audioFileName == audioFileName)
         .movedToPlaylistTitle = movedToPlaylistTitle;
+  }
+
+  void setCopiedAudioToPlaylistTitle({
+    required String audioFileName,
+    required String copiedToPlaylistTitle,
+  }) {
+    downloadedAudioLst
+        .firstWhere((audio) => audio.audioFileName == audioFileName)
+        .copiedToPlaylistTitle = copiedToPlaylistTitle;
   }
 
   /// Used when uploading the Playlist json file. Since the
@@ -295,7 +306,7 @@ class Playlist {
   ///
   /// Returns the number of audios removed from the playable audio
   /// list.
-  /// 
+  ///
   /// playableAudioLst order: [last available downloaded audio, ...,
   ///                          first available downloaded audio]
 

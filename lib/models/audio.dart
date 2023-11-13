@@ -24,6 +24,12 @@ class Audio {
   // Playlist to which the Audio was moved
   String? movedToPlaylistTitle;
 
+  // Playlist from which the Audio was copied
+  String? copiedFromPlaylistTitle;
+
+  // Playlist to which the Audio was copied
+  String? copiedToPlaylistTitle;
+
   // Video title displayed on Youtube
   final String originalVideoTitle;
 
@@ -123,6 +129,8 @@ class Audio {
     required this.enclosingPlaylist,
     required this.movedFromPlaylistTitle,
     required this.movedToPlaylistTitle,
+    required this.copiedFromPlaylistTitle,
+    required this.copiedToPlaylistTitle,
     required this.originalVideoTitle,
     required this.compactVideoDescription,
     required this.validVideoTitle,
@@ -148,6 +156,8 @@ class Audio {
       enclosingPlaylist: enclosingPlaylist,
       movedFromPlaylistTitle: movedFromPlaylistTitle,
       movedToPlaylistTitle: movedToPlaylistTitle,
+      copiedFromPlaylistTitle: copiedFromPlaylistTitle,
+      copiedToPlaylistTitle: copiedToPlaylistTitle,
       originalVideoTitle: originalVideoTitle,
       compactVideoDescription: compactVideoDescription,
       validVideoTitle: validVideoTitle,
@@ -181,6 +191,8 @@ class Audio {
 
       movedFromPlaylistTitle: json['movedFromPlaylistTitle'],
       movedToPlaylistTitle: json['movedToPlaylistTitle'],
+      copiedFromPlaylistTitle: json['copiedFromPlaylistTitle'],
+      copiedToPlaylistTitle: json['copiedToPlaylistTitle'],
       originalVideoTitle: json['originalVideoTitle'],
       compactVideoDescription: json['compactVideoDescription'] ?? '',
       validVideoTitle: json['validVideoTitle'],
@@ -212,6 +224,8 @@ class Audio {
     return {
       'movedFromPlaylistTitle': movedFromPlaylistTitle,
       'movedToPlaylistTitle': movedToPlaylistTitle,
+      'copiedFromPlaylistTitle': copiedFromPlaylistTitle,
+      'copiedToPlaylistTitle': copiedToPlaylistTitle,
       'originalVideoTitle': originalVideoTitle,
       'compactVideoDescription': compactVideoDescription,
       'validVideoTitle': validVideoTitle,

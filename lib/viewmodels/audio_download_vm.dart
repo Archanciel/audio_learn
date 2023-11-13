@@ -787,7 +787,8 @@ class AudioDownloadVM extends ChangeNotifier {
       targetDirectoryPath: targetPlaylist.downloadPath,
     );
 
-    String fromPlaylistTitle = audio.enclosingPlaylist!.title;
+    Playlist fromPlaylist = audio.enclosingPlaylist!;
+    String fromPlaylistTitle = fromPlaylist.title;
 
     if (!wasFileCopied) {
       _warningMessageVM.setAudioNotCopiedFromToPlaylistTitles(
@@ -798,7 +799,10 @@ class AudioDownloadVM extends ChangeNotifier {
       return;
     }
 
-    targetPlaylist.addCopiedAudio(audio);
+    targetPlaylist.addCopiedAudio(
+      copiedAudio: audio,
+      copiedFromPlaylistTitle: fromPlaylistTitle,
+    );
 
     JsonDataService.saveToFile(
       model: targetPlaylist,
@@ -808,7 +812,9 @@ class AudioDownloadVM extends ChangeNotifier {
     _warningMessageVM.setAudioCopiedFromToPlaylistTitles(
         copiedAudioValidVideoTitle: audio.validVideoTitle,
         copiedFromPlaylistTitle: fromPlaylistTitle,
-        copiedToPlaylistTitle: targetPlaylist.title);
+        copiedFromPlaylistType: fromPlaylist.playlistType,
+        copiedToPlaylistTitle: targetPlaylist.title,
+        copiedToPlaylistType: targetPlaylist.playlistType);
   }
 
   /// Physically deletes the audio file from the audio playlist
