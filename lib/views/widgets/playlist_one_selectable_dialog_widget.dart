@@ -145,9 +145,14 @@ class _PlaylistOneSelectableDialogWidgetState
                   },
                 ),
               ),
-              (widget.excludedPlaylist != null &&
+              (widget.usedFor ==
+                          PlaylistOneSelectableDialogUsedFor
+                              .moveAudioToPlaylist &&
                       widget.excludedPlaylist!.playlistType ==
-                          PlaylistType.youtube)
+                          PlaylistType.youtube) // when moving an audio
+                  //                               from a playlist, the
+                  //                               excluded playlist is
+                  //                               the source playlist
                   ? Row(
                       // in this case, the audio is moved from a Youtube
                       // playlist and so the keep audio entry in source
@@ -180,10 +185,13 @@ class _PlaylistOneSelectableDialogWidgetState
                         ),
                       ],
                     )
-                  : Container(), // widget.excludedPlaylist is null or is
-              //                    a local playlist, which means displaying
-              //                    the keep audio entry in source playlist
-              //                    checkbox is not useful
+                  : Container(), // here, we are moving an audio from a
+              //                    local playlist, or we are copying an
+              //                    audio or downloading the audio of a
+              //                    single video. In those situations,
+              //                    displaying the keep audio entry in
+              //                    source playlist checkbox is not
+              //                    useful.
             ],
           ),
         ),
