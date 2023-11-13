@@ -106,7 +106,12 @@ class _PlaylistOneSelectableDialogWidgetState
             );
           }
 
-          Navigator.of(context).pop(_selectedPlaylist);
+          Map<String, dynamic> resultMap = {
+            'selectedPlaylist': _selectedPlaylist,
+            'keepAudioDataInSourcePlaylist': _keepAudioDataInSourcePlaylist,
+          };
+
+          Navigator.of(context).pop(resultMap);
         }
       },
       child: AlertDialog(
@@ -199,8 +204,7 @@ class _PlaylistOneSelectableDialogWidgetState
 
               Map<String, dynamic> resultMap = {
                 'selectedPlaylist': _selectedPlaylist,
-                'keepAudioDataInSourcePlaylist':
-                    _keepAudioDataInSourcePlaylist,
+                'keepAudioDataInSourcePlaylist': _keepAudioDataInSourcePlaylist,
               };
 
               Navigator.of(context).pop(resultMap);

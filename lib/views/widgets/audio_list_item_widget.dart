@@ -172,7 +172,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       return;
                     }
 
-                    Playlist? targetPlaylist = resultMap['targetPlaylist'];
+                    Playlist? targetPlaylist = resultMap['selectedPlaylist'];
 
                     if (targetPlaylist == null) {
                       // the case if no playlist was selected and
@@ -192,7 +192,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   });
                   break;
                 case AudioPopupMenuAction.copyAudioToPlaylist:
-                  Playlist? selectedTargetPlaylist;
                   PlaylistListVM expandablePlaylistVM =
                       getAndInitializeExpandablePlaylistListVM(context);
 
@@ -203,14 +202,24 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                           .copyAudioToPlaylist,
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
-                  ).then((targetPlaylist) {
+                  ).then((resultMap) {
+                    if (resultMap == null) {
+                      // the case if no playlist was selected and
+                      // Cancel button was pressed
+                      return;
+                    }
+
+                    Playlist? targetPlaylist = resultMap['selectedPlaylist'];
+
                     if (targetPlaylist == null) {
+                      // the case if no playlist was selected and
+                      // Confirm button was pressed
                       return;
                     }
 
                     expandablePlaylistVM.copyAudioToPlaylist(
                       audio: audio,
-                      targetPlaylist: targetPlaylist!,
+                      targetPlaylist: targetPlaylist,
                     );
                   });
                   break;

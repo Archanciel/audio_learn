@@ -739,7 +739,7 @@ class AudioDownloadVM extends ChangeNotifier {
       // Keeping audio data in source playlist downloadedAudioLst
       // means that the audio will not be redownloaded if the
       // Download All is applyed to the source playlist. But since
-      // the audio is moved to the target playlist, it will has to
+      // the audio is moved to the target playlist, it has to
       // be removed from the source playlist playableAudioLst.
       fromPlaylist.removeDownloadedAudioFromPlayableAudioLstOnly(
         downloadedAudio: audio,
