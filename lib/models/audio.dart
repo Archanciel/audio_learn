@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:intl/intl.dart';

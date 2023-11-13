@@ -9,9 +9,16 @@ import '../../services/settings_data_service.dart';
 import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/theme_provider.dart';
 
+enum PlaylistOneSelectableDialogUsedFor {
+  downloadSingleVideoAudio,
+  moveAudioToPlaylist,
+  copyAudioToPlaylist,
+}
+
 /// This dialog is used to select a single playlist among the
 /// displayed playlists.
 class PlaylistOneSelectableDialogWidget extends StatefulWidget {
+  final PlaylistOneSelectableDialogUsedFor usedFor;
   final Playlist? excludedPlaylist;
 
   // Displaying the audio only checkbox is useful when the dialog is used
@@ -29,6 +36,7 @@ class PlaylistOneSelectableDialogWidget extends StatefulWidget {
 
   const PlaylistOneSelectableDialogWidget({
     super.key,
+    required this.usedFor,
     this.excludedPlaylist,
     this.isAudioOnlyCheckboxDisplayed = false,
   });
@@ -61,7 +69,7 @@ class _PlaylistOneSelectableDialogWidgetState
   void dispose() {
     // Dispose the focus node when the widget is disposed
     _focusNode.dispose();
-    
+
     super.dispose();
   }
 
@@ -91,10 +99,14 @@ class _PlaylistOneSelectableDialogWidgetState
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
           // executing the same code as in the 'Confirm' ElevatedButton
           // onPressed callback
-          expandablePlaylistVM.setUniqueSelectedPlaylist(
-            selectedPlaylist: _selectedPlaylist,
-          );
-          Navigator.of(context).pop();
+          if (widget.usedFor ==
+              PlaylistOneSelectableDialogUsedFor.downloadSingleVideoAudio) {
+            expandablePlaylistVM.setUniqueSelectedPlaylist(
+              selectedPlaylist: _selectedPlaylist,
+            );
+          }
+
+          Navigator.of(context).pop(_selectedPlaylist);
         }
       },
       child: AlertDialog(
@@ -163,7 +175,10 @@ class _PlaylistOneSelectableDialogWidgetState
                         ),
                       ],
                     )
-                  : Container(), // widget.excludedPlaylist == null in the
+                  : Container(), // widget.excludedPlaylist is null or is
+              //                    a local playlist, which means displaying
+              //                    the keep audio entry in source playlist
+              //                    checkbox is not useful
             ],
           ),
         ),
@@ -172,14 +187,23 @@ class _PlaylistOneSelectableDialogWidgetState
           // audio. This is tested by 'Bug fix
           // verification with partial download single
           // video audio' integration test
-
           ElevatedButton(
             key: const Key('confirmButton'),
             onPressed: () {
-              expandablePlaylistVM.setUniqueSelectedPlaylist(
-                selectedPlaylist: _selectedPlaylist,
-              );
-              Navigator.of(context).pop(_keepAudioDataInSourcePlaylist);
+              if (widget.usedFor ==
+                  PlaylistOneSelectableDialogUsedFor.downloadSingleVideoAudio) {
+                expandablePlaylistVM.setUniqueSelectedPlaylist(
+                  selectedPlaylist: _selectedPlaylist,
+                );
+              }
+
+              Map<String, dynamic> resultMap = {
+                'selectedPlaylist': _selectedPlaylist,
+                'keepAudioDataInSourcePlaylist':
+                    _keepAudioDataInSourcePlaylist,
+              };
+
+              Navigator.of(context).pop(resultMap);
             },
             child: Text(AppLocalizations.of(context)!.confirmButton),
           ),

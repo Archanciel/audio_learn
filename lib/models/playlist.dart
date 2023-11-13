@@ -211,11 +211,11 @@ class Playlist {
   }) {
     // removes from the list all audios with the same audioFileName
     downloadedAudioLst.removeWhere(
-        (Audio audio) => audio.audioFileName == downloadedAudio.audioFileName);
+        (Audio audio) => audio== downloadedAudio);
 
     // removes from the list all audios with the same audioFileName
     playableAudioLst.removeWhere(
-        (Audio audio) => audio.audioFileName == downloadedAudio.audioFileName);
+        (Audio audio) => audio == downloadedAudio);
   }
 
   /// Removes the downloaded audio from the playableAudioLst only.

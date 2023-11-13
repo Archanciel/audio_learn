@@ -444,10 +444,11 @@ class PlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  void moveAudioToPlaylist(
-      {required Audio audio,
-      required Playlist targetPlaylist,
-      required bool keepAudioDataInSourcePlaylist}) {
+  void moveAudioToPlaylist({
+    required Audio audio,
+    required Playlist targetPlaylist,
+    required bool keepAudioDataInSourcePlaylist,
+  }) {
     _audioDownloadVM.moveAudioToPlaylist(
         audio: audio,
         targetPlaylist: targetPlaylist,
@@ -511,7 +512,7 @@ class PlaylistListVM extends ChangeNotifier {
   void _removeAudioFromSortedFilteredPlayableAudioList(Audio audio) {
     if (_sortedFilteredSelectedPlaylistsPlayableAudios != null) {
       _sortedFilteredSelectedPlaylistsPlayableAudios!
-          .removeWhere((audioInList) => audioInList.videoUrl == audio.videoUrl);
+          .removeWhere((audioInList) => audioInList == audio);
     }
   }
 
@@ -617,7 +618,7 @@ class PlaylistListVM extends ChangeNotifier {
     required Audio currentAudio,
   }) {
     // playableAudioLst order: [last available downloaded audio, ...,
-    //                          first available downloaded audio]  
+    //                          first available downloaded audio]
     List<Audio> playableAudioLst =
         currentAudio.enclosingPlaylist!.playableAudioLst;
 

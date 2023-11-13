@@ -155,28 +155,37 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.moveAudioToPlaylist:
-                  Playlist? selectedTargetPlaylist;
                   PlaylistListVM expandablePlaylistVM =
                       getAndInitializeExpandablePlaylistListVM(context);
 
                   showDialog(
                     context: context,
                     builder: (context) => PlaylistOneSelectableDialogWidget(
+                      usedFor: PlaylistOneSelectableDialogUsedFor
+                          .moveAudioToPlaylist,
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
-                  ).then((keepAudioDataInSourcePlaylist) {
-                    selectedTargetPlaylist =
-                        expandablePlaylistVM.uniqueSelectedPlaylist;
+                  ).then((resultMap) {
+                    if (resultMap == null) {
+                      // the case if no playlist was selected and
+                      // Cancel button was pressed
+                      return;
+                    }
 
-                    if (selectedTargetPlaylist == null) {
+                    Playlist? targetPlaylist = resultMap['targetPlaylist'];
+
+                    if (targetPlaylist == null) {
                       // the case if no playlist was selected and
                       // Confirm button was pressed
                       return;
                     }
 
+                    bool keepAudioDataInSourcePlaylist =
+                        resultMap['keepAudioDataInSourcePlaylist'];
+
                     expandablePlaylistVM.moveAudioToPlaylist(
                       audio: audio,
-                      targetPlaylist: selectedTargetPlaylist!,
+                      targetPlaylist: targetPlaylist,
                       keepAudioDataInSourcePlaylist:
                           keepAudioDataInSourcePlaylist,
                     );
@@ -190,19 +199,18 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   showDialog(
                     context: context,
                     builder: (context) => PlaylistOneSelectableDialogWidget(
+                      usedFor: PlaylistOneSelectableDialogUsedFor
+                          .copyAudioToPlaylist,
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
-                  ).then((_) {
-                    selectedTargetPlaylist =
-                        expandablePlaylistVM.uniqueSelectedPlaylist;
-
-                    if (selectedTargetPlaylist == null) {
+                  ).then((targetPlaylist) {
+                    if (targetPlaylist == null) {
                       return;
                     }
 
                     expandablePlaylistVM.copyAudioToPlaylist(
                       audio: audio,
-                      targetPlaylist: selectedTargetPlaylist!,
+                      targetPlaylist: targetPlaylist!,
                     );
                   });
                   break;
@@ -281,9 +289,9 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     // on Confirm button and then opens the dialog again and
     // clicks on the Cancel button, the previously selected
     // playlist used as target playlist is still selected
-    expandablePlaylistVM.setUniqueSelectedPlaylist(
-      selectedPlaylist: null,
-    );
+    // expandablePlaylistVM.setUniqueSelectedPlaylist(
+    //   selectedPlaylist: null,
+    // );
 
     return expandablePlaylistVM;
   }
@@ -365,8 +373,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     Widget iconContent; // This will hold the content of the play button
 
     if (audio.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd) {
-    // if (audio.audioPositionSeconds > 0 &&
-    //     audio.audioPositionSeconds < audio.audioDuration!.inSeconds) {
+      // if (audio.audioPositionSeconds > 0 &&
+      //     audio.audioPositionSeconds < audio.audioDuration!.inSeconds) {
       // the audio is paused on a non-zero position and non end
       // position, i.e. if it was played and paused ...
       iconContent = const CircleAvatar(
