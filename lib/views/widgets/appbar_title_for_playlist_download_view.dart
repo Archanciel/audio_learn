@@ -4,8 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../constants.dart';
 import '../../views/screen_mixin.dart';
 
-/// When the PlaylistView screen is displayed, the AppBarTitleForPlaylistView
-/// is displayed in the AppBar title:
+/// When the PlaylistView screen is displayed, the
+/// AppBarTitleForPlaylistView is set in the AppBar title:
+/// parameter.
 class AppBarTitleForPlaylistDownloadView extends StatelessWidget
     with ScreenMixin {
   const AppBarTitleForPlaylistDownloadView({
