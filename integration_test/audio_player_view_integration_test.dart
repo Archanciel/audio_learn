@@ -105,6 +105,50 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    testWidgets(
+        'Opening AudioPlayerView by clicking on AudioPlayerView icon button with a playlist recently downloaded with no previously selected audio.',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'audio_player_view_no_sel_audio_test';
+
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_view_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we tap on the AudioPlayerView icon button to open
+      // AudioPlayerView screen which displays the current
+      // playable audio which is paused
+
+      // Assuming you have a button to navigate to the AudioPlayerView
+      final audioPlayerNavButton =
+          find.byKey(const ValueKey('audioPlayerViewIconButton'));
+      await tester.tap(audioPlayerNavButton);
+      await tester.pumpAndSettle();
+
+      // Test play button
+      final playButton = find.byIcon(Icons.play_arrow);
+      await tester.tap(playButton);
+      await tester.pumpAndSettle();
+
+      // Verify if the play button changes to pause button
+      expect(find.byIcon(Icons.pause), findsOneWidget);
+
+      // Test pause button
+      final pauseButton = find.byIcon(Icons.pause);
+      await tester.tap(pauseButton);
+      await tester.pumpAndSettle();
+
+      // Verify if the pause button changes back to play button
+      expect(find.byIcon(Icons.play_arrow), findsOneWidget);
+
+      // Add more tests as needed for slider movement, next/previous buttons, etc.
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
 
     // Additional tests can be added here
   });
