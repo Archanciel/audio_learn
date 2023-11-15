@@ -105,6 +105,10 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+
+    // Additional tests can be added here
+  });
+  group('No selected audio', () {
     testWidgets(
         'Opening AudioPlayerView by clicking on AudioPlayerView icon button with a playlist recently downloaded with no previously selected audio.',
         (WidgetTester tester) async {
