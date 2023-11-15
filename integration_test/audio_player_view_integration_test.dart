@@ -11,77 +11,19 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('AudioPlayerView Integration Tests', () {
-    testWidgets('Opening AudioPlayerView by clicking on audio title. Then play and pause audio', (WidgetTester tester) async {
-      // Purge the test playlist directory if it exists so that the
-      // playlist list is empty
-      DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
-        deleteSubDirectoriesAsWell: true,
-      );
-
-      // Copy the test initial audio data to the app dir
-      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
-        sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_player_view_test",
-        destinationRootPath: kDownloadAppTestDirWindows,
-      );
-
+    testWidgets(
+        'Opening AudioPlayerView by clicking on audio title. Then play and pause audio',
+        (
+      WidgetTester tester,
+    ) async {
       const String audioPlayerSelectedPlaylistTitle =
           'audio_player_view_2_shorts_test';
       const String firstAudioTitle = 'Really short video';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
-
-      // Load the settings from the json file. This is necessary
-      // otherwise the ordered playlist titles will remain empty
-      // and the playlist list will not be filled with the
-      // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
-              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
-
-      app.main(['test']);
-      await tester.pumpAndSettle();
-
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
-      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
-      await tester.pumpAndSettle();
-
-      // Find the ListTile Playlist containing the audio to copy to
-      // the target local playlist
-
-      // First, find the Playlist ListTile Text widget
-      final Finder audioPlayerSelectedPlaylistFinder =
-          find.text(audioPlayerSelectedPlaylistTitle);
-
-      // Then obtain the Playlist ListTile widget enclosing the Text widget
-      // by finding its ancestor
-      final Finder selectedPlaylistListTileWidgetFinder = find.ancestor(
-        of: audioPlayerSelectedPlaylistFinder,
-        matching: find.byType(ListTile),
+      await initializeApplication(
+        tester: tester,
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
       );
-
-      // Now find the Checkbox widget located in the Playlist ListTile
-      // and tap on it to select the playlist
-      final Finder selectedPlaylistCheckboxWidgetFinder = find.descendant(
-        of: selectedPlaylistListTileWidgetFinder,
-        matching: find.byType(Checkbox),
-      );
-
-      // Retrieve the Checkbox widget
-      final Checkbox checkbox =
-          tester.widget<Checkbox>(selectedPlaylistCheckboxWidgetFinder);
-
-      // Check if the checkbox is checked
-      if (checkbox.value == null || !checkbox.value!) {
-        // Tap the ListTile Playlist checkbox to select it
-        // so that the playlist audios are listed
-        await tester.tap(selectedPlaylistCheckboxWidgetFinder);
-        await tester.pumpAndSettle();
-      }
 
       // Now we want to tap on the lastly downloaded audio of the
       // playlist in order to open the AudioPlayerView displaying
@@ -117,77 +59,17 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Opening AudioPlayerView by clicking on AudioPlayerView icon button. Then play and pause audio', (WidgetTester tester) async {
-      // Purge the test playlist directory if it exists so that the
-      // playlist list is empty
-      DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
-        deleteSubDirectoriesAsWell: true,
-      );
-
-      // Copy the test initial audio data to the app dir
-      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
-        sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}audio_player_view_test",
-        destinationRootPath: kDownloadAppTestDirWindows,
-      );
-
+    testWidgets(
+        'Opening AudioPlayerView by clicking on AudioPlayerView icon button. Then play and pause audio',
+        (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'audio_player_view_2_shorts_test';
       const String firstAudioTitle = 'Really short video';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
-
-      // Load the settings from the json file. This is necessary
-      // otherwise the ordered playlist titles will remain empty
-      // and the playlist list will not be filled with the
-      // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
-              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
-
-      app.main(['test']);
-      await tester.pumpAndSettle();
-
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
-      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
-      await tester.pumpAndSettle();
-
-      // Find the ListTile Playlist containing the audio to copy to
-      // the target local playlist
-
-      // First, find the Playlist ListTile Text widget
-      final Finder audioPlayerSelectedPlaylistFinder =
-          find.text(audioPlayerSelectedPlaylistTitle);
-
-      // Then obtain the Playlist ListTile widget enclosing the Text widget
-      // by finding its ancestor
-      final Finder selectedPlaylistListTileWidgetFinder = find.ancestor(
-        of: audioPlayerSelectedPlaylistFinder,
-        matching: find.byType(ListTile),
+      await initializeApplication(
+        tester: tester,
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
       );
-
-      // Now find the Checkbox widget located in the Playlist ListTile
-      // and tap on it to select the playlist
-      final Finder selectedPlaylistCheckboxWidgetFinder = find.descendant(
-        of: selectedPlaylistListTileWidgetFinder,
-        matching: find.byType(Checkbox),
-      );
-
-      // Retrieve the Checkbox widget
-      final Checkbox checkbox =
-          tester.widget<Checkbox>(selectedPlaylistCheckboxWidgetFinder);
-
-      // Check if the checkbox is checked
-      if (checkbox.value == null || !checkbox.value!) {
-        // Tap the ListTile Playlist checkbox to select it
-        // so that the playlist audios are listed
-        await tester.tap(selectedPlaylistCheckboxWidgetFinder);
-        await tester.pumpAndSettle();
-      }
 
       // Now we tap on the AudioPlayerView icon button to open
       // AudioPlayerView screen which displays the current
@@ -224,4 +106,75 @@ void main() {
 
     // Additional tests can be added here
   });
+}
+
+Future<void> initializeApplication({
+  required WidgetTester tester,
+  required String selectedPlaylistTitle,
+}) async {
+  // Purge the test playlist directory if it exists so that the
+  // playlist list is empty
+  DirUtil.deleteFilesInDirAndSubDirs(
+    rootPath: kDownloadAppTestDirWindows,
+    deleteSubDirectoriesAsWell: true,
+  );
+
+  // Copy the test initial audio data to the app dir
+  DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+    sourceRootPath:
+        "$kDownloadAppTestSavedDataDir${path.separator}audio_player_view_test",
+    destinationRootPath: kDownloadAppTestDirWindows,
+  );
+
+  SettingsDataService settingsDataService = SettingsDataService(isTest: true);
+
+  // Load the settings from the json file. This is necessary
+  // otherwise the ordered playlist titles will remain empty
+  // and the playlist list will not be filled with the
+  // playlists available in the download app test dir
+  settingsDataService.loadSettingsFromFile(
+      jsonPathFileName:
+          "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+  app.main(['test']);
+  await tester.pumpAndSettle();
+
+  // Tap the 'Toggle List' button to show the list. If the list
+  // is not opened, checking that a ListTile with the title of
+  // the playlist was added to the list will fail
+  await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+  await tester.pumpAndSettle();
+
+  // Find the ListTile Playlist containing the audio to copy to
+  // the target local playlist
+
+  // First, find the Playlist ListTile Text widget
+  final Finder audioPlayerSelectedPlaylistFinder =
+      find.text(selectedPlaylistTitle);
+
+  // Then obtain the Playlist ListTile widget enclosing the Text widget
+  // by finding its ancestor
+  final Finder selectedPlaylistListTileWidgetFinder = find.ancestor(
+    of: audioPlayerSelectedPlaylistFinder,
+    matching: find.byType(ListTile),
+  );
+
+  // Now find the Checkbox widget located in the Playlist ListTile
+  // and tap on it to select the playlist
+  final Finder selectedPlaylistCheckboxWidgetFinder = find.descendant(
+    of: selectedPlaylistListTileWidgetFinder,
+    matching: find.byType(Checkbox),
+  );
+
+  // Retrieve the Checkbox widget
+  final Checkbox checkbox =
+      tester.widget<Checkbox>(selectedPlaylistCheckboxWidgetFinder);
+
+  // Check if the checkbox is checked
+  if (checkbox.value == null || !checkbox.value!) {
+    // Tap the ListTile Playlist checkbox to select it
+    // so that the playlist audios are listed
+    await tester.tap(selectedPlaylistCheckboxWidgetFinder);
+    await tester.pumpAndSettle();
+  }
 }
