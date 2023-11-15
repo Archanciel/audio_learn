@@ -22,6 +22,7 @@ void main() {
 
       await initializeApplication(
         tester: tester,
+        savedTestDataDirName: 'audio_player_view_test',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
       );
 
@@ -68,6 +69,7 @@ void main() {
 
       await initializeApplication(
         tester: tester,
+        savedTestDataDirName: 'audio_player_view_test',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
       );
 
@@ -110,6 +112,7 @@ void main() {
 
 Future<void> initializeApplication({
   required WidgetTester tester,
+  required String savedTestDataDirName,
   required String selectedPlaylistTitle,
 }) async {
   // Purge the test playlist directory if it exists so that the
@@ -122,7 +125,7 @@ Future<void> initializeApplication({
   // Copy the test initial audio data to the app dir
   DirUtil.copyFilesFromDirAndSubDirsToDirectory(
     sourceRootPath:
-        "$kDownloadAppTestSavedDataDir${path.separator}audio_player_view_test",
+        "$kDownloadAppTestSavedDataDir${path.separator}$savedTestDataDirName",
     destinationRootPath: kDownloadAppTestDirWindows,
   );
 
