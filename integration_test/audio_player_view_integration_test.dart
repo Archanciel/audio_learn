@@ -56,6 +56,13 @@ void main() {
 
       // Add more tests as needed for slider movement, next/previous buttons, etc.
 
+      // Quit the AudioPlayerView screen so that the AudioPlayerVM
+      // is disposed
+      final playListDownloadViewButton =
+          find.byKey(const ValueKey('playlistDownloadViewIconButton'));
+      await tester.tap(playListDownloadViewButton);
+      await tester.pumpAndSettle();
+
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
@@ -101,14 +108,19 @@ void main() {
 
       // Add more tests as needed for slider movement, next/previous buttons, etc.
 
+      // Quit the AudioPlayerView screen so that the AudioPlayerVM
+      // is disposed
+      final playListDownloadViewButton =
+          find.byKey(const ValueKey('playlistDownloadViewIconButton'));
+      await tester.tap(playListDownloadViewButton);
+      await tester.pumpAndSettle();
+
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
 
     // Additional tests can be added here
-  });
-  group('No selected audio', () {
     testWidgets(
         'Opening AudioPlayerView by clicking on AudioPlayerView icon button with a playlist recently downloaded with no previously selected audio.',
         (WidgetTester tester) async {
@@ -143,12 +155,17 @@ void main() {
       // there is no audio to play
       expect(find.byIcon(Icons.play_arrow), findsOneWidget);
 
+      // Quit the AudioPlayerView screen so that the AudioPlayerVM
+      // is disposed
+      final playListDownloadViewButton =
+          find.byKey(const ValueKey('playlistDownloadViewIconButton'));
+      await tester.tap(playListDownloadViewButton);
+      await tester.pumpAndSettle();
+
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
-    } );
-
-    // Additional tests can be added here
+    });
   });
 }
 
