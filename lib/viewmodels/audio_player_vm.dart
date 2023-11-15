@@ -44,6 +44,13 @@ class AudioPlayerVM extends ChangeNotifier {
     super.dispose();
   }
 
+  /// Calling this method instead of the AudioPlayerVM dispose()
+  /// method enables audio player view integr test to be ok even
+  /// if the test app is not the active Windows app.
+  void disposeAudioPlayer() {
+    _audioPlayer.dispose();
+  }
+
   void setCurrentPlaylist({
     required Playlist selectedPlaylist,
   }) {}

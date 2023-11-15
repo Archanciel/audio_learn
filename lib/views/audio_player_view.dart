@@ -71,7 +71,13 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         Provider.of<AudioPlayerVM>(
           context,
           listen: false,
-        ).dispose();
+        ).disposeAudioPlayer(); // Calling this method instead of
+        //                         the AudioPlayerVM dispose()
+        //                         method enables audio player view
+        //                         integr test to be ok even if the
+        //                         test app is not the active Windows
+        //                         app.
+
         break;
       default:
         break;
@@ -191,8 +197,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
 
         // If the current audio title is null, set it to the
         // 'no current audio' translated title
-        currentAudioTitleWithDuration ??= AppLocalizations.of(context)!
-              .audioPlayerViewNoCurrentAudio;
+        currentAudioTitleWithDuration ??=
+            AppLocalizations.of(context)!.audioPlayerViewNoCurrentAudio;
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
