@@ -189,10 +189,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         String? currentAudioTitleWithDuration =
             audioGlobalPlayerVM.getCurrentAudioTitleWithDuration();
 
-        if (currentAudioTitleWithDuration == null) {
-          currentAudioTitleWithDuration = AppLocalizations.of(context)!
+        // If the current audio title is null, set it to the
+        // 'no current audio' translated title
+        currentAudioTitleWithDuration ??= AppLocalizations.of(context)!
               .audioPlayerViewNoCurrentAudio;
-        }
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
