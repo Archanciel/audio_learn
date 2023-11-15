@@ -1401,6 +1401,8 @@ void main() {
       await tester.tap(find.byKey(const Key('audioInfoOkButtonKey')));
       await tester.pumpAndSettle();
 
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
@@ -1459,6 +1461,8 @@ void main() {
       await tester.tap(find.byKey(const Key('cancelButton')));
       await tester.pumpAndSettle();
 
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
@@ -1625,6 +1629,8 @@ void main() {
       expect(loadedYoutubeAudioPlaylist.playableAudioLst[0].audioFileName,
           loadedExpectedAudioPlaylist.playableAudioLst[0].audioFileName);
 
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
