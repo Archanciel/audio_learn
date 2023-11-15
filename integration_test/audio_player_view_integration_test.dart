@@ -198,7 +198,7 @@ Future<void> initializeApplication({
       jsonPathFileName:
           "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
 
-  app.main(['test']);
+  await app.main(['test']);
   await tester.pumpAndSettle();
 
   // Tap the 'Toggle List' button to show the list. If the list
