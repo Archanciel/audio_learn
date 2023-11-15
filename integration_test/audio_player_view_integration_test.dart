@@ -132,23 +132,17 @@ void main() {
       await tester.tap(playButton);
       await tester.pumpAndSettle();
 
-      // Verify if the play button changes to pause button
-      expect(find.byIcon(Icons.pause), findsOneWidget);
+      // Verify the no selected audio title is displayed
+      expect(find.text("Aucun audio sélectionné"), findsOneWidget);
 
-      // Test pause button
-      final pauseButton = find.byIcon(Icons.pause);
-      await tester.tap(pauseButton);
-      await tester.pumpAndSettle();
-
-      // Verify if the pause button changes back to play button
+      // Verify if the play button remained the same since
+      // there is no audio to play
       expect(find.byIcon(Icons.play_arrow), findsOneWidget);
-
-      // Add more tests as needed for slider movement, next/previous buttons, etc.
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
-    });
+    } );
 
     // Additional tests can be added here
   });
