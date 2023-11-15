@@ -501,7 +501,11 @@ class AudioPlayerVM extends ChangeNotifier {
     return _currentAudio!.enclosingPlaylist!.playableAudioLst.reversed.toList();
   }
 
-  String getCurrentAudioTitle() {
+  String? getCurrentAudioTitleWithDuration() {
+    if (_currentAudio == null) {
+      return null;
+    }
+
     return '${_currentAudio!.validVideoTitle}\n${_currentAudio!.audioDuration!.HHmmssZeroHH()}';
   }
 

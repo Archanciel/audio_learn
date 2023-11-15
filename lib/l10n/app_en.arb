@@ -222,5 +222,6 @@
   "audioCopiedFromYoutubePlaylistToLocalPlaylist": "Audio \"{audioTitle}\" copied from Youtube playlist \"{fromPlaylistTitle}\" to local playlist \"{toPlaylistTitle}\".",
   "audioCopiedFromYoutubePlaylistToYoutubePlaylist": "Audio \"{audioTitle}\" copied from Youtube playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\".",
   "copiedFromPlaylistLabel": "Copied from playlist",
-  "copiedToPlaylistLabel": "Copied to playlist"
+  "copiedToPlaylistLabel": "Copied to playlist",
+  "audioPlayerViewNoCurrentAudio": "No audio selected"
 }
