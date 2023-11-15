@@ -9,7 +9,8 @@ const String kSettingsFileName = 'settings.json';
 //const String kDownloadAppDir = '/storage/9016-4EF8/Audio';
 
 const String kDownloadAppDirWindows =
-    'C:\\Users\\Jean-Pierre\\Downloads\\Audio';
+    // 'C:\\Users\\Jean-Pierre\\Downloads\\Audio';
+    'C:\\Users\\Jean-Pierre\\Downloads\\audio_player_view_test';
 
 // Tests are run on Windows only. Files in this local test dir are stored in project test_data dir updated
 // on GitHub

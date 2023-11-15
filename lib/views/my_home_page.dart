@@ -56,6 +56,12 @@ class _MyHomePageState extends State<MyHomePage> {
     Icons.edit,
   ];
 
+  final List<Key> _screenNavigationIconButtonKeyLst = [
+    const Key('playlistDownloadViewIconButton'),
+    const Key('audioPlayerViewIconButton'),
+    const Key('audioEditorIconButton'),
+  ];
+
   // contains a list of widgets which build the AppBar title. Each
   // widget is specific to the screen currently displayed. This list
   // is filled in the initState() method.
@@ -151,6 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: _screenNavigationIconLst.asMap().entries.map((entry) {
         return IconButton(
+          key: _screenNavigationIconButtonKeyLst[entry.key],
           icon: Icon(entry.value),
           onPressed: () async {
             changePage(entry.key);
