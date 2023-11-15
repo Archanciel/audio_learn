@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_player_vm.dart';
@@ -185,6 +186,14 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildStartEndButtonsWithTitle() {
     return Consumer<AudioPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
+        String? currentAudioTitleWithDuration =
+            audioGlobalPlayerVM.getCurrentAudioTitleWithDuration();
+
+        if (currentAudioTitleWithDuration == null) {
+          currentAudioTitleWithDuration = AppLocalizations.of(context)!
+              .audioPlayerViewNoCurrentAudio;
+        }
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -200,7 +209,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       audioGlobalPlayerVM.getCurrentAudioIndex());
                 },
                 child: Text(
-                  audioGlobalPlayerVM.getCurrentAudioTitle(),
+                  currentAudioTitleWithDuration,
                   style: const TextStyle(
                     fontSize: kTitleFontSize,
                   ),
