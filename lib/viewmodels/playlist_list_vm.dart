@@ -617,8 +617,8 @@ class PlaylistListVM extends ChangeNotifier {
   Audio? getSubsequentlyDownloadedPlayableAudio({
     required Audio currentAudio,
   }) {
-    // playableAudioLst order: [last available downloaded audio, ...,
-    //                          first available downloaded audio]
+    // playableAudioLst order: [available audio last downloaded, ...,
+    //                          available audio first downloaded]
     List<Audio> playableAudioLst =
         currentAudio.enclosingPlaylist!.playableAudioLst;
 
