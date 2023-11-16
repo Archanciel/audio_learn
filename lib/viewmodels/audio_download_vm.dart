@@ -69,6 +69,12 @@ class AudioDownloadVM extends ChangeNotifier {
     loadExistingPlaylists();
   }
 
+  @override
+  void dispose() {
+    _youtubeExplode.close();
+    super.dispose();
+  }
+
   void loadExistingPlaylists() {
     // reinitializing the list of playlist is necessary since
     // loadExistingPlaylists() is also called by ExpandablePlaylistVM.
