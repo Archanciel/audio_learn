@@ -473,6 +473,9 @@ class PlaylistListVM extends ChangeNotifier {
 
   /// Physically deletes the audio file from the audio playlist
   /// directory.
+  ///
+  /// playableAudioLst order: [available audio last downloaded, ...,
+  ///                          available audio first downloaded]
   void deleteAudioMp3({
     required Audio audio,
   }) {
@@ -509,6 +512,8 @@ class PlaylistListVM extends ChangeNotifier {
     return removedPlayableAudioNumber;
   }
 
+  /// playableAudioLst order: [available audio last downloaded, ...,
+  ///                          available audio first downloaded]
   void _removeAudioFromSortedFilteredPlayableAudioList(Audio audio) {
     if (_sortedFilteredSelectedPlaylistsPlayableAudios != null) {
       _sortedFilteredSelectedPlaylistsPlayableAudios!
@@ -520,9 +525,13 @@ class PlaylistListVM extends ChangeNotifier {
   /// from playlist aswell". This method deletes the audio
   /// from the playlist json file and from the audio playlist
   /// directory.
+  ///
+  /// playableAudioLst order: [available audio last downloaded, ...,
+  ///                          available audio first downloaded]
   void deleteAudioFromPlaylistAswell({
     required Audio audio,
   }) {
+    
     _audioDownloadVM.deleteAudioFromPlaylistAswell(audio: audio);
 
     _removeAudioFromSortedFilteredPlayableAudioList(audio);

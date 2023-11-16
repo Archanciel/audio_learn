@@ -158,16 +158,16 @@ class Playlist {
       existingPlayableAudio = null;
     }
 
-    if (existingPlayableAudio == null) {
-      copiedAudio.enclosingPlaylist = this;
-      copiedAudio.copiedFromPlaylistTitle = copiedFromPlaylistTitle;
-
-      playableAudioLst.insert(0, copiedAudio);
-    } else {
+    if (existingPlayableAudio != null) {
       // the case if the audio was deleted from this playlist and
-      // then copied again to this playlist.
-      existingPlayableAudio.copiedFromPlaylistTitle = copiedFromPlaylistTitle;
+      // then copied to this playlist.
+      playableAudioLst.remove(copiedAudio);
     }
+
+    copiedAudio.enclosingPlaylist = this;
+    copiedAudio.copiedFromPlaylistTitle = copiedFromPlaylistTitle;
+
+    playableAudioLst.insert(0, copiedAudio);
   }
 
   /// Adds the moved audio to the downloadedAudioLst and to the
@@ -227,19 +227,33 @@ class Playlist {
     // removes from the list all audios with the same audioFileName
     downloadedAudioLst.removeWhere((Audio audio) => audio == downloadedAudio);
 
-    // removes from the list all audios with the same audioFileName
-    playableAudioLst.removeWhere((Audio audio) => audio == downloadedAudio);
+    _removeAudioFromPlayableAudioList(downloadedAudio);
+  }
+
+  /// Removes the removedAudio from the playableAudioLst and
+  /// updates the currentOrPastPlayableAudioIndex so that the
+  /// current playable audio in the AudioPlayerView is set to
+  /// the next audible audio.
+  void _removeAudioFromPlayableAudioList(Audio removedAudio) {
+    int playableAudioIndex = playableAudioLst.indexOf(removedAudio);
+    
+    if (playableAudioIndex > 0 &&
+        currentOrPastPlayableAudioIndex == playableAudioIndex) {
+      currentOrPastPlayableAudioIndex--;
+    }
+    
+    playableAudioLst.removeAt(playableAudioIndex);
   }
 
   /// Removes the downloaded audio from the playableAudioLst only.
   ///
   /// This is used when the downloaded audio is moved to another
-  /// playlist and is keeped in downloadedAudioLst of the source
+  /// playlist and is kept in downloadedAudioLst of the source
   /// playlist so that it will not be downloaded again.
   void removeDownloadedAudioFromPlayableAudioLstOnly({
     required Audio downloadedAudio,
   }) {
-    playableAudioLst.remove(downloadedAudio);
+    _removeAudioFromPlayableAudioList(downloadedAudio);
   }
 
   void setMovedAudioToPlaylistTitle({
@@ -271,7 +285,7 @@ class Playlist {
   }
 
   void removePlayableAudio(Audio playableAudio) {
-    playableAudioLst.remove(playableAudio);
+      _removeAudioFromPlayableAudioList(playableAudio);
   }
 
   @override
@@ -320,7 +334,6 @@ class Playlist {
   ///
   /// playableAudioLst order: [available audio last downloaded, ...,
   ///                          available audio first downloaded]
-
   int updatePlayableAudioLst() {
     int removedPlayableAudioNumber = 0;
 
