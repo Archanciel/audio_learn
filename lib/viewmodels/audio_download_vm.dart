@@ -799,9 +799,21 @@ class AudioDownloadVM extends ChangeNotifier {
       return;
     }
 
+    // Creating a copy of the audio to be copied so that the
+    // original audio will not be modified by this method.
     targetPlaylist.addCopiedAudio(
-      copiedAudio: audio,
+      copiedAudio: audio.copy(),
       copiedFromPlaylistTitle: fromPlaylistTitle,
+    );
+
+    fromPlaylist.setCopiedAudioToPlaylistTitle(
+      copiedAudio: audio,
+      copiedToPlaylistTitle: targetPlaylist.title,
+    );
+
+    JsonDataService.saveToFile(
+      model: fromPlaylist,
+      path: fromPlaylist.getPlaylistDownloadFilePathName(),
     );
 
     JsonDataService.saveToFile(
@@ -843,7 +855,6 @@ class AudioDownloadVM extends ChangeNotifier {
 
     Playlist? enclosingPlaylist = audio.enclosingPlaylist;
 
-    // if (enclosingPlaylist != null) {
     enclosingPlaylist!.removeDownloadedAudioFromDownloadAndPlayableAudioLst(
       downloadedAudio: audio,
     );
@@ -852,13 +863,18 @@ class AudioDownloadVM extends ChangeNotifier {
       model: enclosingPlaylist,
       path: enclosingPlaylist.getPlaylistDownloadFilePathName(),
     );
-    // }
 
     if (enclosingPlaylist.playlistType == PlaylistType.youtube) {
-      _warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
-          deleteAudioFromPlaylistAswellTitle: enclosingPlaylist.title,
-          deleteAudioFromPlaylistAswellAudioVideoTitle:
-              audio.originalVideoTitle);
+      if (audio.movedFromPlaylistTitle == null &&
+          audio.copiedFromPlaylistTitle == null) {
+        // the case if the audio was not moved or copied from
+        // another playlist, but was downloaded from the
+        // Youtube playlist
+        _warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
+            deleteAudioFromPlaylistAswellTitle: enclosingPlaylist.title,
+            deleteAudioFromPlaylistAswellAudioVideoTitle:
+                audio.originalVideoTitle);
+      }
     }
   }
 

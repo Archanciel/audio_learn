@@ -27,7 +27,7 @@ class Playlist {
   // Contains the downloaded audios currently available on the
   // device.
   //
-  // List order: [last available downloaded audio, ..., first
+  // List order: [available audio last downloaded, ..., first
   //              available downloaded audio]
   List<Audio> playableAudioLst = [];
 
@@ -130,33 +130,44 @@ class Playlist {
   ///
   /// downloadedAudioLst order: [first downloaded audio, ...,
   ///                            last downloaded audio]
-  /// playableAudioLst order: [last available downloaded audio, ...,
-  ///                          first available downloaded audio]
+  /// playableAudioLst order: [available audio last downloaded, ...,
+  ///                          available audio first downloaded]
   void addDownloadedAudio(Audio downloadedAudio) {
     downloadedAudio.enclosingPlaylist = this;
     downloadedAudioLst.add(downloadedAudio);
     playableAudioLst.insert(0, downloadedAudio);
   }
 
-  /// Adds the copied audio to the downloadedAudioLst and to
-  /// the playableAudioLst.
+  /// Adds the copied audio to the playableAudioLst. The audio
+  /// mp3 file was copied to the download path of this playlist
+  /// by the AudioDownloadVM.
   ///
-  /// downloadedAudioLst order: [first downloaded audio, ...,
-  ///                            last downloaded audio]
-  /// playableAudioLst order: [last available downloaded audio, ...,
-  ///                          first available downloaded audio]
+  /// playableAudioLst order: [available audio last downloaded, ...,
+  ///                          available audio first downloaded]
   void addCopiedAudio({
     required Audio copiedAudio,
     required String copiedFromPlaylistTitle,
   }) {
-    // Creating a copy of the audio to be copied so that the passed
-    // original audio will not be modified by this method.
-    Audio audioCopy = copiedAudio.copy();
-    audioCopy.enclosingPlaylist = this;
-    audioCopy.copiedFromPlaylistTitle = copiedFromPlaylistTitle;
+    Audio? existingPlayableAudio;
 
-    downloadedAudioLst.add(audioCopy);
-    playableAudioLst.insert(0, audioCopy);
+    try {
+      existingPlayableAudio = downloadedAudioLst.firstWhere(
+        (audio) => audio == copiedAudio,
+      );
+    } catch (e) {
+      existingPlayableAudio = null;
+    }
+
+    if (existingPlayableAudio == null) {
+      copiedAudio.enclosingPlaylist = this;
+      copiedAudio.copiedFromPlaylistTitle = copiedFromPlaylistTitle;
+
+      playableAudioLst.insert(0, copiedAudio);
+    } else {
+      // the case if the audio was deleted from this playlist and
+      // then copied again to this playlist.
+      existingPlayableAudio.copiedFromPlaylistTitle = copiedFromPlaylistTitle;
+    }
   }
 
   /// Adds the moved audio to the downloadedAudioLst and to the
@@ -180,7 +191,7 @@ class Playlist {
 
     try {
       existingDownloadedAudio = downloadedAudioLst.firstWhere(
-        (audio) => audio.audioFileName == movedAudio.audioFileName,
+        (audio) => audio == movedAudio,
       );
     } catch (e) {
       existingDownloadedAudio = null;
@@ -241,17 +252,17 @@ class Playlist {
   }
 
   void setCopiedAudioToPlaylistTitle({
-    required String audioFileName,
+    required Audio copiedAudio,
     required String copiedToPlaylistTitle,
   }) {
-    downloadedAudioLst
-        .firstWhere((audio) => audio.audioFileName == audioFileName)
+    playableAudioLst
+        .firstWhere((audio) => audio == audio)
         .copiedToPlaylistTitle = copiedToPlaylistTitle;
   }
 
   /// Used when uploading the Playlist json file. Since the
   /// json file contains the playable audio list in the right
-  /// order, i.e. [last available downloaded audio, ..., first
+  /// order, i.e. [available audio last downloaded, ..., first
   ///              available downloaded audio]
   /// using add and not insert maintains the right order !
   void addPlayableAudio(Audio playableAudio) {
@@ -307,8 +318,8 @@ class Playlist {
   /// Returns the number of audios removed from the playable audio
   /// list.
   ///
-  /// playableAudioLst order: [last available downloaded audio, ...,
-  ///                          first available downloaded audio]
+  /// playableAudioLst order: [available audio last downloaded, ...,
+  ///                          available audio first downloaded]
 
   int updatePlayableAudioLst() {
     int removedPlayableAudioNumber = 0;
