@@ -233,15 +233,30 @@ class Playlist {
   /// Removes the removedAudio from the playableAudioLst and
   /// updates the currentOrPastPlayableAudioIndex so that the
   /// current playable audio in the AudioPlayerView is set to
-  /// the next audible audio.
+  /// the next listenable audio.
+  ///
+  /// playableAudioLst order: [available audio last downloaded, ...,
+  ///                          available audio first downloaded]
   void _removeAudioFromPlayableAudioList(Audio removedAudio) {
     int playableAudioIndex = playableAudioLst.indexOf(removedAudio);
-    
-    if (playableAudioIndex > 0 &&
-        currentOrPastPlayableAudioIndex == playableAudioIndex) {
-      currentOrPastPlayableAudioIndex--;
+
+    if (currentOrPastPlayableAudioIndex == playableAudioIndex) {
+      if (playableAudioIndex > 0) {
+        currentOrPastPlayableAudioIndex--;
+      } else if (playableAudioLst.length == 1) {
+        // removing the unique available audio in the playlist
+        // must set the currentOrPastPlayableAudioIndex to -1,
+        // i.e. no audio is currently playing. Otherwise,
+        // displaying the AudioPlayerView will fail.
+        currentOrPastPlayableAudioIndex = -1;
+      } // else, the removed audio index is 0, which means it
+      //   is the last downloaded and also the last playable
+      //   audio. In this case, the currentOrPastPlayableAudioIndex
+      //   is not updated and remains at 0, which set the
+      //   previously downloaded audio as the current playable
+      //   audio.
     }
-    
+
     playableAudioLst.removeAt(playableAudioIndex);
   }
 
@@ -285,7 +300,7 @@ class Playlist {
   }
 
   void removePlayableAudio(Audio playableAudio) {
-      _removeAudioFromPlayableAudioList(playableAudio);
+    _removeAudioFromPlayableAudioList(playableAudio);
   }
 
   @override
