@@ -79,13 +79,7 @@ class _AudioOneSelectableDialogWidgetState
     bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;
     AudioPlayerVM audioGlobalPlayerVM =
         Provider.of<AudioPlayerVM>(context, listen: false);
-    Audio currentAudio = audioGlobalPlayerVM.currentAudio!;
-    TextStyle currentAudioTextStyle = const TextStyle(
-      // color: (isDarkTheme)
-      //     ? ScreenMixin.lighten(kDarkAndLightIconColor, 0.4)
-      //     : kDarkAndLightIconColor,
-      fontWeight: FontWeight.bold,
-    );
+    Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
     List<Audio> playableAudioLst =
         audioGlobalPlayerVM.getPlayableAudiosOrderedByDownloadTime();

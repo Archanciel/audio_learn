@@ -259,9 +259,16 @@ class AudioPlayerVM extends ChangeNotifier {
         .getSelectedPlaylists()
         .first
         .getCurrentOrLastlyPlayedAudioContainedInPlayableAudioLst();
-    if (currentOrPastPlaylistAudio == null ||
-        _currentAudio == currentOrPastPlaylistAudio) {
-      // the case if no audio in the selected playlist was ever played
+    if (currentOrPastPlaylistAudio == null) {
+      // causes "No audio selected" audio title to be displayed
+      // in the AudioPlayerView screen
+      _currentAudio = null;
+      _initializeAudioPlayer();
+
+      return;
+    }
+
+    if (_currentAudio == currentOrPastPlaylistAudio) {
       return;
     }
 
@@ -502,9 +509,24 @@ class AudioPlayerVM extends ChangeNotifier {
     _currentAudioLastSaveDateTime = now;
   }
 
-  /// the returned list is ordered by download time, placing
-  /// latest downloaded audios at end of list.
+  /// The returned list is ordered by download time, placing
+  /// latest downloaded audios at end of list, so reversing
+  /// the playlist playable audio list.
+  ///
+  /// playableAudioLst order: [available audio last downloaded, ...,
+  ///                          available audio first downloaded]
   List<Audio> getPlayableAudiosOrderedByDownloadTime() {
+    if (_currentAudio == null) {
+      // the case if "No audio selected" audio title is
+      // displayed in the AudioPlayerView screen
+      return _playlistListVM
+          .getSelectedPlaylists()
+          .first
+          .playableAudioLst
+          .reversed
+          .toList();
+    }
+
     return _currentAudio!.enclosingPlaylist!.playableAudioLst.reversed.toList();
   }
 
@@ -517,6 +539,12 @@ class AudioPlayerVM extends ChangeNotifier {
   }
 
   int getCurrentAudioIndex() {
+    if (_currentAudio == null) {
+      // the case if "No audio selected" audio title is
+      // displayed in the AudioPlayerView screen
+      return -1;
+    }
+
     return _currentAudio!.enclosingPlaylist!.playableAudioLst.reversed
         .toList()
         .indexWhere((element) => element == _currentAudio);
