@@ -18,7 +18,8 @@ void main() {
     ) async {
       const String audioPlayerSelectedPlaylistTitle =
           'audio_player_view_2_shorts_test';
-      const String firstAudioTitle = 'Really short video';
+     // const String firstAudioTitle = 'Really short video';
+      const String firstAudioTitle = 'morning _ cinematic video';
 
       await initializeApplication(
         tester: tester,
@@ -65,7 +66,8 @@ void main() {
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'audio_player_view_2_shorts_test';
-      const String firstAudioTitle = 'Really short video';
+     // const String firstAudioTitle = 'Really short video';
+      const String firstAudioTitle = 'morning _ cinematic video';
 
       await initializeApplication(
         tester: tester,
