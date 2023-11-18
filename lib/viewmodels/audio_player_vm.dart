@@ -261,8 +261,15 @@ class AudioPlayerVM extends ChangeNotifier {
         .getCurrentOrLastlyPlayedAudioContainedInPlayableAudioLst();
     if (currentOrPastPlaylistAudio == null) {
       // causes "No audio selected" audio title to be displayed
-      // in the AudioPlayerView screen
+      // in the AudioPlayerView screen. Reinitializing the
+      // the _currentAudioPosition as well as the 
+      // _currentAudioTotalDuration ensure that the audio slider
+      // is correctly displayed at position 0:00 and that the
+      // displayed audio duration is 0:00.
       _currentAudio = null;
+      _currentAudioPosition = const Duration();
+      _currentAudioTotalDuration = const Duration();
+      
       _initializeAudioPlayer();
 
       return;

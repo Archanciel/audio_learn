@@ -84,7 +84,13 @@ class _AudioOneSelectableDialogWidgetState
     List<Audio> playableAudioLst =
         audioGlobalPlayerVM.getPlayableAudiosOrderedByDownloadTime();
 
-    currentAudioIndex = playableAudioLst.indexOf(currentAudio);
+    // avoid error when the dialog is opened and the current
+    // audio is not yet set
+    if (currentAudio == null) {
+      currentAudioIndex = -1;
+    } else {
+      currentAudioIndex = playableAudioLst.indexOf(currentAudio);
+    }
 
     if (currentAudioIndex > 400) {
       itemHeight = 105;
