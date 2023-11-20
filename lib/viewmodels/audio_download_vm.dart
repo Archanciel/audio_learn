@@ -755,7 +755,7 @@ class AudioDownloadVM extends ChangeNotifier {
     }
 
     targetPlaylist.addMovedAudio(
-      movedAudio: audio,
+      movedAudioCopy: audio.copy(),
       movedFromPlaylistTitle: fromPlaylist.title,
     );
 
@@ -839,7 +839,9 @@ class AudioDownloadVM extends ChangeNotifier {
 
     // since the audio mp3 file has been deleted, the audio is no
     // longer in the playlist playable audio list
-    audio.enclosingPlaylist!.removePlayableAudio(audio);
+    audio.enclosingPlaylist!.removePlayableAudio(
+      playableAudio: audio,
+    );
   }
 
   /// User selected the audio menu item "Delete audio from

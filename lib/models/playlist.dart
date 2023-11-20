@@ -135,7 +135,7 @@ class Playlist {
   void addDownloadedAudio(Audio downloadedAudio) {
     downloadedAudio.enclosingPlaylist = this;
     downloadedAudioLst.add(downloadedAudio);
-    playableAudioLst.insert(0, downloadedAudio);
+    _insertAudioInPlayableAudioList(downloadedAudio);
   }
 
   /// Adds the copied audio to the playableAudioLst. The audio
@@ -167,7 +167,22 @@ class Playlist {
     copiedAudio.enclosingPlaylist = this;
     copiedAudio.copiedFromPlaylistTitle = copiedFromPlaylistTitle;
 
-    playableAudioLst.insert(0, copiedAudio);
+    _insertAudioInPlayableAudioList(copiedAudio);
+  }
+
+  /// This method fixes a bug which caused the currently playing
+  /// audio to be modified when a new audio was added to the
+  /// playlist. The bug was caused by the fact that the
+  /// currentOrPastPlayableAudioIndex was not incremented when
+  /// adding a new audio to the playlist.
+  void _insertAudioInPlayableAudioList(Audio insertedAudio) {
+    playableAudioLst.insert(0, insertedAudio);
+
+    // since the inserted audio is inserted into the
+    // playableAudioLst, the currentOrPastPlayableAudioIndex
+    // must be incremented by 1 so that the currently playing
+    // audio is not modified.
+    currentOrPastPlayableAudioIndex++;
   }
 
   /// Adds the moved audio to the downloadedAudioLst and to the
@@ -180,18 +195,14 @@ class Playlist {
   /// Before, sets the enclosingPlaylist to this as well as the
   /// movedFromPlaylistTitle.
   void addMovedAudio({
-    required Audio movedAudio,
+    required Audio movedAudioCopy,
     required String movedFromPlaylistTitle,
   }) {
-    // Creating a copy of the audio to be moved so that the passed
-    // original audio will not be modified by this method.
-    Audio movedAudioCopy = movedAudio.copy();
-
     Audio? existingDownloadedAudio;
 
     try {
       existingDownloadedAudio = downloadedAudioLst.firstWhere(
-        (audio) => audio == movedAudio,
+        (audio) => audio == movedAudioCopy,
       );
     } catch (e) {
       existingDownloadedAudio = null;
@@ -207,10 +218,10 @@ class Playlist {
       existingDownloadedAudio.movedFromPlaylistTitle = movedFromPlaylistTitle;
       existingDownloadedAudio.movedToPlaylistTitle = title;
       existingDownloadedAudio.enclosingPlaylist = this;
-      playableAudioLst.insert(0, existingDownloadedAudio);
+      _insertAudioInPlayableAudioList(existingDownloadedAudio);
     } else {
       downloadedAudioLst.add(movedAudioCopy);
-      playableAudioLst.insert(0, movedAudioCopy);
+      _insertAudioInPlayableAudioList(movedAudioCopy);
     }
   }
 
@@ -240,21 +251,8 @@ class Playlist {
   void _removeAudioFromPlayableAudioList(Audio removedAudio) {
     int playableAudioIndex = playableAudioLst.indexOf(removedAudio);
 
-    if (currentOrPastPlayableAudioIndex == playableAudioIndex) {
-      if (playableAudioIndex > 0) {
-        currentOrPastPlayableAudioIndex--;
-      } else if (playableAudioLst.length == 1) {
-        // removing the unique available audio in the playlist
-        // must set the currentOrPastPlayableAudioIndex to -1,
-        // i.e. no audio is currently playing. Otherwise,
-        // displaying the AudioPlayerView will fail.
-        currentOrPastPlayableAudioIndex = -1;
-      } // else, the removed audio index is 0, which means it
-      //   is the last downloaded and also the last playable
-      //   audio. In this case, the currentOrPastPlayableAudioIndex
-      //   is not updated and remains at 0, which set the
-      //   previously downloaded audio as the current playable
-      //   audio.
+    if (playableAudioIndex <= currentOrPastPlayableAudioIndex) {
+      currentOrPastPlayableAudioIndex--;
     }
 
     playableAudioLst.removeAt(playableAudioIndex);
@@ -299,7 +297,11 @@ class Playlist {
     playableAudioLst.add(playableAudio);
   }
 
-  void removePlayableAudio(Audio playableAudio) {
+  /// Method called when physically deleting the audio file
+  /// from the device.
+  void removePlayableAudio({
+    required Audio playableAudio,
+  }) {
     _removeAudioFromPlayableAudioList(playableAudio);
   }
 
