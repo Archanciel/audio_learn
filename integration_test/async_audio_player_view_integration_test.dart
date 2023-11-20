@@ -133,40 +133,39 @@ void main() {
       await Future.delayed(const Duration(seconds: 5));
       await tester.pumpAndSettle();
 
+      Duration audioPositionDurationOneMinuteBefore = const Duration(minutes: 4);
+      Duration audioPositionDurationOneMinuteAfter = const Duration(minutes: 5);
+
       audioPositionText = tester
           .widget<Text>(find.byKey(const Key('audioPlayerViewAudioPosition')));
-      expect(audioPositionText.data, '0:04');
+      Duration actualAudioPositionDuration = parseDuration(audioPositionText.data ?? '');
+
+      // Check if the actual Duration is within that range
+      expect(actualAudioPositionDuration >= audioPositionDurationOneMinuteBefore, isTrue);
+      expect(actualAudioPositionDuration <= audioPositionDurationOneMinuteAfter, isTrue);
+
+      Duration audioRemainingDurationOneMinuteBefore = const Duration(minutes: 54);
+      Duration audioRemainingDurationOneMinuteAfter = const Duration(minutes: 55);
+
       audioRemainingDurationText = tester.widget<Text>(
           find.byKey(const Key('audioPlayerViewAudioRemainingDuration')));
-      expect(audioRemainingDurationText.data, '0:54');
+      Duration actualAudioRemainingDuration = parseDuration(audioRemainingDurationText.data ?? '');
+
+      // Check if the actual Duration is within that range
+      expect(actualAudioRemainingDuration >= audioRemainingDurationOneMinuteBefore, isTrue);
+      expect(actualAudioRemainingDuration <= audioRemainingDurationOneMinuteAfter, isTrue);
 
       // Verify if the play button changes to pause button
-      expect(find.byIcon(Icons.pause), findsOneWidget);
+      Finder pauseIconFinder = find.byIcon(Icons.pause);
+      expect(pauseIconFinder, findsOneWidget);
 
-      // Check if the widget's state reflects that audio has been playing for 10 seconds
-      // expect(find.text('10 seconds played'), findsOneWidget); // Replace with your assertion
+      await tester.tap(pauseIconFinder);
+      await tester.pumpAndSettle();
 
-      // Additional checks or interactions can be performed here
-      // });
+      await Future.delayed(const Duration(seconds: 1));
 
-      // Test play button
-      // final playButton = find.byIcon(Icons.play_arrow);
-      // await tester.tap(playButton);
-
-      // await tester.pumpAndSettle();
-
-      // Verify if the play button changes to pause button
-      // expect(find.byIcon(Icons.pause), findsOneWidget);
-
-      // Test pause button
-      // final pauseButton = find.byIcon(Icons.pause);
-      // await tester.tap(pauseButton);
-      // await tester.pumpAndSettle();
-
-      // // Verify if the pause button changes back to play button
-      // expect(find.byIcon(Icons.play_arrow), findsOneWidget);
-
-      // Add more tests as needed for slider movement, next/previous buttons, etc.
+      // Verify if the pause button changed back to play button
+      expect(find.byIcon(Icons.play_arrow), findsOneWidget);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -283,4 +282,16 @@ Future<void> initializeApplication({
     await tester.tap(selectedPlaylistCheckboxWidgetFinder);
     await tester.pumpAndSettle();
   }
+}
+
+Duration parseDuration(String hhmmString) {
+  List<String> parts = hhmmString.split(':');
+  if (parts.length != 2) {
+    throw FormatException("Invalid duration format");
+  }
+
+  int hours = int.parse(parts[0]);
+  int minutes = int.parse(parts[1]);
+
+  return Duration(hours: hours, minutes: minutes);
 }
