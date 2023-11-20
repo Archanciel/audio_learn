@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:fake_async/fake_async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -14,6 +13,86 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Async AudioPlayerView Integration Tests', () {
+    testWidgets(
+        'Opening AudioPlayerView by clicking on audio title. Then check play/pause button conversion only.',
+        (
+      WidgetTester tester,
+    ) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'audio_player_view_2_shorts_test';
+      const String lastDownloadedAudioTitle = 'morning _ cinematic video';
+
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_view_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the lastly downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the currently paused audio
+
+      // First, get the lastly downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder lastDownloadedAudioListTileTextWidgetFinder =
+          find.text(lastDownloadedAudioTitle);
+
+      await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      await tester
+          .tap(find.byIcon(Icons.play_arrow)); // Replace with your interaction
+      await tester.pumpAndSettle();
+
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
+
+      // Verify if the play button changes to pause button
+      expect(find.byIcon(Icons.pause), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Opening AudioPlayerView by clicking on AudioPlayerView icon button. Then check play/pause button conversion only.',
+        (
+      WidgetTester tester,
+    ) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'audio_player_view_2_shorts_test';
+      const String lastDownloadedAudioTitle = 'morning _ cinematic video';
+
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_view_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we tap on the AudioPlayerView icon button to open
+      // AudioPlayerView screen which displays the current
+      // playable audio which is paused
+
+      // Assuming you have a button to navigate to the AudioPlayerView
+      final audioPlayerNavButton =
+          find.byKey(const ValueKey('audioPlayerViewIconButton'));
+      await tester.tap(audioPlayerNavButton);
+      await tester.pumpAndSettle();
+
+      await tester
+          .tap(find.byIcon(Icons.play_arrow)); // Replace with your interaction
+      await tester.pumpAndSettle();
+
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
+
+      // Verify if the play button changes to pause button
+      expect(find.byIcon(Icons.pause), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
     testWidgets(
         'Opening AudioPlayerView by clicking on audio title. Then async play and pause audio',
         (
@@ -35,10 +114,10 @@ void main() {
 
       // First, get the lastly downloaded Audio ListTile Text
       // widget finder and tap on it
-      final Finder lastAudioListTileTextWidgetFinder =
+      final Finder lastDownloadedAudioListTileTextWidgetFinder =
           find.text(lastDownloadedAudioTitle);
 
-      await tester.tap(lastAudioListTileTextWidgetFinder);
+      await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
 
       await tester
@@ -75,6 +154,44 @@ void main() {
       // expect(find.byIcon(Icons.play_arrow), findsOneWidget);
 
       // Add more tests as needed for slider movement, next/previous buttons, etc.
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Opening AudioPlayerView by clicking on AudioPlayerView icon button with a playlist recently downloaded with no previously selected audio.',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'audio_player_view_no_sel_audio_test';
+
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_view_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we tap on the AudioPlayerView icon button to open
+      // AudioPlayerView screen which displays the current
+      // playable audio which is paused
+
+      // Assuming you have a button to navigate to the AudioPlayerView
+      final audioPlayerNavButton =
+          find.byKey(const ValueKey('audioPlayerViewIconButton'));
+      await tester.tap(audioPlayerNavButton);
+      await tester.pumpAndSettle();
+
+      // Test play button
+      final playButton = find.byIcon(Icons.play_arrow);
+      await tester.tap(playButton);
+      await tester.pumpAndSettle();
+
+      // Verify the no selected audio title is displayed
+      expect(find.text("Aucun audio sélectionné"), findsOneWidget);
+
+      // Verify if the play button remained the same since
+      // there is no audio to play
+      expect(find.byIcon(Icons.play_arrow), findsOneWidget);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
