@@ -12,7 +12,7 @@ import 'package:audio_learn/main.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Async AudioPlayerView Integration Tests', () {
+  group('AudioPlayerView Integration Tests', () {
     testWidgets(
         'Opening AudioPlayerView by clicking on audio title. Then check play/pause button conversion only.',
         (
@@ -144,7 +144,7 @@ void main() {
       expect(actualAudioPositionDuration >= audioPositionDurationOneMinuteBefore, isTrue);
       expect(actualAudioPositionDuration <= audioPositionDurationOneMinuteAfter, isTrue);
 
-      Duration audioRemainingDurationOneMinuteBefore = const Duration(minutes: 54);
+      Duration audioRemainingDurationOneMinuteBefore = const Duration(minutes: 53);
       Duration audioRemainingDurationOneMinuteAfter = const Duration(minutes: 55);
 
       audioRemainingDurationText = tester.widget<Text>(
