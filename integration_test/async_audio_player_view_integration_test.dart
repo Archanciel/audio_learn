@@ -121,11 +121,10 @@ void main() {
 
       Text audioPositionText = tester
           .widget<Text>(find.byKey(const Key('audioPlayerViewAudioPosition')));
-      print(
-          '***** audioPositionText before playing: ${audioPositionText.data}');
-      Text audioRemainingDurationText = tester
-          .widget<Text>(find.byKey(const Key('audioPlayerViewAudioRemainingDuration')));
-      print('***** audioRemainingDurationText before playing: ${audioRemainingDurationText.data}');
+      expect(audioPositionText.data, '0:00');
+      Text audioRemainingDurationText = tester.widget<Text>(
+          find.byKey(const Key('audioPlayerViewAudioRemainingDuration')));
+      expect(audioRemainingDurationText.data, '0:59');
 
       await tester
           .tap(find.byIcon(Icons.play_arrow)); // Replace with your interaction
@@ -136,10 +135,10 @@ void main() {
 
       audioPositionText = tester
           .widget<Text>(find.byKey(const Key('audioPlayerViewAudioPosition')));
-      print('***** audioPositionText after 5 seconds: ${audioPositionText.data}');
-      audioRemainingDurationText = tester
-          .widget<Text>(find.byKey(const Key('audioPlayerViewAudioRemainingDuration')));
-      print('***** audioRemainingDurationText after 5 seconds: ${audioRemainingDurationText.data}');
+      expect(audioPositionText.data, '0:04');
+      audioRemainingDurationText = tester.widget<Text>(
+          find.byKey(const Key('audioPlayerViewAudioRemainingDuration')));
+      expect(audioRemainingDurationText.data, '0:54');
 
       // Verify if the play button changes to pause button
       expect(find.byIcon(Icons.pause), findsOneWidget);
