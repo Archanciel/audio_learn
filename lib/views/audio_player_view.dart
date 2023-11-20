@@ -128,6 +128,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
+                key: const Key('audioPlayerViewAudioPosition'),
                 audioGlobalPlayerVM.currentAudioPosition.HHmmssZeroHH(),
                 style: kSliderValueTextStyle,
               ),
@@ -152,6 +153,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 ),
               ),
               Text(
+                key: const Key('audioPlayerViewAudioRemainingDuration'),
                 audioGlobalPlayerVM.currentAudioRemainingDuration
                     .HHmmssZeroHH(),
                 style: kSliderValueTextStyle,
