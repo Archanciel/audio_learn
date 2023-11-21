@@ -7,9 +7,6 @@ extension DurationExpansion on Duration {
   static final NumberFormat numberFormatTwoInt = NumberFormat('00');
 
   /// Returns the Duration formatted as HH:mm.
-  ///
-  /// This method is added to the Duration class by the extension
-  /// FormattedDayHourMinute class located in date_time_parser.dart.
   String HHmm() {
     int durationMinute = inMinutes.remainder(60);
     String minusStr = '';
@@ -34,9 +31,6 @@ extension DurationExpansion on Duration {
   }
 
   /// Returns the Duration formatted as dd:HH:mm
-  ///
-  /// This method is added to the Duration class by the extension
-  /// FormattedDayHourMinute class located in date_time_parser.dart.
   String ddHHmm() {
     int durationMinute = inMinutes.remainder(60);
     int durationHour =
