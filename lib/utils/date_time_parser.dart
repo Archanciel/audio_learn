@@ -4,7 +4,7 @@ class DateTimeParser {
   static final RegExp regExpYYYYDateTime =
       RegExp(r'^(\d+-\d+-\d{4})\s(\d+:\d{2})');
   static final RegExp regExpNoYearDateTime = RegExp(r'^(\d+-\d+)\s(\d+:\d{2})');
-  static final RegExp regExpHHMMTime = RegExp(r'(^[-]?\d+:\d{2})');
+  static final RegExp regExpHHMMorMMSSTime = RegExp(r'(^[-]?\d+:\d{2})');
   static final RegExp regExpHHAnyMMTime = RegExp(r'(^[-]?\d+:\d+)');
   static final RegExp regExpAllHHMMTime = RegExp(r'([-]?\d+:\d{2})');
   static final RegExp regExpDDHHMMTime = RegExp(r'(^[-]?\d+:\d+:\d{2})');
@@ -53,13 +53,16 @@ class DateTimeParser {
     return dateTime;
   }
 
-  /// Parses the passed hourMinuteStr formatted as hh:mm or h:mm or -hh:mm or
-  /// -h:mm and returns the hh:mm, h:mm, -hh:mm or -h:mm parsed String or null
-  /// if the passed hourMinuteStr does not respect the hh:mm or h:mm or -hh:mm
-  /// or -h:mm format, like 03:2 or 3:2 or 03-02 or 03:a2 or -03:2 or -3:2 or
-  /// -03-02 or -03:a2 for example.
-  static String? parseHHMMTimeStr(String hourMinuteStr) {
-    final RegExpMatch? match = regExpHHMMTime.firstMatch(hourMinuteStr);
+  /// Parses the passed hourMinuteStr or minuteSecondStr formatted
+  /// as hh:mm or h:mm or -hh:mm or -h:mm for hourMinuteStr or as
+  /// mm:ss or m:ss or -mm:ss or -m:ss for minuteSecondStr and
+  /// returns the hh:mm, h:mm, -hh:mm or -h:mm / mm:ss or m:ss
+  /// or -mm:ss or -m:ss parsed String or null if the passed
+  /// time string does not respect the hourMinuteStr or
+  /// minuteSecondStr format, like 03:2 or 3:2 or 03-02 or 03:a2
+  /// or -03:2 or -3:2 or -03-02 or -03:a2 for example.
+  static String? parseHHMMorMMSSTimeStr(String hourMinuteStr) {
+    final RegExpMatch? match = regExpHHMMorMMSSTime.firstMatch(hourMinuteStr);
     final String? parsedHourMinuteStr = match?.group(1);
 
     return parsedHourMinuteStr;
@@ -115,11 +118,39 @@ class DateTimeParser {
     return parsedDayHourMinuteStr;
   }
 
+  /// Parses the passed mm:ss (12:35) minuteSecondStr and returns
+  /// a Duration instanciated with the parsed minute and second
+  /// values.
+  static Duration? parseMMSSDuration(String minuteSecondStr) {
+    final String? parsedMinuteSecondStr =
+        DateTimeParser.parseHHMMorMMSSTimeStr(minuteSecondStr);
+
+    if (parsedMinuteSecondStr != null) {
+      List<String> minuteSecondStrLst = parsedMinuteSecondStr.split(':');
+      List<int> minuteSecondIntLst = minuteSecondStrLst
+          .map((element) => int.parse(element))
+          .toList(growable: false);
+
+      final int minuteInt = minuteSecondIntLst[0].abs();
+      int secondInt = minuteSecondIntLst[1].abs();
+
+      Duration duration = Duration(minutes: minuteInt, seconds: secondInt);
+
+      if (minuteSecondStrLst[0].startsWith('-')) {
+        return Duration.zero - duration;
+      } else {
+        return duration;
+      }
+    }
+
+    return null;
+  }
+
   /// Parses the passed HH:mm (12:35) hourMinuteStr and returns a Duration
   /// instanciated with the parsed hour and minute values.
   static Duration? parseHHMMDuration(String hourMinuteStr) {
     final String? parsedHourMinuteStr =
-        DateTimeParser.parseHHMMTimeStr(hourMinuteStr);
+        DateTimeParser.parseHHMMorMMSSTimeStr(hourMinuteStr);
 
     if (parsedHourMinuteStr != null) {
       List<String> hourMinuteStrLst = parsedHourMinuteStr.split(':');
@@ -182,7 +213,7 @@ class DateTimeParser {
       return createDayHourMinuteDuration(parsedDayHourMinuteStr);
     } else {
       final String? parsedHourMinuteStr =
-          DateTimeParser.parseHHMMTimeStr(dayHourMinuteStr);
+          DateTimeParser.parseHHMMorMMSSTimeStr(dayHourMinuteStr);
       if (parsedHourMinuteStr != null) {
         return createHourMinuteDuration(parsedHourMinuteStr);
       }

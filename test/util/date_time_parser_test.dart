@@ -106,7 +106,8 @@ void main() {
       test(
         'valid format time string',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('13:35');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('13:35');
 
           expect(hourMinute, '13:35');
         },
@@ -115,7 +116,8 @@ void main() {
       test(
         'invalid format time string',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('13-35');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('13-35');
 
           expect(hourMinute, null);
         },
@@ -124,7 +126,8 @@ void main() {
       test(
         'valid time string 1 digit hour',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('3:35');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('3:35');
 
           expect(hourMinute, '3:35');
         },
@@ -133,7 +136,8 @@ void main() {
       test(
         'invalid time string 1 digit hour',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('3:u5');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('3:u5');
 
           expect(hourMinute, null);
         },
@@ -142,7 +146,8 @@ void main() {
       test(
         'invalid time string format 1 digit hour',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('3-05');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('3-05');
 
           expect(hourMinute, null);
         },
@@ -151,7 +156,8 @@ void main() {
       test(
         'invalid time string 1 digit minute',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('3:5');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('3:5');
 
           expect(hourMinute, null);
         },
@@ -160,7 +166,8 @@ void main() {
       test(
         'valid negative time string',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('-13:35');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('-13:35');
 
           expect(hourMinute, '-13:35');
         },
@@ -169,7 +176,8 @@ void main() {
       test(
         'invalid format negative time string',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('-13-35');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('-13-35');
 
           expect(hourMinute, null);
         },
@@ -178,7 +186,8 @@ void main() {
       test(
         'valid negative time string 1 digit hour',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('-3:35');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('-3:35');
 
           expect(hourMinute, '-3:35');
         },
@@ -187,7 +196,8 @@ void main() {
       test(
         'invalid format negative time string 1 digit hour',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('-3-05');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('-3-05');
 
           expect(hourMinute, null);
         },
@@ -196,7 +206,8 @@ void main() {
       test(
         'invalid negative time string 1 digit hour',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('-3:u5');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('-3:u5');
 
           expect(hourMinute, null);
         },
@@ -205,7 +216,8 @@ void main() {
       test(
         'invalid negative time string 1 digit minute',
         () {
-          final String? hourMinute = DateTimeParser.parseHHMMTimeStr('-3:5');
+          final String? hourMinute =
+              DateTimeParser.parseHHMMorMMSSTimeStr('-3:5');
 
           expect(hourMinute, null);
         },
@@ -215,7 +227,7 @@ void main() {
         'dd-mm date and time string',
         () {
           final String? hourMinute =
-              DateTimeParser.parseHHMMTimeStr('14-12 13:35');
+              DateTimeParser.parseHHMMorMMSSTimeStr('14-12 13:35');
 
           expect(hourMinute, null);
         },
@@ -224,7 +236,7 @@ void main() {
         'dd-mm-yyyy date and time string',
         () {
           final String? hourMinute =
-              DateTimeParser.parseHHMMTimeStr('14-12-2022 13:35');
+              DateTimeParser.parseHHMMorMMSSTimeStr('14-12-2022 13:35');
 
           expect(hourMinute, null);
         },
@@ -234,7 +246,7 @@ void main() {
         '1 digit day and month date and time string',
         () {
           final String? hourMinute =
-              DateTimeParser.parseHHMMTimeStr('4-2 13:35');
+              DateTimeParser.parseHHMMorMMSSTimeStr('4-2 13:35');
 
           expect(hourMinute, null);
         },
@@ -244,7 +256,7 @@ void main() {
         'invalid date and time string',
         () {
           final String? hourMinute =
-              DateTimeParser.parseHHMMTimeStr('a4-2 13:35');
+              DateTimeParser.parseHHMMorMMSSTimeStr('a4-2 13:35');
 
           expect(hourMinute, null);
         },
@@ -889,4 +901,4 @@ void main() {
       );
     },
   );
- }
+}

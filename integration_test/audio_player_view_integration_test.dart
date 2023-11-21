@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audio_learn/utils/date_time_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -148,29 +149,29 @@ void main() {
 
       await Future.delayed(const Duration(seconds: 1));
 
-      Duration audioPositionDurationOneMinuteBefore = const Duration(minutes: 4);
-      Duration audioPositionDurationOneMinuteAfter = const Duration(minutes: 5);
+      Duration audioPositionDurationAfterPauseExpected = const Duration(seconds: 5);
 
       audioPositionText = tester
           .widget<Text>(find.byKey(const Key('audioPlayerViewAudioPosition')));
-      Duration actualAudioPositionDuration = parseDuration(audioPositionText.data ?? '');
+      Duration audioPositionDurationAfterPauseActual = DateTimeParser.parseMMSSDuration(audioPositionText.data ?? '')!;
 
-      // Check if the actual audio position Duration is within
-      // that range
-      expect(actualAudioPositionDuration >= audioPositionDurationOneMinuteBefore, isTrue);
-      expect(actualAudioPositionDuration <= audioPositionDurationOneMinuteAfter, isTrue);
+      // Check if the actual audio position Duration is correct
+      expect(audioPositionDurationAfterPauseActual, audioPositionDurationAfterPauseExpected);
 
-      Duration audioRemainingDurationOneMinuteBefore = const Duration(minutes: 53);
-      Duration audioRemainingDurationOneMinuteAfter = const Duration(minutes: 55);
+      Duration audioRemainingDurationAfterPauseExpected = const Duration(seconds: 53);
 
       audioRemainingDurationText = tester.widget<Text>(
           find.byKey(const Key('audioPlayerViewAudioRemainingDuration')));
-      Duration actualAudioRemainingDuration = parseDuration(audioRemainingDurationText.data ?? '');
+      Duration audioRemainingDurationAfterPauseActual = DateTimeParser.parseMMSSDuration(audioRemainingDurationText.data ?? '')!;
 
-      // Check if the actual audio remaining Duration is within
-      // that range
-      expect(actualAudioRemainingDuration >= audioRemainingDurationOneMinuteBefore, isTrue);
-      expect(actualAudioRemainingDuration <= audioRemainingDurationOneMinuteAfter, isTrue);
+      // Check if the actual audio remaining Duration is correct
+      expect(audioRemainingDurationAfterPauseActual, audioRemainingDurationAfterPauseExpected);
+
+      // Check if the sum of the actual audio position duration
+      // and the actual audio remaining duration is equal to 59
+      // seconds which is the total duration of the listened
+      // audio minus 1 second
+      expect((audioPositionDurationAfterPauseActual + audioRemainingDurationAfterPauseActual), const Duration(seconds: 58));
 
       // Verify if the pause button changed back to play button
       expect(find.byIcon(Icons.play_arrow), findsOneWidget);
