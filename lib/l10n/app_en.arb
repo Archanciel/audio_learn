@@ -25,7 +25,6 @@
   "ytPlaylistLinkLabel": "Youtube Playlist Link",
   "ytPlaylistLinkHintText": "Enter a Youtube playlist link",
   "addPlaylist": "Add",
-  "deletePlaylist": "Del",
   "renameAudioFileButton": "Rename",
   "downloadSingleVideoAudio": "Down",
   "downloadSelectedPlaylists": "Down All",
@@ -223,5 +222,6 @@
   "audioCopiedFromYoutubePlaylistToYoutubePlaylist": "Audio \"{audioTitle}\" copied from Youtube playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\".",
   "copiedFromPlaylistLabel": "Copied from playlist",
   "copiedToPlaylistLabel": "Copied to playlist",
-  "audioPlayerViewNoCurrentAudio": "No audio selected"
+  "audioPlayerViewNoCurrentAudio": "No audio selected",
+  "deletePlaylist": "Delete playlist ..."
 }

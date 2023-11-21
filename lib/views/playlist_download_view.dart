@@ -627,7 +627,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         child: Text(AppLocalizations.of(context)!
                             .updatePlaylistJsonFiles),
                       ),
-                      // Add more PopupMenuItems as needed
                     ];
                   },
                 ),

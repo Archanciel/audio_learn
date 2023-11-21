@@ -7,6 +7,7 @@ import '../../models/playlist.dart';
 import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/warning_message_vm.dart';
 import '../screen_mixin.dart';
+import 'delete_playlist_dialog_widget.dart';
 import 'playlist_info_dialog_widget.dart';
 
 enum PlaylistPopupMenuAction {
@@ -14,9 +15,15 @@ enum PlaylistPopupMenuAction {
   copyYoutubePlaylistUrl,
   displayPlaylistInfo,
   updatePlaylistPlayableAudios, // useful if playlist audio files were
-  // deleted
+  //                               deleted from the app dir
+  deletePlaylist,
 }
 
+/// This widget is used to display a playlist in the
+/// PlaylistDownloadView list of playlists. At left of the
+/// playlist title, a menu button is displayed with menu items
+/// created by this class. At right of the playlist title, a
+/// checkbox is displayed to select the playlist. 
 class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
   final Playlist playlist;
   final int index;
@@ -61,17 +68,24 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                         AppLocalizations.of(context)!.copyYoutubePlaylistUrl),
                   ),
                   PopupMenuItem<PlaylistPopupMenuAction>(
-                    key: const Key('popup_menu_display_audio_info'),
+                    key: const Key('popup_menu_display_playlist_info'),
                     value: PlaylistPopupMenuAction.displayPlaylistInfo,
                     child:
                         Text(AppLocalizations.of(context)!.displayPlaylistInfo),
                   ),
                   PopupMenuItem<PlaylistPopupMenuAction>(
                     key: const Key(
-                        'popup_menu_display_update_playable_audio_list'),
+                        'popup_menu_update_playable_audio_list'),
                     value: PlaylistPopupMenuAction.updatePlaylistPlayableAudios,
                     child: Text(AppLocalizations.of(context)!
                         .updatePlaylistPlayableAudioList),
+                  ),
+                  PopupMenuItem<PlaylistPopupMenuAction>(
+                    key: const Key(
+                        'popup_menu_delete_playlist'),
+                    value: PlaylistPopupMenuAction.deletePlaylist,
+                    child: Text(AppLocalizations.of(context)!
+                        .deletePlaylist),
                   ),
                 ],
                 elevation: 8,
@@ -116,6 +130,22 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                                 removedPlayableAudioNumber:
                                     removedPlayableAudioNumber);
                       }
+                      break;
+                    case PlaylistPopupMenuAction.deletePlaylist:
+                        // Using FocusNode to enable clicking on Enter to close
+                        // the dialog
+                        final FocusNode focusNode = FocusNode();
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return DeletePlaylistDialogWidget(
+                              playlistUrl: 'playlistUrl',
+                              focusNode: focusNode,
+                            );
+                          },
+                        );
+                        focusNode.requestFocus();
                       break;
                     default:
                       break;

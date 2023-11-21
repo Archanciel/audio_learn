@@ -25,7 +25,6 @@
   "ytPlaylistLinkLabel": "Lien Playlist Youtube",
   "ytPlaylistLinkHintText": "Entrez un lien playlist Youtube",
   "addPlaylist": "Ajout",
-  "deletePlaylist": "Suppr",
   "renameAudioFileButton": "Renommer",
   "downloadSingleVideoAudio": "Téléch",
   "downloadSelectedPlaylists": "Tout Téléch",
@@ -224,5 +223,6 @@
   "audioCopiedFromYoutubePlaylistToYoutubePlaylist": "Audio \"{audioTitle}\" copié de la playlist Youtube \"{fromPlaylistTitle}\" vers la playlist Youtube \"{toPlaylistTitle}\".",
   "copiedFromPlaylistLabel": "Copié de la playlist",
   "copiedToPlaylistLabel": "Copié vers la playlist",
-  "audioPlayerViewNoCurrentAudio": "Aucun audio sélectionné"
+  "audioPlayerViewNoCurrentAudio": "Aucun audio sélectionné",
+  "deletePlaylist": "Supprimer la playlist ..."
 }
