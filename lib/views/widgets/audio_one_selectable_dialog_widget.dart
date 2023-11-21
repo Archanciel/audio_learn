@@ -50,8 +50,6 @@ class _AudioOneSelectableDialogWidgetState
   late int currentAudioIndex;
 
   double itemHeight = 65.0;
-  final double itemHeightBigList =
-      60.0; // Estimate or calculate the height of your ListTile
 
   @override
   void initState() {
@@ -92,6 +90,10 @@ class _AudioOneSelectableDialogWidgetState
       currentAudioIndex = playableAudioLst.indexOf(currentAudio);
     }
 
+    // defining the item height depending on the number of audios
+    // in the playlist so that browsing the playlist is easier
+    // in order to display the current audio in the visible audio
+    // list area is more efficient
     if (currentAudioIndex > 400) {
       itemHeight = 105;
     } else if (currentAudioIndex > 300) {
