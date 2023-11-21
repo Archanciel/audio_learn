@@ -93,7 +93,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
-        'Opening AudioPlayerView by clicking on audio title. Then play and pause audio',
+        'Opening AudioPlayerView by clicking on audio title. Then play audio during 5 seconds and the pause it',
         (
       WidgetTester tester,
     ) async {
@@ -109,7 +109,7 @@ void main() {
 
       // Now we want to tap on the lastly downloaded audio of the
       // playlist in order to open the AudioPlayerView displaying
-      // the currently paused audio
+      // the currently not played audio
 
       // First, get the lastly downloaded Audio ListTile Text
       // widget finder and tap on it
@@ -119,19 +119,34 @@ void main() {
       await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
 
+      // Now verify if the displayed audio position and remaining
+      // duration are correct
+
       Text audioPositionText = tester
           .widget<Text>(find.byKey(const Key('audioPlayerViewAudioPosition')));
       expect(audioPositionText.data, '0:00');
+
       Text audioRemainingDurationText = tester.widget<Text>(
           find.byKey(const Key('audioPlayerViewAudioRemainingDuration')));
       expect(audioRemainingDurationText.data, '0:59');
 
+      // Now play the audio and wait 5 seconds
       await tester
-          .tap(find.byIcon(Icons.play_arrow)); // Replace with your interaction
+          .tap(find.byIcon(Icons.play_arrow));
       await tester.pumpAndSettle();
 
       await Future.delayed(const Duration(seconds: 5));
       await tester.pumpAndSettle();
+
+      // Verify if the play button changed to pause button
+      Finder pauseIconFinder = find.byIcon(Icons.pause);
+      expect(pauseIconFinder, findsOneWidget);
+
+      // Now pause the audio and wait 1 second
+      await tester.tap(pauseIconFinder);
+      await tester.pumpAndSettle();
+
+      await Future.delayed(const Duration(seconds: 1));
 
       Duration audioPositionDurationOneMinuteBefore = const Duration(minutes: 4);
       Duration audioPositionDurationOneMinuteAfter = const Duration(minutes: 5);
@@ -140,7 +155,8 @@ void main() {
           .widget<Text>(find.byKey(const Key('audioPlayerViewAudioPosition')));
       Duration actualAudioPositionDuration = parseDuration(audioPositionText.data ?? '');
 
-      // Check if the actual Duration is within that range
+      // Check if the actual audio position Duration is within
+      // that range
       expect(actualAudioPositionDuration >= audioPositionDurationOneMinuteBefore, isTrue);
       expect(actualAudioPositionDuration <= audioPositionDurationOneMinuteAfter, isTrue);
 
@@ -151,18 +167,10 @@ void main() {
           find.byKey(const Key('audioPlayerViewAudioRemainingDuration')));
       Duration actualAudioRemainingDuration = parseDuration(audioRemainingDurationText.data ?? '');
 
-      // Check if the actual Duration is within that range
+      // Check if the actual audio remaining Duration is within
+      // that range
       expect(actualAudioRemainingDuration >= audioRemainingDurationOneMinuteBefore, isTrue);
       expect(actualAudioRemainingDuration <= audioRemainingDurationOneMinuteAfter, isTrue);
-
-      // Verify if the play button changes to pause button
-      Finder pauseIconFinder = find.byIcon(Icons.pause);
-      expect(pauseIconFinder, findsOneWidget);
-
-      await tester.tap(pauseIconFinder);
-      await tester.pumpAndSettle();
-
-      await Future.delayed(const Duration(seconds: 1));
 
       // Verify if the pause button changed back to play button
       expect(find.byIcon(Icons.play_arrow), findsOneWidget);
@@ -250,15 +258,15 @@ Future<void> initializeApplication({
   await tester.tap(find.byKey(const Key('playlist_toggle_button')));
   await tester.pumpAndSettle();
 
-  // Find the ListTile Playlist containing the audio to copy to
-  // the target local playlist
+  // Find the ListTile Playlist containing the playlist which
+  // contains the audio to play
 
   // First, find the Playlist ListTile Text widget
   final Finder audioPlayerSelectedPlaylistFinder =
       find.text(selectedPlaylistTitle);
 
-  // Then obtain the Playlist ListTile widget enclosing the Text widget
-  // by finding its ancestor
+  // Then obtain the Playlist ListTile widget enclosing the Text
+  // widget by finding its ancestor
   final Finder selectedPlaylistListTileWidgetFinder = find.ancestor(
     of: audioPlayerSelectedPlaylistFinder,
     matching: find.byType(ListTile),
