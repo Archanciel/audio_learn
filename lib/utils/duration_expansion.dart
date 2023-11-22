@@ -69,7 +69,20 @@ extension DurationExpansion on Duration {
       twoDigitMinutes = twoDigits(inMinutes.remainder(60).abs());
     }
 
+    // Previously, this version of computing twoDigitSeconds
+    // was used:
+    //
+    // String twoDigitSeconds = twoDigits(inSeconds.remainder(60).abs());
+    //
+    // But this version was incorrect because the seconds were
+    // not rounded which caused errors in the display of the
+    // currently playing audio position or its remaining duration.
+    // Adding the position and the remaining duration of the
+    // currently playing audio gave a duration which was not
+    // equal to the total duration of the audio, but was
+    // 1 second less.
     String twoDigitSeconds = twoDigits((inMilliseconds.remainder(60000).abs() / 1000).round());
+
     String minusStr = '';
 
     if (inMicroseconds < 0) {
