@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:audio_learn/utils/duration_expansion.dart';
 
 void main() {
-  group('DurationExpansion HHmmss test not performed in DateTimeParser test',
+  group('DurationExpansion HHmmss (test not performed in DateTimeParser test)',
       () {
     test(
       'Duration 13 hours 35 minutes 23 seconds',
@@ -73,7 +73,7 @@ void main() {
   });
 
   group(
-      'DurationExpansion HHmmssZeroHH test not performed in DateTimeParser test',
+      'DurationExpansion HHmmssZeroHH (test not performed in DateTimeParser test)',
       () {
     test(
       'Duration 13 hours 35 minutes 23 seconds',
@@ -184,6 +184,209 @@ void main() {
             const Duration(milliseconds: 0) - (const Duration(seconds: 2));
 
         expect(duration.HHmmssZeroHH(), '-0:02');
+      },
+    );
+
+
+
+    test(
+      'Duration 0 hours 0 minutes 2000 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 2000);
+
+        expect(duration.HHmmssZeroHH(), '0:02');
+      },
+    );
+    test(
+      'Duration 0 hours 0 minutes 2499 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 2499);
+
+        expect(duration.HHmmssZeroHH(), '0:02');
+      },
+    );
+    test(
+      'Duration 0 hours 0 minutes -2499 milliseconds',
+      () {
+        Duration duration = Duration() - Duration(milliseconds: 2499);
+
+        expect(duration.HHmmssZeroHH(), '-0:02');
+      },
+    );
+    test(
+      'Duration 0 hours 0 minutes 2500 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 2500);
+
+        expect(duration.HHmmssZeroHH(), '0:03');
+      },
+    );
+    test(
+      'Duration 0 hours 0 minutes 2501 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 2501);
+
+        expect(duration.HHmmssZeroHH(), '0:03');
+      },
+    );
+
+
+    test(
+      'Duration 0 hours 0 minutes 59000 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 59000);
+
+        expect(duration.HHmmssZeroHH(), '0:59');
+      },
+    );
+    test(
+      'Duration 0 hours 0 minutes 58499 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 58499);
+
+        expect(duration.HHmmssZeroHH(), '0:58');
+      },
+    );
+    test(
+      'Duration 0 hours 0 minutes 58500 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 58500);
+
+        expect(duration.HHmmssZeroHH(), '0:59');
+      },
+    );
+    test(
+      'Duration 0 hours 0 minutes 58501 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 58501);
+
+        expect(duration.HHmmssZeroHH(), '0:59');
+      },
+    );
+
+
+    test(
+      'Duration 0 hours 2 minutes 2000 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 122000);
+
+        expect(duration.HHmmssZeroHH(), '2:02');
+      },
+    );
+    test(
+      'Duration 0 hours 2 minutes 2499 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 122499);
+
+        expect(duration.HHmmssZeroHH(), '2:02');
+      },
+    );
+    test(
+      'Duration 0 hours 2 minutes 2500 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 122500);
+
+        expect(duration.HHmmssZeroHH(), '2:03');
+      },
+    );
+    test(
+      'Duration 0 hours -2 minutes 2500 milliseconds',
+      () {
+        Duration duration = Duration() - Duration(milliseconds: 122500);
+
+        expect(duration.HHmmssZeroHH(), '-2:03');
+      },
+    );
+    test(
+      'Duration 0 hours 2 minutes 2501 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 122501);
+
+        expect(duration.HHmmssZeroHH(), '2:03');
+      },
+    );
+
+
+    test(
+      'Duration 0 hours 10 minutes 59000 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 659000);
+
+        expect(duration.HHmmssZeroHH(), '10:59');
+      },
+    );
+    test(
+      'Duration 0 hours 10 minutes 58499 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 658499);
+
+        expect(duration.HHmmssZeroHH(), '10:58');
+      },
+    );
+    test(
+      'Duration 0 hours 10 minutes 58500 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 658500);
+
+        expect(duration.HHmmssZeroHH(), '10:59');
+      },
+    );
+    test(
+      'Duration 0 hours 10 minutes 58501 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 658501);
+
+        expect(duration.HHmmssZeroHH(), '10:59');
+      },
+    );
+    test(
+      'Duration 0 hours -10 minutes 58501 milliseconds',
+      () {
+        Duration duration = Duration() - Duration(milliseconds: 658501);
+
+        expect(duration.HHmmssZeroHH(), '-10:59');
+      },
+    );
+
+
+    test(
+      'Duration 2 hours 10 minutes 59000 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 7859000);
+
+        expect(duration.HHmmssZeroHH(), '2:10:59');
+      },
+    );
+    test(
+      'Duration 2 hours 10 minutes 58499 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 7858499);
+
+        expect(duration.HHmmssZeroHH(), '2:10:58');
+      },
+    );
+    test(
+      'Duration 2 hours 10 minutes 58500 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 7858500);
+
+        expect(duration.HHmmssZeroHH(), '2:10:59');
+      },
+    );
+    test(
+      'Duration -2 hours 10 minutes 58500 milliseconds',
+      () {
+        Duration duration = Duration() - Duration(milliseconds: 7858500);
+
+        expect(duration.HHmmssZeroHH(), '-2:10:59');
+      },
+    );
+    test(
+      'Duration 2 hours 10 minutes 58501 milliseconds',
+      () {
+        const Duration duration = Duration(milliseconds: 7858501);
+
+        expect(duration.HHmmssZeroHH(), '2:10:59');
       },
     );
   });
