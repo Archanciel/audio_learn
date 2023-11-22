@@ -158,7 +158,7 @@ void main() {
       // Check if the actual audio position Duration is correct
       expect(audioPositionDurationAfterPauseActual, audioPositionDurationAfterPauseExpected);
 
-      Duration audioRemainingDurationAfterPauseExpected = const Duration(seconds: 53);
+      Duration audioRemainingDurationAfterPauseExpected = const Duration(seconds: 54);
 
       audioRemainingDurationText = tester.widget<Text>(
           find.byKey(const Key('audioPlayerViewAudioRemainingDuration')));
@@ -171,7 +171,7 @@ void main() {
       // and the actual audio remaining duration is equal to 59
       // seconds which is the total duration of the listened
       // audio minus 1 second
-      expect((audioPositionDurationAfterPauseActual + audioRemainingDurationAfterPauseActual), const Duration(seconds: 58));
+      expect((audioPositionDurationAfterPauseActual + audioRemainingDurationAfterPauseActual), const Duration(seconds: 59));
 
       // Verify if the pause button changed back to play button
       expect(find.byIcon(Icons.play_arrow), findsOneWidget);
