@@ -70,8 +70,6 @@ extension DurationExpansion on Duration {
     }
 
     String twoDigitSeconds = twoDigits((inMilliseconds.remainder(60000).abs() / 1000).round());
-    print(this);
-    print('twoDigitSeconds: $twoDigitSeconds');
     String minusStr = '';
 
     if (inMicroseconds < 0) {
