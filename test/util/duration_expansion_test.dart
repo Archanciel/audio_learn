@@ -186,8 +186,10 @@ void main() {
         expect(duration.HHmmssZeroHH(), '-0:02');
       },
     );
-
-
+  });
+  group(
+      'DurationExpansion HHmmssZeroHH ensuring durations are correctly rounded (test not performed in DateTimeParser test)',
+      () {
 
     test(
       'Duration 0 hours 0 minutes 2000 milliseconds',
@@ -230,7 +232,6 @@ void main() {
       },
     );
 
-
     test(
       'Duration 0 hours 0 minutes 59000 milliseconds',
       () {
@@ -263,7 +264,6 @@ void main() {
         expect(duration.HHmmssZeroHH(), '0:59');
       },
     );
-
 
     test(
       'Duration 0 hours 2 minutes 2000 milliseconds',
@@ -306,7 +306,6 @@ void main() {
       },
     );
 
-
     test(
       'Duration 0 hours 10 minutes 59000 milliseconds',
       () {
@@ -347,7 +346,6 @@ void main() {
         expect(duration.HHmmssZeroHH(), '-10:59');
       },
     );
-
 
     test(
       'Duration 2 hours 10 minutes 59000 milliseconds',

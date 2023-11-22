@@ -81,6 +81,12 @@ extension DurationExpansion on Duration {
     // currently playing audio gave a duration which was not
     // equal to the total duration of the audio, but was
     // 1 second less.
+    //
+    // A lot of usage examples can be found in the unit
+    // duration_expansion_test.dart, group 'DurationExpansion
+    // HHmmssZeroHH ensuring durations are correctly rounded
+    // (test not performed in DateTimeParser test)'
+
     String twoDigitSeconds = twoDigits((inMilliseconds.remainder(60000).abs() / 1000).round());
 
     String minusStr = '';
