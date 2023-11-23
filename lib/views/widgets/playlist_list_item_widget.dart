@@ -140,7 +140,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                           barrierDismissible: true,
                           builder: (BuildContext context) {
                             return DeletePlaylistDialogWidget(
-                              playlistUrl: 'playlistUrl',
+                              playlistToDelete: playlist,
                               focusNode: focusNode,
                             );
                           },

@@ -223,5 +223,8 @@
   "copiedFromPlaylistLabel": "Copied from playlist",
   "copiedToPlaylistLabel": "Copied to playlist",
   "audioPlayerViewNoCurrentAudio": "No audio selected",
-  "deletePlaylist": "Delete playlist ..."
+  "deletePlaylist": "Delete playlist ...",
+  "deleteYoutubePlaylistDialogTitle": "Delete Youtube Playlist \"{title}\"",
+  "deleteLocalPlaylistDialogTitle": "Delete local Playlist \"{title}\"",
+  "deletePlaylistDialogComment": "Deleting the playlist and all its audios as well as its JSON file and its directory."
 }

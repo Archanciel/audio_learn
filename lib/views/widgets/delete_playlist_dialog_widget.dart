@@ -10,11 +10,11 @@ import '../../utils/ui_util.dart';
 import '../../viewmodels/playlist_list_vm.dart';
 
 class DeletePlaylistDialogWidget extends StatefulWidget {
-  final String playlistUrl;
+  final Playlist playlistToDelete;
   final FocusNode focusNode;
 
   const DeletePlaylistDialogWidget({
-    required this.playlistUrl,
+    required this.playlistToDelete,
     required this.focusNode,
     super.key,
   });
@@ -63,73 +63,44 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
           // executing the same code as in the 'Add'
           // ElevatedButton onPressed callback
-          _addPlaylist(context);
+          _deletePlaylist(context);
           Navigator.of(context).pop();
         }
       },
       child: AlertDialog(
         title: Text(
-          key: const Key('playlistConfirmDialogTitleKey'),
-          AppLocalizations.of(context)!.addPlaylistDialogTitle,
+          key: const Key('playlistDeleteConfirmDialogTitleKey'),
+          _createDeletePlaylistDialogTitle(),
         ),
         actionsPadding:
             // reduces the top vertical space between the buttons
             // and the content
-            const EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
+            const EdgeInsets.fromLTRB(
+                10, 0, 10, 10), // Adjust the value as needed
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
               createTitleCommentRowFunction(
                 titleTextWidgetKey:
-                    const Key('playlistTitleCommentConfirmDialogKey'),
+                    const Key('playlistDeleteTitleCommentConfirmDialogKey'),
                 context: context,
-                value: AppLocalizations.of(context)!.addPlaylistDialogComment,
+                commentStr:
+                    AppLocalizations.of(context)!.deletePlaylistDialogComment,
               ),
-              createCheckboxRowFunction(
-                // displaying music quality checkbox
-                checkBoxWidgetKey:
-                    const Key('playlistQualityConfirmDialogCheckBox'),
-                context: context,
-                label: AppLocalizations.of(context)!.isMusicQualityLabel,
-                value: _isChecked,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _isChecked = value ?? false;
-                  });
-                },
-              ),
-              (widget.playlistUrl.isNotEmpty)
-                  ? createInfoRowFunction(
-                      // displaying the playlist URL
-                      valueTextWidgetKey:
-                          const Key('playlistUrlConfirmDialogText'),
-                      context: context,
-                      label:
-                          AppLocalizations.of(context)!.youtubePlaylistUrlLabel,
-                      value: widget.playlistUrl)
-                  : Container(),
-              createEditableRowFunction(
-                  // displaying the local playlist title TextField
-                  valueTextFieldWidgetKey:
-                      const Key('playlistLocalTitleConfirmDialogTextField'),
-                  context: context,
-                  label: AppLocalizations.of(context)!.localPlaylistTitleLabel,
-                  controller: _localPlaylistTitleTextEditingController,
-                  textFieldFocusNode: _localPlaylistTitleFocusNode),
             ],
           ),
         ),
         actions: [
           ElevatedButton(
-            key: const Key('addPlaylistConfirmDialogAddButton'),
+            key: const Key('deletePlaylistConfirmDialogDeleteButton'),
             onPressed: () {
-              _addPlaylist(context);
+              _deletePlaylist(context);
               Navigator.of(context).pop();
             },
-            child: Text(AppLocalizations.of(context)!.add),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
           ElevatedButton(
-            key: const Key('addPlaylistConfirmDialogCancelButton'),
+            key: const Key('deletePlaylistConfirmDialogCancelButton'),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -140,7 +111,21 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
     );
   }
 
-  void _addPlaylist(BuildContext context) {
+  String _createDeletePlaylistDialogTitle() {
+    String deletePlaylistDialogTitle;
+
+    if (widget.playlistToDelete.url.isNotEmpty) {
+      deletePlaylistDialogTitle = AppLocalizations.of(context)!
+          .deleteYoutubePlaylistDialogTitle(widget.playlistToDelete.title);
+    } else {
+      deletePlaylistDialogTitle = AppLocalizations.of(context)!
+          .deleteLocalPlaylistDialogTitle(widget.playlistToDelete.title);
+    }
+
+    return deletePlaylistDialogTitle;
+  }
+
+  void _deletePlaylist(BuildContext context) {
     String localPlaylistTitle = _localPlaylistTitleTextEditingController.text;
     PlaylistListVM expandablePlaylistListVM =
         Provider.of<PlaylistListVM>(context, listen: false);
@@ -156,9 +141,9 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
     } else {
       // if the local playlist title is empty, then add the Youtube
       // playlist if the Youtube playlist URL is not empty
-      if (widget.playlistUrl.isNotEmpty) {
+      if (widget.playlistToDelete.url.isNotEmpty) {
         expandablePlaylistListVM.addPlaylist(
-          playlistUrl: widget.playlistUrl,
+          playlistUrl: widget.playlistToDelete.url,
           playlistQuality:
               _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
         );
