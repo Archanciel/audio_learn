@@ -154,7 +154,7 @@ mixin ScreenMixin {
   Widget createTitleCommentRowFunction({
     Key? titleTextWidgetKey, // key set to the Text widget displaying the title
     required BuildContext context,
-    required String value,
+    required String commentStr,
   }) {
     return Container(
       width: double.infinity,
@@ -165,12 +165,12 @@ mixin ScreenMixin {
           InkWell(
             child: Text(
               key: titleTextWidgetKey,
-              value,
+              commentStr,
               style: kDialogTextFieldStyle,
             ),
             onTap: () {
               Clipboard.setData(
-                ClipboardData(text: value),
+                ClipboardData(text: commentStr),
               );
             },
           ),

@@ -75,7 +75,8 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
         actionsPadding:
             // reduces the top vertical space between the buttons
             // and the content
-            const EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
+            const EdgeInsets.fromLTRB(
+                10, 0, 10, 10), // Adjust the value as needed
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
@@ -83,7 +84,8 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                 titleTextWidgetKey:
                     const Key('playlistTitleCommentConfirmDialogKey'),
                 context: context,
-                value: AppLocalizations.of(context)!.addPlaylistDialogComment,
+                commentStr:
+                    AppLocalizations.of(context)!.addPlaylistDialogComment,
               ),
               createCheckboxRowFunction(
                 // displaying music quality checkbox

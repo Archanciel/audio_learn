@@ -73,14 +73,15 @@ class _RenameAudioFileDialogWidgetState
         actionsPadding:
             // reduces the top vertical space between the buttons
             // and the content
-            const EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
+            const EdgeInsets.fromLTRB(
+                10, 0, 10, 10), // Adjust the value as needed
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
               createTitleCommentRowFunction(
                 titleTextWidgetKey: const Key('renameAudioFileDialogKey'),
                 context: context,
-                value:
+                commentStr:
                     AppLocalizations.of(context)!.renameAudioFileDialogComment,
               ),
               createEditableRowFunction(
