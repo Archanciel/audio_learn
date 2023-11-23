@@ -26,30 +26,10 @@ class DeletePlaylistDialogWidget extends StatefulWidget {
 
 class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
     with ScreenMixin {
-  final TextEditingController _localPlaylistTitleTextEditingController =
-      TextEditingController();
-  final FocusNode _localPlaylistTitleFocusNode = FocusNode();
-
-  bool _isChecked = false;
 
   @override
   void initState() {
     super.initState();
-
-    // Add this line to request focus on the TextField after the build
-    // method has been called
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(
-        _localPlaylistTitleFocusNode,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    _localPlaylistTitleTextEditingController.dispose();
-
-    super.dispose();
   }
 
   @override
@@ -61,7 +41,7 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
       onKey: (event) {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // executing the same code as in the 'Add'
+          // executing the same code as in the 'Delete'
           // ElevatedButton onPressed callback
           _deletePlaylist(context);
           Navigator.of(context).pop();
@@ -126,29 +106,12 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
   }
 
   void _deletePlaylist(BuildContext context) {
-    String localPlaylistTitle = _localPlaylistTitleTextEditingController.text;
     PlaylistListVM expandablePlaylistListVM =
         Provider.of<PlaylistListVM>(context, listen: false);
 
-    if (localPlaylistTitle.isNotEmpty) {
-      // if the local playlist title is not empty, then add the local
-      // playlist
-      expandablePlaylistListVM.addPlaylist(
-        localPlaylistTitle: localPlaylistTitle,
-        playlistQuality:
-            _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
-      );
-    } else {
-      // if the local playlist title is empty, then add the Youtube
-      // playlist if the Youtube playlist URL is not empty
-      if (widget.playlistToDelete.url.isNotEmpty) {
-        expandablePlaylistListVM.addPlaylist(
-          playlistUrl: widget.playlistToDelete.url,
-          playlistQuality:
-              _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
-        );
-      }
-    }
+    expandablePlaylistListVM.deletePlaylist(
+      playlistToDelete: widget.playlistToDelete,
+    );
   }
 
   String formatDownloadSpeed({

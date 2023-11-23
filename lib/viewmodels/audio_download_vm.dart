@@ -112,6 +112,17 @@ class AudioDownloadVM extends ChangeNotifier {
     );
   }
 
+  void deletePlaylist({
+    required Playlist playlistToDelete,
+  }) {
+    _listOfPlaylist.removeWhere(
+        (playlist) => playlist.id == playlistToDelete.id);
+
+    DirUtil.deleteDirIfExist(playlistToDelete.downloadPath);
+    
+    notifyListeners();
+  }
+
   /// This method has been created in order for the
   /// MockAudioDownloadVM addPlaylist() method to be able
   /// to use the AudioDownloadVM.addPlaylist() logic.

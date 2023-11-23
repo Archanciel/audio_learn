@@ -333,14 +333,23 @@ class PlaylistListVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Method called when the user selected a playlist item and clicked
-  /// on the Delete playlist button. But the Delete playlist button is
-  /// no longer present.
-  void deleteSelectedItem(BuildContext context) {
-    int selectedIndex = _getSelectedIndex();
+  /// Method called when the user confirms deleting the playlist.
+  void deletePlaylist({
+    required Playlist playlistToDelete,
+  }) {
+    // if the playlist to delete is local, then its id is its title
+    int playlistToDeleteIndex = _listOfSelectablePlaylists
+        .indexWhere((playlist) => playlist.id == playlistToDelete.id);
 
-    if (selectedIndex != -1) {
-      _deleteItem(selectedIndex);
+    if (playlistToDeleteIndex != -1) {
+      if (playlistToDelete.isSelected) {
+        _isPlaylistSelected = false;
+      }
+
+      _audioDownloadVM.deletePlaylist(
+        playlistToDelete: playlistToDelete,
+      );
+      _listOfSelectablePlaylists.removeAt(playlistToDeleteIndex);
       _updateAndSavePlaylistOrder();
       _disableAllButtonsIfNoPlaylistIsSelected();
 
@@ -531,7 +540,6 @@ class PlaylistListVM extends ChangeNotifier {
   void deleteAudioFromPlaylistAswell({
     required Audio audio,
   }) {
-    
     _audioDownloadVM.deleteAudioFromPlaylistAswell(audio: audio);
 
     _removeAudioFromSortedFilteredPlayableAudioList(audio);

@@ -64,10 +64,27 @@ class DirUtil {
     }
   }
 
+  /// Delete the directory {pathStr}, the files it contains and
+  /// its subdirectories.
+  static void deleteDirIfExist(String pathStr) {
+    final Directory directory = Directory(pathStr);
+
+  if (directory.existsSync()) {
+    try {
+      directory.deleteSync(recursive: true);
+    } catch (e) {
+      print("Error occurred while deleting directory: $e");
+    }
+  } else {
+    print("Directory does not exist.");
+  }
+  }
+  
   /// Delete all the files in the {rootPath} directory and its
   /// subdirectories. If {deleteSubDirectoriesAsWell} is true,
   /// the subdirectories and sub subdirectories of {rootPath} are
-  /// deleted as well.
+  /// deleted as well. The {rootPath} directory itself is not
+  /// deleted.
   static void deleteFilesInDirAndSubDirs({
     required String rootPath,
     bool deleteSubDirectoriesAsWell = false,
