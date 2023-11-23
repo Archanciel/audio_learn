@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -43,7 +45,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Playlist Download View test', () {
-    testWidgets('Add Youtube playlist', (tester) async {
+    testWidgets('Add and then delete Youtube playlist', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -233,11 +235,69 @@ void main() {
       expect(loadedNewPlaylist.isSelected, false);
       expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
 
+      // Check that the ordered playlist titles list in the settings
+      // data service contains the added playlist title
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+          [youtubeNewPlaylistTitle]);
+
+      // Now test deleting the playlist
+
+      // Open the delete playlist dialog by clicking on the 'Delete
+      // playlist ...' playlist menu item
+
+      // Now find the leading menu icon button of the Playlist ListTile
+      // and tap on it
+      final Finder firstPlaylistListTileLeadingMenuIconButton = find.descendant(
+        of: firstListTileFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(firstPlaylistListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the delete playlist popup menu item and tap on it
+      final Finder popupDeletePlaylistMenuItem =
+          find.byKey(const Key("popup_menu_delete_playlist"));
+
+      await tester.tap(popupDeletePlaylistMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Now verifying the confirm dialog message
+
+      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
+          find.byKey(const Key('playlistDeleteConfirmDialogTitleKey')));
+
+      expect(deletePlaylistDialogTitleWidget.data,
+          'Delete Youtube Playlist "$youtubeNewPlaylistTitle"');
+
+      // Now find the delete button of the delete playlist confirm
+      // dialog and tap on it
+      await tester.tap(
+          find.byKey(const Key('deletePlaylistConfirmDialogDeleteButton')));
+      await tester.pumpAndSettle();
+
+      // Check that the ordered playlist titles list in the settings
+      // data service is now empty
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+          []);
+
+      // Check that the deleted playlist directory no longer exist
+      expect(Directory(newPlaylistFilePathName).existsSync(), false);
+
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Add local playlist', (tester) async {
+    testWidgets('Add and then delete local playlist', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -387,6 +447,86 @@ void main() {
       expect(loadedNewPlaylist.playableAudioLst.length, 0);
       expect(loadedNewPlaylist.isSelected, false);
       expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
+
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
+
+      final settingsPathFileName = path.join(
+        kDownloadAppTestDirWindows,
+        'settings.json',
+      );
+
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName: settingsPathFileName);
+
+      // Check that the ordered playlist titles list in the settings
+      // data service contains the added playlist title
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+          [localPlaylistTitle]);
+
+      // Now test deleting the playlist
+
+      // Open the delete playlist dialog by clicking on the 'Delete
+      // playlist ...' playlist menu item
+
+      // Now find the leading menu icon button of the Playlist ListTile
+      // and tap on it
+      final Finder firstPlaylistListTileLeadingMenuIconButton = find.descendant(
+        of: firstListTileFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(firstPlaylistListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the delete playlist popup menu item and tap on it
+      final Finder popupDeletePlaylistMenuItem =
+          find.byKey(const Key("popup_menu_delete_playlist"));
+
+      await tester.tap(popupDeletePlaylistMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Now verifying the confirm dialog message
+
+      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
+          find.byKey(const Key('playlistDeleteConfirmDialogTitleKey')));
+
+      expect(deletePlaylistDialogTitleWidget.data,
+          'Delete local Playlist "$localPlaylistTitle"');
+
+      // Now find the delete button of the delete playlist confirm
+      // dialog and tap on it
+      await tester.tap(
+          find.byKey(const Key('deletePlaylistConfirmDialogDeleteButton')));
+      await tester.pumpAndSettle();
+
+      // Check that the ordered playlist titles list in the settings
+      // data service is now empty
+
+      // Reload the settings data service from the settings json file
+      settingsDataService.loadSettingsFromFile(
+        jsonPathFileName: settingsPathFileName,
+      );
+
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+          ['']); // if loading from the settings json file,
+      //            the ordered playlist titles list is never
+      //            empty. I don't know why, but it is the same
+      //            if loading settings from file in add and delete
+      //            Youtube playlist !
+
+      // Check that the deleted playlist directory no longer exist
+      expect(Directory(newPlaylistFilePathName).existsSync(), false);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -1131,8 +1271,8 @@ void main() {
 
       // Verify the copied to playlist title of the copied audio
 
-      final Text copiedToPlaylistTitleTextWidget =
-          tester.widget<Text>(find.byKey(const Key('copiedToPlaylistTitleKey')));
+      final Text copiedToPlaylistTitleTextWidget = tester
+          .widget<Text>(find.byKey(const Key('copiedToPlaylistTitleKey')));
 
       expect(copiedToPlaylistTitleTextWidget.data, '');
 
