@@ -210,7 +210,7 @@ void main() {
     test(
       'Duration 0 hours 0 minutes -2499 milliseconds',
       () {
-        Duration duration = Duration() - Duration(milliseconds: 2499);
+        Duration duration = const Duration() - const Duration(milliseconds: 2499);
 
         expect(duration.HHmmssZeroHH(), '-0:02');
       },
@@ -292,7 +292,7 @@ void main() {
     test(
       'Duration 0 hours -2 minutes 2500 milliseconds',
       () {
-        Duration duration = Duration() - Duration(milliseconds: 122500);
+        Duration duration = const Duration() - const Duration(milliseconds: 122500);
 
         expect(duration.HHmmssZeroHH(), '-2:03');
       },
@@ -341,7 +341,7 @@ void main() {
     test(
       'Duration 0 hours -10 minutes 58501 milliseconds',
       () {
-        Duration duration = Duration() - Duration(milliseconds: 658501);
+        Duration duration = const Duration() - const Duration(milliseconds: 658501);
 
         expect(duration.HHmmssZeroHH(), '-10:59');
       },
@@ -374,7 +374,7 @@ void main() {
     test(
       'Duration -2 hours 10 minutes 58500 milliseconds',
       () {
-        Duration duration = Duration() - Duration(milliseconds: 7858500);
+        Duration duration = const Duration() - const Duration(milliseconds: 7858500);
 
         expect(duration.HHmmssZeroHH(), '-2:10:59');
       },

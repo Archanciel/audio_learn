@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:audio_learn/utils/date_time_parser.dart';
 import 'package:flutter/material.dart';
@@ -296,7 +295,7 @@ Future<void> initializeApplication({
 Duration parseDuration(String hhmmString) {
   List<String> parts = hhmmString.split(':');
   if (parts.length != 2) {
-    throw FormatException("Invalid duration format");
+    throw const FormatException("Invalid duration format");
   }
 
   int hours = int.parse(parts[0]);
