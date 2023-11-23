@@ -222,7 +222,7 @@ class PlaylistListVM extends ChangeNotifier {
     _isListExpanded = !_isListExpanded;
 
     if (!_isListExpanded) {
-      _disableEpandedListButtons();
+      _disableExpandedListButtons();
     } else {
       int selectedPlaylistIndex = _getSelectedIndex();
       if (selectedPlaylistIndex != -1) {
@@ -351,7 +351,13 @@ class PlaylistListVM extends ChangeNotifier {
       );
       _listOfSelectablePlaylists.removeAt(playlistToDeleteIndex);
       _updateAndSavePlaylistOrder();
-      _disableAllButtonsIfNoPlaylistIsSelected();
+
+      if (playlistToDelete.playlistType == PlaylistType.youtube &&
+          !_isPlaylistSelected) {
+        // if the deleted playlist was a local playlist, then
+        // the buttons were already disabled
+        _disableAllButtonsIfNoPlaylistIsSelected();
+      }
 
       notifyListeners();
     }
@@ -579,11 +585,11 @@ class PlaylistListVM extends ChangeNotifier {
   }
 
   void _disableAllButtonsIfNoPlaylistIsSelected() {
-    _disableEpandedListButtons();
+    _disableExpandedListButtons();
     _isButtonAudioPopupMenuEnabled = false;
   }
 
-  void _disableEpandedListButtons() {
+  void _disableExpandedListButtons() {
     _isButtonDownloadSelPlaylistsEnabled = false;
     _isButtonMoveUpPlaylistEnabled = false;
     _isButtonDownPlaylistEnabled = false;
