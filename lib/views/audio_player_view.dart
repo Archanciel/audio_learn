@@ -135,7 +135,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               Expanded(
                 child: SliderTheme(
                   data: const SliderThemeData(
-                    trackHeight: 2.0,
+                    trackHeight: kSliderThickness,
                     thumbShape: RoundSliderThumbShape(
                         enabledThumbRadius:
                             6.0), // Adjust the radius as you need

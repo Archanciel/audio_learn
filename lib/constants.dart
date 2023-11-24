@@ -96,4 +96,6 @@ const kSliderValueTextStyle = TextStyle(
   color: kButtonColor,
 );
 
+const kSliderThickness = 2.0;
+
 const double kTitleFontSize = 15.0;

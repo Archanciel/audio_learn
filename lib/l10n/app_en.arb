@@ -19,7 +19,7 @@
       "language": {}
     }
   },
-  "audioQuality": "If set, downloads at max quality",
+  "musicalQualityTooltip": "If set, downloads at musical quality",
   "ofPreposition": "of",
   "atPreposition": "at",
   "ytPlaylistLinkLabel": "Youtube Playlist Link",
@@ -202,7 +202,7 @@
   "addPlaylistButtonTooltip": "Add Youtube or local playlist",
   "stopDownloadingButtonTooltip": "Stop downloading",
   "playlistToggleButtonTooltip": "Show/hide playlists",
-  "downloadSelPlaylistsButtonTooltip": "Download audios of selected playlists",
+  "downloadSelPlaylistsButtonTooltip": "Download audios of selected playlist",
   "option1": "Option one",
   "option2": "Option two",
   "audioOneSelectedDialogTitle": "Select an audio",

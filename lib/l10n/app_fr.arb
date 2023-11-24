@@ -19,7 +19,7 @@
       "language": {}
     }
   },
-  "audioQuality": "Si activé, télécharge en qualité maximale",
+  "musicalQualityTooltip": "Si activé, télécharge en qualité musicale",
   "ofPreposition": "de",
   "atPreposition": "à",
   "ytPlaylistLinkLabel": "Lien Playlist Youtube",
@@ -203,7 +203,7 @@
   "addPlaylistButtonTooltip": "Ajouter une playlist Youtube ou locale",
   "stopDownloadingButtonTooltip": "Stopper le téléchargement",
   "playlistToggleButtonTooltip": "Afficher/masquer les playlists",
-  "downloadSelPlaylistsButtonTooltip": "Télécharger les audios des playlists sélectionnées",
+  "downloadSelPlaylistsButtonTooltip": "Télécharger les audios de la playlist sélectionnée",
   "option1": "Option une",
   "option2": "Option deux",
   "audioOneSelectedDialogTitle": "Sélectionnez un audio",
