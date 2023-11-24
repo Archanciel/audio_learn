@@ -206,6 +206,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                               horizontal: kSmallButtonInsidePadding),
                         ),
                       ),
+                      child: Text(AppLocalizations.of(context)!
+                          .downloadSingleVideoAudio),
                       onPressed: () {
                         PlaylistListVM expandablePlaylistListVM =
                             Provider.of<PlaylistListVM>(context, listen: false);
@@ -305,8 +307,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                           focusNode.requestFocus();
                         });
                       },
-                      child: Text(AppLocalizations.of(context)!
-                          .downloadSingleVideoAudio),
                     ),
                   ),
                 ),
