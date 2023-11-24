@@ -206,8 +206,18 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                               horizontal: kSmallButtonInsidePadding),
                         ),
                       ),
-                      child: Text(AppLocalizations.of(context)!
-                          .downloadSingleVideoAudio),
+                      child: Row(
+                        mainAxisSize: MainAxisSize
+                            .min, // Pour s'assurer que le Row n'occupe pas plus d'espace que nécessaire
+                        children: <Widget>[
+                          const Icon(
+                            Icons.download_outlined,
+                            size: 15,
+                          ), // Icône
+                          Text(AppLocalizations.of(context)!
+                              .downloadSingleVideoAudio), // Texte
+                        ],
+                      ),
                       onPressed: () {
                         PlaylistListVM expandablePlaylistListVM =
                             Provider.of<PlaylistListVM>(context, listen: false);
@@ -493,13 +503,23 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                                     playlistUrl: selectedPlaylists[0].url);
                           }
                         : null,
-                    child: Text(AppLocalizations.of(context)!
-                        .downloadSelectedPlaylists),
+                    child: Row(
+                      mainAxisSize: MainAxisSize
+                          .min, // Pour s'assurer que le Row n'occupe pas plus d'espace que nécessaire
+                      children: <Widget>[
+                        const Icon(
+                          Icons.download_outlined,
+                          size: 15,
+                        ), // Icône
+                        Text(AppLocalizations.of(context)!
+                            .downloadSelectedPlaylist), // Texte
+                      ],
+                    ),
                   ),
                 ),
               ),
               Tooltip(
-                message: AppLocalizations.of(context)!.audioQuality,
+                message: AppLocalizations.of(context)!.musicalQualityTooltip,
                 child: SizedBox(
                   width: 20,
                   child: Checkbox(

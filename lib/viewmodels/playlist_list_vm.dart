@@ -399,7 +399,7 @@ class PlaylistListVM extends ChangeNotifier {
     }
   }
 
-  Future<void> downloadSelectedPlaylists(BuildContext context) async {
+  Future<void> downloadSelectedPlaylist(BuildContext context) async {
     List<Playlist> selectedPlaylists = getSelectedPlaylists();
 
     for (Playlist playlist in selectedPlaylists) {
