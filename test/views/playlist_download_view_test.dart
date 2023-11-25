@@ -9,25 +9,40 @@ import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
-import 'package:audio_learn/viewmodels/language_provider.dart';
-import 'package:audio_learn/viewmodels/theme_provider.dart';
+import 'package:audio_learn/viewmodels/language_provider_vm.dart';
+import 'package:audio_learn/viewmodels/theme_provider_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:audio_learn/views/playlist_download_view.dart';
 
-class MockPlaylistDownloadViewVM extends PlaylistListVM {
-  MockPlaylistDownloadViewVM({
+class MockPlaylistListVM extends PlaylistListVM {
+  MockPlaylistListVM({
     required super.warningMessageVM,
     required super.audioDownloadVM,
     required super.settingsDataService,
   });
 }
 
-void main() {
+void main() async {
+  const int renameFileAwait = 1000;
+
+  DirUtil.renameFile(
+    fileToRenameFilePathName:
+        '$kTranslationFileDirWindows${path.separator}app_en.arb',
+    newFileName: 'app_en_good.arb',
+  );
+  DirUtil.renameFile(
+    fileToRenameFilePathName:
+        '$kTranslationFileDirWindows${path.separator}app_en_test.arb',
+    newFileName: 'app_en.arb',
+  );
+
+  await Future.delayed(const Duration(milliseconds: renameFileAwait));
+
   group(
       'Testing expandable playlist list located in PlaylistDownloadView functions',
       () {
     testWidgets(
-        'should render ListViewWidget, not using MyApp but ListViewWidget',
+        'should render ListView widget, not using MyApp but ListView widget',
         (WidgetTester tester) async {
       SettingsDataService settingsDataService = SettingsDataService(
         isTest: true,
@@ -1157,10 +1172,25 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+
+  tearDownAll(() async {
+    DirUtil.renameFile(
+      fileToRenameFilePathName:
+          '$kTranslationFileDirWindows${path.separator}app_en.arb',
+      newFileName: 'app_en_test.arb',
+    );
+    DirUtil.renameFile(
+      fileToRenameFilePathName:
+          '$kTranslationFileDirWindows${path.separator}app_en_good.arb',
+      newFileName: 'app_en.arb',
+    );
+
+    await Future.delayed(const Duration(milliseconds: renameFileAwait));
+  });
 }
 
 /// This constructor instanciates the [PlaylistDownloadView]
-/// with the [MockPlaylistDownloadViewVM]
+/// with the [MockPlaylistListVM]
 Future<void> _createPlaylistDownloadView({
   required WidgetTester tester,
   required AudioDownloadVM audioDownloadVM,
@@ -1171,18 +1201,18 @@ Future<void> _createPlaylistDownloadView({
     MultiProvider(
       providers: [
         ChangeNotifierProvider<PlaylistListVM>(
-            create: (_) => MockPlaylistDownloadViewVM(
+            create: (_) => MockPlaylistListVM(
                   warningMessageVM: warningMessageVM,
                   audioDownloadVM: audioDownloadVM,
                   settingsDataService: settingsDataService,
                 )),
         ChangeNotifierProvider(create: (_) => audioDownloadVM),
         ChangeNotifierProvider(
-            create: (_) => ThemeProvider(
+            create: (_) => ThemeProviderVM(
                   appSettings: settingsDataService,
                 )),
         ChangeNotifierProvider(
-            create: (_) => LanguageProvider(
+            create: (_) => LanguageProviderVM(
                   appSettings: settingsDataService,
                 )),
         ChangeNotifierProvider(create: (_) => warningMessageVM),
