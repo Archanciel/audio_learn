@@ -24,6 +24,9 @@ const String kDownloadAppTestSavedDataDir =
 const String kDownloadAppTestDirWindows =
     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
 
+const String kTranslationFileDirWindows =
+    "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\lib\\l10n";
+
 // this constant enables to download a playlist in the emulator in which
 // pasting a URL is not possible. The constant is used in
 // _ExpandablePlaylistListViewState.initState().
