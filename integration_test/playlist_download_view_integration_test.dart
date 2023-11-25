@@ -12,8 +12,8 @@ import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/services/json_data_service.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
-import 'package:audio_learn/viewmodels/language_provider.dart';
-import 'package:audio_learn/viewmodels/theme_provider.dart';
+import 'package:audio_learn/viewmodels/language_provider_vm.dart';
+import 'package:audio_learn/viewmodels/theme_provider_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:audio_learn/views/playlist_download_view.dart';
 import 'package:audio_learn/views/widgets/display_message_widget.dart';
@@ -1788,11 +1788,11 @@ Future<void> _launchExpandablePlaylistListView({
       providers: [
         ChangeNotifierProvider(create: (_) => audioDownloadVM),
         ChangeNotifierProvider(
-            create: (_) => ThemeProvider(
+            create: (_) => ThemeProviderVM(
                   appSettings: settingsDataService,
                 )),
         ChangeNotifierProvider(
-            create: (_) => LanguageProvider(
+            create: (_) => LanguageProviderVM(
                   appSettings: settingsDataService,
                 )),
         ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),

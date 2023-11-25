@@ -8,8 +8,25 @@ import '../services/json_data_service.dart';
 import '../utils/duration_expansion.dart';
 import 'playlist_list_vm.dart';
 
-/// Used in the AudioPlayerView screen to manage the audio playing
-/// position modifications and much more ...
+/// This VM (View Model) class is part of the MVVM architecture.
+///
+/// This class manages the audio player obtained from the
+/// audioplayers package.
+///
+/// It is used in the AudioPlayerView screen to manage the audio
+/// playing position modifications as well as the reference on the
+/// current playing audio.
+///
+/// As Consumer<AudioPlayerVM> in the AudioPlayerView screen, it
+/// updates the different widgets showing the current audio playing
+/// position and the current audio title.
+///
+/// It is also used in the AudioListItemWidget to display the
+/// current audio playing status.
+///
+/// It is also used in the AudioOneSelectableDialogWidget to
+/// obtain the list of audios - currently ordered by download
+/// date - to be displayed in the dialog.
 class AudioPlayerVM extends ChangeNotifier {
   Audio? _currentAudio;
   Audio? get currentAudio => _currentAudio;
@@ -256,20 +273,20 @@ class AudioPlayerVM extends ChangeNotifier {
   /// is displayed correctly in the AudioPlayerView screen.
   Future<void> setCurrentAudioFromSelectedPlaylist() async {
     Audio? currentOrPastPlaylistAudio = _playlistListVM
-        .getSelectedPlaylists()
+        .getSelectedPlaylist()
         .first
         .getCurrentOrLastlyPlayedAudioContainedInPlayableAudioLst();
     if (currentOrPastPlaylistAudio == null) {
       // causes "No audio selected" audio title to be displayed
       // in the AudioPlayerView screen. Reinitializing the
-      // the _currentAudioPosition as well as the 
+      // the _currentAudioPosition as well as the
       // _currentAudioTotalDuration ensure that the audio slider
       // is correctly displayed at position 0:00 and that the
       // displayed audio duration is 0:00.
       _currentAudio = null;
       _currentAudioPosition = const Duration();
       _currentAudioTotalDuration = const Duration();
-      
+
       _initializeAudioPlayer();
 
       return;
@@ -297,7 +314,7 @@ class AudioPlayerVM extends ChangeNotifier {
       // currently only one playlist can be selected at a time
       // in the PlaylistDownloadView.
       _currentAudio = _playlistListVM
-          .getSelectedPlaylists()
+          .getSelectedPlaylist()
           .first
           .getCurrentOrLastlyPlayedAudioContainedInPlayableAudioLst();
       if (_currentAudio == null) {
@@ -516,18 +533,33 @@ class AudioPlayerVM extends ChangeNotifier {
     _currentAudioLastSaveDateTime = now;
   }
 
-  /// The returned list is ordered by download time, placing
-  /// latest downloaded audios at end of list, so reversing
+  /// The returned list is ordered by download date, placing
+  /// the first downloaded audio at the begining of the list and
+  /// the latest downloaded audios at end of list, so reversing
   /// the playlist playable audio list.
   ///
   /// playableAudioLst order: [available audio last downloaded, ...,
   ///                          available audio first downloaded]
-  List<Audio> getPlayableAudiosOrderedByDownloadTime() {
+  /// 
+  /// Example:
+  /// 
+  /// playableAudioList
+  /// 24 nov
+  /// 21 nov
+  /// 5 nov
+  /// 28 oct
+  /// 
+  /// playable audios ordered by download date
+  /// 28 oct
+  /// 5 nov
+  /// 21 nov
+  /// 24 nov																																																																																																																					
+  List<Audio> getPlayableAudiosOrderedByDownloadDate() {
     if (_currentAudio == null) {
       // the case if "No audio selected" audio title is
       // displayed in the AudioPlayerView screen
       return _playlistListVM
-          .getSelectedPlaylists()
+          .getSelectedPlaylist()
           .first
           .playableAudioLst
           .reversed

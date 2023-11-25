@@ -4,15 +4,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/constants.dart';
-import '../../../viewmodels/language_provider.dart';
-import '../../../viewmodels/theme_provider.dart';
+import '../../viewmodels/language_provider_vm.dart';
+import '../../viewmodels/theme_provider_vm.dart';
 
 enum AppBarPopupMenu { en, fr, about }
 
 /// This widget is the popup menu button widget which is displayed
 /// on the right side of the application appbar. It contains menu items
 /// to change the application language and to display the about dialog.
-/// 
+///
 /// The menu items are defined in the enum AppBarPopupMenu. Up to now
 /// the popup menu widget is identical for all screens.
 class AppBarApplicationRightPopupMenuWidget extends StatelessWidget {
@@ -21,7 +21,7 @@ class AppBarApplicationRightPopupMenuWidget extends StatelessWidget {
     required this.themeProvider,
   });
 
-  final ThemeProvider themeProvider;
+  final ThemeProviderVM themeProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +31,14 @@ class AppBarApplicationRightPopupMenuWidget extends StatelessWidget {
           case AppBarPopupMenu.en:
             Locale newLocale = const Locale('en');
             AppLocalizations.delegate.load(newLocale).then((localizations) {
-              Provider.of<LanguageProvider>(context, listen: false)
+              Provider.of<LanguageProviderVM>(context, listen: false)
                   .changeLocale(newLocale);
             });
             break;
           case AppBarPopupMenu.fr:
             Locale newLocale = const Locale('fr');
             AppLocalizations.delegate.load(newLocale).then((localizations) {
-              Provider.of<LanguageProvider>(context, listen: false)
+              Provider.of<LanguageProviderVM>(context, listen: false)
                   .changeLocale(newLocale);
             });
             break;

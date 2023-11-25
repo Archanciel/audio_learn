@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../models/audio.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/audio_player_vm.dart';
-import '../../viewmodels/theme_provider.dart';
+import '../../viewmodels/theme_provider_vm.dart';
 
 /// This dialog is used to select a single playlist among the
 /// displayed playlists.
@@ -73,14 +73,14 @@ class _AudioOneSelectableDialogWidgetState
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    ThemeProviderVM themeProvider = Provider.of<ThemeProviderVM>(context);
     bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;
     AudioPlayerVM audioGlobalPlayerVM =
         Provider.of<AudioPlayerVM>(context, listen: false);
     Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
     List<Audio> playableAudioLst =
-        audioGlobalPlayerVM.getPlayableAudiosOrderedByDownloadTime();
+        audioGlobalPlayerVM.getPlayableAudiosOrderedByDownloadDate();
 
     // avoid error when the dialog is opened and the current
     // audio is not yet set

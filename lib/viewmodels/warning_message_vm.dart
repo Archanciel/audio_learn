@@ -86,6 +86,8 @@ enum ErrorType {
   // or update an existing playlist.
 }
 
+/// This VM (View Model) class is part of the MVVM architecture.
+/// 
 class WarningMessageVM extends ChangeNotifier {
   WarningMessageType _warningMessageType = WarningMessageType.none;
   WarningMessageType get warningMessageType => _warningMessageType;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../viewmodels/audio_player_vm.dart';
-import '../viewmodels/theme_provider.dart';
+import '../viewmodels/theme_provider_vm.dart';
 import '../services/settings_data_service.dart';
 import '../views/widgets/appbar_leading_popup_menu_widget.dart';
 import '../views/widgets/appbar_application_right_popup_menu_widget.dart';
@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(
+    ThemeProviderVM themeProvider = Provider.of<ThemeProviderVM>(
       context,
       listen: false,
     );

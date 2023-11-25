@@ -6,13 +6,15 @@ import '../constants.dart';
 import '../services/settings_data_service.dart';
 import '../utils/dir_util.dart';
 
-class LanguageProvider extends ChangeNotifier {
+/// This VM (View Model) class is part of the MVVM architecture.
+///
+class LanguageProviderVM extends ChangeNotifier {
   final SettingsDataService _appSettings;
 
   late Locale _currentLocale;
   Locale get currentLocale => _currentLocale;
 
-  LanguageProvider({
+  LanguageProviderVM({
     required SettingsDataService appSettings,
   }) : _appSettings = appSettings {
     Language language = appSettings.get(

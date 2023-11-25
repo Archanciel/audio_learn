@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../models/playlist.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/playlist_list_vm.dart';
-import '../../viewmodels/theme_provider.dart';
+import '../../viewmodels/theme_provider_vm.dart';
 
 enum PlaylistOneSelectableDialogUsedFor {
   downloadSingleVideoAudio,
@@ -75,7 +75,7 @@ class _PlaylistOneSelectableDialogWidgetState
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    ThemeProviderVM themeProvider = Provider.of<ThemeProviderVM>(context);
     bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;
     PlaylistListVM expandablePlaylistVM = Provider.of<PlaylistListVM>(
       context,
@@ -87,8 +87,8 @@ class _PlaylistOneSelectableDialogWidgetState
       upToDateSelectablePlaylists =
           expandablePlaylistVM.getUpToDateSelectablePlaylists();
     } else {
-      upToDateSelectablePlaylists =
-          expandablePlaylistVM.getUpToDateSelectablePlaylistsExceptPlaylist(
+      upToDateSelectablePlaylists = expandablePlaylistVM
+          .getUpToDateSelectablePlaylistsExceptExcludedPlaylist(
               excludedPlaylist: widget.excludedPlaylist!);
     }
 

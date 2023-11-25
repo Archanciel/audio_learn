@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../viewmodels/theme_provider.dart';
+import '../../viewmodels/theme_provider_vm.dart';
 
 enum AppBarPopupMenu { option1, option2 }
 
@@ -14,7 +14,7 @@ class AppBarLeadingPopupMenuWidget extends StatelessWidget {
     required this.themeProvider,
   });
 
-  final ThemeProvider themeProvider;
+  final ThemeProviderVM themeProvider;
 
   @override
   Widget build(BuildContext context) {

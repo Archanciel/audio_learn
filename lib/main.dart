@@ -9,8 +9,8 @@ import 'constants.dart';
 import 'viewmodels/playlist_list_vm.dart';
 import 'viewmodels/audio_download_vm.dart';
 import 'viewmodels/audio_player_vm.dart';
-import 'viewmodels/language_provider.dart';
-import 'viewmodels/theme_provider.dart';
+import 'viewmodels/language_provider_vm.dart';
+import 'viewmodels/theme_provider_vm.dart';
 import 'viewmodels/warning_message_vm.dart';
 import 'services/settings_data_service.dart';
 import 'utils/dir_util.dart';
@@ -146,19 +146,19 @@ class MainApp extends StatelessWidget with ScreenMixin {
           },
         ),
         ChangeNotifierProvider(
-          create: (_) => ThemeProvider(
+          create: (_) => ThemeProviderVM(
             appSettings: _settingsDataService,
           ),
         ),
         ChangeNotifierProvider(
-          create: (_) => LanguageProvider(
+          create: (_) => LanguageProviderVM(
             appSettings: _settingsDataService,
           ),
         ),
         ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
         ChangeNotifierProvider(create: (_) => warningMessageVM),
       ],
-      child: Consumer2<ThemeProvider, LanguageProvider>(
+      child: Consumer2<ThemeProviderVM, LanguageProviderVM>(
         builder: (context, themeProvider, languageProvider, child) {
           return MaterialApp(
             title: 'AudioLearn',

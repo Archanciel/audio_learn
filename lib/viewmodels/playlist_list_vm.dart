@@ -7,7 +7,28 @@ import '../services/settings_data_service.dart';
 import 'audio_download_vm.dart';
 import 'warning_message_vm.dart';
 
-/// List view model used in ExpandableListView
+/// This VM (View Model) class is part of the MVVM architecture.
+///
+/// It is used in the PlaylistDownloadView screen in order to
+/// provide the list of selectable playlists. Once a playlist
+/// is selected, it can be moved up or down by clicking on the
+/// corresponding button. The PlaylistListVM stores the list
+/// of selectable playlists in the order they are displayed.
+///
+/// The PlaylistListVM also stores the selected playlist.
+/// It manages as well the filtered and sorted selected
+/// playlist audios. Using the general playlist menu located
+/// at right of the PlaylistDownloadView screen, the user can
+/// sort and filter the selected playlist audios. When the
+/// selected playlist audio is asked to the PlaylistListVM,
+/// either the full playable audio list of the selected playlist
+/// is returned or the filtered and sorted audio list is returned.
+/// 
+/// The class is also used in the AudioPlayerVM to obtain the
+/// next or previous playable audio.
+/// 
+/// It is also used by several widgets in order to display or
+/// manage the playlists.
 class PlaylistListVM extends ChangeNotifier {
   bool _isListExpanded = false;
   bool _isButtonDownloadSelPlaylistsEnabled = false;
@@ -26,7 +47,7 @@ class PlaylistListVM extends ChangeNotifier {
   final WarningMessageVM _warningMessageVM;
   final SettingsDataService _settingsDataService;
 
-  bool _isPlaylistSelected = true;
+  bool _isOnePlaylistSelected = true;
   List<Playlist> _listOfSelectablePlaylists = [];
   List<Audio>? _sortedFilteredSelectedPlaylistsPlayableAudios;
 
@@ -41,7 +62,7 @@ class PlaylistListVM extends ChangeNotifier {
         _audioDownloadVM = audioDownloadVM,
         _settingsDataService = settingsDataService;
 
-  List<Playlist> getUpToDateSelectablePlaylistsExceptPlaylist({
+  List<Playlist> getUpToDateSelectablePlaylistsExceptExcludedPlaylist({
     required Playlist excludedPlaylist,
   }) {
     List<Playlist> upToDateSelectablePlaylists =
@@ -132,7 +153,7 @@ class PlaylistListVM extends ChangeNotifier {
     int selectedPlaylistIndex = _getSelectedIndex();
 
     if (selectedPlaylistIndex != -1) {
-      _isPlaylistSelected = true;
+      _isOnePlaylistSelected = true;
 
       // required so that the TextField keyed by
       // 'selectedPlaylistTextField' below the playlist URL TextField
@@ -144,7 +165,7 @@ class PlaylistListVM extends ChangeNotifier {
         selectedPlaylist: _listOfSelectablePlaylists[selectedPlaylistIndex],
       );
     } else {
-      _isPlaylistSelected = false;
+      _isOnePlaylistSelected = false;
 
       // required so that the TextField keyed by
       // 'selectedPlaylistTextField' below the playlist URL TextField
@@ -299,9 +320,9 @@ class PlaylistListVM extends ChangeNotifier {
     // updatePlaylistSelection method if the following line is not
     // commented out
     // _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
-    _isPlaylistSelected = isPlaylistSelected;
+    _isOnePlaylistSelected = isPlaylistSelected;
 
-    if (!_isPlaylistSelected) {
+    if (!_isOnePlaylistSelected) {
       _disableAllButtonsIfNoPlaylistIsSelected();
 
       // if no playlist is selected, the quality checkbox is
@@ -343,7 +364,7 @@ class PlaylistListVM extends ChangeNotifier {
 
     if (playlistToDeleteIndex != -1) {
       if (playlistToDelete.isSelected) {
-        _isPlaylistSelected = false;
+        _isOnePlaylistSelected = false;
       }
 
       _audioDownloadVM.deletePlaylist(
@@ -353,7 +374,7 @@ class PlaylistListVM extends ChangeNotifier {
       _updateAndSavePlaylistOrder();
 
       if (playlistToDelete.playlistType == PlaylistType.youtube &&
-          !_isPlaylistSelected) {
+          !_isOnePlaylistSelected) {
         // if the deleted playlist was a local playlist, then
         // the buttons were already disabled
         _disableAllButtonsIfNoPlaylistIsSelected();
@@ -400,14 +421,16 @@ class PlaylistListVM extends ChangeNotifier {
   }
 
   Future<void> downloadSelectedPlaylist(BuildContext context) async {
-    List<Playlist> selectedPlaylists = getSelectedPlaylists();
+    List<Playlist> selectedPlaylists = getSelectedPlaylist();
 
     for (Playlist playlist in selectedPlaylists) {
       await _audioDownloadVM.downloadPlaylistAudios(playlistUrl: playlist.url);
     }
   }
 
-  List<Playlist> getSelectedPlaylists() {
+  /// Currently, only one playlist is selectable. So, this method
+  /// returns the unique selected playlist.
+  List<Playlist> getSelectedPlaylist() {
     return _listOfSelectablePlaylists
         .where((playlist) => playlist.isSelected)
         .toList();
@@ -422,7 +445,7 @@ class PlaylistListVM extends ChangeNotifier {
   /// means that the filtered and sorted audio list is
   /// returned if it exists. If false, the full playable
   /// audio list of the selected playlists is returned.
-  List<Audio> getSelectedPlaylistsPlayableAudios({
+  List<Audio> getSelectedPlaylistPlayableAudios({
     bool subFilterAndSort = true,
   }) {
     if (subFilterAndSort &&
@@ -610,12 +633,12 @@ class PlaylistListVM extends ChangeNotifier {
     }
 
     _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
-    _isPlaylistSelected = isPlaylistSelected;
+    _isOnePlaylistSelected = isPlaylistSelected;
   }
 
   void _deleteItem(int index) {
     _listOfSelectablePlaylists.removeAt(index);
-    _isPlaylistSelected = false;
+    _isOnePlaylistSelected = false;
   }
 
   void moveItemUp(int index) {

@@ -79,8 +79,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   @override
   Widget build(BuildContext context) {
-    final AudioDownloadVM audioDownloadViewModel =
-        Provider.of<AudioDownloadVM>(context);
+    final AudioDownloadVM audioDownloadViewModel = Provider.of<AudioDownloadVM>(
+      context,
+      listen: false,
+    );
     return Container(
       margin: const EdgeInsets.all(kDefaultMargin),
       child: Column(
@@ -206,18 +208,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                               horizontal: kSmallButtonInsidePadding),
                         ),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize
-                            .min, // Pour s'assurer que le Row n'occupe pas plus d'espace que nécessaire
-                        children: <Widget>[
-                          const Icon(
-                            Icons.download_outlined,
-                            size: 15,
-                          ), // Icône
-                          Text(AppLocalizations.of(context)!
-                              .downloadSingleVideoAudio), // Texte
-                        ],
-                      ),
                       onPressed: () {
                         PlaylistListVM expandablePlaylistListVM =
                             Provider.of<PlaylistListVM>(context, listen: false);
@@ -317,6 +307,20 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                           focusNode.requestFocus();
                         });
                       },
+                      child: Row(
+                        mainAxisSize: MainAxisSize
+                            .min, // Pour s'assurer que le Row n'occupe pas plus d'espace que nécessaire
+                        children: <Widget>[
+                          const Icon(
+                            Icons.download_outlined,
+                            size: 15,
+                          ), // Icône
+                          Text(
+                            AppLocalizations.of(context)!
+                                .downloadSingleVideoAudio,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -493,7 +497,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                                 .disableSortedFilteredPlayableAudioLst();
 
                             List<Playlist> selectedPlaylists =
-                                expandablePlaylistListVM.getSelectedPlaylists();
+                                expandablePlaylistListVM.getSelectedPlaylist();
 
                             // currently only one playlist can be selected and
                             // downloaded at a time.
@@ -576,7 +580,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                             return SortAndFilterAudioDialogWidget(
                               selectedPlaylistAudioLst:
                                   Provider.of<PlaylistListVM>(context)
-                                      .getSelectedPlaylistsPlayableAudios(
+                                      .getSelectedPlaylistPlayableAudios(
                                 subFilterAndSort: false,
                               ),
                               focusNode: focusNode,
@@ -602,7 +606,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                             return SortAndFilterAudioDialogWidget(
                               selectedPlaylistAudioLst:
                                   Provider.of<PlaylistListVM>(context)
-                                      .getSelectedPlaylistsPlayableAudios(
+                                      .getSelectedPlaylistPlayableAudios(
                                 subFilterAndSort: true,
                               ),
                               focusNode: focusNode,
@@ -684,7 +688,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             child: Consumer<PlaylistListVM>(
               builder: (context, expandablePlaylistListVM, child) {
                 _selectedPlaylistsPlayableAudios = expandablePlaylistListVM
-                    .getSelectedPlaylistsPlayableAudios();
+                    .getSelectedPlaylistPlayableAudios();
                 if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
                   // Scroll the sublist to the top when the audio
                   // list is filtered and/or sorted
@@ -703,7 +707,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   itemCount: (_selectedPlaylistsPlayableAudios.isEmpty)
                       ? 0
                       : expandablePlaylistListVM
-                          .getSelectedPlaylistsPlayableAudios()
+                          .getSelectedPlaylistPlayableAudios()
                           .length,
                   itemBuilder: (BuildContext context, int index) {
                     final audio = _selectedPlaylistsPlayableAudios[index];
