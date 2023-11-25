@@ -23,8 +23,6 @@ class MockPlaylistListVM extends PlaylistListVM {
 }
 
 void main() async {
-  const int renameFileAwait = 1000;
-
   DirUtil.renameFile(
     fileToRenameFilePathName:
         '$kTranslationFileDirWindows${path.separator}app_en.arb',
@@ -36,7 +34,7 @@ void main() async {
     newFileName: 'app_en.arb',
   );
 
-  await Future.delayed(const Duration(milliseconds: renameFileAwait));
+  await Future.delayed(const Duration(seconds: 1));
 
   group(
       'Testing expandable playlist list located in PlaylistDownloadView functions',
@@ -1185,7 +1183,7 @@ void main() async {
       newFileName: 'app_en.arb',
     );
 
-    await Future.delayed(const Duration(milliseconds: renameFileAwait));
+    await Future.delayed(const Duration(seconds: 1));
   });
 }
 
