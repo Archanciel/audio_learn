@@ -69,17 +69,17 @@ class DirUtil {
   static void deleteDirIfExist(String pathStr) {
     final Directory directory = Directory(pathStr);
 
-  if (directory.existsSync()) {
-    try {
-      directory.deleteSync(recursive: true);
-    } catch (e) {
-      print("Error occurred while deleting directory: $e");
+    if (directory.existsSync()) {
+      try {
+        directory.deleteSync(recursive: true);
+      } catch (e) {
+        print("Error occurred while deleting directory: $e");
+      }
+    } else {
+      print("Directory does not exist.");
     }
-  } else {
-    print("Directory does not exist.");
   }
-  }
-  
+
   /// Delete all the files in the {rootPath} directory and its
   /// subdirectories. If {deleteSubDirectoriesAsWell} is true,
   /// the subdirectories and sub subdirectories of {rootPath} are
@@ -114,6 +114,19 @@ class DirUtil {
 
     if (file.existsSync()) {
       file.deleteSync();
+    }
+  }
+
+  static void replaceFileContent({
+    required String sourcePathFileName,
+    required String targetPathFileName,
+  }) {
+    final String sourceFileContent =
+        File(sourcePathFileName).readAsStringSync();
+    final File file = File(targetPathFileName);
+
+    if (file.existsSync()) {
+      file.writeAsStringSync(sourceFileContent);
     }
   }
 
