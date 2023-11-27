@@ -1807,6 +1807,8 @@ Future<void> _createPlaylistDownloadView({
       ),
     ),
   );
+
+  await tester.pumpAndSettle();
 }
 
 Future<void> findThenSelectAndTestListTileCheckbox({
