@@ -514,7 +514,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         const Icon(
                           Icons.download_outlined,
                           size: 15,
-                        ), // Icône
+                        ),
                         Text(AppLocalizations.of(context)!
                             .downloadSelectedPlaylist), // Texte
                       ],

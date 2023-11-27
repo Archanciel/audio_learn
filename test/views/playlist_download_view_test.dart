@@ -22,8 +22,35 @@ class MockPlaylistListVM extends PlaylistListVM {
   });
 }
 
+/// This mock class is necessary in order to define two getters
+/// which return an empty string. This is necessary to avoid the
+/// following error when running the playlist_download_view_test
+/// tests:
+/// 
+/// ══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY
+/// ╞═════════════════════════════════════════════════════════
+/// The following assertion was thrown during layout:
+/// A RenderFlex overflowed by 44 pixels on the right.
+///
+/// The relevant error-causing widget was:
+/// Row
+/// Row:file:///C:/Users/Jean-Pierre/Development/Flutter/
+/// audio_learn/lib/views/playlist_download_view.dart:510:28 ...
 class MockAppLocalizations extends AppLocalizations {
   MockAppLocalizations() : super('en');
+
+  // Getters changed in mock version. All other methods are the same
+  // as the original class AppLocalizationsEn located in
+  // audio_learn\.dart_tool\flutter_gen\gen_l10n from which the mock
+  // code was copied.
+
+  @override
+  // Getter mock version replacing 'One' by ''
+  String get downloadSingleVideoAudio => '';
+
+  @override
+  // Getter mock version replacing 'Playlist' by ''
+  String get downloadSelectedPlaylist => '';
 
   @override
   String get appBarTitleDownloadAudio => 'Download Audio';
@@ -80,14 +107,6 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get renameAudioFileButton => 'Rename';
-
-  @override
-  // Changed mock version
-  String get downloadSingleVideoAudio => '';
-
-  @override
-  // Changed mock version
-  String get downloadSelectedPlaylist => '';
 
   @override
   String get stopDownload => 'Stop';
@@ -1808,6 +1827,7 @@ Future<void> _createPlaylistDownloadView({
     ),
   );
 
+  // necessary, otherwise test not working
   await tester.pumpAndSettle();
 }
 
