@@ -1973,26 +1973,26 @@ void main() {
       // Find the playlist to select ListTile
 
       // First, find the Playlist ListTile Text widget
-      final Finder playlistToSelectListTileTextWidgetFinder =
+      final Finder youtubePlaylistToSelectListTileTextWidgetFinder =
           find.text(youtubePlaylistToSelectTitle);
 
       // Then obtain the Playlist ListTile widget enclosing the Text widget
       // by finding its ancestor
-      final Finder playlistToSelectListTileWidgetFinder = find.ancestor(
-        of: playlistToSelectListTileTextWidgetFinder,
+      final Finder youtubePlaylistToSelectListTileWidgetFinder = find.ancestor(
+        of: youtubePlaylistToSelectListTileTextWidgetFinder,
         matching: find.byType(ListTile),
       );
 
       // Now find the Checkbox widget located in the Playlist ListTile
       // and tap on it to select the playlist
-      final Finder playlistToSelectListTileCheckboxWidgetFinder =
+      final Finder youtubePlaylistToSelectListTileCheckboxWidgetFinder =
           find.descendant(
-        of: playlistToSelectListTileWidgetFinder,
+        of: youtubePlaylistToSelectListTileWidgetFinder,
         matching: find.byType(Checkbox),
       );
 
       // Tap the ListTile Playlist checkbox to select it
-      await tester.tap(playlistToSelectListTileCheckboxWidgetFinder);
+      await tester.tap(youtubePlaylistToSelectListTileCheckboxWidgetFinder);
       await tester.pumpAndSettle();
 
       // Find the playlist to delete ListTile
@@ -2086,6 +2086,177 @@ void main() {
       );
 
       verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'download_sel_playlists_button',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('Delete non selected Youtube playlist while a local playlist is selected', (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}delete_playlist_integr_test_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      const String youtubePlaylistToDeleteTitle =
+          'audio_learn_test_download_2_small_videos';
+
+      const String localPlaylistToSelectTitle =
+          'local_audio_playlist_2';
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the playlist to select ListTile
+
+      // First, find the Playlist ListTile Text widget
+      final Finder localPlaylistToSelectListTileTextWidgetFinder =
+          find.text(localPlaylistToSelectTitle);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder localPlaylistToSelectListTileWidgetFinder = find.ancestor(
+        of: localPlaylistToSelectListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the Playlist ListTile
+      // and tap on it to select the playlist
+      final Finder localPlaylistToSelectListTileCheckboxWidgetFinder =
+          find.descendant(
+        of: localPlaylistToSelectListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
+
+      // Tap the ListTile Playlist checkbox to select it
+      await tester.tap(localPlaylistToSelectListTileCheckboxWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Find the playlist to delete ListTile
+
+      // First, find the Playlist ListTile Text widget
+      final Finder playlistToDeleteListTileTextWidgetFinder =
+          find.text(youtubePlaylistToDeleteTitle);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder playlistToDeleteListTileWidgetFinder = find.ancestor(
+        of: playlistToDeleteListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now test deleting the playlist
+
+      // Open the delete playlist dialog by clicking on the 'Delete
+      // playlist ...' playlist menu item
+
+      // Now find the leading menu icon button of the Playlist to
+      // delete ListTile and tap on it
+      final Finder firstPlaylistListTileLeadingMenuIconButton = find.descendant(
+        of: playlistToDeleteListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(firstPlaylistListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the delete playlist popup menu item and tap on it
+      final Finder popupDeletePlaylistMenuItem =
+          find.byKey(const Key("popup_menu_delete_playlist"));
+
+      await tester.tap(popupDeletePlaylistMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Now verifying the confirm dialog message
+
+      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
+          find.byKey(const Key('playlistDeleteConfirmDialogTitleKey')));
+
+      expect(deletePlaylistDialogTitleWidget.data,
+          'Supprimer la playlist Youtube "$youtubePlaylistToDeleteTitle"');
+
+      // Now find the delete button of the delete playlist confirm
+      // dialog and tap on it
+      await tester.tap(
+          find.byKey(const Key('deletePlaylistConfirmDialogDeleteButton')));
+      await tester.pumpAndSettle();
+
+      // Reload the settings from the json file.
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      // Check that the deleted playlist title is no longer in the
+      // playlist titles list of the settings data service
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+          [
+            'audio_player_view_2_shorts_test',
+            'local_audio_playlist_2',
+            'local_3'
+          ]);
+
+      final String newPlaylistPath = path.join(
+        kDownloadAppTestDirWindows,
+        youtubeNewPlaylistTitle,
+      );
+
+      // Check that the deleted playlist directory no longer exist
+      expect(Directory(newPlaylistPath).existsSync(), false);
+
+      // Since the deleted playlist was not selected and that a local
+      // playlist was selected, the selected playlist widgets remain
+      // enabled, except the download selected playlist button.
+      // Checking this now:
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'move_up_playlist_button',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'move_down_playlist_button',
+      );
+
+      verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
