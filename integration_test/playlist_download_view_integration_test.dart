@@ -1792,7 +1792,6 @@ void main() {
 
       const String youtubePlaylistToDeleteTitle =
           'audio_learn_test_download_2_small_videos';
-      const String localPlaylistToDeleteTitle = 'local_audio_playlist_2';
 
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
@@ -1814,8 +1813,7 @@ void main() {
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
-      // Find the ListTile Playlist containing the audio to copy to
-      // the target local playlist
+      // Find the playlist to delete ListTile
 
       // First, find the Playlist ListTile Text widget
       final Finder playlistToDeleteListTileTextWidgetFinder =
@@ -1948,7 +1946,9 @@ void main() {
 
       const String youtubePlaylistToDeleteTitle =
           'audio_learn_test_download_2_small_videos';
-      const String localPlaylistToDeleteTitle = 'local_audio_playlist_2';
+
+      const String youtubePlaylistToSelectTitle =
+          'audio_player_view_2_shorts_test';
 
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
@@ -1970,8 +1970,32 @@ void main() {
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
-      // Find the ListTile Playlist containing the audio to copy to
-      // the target local playlist
+      // Find the playlist to select ListTile
+
+      // First, find the Playlist ListTile Text widget
+      final Finder playlistToSelectListTileTextWidgetFinder =
+          find.text(youtubePlaylistToSelectTitle);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder playlistToSelectListTileWidgetFinder = find.ancestor(
+        of: playlistToSelectListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the Playlist ListTile
+      // and tap on it to select the playlist
+      final Finder playlistToSelectListTileCheckboxWidgetFinder =
+          find.descendant(
+        of: playlistToSelectListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
+
+      // Tap the ListTile Playlist checkbox to select it
+      await tester.tap(playlistToSelectListTileCheckboxWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Find the playlist to delete ListTile
 
       // First, find the Playlist ListTile Text widget
       final Finder playlistToDeleteListTileTextWidgetFinder =
@@ -1983,18 +2007,6 @@ void main() {
         of: playlistToDeleteListTileTextWidgetFinder,
         matching: find.byType(ListTile),
       );
-
-      // Now find the Checkbox widget located in the Playlist ListTile
-      // and tap on it to select the playlist
-      final Finder playlistToDeleteListTileCheckboxWidgetFinder =
-          find.descendant(
-        of: playlistToDeleteListTileWidgetFinder,
-        matching: find.byType(Checkbox),
-      );
-
-      // Tap the ListTile Playlist checkbox to select it
-      await tester.tap(playlistToDeleteListTileCheckboxWidgetFinder);
-      await tester.pumpAndSettle();
 
       // Now test deleting the playlist
 
@@ -2059,26 +2071,26 @@ void main() {
       // Check that the deleted playlist directory no longer exist
       expect(Directory(newPlaylistPath).existsSync(), false);
 
-      // Since the deleted playlist was selected, there is no longer
-      // a selected playlist. So, the selected playlist widgets
-      // are disabled. Checking this now:
+      // Since the deleted playlist was not selected and that another
+      // Youtube playlist was selected, the selected playlist widgets
+      // remain enabled. Checking this now:
 
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -2111,6 +2123,32 @@ void verifyWidgetIsDisabled({
   } else if (widget is PopupMenuButton) {
     // For PopupMenuButton, check the enabled property
     expect(widget.enabled, isFalse, reason: 'PopupMenuButton should be disabled');
+  } else {
+    fail('The widget with key $widgetKeyStr is not a recognized type for this test');
+  }
+}
+
+void verifyWidgetIsEnabled({
+  required WidgetTester tester,
+  required String widgetKeyStr,
+}) {
+  // Find the widget by its key
+  final Finder widgetFinder = find.byKey(Key(widgetKeyStr));
+
+  // Retrieve the widget as a generic Widget
+  final Widget widget = tester.widget(widgetFinder);
+
+  // Check if the widget is disabled based on its type
+  if (widget is IconButton) {
+    expect(widget.onPressed, isNotNull, reason: 'IconButton should be disabled');
+  } else if (widget is ElevatedButton) {
+    expect(widget.onPressed, isNotNull, reason: 'ElevatedButton should be disabled');
+  } else if (widget is Checkbox) {
+    // For Checkbox, you can check if onChanged is null
+    expect(widget.onChanged, isNotNull, reason: 'Checkbox should be disabled');
+  } else if (widget is PopupMenuButton) {
+    // For PopupMenuButton, check the enabled property
+    expect(widget.enabled, isTrue, reason: 'PopupMenuButton should be disabled');
   } else {
     fail('The widget with key $widgetKeyStr is not a recognized type for this test');
   }
