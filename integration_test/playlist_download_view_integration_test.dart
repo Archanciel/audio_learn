@@ -1791,7 +1791,10 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      String singleVideoUrl = 'https://youtu.be/uv3VQoWSjBE';
+      const String youtubeAudioSourcePlaylistTitle =
+          'audio_learn_test_download_2_small_videos';
+      const String localAudioPlaylistTitle = 'local_audio_playlist_2';
+      const String copiedAudioTitle = 'audio learn test short video one';
 
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
@@ -1807,27 +1810,37 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      // Enter the single video URL into the url text field
-      await tester.enterText(
-        find.byKey(const Key('playlistUrlTextField')),
-        singleVideoUrl,
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the ListTile Playlist containing the audio to copy to
+      // the target local playlist
+
+      // First, find the Playlist ListTile Text widget
+      final Finder sourcePlaylistListTileTextWidgetFinder =
+          find.text(youtubeAudioSourcePlaylistTitle);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder sourcePlaylistListTileWidgetFinder = find.ancestor(
+        of: sourcePlaylistListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
       );
+
+      // Now find the Checkbox widget located in the Playlist ListTile
+      // and tap on it to select the playlist
+      final Finder sourcePlaylistListTileCheckboxWidgetFinder = find.descendant(
+        of: sourcePlaylistListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
+
+      // Tap the ListTile Playlist checkbox to select it
+      await tester.tap(sourcePlaylistListTileCheckboxWidgetFinder);
       await tester.pumpAndSettle();
 
-      // Ensure the url text field contains the entered url
-      TextField urlTextField =
-          tester.widget(find.byKey(const Key('playlistUrlTextField')));
-      expect(urlTextField.controller!.text, singleVideoUrl);
-
-      // Tap the 'Download single video button' button. Before fixing
-      // the bug, this caused an exception to be thrown
-      await tester.tap(find.byKey(const Key('downloadSingleVideoButton')));
-      await tester.pumpAndSettle();
-
-      // Now find the cancel button and tap on it since the audio
-      // download can not be done in the test environment
-      await tester.tap(find.byKey(const Key('cancelButton')));
-      await tester.pumpAndSettle();
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
