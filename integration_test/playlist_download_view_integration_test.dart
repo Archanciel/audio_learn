@@ -209,7 +209,7 @@ void main() {
 
       // Check the saved local playlist values in the json file
 
-      final newPlaylistPath = path.join(
+      final String newPlaylistPath = path.join(
         kDownloadAppTestDirWindows,
         youtubeNewPlaylistTitle,
       );
@@ -291,7 +291,7 @@ void main() {
           []);
 
       // Check that the deleted playlist directory no longer exist
-      expect(Directory(newPlaylistFilePathName).existsSync(), false);
+      expect(Directory(newPlaylistPath).existsSync(), false);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -422,7 +422,7 @@ void main() {
 
       // Check the saved local playlist values in the json file
 
-      final newPlaylistPath = path.join(
+      final String newPlaylistPath = path.join(
         kDownloadAppTestDirWindows,
         localPlaylistTitle,
       );
@@ -526,7 +526,7 @@ void main() {
       //            Youtube playlist !
 
       // Check that the deleted playlist directory no longer exist
-      expect(Directory(newPlaylistFilePathName).existsSync(), false);
+      expect(Directory(newPlaylistPath).existsSync(), false);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -591,7 +591,7 @@ void main() {
       // Check the saved local playlist values in the json file,
       // before the playlist will be selected
 
-      final newPlaylistPath = path.join(
+      final String newPlaylistPath = path.join(
         kDownloadAppTestDirWindows,
         localPlaylistTitle,
       );
@@ -947,7 +947,7 @@ void main() {
 
       // Check the saved local playlist values in the json file
 
-      final newPlaylistPath = path.join(
+      final String newPlaylistPath = path.join(
         kDownloadAppTestDirWindows,
         localAudioPlaylistTitle,
       );
@@ -1895,18 +1895,13 @@ void main() {
             'local_3'
           ]);
 
-      final newPlaylistPath = path.join(
+      final String newPlaylistPath = path.join(
         kDownloadAppTestDirWindows,
         youtubeNewPlaylistTitle,
       );
 
-      final newPlaylistFilePathName = path.join(
-        newPlaylistPath,
-        '$youtubeNewPlaylistTitle.json',
-      );
-
       // Check that the deleted playlist directory no longer exist
-      expect(Directory(newPlaylistFilePathName).existsSync(), false);
+      expect(Directory(newPlaylistPath).existsSync(), false);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
