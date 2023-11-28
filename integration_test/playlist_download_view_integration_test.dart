@@ -1775,8 +1775,7 @@ void main() {
     });
   });
   group('Delete existing playlist test', () {
-    testWidgets('Delete selected Youtube playlist',
-        (tester) async {
+    testWidgets('Delete selected Youtube playlist', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -1831,7 +1830,8 @@ void main() {
 
       // Now find the Checkbox widget located in the Playlist ListTile
       // and tap on it to select the playlist
-      final Finder playlistToDeleteListTileCheckboxWidgetFinder = find.descendant(
+      final Finder playlistToDeleteListTileCheckboxWidgetFinder =
+          find.descendant(
         of: playlistToDeleteListTileWidgetFinder,
         matching: find.byType(Checkbox),
       );
@@ -1889,7 +1889,7 @@ void main() {
             settingType: SettingType.playlists,
             settingSubType: Playlists.orderedTitleLst,
           ),
-           [
+          [
             'audio_player_view_2_shorts_test',
             'local_audio_playlist_2',
             'local_3'
@@ -1903,11 +1903,61 @@ void main() {
       // Check that the deleted playlist directory no longer exist
       expect(Directory(newPlaylistPath).existsSync(), false);
 
+      // Since the deleted playlist was selected, there is no longer
+      // a selected playlist. So, the selected playlist widgets
+      // are disabled. Checking this now:
+
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'move_up_playlist_button',
+      );
+
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'move_down_playlist_button',
+      );
+
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'download_sel_playlists_button',
+      );
+
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'audio_popup_menu_button',
+      );
+
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+}
+
+void verifyWidgetIsDisabled({
+  required WidgetTester tester,
+  required String widgetKeyStr,
+}) {
+  // Find the widget by its key
+  final Finder widgetFinder = find.byKey(Key(widgetKeyStr));
+
+  // Retrieve the widget as a generic Widget
+  final Widget widget = tester.widget(widgetFinder);
+
+  // Check if the widget is disabled based on its type
+  if (widget is IconButton) {
+    expect(widget.onPressed, isNull, reason: 'IconButton should be disabled');
+  } else if (widget is ElevatedButton) {
+    expect(widget.onPressed, isNull, reason: 'ElevatedButton should be disabled');
+  } else if (widget is Checkbox) {
+    // For Checkbox, you can check if onChanged is null
+    expect(widget.onChanged, isNull, reason: 'Checkbox should be disabled');
+  } else if (widget is PopupMenuButton) {
+    // For PopupMenuButton, check the enabled property
+    expect(widget.enabled, isFalse, reason: 'PopupMenuButton should be disabled');
+  } else {
+    fail('The widget with key $widgetKeyStr is not a recognized type for this test');
+  }
 }
 
 Future<void> _launchExpandablePlaylistListView({
