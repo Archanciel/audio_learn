@@ -1791,10 +1791,9 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      const String youtubeAudioSourcePlaylistTitle =
+      const String youtubePlaylistToDeleteTitle =
           'audio_learn_test_download_2_small_videos';
-      const String localAudioPlaylistTitle = 'local_audio_playlist_2';
-      const String copiedAudioTitle = 'audio learn test short video one';
+      const String localPlaylistToDeleteTitle = 'local_audio_playlist_2';
 
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
@@ -1820,27 +1819,94 @@ void main() {
       // the target local playlist
 
       // First, find the Playlist ListTile Text widget
-      final Finder sourcePlaylistListTileTextWidgetFinder =
-          find.text(youtubeAudioSourcePlaylistTitle);
+      final Finder playlistToDeleteListTileTextWidgetFinder =
+          find.text(youtubePlaylistToDeleteTitle);
 
       // Then obtain the Playlist ListTile widget enclosing the Text widget
       // by finding its ancestor
-      final Finder sourcePlaylistListTileWidgetFinder = find.ancestor(
-        of: sourcePlaylistListTileTextWidgetFinder,
+      final Finder playlistToDeleteListTileWidgetFinder = find.ancestor(
+        of: playlistToDeleteListTileTextWidgetFinder,
         matching: find.byType(ListTile),
       );
 
       // Now find the Checkbox widget located in the Playlist ListTile
       // and tap on it to select the playlist
-      final Finder sourcePlaylistListTileCheckboxWidgetFinder = find.descendant(
-        of: sourcePlaylistListTileWidgetFinder,
+      final Finder playlistToDeleteListTileCheckboxWidgetFinder = find.descendant(
+        of: playlistToDeleteListTileWidgetFinder,
         matching: find.byType(Checkbox),
       );
 
       // Tap the ListTile Playlist checkbox to select it
-      await tester.tap(sourcePlaylistListTileCheckboxWidgetFinder);
+      await tester.tap(playlistToDeleteListTileCheckboxWidgetFinder);
       await tester.pumpAndSettle();
 
+      // Now test deleting the playlist
+
+      // Open the delete playlist dialog by clicking on the 'Delete
+      // playlist ...' playlist menu item
+
+      // Now find the leading menu icon button of the Playlist to
+      // delete ListTile and tap on it
+      final Finder firstPlaylistListTileLeadingMenuIconButton = find.descendant(
+        of: playlistToDeleteListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(firstPlaylistListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the delete playlist popup menu item and tap on it
+      final Finder popupDeletePlaylistMenuItem =
+          find.byKey(const Key("popup_menu_delete_playlist"));
+
+      await tester.tap(popupDeletePlaylistMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Now verifying the confirm dialog message
+
+      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
+          find.byKey(const Key('playlistDeleteConfirmDialogTitleKey')));
+
+      expect(deletePlaylistDialogTitleWidget.data,
+          'Supprimer la playlist Youtube "$youtubePlaylistToDeleteTitle"');
+
+      // Now find the delete button of the delete playlist confirm
+      // dialog and tap on it
+      await tester.tap(
+          find.byKey(const Key('deletePlaylistConfirmDialogDeleteButton')));
+      await tester.pumpAndSettle();
+
+      // Reload the settings from the json file.
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      // Check that the deleted playlist title is no longer in the
+      // playlist titles list of the settings data service
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+           [
+            'audio_player_view_2_shorts_test',
+            'local_audio_playlist_2',
+            'local_3'
+          ]);
+
+      final newPlaylistPath = path.join(
+        kDownloadAppTestDirWindows,
+        youtubeNewPlaylistTitle,
+      );
+
+      final newPlaylistFilePathName = path.join(
+        newPlaylistPath,
+        '$youtubeNewPlaylistTitle.json',
+      );
+
+      // Check that the deleted playlist directory no longer exist
+      expect(Directory(newPlaylistFilePathName).existsSync(), false);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
