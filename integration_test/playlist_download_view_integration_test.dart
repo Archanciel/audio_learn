@@ -1774,6 +1774,66 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+  group('Delete existing playlist test', () {
+    testWidgets('Delete selected Youtube playlist',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}copy_move_audio_integr_test_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      String singleVideoUrl = 'https://youtu.be/uv3VQoWSjBE';
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Enter the single video URL into the url text field
+      await tester.enterText(
+        find.byKey(const Key('playlistUrlTextField')),
+        singleVideoUrl,
+      );
+      await tester.pumpAndSettle();
+
+      // Ensure the url text field contains the entered url
+      TextField urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, singleVideoUrl);
+
+      // Tap the 'Download single video button' button. Before fixing
+      // the bug, this caused an exception to be thrown
+      await tester.tap(find.byKey(const Key('downloadSingleVideoButton')));
+      await tester.pumpAndSettle();
+
+      // Now find the cancel button and tap on it since the audio
+      // download can not be done in the test environment
+      await tester.tap(find.byKey(const Key('cancelButton')));
+      await tester.pumpAndSettle();
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
 }
 
 Future<void> _launchExpandablePlaylistListView({
