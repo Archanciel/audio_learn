@@ -23,10 +23,10 @@ import 'warning_message_vm.dart';
 /// selected playlist audio is asked to the PlaylistListVM,
 /// either the full playable audio list of the selected playlist
 /// is returned or the filtered and sorted audio list is returned.
-/// 
+///
 /// The class is also used in the AudioPlayerVM to obtain the
 /// next or previous playable audio.
-/// 
+///
 /// It is also used by several widgets in order to display or
 /// manage the playlists.
 class PlaylistListVM extends ChangeNotifier {
@@ -169,7 +169,7 @@ class PlaylistListVM extends ChangeNotifier {
 
       // required so that the TextField keyed by
       // 'selectedPlaylistTextField' below the playlist URL TextField
-      // is initialized at app startup
+      // is initialized (emptied) at app startup
       _uniqueSelectedPlaylist = null;
 
       _disableAllButtonsIfNoPlaylistIsSelected();
@@ -338,7 +338,7 @@ class PlaylistListVM extends ChangeNotifier {
 
       // required so that the TextField keyed by
       // 'selectedPlaylistTextField' below
-      // the playlist URL TextField is updated
+      // the playlist URL TextField is updated (emptied)
       _uniqueSelectedPlaylist = null;
     } else {
       _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
@@ -358,13 +358,18 @@ class PlaylistListVM extends ChangeNotifier {
   void deletePlaylist({
     required Playlist playlistToDelete,
   }) {
-    // if the playlist to delete is local, then its id is its title
+    // if the playlist to delete is local, then its id is its title ...
     int playlistToDeleteIndex = _listOfSelectablePlaylists
         .indexWhere((playlist) => playlist.id == playlistToDelete.id);
 
     if (playlistToDeleteIndex != -1) {
       if (playlistToDelete.isSelected) {
         _isOnePlaylistSelected = false;
+
+        // required so that the TextField keyed by
+        // 'selectedPlaylistTextField' below
+        // the playlist URL TextField is updated (emptied)
+        _uniqueSelectedPlaylist = null;
       }
 
       _audioDownloadVM.deletePlaylist(
@@ -373,10 +378,7 @@ class PlaylistListVM extends ChangeNotifier {
       _listOfSelectablePlaylists.removeAt(playlistToDeleteIndex);
       _updateAndSavePlaylistOrder();
 
-      if (playlistToDelete.playlistType == PlaylistType.youtube &&
-          !_isOnePlaylistSelected) {
-        // if the deleted playlist was a local playlist, then
-        // the buttons were already disabled
+      if (!_isOnePlaylistSelected) {
         _disableAllButtonsIfNoPlaylistIsSelected();
       }
 

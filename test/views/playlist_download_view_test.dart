@@ -217,7 +217,7 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String deleteAudioFromPlaylistAswellWarning(Object audioTitle, Object playlistTitle) {
-    return 'If the deleted audio video \"$audioTitle\" remains in the \"$playlistTitle\" Youtube playlist, it will be downloaded again the next time you download the playlist !';
+    return 'If the deleted audio video "$audioTitle" remains in the "$playlistTitle" Youtube playlist, it will be downloaded again the next time you download the playlist !';
   }
 
   @override
@@ -225,37 +225,37 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String updatedPlaylistUrlTitle(Object title) {
-    return 'Playlist \"$title\" URL was updated. The playlist can be downloaded with its new URL.';
+    return 'Playlist "$title" URL was updated. The playlist can be downloaded with its new URL.';
   }
 
   @override
   String addPlaylistTitle(Object title, Object quality) {
-    return 'Playlist \"$title\" of $quality quality added at end of list of playlists.';
+    return 'Playlist "$title" of $quality quality added at end of list of playlists.';
   }
 
   @override
   String invalidPlaylistUrl(Object url) {
-    return 'Playlist with invalid URL \"$url\" neither added nor modified.';
+    return 'Playlist with invalid URL "$url" neither added nor modified.';
   }
 
   @override
   String playlistWithUrlAlreadyInListOfPlaylists(Object url, Object title) {
-    return 'Playlist \"$title\" with this URL \"$url\" is already in the list of playlists and so won\'t be recreated.';
+    return 'Playlist "$title" with this URL "$url" is already in the list of playlists and so won\'t be recreated.';
   }
 
   @override
   String localPlaylistWithTitleAlreadyInListOfPlaylists(Object title) {
-    return 'Local playlist \"$title\" already exists in the list of playlists and so won\'t be recreated.';
+    return 'Local playlist "$title" already exists in the list of playlists and so won\'t be recreated.';
   }
 
   @override
   String downloadAudioYoutubeError(Object exceptionMessage) {
-    return 'Error downloading audio from Youtube: \"$exceptionMessage\"';
+    return 'Error downloading audio from Youtube: "$exceptionMessage"';
   }
 
   @override
   String downloadAudioFileAlreadyOnAudioDirectory(Object audioValidVideoTitle, Object fileName, Object playlistTitle) {
-    return 'Audio \"$audioValidVideoTitle\" is contained in file \"$fileName\" present in the \"$playlistTitle\" playlist directory and so won\'t be redownloaded.';
+    return 'Audio "$audioValidVideoTitle" is contained in file "$fileName" present in the "$playlistTitle" playlist directory and so won\'t be redownloaded.';
   }
 
   @override
@@ -263,7 +263,7 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String invalidSingleVideoUUrl(Object url) {
-    return 'Single video with invalid URL \"$url\" could not be downloaded.';
+    return 'Single video with invalid URL "$url" could not be downloaded.';
   }
 
   @override
@@ -388,7 +388,7 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String updatedPlayableAudioLst(Object number, Object title) {
-    return 'Playable audio list for playlist \"$title\" was updated. $number audio(s) were removed.';
+    return 'Playable audio list for playlist "$title" was updated. $number audio(s) were removed.';
   }
 
   @override
@@ -450,7 +450,7 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String confirmSingleVideoAudioPlaylistTitle(Object title) {
-    return 'Confirm playlist \"$title\" for downloading single video audio.';
+    return 'Confirm playlist "$title" for downloading single video audio.';
   }
 
   @override
@@ -467,47 +467,47 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String audioNotMovedFromToPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" NOT moved from playlist \"$fromPlaylistTitle\" to playlist \"$toPlaylistTitle\" since it is already present in the destination playlist.';
+    return 'Audio "$audioTitle" NOT moved from playlist "$fromPlaylistTitle" to playlist "$toPlaylistTitle" since it is already present in the destination playlist.';
   }
 
   @override
   String audioNotCopiedFromToPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" NOT copied from playlist \"$fromPlaylistTitle\" to playlist \"$toPlaylistTitle\" since it is already present in the destination playlist.';
+    return 'Audio "$audioTitle" NOT copied from playlist "$fromPlaylistTitle" to playlist "$toPlaylistTitle" since it is already present in the destination playlist.';
   }
 
   @override
   String audioMovedFromLocalPlaylistToLocalPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" moved from local playlist \"$fromPlaylistTitle\" to local playlist \"$toPlaylistTitle\".';
+    return 'Audio "$audioTitle" moved from local playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".';
   }
 
   @override
   String audioMovedFromLocalPlaylistToYoutubePlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" moved from local playlist \"$fromPlaylistTitle\" to Youtube playlist \"$toPlaylistTitle\".';
+    return 'Audio "$audioTitle" moved from local playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".';
   }
 
   @override
   String audioMovedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" moved from Youtube playlist \"$fromPlaylistTitle\" to local playlist \"$toPlaylistTitle\".\n\nIF THE DELETED AUDIO VIDEO \"$audioTitle\" REMAINS IN THE \"$fromPlaylistTitle\" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
+    return 'Audio "$audioTitle" moved from Youtube playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".\n\nIF THE DELETED AUDIO VIDEO "$audioTitle" REMAINS IN THE "$fromPlaylistTitle" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
   }
 
   @override
   String audioMovedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" moved from Youtube playlist \"$fromPlaylistTitle\" to Youtube playlist \"$toPlaylistTitle\".\n\nIF THE DELETED AUDIO VIDEO \"$audioTitle\" REMAINS IN THE \"$fromPlaylistTitle\" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
+    return 'Audio "$audioTitle" moved from Youtube playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".\n\nIF THE DELETED AUDIO VIDEO "$audioTitle" REMAINS IN THE "$fromPlaylistTitle" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
   }
 
   @override
   String audioMovedFromYoutubePlaylistToLocalPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" moved from Youtube playlist \"$fromPlaylistTitle\" to local playlist \"$toPlaylistTitle\".';
+    return 'Audio "$audioTitle" moved from Youtube playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".';
   }
 
   @override
   String audioMovedFromYoutubePlaylistToYoutubePlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" moved from Youtube playlist \"$fromPlaylistTitle\" to Youtube playlist \"$toPlaylistTitle\".';
+    return 'Audio "$audioTitle" moved from Youtube playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".';
   }
 
   @override
   String audioCopiedFromToPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" copied from playlist \"$fromPlaylistTitle\" to playlist \"$toPlaylistTitle\".';
+    return 'Audio "$audioTitle" copied from playlist "$fromPlaylistTitle" to playlist "$toPlaylistTitle".';
   }
 
   @override
@@ -578,32 +578,32 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String audioCopiedFromLocalPlaylistToLocalPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" copied from local playlist \"$fromPlaylistTitle\" to local playlist \"$toPlaylistTitle\".';
+    return 'Audio "$audioTitle" copied from local playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".';
   }
 
   @override
   String audioCopiedFromLocalPlaylistToYoutubePlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" copied from local playlist \"$fromPlaylistTitle\" to Youtube playlist \"$toPlaylistTitle\".';
+    return 'Audio "$audioTitle" copied from local playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".';
   }
 
   @override
   String audioCopiedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" copied from Youtube playlist \"$fromPlaylistTitle\" to local playlist \"$toPlaylistTitle\".\n\nIF THE DELETED AUDIO VIDEO \"$audioTitle\" REMAINS IN THE \"$fromPlaylistTitle\" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
+    return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".\n\nIF THE DELETED AUDIO VIDEO "$audioTitle" REMAINS IN THE "$fromPlaylistTitle" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
   }
 
   @override
   String audioCopiedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" copied from Youtube playlist \"$fromPlaylistTitle\" to Youtube playlist \"$toPlaylistTitle\".\n\nIF THE DELETED AUDIO VIDEO \"$audioTitle\" REMAINS IN THE \"$fromPlaylistTitle\" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
+    return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".\n\nIF THE DELETED AUDIO VIDEO "$audioTitle" REMAINS IN THE "$fromPlaylistTitle" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
   }
 
   @override
   String audioCopiedFromYoutubePlaylistToLocalPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" copied from Youtube playlist \"$fromPlaylistTitle\" to local playlist \"$toPlaylistTitle\".';
+    return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".';
   }
 
   @override
   String audioCopiedFromYoutubePlaylistToYoutubePlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio \"$audioTitle\" copied from Youtube playlist \"$fromPlaylistTitle\" to Youtube playlist \"$toPlaylistTitle\".';
+    return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".';
   }
 
   @override
@@ -620,12 +620,12 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String deleteYoutubePlaylistDialogTitle(Object title) {
-    return 'Delete Youtube Playlist \"$title\"';
+    return 'Delete Youtube Playlist "$title"';
   }
 
   @override
   String deleteLocalPlaylistDialogTitle(Object title) {
-    return 'Delete local Playlist \"$title\"';
+    return 'Delete local Playlist "$title"';
   }
 
   @override
