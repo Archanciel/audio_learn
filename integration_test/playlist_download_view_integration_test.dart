@@ -177,6 +177,11 @@ void main() {
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
+      // Ensure the URL TextField was emptied
+      urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, '');
+
       // The list of Playlist's should have one item now
       expect(find.byType(ListTile), findsOneWidget);
 
