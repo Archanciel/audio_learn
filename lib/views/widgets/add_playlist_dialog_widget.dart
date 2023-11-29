@@ -58,13 +58,13 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
       focusNode: widget.focusNode,
-      onKey: (event) {
+      onKey: (event) async {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
           // executing the same code as in the 'Add'
           // ElevatedButton onPressed callback
-          _addPlaylist(context);
-          Navigator.of(context).pop();
+          bool isYoutubePlaylistAdded = await _addPlaylist(context);
+          Navigator.of(context).pop(isYoutubePlaylistAdded);
         }
       },
       child: AlertDialog(
@@ -124,9 +124,9 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
         actions: [
           ElevatedButton(
             key: const Key('addPlaylistConfirmDialogAddButton'),
-            onPressed: () {
-              _addPlaylist(context);
-              Navigator.of(context).pop();
+            onPressed: () async {
+              bool isYoutubePlaylistAdded = await _addPlaylist(context);
+              Navigator.of(context).pop(isYoutubePlaylistAdded);
             },
             child: Text(AppLocalizations.of(context)!.add),
           ),
@@ -142,7 +142,13 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
     );
   }
 
-  void _addPlaylist(BuildContext context) {
+  /// Calls the [PlaylistListVM.addPlaylist] method to add the
+  /// Youtube or local playlist.
+  ///
+  /// Returns true if the Youtube playlist was added, false
+  /// otherwise. This will be used to empty the playlist URL
+  /// TextField if a Youtube playlist was added.
+  Future<bool> _addPlaylist(BuildContext context) async {
     String localPlaylistTitle = _localPlaylistTitleTextEditingController.text;
     PlaylistListVM expandablePlaylistListVM =
         Provider.of<PlaylistListVM>(context, listen: false);
@@ -150,22 +156,33 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
     if (localPlaylistTitle.isNotEmpty) {
       // if the local playlist title is not empty, then add the local
       // playlist
-      expandablePlaylistListVM.addPlaylist(
+      await expandablePlaylistListVM.addPlaylist(
         localPlaylistTitle: localPlaylistTitle,
         playlistQuality:
             _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
       );
+
+      return false;
     } else {
       // if the local playlist title is empty, then add the Youtube
       // playlist if the Youtube playlist URL is not empty
       if (widget.playlistUrl.isNotEmpty) {
-        expandablePlaylistListVM.addPlaylist(
+        bool isYoutubePlaylistAdded =
+            await expandablePlaylistListVM.addPlaylist(
           playlistUrl: widget.playlistUrl,
           playlistQuality:
               _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
         );
+
+        if (isYoutubePlaylistAdded) {
+          return true; // this will clear the playlist URL TextField
+        } else {
+          return false; // the playlist URL TextField will not be cleared
+        }
       }
     }
+
+    return false;
   }
 
   String formatDownloadSpeed({

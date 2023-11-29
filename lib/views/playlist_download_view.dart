@@ -175,7 +175,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         // Using FocusNode to enable clicking on Enter to close
                         // the dialog
                         final FocusNode focusNode = FocusNode();
-                        showDialog<void>(
+                        showDialog(
                           context: context,
                           barrierDismissible: true,
                           builder: (BuildContext context) {
@@ -184,7 +184,13 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                               focusNode: focusNode,
                             );
                           },
-                        );
+                        ).then((value) {
+                          if (value) {
+                            // if a Youtube playlist has been added, then
+                            // the playlistUrlController is cleared
+                            _playlistUrlController.clear();
+                          }
+                        });
                         focusNode.requestFocus();
                       },
                       child: Text(AppLocalizations.of(context)!.addPlaylist),

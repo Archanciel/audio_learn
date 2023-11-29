@@ -178,7 +178,8 @@ class PlaylistListVM extends ChangeNotifier {
     return _listOfSelectablePlaylists;
   }
 
-  Future<void> addPlaylist({
+  /// Returns true if the playlist was added, false otherwise.
+  Future<bool> addPlaylist({
     String playlistUrl = '',
     String localPlaylistTitle = '',
     required PlaylistQuality playlistQuality,
@@ -194,7 +195,7 @@ class PlaylistListVM extends ChangeNotifier {
         // if the playlist with this url is not found.
         _warningMessageVM.setPlaylistAlreadyDownloadedTitle(
             playlistTitle: playlistWithThisUrlAlreadyDownloaded.title);
-        return;
+        return false;
       } catch (_) {
         // If the playlist with this url is not found, it means that
         // the playlist must be added.
@@ -210,7 +211,7 @@ class PlaylistListVM extends ChangeNotifier {
         // if the playlist with this title is not found.
         _warningMessageVM.setLocalPlaylistAlreadyCreatedTitle(
             playlistTitle: playlistWithThisTitleAlreadyDownloaded.title);
-        return;
+        return false;
       } catch (_) {
         // If the playlist with this title is not found, it means that
         // the playlist must be added.
@@ -220,7 +221,7 @@ class PlaylistListVM extends ChangeNotifier {
       // that the user clicked on the Add button without entering any
       // playlist url or local playlist title. So, we don't add the
       // playlist.
-      return;
+      return false;
     }
 
     Playlist? addedPlaylist = await _audioDownloadVM.addPlaylist(
@@ -237,6 +238,8 @@ class PlaylistListVM extends ChangeNotifier {
 
       notifyListeners();
     }
+
+    return true;
   }
 
   void toggleList() {
