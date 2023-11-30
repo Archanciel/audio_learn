@@ -14,7 +14,7 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
   final FocusNode focusNode;
 
-  const AudioInfoDialogWidget({
+  AudioInfoDialogWidget({
     required this.audio,
     required this.focusNode,
     super.key,

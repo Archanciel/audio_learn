@@ -630,6 +630,9 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get deletePlaylistDialogComment => 'Deleting the playlist and all its audios as well as its JSON file and its directory.';
+
+  @override
+  String get appBarTitleAudioExtractor => 'Audio Extractor';
 }
 
 class MockAppLocalizationsDelegate

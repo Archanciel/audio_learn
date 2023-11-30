@@ -29,11 +29,6 @@ enum PlaylistPopupMenuButton {
 }
 
 class PlaylistDownloadView extends StatefulWidget {
-  final MaterialStateProperty<RoundedRectangleBorder>
-      appElevatedButtonRoundedShape =
-      MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius)));
-
   // this instance variable stores the function defined in
   // _MyHomePageState which causes the PageView widget to drag
   // to another screen according to the passed index.
@@ -163,7 +158,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     child: ElevatedButton(
                       key: const Key('addPlaylistButton'),
                       style: ButtonStyle(
-                        shape: widget.appElevatedButtonRoundedShape,
+                        shape: appElevatedButtonRoundedShape,
                         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                           const EdgeInsets.symmetric(
                               horizontal: kSmallButtonInsidePadding),
@@ -208,7 +203,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     child: ElevatedButton(
                       key: const Key('downloadSingleVideoButton'),
                       style: ButtonStyle(
-                        shape: widget.appElevatedButtonRoundedShape,
+                        shape: appElevatedButtonRoundedShape,
                         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                           const EdgeInsets.symmetric(
                               horizontal: kSmallButtonInsidePadding),
@@ -341,7 +336,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     child: ElevatedButton(
                       key: const Key('stopDownloadingButton'),
                       style: ButtonStyle(
-                        shape: widget.appElevatedButtonRoundedShape,
+                        shape: appElevatedButtonRoundedShape,
                         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                           const EdgeInsets.symmetric(
                               horizontal: kSmallButtonInsidePadding),
@@ -422,7 +417,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   child: ElevatedButton(
                     key: const Key('playlist_toggle_button'),
                     style: ButtonStyle(
-                      shape: widget.appElevatedButtonRoundedShape,
+                      shape: appElevatedButtonRoundedShape,
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
                             horizontal: kSmallButtonInsidePadding),
@@ -478,7 +473,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   child: ElevatedButton(
                     key: const Key('download_sel_playlists_button'),
                     style: ButtonStyle(
-                      shape: widget.appElevatedButtonRoundedShape,
+                      shape: appElevatedButtonRoundedShape,
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
                             horizontal: kSmallButtonInsidePadding),

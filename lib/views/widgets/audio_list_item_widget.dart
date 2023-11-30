@@ -41,7 +41,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   // to another screen according to the passed index.
   final Function(int) onPageChangedFunction;
 
-  const AudioListItemWidget({
+  AudioListItemWidget({
     super.key,
     required this.audio,
     required this.onPageChangedFunction,

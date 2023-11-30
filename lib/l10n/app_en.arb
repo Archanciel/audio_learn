@@ -226,5 +226,6 @@
   "deletePlaylist": "Delete playlist ...",
   "deleteYoutubePlaylistDialogTitle": "Delete Youtube Playlist \"{title}\"",
   "deleteLocalPlaylistDialogTitle": "Delete local Playlist \"{title}\"",
-  "deletePlaylistDialogComment": "Deleting the playlist and all its audios as well as its JSON file and its directory."
+  "deletePlaylistDialogComment": "Deleting the playlist and all its audios as well as its JSON file and its directory.",
+  "appBarTitleAudioExtractor": "Audio Extractor"
 }

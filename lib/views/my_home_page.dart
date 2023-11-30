@@ -9,8 +9,9 @@ import '../views/widgets/appbar_application_right_popup_menu_widget.dart';
 import '../views/screen_mixin.dart';
 import '../views/playlist_download_view.dart';
 import '../views/audio_player_view.dart';
-import '../views/media_player_view.dart';
+import 'audio_extractor_view.dart';
 import '../views/widgets/appbar_title_for_playlist_download_view.dart';
+import 'widgets/appbar_title_for_audio_extractor_view.dart';
 import 'widgets/appbar_title_for_audio_player_view.dart';
 
 /// Before enclosing Scaffold in MyHomePage, this exception was
@@ -38,7 +39,7 @@ const Duration pageTransitionDuration = Duration(milliseconds: 20);
 const Curve pageTransitionCurve = Curves.ease;
 
 class MyHomePage extends StatefulWidget with ScreenMixin {
-  const MyHomePage({super.key});
+  MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Key> _screenNavigationIconButtonKeyLst = [
     const Key('playlistDownloadViewIconButton'),
     const Key('audioPlayerViewIconButton'),
-    const Key('audioEditorIconButton'),
+    const Key('audioExtractorIconButton'),
   ];
 
   // contains a list of widgets which build the AppBar title. Each
@@ -76,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     _appBarTitleWidgetLst.add(
-      const AppBarTitleForPlaylistDownloadView(),
+      AppBarTitleForPlaylistDownloadView(),
     );
 
     _appBarTitleWidgetLst.add(
@@ -84,13 +85,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     _appBarTitleWidgetLst.add(
-      const AppBarTitleForPlaylistDownloadView(),
+      AppBarTitleForAudioExtractorView(),
     );
 
     _screenWidgetLst
         .add(PlaylistDownloadView(onPageChangedFunction: changePage));
     _screenWidgetLst.add(const AudioPlayerView());
-    _screenWidgetLst.add(const MediaPlayerView());
+    _screenWidgetLst.add(AudioExtractorView());
   }
 
   @override

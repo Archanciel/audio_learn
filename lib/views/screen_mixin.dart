@@ -18,6 +18,11 @@ import '../viewmodels/audio_player_vm.dart';
 late AudioPlayerVM globalAudioGlobalPlayerVM;
 
 mixin ScreenMixin {
+  final MaterialStateProperty<RoundedRectangleBorder>
+      appElevatedButtonRoundedShape =
+      MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius),));
+  
   static const double CHECKBOX_WIDTH_HEIGHT = 20.0;
   static const int PLAYLIST_DOWNLOAD_VIEW_DRAGGABLE_INDEX = 0;
   static const int AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX = 1;

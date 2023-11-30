@@ -7,9 +7,9 @@ import '../../views/screen_mixin.dart';
 /// When the PlaylistView screen is displayed, the
 /// AppBarTitleForPlaylistView is set in the AppBar title:
 /// parameter.
-class AppBarTitleForPlaylistDownloadView extends StatelessWidget
+class AppBarTitleForAudioExtractorView extends StatelessWidget
     with ScreenMixin {
-  AppBarTitleForPlaylistDownloadView({
+  AppBarTitleForAudioExtractorView({
     super.key,
   });
 
@@ -23,20 +23,10 @@ class AppBarTitleForPlaylistDownloadView extends StatelessWidget
       children: [
         Flexible(
           child: Text(
-            AppLocalizations.of(context)!.appBarTitleDownloadAudio,
+            AppLocalizations.of(context)!.appBarTitleAudioExtractor,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontSize: 17),
           ),
-        ),
-        InkWell(
-          key: const Key('image_open_youtube'),
-          onTap: () async {
-            await openUrlInExternalApp(
-              url: kYoutubeUrl,
-            );
-          },
-          child: Image.asset('assets/images/youtube-logo-png-2069.png',
-              height: 38),
         ),
       ],
     );
