@@ -230,7 +230,6 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         ElevatedButton(
-          child: const Text('Play'),
           style: ButtonStyle(
             shape: widget.appElevatedButtonRoundedShape,
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
@@ -238,12 +237,12 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
             ),
           ),
           onPressed: () {/* Play action */},
+          child: const Text('Play'),
         ),
         const SizedBox(
           width: kRowWidthSeparator,
         ),
         ElevatedButton(
-          child: const Text('Stop'),
           style: ButtonStyle(
             shape: widget.appElevatedButtonRoundedShape,
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
@@ -251,6 +250,7 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
             ),
           ),
           onPressed: () {/* Stop action */},
+          child: const Text('Stop'),
         ),
       ],
     );

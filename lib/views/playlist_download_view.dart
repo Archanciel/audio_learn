@@ -36,7 +36,7 @@ class PlaylistDownloadView extends StatefulWidget {
   // constructor of AudioListItemWidget.
   final Function(int) onPageChangedFunction;
 
-  PlaylistDownloadView({
+  const PlaylistDownloadView({
     super.key,
     required this.onPageChangedFunction,
   });
