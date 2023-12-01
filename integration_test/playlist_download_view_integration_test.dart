@@ -302,6 +302,263 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    testWidgets('Add Youtube playlist and then add it again with same URL', (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Since we have to use a mock AudioDownloadVM to add the
+      // youtube playlist, we can not use app.main() to start the
+      // app because app.main() uses the real AudioDownloadVM
+      // and we don't want to make the main.dart file dependent
+      // of a mock class. So we have to start the app by hand.
+
+      SettingsDataService settingsDataService = SettingsDataService(
+        isTest: true,
+      );
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+      mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
+
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+
+      // using the mockAudioDownloadVM to add the playlist
+      // because YoutubeExplode can not access to internet
+      // in integration tests in order to download the playlist
+      // and so obtain the playlist title
+      PlaylistListVM expandablePlaylistListVM = PlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: mockAudioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      expandablePlaylistListVM.getUpToDateSelectablePlaylists();
+
+      await _launchExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        expandablePlaylistListVM: expandablePlaylistListVM,
+        warningMessageVM: warningMessageVM,
+      );
+
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // The playlist list and audio list should exist now but be
+      // empty (no ListTile widgets)
+      expect(find.byType(ListView), findsNWidgets(2));
+      expect(find.byType(ListTile), findsNothing);
+
+      // Enter the new Youtube playlist URL into the url text field
+      await tester.enterText(
+        find.byKey(const Key('playlistUrlTextField')),
+        youtubePlaylistUrl,
+      );
+
+      // Ensure the url text field contains the entered url
+      TextField urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, youtubePlaylistUrl);
+
+      // Open the add playlist dialog by tapping the add playlist
+      // button
+      await tester.tap(find.byKey(const Key('addPlaylistButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the dialog is shown
+      expect(find.byType(AlertDialog), findsOneWidget);
+
+      // Check the value of the AlertDialog dialog title
+      Text alertDialogTitle =
+          tester.widget(find.byKey(const Key('playlistConfirmDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Add Playlist');
+
+      // Check the value of the AlertDialog dialog title comment
+      Text alertDialogCommentTitleText = tester.widget(
+          find.byKey(const Key('playlistTitleCommentConfirmDialogKey')));
+      expect(alertDialogCommentTitleText.data,
+          'Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.');
+
+      // Check the value of the AlertDialog url Text
+      Text confirmUrlText =
+          tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
+      expect(confirmUrlText.data, youtubePlaylistUrl);
+
+      // Check that the AlertDialog local playlist title
+      // TextField is empty
+      TextField localPlaylistTitleTextField = tester.widget(
+          find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')));
+      expect(
+        localPlaylistTitleTextField.controller!.text,
+        '',
+      );
+
+      // Confirm the addition by tapping the confirmation button in
+      // the AlertDialog
+      await tester
+          .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the warning dialog is shown
+      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+
+      // Check the value of the warning dialog title
+      Text warningDialogTitle =
+          tester.widget(find.byKey(const Key('warningDialogTitle')));
+      expect(warningDialogTitle.data, 'WARNING');
+
+      // Check the value of the warning dialog message
+      Text warningDialogMessage =
+          tester.widget(find.byKey(const Key('warningDialogMessage')));
+      expect(warningDialogMessage.data,
+          'Playlist "$youtubeNewPlaylistTitle" of audio quality added at end of list of playlists.');
+
+      // Close the warning dialog by tapping on the OK button
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the URL TextField was emptied
+      urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, '');
+
+      // The list of Playlist's should have one item now
+      expect(find.byType(ListTile), findsOneWidget);
+
+      // Check if the added item is displayed correctly
+      final PlaylistListItemWidget playlistListItemWidget =
+          tester.widget(find.byType(PlaylistListItemWidget).first);
+      expect(playlistListItemWidget.playlist.title, youtubeNewPlaylistTitle);
+
+      // Find the ListTile representing the added playlist
+
+      final Finder firstListTileFinder = find.byType(ListTile).first;
+
+      // Retrieve the ListTile widget
+      final ListTile firstPlaylistListTile =
+          tester.widget<ListTile>(firstListTileFinder);
+
+      // Ensure that the title is a Text widget and check its data
+      expect(firstPlaylistListTile.title, isA<Text>());
+      expect(
+          (firstPlaylistListTile.title as Text).data, youtubeNewPlaylistTitle);
+
+      // Alternatively, find the ListTile by its title
+      expect(
+          find.descendant(
+              of: firstListTileFinder,
+              matching: find.text(
+                youtubeNewPlaylistTitle,
+              )),
+          findsOneWidget);
+
+      // Check the saved local playlist values in the json file
+
+      final String newPlaylistPath = path.join(
+        kDownloadAppTestDirWindows,
+        youtubeNewPlaylistTitle,
+      );
+
+      final newPlaylistFilePathName = path.join(
+        newPlaylistPath,
+        '$youtubeNewPlaylistTitle.json',
+      );
+
+      // Load playlist from the json file
+      Playlist loadedNewPlaylist = JsonDataService.loadFromFile(
+        jsonPathFileName: newPlaylistFilePathName,
+        type: Playlist,
+      );
+
+      expect(loadedNewPlaylist.title, youtubeNewPlaylistTitle);
+      expect(loadedNewPlaylist.id, youtubePlaylistId);
+      expect(loadedNewPlaylist.url, youtubePlaylistUrl);
+      expect(loadedNewPlaylist.playlistType, PlaylistType.youtube);
+      expect(loadedNewPlaylist.playlistQuality, PlaylistQuality.voice);
+      expect(loadedNewPlaylist.downloadedAudioLst.length, 0);
+      expect(loadedNewPlaylist.playableAudioLst.length, 0);
+      expect(loadedNewPlaylist.isSelected, false);
+      expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
+
+      // Check that the ordered playlist titles list in the settings
+      // data service contains the added playlist title
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+          [youtubeNewPlaylistTitle]);
+
+      // Now test deleting the playlist
+
+      // Open the delete playlist dialog by clicking on the 'Delete
+      // playlist ...' playlist menu item
+
+      // Now find the leading menu icon button of the Playlist ListTile
+      // and tap on it
+      final Finder firstPlaylistListTileLeadingMenuIconButton = find.descendant(
+        of: firstListTileFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(firstPlaylistListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the delete playlist popup menu item and tap on it
+      final Finder popupDeletePlaylistMenuItem =
+          find.byKey(const Key("popup_menu_delete_playlist"));
+
+      await tester.tap(popupDeletePlaylistMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Now verifying the confirm dialog message
+
+      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
+          find.byKey(const Key('playlistDeleteConfirmDialogTitleKey')));
+
+      expect(deletePlaylistDialogTitleWidget.data,
+          'Delete Youtube Playlist "$youtubeNewPlaylistTitle"');
+
+      // Now find the delete button of the delete playlist confirm
+      // dialog and tap on it
+      await tester.tap(
+          find.byKey(const Key('deletePlaylistConfirmDialogDeleteButton')));
+      await tester.pumpAndSettle();
+
+      // Check that the ordered playlist titles list in the settings
+      // data service is now empty
+      expect(
+          settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.orderedTitleLst,
+          ),
+          []);
+
+      // Check that the deleted playlist directory no longer exist
+      expect(Directory(newPlaylistPath).existsSync(), false);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
 
     /// The objective of this integration test is to ensure that
     /// the url text field will not be emptied after clicking on
