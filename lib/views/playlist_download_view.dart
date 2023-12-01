@@ -190,11 +190,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                             // the playlistUrlController is cleared
                             _playlistUrlController.clear();
                           }
-                          //
-                            // if a Youtube playlist has been added, then
-                            // the playlistUrlController is cleared
-                            _playlistUrlController.clear();
-                          }
                         });
                         focusNode.requestFocus();
                       },
