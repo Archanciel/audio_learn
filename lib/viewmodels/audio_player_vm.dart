@@ -272,9 +272,21 @@ class AudioPlayerVM extends ChangeNotifier {
   /// the selected playlist current or last played audio which
   /// is displayed correctly in the AudioPlayerView screen.
   Future<void> setCurrentAudioFromSelectedPlaylist() async {
-    Audio? currentOrPastPlaylistAudio = _playlistListVM
-        .getSelectedPlaylist()
-        .first
+    List<Playlist> selectedPlaylistLst = _playlistListVM.getSelectedPlaylist();
+
+    if (selectedPlaylistLst.isEmpty) {
+      // ensures that when the user deselect the playlist, switching
+      // to the AudioPlayerView screen causes the "No audio selected"
+      // audio title to be displayed in the AudioPlayerView screen.
+      _currentAudio = null;
+      _currentAudioTotalDuration = const Duration();
+      _currentAudioPosition = const Duration(seconds: 0);
+
+      _audioPlayer.dispose();
+      return;
+    }
+
+    Audio? currentOrPastPlaylistAudio = selectedPlaylistLst.first
         .getCurrentOrLastlyPlayedAudioContainedInPlayableAudioLst();
     if (currentOrPastPlaylistAudio == null) {
       // causes "No audio selected" audio title to be displayed
@@ -297,10 +309,6 @@ class AudioPlayerVM extends ChangeNotifier {
     }
 
     await _setCurrentAudioAndInitializeAudioPlayer(currentOrPastPlaylistAudio);
-
-    // await goToAudioPlayPosition(
-    //   Duration(seconds: _currentAudio!.audioPositionSeconds),
-    // );
   }
 
   Future<void> playFromCurrentAudioFile() async {
@@ -540,20 +548,20 @@ class AudioPlayerVM extends ChangeNotifier {
   ///
   /// playableAudioLst order: [available audio last downloaded, ...,
   ///                          available audio first downloaded]
-  /// 
+  ///
   /// Example:
-  /// 
+  ///
   /// playableAudioList
   /// 24 nov
   /// 21 nov
   /// 5 nov
   /// 28 oct
-  /// 
+  ///
   /// playable audios ordered by download date
   /// 28 oct
   /// 5 nov
   /// 21 nov
-  /// 24 nov																																																																																																																					
+  /// 24 nov
   List<Audio> getPlayableAudiosOrderedByDownloadDate() {
     if (_currentAudio == null) {
       // the case if "No audio selected" audio title is
