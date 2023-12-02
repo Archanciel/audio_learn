@@ -479,15 +479,19 @@ void main() {
 
       // Now test adding the same playlist again
 
-      tester
-          .widget<TextField>(find.byKey(const Key('playlistUrlTextField')))
-          .controller!
-          .text = youtubePlaylistUrl;
-      // Enter the new Youtube playlist URL into the url text field
+      // Enter the new Youtube playlist URL into the url text field.
+      // I don't know why, but the next commented code does not work.
+
       // await tester.enterText(
       //   find.byKey(const Key('playlistUrlTextField')),
       //   youtubePlaylistUrl,
       // );
+
+      // Solving this putain de problem
+      tester
+          .widget<TextField>(find.byKey(const Key('playlistUrlTextField')))
+          .controller!
+          .text = youtubePlaylistUrl;
 
       await tester.pumpAndSettle();
 
