@@ -1187,6 +1187,72 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    testWidgets(
+        'Entered a Youtube playlist URL. Then switch to AudioPlayerView and then back to PlaylistView',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      const String localPlaylistTitle = 'audio_learn_local_playlist_test';
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // The playlist list and audio list should exist now but be
+      // empty (no ListTile widgets)
+      expect(find.byType(ListView), findsNWidgets(2));
+      expect(find.byType(ListTile), findsNothing);
+
+      // Enter the new Youtube playlist URL into the url text field.
+      // The objective is to test that the url text field will not
+      // be emptied after adding a local playlist
+      await tester.enterText(
+        find.byKey(const Key('playlistUrlTextField')),
+        youtubePlaylistUrl,
+      );
+
+      await tester.pumpAndSettle();
+
+      // Ensure the url text field contains the entered url
+      TextField urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, youtubePlaylistUrl);
+
+      // Now we tap on the AudioPlayerView icon button to open
+      // AudioPlayerView screen
+
+      final audioPlayerNavButton =
+          find.byKey(const ValueKey('audioPlayerViewIconButton'));
+      await tester.tap(audioPlayerNavButton);
+      await tester.pumpAndSettle();
+
+      // Now we tap on the PlaylistDownloadView icon button to go
+      // back to the PlaylistDownloadView screen
+
+      final playlistDownloadNavButton =
+          find.byKey(const ValueKey('playlistDownloadViewIconButton'));
+      await tester.tap(playlistDownloadNavButton);
+      await tester.pumpAndSettle();
+
+      // Ensure the URL TextField was emptied
+      urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, '');
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
     testWidgets('Select then unselect local playlist', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
