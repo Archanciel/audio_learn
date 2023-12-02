@@ -278,11 +278,8 @@ class AudioPlayerVM extends ChangeNotifier {
       // ensures that when the user deselect the playlist, switching
       // to the AudioPlayerView screen causes the "No audio selected"
       // audio title to be displayed in the AudioPlayerView screen.
-      _currentAudio = null;
-      _currentAudioTotalDuration = const Duration();
-      _currentAudioPosition = const Duration(seconds: 0);
-
-      _audioPlayer.dispose();
+      _clearCurrentAudio();
+      
       return;
     }
 
@@ -309,6 +306,14 @@ class AudioPlayerVM extends ChangeNotifier {
     }
 
     await _setCurrentAudioAndInitializeAudioPlayer(currentOrPastPlaylistAudio);
+  }
+
+  void _clearCurrentAudio() {
+    _currentAudio = null;
+    _currentAudioTotalDuration = const Duration();
+    _currentAudioPosition = const Duration(seconds: 0);
+    
+    _audioPlayer.dispose();
   }
 
   Future<void> playFromCurrentAudioFile() async {
