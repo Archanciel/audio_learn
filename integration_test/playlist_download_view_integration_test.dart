@@ -302,7 +302,8 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Add Youtube playlist and then add it again with same URL', (tester) async {
+    testWidgets('Add Youtube playlist and then add it again with same URL',
+        (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -439,36 +440,6 @@ void main() {
           tester.widget(find.byKey(const Key('playlistUrlTextField')));
       expect(urlTextField.controller!.text, '');
 
-      // The list of Playlist's should have one item now
-      expect(find.byType(ListTile), findsOneWidget);
-
-      // Check if the added item is displayed correctly
-      final PlaylistListItemWidget playlistListItemWidget =
-          tester.widget(find.byType(PlaylistListItemWidget).first);
-      expect(playlistListItemWidget.playlist.title, youtubeNewPlaylistTitle);
-
-      // Find the ListTile representing the added playlist
-
-      final Finder firstListTileFinder = find.byType(ListTile).first;
-
-      // Retrieve the ListTile widget
-      final ListTile firstPlaylistListTile =
-          tester.widget<ListTile>(firstListTileFinder);
-
-      // Ensure that the title is a Text widget and check its data
-      expect(firstPlaylistListTile.title, isA<Text>());
-      expect(
-          (firstPlaylistListTile.title as Text).data, youtubeNewPlaylistTitle);
-
-      // Alternatively, find the ListTile by its title
-      expect(
-          find.descendant(
-              of: firstListTileFinder,
-              matching: find.text(
-                youtubeNewPlaylistTitle,
-              )),
-          findsOneWidget);
-
       // Check the saved local playlist values in the json file
 
       final String newPlaylistPath = path.join(
@@ -506,54 +477,77 @@ void main() {
           ),
           [youtubeNewPlaylistTitle]);
 
-      // Now test deleting the playlist
+      // Now test adding the same playlist again
 
-      // Open the delete playlist dialog by clicking on the 'Delete
-      // playlist ...' playlist menu item
+      tester
+          .widget<TextField>(find.byKey(const Key('playlistUrlTextField')))
+          .controller!
+          .text = youtubePlaylistUrl;
+      // Enter the new Youtube playlist URL into the url text field
+      // await tester.enterText(
+      //   find.byKey(const Key('playlistUrlTextField')),
+      //   youtubePlaylistUrl,
+      // );
 
-      // Now find the leading menu icon button of the Playlist ListTile
-      // and tap on it
-      final Finder firstPlaylistListTileLeadingMenuIconButton = find.descendant(
-        of: firstListTileFinder,
-        matching: find.byIcon(Icons.menu),
-      );
-
-      // Tap the leading menu icon button to open the popup menu
-      await tester.tap(firstPlaylistListTileLeadingMenuIconButton);
-      await tester.pumpAndSettle(); // Wait for popup menu to appear
-
-      // Now find the delete playlist popup menu item and tap on it
-      final Finder popupDeletePlaylistMenuItem =
-          find.byKey(const Key("popup_menu_delete_playlist"));
-
-      await tester.tap(popupDeletePlaylistMenuItem);
-      await tester.pumpAndSettle(); // Wait for tap action to complete
-
-      // Now verifying the confirm dialog message
-
-      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
-          find.byKey(const Key('playlistDeleteConfirmDialogTitleKey')));
-
-      expect(deletePlaylistDialogTitleWidget.data,
-          'Delete Youtube Playlist "$youtubeNewPlaylistTitle"');
-
-      // Now find the delete button of the delete playlist confirm
-      // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('deletePlaylistConfirmDialogDeleteButton')));
       await tester.pumpAndSettle();
 
-      // Check that the ordered playlist titles list in the settings
-      // data service is now empty
-      expect(
-          settingsDataService.get(
-            settingType: SettingType.playlists,
-            settingSubType: Playlists.orderedTitleLst,
-          ),
-          []);
+      // Ensure the url text field contains the entered url
+      urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, youtubePlaylistUrl);
 
-      // Check that the deleted playlist directory no longer exist
-      expect(Directory(newPlaylistPath).existsSync(), false);
+      // Open the add playlist dialog by tapping the add playlist
+      // button
+      await tester.tap(find.byKey(const Key('addPlaylistButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the dialog is shown
+      expect(find.byType(AlertDialog), findsOneWidget);
+
+      // Check the value of the AlertDialog dialog title
+      alertDialogTitle =
+          tester.widget(find.byKey(const Key('playlistConfirmDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Add Playlist');
+
+      // Check the value of the AlertDialog dialog title comment
+      alertDialogCommentTitleText = tester.widget(
+          find.byKey(const Key('playlistTitleCommentConfirmDialogKey')));
+      expect(alertDialogCommentTitleText.data,
+          'Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.');
+
+      // Check the value of the AlertDialog url Text
+      confirmUrlText =
+          tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
+      expect(confirmUrlText.data, youtubePlaylistUrl);
+
+      // Confirm the addition by tapping the confirmation button in
+      // the AlertDialog
+      await tester
+          .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the warning dialog is shown
+      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+
+      // Check the value of the warning dialog title
+      warningDialogTitle =
+          tester.widget(find.byKey(const Key('warningDialogTitle')));
+      expect(warningDialogTitle.data, 'WARNING');
+
+      // Check the value of the warning dialog message
+      warningDialogMessage =
+          tester.widget(find.byKey(const Key('warningDialogMessage')));
+      expect(warningDialogMessage.data,
+          'Playlist "$youtubeNewPlaylistTitle" with this URL "$youtubePlaylistUrl" is already in the list of playlists and so won\'t be recreated.');
+
+      // Close the warning dialog by tapping on the OK button
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the URL TextField was not emptied
+      urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, youtubePlaylistUrl);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -563,7 +557,9 @@ void main() {
     /// The objective of this integration test is to ensure that
     /// the url text field will not be emptied after clicking on
     /// the Cancel button of the add playlist dialog.
-    testWidgets('Open the add playlist dialog to add a Youtube playlist and then click on Cancel button', (tester) async {
+    testWidgets(
+        'Open the add playlist dialog to add a Youtube playlist and then click on Cancel button',
+        (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -689,7 +685,8 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Add and then delete local playlist with empty playlist URL', (tester) async {
+    testWidgets('Add and then delete local playlist with empty playlist URL',
+        (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -925,11 +922,14 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+
     /// The objective of this integration test is to ensure that
     /// the url text field will not be emptied after adding a
     /// local playlist, in contrary of what happens after adding
     /// a Youtube playlist.
-    testWidgets('Add and then delete local playlist after having entered a Youtube playlist URL', (tester) async {
+    testWidgets(
+        'Add and then delete local playlist after having entered a Youtube playlist URL',
+        (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
