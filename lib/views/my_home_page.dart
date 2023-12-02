@@ -1,3 +1,4 @@
+import 'package:audio_learn/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -131,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: [
           _buildPageView(_screenWidgetLst[_currentIndex]),
-          _buildIconButtonRow(audioGlobalPlayerVM),
+          _buildScreenIconButtonRow(audioGlobalPlayerVM),
         ],
       ),
     );
@@ -153,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Row _buildIconButtonRow(AudioPlayerVM audioGlobalPlayerVM) {
+  Row _buildScreenIconButtonRow(AudioPlayerVM audioGlobalPlayerVM) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: _screenNavigationIconLst.asMap().entries.map((entry) {
@@ -163,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () async {
             changePage(entry.key);
           },
-          color: _currentIndex == entry.key ? Colors.blue : Colors.grey,
+          color: _currentIndex == entry.key ? kScreenButtonColor : Colors.grey,
           iconSize:
               24, // Set this if you want to control the icon's visual size
           padding: EdgeInsets
