@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
           color: _currentIndex == entry.key ? kScreenButtonColor : Colors.grey,
           iconSize:
-              24, // Set this if you want to control the icon's visual size
+              27, // Set this if you want to control the icon's visual size
           padding: EdgeInsets
               .zero, // This is crucial to avoid default IconButton padding
         );
