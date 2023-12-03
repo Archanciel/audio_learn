@@ -40,7 +40,7 @@ class AppBarLeadingPopupMenuWidget extends StatelessWidget {
                 .translate(AppLocalizations.of(context)!.option1)),
           ),
           PopupMenuItem<AppBarPopupMenu>(
-            key: const Key('appBarMenuOption1'),
+            key: const Key('appBarMenuOption2'),
             value: AppBarPopupMenu.option2,
             child: Text(AppLocalizations.of(context)!
                 .translate(AppLocalizations.of(context)!.option2)),
