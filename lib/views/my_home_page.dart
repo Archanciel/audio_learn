@@ -39,14 +39,14 @@ import 'widgets/appbar_title_for_audio_player_view.dart';
 const Duration pageTransitionDuration = Duration(milliseconds: 20);
 const Curve pageTransitionCurve = Curves.ease;
 
-class MyHomePage extends StatefulWidget with ScreenMixin {
+class MyHomePage extends StatefulWidget {
   MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
   int _currentIndex = 0;
 
   // _pageController is the PageView controller
@@ -97,9 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProviderVM themeProvider = Provider.of<ThemeProviderVM>(
+    ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(
       context,
-      listen: false,
+      listen: true,
     );
     AudioPlayerVM audioGlobalPlayerVM = Provider.of<AudioPlayerVM>(
       context,
@@ -114,25 +114,25 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Widget> appBarApplicationActionLst = [
       IconButton(
         onPressed: () {
-          themeProvider.toggleTheme();
+          themeProviderVM.toggleTheme();
         },
-        icon: Icon(themeProvider.currentTheme == AppTheme.dark
+        icon: Icon(themeProviderVM.currentTheme == AppTheme.dark
             ? Icons.light_mode
             : Icons.dark_mode),
       ),
-      AppBarApplicationRightPopupMenuWidget(themeProvider: themeProvider),
+      AppBarApplicationRightPopupMenuWidget(themeProvider: themeProviderVM),
     ];
 
     return Scaffold(
       appBar: AppBar(
         title: _appBarTitleWidgetLst[_currentIndex],
-        leading: AppBarLeadingPopupMenuWidget(themeProvider: themeProvider),
+        leading: AppBarLeadingPopupMenuWidget(themeProvider: themeProviderVM),
         actions: appBarApplicationActionLst,
       ),
       body: Column(
         children: [
           _buildPageView(_screenWidgetLst[_currentIndex]),
-          _buildScreenIconButtonRow(audioGlobalPlayerVM),
+          _buildScreenIconButtonRow(audioGlobalPlayerVM, themeProviderVM),
         ],
       ),
     );
@@ -154,19 +154,28 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Row _buildScreenIconButtonRow(AudioPlayerVM audioGlobalPlayerVM) {
+  Row _buildScreenIconButtonRow(
+    AudioPlayerVM audioGlobalPlayerVM,
+    ThemeProviderVM themeProvider,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: _screenNavigationIconLst.asMap().entries.map((entry) {
         return IconButton(
           key: _screenNavigationIconButtonKeyLst[entry.key],
-          icon: Icon(entry.value),
+          icon: IconTheme(
+            data: _currentIndex == entry.key ? getIconThemeData(
+              themeProviderVM: themeProvider,
+              iconType: MultipleIconType.iconOne,
+            ) : getIconThemeData(
+              themeProviderVM: themeProvider,
+              iconType: MultipleIconType.iconTwo,
+            ),
+            child: Icon(entry.value),
+          ),
           onPressed: () async {
             changePage(entry.key);
           },
-          color: _currentIndex == entry.key ? kScreenButtonColor : Colors.grey,
-          iconSize:
-              27, // Set this if you want to control the icon's visual size
           padding: EdgeInsets
               .zero, // This is crucial to avoid default IconButton padding
         );

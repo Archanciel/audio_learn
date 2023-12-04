@@ -4,8 +4,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
 import '../constants.dart';
+import '../services/settings_data_service.dart';
 import '../utils/dir_util.dart';
 import '../viewmodels/audio_player_vm.dart';
+import '../viewmodels/theme_provider_vm.dart';
+
+enum MultipleIconType { iconOne, iconTwo, iconThree }
 
 // This global variable is initialized when instanciating the
 // unique AudioGlobalPlayerVM instance. The reason why this
@@ -21,12 +25,36 @@ mixin ScreenMixin {
   final MaterialStateProperty<RoundedRectangleBorder>
       appElevatedButtonRoundedShape =
       MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius),));
-  
+    borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius),
+  ));
+
   static const double CHECKBOX_WIDTH_HEIGHT = 20.0;
   static const int PLAYLIST_DOWNLOAD_VIEW_DRAGGABLE_INDEX = 0;
   static const int AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX = 1;
   static const int MEDIA_PLAYER_VIEW_DRAGGABLE_INDEX = 2;
+
+  static const double screenIconSizeLightTheme = 30.0;
+  static const double screenIconSizeDarkTheme = 29.0;
+
+  // Define custom icon themes for light theme
+  final IconThemeData activeScreenIconLightTheme =  const IconThemeData(
+    color: const Color(0xff6750a4),
+    size: screenIconSizeLightTheme,
+  );
+  final IconThemeData inactiveScreenIconLightTheme =  const IconThemeData(
+    color: Colors.grey,
+    size: screenIconSizeLightTheme,
+  );
+
+  // Define custom icon themes for dark theme
+  final IconThemeData activeScreenIconDarkTheme =  const IconThemeData(
+    color: Color(0xffd0bcff),
+    size: screenIconSizeDarkTheme,
+  );
+  final IconThemeData inactiveScreenIconDarkTheme = const IconThemeData(
+    color: Colors.grey,
+    size: screenIconSizeDarkTheme,
+  );
 
   static ThemeData themeDataDark = ThemeData.dark().copyWith(
     colorScheme: ThemeData.dark().colorScheme.copyWith(
@@ -132,6 +160,45 @@ mixin ScreenMixin {
         ),
     // Add any other customizations for light mode
   );
+
+  /// Returns the icon theme data based on the theme currently applyed
+  /// and the [MultipleIconType] enum value passed as parameter.
+  ///
+  /// The IconThemeData is used to wrap the icon widget.
+  ///
+  /// Example for the icon button:
+  ///
+  /// IconButton(
+  ///   onPressed: () {
+  ///   },
+  ///   icon: IconTheme(
+  ///     data: getIconThemeData(
+  ///             themeProviderVM: themeProvider,
+  ///             iconType: MultipleIconType.iconTwo,
+  ///           ),
+  ///     child: const Icon(Icons.download_outline, size: 35),
+  ///   ),
+  /// ),
+  IconThemeData getIconThemeData({
+    required ThemeProviderVM themeProviderVM,
+    required MultipleIconType iconType,
+  }) {
+    switch (iconType) {
+      case MultipleIconType.iconOne:
+        return themeProviderVM.currentTheme == AppTheme.dark
+            ? activeScreenIconDarkTheme
+            : activeScreenIconLightTheme;
+      case MultipleIconType.iconTwo:
+        return themeProviderVM.currentTheme == AppTheme.dark
+            ? inactiveScreenIconDarkTheme
+            : inactiveScreenIconLightTheme;
+      default:
+        ThemeData currentTheme = themeProviderVM.currentTheme == AppTheme.dark
+            ? themeDataDark
+            : themeDataLight;
+        return currentTheme.iconTheme; // Default icon theme
+    }
+  }
 
   /// Lightens a color by a given percentage [0-1]
   static Color lighten(Color color, double amount) {
