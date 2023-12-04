@@ -36,9 +36,9 @@ mixin ScreenMixin {
   static const double screenIconSizeLightTheme = 30.0;
   static const double screenIconSizeDarkTheme = 29.0;
 
-  // Define custom icon themes for light theme
+  // Defining custom icon themes for light theme
   final IconThemeData activeScreenIconLightTheme =  const IconThemeData(
-    color: const Color(0xff6750a4),
+    color: Color(0xff6750a4), // slider thumbColor in light mode
     size: screenIconSizeLightTheme,
   );
   final IconThemeData inactiveScreenIconLightTheme =  const IconThemeData(
@@ -46,9 +46,9 @@ mixin ScreenMixin {
     size: screenIconSizeLightTheme,
   );
 
-  // Define custom icon themes for dark theme
+  // Defining custom icon themes for dark theme
   final IconThemeData activeScreenIconDarkTheme =  const IconThemeData(
-    color: Color(0xffd0bcff),
+    color: Color(0xffd0bcff), // slider thumbColor in dark mode
     size: screenIconSizeDarkTheme,
   );
   final IconThemeData inactiveScreenIconDarkTheme = const IconThemeData(
