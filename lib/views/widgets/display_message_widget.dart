@@ -122,7 +122,7 @@ class DisplayMessageWidget extends StatelessWidget {
 
         return const SizedBox.shrink();
       case WarningMessageType.invalidPlaylistUrl:
-        String playlistUrl = _playlistUrlController.text;
+        String playlistUrl = _warningMessageVM.invalidPlaylistUrl;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(

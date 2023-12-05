@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.7.91';
+const String kApplicationVersion = '0.7.92';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
@@ -49,8 +49,10 @@ const String kGoogleApiKey = 'AIzaSyDhywmh5EKopsNsaszzMkLJ719aQa2NHBw';
 const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
 const double kRowWidthSeparator = 3.0;
-const double kSmallestButtonWidth = 40.0;
+const double kGreaterButtonWidth = 78.0;
+const double kNormalButtonWidth = 75.0;
 const double kSmallButtonWidth = 48.0;
+const double kSmallestButtonWidth = 40.0;
 const double kSmallButtonInsidePadding = 3.0;
 const double kDefaultMargin = 5.0;
 const double kRoundedButtonBorderRadius = 11.0;

@@ -1197,8 +1197,6 @@ void main() {
         deleteSubDirectoriesAsWell: true,
       );
 
-      const String localPlaylistTitle = 'audio_learn_local_playlist_test';
-
       app.main(['test']);
       await tester.pumpAndSettle();
 

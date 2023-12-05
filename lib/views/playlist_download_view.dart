@@ -151,7 +151,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   width: kRowWidthSeparator,
                 ),
                 SizedBox(
-                  width: kSmallButtonWidth,
+                  width: kSmallestButtonWidth,
                   child: Tooltip(
                     message:
                         AppLocalizations.of(context)!.addPlaylistButtonTooltip,
@@ -202,7 +202,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   width: kRowWidthSeparator,
                 ),
                 SizedBox(
-                  width: kSmallButtonWidth,
+                  width: kSmallButtonWidth, // necessary to display english text
                   child: Tooltip(
                     message: AppLocalizations.of(context)!
                         .downloadSingleVideoButtonTooltip,
@@ -416,7 +416,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               SizedBox(
-                width: 75,
+                width: kNormalButtonWidth,
                 child: Tooltip(
                   message:
                       AppLocalizations.of(context)!.playlistToggleButtonTooltip,
@@ -472,7 +472,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 ),
               ),
               SizedBox(
-                width: 90,
+                width: kGreaterButtonWidth,
                 child: Tooltip(
                   message: AppLocalizations.of(context)!
                       .downloadSelPlaylistsButtonTooltip,

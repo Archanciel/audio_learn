@@ -19,15 +19,15 @@ import 'warning_message_vm.dart';
 List<String> downloadingPlaylistUrls = [];
 
 /// This VM (View Model) class is part of the MVVM architecture.
-/// 
+///
 /// It is responsible of connecting to Youtube in order to download
 /// the audio of the videos referenced in the Youtube playlists.
 /// It can also download the audio of a single video.
-/// 
+///
 /// It is also responsible of creating and deleting application
 /// Playlist's, either Youtube app Playlist's or local app
 /// Playlist's.
-/// 
+///
 /// Another responsibility of this class is to move or copy
 /// audio files from one Playlist to another as well as to
 /// rename or delete audio files or update their playing
@@ -127,11 +127,11 @@ class AudioDownloadVM extends ChangeNotifier {
   void deletePlaylist({
     required Playlist playlistToDelete,
   }) {
-    _listOfPlaylist.removeWhere(
-        (playlist) => playlist.id == playlistToDelete.id);
+    _listOfPlaylist
+        .removeWhere((playlist) => playlist.id == playlistToDelete.id);
 
     DirUtil.deleteDirIfExist(playlistToDelete.downloadPath);
-    
+
     notifyListeners();
   }
 
@@ -162,7 +162,6 @@ class AudioDownloadVM extends ChangeNotifier {
     // those two variables are used by the
     // ExpandablePlaylistListView UI to show a message
     _warningMessageVM.updatedPlaylistTitle = '';
-    _warningMessageVM.isPlaylistUrlInvalid = false;
 
     if (localPlaylistTitle.isNotEmpty) {
       // handling creation of a local playlist
@@ -203,7 +202,7 @@ class AudioDownloadVM extends ChangeNotifier {
       // clicked on the Add button instead of the Download
       // button or if the String pasted to the url text field
       // is not a valid Youtube playlist url.
-      _warningMessageVM.isPlaylistUrlInvalid = true;
+      _warningMessageVM.invalidPlaylistUrl = playlistUrl;
 
       return null;
     } else {
@@ -215,6 +214,14 @@ class AudioDownloadVM extends ChangeNotifier {
       _youtubeExplode = yt.YoutubeExplode();
 
       playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
+
+      if (playlistId == null) {
+        // the case if the String pasted to the url text field
+        // is not a valid Youtube playlist url.
+        _warningMessageVM.invalidPlaylistUrl = playlistUrl;
+
+        return null;
+      }
 
       String playlistTitle;
 
@@ -230,7 +237,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
           return null;
         } catch (e) {
-          _warningMessageVM.isPlaylistUrlInvalid = true;
+          _warningMessageVM.invalidPlaylistUrl = playlistUrl;
 
           return null;
         }

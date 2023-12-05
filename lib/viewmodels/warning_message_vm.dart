@@ -168,22 +168,19 @@ class WarningMessageVM extends ChangeNotifier {
     }
   }
 
-  bool _isPlaylistUrlInvalid = false;
-  bool get isPlaylistUrlInvalid => _isPlaylistUrlInvalid;
-  set isPlaylistUrlInvalid(bool isPlaylistUrlInvalid) {
-    _isPlaylistUrlInvalid = isPlaylistUrlInvalid;
-
-    if (isPlaylistUrlInvalid) {
+  String _invalidPlaylistUrl = '';
+  String get invalidPlaylistUrl => _invalidPlaylistUrl;
+  set invalidPlaylistUrl(String invalidPlaylistUrl) {
+    _invalidPlaylistUrl = invalidPlaylistUrl;
       _warningMessageType = WarningMessageType.invalidPlaylistUrl;
 
       notifyListeners();
-    }
   }
 
   bool _isSingleVideoUrlInvalid = false;
   bool get isSingleVideoUrlInvalid => _isSingleVideoUrlInvalid;
   set isSingleVideoUrlInvalid(bool isSingleVideoUrlInvalid) {
-    _isSingleVideoUrlInvalid = isPlaylistUrlInvalid;
+    _isSingleVideoUrlInvalid = isSingleVideoUrlInvalid;
 
     if (isSingleVideoUrlInvalid) {
       _warningMessageType = WarningMessageType.invalidSingleVideoUUrl;
