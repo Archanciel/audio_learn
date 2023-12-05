@@ -162,7 +162,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
             _isChecked ? PlaylistQuality.music : PlaylistQuality.voice,
       );
 
-      return false;
+      return false; // the playlist URL TextField will not be cleared
     } else {
       // if the local playlist title is empty, then add the Youtube
       // playlist if the Youtube playlist URL is not empty
@@ -182,7 +182,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
       }
     }
 
-    return false;
+    return false; // the playlist URL TextField will not be cleared
   }
 
   String formatDownloadSpeed({
