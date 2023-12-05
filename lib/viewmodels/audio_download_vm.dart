@@ -599,9 +599,15 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// {singleVideoTargetPlaylist} is the playlist to which the single video
-  /// will be added
-  Future<void> downloadSingleVideoAudio({
+  /// {singleVideoTargetPlaylist} is the playlist to which the single
+  /// video will be added.
+  /// 
+  /// If the audio of the single video is correctly downloaded and
+  /// is added to a playlist, then true is returned, false otherwise.
+  /// 
+  /// Returning true will cause the single video url text field to be
+  /// cleared.
+  Future<bool> downloadSingleVideoAudio({
     required String videoUrl,
     required Playlist singleVideoTargetPlaylist,
   }) async {
@@ -618,10 +624,10 @@ class AudioDownloadVM extends ChangeNotifier {
         errorType: ErrorType.noInternet,
         errorArgOne: e.toString(),
       );
-      return;
+      return false;
     } catch (e) {
       _warningMessageVM.isSingleVideoUrlInvalid = true;
-      return;
+      return false;
     }
 
     yt.Video youtubeVideo;
@@ -633,13 +639,13 @@ class AudioDownloadVM extends ChangeNotifier {
         errorType: ErrorType.noInternet,
         errorArgOne: e.toString(),
       );
-      return;
+      return false;
     } catch (e) {
       _notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
         errorArgOne: e.toString(),
       );
-      return;
+      return false;
     }
 
     final Duration? audioDuration = youtubeVideo.duration;
@@ -682,7 +688,7 @@ class AudioDownloadVM extends ChangeNotifier {
         errorArgThree: singleVideoTargetPlaylist.title,
       );
 
-      return;
+      return false;
     } catch (e) {
       // file was not found in the downloaded audio directory
     }
@@ -706,7 +712,7 @@ class AudioDownloadVM extends ChangeNotifier {
         errorType: ErrorType.downloadAudioYoutubeError,
         errorArgOne: e.toString(),
       );
-      return;
+      return false;
     }
 
     stopwatch.stop();
@@ -726,6 +732,8 @@ class AudioDownloadVM extends ChangeNotifier {
     );
 
     notifyListeners();
+
+    return true;
   }
 
   /// This method verifies if the user selected a single playlist

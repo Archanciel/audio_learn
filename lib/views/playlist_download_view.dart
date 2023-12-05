@@ -181,7 +181,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                           },
                         ).then((value) {
                           // not null value is boolean
-                          if (value != null && value) { // value is null if
+                          if (value != null && value) {
+                            // value is null if
                             //                             clicking on Cancel
                             //                             or if the dialog is
                             //                             dismissed by clicking
@@ -302,13 +303,23 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                                 ],
                               ),
                             ),
-                          ).then((value) {
+                          ).then((value) async {
                             if (value != null) {
-                              audioDownloadViewModel.downloadSingleVideoAudio(
+                              // the case if the user clicked on Ok button
+                              bool isSingleVideoAudioCorrectlyDownloaded =
+                                  await audioDownloadViewModel
+                                      .downloadSingleVideoAudio(
                                 videoUrl: _playlistUrlController.text.trim(),
                                 singleVideoTargetPlaylist:
                                     selectedTargetPlaylist!,
                               );
+
+                              if (isSingleVideoAudioCorrectlyDownloaded) {
+                                // if the single video audio has been
+                                // correctly downloaded, then the playlistUrl
+                                // field is cleared
+                                _playlistUrlController.clear();
+                              }
                             }
                           });
                           focusNode.requestFocus();

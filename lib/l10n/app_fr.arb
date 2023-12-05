@@ -110,7 +110,7 @@
       "exceptionMessage": {}
     }
   },
-  "downloadAudioFileAlreadyOnAudioDirectory": "L'audio \"{audioValidVideoTitle}\" est contenu dans le fichier \"{fileName}\" se trouvant dans le répertoire de la playlist \"{playlistTitle}\" et ne sera donc pas retéléchargé.",
+  "downloadAudioFileAlreadyOnAudioDirectory": "L'audio \"{audioValidVideoTitle}\" est contenu dans le fichier \"{fileName}\" se trouvant dans le répertoire de la playlist cible \"{playlistTitle}\" et ne sera donc pas retéléchargé.",
   "noInternet": "Pas d'Internet. Connecte ton appareil et rééssaye.",
   "invalidSingleVideoUUrl": "L'URL \"{url}\" ne pointe pas sur une vidéo unique. Aucune vidéo n'a donc été téléchargée.",
   "@invalidSingleVideoUUrl": {
@@ -179,7 +179,7 @@
   "noPlaylistSelectedForSingleVideoDownload": "Aucune playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionnez une playlist et rééssayez ...",
   "tooManyPlaylistSelectedForSingleVideoDownload": "Plus d'une playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionnez une seule playlist et rééssayez ...",
   "confirmDialogTitle": "CONFIRMATION",
-  "confirmSingleVideoAudioPlaylistTitle": "Confirmez la playlist \"{title}\" sélectionnée pour le téléchargement de l'audio de la vidéo unique.",
+  "confirmSingleVideoAudioPlaylistTitle": "Confirmez la playlist cible \"{title}\" sélectionnée pour le téléchargement de l'audio de la vidéo unique.",
   "playlistJsonFileSizeLabel": "Taille fichier JSON",
   "playlistOneSelectedDialogTitle": "Sélectionnez une playlist",
   "confirmButton": "Confirmer",

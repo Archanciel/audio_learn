@@ -109,7 +109,7 @@
       "exceptionMessage": {}
     }
   },
-  "downloadAudioFileAlreadyOnAudioDirectory": "Audio \"{audioValidVideoTitle}\" is contained in file \"{fileName}\" present in the \"{playlistTitle}\" playlist directory and so won't be redownloaded.",
+  "downloadAudioFileAlreadyOnAudioDirectory": "Audio \"{audioValidVideoTitle}\" is contained in file \"{fileName}\" present in the target playlist \"{playlistTitle}\" directory and so won't be redownloaded.",
   "noInternet": "No Internet. Please connect your device and retry.",
   "invalidSingleVideoUUrl": "Single video with invalid URL \"{url}\" could not be downloaded.",
   "@invalidSingleVideoUUrl": {
@@ -178,7 +178,7 @@
   "noPlaylistSelectedForSingleVideoDownload": "No playlist selected for single video download. Select one playlist and retry ...",
   "tooManyPlaylistSelectedForSingleVideoDownload": "More than one playlist selected for single video download. Select only one playlist and retry ...",
   "confirmDialogTitle": "CONFIRMATION",
-  "confirmSingleVideoAudioPlaylistTitle": "Confirm playlist \"{title}\" for downloading single video audio.",
+  "confirmSingleVideoAudioPlaylistTitle": "Confirm target playlist \"{title}\" for downloading single video audio.",
   "playlistJsonFileSizeLabel": "JSON file size",
   "playlistOneSelectedDialogTitle": "Select a playlist",
   "confirmButton": "Confirm",
