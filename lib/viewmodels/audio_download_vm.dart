@@ -63,7 +63,7 @@ class AudioDownloadVM extends ChangeNotifier {
   bool _audioDownloadError = false;
   bool get audioDownloadError => _audioDownloadError;
 
-  final WarningMessageVM _warningMessageVM;
+  final WarningMessageVM warningMessageVM;
 
   /// Passing true for {isTest} has the effect that the windows
   /// test directory is used as playlist root directory. This
@@ -75,7 +75,7 @@ class AudioDownloadVM extends ChangeNotifier {
   AudioDownloadVM({
     required WarningMessageVM warningMessageVM,
     bool isTest = false,
-  }) : _warningMessageVM = warningMessageVM {
+  }) : warningMessageVM = warningMessageVM {
     _playlistsHomePath = DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
 
     loadExistingPlaylists();
@@ -162,7 +162,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
     // those two variables are used by the
     // ExpandablePlaylistListView UI to show a message
-    _warningMessageVM.updatedPlaylistTitle = '';
+    warningMessageVM.updatedPlaylistTitle = '';
 
     if (localPlaylistTitle.isNotEmpty) {
       // handling creation of a local playlist
@@ -192,7 +192,7 @@ class AudioDownloadVM extends ChangeNotifier {
       // ExpandablePlaylistListVM.getUpToDateSelectablePlaylists()
       // obtains the list of playlist from the AudioDownloadVM.
       _listOfPlaylist.add(addedPlaylist);
-      _warningMessageVM.setAddPlaylist(
+      warningMessageVM.setAddPlaylist(
         playlistTitle: localPlaylistTitle,
         playlistQuality: playlistQuality,
       );
@@ -203,7 +203,7 @@ class AudioDownloadVM extends ChangeNotifier {
       // clicked on the Add button instead of the Download
       // button or if the String pasted to the url text field
       // is not a valid Youtube playlist url.
-      _warningMessageVM.invalidPlaylistUrl = playlistUrl;
+      warningMessageVM.invalidPlaylistUrl = playlistUrl;
 
       return null;
     } else {
@@ -219,7 +219,7 @@ class AudioDownloadVM extends ChangeNotifier {
       if (playlistId == null) {
         // the case if the String pasted to the url text field
         // is not a valid Youtube playlist url.
-        _warningMessageVM.invalidPlaylistUrl = playlistUrl;
+        warningMessageVM.invalidPlaylistUrl = playlistUrl;
 
         return null;
       }
@@ -238,7 +238,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
           return null;
         } catch (e) {
-          _warningMessageVM.invalidPlaylistUrl = playlistUrl;
+          warningMessageVM.invalidPlaylistUrl = playlistUrl;
 
           return null;
         }
@@ -261,7 +261,7 @@ class AudioDownloadVM extends ChangeNotifier {
         Playlist updatedPlaylist = _listOfPlaylist[playlistIndex];
         updatedPlaylist.url = playlistUrl;
         updatedPlaylist.id = playlistId;
-        _warningMessageVM.updatedPlaylistTitle = playlistTitle;
+        warningMessageVM.updatedPlaylistTitle = playlistTitle;
 
         JsonDataService.saveToFile(
           model: updatedPlaylist,
@@ -291,7 +291,7 @@ class AudioDownloadVM extends ChangeNotifier {
       );
     }
 
-    _warningMessageVM.setAddPlaylist(
+    warningMessageVM.setAddPlaylist(
       playlistTitle: addedPlaylist.title,
       playlistQuality: playlistQuality,
     );
@@ -536,7 +536,7 @@ class AudioDownloadVM extends ChangeNotifier {
     _lastSecondDownloadSpeed = 0;
     _audioDownloadError = true;
 
-    _warningMessageVM.setError(
+    warningMessageVM.setError(
       errorType: errorType,
       errorArgOne: errorArgOne,
       errorArgTwo: errorArgTwo,
@@ -627,7 +627,7 @@ class AudioDownloadVM extends ChangeNotifier {
       );
       return false;
     } catch (e) {
-      _warningMessageVM.isSingleVideoUrlInvalid = true;
+      warningMessageVM.isSingleVideoUrlInvalid = true;
       return false;
     }
 
@@ -745,10 +745,10 @@ class AudioDownloadVM extends ChangeNotifier {
     if (selectedPlaylists.length == 1) {
       return selectedPlaylists[0];
     } else if (selectedPlaylists.isEmpty) {
-      _warningMessageVM.isNoPlaylistSelectedForSingleVideoDownload = true;
+      warningMessageVM.isNoPlaylistSelectedForSingleVideoDownload = true;
       return null;
     } else {
-      _warningMessageVM.isTooManyPlaylistSelectedForSingleVideoDownload = true;
+      warningMessageVM.isTooManyPlaylistSelectedForSingleVideoDownload = true;
       return null;
     }
   }
@@ -766,7 +766,7 @@ class AudioDownloadVM extends ChangeNotifier {
     );
 
     if (!wasFileMoved) {
-      _warningMessageVM.setAudioNotMovedFromToPlaylistTitles(
+      warningMessageVM.setAudioNotMovedFromToPlaylistTitles(
           movedAudioValidVideoTitle: audio.validVideoTitle,
           movedFromPlaylistTitle: fromPlaylist.title,
           movedToPlaylistTitle: targetPlaylist.title);
@@ -808,7 +808,7 @@ class AudioDownloadVM extends ChangeNotifier {
       path: targetPlaylist.getPlaylistDownloadFilePathName(),
     );
 
-    _warningMessageVM.setAudioMovedFromToPlaylistTitles(
+    warningMessageVM.setAudioMovedFromToPlaylistTitles(
         movedAudioValidVideoTitle: audio.validVideoTitle,
         movedFromPlaylistTitle: fromPlaylist.title,
         movedFromPlaylistType: fromPlaylist.playlistType,
@@ -830,7 +830,7 @@ class AudioDownloadVM extends ChangeNotifier {
     String fromPlaylistTitle = fromPlaylist.title;
 
     if (!wasFileCopied) {
-      _warningMessageVM.setAudioNotCopiedFromToPlaylistTitles(
+      warningMessageVM.setAudioNotCopiedFromToPlaylistTitles(
           copiedAudioValidVideoTitle: audio.validVideoTitle,
           copiedFromPlaylistTitle: fromPlaylistTitle,
           copiedToPlaylistTitle: targetPlaylist.title);
@@ -860,7 +860,7 @@ class AudioDownloadVM extends ChangeNotifier {
       path: targetPlaylist.getPlaylistDownloadFilePathName(),
     );
 
-    _warningMessageVM.setAudioCopiedFromToPlaylistTitles(
+    warningMessageVM.setAudioCopiedFromToPlaylistTitles(
         copiedAudioValidVideoTitle: audio.validVideoTitle,
         copiedFromPlaylistTitle: fromPlaylistTitle,
         copiedFromPlaylistType: fromPlaylist.playlistType,
@@ -911,7 +911,7 @@ class AudioDownloadVM extends ChangeNotifier {
         // the case if the audio was not moved or copied from
         // another playlist, but was downloaded from the
         // Youtube playlist
-        _warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
+        warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
             deleteAudioFromPlaylistAswellTitle: enclosingPlaylist.title,
             deleteAudioFromPlaylistAswellAudioVideoTitle:
                 audio.originalVideoTitle);
