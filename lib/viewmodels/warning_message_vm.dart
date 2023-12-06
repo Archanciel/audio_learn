@@ -30,7 +30,7 @@ enum WarningMessageType {
   deleteAudioFromPlaylistAswellWarning, // User selected the audio
   // menu item "Delete audio from playlist aswell".
 
-  invalidSingleVideoUUrl, // The case if the url is a playlist url
+  invalidSingleVideoUrl, // The case if the url is a playlist url
   // and the Download button was clicked instead of the Add button,
   // or if the String pasted to the url text field is not a valid
   // Youtube video url.
@@ -87,7 +87,7 @@ enum ErrorType {
 }
 
 /// This VM (View Model) class is part of the MVVM architecture.
-/// 
+///
 class WarningMessageVM extends ChangeNotifier {
   WarningMessageType _warningMessageType = WarningMessageType.none;
   WarningMessageType get warningMessageType => _warningMessageType;
@@ -172,9 +172,9 @@ class WarningMessageVM extends ChangeNotifier {
   String get invalidPlaylistUrl => _invalidPlaylistUrl;
   set invalidPlaylistUrl(String invalidPlaylistUrl) {
     _invalidPlaylistUrl = invalidPlaylistUrl;
-      _warningMessageType = WarningMessageType.invalidPlaylistUrl;
+    _warningMessageType = WarningMessageType.invalidPlaylistUrl;
 
-      notifyListeners();
+    notifyListeners();
   }
 
   bool _isSingleVideoUrlInvalid = false;
@@ -183,7 +183,7 @@ class WarningMessageVM extends ChangeNotifier {
     _isSingleVideoUrlInvalid = isSingleVideoUrlInvalid;
 
     if (isSingleVideoUrlInvalid) {
-      _warningMessageType = WarningMessageType.invalidSingleVideoUUrl;
+      _warningMessageType = WarningMessageType.invalidSingleVideoUrl;
 
       notifyListeners();
     }

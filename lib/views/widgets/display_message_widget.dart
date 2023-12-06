@@ -182,7 +182,7 @@ class DisplayMessageWidget extends StatelessWidget {
         });
 
         return const SizedBox.shrink();
-      case WarningMessageType.invalidSingleVideoUUrl:
+      case WarningMessageType.invalidSingleVideoUrl:
         String playlistUrl = _playlistUrlController.text;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
