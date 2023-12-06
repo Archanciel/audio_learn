@@ -1,8 +1,11 @@
-
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 
+/// The MockAudioDownloadVM exists because when
+/// executing integration tests, using YoutubeExplode
+/// to get a Youtube playlist in order to obtain the
+/// playlist title is not possible.
 class MockAudioDownloadVM extends AudioDownloadVM {
   final List<Playlist> _playlistLst = [];
 
@@ -69,9 +72,11 @@ class MockAudioDownloadVM extends AudioDownloadVM {
     String localPlaylistTitle = '',
     required PlaylistQuality playlistQuality,
   }) async {
-    // calling the AudioDownloadVM's addPlaylistCallableByMock method
-    // enables the MockAudioDownloadVM to use the logic of the AudioDownloadVM
-    // addPlaylist method !
+    // Calling the AudioDownloadVM's addPlaylistCallableByMock method
+    // enables the MockAudioDownloadVM to use the logic of the
+    // AudioDownloadVM addPlaylist method. The {mockYoutubePlaylistTitle}
+    // is passed to the method in order to indicate that the method
+    // is called by the MockAudioDownloadVM.
     Playlist? addedPlaylist = await addPlaylistCallableByMock(
       playlistUrl: playlistUrl,
       localPlaylistTitle: localPlaylistTitle,
