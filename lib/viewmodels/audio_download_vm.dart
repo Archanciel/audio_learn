@@ -135,6 +135,13 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// The MockAudioDownloadVM exists because when
+  /// executing integration tests, using YoutubeExplode
+  /// to get a Youtube playlist in order to obtain the
+  /// playlist title is not possible, the
+  /// {mockYoutubePlaylistTitle} is passed to the method if
+  /// the method is called by the MockAudioDownloadVM.
+  /// 
   /// This method has been created in order for the
   /// MockAudioDownloadVM addPlaylist() method to be able
   /// to use the AudioDownloadVM.addPlaylist() logic.
@@ -143,14 +150,8 @@ class AudioDownloadVM extends ChangeNotifier {
   /// AudioDownloadVM, it contains the logic to add a
   /// playlist and so, if this logic is modified, it
   /// will be modified in only one place and will be
-  /// tested by the integration test.
-  ///
-  /// Since the MockAudioDownloadVM exists because when
-  /// executing integration tests, using YoutubeExplode
-  /// to get a Youtube playlist in order to obtain the
-  /// playlist title is not possible, the
-  /// {mockYoutubePlaylistTitle} is passed to the method if
-  /// the method is called by the MockAudioDownloadVM.
+  /// applied to the MockAudioDownloadVM as well and so
+  /// will tested by the integration test.
   Future<Playlist?> addPlaylistCallableByMock({
     String playlistUrl = '',
     String localPlaylistTitle = '',
