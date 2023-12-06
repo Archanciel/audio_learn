@@ -259,7 +259,7 @@ class AudioDownloadVM extends ChangeNotifier {
         // audios.
         Playlist updatedPlaylist = _listOfPlaylist[playlistIndex];
         updatedPlaylist.url = playlistUrl;
-        updatedPlaylist.id = playlistId!;
+        updatedPlaylist.id = playlistId;
         _warningMessageVM.updatedPlaylistTitle = playlistTitle;
 
         JsonDataService.saveToFile(
@@ -281,7 +281,7 @@ class AudioDownloadVM extends ChangeNotifier {
         playlistUrl: playlistUrl,
         playlistQuality: playlistQuality,
         playlistTitle: playlistTitle,
-        playlistId: playlistId!,
+        playlistId: playlistId,
       );
 
       JsonDataService.saveToFile(

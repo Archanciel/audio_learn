@@ -169,7 +169,7 @@ class MainApp extends StatelessWidget with ScreenMixin {
             theme: themeProvider.currentTheme == AppTheme.dark
                 ? ScreenMixin.themeDataDark
                 : ScreenMixin.themeDataLight,
-            home: MyHomePage(),
+            home: const MyHomePage(),
           );
         },
       ),
