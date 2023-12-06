@@ -231,7 +231,7 @@ class AudioDownloadVM extends ChangeNotifier {
         try {
           youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
         } on SocketException catch (e) {
-          _notifyDownloadError(
+          notifyDownloadError(
             errorType: ErrorType.noInternet,
             errorArgOne: e.toString(),
           );
@@ -327,7 +327,7 @@ class AudioDownloadVM extends ChangeNotifier {
     try {
       youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
     } on SocketException catch (e) {
-      _notifyDownloadError(
+      notifyDownloadError(
         errorType: ErrorType.noInternet,
         errorArgOne: e.toString(),
       );
@@ -338,7 +338,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
       return;
     } catch (e) {
-      _notifyDownloadError(
+      notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
         errorArgOne: e.toString(),
       );
@@ -432,7 +432,7 @@ class AudioDownloadVM extends ChangeNotifier {
           audio: audio,
         );
       } catch (e) {
-        _notifyDownloadError(
+        notifyDownloadError(
           errorType: ErrorType.downloadAudioYoutubeError,
           errorArgOne: e.toString(),
         );
@@ -525,7 +525,7 @@ class AudioDownloadVM extends ChangeNotifier {
     }
   }
 
-  _notifyDownloadError({
+  notifyDownloadError({
     required ErrorType errorType,
     String? errorArgOne,
     String? errorArgTwo,
@@ -621,13 +621,15 @@ class AudioDownloadVM extends ChangeNotifier {
     try {
       videoId = yt.VideoId(videoUrl);
     } on SocketException catch (e) {
-      _notifyDownloadError(
+      notifyDownloadError(
         errorType: ErrorType.noInternet,
         errorArgOne: e.toString(),
       );
+
       return false;
     } catch (e) {
       warningMessageVM.isSingleVideoUrlInvalid = true;
+
       return false;
     }
 
@@ -636,16 +638,18 @@ class AudioDownloadVM extends ChangeNotifier {
     try {
       youtubeVideo = await _youtubeExplode.videos.get(videoId);
     } on SocketException catch (e) {
-      _notifyDownloadError(
+      notifyDownloadError(
         errorType: ErrorType.noInternet,
         errorArgOne: e.toString(),
       );
+
       return false;
     } catch (e) {
-      _notifyDownloadError(
+      notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
         errorArgOne: e.toString(),
       );
+
       return false;
     }
 
@@ -680,12 +684,12 @@ class AudioDownloadVM extends ChangeNotifier {
     );
 
     try {
-      String firstMatch = downloadedAudioFileNameLst
+      String existingAudioFileName = downloadedAudioFileNameLst
           .firstWhere((fileName) => fileName.contains(audio.validVideoTitle));
-      _notifyDownloadError(
+      notifyDownloadError(
         errorType: ErrorType.downloadAudioFileAlreadyOnAudioDirectory,
         errorArgOne: audio.validVideoTitle,
-        errorArgTwo: firstMatch,
+        errorArgTwo: existingAudioFileName,
         errorArgThree: singleVideoTargetPlaylist.title,
       );
 
@@ -709,7 +713,7 @@ class AudioDownloadVM extends ChangeNotifier {
       );
     } catch (e) {
       _youtubeExplode.close();
-      _notifyDownloadError(
+      notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
         errorArgOne: e.toString(),
       );
@@ -1106,7 +1110,7 @@ class AudioDownloadVM extends ChangeNotifier {
         youtubeVideoId,
       );
     } catch (e) {
-      _notifyDownloadError(
+      notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
         errorArgOne: e.toString(),
       );

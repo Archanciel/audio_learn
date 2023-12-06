@@ -1,6 +1,7 @@
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
+import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
 /// The MockAudioDownloadVM inherits from AudioDownloadVM.
 /// It exists because when executing integration tests, using
@@ -20,53 +21,6 @@ class MockAudioDownloadVM extends AudioDownloadVM {
   });
 
   @override
-  Future<void> downloadPlaylistAudios({
-    required String playlistUrl,
-  }) async {
-    List<Audio> audioLst = [
-      Audio(
-          enclosingPlaylist: _playlistLst[0],
-          originalVideoTitle: 'Audio 1',
-          videoUrl: 'https://example.com/video2',
-          audioDownloadDateTime: DateTime(2023, 3, 25),
-          videoUploadDate: DateTime.now(),
-          audioDuration: const Duration(minutes: 3, seconds: 42),
-          compactVideoDescription: 'Video Description 1'),
-      Audio(
-          enclosingPlaylist: _playlistLst[0],
-          originalVideoTitle: 'Audio 2',
-          videoUrl: 'https://example.com/video2',
-          audioDownloadDateTime: DateTime(2023, 3, 25),
-          videoUploadDate: DateTime.now(),
-          audioDuration: const Duration(minutes: 5, seconds: 21),
-          compactVideoDescription: 'Video Description 2'),
-      Audio(
-          enclosingPlaylist: _playlistLst[0],
-          originalVideoTitle: 'Audio 3',
-          videoUrl: 'https://example.com/video2',
-          audioDownloadDateTime: DateTime(2023, 3, 25),
-          videoUploadDate: DateTime.now(),
-          audioDuration: const Duration(minutes: 2, seconds: 15),
-          compactVideoDescription: 'Video Description 3'),
-    ];
-
-    int i = 1;
-    int speed = 100000;
-    int size = 900000;
-
-    for (Audio audio in audioLst) {
-      audio.audioDownloadSpeed = speed * i;
-      audio.audioFileSize = size * i;
-      i++;
-    }
-
-    _playlistLst[0].downloadedAudioLst = audioLst;
-    _playlistLst[0].playableAudioLst = audioLst;
-
-    notifyListeners();
-  }
-
-  @override
   Future<Playlist?> addPlaylist({
     String playlistUrl = '',
     String localPlaylistTitle = '',
@@ -74,9 +28,10 @@ class MockAudioDownloadVM extends AudioDownloadVM {
   }) async {
     if (playlistUrl.contains('invalid')) {
       warningMessageVM.invalidPlaylistUrl = playlistUrl;
-      
+
       return null;
     }
+
     // Calling the AudioDownloadVM's addPlaylistCallableByMock method
     // enables the MockAudioDownloadVM to use the logic of the
     // AudioDownloadVM addPlaylist method. The {mockYoutubePlaylistTitle}
@@ -90,5 +45,40 @@ class MockAudioDownloadVM extends AudioDownloadVM {
     );
 
     return addedPlaylist;
+  }
+
+  @override
+  Future<bool> downloadSingleVideoAudio({
+    required String videoUrl,
+    required Playlist singleVideoTargetPlaylist,
+  }) async {
+    if (videoUrl.contains('invalid')) {
+      warningMessageVM.isSingleVideoUrlInvalid = true;
+
+      return false;
+    }
+
+    try {
+      Audio existingSingleVideoAudio = singleVideoTargetPlaylist
+          .downloadedAudioLst
+          .firstWhere((audio) => audio.videoUrl == videoUrl);
+
+      String existingAudioFileName = existingSingleVideoAudio.audioFileName;
+      
+      notifyDownloadError(
+        errorType: ErrorType.downloadAudioFileAlreadyOnAudioDirectory,
+        errorArgOne: existingSingleVideoAudio.validVideoTitle,
+        errorArgTwo: existingAudioFileName,
+        errorArgThree: singleVideoTargetPlaylist.title,
+      );
+
+      return false;
+    } catch (e) {
+      // file was not found in the downloaded audio directory
+    }
+
+    notifyListeners();
+
+    return true;
   }
 }
