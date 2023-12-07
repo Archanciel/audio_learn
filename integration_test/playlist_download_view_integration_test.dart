@@ -1767,6 +1767,7 @@ void main() {
 
       const String invalidYoutubePlaylistUrl =
           'invalid';
+
       // Enter the invalid Youtube playlist URL into the url text
       // field
       await tester.enterText(
@@ -1856,15 +1857,35 @@ void main() {
         deleteSubDirectoriesAsWell: true,
       );
 
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}copy_move_audio_integr_test_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      const String youtubeAudioSourcePlaylistTitle =
+          'audio_learn_test_download_2_small_videos';
+      const String localAudioPlaylistTitle = 'local_audio_playlist_2';
+      const String copiedAudioTitle = 'audio learn test short video one';
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
       // Since we have to use a mock AudioDownloadVM to add the
       // youtube playlist, we can not use app.main() to start the
       // app because app.main() uses the real AudioDownloadVM
       // and we don't want to make the main.dart file dependent
       // of a mock class. So we have to start the app by hand.
 
-      SettingsDataService settingsDataService = SettingsDataService(
-        isTest: true,
-      );
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -1901,23 +1922,24 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      const String invalidYoutubePlaylistUrl =
+      const String invalidSingleVideoUrl =
           'invalid';
-      // Enter the invalid Youtube playlist URL into the url text
+
+      // Enter the invalid single video URL into the url text
       // field
       await tester.enterText(
         find.byKey(const Key('playlistUrlTextField')),
-        invalidYoutubePlaylistUrl,
+        invalidSingleVideoUrl,
       );
 
       // Ensure the url text field contains the entered url
       TextField urlTextField =
           tester.widget(find.byKey(const Key('playlistUrlTextField')));
-      expect(urlTextField.controller!.text, invalidYoutubePlaylistUrl);
+      expect(urlTextField.controller!.text, invalidSingleVideoUrl);
 
-      // Open the add playlist dialog by tapping the add playlist
-      // button
-      await tester.tap(find.byKey(const Key('addPlaylistButton')));
+      // Open the target playlist selection dialog by tapping the
+      // download single video button
+      await tester.tap(find.byKey(const Key('downloadSingleVideoButton')));
       await tester.pumpAndSettle();
 
       // Ensure the dialog is shown
@@ -1937,7 +1959,7 @@ void main() {
       // Check the value of the AlertDialog url Text
       Text confirmUrlText =
           tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
-      expect(confirmUrlText.data, invalidYoutubePlaylistUrl);
+      expect(confirmUrlText.data, invalidSingleVideoUrl);
 
       // Check that the AlertDialog local playlist title
       // TextField is empty
@@ -1966,7 +1988,7 @@ void main() {
       Text warningDialogMessage =
           tester.widget(find.byKey(const Key('warningDialogMessage')));
       expect(warningDialogMessage.data,
-          'Playlist with invalid URL "$invalidYoutubePlaylistUrl" neither added nor modified.');
+          'Playlist with invalid URL "$invalidSingleVideoUrl" neither added nor modified.');
 
       // Close the warning dialog by tapping on the OK button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
