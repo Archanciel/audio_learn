@@ -1864,10 +1864,7 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      const String youtubeAudioSourcePlaylistTitle =
-          'audio_learn_test_download_2_small_videos';
       const String localAudioPlaylistTitle = 'local_audio_playlist_2';
-      const String copiedAudioTitle = 'audio learn test short video one';
 
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
@@ -1945,35 +1942,47 @@ void main() {
       // Ensure the dialog is shown
       expect(find.byType(AlertDialog), findsOneWidget);
 
-      // Check the value of the AlertDialog dialog title
+      // Check the value of the select one playlist AlertDialog
+      // dialog title
       Text alertDialogTitle =
-          tester.widget(find.byKey(const Key('playlistConfirmDialogTitleKey')));
-      expect(alertDialogTitle.data, 'Add Playlist');
+          tester.widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Select a playlist');
 
-      // Check the value of the AlertDialog dialog title comment
-      Text alertDialogCommentTitleText = tester.widget(
-          find.byKey(const Key('playlistTitleCommentConfirmDialogKey')));
-      expect(alertDialogCommentTitleText.data,
-          'Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.');
+      // Find the RadioListTile target playlist to which the audio
+      // will be copied
 
-      // Check the value of the AlertDialog url Text
-      Text confirmUrlText =
-          tester.widget(find.byKey(const Key('playlistUrlConfirmDialogText')));
-      expect(confirmUrlText.data, invalidSingleVideoUrl);
-
-      // Check that the AlertDialog local playlist title
-      // TextField is empty
-      TextField localPlaylistTitleTextField = tester.widget(
-          find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')));
-      expect(
-        localPlaylistTitleTextField.controller!.text,
-        '',
+      final Finder radioListTile = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is RadioListTile &&
+            widget.title is Text &&
+            (widget.title as Text).data == localAudioPlaylistTitle,
       );
 
-      // Confirm the addition by tapping the confirmation button in
-      // the AlertDialog
-      await tester
-          .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
+      // Tap the target playlist RadioListTile to select it
+      await tester.tap(radioListTile);
+      await tester.pumpAndSettle();
+
+      // Now find the confirm button and tap on it
+      await tester.tap(find.byKey(const Key('confirmButton')));
+      await tester.pumpAndSettle();
+
+      // Now verifying the confirm warning dialog message
+
+      // Check the value of the select one playlist
+      // confirmation dialog title
+      Text confirmationDialogTitle =
+          tester.widget(find.byKey(const Key('confirmationDialogTitleKey')));
+      expect(confirmationDialogTitle.data, 'CONFIRMATION');
+
+      final Text confirmationDialogMessageTextWidget =
+          tester.widget<Text>(find.byKey(const Key('confirmationDialogMessageKey')));
+
+      expect(confirmationDialogMessageTextWidget.data,
+          'Confirm target playlist "$localAudioPlaylistTitle" for downloading single video audio.');
+
+      // Now find the ok button of the confirm warning dialog
+      // and tap on it
+      await tester.tap(find.byKey(const Key('okButtonKey')));
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
@@ -1988,19 +1997,17 @@ void main() {
       Text warningDialogMessage =
           tester.widget(find.byKey(const Key('warningDialogMessage')));
       expect(warningDialogMessage.data,
-          'Playlist with invalid URL "$invalidSingleVideoUrl" neither added nor modified.');
+          'Single video with invalid URL "$invalidSingleVideoUrl" could not be downloaded.');
 
       // Close the warning dialog by tapping on the OK button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
-      // Ensure the URL TextField was emptied
+      // Ensure the URL TextField containing the invalid single
+      // video URL was not emptied
       urlTextField =
           tester.widget(find.byKey(const Key('playlistUrlTextField')));
-      expect(urlTextField.controller!.text, '');
-
-      // The list of Playlist's should have zero item now
-      expect(find.byType(ListTile), findsNothing);
+      expect(urlTextField.controller!.text, invalidSingleVideoUrl);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -2295,6 +2302,12 @@ void main() {
       await tester.tap(popupCopyMenuItem);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
+      // Check the value of the select one playlist AlertDialog
+      // dialog title
+      Text alertDialogTitle =
+          tester.widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Sélectionnez une playlist');
+
       // Find the RadioListTile target playlist to which the audio
       // will be copied
 
@@ -2543,6 +2556,12 @@ void main() {
 
       await tester.tap(popupMoveMenuItem);
       await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Check the value of the select one playlist AlertDialog
+      // dialog title
+      Text alertDialogTitle =
+          tester.widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Sélectionnez une playlist');
 
       // Find the RadioListTile target playlist to which the audio
       // will be moved

@@ -115,8 +115,10 @@ class _PlaylistOneSelectableDialogWidgetState
         }
       },
       child: AlertDialog(
-        title:
-            Text(AppLocalizations.of(context)!.playlistOneSelectedDialogTitle),
+        title: Text(
+          key: const Key('playlistOneSelectableDialogTitleKey'),
+          AppLocalizations.of(context)!.playlistOneSelectedDialogTitle,
+        ),
         actionsPadding:
             // reduces the top vertical space between the buttons
             // and the content

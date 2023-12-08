@@ -272,14 +272,20 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                                 }
                               },
                               child: AlertDialog(
-                                title: Text(AppLocalizations.of(context)!
-                                    .confirmDialogTitle),
+                                title: Text(
+                                  key: const Key(
+                                      'confirmationDialogTitleKey'),
+                                  AppLocalizations.of(context)!
+                                      .confirmDialogTitle,
+                                ),
                                 actionsPadding:
                                     // reduces the top vertical space between the buttons
                                     // and the content
                                     const EdgeInsets.fromLTRB(10, 0, 10,
                                         10), // Adjust the value as needed
                                 content: Text(
+                                  key: const Key(
+                                      'confirmationDialogMessageKey'),
                                   AppLocalizations.of(context)!
                                       .confirmSingleVideoAudioPlaylistTitle(
                                     selectedTargetPlaylist!.title,
@@ -288,12 +294,14 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                                 ),
                                 actions: [
                                   TextButton(
+                                    key: const Key('okButtonKey'),
                                     child: const Text('Ok'),
                                     onPressed: () {
                                       Navigator.of(context).pop('ok');
                                     },
                                   ),
                                   TextButton(
+                                    key: const Key('cancelButtonKey'),
                                     child: Text(
                                         AppLocalizations.of(context)!.cancel),
                                     onPressed: () {
