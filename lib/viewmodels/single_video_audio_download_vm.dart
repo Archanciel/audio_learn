@@ -14,6 +14,8 @@ import 'warning_message_vm.dart';
 
 class SingleVideoAudioDownloadVM extends ChangeNotifier {
   final yt.YoutubeExplode _youtubeExplode;
+  // late yt.VideoClient? _videoClient;
+  // set videoClient(yt.VideoClient videoClient) => _videoClient = videoClient;
 
   SingleVideoAudioDownloadVM({
     required yt.YoutubeExplode youtubeExplode,
@@ -38,9 +40,12 @@ class SingleVideoAudioDownloadVM extends ChangeNotifier {
       return false;
     }
 
+    // _videoClient ??= _youtubeExplode.videos;
+
     yt.Video youtubeVideo;
 
     try {
+      // youtubeVideo = await _videoClient!.get(videoId);
       youtubeVideo = await _youtubeExplode.videos.get(videoId);
     } on SocketException catch (e) {
       notifyDownloadError(
@@ -128,7 +133,7 @@ class SingleVideoAudioDownloadVM extends ChangeNotifier {
     String? errorArgThree,
   }) {
     print(
-        '\n********* errorType: $errorType, errorArgOne: $errorArgOne, errorArgTwo: $errorArgTwo, errorArgThree: $errorArgThree');
+        '\n********* errorType: $errorType\n********* errorArgOne: $errorArgOne\n********* errorArgTwo: $errorArgTwo\n********* errorArgThree: $errorArgThree');
 
     notifyListeners();
   }

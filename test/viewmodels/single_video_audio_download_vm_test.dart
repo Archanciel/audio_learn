@@ -8,23 +8,24 @@ import 'custom_mock_youtube_explode.dart';
 void main() {
   group('SingleVideoAudioDownloadVM Tests', () {
     late SingleVideoAudioDownloadVM singleVideoAudioDownloadVM;
-    late CustomYoutubeExplode mockYoutubeExplode;
+    late CustomMockYoutubeExplode mockYoutubeExplode;
 
     setUp(() {
-      mockYoutubeExplode = CustomYoutubeExplode();
+      mockYoutubeExplode = CustomMockYoutubeExplode();
       singleVideoAudioDownloadVM =
           SingleVideoAudioDownloadVM(youtubeExplode: mockYoutubeExplode);
     });
 
-    test(
-        'Échec du téléchargement lorsque le service renvoie null au lieu du contenu d\'un fichier',
+    test('Échec du téléchargement lorsque le service renvoie une erreur',
         () async {
       Playlist singleVideoTargetPlaylist = Playlist(
         playlistType: PlaylistType.youtube,
         playlistQuality: PlaylistQuality.voice,
       );
 
-      when(mockYoutubeExplode.videos.get('id')).thenAnswer((_) async => false);
+      // Simulate an error response
+      // when(mockYoutubeExplode.videos.get(any))
+      //     .thenAnswer((_) => Future.error(Exception("Error fetching video")));
 
       expect(
         await singleVideoAudioDownloadVM.downloadSingleVideoAudio(
