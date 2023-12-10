@@ -73,9 +73,9 @@ class AudioDownloadVM extends ChangeNotifier {
   /// is used and the value of the kUniquePlaylistTitle constant
   /// is used to load the playlist json file.
   AudioDownloadVM({
-    required WarningMessageVM warningMessageVM,
+    required this.warningMessageVM,
     bool isTest = false,
-  }) : warningMessageVM = warningMessageVM {
+  }) {
     _playlistsHomePath = DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
 
     loadExistingPlaylists();
@@ -141,7 +141,7 @@ class AudioDownloadVM extends ChangeNotifier {
   /// playlist title is not possible, the
   /// {mockYoutubePlaylistTitle} is passed to the method if
   /// the method is called by the MockAudioDownloadVM.
-  /// 
+  ///
   /// This method has been created in order for the
   /// MockAudioDownloadVM addPlaylist() method to be able
   /// to use the AudioDownloadVM.addPlaylist() logic.
@@ -602,10 +602,10 @@ class AudioDownloadVM extends ChangeNotifier {
 
   /// {singleVideoTargetPlaylist} is the playlist to which the single
   /// video will be added.
-  /// 
+  ///
   /// If the audio of the single video is correctly downloaded and
   /// is added to a playlist, then true is returned, false otherwise.
-  /// 
+  ///
   /// Returning true will cause the single video url text field to be
   /// cleared.
   Future<bool> downloadSingleVideoAudio({
@@ -694,7 +694,7 @@ class AudioDownloadVM extends ChangeNotifier {
       );
 
       return false;
-    } catch (e) {
+    } catch (_) {
       // file was not found in the downloaded audio directory
     }
 
@@ -717,6 +717,7 @@ class AudioDownloadVM extends ChangeNotifier {
         errorType: ErrorType.downloadAudioYoutubeError,
         errorArgOne: e.toString(),
       );
+
       return false;
     }
 
@@ -1114,6 +1115,7 @@ class AudioDownloadVM extends ChangeNotifier {
         errorType: ErrorType.downloadAudioYoutubeError,
         errorArgOne: e.toString(),
       );
+
       return;
     }
 
@@ -1129,7 +1131,11 @@ class AudioDownloadVM extends ChangeNotifier {
     final int audioFileSize = audioStreamInfo.size.totalBytes;
     audio.audioFileSize = audioFileSize;
 
-    await _youtubeDownloadAudioFile(audio, audioStreamInfo, audioFileSize);
+    await _youtubeDownloadAudioFile(
+      audio,
+      audioStreamInfo,
+      audioFileSize,
+    );
   }
 
   Future<void> _youtubeDownloadAudioFile(
