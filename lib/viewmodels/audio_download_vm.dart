@@ -36,7 +36,7 @@ class AudioDownloadVM extends ChangeNotifier {
   List<Playlist> _listOfPlaylist = [];
   List<Playlist> get listOfPlaylist => _listOfPlaylist;
 
-  late yt.YoutubeExplode _youtubeExplode;
+  yt.YoutubeExplode? _youtubeExplode;
   // setter used by test only !
   set youtubeExplode(yt.YoutubeExplode youtubeExplode) =>
       _youtubeExplode = youtubeExplode;
@@ -212,7 +212,8 @@ class AudioDownloadVM extends ChangeNotifier {
       // get Youtube playlist
       String? playlistId;
       yt.Playlist youtubePlaylist;
-      _youtubeExplode = yt.YoutubeExplode();
+
+      _youtubeExplode ??= yt.YoutubeExplode();
 
       playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
 
@@ -229,7 +230,7 @@ class AudioDownloadVM extends ChangeNotifier {
       if (mockYoutubePlaylistTitle == null) {
         // the method is called by AudioDownloadVM.addPlaylist()
         try {
-          youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
+          youtubePlaylist = await _youtubeExplode!.playlists.get(playlistId);
         } on SocketException catch (e) {
           notifyDownloadError(
             errorType: ErrorType.noInternet,
@@ -316,7 +317,7 @@ class AudioDownloadVM extends ChangeNotifier {
     }
 
     _stopDownloadPressed = false;
-    _youtubeExplode = yt.YoutubeExplode();
+    _youtubeExplode ??= yt.YoutubeExplode();
 
     // get Youtube playlist
     String? playlistId;
@@ -325,7 +326,7 @@ class AudioDownloadVM extends ChangeNotifier {
     playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
 
     try {
-      youtubePlaylist = await _youtubeExplode.playlists.get(playlistId);
+      youtubePlaylist = await _youtubeExplode!.playlists.get(playlistId);
     } on SocketException catch (e) {
       notifyDownloadError(
         errorType: ErrorType.noInternet,
@@ -368,21 +369,21 @@ class AudioDownloadVM extends ChangeNotifier {
             currentPlaylist: currentPlaylist);
 
     await for (yt.Video youtubeVideo
-        in _youtubeExplode.playlists.getVideos(playlistId)) {
+        in _youtubeExplode!.playlists.getVideos(playlistId)) {
       _audioDownloadError = false;
       final Duration? audioDuration = youtubeVideo.duration;
 
       // using youtubeVideo.uploadDate is not correct since it
       // it is null !
       DateTime? videoUploadDate =
-          (await _youtubeExplode.videos.get(youtubeVideo.id.value)).uploadDate;
+          (await _youtubeExplode!.videos.get(youtubeVideo.id.value)).uploadDate;
 
       videoUploadDate ??= DateTime(00, 1, 1);
 
       // using youtubeVideo.description is not correct since it
       // it is empty !
       String videoDescription =
-          (await _youtubeExplode.videos.get(youtubeVideo.id.value)).description;
+          (await _youtubeExplode!.videos.get(youtubeVideo.id.value)).description;
 
       String compactVideoDescription = _createCompactVideoDescription(
         videoDescription: videoDescription,
@@ -462,7 +463,8 @@ class AudioDownloadVM extends ChangeNotifier {
     }
 
     _isDownloading = false;
-    _youtubeExplode.close();
+    _youtubeExplode!.close();
+    _youtubeExplode = null;
 
     // removing the playlist url from the downloadingPlaylistUrls
     // list since the playlist download has finished
@@ -618,7 +620,7 @@ class AudioDownloadVM extends ChangeNotifier {
   }) async {
     _audioDownloadError = false;
     _stopDownloadPressed = false;
-    _youtubeExplode = yt.YoutubeExplode();
+    _youtubeExplode ??= yt.YoutubeExplode();
 
     final yt.VideoId videoId;
 
@@ -640,7 +642,7 @@ class AudioDownloadVM extends ChangeNotifier {
     yt.Video youtubeVideo;
 
     try {
-      youtubeVideo = await _youtubeExplode.videos.get(videoId);
+      youtubeVideo = await _youtubeExplode!.videos.get(videoId);
     } on SocketException catch (e) {
       notifyDownloadError(
         errorType: ErrorType.noInternet,
@@ -711,7 +713,9 @@ class AudioDownloadVM extends ChangeNotifier {
         audio: audio,
       );
     } catch (e) {
-      _youtubeExplode.close();
+      _youtubeExplode!.close();
+      _youtubeExplode = null;
+
       notifyDownloadError(
         errorType: ErrorType.downloadAudioYoutubeError,
         errorArgOne: e.toString(),
@@ -724,7 +728,8 @@ class AudioDownloadVM extends ChangeNotifier {
 
     audio.downloadDuration = stopwatch.elapsed;
     _isDownloading = false;
-    _youtubeExplode.close();
+    _youtubeExplode!.close();
+    _youtubeExplode = null;
 
     singleVideoTargetPlaylist.addDownloadedAudio(audio);
 
@@ -1106,7 +1111,7 @@ class AudioDownloadVM extends ChangeNotifier {
     final yt.StreamManifest streamManifest;
 
     try {
-      streamManifest = await _youtubeExplode.videos.streamsClient.getManifest(
+      streamManifest = await _youtubeExplode!.videos.streamsClient.getManifest(
         youtubeVideoId,
       );
     } catch (e) {
@@ -1145,7 +1150,7 @@ class AudioDownloadVM extends ChangeNotifier {
     final File file = File(audio.filePathName);
     final IOSink audioFileSink = file.openWrite();
     final Stream<List<int>> audioStream =
-        _youtubeExplode.videos.streamsClient.get(audioStreamInfo);
+        _youtubeExplode!.videos.streamsClient.get(audioStreamInfo);
     int totalBytesDownloaded = 0;
     int previousSecondBytesDownloaded = 0;
 
