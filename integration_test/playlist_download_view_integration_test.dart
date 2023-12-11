@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audio_learn/viewmodels/single_video_audio_download_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -22,6 +23,7 @@ import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/main.dart' as app;
 
+import '../test/viewmodels/custom_mock_youtube_explode.dart';
 import '../test/viewmodels/mock_audio_download_vm.dart';
 
 void main() {
@@ -1948,8 +1950,8 @@ void main() {
           tester.widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
       expect(alertDialogTitle.data, 'Select a playlist');
 
-      // Find the RadioListTile target playlist to which the audio
-      // will be copied
+      // Find the RadioListTile target playlist in which the audio
+      // will be downloaded
 
       final Finder radioListTile = find.byWidgetPredicate(
         (Widget widget) =>
@@ -1979,6 +1981,196 @@ void main() {
 
       expect(confirmationDialogMessageTextWidget.data,
           'Confirm target playlist "$localAudioPlaylistTitle" for downloading single video audio.');
+
+      // Now find the ok button of the confirm warning dialog
+      // and tap on it
+      await tester.tap(find.byKey(const Key('okButtonKey')));
+      await tester.pumpAndSettle();
+
+      // Ensure the warning dialog is shown
+      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+
+      // Check the value of the warning dialog title
+      Text warningDialogTitle =
+          tester.widget(find.byKey(const Key('warningDialogTitle')));
+      expect(warningDialogTitle.data, 'WARNING');
+
+      // Check the value of the warning dialog message
+      Text warningDialogMessage =
+          tester.widget(find.byKey(const Key('warningDialogMessage')));
+      expect(warningDialogMessage.data,
+          'Single video with invalid URL "$invalidSingleVideoUrl" could not be downloaded.');
+
+      // Close the warning dialog by tapping on the OK button
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the URL TextField containing the invalid single
+      // video URL was not emptied
+      urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, invalidSingleVideoUrl);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
+  group('AudioDownloadVM using CustomMockYoutubeExplode Tests', () {
+    late SingleVideoAudioDownloadVM singleVideoAudioDownloadVM;
+    late CustomMockYoutubeExplode mockYoutubeExplode;
+
+    setUp(() {
+      mockYoutubeExplode = CustomMockYoutubeExplode();
+      singleVideoAudioDownloadVM =
+          SingleVideoAudioDownloadVM(youtubeExplode: mockYoutubeExplode);
+    });
+
+    test('Échec du téléchargement lorsque le service renvoie une erreur',
+        () async {
+      Playlist singleVideoTargetPlaylist = Playlist(
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.voice,
+      );
+
+      expect(
+        await singleVideoAudioDownloadVM.downloadSingleVideoAudio(
+          videoUrl: 'invalid_url',
+          singleVideoTargetPlaylist: singleVideoTargetPlaylist,
+        ),
+        false,
+      );
+    });
+
+    testWidgets('Download single video audio in playlist already containing the audio', (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}copy_move_audio_integr_test_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      // const String sourceAndTargetPlaylistTitle = 'audio_learn_test_download_2_small_videos';
+      const String sourceAndTargetPlaylistTitle = 'local_audio_playlist_2';
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      // Since we have to use a mock AudioDownloadVM to add the
+      // youtube playlist, we can not use app.main() to start the
+      // app because app.main() uses the real AudioDownloadVM
+      // and we don't want to make the main.dart file dependent
+      // of a mock class. So we have to start the app by hand.
+
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      // MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
+      //   warningMessageVM: warningMessageVM,
+      //   isTest: true,
+      // );
+      // mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
+
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+
+      audioDownloadVM.youtubeExplode = mockYoutubeExplode;
+
+      PlaylistListVM expandablePlaylistListVM = PlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      expandablePlaylistListVM.getUpToDateSelectablePlaylists();
+
+      await _launchExpandablePlaylistListView(
+        tester: tester,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+        expandablePlaylistListVM: expandablePlaylistListVM,
+        warningMessageVM: warningMessageVM,
+      );
+
+      const String invalidSingleVideoUrl =
+          'invalid';
+
+      // Enter the invalid single video URL into the url text
+      // field
+      await tester.enterText(
+        find.byKey(const Key('playlistUrlTextField')),
+        invalidSingleVideoUrl,
+      );
+
+      // Ensure the url text field contains the entered url
+      TextField urlTextField =
+          tester.widget(find.byKey(const Key('playlistUrlTextField')));
+      expect(urlTextField.controller!.text, invalidSingleVideoUrl);
+
+      // Open the target playlist selection dialog by tapping the
+      // download single video button
+      await tester.tap(find.byKey(const Key('downloadSingleVideoButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the dialog is shown
+      expect(find.byType(AlertDialog), findsOneWidget);
+
+      // Check the value of the select one playlist AlertDialog
+      // dialog title
+      Text alertDialogTitle =
+          tester.widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Select a playlist');
+
+      // Find the RadioListTile target playlist to which the audio
+      // will be downloaded
+
+      final Finder radioListTile = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is RadioListTile &&
+            widget.title is Text &&
+            (widget.title as Text).data == sourceAndTargetPlaylistTitle,
+      );
+
+      // Tap the target playlist RadioListTile to select it
+      await tester.tap(radioListTile);
+      await tester.pumpAndSettle();
+
+      // Now find the confirm button and tap on it
+      await tester.tap(find.byKey(const Key('confirmButton')));
+      await tester.pumpAndSettle();
+
+      // Now verifying the confirm warning dialog message
+
+      // Check the value of the select one playlist
+      // confirmation dialog title
+      Text confirmationDialogTitle =
+          tester.widget(find.byKey(const Key('confirmationDialogTitleKey')));
+      expect(confirmationDialogTitle.data, 'CONFIRMATION');
+
+      final Text confirmationDialogMessageTextWidget =
+          tester.widget<Text>(find.byKey(const Key('confirmationDialogMessageKey')));
+
+      expect(confirmationDialogMessageTextWidget.data,
+          'Confirm target playlist "$sourceAndTargetPlaylistTitle" for downloading single video audio.');
 
       // Now find the ok button of the confirm warning dialog
       // and tap on it
