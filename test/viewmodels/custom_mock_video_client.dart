@@ -10,11 +10,21 @@ class CustomMockVideoClient extends MockVideoClient {
   Future<yt.Video> get(dynamic id) async {
     List<String> keywords = ['keyword 1', 'keyword 2', 'keyword 3'];
 
+    // if the video url is invalid, instanciating the yt.VideoId
+    // in unit test will not throw an ArgumentError, but will return
+    // a yt.VideoId instance with a value of 'invalid_url'.
+    //
+    // So, in order to test the error handling if the video url is
+    // invalid, we need to set a channel id that is invalid.
+    String channelId = (id.value == 'invalid_url')
+        ? 'CustomMockVideoClient_ChannelId'
+        : 'UCd11FV1u3nj3RvOgH_s_ckQ';
+
     return yt.Video(
       yt.VideoId(id.toString()), // Assuming 'id' is a valid video ID
       'CustomMockVideoClient Video Title',
       'CustomMockVideoClient Author',
-      yt.ChannelId('CustomMockVideoClient_ChannelId'),
+      yt.ChannelId(channelId),
       DateTime.now(),
       frenchDateTimeFormat.format(DateTime.now()),
       DateTime.now(),
