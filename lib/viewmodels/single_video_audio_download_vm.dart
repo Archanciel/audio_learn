@@ -14,9 +14,11 @@ import 'warning_message_vm.dart';
 
 class SingleVideoAudioDownloadVM extends ChangeNotifier {
   final yt.YoutubeExplode _youtubeExplode;
-  // late yt.VideoClient? _videoClient;
-  // set videoClient(yt.VideoClient videoClient) => _videoClient = videoClient;
 
+  /// When unit testing SingleVideoAudioDownloadVM,
+  /// a CustomMockYoutubeExplode instance is passed
+  /// to the constructor instead of a yt.YoutubeExplode
+  /// instance.
   SingleVideoAudioDownloadVM({
     required yt.YoutubeExplode youtubeExplode,
   }) : _youtubeExplode = youtubeExplode;
@@ -40,12 +42,9 @@ class SingleVideoAudioDownloadVM extends ChangeNotifier {
       return false;
     }
 
-    // _videoClient ??= _youtubeExplode.videos;
-
     yt.Video youtubeVideo;
 
     try {
-      // youtubeVideo = await _videoClient!.get(videoId);
       youtubeVideo = await _youtubeExplode.videos.get(videoId);
     } on SocketException catch (e) {
       notifyDownloadError(
@@ -64,18 +63,15 @@ class SingleVideoAudioDownloadVM extends ChangeNotifier {
     }
 
     final Duration? audioDuration = youtubeVideo.duration;
-    DateTime? videoUploadDate =
-        (await _youtubeExplode.videos.get(youtubeVideo.id.value)).uploadDate;
+    DateTime? videoUploadDate = youtubeVideo.uploadDate;
 
     videoUploadDate ??= DateTime(00, 1, 1);
 
-    String videoDescription =
-        (await _youtubeExplode.videos.get(youtubeVideo.id.value)).description;
 
     final Audio audio = Audio(
       enclosingPlaylist: singleVideoTargetPlaylist,
       originalVideoTitle: youtubeVideo.title,
-      compactVideoDescription: videoDescription,
+      compactVideoDescription: youtubeVideo.description,
       videoUrl: youtubeVideo.url,
       audioDownloadDateTime: DateTime.now(),
       videoUploadDate: videoUploadDate,

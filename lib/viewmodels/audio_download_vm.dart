@@ -371,18 +371,22 @@ class AudioDownloadVM extends ChangeNotifier {
         in _youtubeExplode.playlists.getVideos(playlistId)) {
       _audioDownloadError = false;
       final Duration? audioDuration = youtubeVideo.duration;
-      final String videoAuthor = youtubeVideo.author;
+
+      // using youtubeVideo.uploadDate is not correct since it
+      // it is null !
       DateTime? videoUploadDate =
           (await _youtubeExplode.videos.get(youtubeVideo.id.value)).uploadDate;
 
       videoUploadDate ??= DateTime(00, 1, 1);
 
+      // using youtubeVideo.description is not correct since it
+      // it is empty !
       String videoDescription =
           (await _youtubeExplode.videos.get(youtubeVideo.id.value)).description;
 
       String compactVideoDescription = _createCompactVideoDescription(
         videoDescription: videoDescription,
-        videoAuthor: videoAuthor,
+        videoAuthor: youtubeVideo.author,
       );
 
       final Audio audio = Audio(
@@ -654,18 +658,13 @@ class AudioDownloadVM extends ChangeNotifier {
     }
 
     final Duration? audioDuration = youtubeVideo.duration;
-    final String videoAuthor = youtubeVideo.author;
-    DateTime? videoUploadDate =
-        (await _youtubeExplode.videos.get(youtubeVideo.id.value)).uploadDate;
+    DateTime? videoUploadDate = youtubeVideo.uploadDate;
 
     videoUploadDate ??= DateTime(00, 1, 1);
 
-    String videoDescription =
-        (await _youtubeExplode.videos.get(youtubeVideo.id.value)).description;
-
     String compactVideoDescription = _createCompactVideoDescription(
-      videoDescription: videoDescription,
-      videoAuthor: videoAuthor,
+      videoDescription: youtubeVideo.description,
+      videoAuthor: youtubeVideo.author,
     );
 
     final Audio audio = Audio(
