@@ -374,7 +374,7 @@ class MockYoutubeVideo extends _i1.Mock implements _i4.YoutubeVideo {
 /// A class which mocks [VideoClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockVideoClient extends _i1.Mock implements _i2.VideoClient {
+class MockVideoClient extends _i1.Mock implements _i4.VideoClient {
   MockVideoClient() {
     _i1.throwOnMissingStub(this);
   }
