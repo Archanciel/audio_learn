@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:audio_learn/constants.dart';
+import 'package:intl/intl.dart';
 
 import 'mock_youtube.mocks.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt;
@@ -9,32 +12,65 @@ class CustomMockVideoClient extends MockVideoClient {
   @override
   Future<yt.Video> get(dynamic id) async {
     List<String> keywords = ['keyword 1', 'keyword 2', 'keyword 3'];
-
-    // if the video url is invalid, instanciating the yt.VideoId
-    // in unit test will not throw an ArgumentError, but will return
-    // a yt.VideoId instance with a value of 'invalid_url'.
-    //
-    // So, in order to test the error handling if the video url is
-    // invalid, we need to set a channel id that is invalid.
-    String channelId = (id.value == 'invalid_url')
-        ? 'CustomMockVideoClient_ChannelId'
-        : 'UCd11FV1u3nj3RvOgH_s_ckQ';
-
-    return yt.Video(
+    yt.Video invalidVideo = yt.Video(
       yt.VideoId(id.toString()), // Assuming 'id' is a valid video ID
-      'CustomMockVideoClient Video Title',
-      'CustomMockVideoClient Author',
-      yt.ChannelId(channelId),
+      'Invalid URL video title',
+      'Invalid URL author',
+      yt.ChannelId('Invalid URL_channelId'),
       DateTime.now(),
-      frenchDateTimeFormat.format(DateTime.now()),
+      englishDateTimeFormat.format(DateTime.now()),
       DateTime.now(),
-      'CustomMockVideoClient video description',
+      'Invalid URL video description',
       const Duration(minutes: 50),
       yt.ThumbnailSet(id.toString()), // Thumbnails
       keywords,
-      const yt.Engagement(1, 10, 2),
+      const yt.Engagement(200, 15, 3),
       false,
       // Add other required fields as necessary
     );
+
+    switch (id.value) {
+      case 'invalid_url':
+        {
+          // if the video url is invalid, instanciating the yt.VideoId
+          // in unit test will not throw an ArgumentError, but will return
+          // a yt.VideoId instance with a value of 'invalid_url'.
+          //
+          // So, in order to test the error handling if the video url is
+          // invalid, we need to set a channel id that is invalid.
+          return invalidVideo;
+        }
+      case 'v7PWb7f_P8M':
+        {
+          // if the video url is invalid, instanciating the yt.VideoId
+          // in unit test will not throw an ArgumentError, but will return
+          // a yt.VideoId instance with a value of 'invalid_url'.
+          //
+          // So, in order to test the error handling if the video url is
+          // invalid, we need to set a channel id that is invalid.
+          DateTime uploadAndPublishDate =
+              englishDateTimeFormat.parse('2023-06-10T00:00:00.000');
+          return yt.Video(
+            yt.VideoId(id.toString()), // Assuming 'id' is a valid video ID
+            'audio learn test short video one',
+            'Jean-Pierre Schnyder',
+            yt.ChannelId('UCd11FV1u3nj3RvOgH_s_ckQ'),
+            uploadAndPublishDate,
+            '2023-06-10T00:00:00.000',
+            uploadAndPublishDate,
+            'Jean-Pierre Schnyder\n\nCette vid\u00e9o me sert \u00e0 tester AudioLearn, l\'app Android que je d\u00e9veloppe et dont le code est disponible sur GitHub. ...',
+            const Duration(milliseconds: 24000),
+            yt.ThumbnailSet(id.toString()), // Thumbnails
+            keywords,
+            const yt.Engagement(100, 10, 2),
+            false,
+            // Add other required fields as necessary
+          );
+        }
+      default:
+        {
+          return invalidVideo;
+        }
+    }
   }
 }

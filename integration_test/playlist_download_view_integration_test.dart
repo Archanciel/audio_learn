@@ -2301,7 +2301,7 @@ void main() {
       Text warningDialogMessage =
           tester.widget(find.byKey(const Key('warningDialogMessage')));
       expect(warningDialogMessage.data,
-          'Single video with invalid URL "$singleVideoToDownloadUrl" could not be downloaded.');
+          'Audio "audio learn test short video one" is contained in file "231212-115934-audiolearn test short video one 23-06-10.mp3" present in the target playlist "audio_learn_test_download_2_small_videos" directory and so won\'t be redownloaded.',);
 
       // Close the warning dialog by tapping on the OK button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
