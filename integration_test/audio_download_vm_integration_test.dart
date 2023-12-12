@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:audio_learn/services/json_data_service.dart';
 import 'package:audio_learn/utils/date_time_parser.dart';
+import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -76,8 +77,10 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: const MaterialApp(
-          home: DownloadPlaylistPage(
+        child: MaterialApp(
+          // forcing dark theme
+          theme: ScreenMixin.themeDataDark,
+          home: const DownloadPlaylistPage(
             playlistUrl: globalTestPlaylistUrl,
           ),
         ),
@@ -219,8 +222,10 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: const MaterialApp(
-          home: DownloadPlaylistPage(
+        child: MaterialApp(
+          // forcing dark theme
+          theme: ScreenMixin.themeDataDark,
+          home: const DownloadPlaylistPage(
             playlistUrl: globalTestPlaylistUrl,
           ),
         ),
@@ -323,8 +328,10 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: const MaterialApp(
-          home: DownloadPlaylistPage(
+        child: MaterialApp(
+          // forcing dark theme
+          theme: ScreenMixin.themeDataDark,
+          home: const DownloadPlaylistPage(
             playlistUrl: globalTestPlaylistUrl,
           ),
         ),
@@ -440,8 +447,10 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: const MaterialApp(
-          home: DownloadPlaylistPage(
+        child: MaterialApp(
+          // forcing dark theme
+          theme: ScreenMixin.themeDataDark,
+          home: const DownloadPlaylistPage(
             playlistUrl: globalTestPlaylistUrl,
           ),
         ),
@@ -616,8 +625,10 @@ void main() {
           );
           return audioDownloadVM;
         },
-        child: const MaterialApp(
-          home: DownloadPlaylistPage(
+        child: MaterialApp(
+          // forcing dark theme
+          theme: ScreenMixin.themeDataDark,
+          home: const DownloadPlaylistPage(
             playlistUrl: globalTestPlaylistUrl,
           ),
         ),

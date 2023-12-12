@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:audio_learn/viewmodels/single_video_audio_download_vm.dart';
+import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -1567,7 +1568,8 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Add Youtube playlist with invalid URL containing list=', (tester) async {
+    testWidgets('Add Youtube playlist with invalid URL containing list=',
+        (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -1631,8 +1633,7 @@ void main() {
       expect(find.byType(ListView), findsNWidgets(2));
       expect(find.byType(ListTile), findsNothing);
 
-      const String invalidYoutubePlaylistUrl =
-          'list=invalid';
+      const String invalidYoutubePlaylistUrl = 'list=invalid';
       // Enter the invalid Youtube playlist URL into the url text
       // field
       await tester.enterText(
@@ -1767,8 +1768,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      const String invalidYoutubePlaylistUrl =
-          'invalid';
+      const String invalidYoutubePlaylistUrl = 'invalid';
 
       // Enter the invalid Youtube playlist URL into the url text
       // field
@@ -1921,8 +1921,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      const String invalidSingleVideoUrl =
-          'invalid';
+      const String invalidSingleVideoUrl = 'invalid';
 
       // Enter the invalid single video URL into the url text
       // field
@@ -1946,8 +1945,8 @@ void main() {
 
       // Check the value of the select one playlist AlertDialog
       // dialog title
-      Text alertDialogTitle =
-          tester.widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
+      Text alertDialogTitle = tester
+          .widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
       expect(alertDialogTitle.data, 'Select a playlist');
 
       // Find the RadioListTile target playlist in which the audio
@@ -1976,8 +1975,8 @@ void main() {
           tester.widget(find.byKey(const Key('confirmationDialogTitleKey')));
       expect(confirmationDialogTitle.data, 'CONFIRMATION');
 
-      final Text confirmationDialogMessageTextWidget =
-          tester.widget<Text>(find.byKey(const Key('confirmationDialogMessageKey')));
+      final Text confirmationDialogMessageTextWidget = tester
+          .widget<Text>(find.byKey(const Key('confirmationDialogMessageKey')));
 
       expect(confirmationDialogMessageTextWidget.data,
           'Confirm target playlist "$localAudioPlaylistTitle" for downloading single video audio.');
@@ -2042,7 +2041,9 @@ void main() {
       );
     });
 
-    testWidgets('Download single video audio in playlist already containing the audio', (tester) async {
+    testWidgets(
+        'Download single video audio in playlist already containing the audio',
+        (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -2111,8 +2112,7 @@ void main() {
         warningMessageVM: warningMessageVM,
       );
 
-      const String invalidSingleVideoUrl =
-          'invalid';
+      const String invalidSingleVideoUrl = 'invalid';
 
       // Enter the invalid single video URL into the url text
       // field
@@ -2136,8 +2136,8 @@ void main() {
 
       // Check the value of the select one playlist AlertDialog
       // dialog title
-      Text alertDialogTitle =
-          tester.widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
+      Text alertDialogTitle = tester
+          .widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
       expect(alertDialogTitle.data, 'Select a playlist');
 
       // Find the RadioListTile target playlist to which the audio
@@ -2166,8 +2166,8 @@ void main() {
           tester.widget(find.byKey(const Key('confirmationDialogTitleKey')));
       expect(confirmationDialogTitle.data, 'CONFIRMATION');
 
-      final Text confirmationDialogMessageTextWidget =
-          tester.widget<Text>(find.byKey(const Key('confirmationDialogMessageKey')));
+      final Text confirmationDialogMessageTextWidget = tester
+          .widget<Text>(find.byKey(const Key('confirmationDialogMessageKey')));
 
       expect(confirmationDialogMessageTextWidget.data,
           'Confirm target playlist "$sourceAndTargetPlaylistTitle" for downloading single video audio.');
@@ -2496,8 +2496,8 @@ void main() {
 
       // Check the value of the select one playlist AlertDialog
       // dialog title
-      Text alertDialogTitle =
-          tester.widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
+      Text alertDialogTitle = tester
+          .widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
       expect(alertDialogTitle.data, 'Sélectionnez une playlist');
 
       // Find the RadioListTile target playlist to which the audio
@@ -2751,8 +2751,8 @@ void main() {
 
       // Check the value of the select one playlist AlertDialog
       // dialog title
-      Text alertDialogTitle =
-          tester.widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
+      Text alertDialogTitle = tester
+          .widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
       expect(alertDialogTitle.data, 'Sélectionnez une playlist');
 
       // Find the RadioListTile target playlist to which the audio
@@ -3901,9 +3901,11 @@ Future<void> _launchExpandablePlaylistListView({
         ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
         ChangeNotifierProvider(create: (_) => warningMessageVM),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
+        // forcing dark theme
+        theme: ScreenMixin.themeDataDark,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: Scaffold(
+        home: const Scaffold(
           body: PlaylistDownloadView(
             onPageChangedFunction: changePage,
           ),
