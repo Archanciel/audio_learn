@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:audio_learn/viewmodels/audio_player_vm.dart';
 import 'package:audio_learn/viewmodels/single_video_audio_download_vm.dart';
 import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -93,12 +95,17 @@ void main() {
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
+      AudioPlayerVM audioPlayerVM = AudioPlayerVM(
+        playlistListVM: expandablePlaylistListVM,
+      );
+
       await _launchExpandablePlaylistListView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
         expandablePlaylistListVM: expandablePlaylistListVM,
         warningMessageVM: warningMessageVM,
+        audioPlayerVM: audioPlayerVM,
       );
 
       // Tap the 'Toggle List' button to show the list. If the list
@@ -351,12 +358,17 @@ void main() {
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
+      AudioPlayerVM audioPlayerVM = AudioPlayerVM(
+        playlistListVM: expandablePlaylistListVM,
+      );
+
       await _launchExpandablePlaylistListView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
         expandablePlaylistListVM: expandablePlaylistListVM,
         warningMessageVM: warningMessageVM,
+        audioPlayerVM: audioPlayerVM,
       );
 
       // Tap the 'Toggle List' button to show the list. If the list
@@ -611,12 +623,17 @@ void main() {
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
+      AudioPlayerVM audioPlayerVM = AudioPlayerVM(
+        playlistListVM: expandablePlaylistListVM,
+      );
+
       await _launchExpandablePlaylistListView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
         expandablePlaylistListVM: expandablePlaylistListVM,
         warningMessageVM: warningMessageVM,
+        audioPlayerVM: audioPlayerVM,
       );
 
       // Tap the 'Toggle List' button to show the list. If the list
@@ -1203,9 +1220,7 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
+      // Tap the 'Toggle List' button to show the list of playlist's.
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
@@ -1267,9 +1282,7 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
+      // Tap the 'Toggle List' button to show the list of playlist's.
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
@@ -1454,12 +1467,17 @@ void main() {
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
+      AudioPlayerVM audioPlayerVM = AudioPlayerVM(
+        playlistListVM: expandablePlaylistListVM,
+      );
+
       await _launchExpandablePlaylistListView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
         expandablePlaylistListVM: expandablePlaylistListVM,
         warningMessageVM: warningMessageVM,
+        audioPlayerVM: audioPlayerVM,
       );
 
       // Tap the 'Toggle List' button to show the list. If the list
@@ -1562,6 +1580,7 @@ void main() {
         settingsDataService: settingsDataService,
         expandablePlaylistListVM: expandablePlaylistListVM,
         warningMessageVM: warningMessageVM,
+        audioPlayerVM: audioPlayerVM,
       );
 
       // Purge the test playlist directory so that the created test
@@ -1614,12 +1633,17 @@ void main() {
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
+      AudioPlayerVM audioPlayerVM = AudioPlayerVM(
+        playlistListVM: expandablePlaylistListVM,
+      );
+
       await _launchExpandablePlaylistListView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
         expandablePlaylistListVM: expandablePlaylistListVM,
         warningMessageVM: warningMessageVM,
+        audioPlayerVM: audioPlayerVM,
       );
 
       // Tap the 'Toggle List' button to show the list. If the list
@@ -1760,12 +1784,17 @@ void main() {
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
+      AudioPlayerVM audioPlayerVM = AudioPlayerVM(
+        playlistListVM: expandablePlaylistListVM,
+      );
+
       await _launchExpandablePlaylistListView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
         expandablePlaylistListVM: expandablePlaylistListVM,
         warningMessageVM: warningMessageVM,
+        audioPlayerVM: audioPlayerVM,
       );
 
       const String invalidYoutubePlaylistUrl = 'invalid';
@@ -1913,12 +1942,17 @@ void main() {
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
 
+      AudioPlayerVM audioPlayerVM = AudioPlayerVM(
+        playlistListVM: expandablePlaylistListVM,
+      );
+
       await _launchExpandablePlaylistListView(
         tester: tester,
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
         expandablePlaylistListVM: expandablePlaylistListVM,
         warningMessageVM: warningMessageVM,
+        audioPlayerVM: audioPlayerVM,
       );
 
       const String invalidSingleVideoUrl = 'invalid';
@@ -2097,12 +2131,16 @@ void main() {
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
       );
-
+      
       // calling getUpToDateSelectablePlaylists() loads all the
       // playlist json files from the app dir and so enables
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
       expandablePlaylistListVM.getUpToDateSelectablePlaylists();
+
+      AudioPlayerVM audioPlayerVM = AudioPlayerVM(
+        playlistListVM: expandablePlaylistListVM,
+      );
 
       await _launchExpandablePlaylistListView(
         tester: tester,
@@ -2110,21 +2148,95 @@ void main() {
         settingsDataService: settingsDataService,
         expandablePlaylistListVM: expandablePlaylistListVM,
         warningMessageVM: warningMessageVM,
+        audioPlayerVM: audioPlayerVM,
       );
 
-      const String invalidSingleVideoUrl = 'invalid';
+      const String youtubeAudioSourceAndTargetPlaylistTitle =
+          'audio_learn_test_download_2_small_videos';
+      const String downloadedSingleVideoAudioTitle =
+          'audio learn test short video one';
 
-      // Enter the invalid single video URL into the url text
+      // Copy the URL of source playlist audio file which wiil
+      // be downloaded to the same (source) playlist, causing a
+      // warning error to be displayed ...
+
+      // Tap the 'Toggle List' button to show the list of playlist's.
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the ListTile Playlist containing the audio to move to
+      // the source Youtube playlist
+
+      // First, find the Playlist ListTile Text widget
+      final Finder sourcePlaylistListTileTextWidgetFinder =
+          find.text(youtubeAudioSourceAndTargetPlaylistTitle);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder sourcePlaylistListTileWidgetFinder = find.ancestor(
+        of: sourcePlaylistListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the Playlist ListTile
+      // and tap on it to select the playlist
+      final Finder sourcePlaylistListTileCheckboxWidgetFinder = find.descendant(
+        of: sourcePlaylistListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
+
+      // Tap the ListTile Playlist checkbox to select it
+      await tester.tap(sourcePlaylistListTileCheckboxWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now we want to tap the popup menu of the Audio ListTile
+      // "audio learn test short video one"
+
+      // First, find the Audio sublist ListTile Text widget
+      final Finder sourceAudioListTileTextWidgetFinder =
+          find.text(downloadedSingleVideoAudioTitle);
+
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      final Finder sourceAudioListTileWidgetFinder = find.ancestor(
+        of: sourceAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the leading menu icon button of the Audio ListTile and tap
+      // on it
+      final Finder sourceAudioListTileLeadingMenuIconButton = find.descendant(
+        of: sourceAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(sourceAudioListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the copy video URL popup menu item and tap on it
+      final Finder popupCopyVideoUrlMenuItem =
+          find.byKey(const Key("popup_copy_youtube_video_url"));
+
+      await tester.tap(popupCopyVideoUrlMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      ClipboardData? clipboardData =
+          await Clipboard.getData(Clipboard.kTextPlain);
+      String singleVideoToDownloadUrl = clipboardData?.text ?? '';
+      print('***** Single video URL: $singleVideoToDownloadUrl');
+
+      // Enter the single video URL to download into the url text
       // field
       await tester.enterText(
         find.byKey(const Key('playlistUrlTextField')),
-        invalidSingleVideoUrl,
+        singleVideoToDownloadUrl,
       );
 
       // Ensure the url text field contains the entered url
       TextField urlTextField =
           tester.widget(find.byKey(const Key('playlistUrlTextField')));
-      expect(urlTextField.controller!.text, invalidSingleVideoUrl);
+      expect(urlTextField.controller!.text, singleVideoToDownloadUrl);
 
       // Open the target playlist selection dialog by tapping the
       // download single video button
@@ -2189,7 +2301,7 @@ void main() {
       Text warningDialogMessage =
           tester.widget(find.byKey(const Key('warningDialogMessage')));
       expect(warningDialogMessage.data,
-          'Single video with invalid URL "$invalidSingleVideoUrl" could not be downloaded.');
+          'Single video with invalid URL "$singleVideoToDownloadUrl" could not be downloaded.');
 
       // Close the warning dialog by tapping on the OK button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
@@ -2199,7 +2311,7 @@ void main() {
       // video URL was not emptied
       urlTextField =
           tester.widget(find.byKey(const Key('playlistUrlTextField')));
-      expect(urlTextField.controller!.text, invalidSingleVideoUrl);
+      expect(urlTextField.controller!.text, singleVideoToDownloadUrl);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -2686,14 +2798,12 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
+      // Tap the 'Toggle List' button to show the list of playlist's.
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
       // Find the ListTile Playlist containing the audio to move to
-      // the target local playlist
+      // the source Youtube playlist
 
       // First, find the Playlist ListTile Text widget
       final Finder sourcePlaylistListTileTextWidgetFinder =
@@ -3011,9 +3121,7 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
+      // Tap the 'Toggle List' button to show the list of playlist's.
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
@@ -3178,9 +3286,7 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
+      // Tap the 'Toggle List' button to show the list of playlist's.
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
@@ -3341,9 +3447,7 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
+      // Tap the 'Toggle List' button to show the list of playlist's.
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
@@ -3510,9 +3614,7 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
+      // Tap the 'Toggle List' button to show the list of playlist's.
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
@@ -3681,9 +3783,7 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
+      // Tap the 'Toggle List' button to show the list of playlist's.
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
@@ -3885,6 +3985,7 @@ Future<void> _launchExpandablePlaylistListView({
   required SettingsDataService settingsDataService,
   required PlaylistListVM expandablePlaylistListVM,
   required WarningMessageVM warningMessageVM,
+  required AudioPlayerVM audioPlayerVM,
 }) async {
   await tester.pumpWidget(
     MultiProvider(
@@ -3900,6 +4001,7 @@ Future<void> _launchExpandablePlaylistListView({
                 )),
         ChangeNotifierProvider(create: (_) => expandablePlaylistListVM),
         ChangeNotifierProvider(create: (_) => warningMessageVM),
+        ChangeNotifierProvider(create: (_) => audioPlayerVM),
       ],
       child: MaterialApp(
         // forcing dark theme
