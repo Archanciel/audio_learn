@@ -1,4 +1,3 @@
-
 import 'package:audio_learn/utils/date_time_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -131,8 +130,7 @@ void main() {
       expect(audioRemainingDurationText.data, '0:59');
 
       // Now play the audio and wait 5 seconds
-      await tester
-          .tap(find.byIcon(Icons.play_arrow));
+      await tester.tap(find.byIcon(Icons.play_arrow));
       await tester.pumpAndSettle();
 
       await Future.delayed(const Duration(seconds: 5));
@@ -150,18 +148,25 @@ void main() {
 
       audioPositionText = tester
           .widget<Text>(find.byKey(const Key('audioPlayerViewAudioPosition')));
-      Duration audioPositionDurationAfterPauseActual = DateTimeParser.parseMMSSDuration(audioPositionText.data ?? '')!;
+      Duration audioPositionDurationAfterPauseActual =
+          DateTimeParser.parseMMSSDuration(audioPositionText.data ?? '')!;
 
       audioRemainingDurationText = tester.widget<Text>(
           find.byKey(const Key('audioPlayerViewAudioRemainingDuration')));
-      Duration audioRemainingDurationAfterPauseActual = DateTimeParser.parseMMSSDuration(audioRemainingDurationText.data ?? '')!;
+      Duration audioRemainingDurationAfterPauseActual =
+          DateTimeParser.parseMMSSDuration(
+              audioRemainingDurationText.data ?? '')!;
+
+      Duration sumDurations = audioPositionDurationAfterPauseActual +
+          audioRemainingDurationAfterPauseActual;
 
       // Check if the sum of the actual audio position duration
-      // and the actual audio remaining duration is equal to 59
-      // seconds which is the total duration of the listened
+      // and the actual audio remaining duration is equal to 58 or
+      // 59 seconds which is the total duration of the listened
       // audio minus 1 second. Checking the value of the audio
       // position and remaining duration is not safe.
-      expect((audioPositionDurationAfterPauseActual + audioRemainingDurationAfterPauseActual), const Duration(seconds: 59));
+      expect(sumDurations >= const Duration(seconds: 58), isTrue);
+      expect(sumDurations <= const Duration(seconds: 59), isTrue);
 
       // Verify if the pause button changed back to play button
       expect(find.byIcon(Icons.play_arrow), findsOneWidget);

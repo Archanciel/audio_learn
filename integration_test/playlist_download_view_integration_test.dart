@@ -2092,9 +2092,6 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      // const String sourceAndTargetPlaylistTitle = 'audio_learn_test_download_2_small_videos';
-      const String sourceAndTargetPlaylistTitle = 'local_audio_playlist_2';
-
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
 
@@ -2131,7 +2128,7 @@ void main() {
         audioDownloadVM: audioDownloadVM,
         settingsDataService: settingsDataService,
       );
-      
+
       // calling getUpToDateSelectablePlaylists() loads all the
       // playlist json files from the app dir and so enables
       // expandablePlaylistListVM to know which playlists are
@@ -2259,7 +2256,8 @@ void main() {
         (Widget widget) =>
             widget is RadioListTile &&
             widget.title is Text &&
-            (widget.title as Text).data == sourceAndTargetPlaylistTitle,
+            (widget.title as Text).data ==
+                youtubeAudioSourceAndTargetPlaylistTitle,
       );
 
       // Tap the target playlist RadioListTile to select it
@@ -2282,10 +2280,10 @@ void main() {
           .widget<Text>(find.byKey(const Key('confirmationDialogMessageKey')));
 
       expect(confirmationDialogMessageTextWidget.data,
-          'Confirm target playlist "$sourceAndTargetPlaylistTitle" for downloading single video audio.');
+          'Confirm target playlist "$youtubeAudioSourceAndTargetPlaylistTitle" for downloading single video audio.');
 
       // Now find the ok button of the confirm warning dialog
-      // and tap on it
+      // and tap on it\
       await tester.tap(find.byKey(const Key('okButtonKey')));
       await tester.pumpAndSettle();
 
@@ -2300,8 +2298,12 @@ void main() {
       // Check the value of the warning dialog message
       Text warningDialogMessage =
           tester.widget(find.byKey(const Key('warningDialogMessage')));
-      expect(warningDialogMessage.data,
-          'Audio "audio learn test short video one" is contained in file "231212-115934-audiolearn test short video one 23-06-10.mp3" present in the target playlist "audio_learn_test_download_2_small_videos" directory and so won\'t be redownloaded.',);
+      String expectedWarningDialogMessageStr =
+          'Audio "$downloadedSingleVideoAudioTitle" is contained in file "230628-033811-audio learn test short video one 23-06-10.mp3" present in the target playlist "$youtubeAudioSourceAndTargetPlaylistTitle" directory and so won\'t be redownloaded.';
+      expect(
+        warningDialogMessage.data,
+        expectedWarningDialogMessageStr,
+      );
 
       // Close the warning dialog by tapping on the OK button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
