@@ -3153,23 +3153,23 @@ void main() {
       await tester.tap(youtubeAudioTargetPlaylistListTileCheckboxWidgetFinder);
       await tester.pumpAndSettle();
 
-      // Now we want to tap the popup menu of the Audio ListTile
+      // Now we want to tap on the popup menu of the Audio ListTile
       // "audio learn test short video one"
 
       // First, find the Audio sublist ListTile Text widget
-      final Finder youtubeTargetAudioListTileTextWidgetFinder =
+      Finder youtubeTargetAudioListTileTextWidgetFinder =
           find.text(copiedAudioTitle);
 
       // Then obtain the Audio ListTile widget enclosing the Text widget by
       // finding its ancestor
-      final Finder youtubeTargetAudioListTileWidgetFinder = find.ancestor(
+      Finder youtubeTargetAudioListTileWidgetFinder = find.ancestor(
         of: youtubeTargetAudioListTileTextWidgetFinder,
         matching: find.byType(ListTile),
       );
 
       // Now find the leading menu icon button of the Audio ListTile
       // and tap on it
-      final Finder youtubeTargetAudioListTileLeadingMenuIconButton = find.descendant(
+      Finder youtubeTargetAudioListTileLeadingMenuIconButton = find.descendant(
         of: youtubeTargetAudioListTileWidgetFinder,
         matching: find.byIcon(Icons.menu),
       );
@@ -3215,10 +3215,59 @@ void main() {
       await tester.tap(find.byKey(const Key('audioInfoOkButtonKey')));
       await tester.pumpAndSettle();
 
+      // """ Third test part: Delete audio from target Youtube
+      // playlist verifying that no warning is displayed since the
+      // deleted audio was copied and not downloaded, which ensures
+      // that the deleted audio video is not referenced in the
+      // Youtube playlist.
 
+      // Now we want to tap again on the popup menu of the Audio
+      // ListTile "audio learn test short video one" in order to
+      // delete it from playlist aswell
 
+      // First, find the Audio sublist ListTile Text widget
+      youtubeTargetAudioListTileTextWidgetFinder =
+          find.text(copiedAudioTitle);
 
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      youtubeTargetAudioListTileWidgetFinder = find.ancestor(
+        of: youtubeTargetAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
 
+      // Now find the leading menu icon button of the Audio ListTile
+      // and tap on it
+      youtubeTargetAudioListTileLeadingMenuIconButton = find.descendant(
+        of: youtubeTargetAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(youtubeTargetAudioListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the popup menu item and tap on it
+      popupDisplayAudioInfoMenuItem =
+          find.byKey(const Key("popup_menu_delete_audio_from_playlist_aswell"));
+
+      await tester.tap(popupDisplayAudioInfoMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Now verifying the deleted audio was physically deleted from
+      // the playlist directory. No warning was displayed.
+
+      targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
+        path:
+            '$kDownloadAppTestDirWindows${path.separator}$youtubeAudioTargetPlaylistTitle',
+        extension: 'mp3',
+      );
+
+      // Verify the Youtube target playlist directory content
+      expect(targetPlaylistMp3Lst, [
+        "231117-002826-Really short video 23-07-01.mp3",
+        "231117-002828-morning _ cinematic video 23-07-01.mp3",
+      ]);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
