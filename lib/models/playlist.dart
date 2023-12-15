@@ -283,7 +283,7 @@ class Playlist {
     required String copiedToPlaylistTitle,
   }) {
     playableAudioLst
-        .firstWhere((audio) => audio == audio)
+        .firstWhere((audio) => audio == copiedAudio)
         .copiedToPlaylistTitle = copiedToPlaylistTitle;
   }
 

@@ -3207,6 +3207,19 @@ void main() {
       expect(targetPlaylistMp3Lst,
           ["230628-033811-audio learn test short video one 23-06-10.mp3"]);
 
+      // Now verifying the copied audio informations in the source
+      // playlist
+
+      await verifyAudioInfoDialogElements(
+        tester: tester,
+        audioTitle: copiedAudioTitle,
+        playlistEnclosingAudioTitle: youtubeAudioSourcePlaylistTitle,
+        copiedAudioSourcePlaylistTitle: '',
+        copiedAudioTargetPlaylistTitle: localAudioTargetSourcePlaylistTitle,
+        movedAudioSourcePlaylistTitle: '',
+        movedAudioTargetPlaylistTitle: '',
+      );
+
       // Now verifying the copied audio informations in the target
       // playlist
 
@@ -4618,24 +4631,24 @@ void onPageChanged(int index) {
 }
 
 /// Verifies the elements of the audio info dialog.
-/// 
+///
 /// {@param tester} is the WidgetTester
-/// 
+///
 /// {@param audioTitle} is the title of the audio the method verifies
 /// the elements of the audio info dialog
-/// 
+///
 /// {@param playlistEnclosingAudioTitle} is the title of the playlist
 /// enclosing the audio
-/// 
+///
 /// {@param copiedAudioSourcePlaylistTitle} is the title of the playlist
 /// from which the audio was copied
-/// 
+///
 /// {@param copiedAudioTargetPlaylistTitle} is the title of the playlist
 /// to which the audio was copied
-/// 
+///
 /// {@param movedAudioSourcePlaylistTitle} is the title of the playlist
 /// from which the audio was moved
-/// 
+///
 /// {@param movedAudioTargetPlaylistTitle} is the title of the playlist
 /// to which the audio was moved
 Future<void> verifyAudioInfoDialogElements({
@@ -4668,9 +4681,13 @@ Future<void> verifyAudioInfoDialogElements({
     matching: find.byType(Checkbox),
   );
 
-  // Tap the ListTile Playlist checkbox to select it
-  await tester.tap(targetPlaylistListTileCheckboxWidgetFinder);
-  await tester.pumpAndSettle();
+  final checkboxWidget =
+      tester.widget<Checkbox>(targetPlaylistListTileCheckboxWidgetFinder);
+
+  if (!checkboxWidget.value!) {
+    await tester.tap(targetPlaylistListTileCheckboxWidgetFinder);
+    await tester.pumpAndSettle();
+  }
 
   // Now we want to tap the popup menu of the Audio ListTile
   // "audio learn test short video one"
@@ -4711,8 +4728,7 @@ Future<void> verifyAudioInfoDialogElements({
   Text enclosingPlaylistTitleTextWidget =
       tester.widget<Text>(find.byKey(const Key('enclosingPlaylistTitleKey')));
 
-  expect(enclosingPlaylistTitleTextWidget.data,
-      playlistEnclosingAudioTitle);
+  expect(enclosingPlaylistTitleTextWidget.data, playlistEnclosingAudioTitle);
 
   // Verify the copied from playlist title of the copied audio
 
