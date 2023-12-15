@@ -3213,9 +3213,11 @@ void main() {
       await verifyAudioInfoDialogElements(
         tester: tester,
         audioTitle: copiedAudioTitle,
-        enclosingPlaylistTitle: localAudioTargetSourcePlaylistTitle,
-        sourcePlaylistTitle: youtubeAudioSourcePlaylistTitle,
-        targetPlaylistTitle: localAudioTargetSourcePlaylistTitle,
+        playlistEnclosingAudioTitle: localAudioTargetSourcePlaylistTitle,
+        copiedAudioSourcePlaylistTitle: youtubeAudioSourcePlaylistTitle,
+        copiedAudioTargetPlaylistTitle: '',
+        movedAudioSourcePlaylistTitle: '',
+        movedAudioTargetPlaylistTitle: '',
       );
 
       // """ Second test part: Copy audio from local playlist to
@@ -4615,19 +4617,42 @@ void onPageChanged(int index) {
   // });
 }
 
+/// Verifies the elements of the audio info dialog.
+/// 
+/// {@param tester} is the WidgetTester
+/// 
+/// {@param audioTitle} is the title of the audio the method verifies
+/// the elements of the audio info dialog
+/// 
+/// {@param playlistEnclosingAudioTitle} is the title of the playlist
+/// enclosing the audio
+/// 
+/// {@param copiedAudioSourcePlaylistTitle} is the title of the playlist
+/// from which the audio was copied
+/// 
+/// {@param copiedAudioTargetPlaylistTitle} is the title of the playlist
+/// to which the audio was copied
+/// 
+/// {@param movedAudioSourcePlaylistTitle} is the title of the playlist
+/// from which the audio was moved
+/// 
+/// {@param movedAudioTargetPlaylistTitle} is the title of the playlist
+/// to which the audio was moved
 Future<void> verifyAudioInfoDialogElements({
   required WidgetTester tester,
   required String audioTitle,
-  required String enclosingPlaylistTitle,
-  required String sourcePlaylistTitle,
-  required String targetPlaylistTitle,
+  required String playlistEnclosingAudioTitle,
+  required String copiedAudioSourcePlaylistTitle,
+  required String copiedAudioTargetPlaylistTitle,
+  required String movedAudioSourcePlaylistTitle,
+  required String movedAudioTargetPlaylistTitle,
 }) async {
   // Find the target ListTile Playlist containing the audio copied
   // from the source playlist
 
   // First, find the Playlist ListTile Text widget
   final Finder targetPlaylistListTileTextWidgetFinder =
-      find.text(enclosingPlaylistTitle);
+      find.text(playlistEnclosingAudioTitle);
 
   // Then obtain the Playlist ListTile widget enclosing the Text widget
   // by finding its ancestor
@@ -4687,7 +4712,7 @@ Future<void> verifyAudioInfoDialogElements({
       tester.widget<Text>(find.byKey(const Key('enclosingPlaylistTitleKey')));
 
   expect(enclosingPlaylistTitleTextWidget.data,
-      targetPlaylistTitle);
+      playlistEnclosingAudioTitle);
 
   // Verify the copied from playlist title of the copied audio
 
@@ -4695,28 +4720,28 @@ Future<void> verifyAudioInfoDialogElements({
       tester.widget<Text>(find.byKey(const Key('copiedFromPlaylistTitleKey')));
 
   expect(
-      copiedFromPlaylistTitleTextWidget.data, sourcePlaylistTitle);
+      copiedFromPlaylistTitleTextWidget.data, copiedAudioSourcePlaylistTitle);
 
   // Verify the copied to playlist title of the copied audio
 
   Text copiedToPlaylistTitleTextWidget =
       tester.widget<Text>(find.byKey(const Key('copiedToPlaylistTitleKey')));
 
-  expect(copiedToPlaylistTitleTextWidget.data, '');
+  expect(copiedToPlaylistTitleTextWidget.data, copiedAudioTargetPlaylistTitle);
 
   // Verify the moved from playlist title of the copied audio
 
   Text movedFromPlaylistTitleTextWidget =
       tester.widget<Text>(find.byKey(const Key('movedFromPlaylistTitleKey')));
 
-  expect(movedFromPlaylistTitleTextWidget.data, '');
+  expect(movedFromPlaylistTitleTextWidget.data, movedAudioSourcePlaylistTitle);
 
   // Verify the moved to playlist title of the copied audio
 
   Text movedToPlaylistTitleTextWidget =
       tester.widget<Text>(find.byKey(const Key('movedToPlaylistTitleKey')));
 
-  expect(movedToPlaylistTitleTextWidget.data, '');
+  expect(movedToPlaylistTitleTextWidget.data, movedAudioTargetPlaylistTitle);
 
   // Now find the ok button of the audio info dialog
   // and tap on it
