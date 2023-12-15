@@ -3204,6 +3204,9 @@ void main() {
       expect(targetPlaylistMp3Lst,
           ["230628-033811-audio learn test short video one 23-06-10.mp3"]);
 
+      // Now verifying the copied audio informations in the target
+      // playlist
+
       // Find the target ListTile Playlist containing the audio copied
       // from the source playlist
 
@@ -3286,10 +3289,26 @@ void main() {
 
       expect(copiedToPlaylistTitleTextWidget.data, '');
 
-      // Now find the ok button of the confirm warning dialog
+      // Verify the moved from playlist title of the copied audio
+
+      Text movedFromPlaylistTitleTextWidget = tester
+          .widget<Text>(find.byKey(const Key('movedFromPlaylistTitleKey')));
+
+      expect(movedFromPlaylistTitleTextWidget.data,
+          '');
+
+      // Verify the moved to playlist title of the copied audio
+
+      Text movedToPlaylistTitleTextWidget = tester
+          .widget<Text>(find.byKey(const Key('movedToPlaylistTitleKey')));
+
+      expect(movedToPlaylistTitleTextWidget.data, '');
+
+      // Now find the ok button of the audio info dialog
       // and tap on it
       await tester.tap(find.byKey(const Key('audioInfoOkButtonKey')));
       await tester.pumpAndSettle();
+
 
       // """ Second test part: Copy audio from local playlist to
       // other Youtube playlist
