@@ -2724,10 +2724,10 @@ void main() {
       await tester.pumpAndSettle(); // Wait for popup menu to appear
 
       // Now find the popup menu item and tap on it
-      final Finder popupDisplayAudioInfoMenuItem =
+      final Finder popupDisplayAudioInfoMenuItemFinder =
           find.byKey(const Key("popup_menu_display_audio_info"));
 
-      await tester.tap(popupDisplayAudioInfoMenuItem);
+      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
       // Now verifying the display audio info audio copied dialog
@@ -2988,10 +2988,10 @@ void main() {
       await tester.pumpAndSettle(); // Wait for popup menu to appear
 
       // Now find the popup menu item and tap on it
-      final Finder popupDisplayAudioInfoMenuItem =
+      final Finder popupDisplayAudioInfoMenuItemFinder =
           find.byKey(const Key("popup_menu_display_audio_info"));
 
-      await tester.tap(popupDisplayAudioInfoMenuItem);
+      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
       // Now verifying the display audio info audio moved dialog
@@ -3255,10 +3255,10 @@ void main() {
       await tester.pumpAndSettle(); // Wait for popup menu to appear
 
       // Now find the popup menu item and tap on it
-      Finder popupDisplayAudioInfoMenuItem =
+      Finder popupDisplayAudioInfoMenuItemFinder =
           find.byKey(const Key("popup_menu_display_audio_info"));
 
-      await tester.tap(popupDisplayAudioInfoMenuItem);
+      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
       // Now verifying the display audio info audio copied dialog
@@ -3435,20 +3435,20 @@ void main() {
 
       // Now find the leading menu icon button of the Audio ListTile
       // and tap on it
-      Finder youtubeTargetAudioListTileLeadingMenuIconButton = find.descendant(
+      Finder youtubeTargetAudioListTileLeadingMenuIconButtonFinder = find.descendant(
         of: youtubeTargetAudioListTileWidgetFinder,
         matching: find.byIcon(Icons.menu),
       );
 
       // Tap the leading menu icon button to open the popup menu
-      await tester.tap(youtubeTargetAudioListTileLeadingMenuIconButton);
+      await tester.tap(youtubeTargetAudioListTileLeadingMenuIconButtonFinder);
       await tester.pumpAndSettle(); // Wait for popup menu to appear
 
       // Now find the popup menu item and tap on it
-      popupDisplayAudioInfoMenuItem =
+      popupDisplayAudioInfoMenuItemFinder =
           find.byKey(const Key("popup_menu_display_audio_info"));
 
-      await tester.tap(popupDisplayAudioInfoMenuItem);
+      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
       // Now verifying the display audio info audio copied dialog
@@ -3504,26 +3504,128 @@ void main() {
 
       // Now find the leading menu icon button of the Audio ListTile
       // and tap on it
-      youtubeTargetAudioListTileLeadingMenuIconButton = find.descendant(
+      youtubeTargetAudioListTileLeadingMenuIconButtonFinder = find.descendant(
         of: youtubeTargetAudioListTileWidgetFinder,
         matching: find.byIcon(Icons.menu),
       );
 
       // Tap the leading menu icon button to open the popup menu
-      await tester.tap(youtubeTargetAudioListTileLeadingMenuIconButton);
+      await tester.tap(youtubeTargetAudioListTileLeadingMenuIconButtonFinder);
       await tester.pumpAndSettle(); // Wait for popup menu to appear
 
       // Now find the popup menu item and tap on it
-      popupDisplayAudioInfoMenuItem =
+      popupDisplayAudioInfoMenuItemFinder =
           find.byKey(const Key("popup_menu_delete_audio_from_playlist_aswell"));
 
-      await tester.tap(popupDisplayAudioInfoMenuItem);
+      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
       // Now verifying the deleted audio was physically deleted from
       // the playlist directory. No warning was displayed.
 
       targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
+        path:
+            '$kDownloadAppTestDirWindows${path.separator}$youtubeAudioTargetPlaylistTitle',
+        extension: 'mp3',
+      );
+
+      // Verify the Youtube target playlist directory content
+      expect(targetPlaylistMp3Lst, [
+        "231117-002826-Really short video 23-07-01.mp3",
+        "231117-002828-morning _ cinematic video 23-07-01.mp3",
+      ]);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('Delete audio moved from local to Youtube playlist. The audio is then deleted from the Youtube playlist with no warning being displayed.',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}delete_audio_moved_to_youtube_playlist_integr_test_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      const String localAudioTargetSourcePlaylistTitle = 'local_audio_playlist_2';
+      const String copiedAudioTitle = 'audio learn test short video one';
+      const String youtubeAudioTargetPlaylistTitle =
+          'audio_player_view_2_shorts_test';
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // *** First test part: Copy audio from Youtube to local
+      // playlist
+
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // """ Third test part: Delete audio from target Youtube
+      // playlist verifying that no warning is displayed since the
+      // deleted audio was copied and not downloaded, which ensures
+      // that the deleted audio video is not referenced in the
+      // Youtube playlist.
+
+      // Now we want to tap again on the popup menu of the Audio
+      // ListTile "audio learn test short video one" in order to
+      // delete it from playlist aswell
+
+      // First, find the Audio sublist ListTile Text widget
+      final Finder youtubeTargetAudioListTileTextWidgetFinder =
+          find.text(copiedAudioTitle);
+
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      final Finder youtubeTargetAudioListTileWidgetFinder = find.ancestor(
+        of: youtubeTargetAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the leading menu icon button of the Audio ListTile
+      // and tap on it
+      final Finder youtubeTargetAudioListTileLeadingMenuIconButtonFinder = find.descendant(
+        of: youtubeTargetAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(youtubeTargetAudioListTileLeadingMenuIconButtonFinder);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the popup menu item and tap on it
+      final Finder popupDisplayAudioInfoMenuItemFinder =
+          find.byKey(const Key("popup_menu_delete_audio_from_playlist_aswell"));
+
+      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Now verifying the deleted audio was physically deleted from
+      // the playlist directory. No warning was displayed.
+
+      final List<String> targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
         path:
             '$kDownloadAppTestDirWindows${path.separator}$youtubeAudioTargetPlaylistTitle',
         extension: 'mp3',
