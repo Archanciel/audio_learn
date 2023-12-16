@@ -3220,7 +3220,7 @@ void main() {
         movedAudioTargetPlaylistTitle: '',
       );
 
-      // Now verifying the copied audio informations in the target
+      // And verifying the copied audio informations in the target
       // playlist
 
       await verifyAudioInfoDialogElements(
@@ -3337,96 +3337,33 @@ void main() {
         "231117-002828-morning _ cinematic video 23-07-01.mp3",
       ]);
 
-      // Find the target Youtube ListTile Playlist containing the audio
-      // copied from the local source playlist
 
-      // First, find the Youtube target playlist ListTile Text widget
-      final Finder youtubeAudioTargetPlaylistListTileTextWidgetFinder =
-          find.text(youtubeAudioTargetPlaylistTitle);
 
-      // Then obtain the Youtube target playlist ListTile widget enclosing
-      // the Text widget by finding its ancestor
-      final Finder youtubeAudioTargetPlaylistListTileWidgetFinder =
-          find.ancestor(
-        of: youtubeAudioTargetPlaylistListTileTextWidgetFinder,
-        matching: find.byType(ListTile),
+      // Now verifying the copied audio informations in the source
+      // playlist
+
+      await verifyAudioInfoDialogElements(
+        tester: tester,
+        audioTitle: copiedAudioTitle,
+        playlistEnclosingAudioTitle: localAudioTargetSourcePlaylistTitle,
+        copiedAudioSourcePlaylistTitle: youtubeAudioSourcePlaylistTitle,
+        copiedAudioTargetPlaylistTitle: youtubeAudioTargetPlaylistTitle,
+        movedAudioSourcePlaylistTitle: '',
+        movedAudioTargetPlaylistTitle: '',
       );
 
-      // Now find the Checkbox widget located in the playlist ListTile
-      // and tap on it to select the playlist
-      final Finder youtubeAudioTargetPlaylistListTileCheckboxWidgetFinder =
-          find.descendant(
-        of: youtubeAudioTargetPlaylistListTileWidgetFinder,
-        matching: find.byType(Checkbox),
+      // And verifying the copied audio informations in the target
+      // playlist
+
+      await verifyAudioInfoDialogElements(
+        tester: tester,
+        audioTitle: copiedAudioTitle,
+        playlistEnclosingAudioTitle: youtubeAudioTargetPlaylistTitle,
+        copiedAudioSourcePlaylistTitle: localAudioTargetSourcePlaylistTitle,
+        copiedAudioTargetPlaylistTitle: '',
+        movedAudioSourcePlaylistTitle: '',
+        movedAudioTargetPlaylistTitle: '',
       );
-
-      // Tap the ListTile playlist checkbox to select it
-      await tester.tap(youtubeAudioTargetPlaylistListTileCheckboxWidgetFinder);
-      await tester.pumpAndSettle();
-
-      // Now we want to tap on the popup menu of the Audio ListTile
-      // "audio learn test short video one"
-
-      // First, find the Audio sublist ListTile Text widget
-      Finder youtubeTargetAudioListTileTextWidgetFinder =
-          find.text(copiedAudioTitle);
-
-      // Then obtain the Audio ListTile widget enclosing the Text widget by
-      // finding its ancestor
-      Finder youtubeTargetAudioListTileWidgetFinder = find.ancestor(
-        of: youtubeTargetAudioListTileTextWidgetFinder,
-        matching: find.byType(ListTile),
-      );
-
-      // Now find the leading menu icon button of the Audio ListTile
-      // and tap on it
-      Finder youtubeTargetAudioListTileLeadingMenuIconButtonFinder =
-          find.descendant(
-        of: youtubeTargetAudioListTileWidgetFinder,
-        matching: find.byIcon(Icons.menu),
-      );
-
-      // Tap the leading menu icon button to open the popup menu
-      await tester.tap(youtubeTargetAudioListTileLeadingMenuIconButtonFinder);
-      await tester.pumpAndSettle(); // Wait for popup menu to appear
-
-      // Now find the popup menu item and tap on it
-      Finder popupDisplayAudioInfoMenuItemFinder =
-          find.byKey(const Key("popup_menu_display_audio_info"));
-
-      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
-      await tester.pumpAndSettle(); // Wait for tap action to complete
-
-      // Now verifying the display audio info audio copied dialog
-      // elements
-
-      // Verify the enclosing playlist title of the copied audio
-
-      Text enclosingPlaylistTitleTextWidget = tester
-          .widget<Text>(find.byKey(const Key('enclosingPlaylistTitleKey')));
-
-      expect(enclosingPlaylistTitleTextWidget.data,
-          youtubeAudioTargetPlaylistTitle);
-
-      // Verify the copied from playlist title of the copied audio
-
-      Text copiedFromPlaylistTitleTextWidget = tester
-          .widget<Text>(find.byKey(const Key('copiedFromPlaylistTitleKey')));
-
-      expect(copiedFromPlaylistTitleTextWidget.data,
-          localAudioTargetSourcePlaylistTitle);
-
-      // Verify the copied to playlist title of the copied audio
-
-      Text copiedToPlaylistTitleTextWidget = tester
-          .widget<Text>(find.byKey(const Key('copiedToPlaylistTitleKey')));
-
-      expect(copiedToPlaylistTitleTextWidget.data, '');
-
-      // Now find the ok button of the confirm warning dialog
-      // and tap on it
-      await tester.tap(find.byKey(const Key('audioInfoOkButtonKey')));
-      await tester.pumpAndSettle();
 
       // """ Third test part: Delete audio from target Youtube
       // playlist verifying that no warning is displayed since the
@@ -3439,18 +3376,18 @@ void main() {
       // delete it from playlist aswell
 
       // First, find the Audio sublist ListTile Text widget
-      youtubeTargetAudioListTileTextWidgetFinder = find.text(copiedAudioTitle);
+      final Finder youtubeTargetAudioListTileTextWidgetFinder = find.text(copiedAudioTitle);
 
       // Then obtain the Audio ListTile widget enclosing the Text widget by
       // finding its ancestor
-      youtubeTargetAudioListTileWidgetFinder = find.ancestor(
+      final Finder youtubeTargetAudioListTileWidgetFinder = find.ancestor(
         of: youtubeTargetAudioListTileTextWidgetFinder,
         matching: find.byType(ListTile),
       );
 
       // Now find the leading menu icon button of the Audio ListTile
       // and tap on it
-      youtubeTargetAudioListTileLeadingMenuIconButtonFinder = find.descendant(
+      final Finder youtubeTargetAudioListTileLeadingMenuIconButtonFinder = find.descendant(
         of: youtubeTargetAudioListTileWidgetFinder,
         matching: find.byIcon(Icons.menu),
       );
@@ -3460,7 +3397,7 @@ void main() {
       await tester.pumpAndSettle(); // Wait for popup menu to appear
 
       // Now find the popup menu item and tap on it
-      popupDisplayAudioInfoMenuItemFinder =
+      final Finder popupDisplayAudioInfoMenuItemFinder =
           find.byKey(const Key("popup_menu_delete_audio_from_playlist_aswell"));
 
       await tester.tap(popupDisplayAudioInfoMenuItemFinder);
@@ -3485,9 +3422,8 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-
     testWidgets(
-        'Delete audio moved from local to Youtube playlist. The audio is then deleted from the Youtube playlist with no warning being displayed.',
+        'Delete audio first moved from Youtube to local playlist, then moved from local to other Youtube playlist. The audio is then deleted from the other Youtube playlist with no warning being displayed.',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -3499,10 +3435,14 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}delete_audio_moved_to_youtube_playlist_integr_test_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}2_youtube_2_local_playlists_integr_test_data",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
+      const String youtubeAudioSourcePlaylistTitle =
+          'audio_learn_test_download_2_small_videos';
+      const String localAudioTargetSourcePlaylistTitle =
+          'local_audio_playlist_2';
       const String copiedAudioTitle = 'audio learn test short video one';
       const String youtubeAudioTargetPlaylistTitle =
           'audio_player_view_2_shorts_test';
@@ -3530,6 +3470,266 @@ void main() {
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
+      // Find the ListTile Playlist containing the audio to copy to
+      // the target local playlist
+
+      // First, find the Youtube source playlist ListTile Text widget
+      final Finder youtubeAudioSourcePlaylistListTileTextWidgetFinder =
+          find.text(youtubeAudioSourcePlaylistTitle);
+
+      // Then obtain the Youtube source playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder youtubeAudioSourcePlaylistListTileWidgetFinder =
+          find.ancestor(
+        of: youtubeAudioSourcePlaylistListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the playlist ListTile
+      // and tap on it to select the playlist
+      final Finder sourcePlaylistListTileCheckboxWidgetFinder = find.descendant(
+        of: youtubeAudioSourcePlaylistListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
+
+      // Tap the ListTile playlist checkbox to select it
+      await tester.tap(sourcePlaylistListTileCheckboxWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now we want to tap the popup menu of the Audio ListTile
+      // "audio learn test short video one"
+
+      // First, find the Audio sublist ListTile Text widget
+      final Finder sourceAudioListTileTextWidgetFinder =
+          find.text(copiedAudioTitle);
+
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      final Finder sourceAudioListTileWidgetFinder = find.ancestor(
+        of: sourceAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the leading menu icon button of the Audio ListTile
+      // and tap on it
+      final Finder sourceAudioListTileLeadingMenuIconButton = find.descendant(
+        of: sourceAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(sourceAudioListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the move audio popup menu item and tap on it
+      final Finder popupMoveMenuItem =
+          find.byKey(const Key("popup_menu_move_audio_to_playlist"));
+
+      await tester.tap(popupMoveMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Check the value of the select one playlist AlertDialog
+      // dialog title
+      Text alertDialogTitle = tester
+          .widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Sélectionnez une playlist');
+
+      // Find the RadioListTile target playlist to which the audio
+      // will be moved
+
+      final Finder radioListTile = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is RadioListTile &&
+            widget.title is Text &&
+            (widget.title as Text).data == localAudioTargetSourcePlaylistTitle,
+      );
+
+      // Tap the target playlist RadioListTile to select it
+      await tester.tap(radioListTile);
+      await tester.pumpAndSettle();
+
+      // Now find the confirm button and tap on it
+      await tester.tap(find.byKey(const Key('confirmButton')));
+      await tester.pumpAndSettle();
+
+      // Now verifying the confirm warning dialog message
+
+      Text warningDialogMessageTextWidget =
+          tester.widget<Text>(find.byKey(const Key('warningDialogMessage')));
+
+      expect(warningDialogMessageTextWidget.data,
+          'Audio "$copiedAudioTitle" déplacé de la playlist Youtube "$youtubeAudioSourcePlaylistTitle" vers la playlist locale "$localAudioTargetSourcePlaylistTitle".');
+
+      // Now find the ok button of the confirm warning dialog
+      // and tap on it
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
+
+      // Now verifying the selected playlist TextField still
+      // contains the title of the source playlist
+
+      TextField selectedPlaylistTextField = tester.widget<TextField>(
+          find.byKey(const Key('selectedPlaylistTextField')));
+
+      expect(selectedPlaylistTextField.controller!.text,
+          youtubeAudioSourcePlaylistTitle);
+
+      // Now verifying the audio was physically moved to the target
+      // playlist directory.
+
+      List<String> sourcePlaylistMp3Lst = DirUtil.listFileNamesInDir(
+        path:
+            '$kDownloadAppTestDirWindows${path.separator}$youtubeAudioSourcePlaylistTitle',
+        extension: 'mp3',
+      );
+
+      List<String> targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
+        path:
+            '$kDownloadAppTestDirWindows${path.separator}$localAudioTargetSourcePlaylistTitle',
+        extension: 'mp3',
+      );
+
+      // Verify the Youtube source playlist directory content
+      expect(sourcePlaylistMp3Lst, [
+        "230628-033813-audio learn test short video two 23-06-10.mp3",
+      ]);
+
+      // Verify the local target playlist directory content
+      expect(targetPlaylistMp3Lst,
+          ["230628-033811-audio learn test short video one 23-06-10.mp3"]);
+
+      // Now verifying the moved audio informations in the target
+      // playlist. In the source playlist, the audio is no longer
+      // displayed since it was moved to the target playlist.
+
+      await verifyAudioInfoDialogElements(
+        tester: tester,
+        audioTitle: copiedAudioTitle,
+        playlistEnclosingAudioTitle: localAudioTargetSourcePlaylistTitle,
+        copiedAudioSourcePlaylistTitle: '',
+        copiedAudioTargetPlaylistTitle: '',
+        movedAudioSourcePlaylistTitle: youtubeAudioSourcePlaylistTitle,
+        movedAudioTargetPlaylistTitle: '',
+      );
+
+      // """ Second test part: Move audio from local playlist to
+      // other Youtube playlist
+
+      // Currently, the local audio target source playlist is selected
+
+      // Now we want to tap the popup menu of the Audio ListTile
+      // "audio learn test short video one"
+
+      // First, find the Audio sublist ListTile Text widget
+      final Finder localSourceAudioListTileTextWidgetFinder =
+          find.text(copiedAudioTitle);
+
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      final Finder localSourceAudioListTileWidgetFinder = find.ancestor(
+        of: localSourceAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the leading menu icon button of the Audio ListTile
+      // and tap on it
+      final Finder localSourceAudioListTileLeadingMenuIconButton =
+          find.descendant(
+        of: localSourceAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(localSourceAudioListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the move audio popup menu item and tap on it
+      final Finder localSourceAudioPopupMoveMenuItem =
+          find.byKey(const Key("popup_menu_move_audio_to_playlist"));
+
+      await tester.tap(localSourceAudioPopupMoveMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Find the RadioListTile target playlist to which the audio
+      // will be moved
+
+      final Finder secondYoutubeTargetRadioListTile = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is RadioListTile &&
+            widget.title is Text &&
+            (widget.title as Text).data == youtubeAudioTargetPlaylistTitle,
+      );
+
+      // Tap the target playlist RadioListTile to select it
+      await tester.tap(secondYoutubeTargetRadioListTile);
+      await tester.pumpAndSettle();
+
+      // Now find the confirm button and tap on it
+      await tester.tap(find.byKey(const Key('confirmButton')));
+      await tester.pumpAndSettle();
+
+      // Now verifying the confirm warning dialog message
+
+      warningDialogMessageTextWidget =
+          tester.widget<Text>(find.byKey(const Key('warningDialogMessage')));
+
+      expect(warningDialogMessageTextWidget.data,
+          'Audio "$copiedAudioTitle" déplacé de la playlist locale "$localAudioTargetSourcePlaylistTitle" vers la playlist Youtube "$youtubeAudioTargetPlaylistTitle".');
+
+      // Now find the ok button of the confirm warning dialog
+      // and tap on it
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
+
+      // Now verifying the selected playlist TextField still
+      // contains the title of the source playlist
+
+      selectedPlaylistTextField = tester.widget<TextField>(
+          find.byKey(const Key('selectedPlaylistTextField')));
+
+      expect(selectedPlaylistTextField.controller!.text,
+          localAudioTargetSourcePlaylistTitle);
+
+      // Now verifying the audio was physically moved to the target
+      // playlist directory.
+
+      sourcePlaylistMp3Lst = DirUtil.listFileNamesInDir(
+        path:
+            '$kDownloadAppTestDirWindows${path.separator}$localAudioTargetSourcePlaylistTitle',
+        extension: 'mp3',
+      );
+
+      targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
+        path:
+            '$kDownloadAppTestDirWindows${path.separator}$youtubeAudioTargetPlaylistTitle',
+        extension: 'mp3',
+      );
+
+      // Verify the local source playlist directory content
+      expect(sourcePlaylistMp3Lst,
+          []);
+
+      // Verify the Youtube target playlist directory content
+      expect(targetPlaylistMp3Lst, [
+        "230628-033811-audio learn test short video one 23-06-10.mp3",
+        "231117-002826-Really short video 23-07-01.mp3",
+        "231117-002828-morning _ cinematic video 23-07-01.mp3",
+      ]);
+
+      // Now verifying the moved audio informations in the target
+      // playlist. In the source playlist, the audio is no longer
+      // displayed since it was moved to the target playlist.
+
+      await verifyAudioInfoDialogElements(
+        tester: tester,
+        audioTitle: copiedAudioTitle,
+        playlistEnclosingAudioTitle: youtubeAudioTargetPlaylistTitle,
+        copiedAudioSourcePlaylistTitle: '',
+        copiedAudioTargetPlaylistTitle: '',
+        movedAudioSourcePlaylistTitle: localAudioTargetSourcePlaylistTitle,
+        movedAudioTargetPlaylistTitle: '',
+      );
+
       // """ Third test part: Delete audio from target Youtube
       // playlist verifying that no warning is displayed since the
       // deleted audio was copied and not downloaded, which ensures
@@ -3541,8 +3741,7 @@ void main() {
       // delete it from playlist aswell
 
       // First, find the Audio sublist ListTile Text widget
-      final Finder youtubeTargetAudioListTileTextWidgetFinder =
-          find.text(copiedAudioTitle);
+      final Finder youtubeTargetAudioListTileTextWidgetFinder = find.text(copiedAudioTitle);
 
       // Then obtain the Audio ListTile widget enclosing the Text widget by
       // finding its ancestor
@@ -3553,8 +3752,7 @@ void main() {
 
       // Now find the leading menu icon button of the Audio ListTile
       // and tap on it
-      final Finder youtubeTargetAudioListTileLeadingMenuIconButtonFinder =
-          find.descendant(
+      final Finder youtubeTargetAudioListTileLeadingMenuIconButtonFinder = find.descendant(
         of: youtubeTargetAudioListTileWidgetFinder,
         matching: find.byIcon(Icons.menu),
       );
@@ -3573,7 +3771,7 @@ void main() {
       // Now verifying the deleted audio was physically deleted from
       // the playlist directory. No warning was displayed.
 
-      final List<String> targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
+      targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
         path:
             '$kDownloadAppTestDirWindows${path.separator}$youtubeAudioTargetPlaylistTitle',
         extension: 'mp3',
