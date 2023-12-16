@@ -270,20 +270,28 @@ class Playlist {
   }
 
   void setMovedAudioToPlaylistTitle({
-    required String audioFileName,
+    required Audio movedAudioCopy,
     required String movedToPlaylistTitle,
   }) {
-    downloadedAudioLst
-        .firstWhere((audio) => audio.audioFileName == audioFileName)
-        .movedToPlaylistTitle = movedToPlaylistTitle;
+    // Step 1: Update the movedToPlaylistTitle in the movedAudioCopy
+    movedAudioCopy.movedToPlaylistTitle = movedToPlaylistTitle;
+
+    // Step 2: Find the index of the audio in downloadedAudioLst that matches movedAudioCopy
+    int index =
+        downloadedAudioLst.indexWhere((audio) => audio == movedAudioCopy);
+
+    // Step 3: Replace the audio at the found index in downloadedAudioLst with the updated movedAudioCopy
+    if (index != -1) {
+      downloadedAudioLst[index] = movedAudioCopy;
+    }
   }
 
   void setCopiedAudioToPlaylistTitle({
-    required Audio copiedAudio,
+    required Audio copiedAudioCopy,
     required String copiedToPlaylistTitle,
   }) {
     playableAudioLst
-        .firstWhere((audio) => audio == copiedAudio)
+        .firstWhere((audio) => audio == copiedAudioCopy)
         .copiedToPlaylistTitle = copiedToPlaylistTitle;
   }
 

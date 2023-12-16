@@ -383,7 +383,8 @@ class AudioDownloadVM extends ChangeNotifier {
       // using youtubeVideo.description is not correct since it
       // it is empty !
       String videoDescription =
-          (await _youtubeExplode!.videos.get(youtubeVideo.id.value)).description;
+          (await _youtubeExplode!.videos.get(youtubeVideo.id.value))
+              .description;
 
       String compactVideoDescription = _createCompactVideoDescription(
         videoDescription: videoDescription,
@@ -792,8 +793,10 @@ class AudioDownloadVM extends ChangeNotifier {
       fromPlaylist.removeDownloadedAudioFromPlayableAudioLstOnly(
         downloadedAudio: audio,
       );
+      // Creating a copy of the audio to be copied so that the
+      // original audio will not be modified by this method.
       fromPlaylist.setMovedAudioToPlaylistTitle(
-        audioFileName: audio.audioFileName,
+        movedAudioCopy: audio.copy(),
         movedToPlaylistTitle: targetPlaylist.title,
       );
     } else {
@@ -855,7 +858,7 @@ class AudioDownloadVM extends ChangeNotifier {
     );
 
     fromPlaylist.setCopiedAudioToPlaylistTitle(
-      copiedAudio: audio,
+      copiedAudioCopy: audio.copy(),
       copiedToPlaylistTitle: targetPlaylist.title,
     );
 
