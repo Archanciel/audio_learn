@@ -793,10 +793,8 @@ class AudioDownloadVM extends ChangeNotifier {
       fromPlaylist.removeDownloadedAudioFromPlayableAudioLstOnly(
         downloadedAudio: audio,
       );
-      // Creating a copy of the audio to be copied so that the
-      // original audio will not be modified by this method.
       fromPlaylist.setMovedAudioToPlaylistTitle(
-        movedAudioCopy: audio.copy(),
+        movedAudio: audio,
         movedToPlaylistTitle: targetPlaylist.title,
       );
     } else {
@@ -806,7 +804,7 @@ class AudioDownloadVM extends ChangeNotifier {
     }
 
     targetPlaylist.addMovedAudio(
-      movedAudioCopy: audio.copy(),
+      movedAudio: audio,
       movedFromPlaylistTitle: fromPlaylist.title,
     );
 
@@ -853,12 +851,12 @@ class AudioDownloadVM extends ChangeNotifier {
     // Creating a copy of the audio to be copied so that the
     // original audio will not be modified by this method.
     targetPlaylist.addCopiedAudio(
-      copiedAudio: audio.copy(),
+      copiedAudio: audio,
       copiedFromPlaylistTitle: fromPlaylistTitle,
     );
 
     fromPlaylist.setCopiedAudioToPlaylistTitle(
-      copiedAudioCopy: audio.copy(),
+      copiedAudio: audio,
       copiedToPlaylistTitle: targetPlaylist.title,
     );
 

@@ -649,49 +649,57 @@ void addOneOtherDownloadedAudio(Playlist playlist) {
 }
 
 void copyOneDownloadedAudio(Playlist playlist) {
-  playlist.addCopiedAudio(
-      copiedAudio: Audio(
+  Audio audio = Audio(
           enclosingPlaylist: playlist,
           originalVideoTitle: 'A',
           compactVideoDescription: '',
           videoUrl: 'https://example.com/video1',
           audioDownloadDateTime: DateTime(2023, 3, 20),
-          videoUploadDate: DateTime.now()),
+          videoUploadDate: DateTime.now());
+  audio.audioDownloadSpeed = 1000;
+  playlist.addCopiedAudio(
+      copiedAudio: audio,
       copiedFromPlaylistTitle: 'source playlist title');
 }
 
 void copyOneOtherDownloadedAudio(Playlist playlist) {
-  playlist.addCopiedAudio(
-      copiedAudio: Audio(
+  Audio audio = Audio(
           enclosingPlaylist: playlist,
           originalVideoTitle: 'B',
           compactVideoDescription: '',
           videoUrl: 'https://example.com/video1',
           audioDownloadDateTime: DateTime(2023, 3, 20),
-          videoUploadDate: DateTime.now()),
+          videoUploadDate: DateTime.now());
+  audio.audioDownloadSpeed = 1000;
+  playlist.addCopiedAudio(
+      copiedAudio: audio,
       copiedFromPlaylistTitle: 'source playlist title');
 }
 
 void moveOneDownloadedAudio(Playlist playlist) {
-  playlist.addMovedAudio(
-      movedAudioCopy: Audio(
+  Audio audio = Audio(
           enclosingPlaylist: playlist,
           originalVideoTitle: 'A',
           compactVideoDescription: '',
           videoUrl: 'https://example.com/video1',
           audioDownloadDateTime: DateTime(2023, 3, 20),
-          videoUploadDate: DateTime.now()),
+          videoUploadDate: DateTime.now(),);
+  audio.audioDownloadSpeed = 1000;
+  playlist.addMovedAudio(
+      movedAudio: audio,
       movedFromPlaylistTitle: 'source playlist title');
 }
 
 void moveOneOtherDownloadedAudio(Playlist playlist) {
-  playlist.addMovedAudio(
-      movedAudioCopy: Audio(
+  Audio audio = Audio(
           enclosingPlaylist: playlist,
           originalVideoTitle: 'B',
           compactVideoDescription: '',
           videoUrl: 'https://example.com/video1',
           audioDownloadDateTime: DateTime(2023, 3, 20),
-          videoUploadDate: DateTime.now()),
+          videoUploadDate: DateTime.now());
+  audio.audioDownloadSpeed = 1000;
+  playlist.addMovedAudio(
+      movedAudio: audio,
       movedFromPlaylistTitle: 'source playlist title');
 }

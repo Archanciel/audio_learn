@@ -148,6 +148,7 @@ class Playlist {
     required Audio copiedAudio,
     required String copiedFromPlaylistTitle,
   }) {
+    Audio copiedAudioCopy = copiedAudio.copy();
     Audio? existingPlayableAudio;
 
     try {
@@ -164,10 +165,10 @@ class Playlist {
       playableAudioLst.remove(copiedAudio);
     }
 
-    copiedAudio.enclosingPlaylist = this;
-    copiedAudio.copiedFromPlaylistTitle = copiedFromPlaylistTitle;
+    copiedAudioCopy.enclosingPlaylist = this;
+    copiedAudioCopy.copiedFromPlaylistTitle = copiedFromPlaylistTitle;
 
-    _insertAudioInPlayableAudioList(copiedAudio);
+    _insertAudioInPlayableAudioList(copiedAudioCopy);
   }
 
   /// This method fixes a bug which caused the currently playing
@@ -195,14 +196,15 @@ class Playlist {
   /// Before, sets the enclosingPlaylist to this as well as the
   /// movedFromPlaylistTitle.
   void addMovedAudio({
-    required Audio movedAudioCopy,
+    required Audio movedAudio,
     required String movedFromPlaylistTitle,
   }) {
+    Audio movedAudioCopy = movedAudio.copy();
     Audio? existingDownloadedAudio;
 
     try {
       existingDownloadedAudio = downloadedAudioLst.firstWhere(
-        (audio) => audio == movedAudioCopy,
+        (audio) => audio == movedAudio,
       );
     } catch (e) {
       existingDownloadedAudio = null;
@@ -215,10 +217,26 @@ class Playlist {
       // the case if the audio was moved to this playlist a first
       // time and then moved back to the source playlist or moved
       // to another playlist and then moved back to this playlist.
-      existingDownloadedAudio.movedFromPlaylistTitle = movedFromPlaylistTitle;
-      existingDownloadedAudio.movedToPlaylistTitle = title;
-      existingDownloadedAudio.enclosingPlaylist = this;
-      _insertAudioInPlayableAudioList(existingDownloadedAudio);
+      Audio existingDownloadedAudioCopy = existingDownloadedAudio.copy();
+
+      // Step 1: Update the movedToPlaylistTitle in the movedAudioCopy
+
+      existingDownloadedAudioCopy.movedFromPlaylistTitle =
+          movedFromPlaylistTitle;
+      existingDownloadedAudioCopy.movedToPlaylistTitle = title;
+      existingDownloadedAudioCopy.enclosingPlaylist = this;
+
+      // Step 2: Find the index of the audio in downloadedAudioLst that
+      // matches movedAudio
+      int index = downloadedAudioLst.indexWhere((audio) => audio == movedAudio);
+
+      // Step 3: Replace the audio at the found index in
+      // downloadedAudioLst with the updated movedAudioCopy
+      if (index != -1) {
+        downloadedAudioLst[index] = existingDownloadedAudioCopy;
+      }
+
+      _insertAudioInPlayableAudioList(existingDownloadedAudioCopy);
     } else {
       downloadedAudioLst.add(movedAudioCopy);
       _insertAudioInPlayableAudioList(movedAudioCopy);
@@ -269,30 +287,49 @@ class Playlist {
     _removeAudioFromPlayableAudioList(downloadedAudio);
   }
 
+  /// In this method, a copy of the passed audio is created so that the
+  /// passed original audio will not be modified by this method.
   void setMovedAudioToPlaylistTitle({
-    required Audio movedAudioCopy,
+    required Audio movedAudio,
     required String movedToPlaylistTitle,
   }) {
+    // Step 0: Make a copy of the movedAudio in order to
+    // avoid modifying the passed audio.
+    Audio movedAudioCopy = movedAudio.copy();
+
     // Step 1: Update the movedToPlaylistTitle in the movedAudioCopy
     movedAudioCopy.movedToPlaylistTitle = movedToPlaylistTitle;
 
-    // Step 2: Find the index of the audio in downloadedAudioLst that matches movedAudioCopy
-    int index =
-        downloadedAudioLst.indexWhere((audio) => audio == movedAudioCopy);
+    // Step 2: Find the index of the audio in downloadedAudioLst that
+    // matches movedAudio
+    int index = downloadedAudioLst.indexWhere((audio) => audio == movedAudio);
 
-    // Step 3: Replace the audio at the found index in downloadedAudioLst with the updated movedAudioCopy
+    // Step 3: Replace the audio at the found index in
+    // downloadedAudioLst with the updated movedAudioCopy
     if (index != -1) {
       downloadedAudioLst[index] = movedAudioCopy;
     }
   }
 
   void setCopiedAudioToPlaylistTitle({
-    required Audio copiedAudioCopy,
+    required Audio copiedAudio,
     required String copiedToPlaylistTitle,
   }) {
-    playableAudioLst
-        .firstWhere((audio) => audio == copiedAudioCopy)
-        .copiedToPlaylistTitle = copiedToPlaylistTitle;
+    // Step 0: Make a copy of the copiedAudio in order to
+    // avoid modifying the passed audio.
+    Audio copiedAudioCopy = copiedAudio.copy();
+
+    // Step 1: Update the copiedToPlaylistTitle in the copiedAudioCopy
+    copiedAudioCopy.copiedToPlaylistTitle = copiedToPlaylistTitle;
+
+    // Step 2: Find the index of the audio in playableAudioLst that matches copiedAudio
+    int index = playableAudioLst.indexWhere((audio) => audio == copiedAudio);
+
+    // Step 3: Replace the audio at the found index in
+    // playableAudioLst with the updated copiedAudioCopy
+    if (index != -1) {
+      playableAudioLst[index] = copiedAudioCopy;
+    }
   }
 
   /// Used when uploading the Playlist json file. Since the
