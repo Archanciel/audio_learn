@@ -2032,8 +2032,8 @@ void main() {
       Text warningDialogMessage =
           tester.widget(find.byKey(const Key('warningDialogMessage')));
       expect(warningDialogMessage.data,
-          'Single video with invalid URL "$invalidSingleVideoUrl" could not be downloaded.');
-
+          'The URL "$invalidSingleVideoUrl" supposed to point to a unique video is invalid. Therefore, no video has been downloaded.');
+          
       // Close the warning dialog by tapping on the OK button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
@@ -3337,8 +3337,6 @@ void main() {
         "231117-002828-morning _ cinematic video 23-07-01.mp3",
       ]);
 
-
-
       // Now verifying the copied audio informations in the source
       // playlist
 
@@ -3376,7 +3374,8 @@ void main() {
       // delete it from playlist aswell
 
       // First, find the Audio sublist ListTile Text widget
-      final Finder youtubeTargetAudioListTileTextWidgetFinder = find.text(copiedAudioTitle);
+      final Finder youtubeTargetAudioListTileTextWidgetFinder =
+          find.text(copiedAudioTitle);
 
       // Then obtain the Audio ListTile widget enclosing the Text widget by
       // finding its ancestor
@@ -3387,7 +3386,8 @@ void main() {
 
       // Now find the leading menu icon button of the Audio ListTile
       // and tap on it
-      final Finder youtubeTargetAudioListTileLeadingMenuIconButtonFinder = find.descendant(
+      final Finder youtubeTargetAudioListTileLeadingMenuIconButtonFinder =
+          find.descendant(
         of: youtubeTargetAudioListTileWidgetFinder,
         matching: find.byIcon(Icons.menu),
       );
@@ -3706,8 +3706,7 @@ void main() {
       );
 
       // Verify the local source playlist directory content
-      expect(sourcePlaylistMp3Lst,
-          []);
+      expect(sourcePlaylistMp3Lst, []);
 
       // Verify the Youtube target playlist directory content
       expect(targetPlaylistMp3Lst, [
@@ -3741,7 +3740,8 @@ void main() {
       // delete it from playlist aswell
 
       // First, find the Audio sublist ListTile Text widget
-      final Finder youtubeTargetAudioListTileTextWidgetFinder = find.text(copiedAudioTitle);
+      final Finder youtubeTargetAudioListTileTextWidgetFinder =
+          find.text(copiedAudioTitle);
 
       // Then obtain the Audio ListTile widget enclosing the Text widget by
       // finding its ancestor
@@ -3752,7 +3752,8 @@ void main() {
 
       // Now find the leading menu icon button of the Audio ListTile
       // and tap on it
-      final Finder youtubeTargetAudioListTileLeadingMenuIconButtonFinder = find.descendant(
+      final Finder youtubeTargetAudioListTileLeadingMenuIconButtonFinder =
+          find.descendant(
         of: youtubeTargetAudioListTileWidgetFinder,
         matching: find.byIcon(Icons.menu),
       );
@@ -3806,8 +3807,7 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      const String localAudioPlaylistTitle =
-          'local_audio_playlist_2';
+      const String localAudioPlaylistTitle = 'local_audio_playlist_2';
       const String uniqueAudioTitle = 'audio learn test short video one';
 
       SettingsDataService settingsDataService =
@@ -3840,15 +3840,15 @@ void main() {
 
       // Then obtain the local unique audio playlist ListTile
       // widget enclosing the Text widget by finding its ancestor
-      final Finder localAudioPlaylistListTileWidgetFinder =
-          find.ancestor(
+      final Finder localAudioPlaylistListTileWidgetFinder = find.ancestor(
         of: localAudioPlaylistListTileTextWidgetFinder,
         matching: find.byType(ListTile),
       );
 
       // Now find the Checkbox widget located in the playlist ListTile
       // and tap on it to select the playlist
-      final Finder localAudioPlaylistListTileCheckboxWidgetFinder = find.descendant(
+      final Finder localAudioPlaylistListTileCheckboxWidgetFinder =
+          find.descendant(
         of: localAudioPlaylistListTileWidgetFinder,
         matching: find.byType(Checkbox),
       );
@@ -3895,8 +3895,8 @@ void main() {
       TextField selectedPlaylistTextField = tester.widget<TextField>(
           find.byKey(const Key('selectedPlaylistTextField')));
 
-      expect(selectedPlaylistTextField.controller!.text,
-          localAudioPlaylistTitle);
+      expect(
+          selectedPlaylistTextField.controller!.text, localAudioPlaylistTitle);
 
       // Now verifying that the audio was physically deleted from the
       // local playlist directory.
@@ -3908,8 +3908,7 @@ void main() {
       );
 
       // Verify the local target playlist directory content
-      expect(localPlaylistMp3Lst,
-          []);
+      expect(localPlaylistMp3Lst, []);
 
       // Now we tap on the AudioPlayerView icon button to open
       // AudioPlayerView screen
@@ -3937,7 +3936,7 @@ void main() {
 
       // Now verifying that the audio player view audio remaining
       // duration 0:00
-      
+
       final Finder audioPlayerViewAudioRemainingDurationFinder =
           find.byKey(const Key('audioPlayerViewAudioRemainingDuration'));
       final Text audioPlayerViewAudioRemainingDurationTextWidget =
@@ -3965,8 +3964,7 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      const String localAudioPlaylistTitle =
-          'local_audio_playlist_2';
+      const String localAudioPlaylistTitle = 'local_audio_playlist_2';
       const String uniqueAudioTitle = 'audio learn test short video one';
 
       SettingsDataService settingsDataService =
@@ -3999,15 +3997,15 @@ void main() {
 
       // Then obtain the local unique audio playlist ListTile
       // widget enclosing the Text widget by finding its ancestor
-      final Finder localAudioPlaylistListTileWidgetFinder =
-          find.ancestor(
+      final Finder localAudioPlaylistListTileWidgetFinder = find.ancestor(
         of: localAudioPlaylistListTileTextWidgetFinder,
         matching: find.byType(ListTile),
       );
 
       // Now find the Checkbox widget located in the playlist ListTile
       // and tap on it to select the playlist
-      final Finder localAudioPlaylistListTileCheckboxWidgetFinder = find.descendant(
+      final Finder localAudioPlaylistListTileCheckboxWidgetFinder =
+          find.descendant(
         of: localAudioPlaylistListTileWidgetFinder,
         matching: find.byType(Checkbox),
       );
@@ -4055,8 +4053,8 @@ void main() {
       TextField selectedPlaylistTextField = tester.widget<TextField>(
           find.byKey(const Key('selectedPlaylistTextField')));
 
-      expect(selectedPlaylistTextField.controller!.text,
-          localAudioPlaylistTitle);
+      expect(
+          selectedPlaylistTextField.controller!.text, localAudioPlaylistTitle);
 
       // Now verifying that the audio was physically deleted from the
       // local playlist directory.
@@ -4068,8 +4066,7 @@ void main() {
       );
 
       // Verify the local target playlist directory content
-      expect(localPlaylistMp3Lst,
-          []);
+      expect(localPlaylistMp3Lst, []);
 
       // Now we tap on the AudioPlayerView icon button to open
       // AudioPlayerView screen
@@ -4097,7 +4094,7 @@ void main() {
 
       // Now verifying that the audio player view audio remaining
       // duration 0:00
-      
+
       final Finder audioPlayerViewAudioRemainingDurationFinder =
           find.byKey(const Key('audioPlayerViewAudioRemainingDuration'));
       final Text audioPlayerViewAudioRemainingDurationTextWidget =

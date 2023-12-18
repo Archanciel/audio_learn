@@ -623,7 +623,7 @@ class AudioDownloadVM extends ChangeNotifier {
     _stopDownloadPressed = false;
     _youtubeExplode ??= yt.YoutubeExplode();
 
-    final yt.VideoId videoId;
+    yt.VideoId videoId;
 
     try {
       videoId = yt.VideoId(videoUrl);
@@ -635,9 +635,17 @@ class AudioDownloadVM extends ChangeNotifier {
 
       return false;
     } catch (e) {
-      warningMessageVM.isSingleVideoUrlInvalid = true;
+      // since trying to get the video id from the live video url failed,
+      // the url is modified to its value when the video is referenced
+      // in a playlist
+      videoUrl = videoUrl.replaceFirst('youtube.com/live', 'youtu.be');
+      try {
+        videoId = yt.VideoId(videoUrl);
+      } catch (_) {
+        warningMessageVM.isSingleVideoUrlInvalid = true;
 
-      return false;
+        return false;
+      }
     }
 
     yt.Video youtubeVideo;
