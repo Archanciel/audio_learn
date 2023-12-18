@@ -112,7 +112,7 @@
   },
   "downloadAudioFileAlreadyOnAudioDirectory": "L'audio \"{audioValidVideoTitle}\" est contenu dans le fichier \"{fileName}\" se trouvant dans le répertoire de la playlist cible \"{playlistTitle}\" et ne sera donc pas retéléchargé.",
   "noInternet": "Pas d'Internet. Connecte ton appareil et rééssaye.",
-  "invalidSingleVideoUUrl": "L'URL \"{url}\" ne pointe pas sur une vidéo unique. Aucune vidéo n'a donc été téléchargée.",
+  "invalidSingleVideoUUrl": "L'URL \"{url}\" censée pointer sur une vidéo unique est invalide. Aucune vidéo n'a donc été téléchargée.",
   "@invalidSingleVideoUUrl": {
     "description": "Message d'erreur affiché lorsqu'une URL de vidéo unique est invalide.",
     "placeholders": {
