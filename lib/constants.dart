@@ -73,11 +73,6 @@ const TextStyle kDialogTitlesStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-const TextStyle kDialogLabelStyle = TextStyle(
-  fontSize: 14,
-  fontWeight: FontWeight.bold,
-);
-
 const TextStyle kDialogTextFieldStyle = TextStyle(
   fontSize: 13,
 );
@@ -100,10 +95,14 @@ const kPositionButtonTextStyle = TextStyle(
 const kSliderValueTextStyle = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
-  fontSize: kTitleFontSize,
+  fontSize: 15.0,
   color: kButtonColor,
 );
 
 const kSliderThickness = 2.0;
 
 const double kTitleFontSize = 15.0;
+
+const kAudioExtractorExtractPositionStyle = TextStyle(
+  fontSize: 14.0,
+);

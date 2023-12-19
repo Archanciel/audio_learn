@@ -133,6 +133,7 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
           TextField(
             controller: controller,
             textAlign: TextAlign.center,
+            style: kAudioExtractorExtractPositionStyle,
             decoration: InputDecoration(
               isDense: true,
               contentPadding: const EdgeInsets.symmetric(
