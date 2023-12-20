@@ -291,6 +291,153 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    testWidgets(
+        'Playlist 1 short video, then 1 live video, then 1 short video',
+        (WidgetTester tester) async {
+      late AudioDownloadVM audioDownloadVM;
+
+      String localTestPlaylistTitle =
+          'audio_learn_with_live_test_playlist';
+      String localTestPlaylistDir =
+          "$kDownloadAppTestDir${path.separator}$localTestPlaylistTitle";
+      String savedTestPlaylistDir =
+          "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_download_playlist_including_live_video";
+
+      final Directory directory = Directory(localTestPlaylistDir);
+
+      // necessary in case the previous test failed and so did not
+      // delete the its playlist dir
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
+
+      await DirUtil.createDirIfNotExist(pathStr: localTestPlaylistDir);
+
+      // Copying the initial local playlist json file with no audio
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath: savedTestPlaylistDir,
+        destinationRootPath: kDownloadAppTestDir,
+      );
+
+
+      final WarningMessageVM warningMessageVM = WarningMessageVM();
+      final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+      Playlist downloadedPlaylistBeforeDownload =
+          audioDownloadVMbeforeDownload.listOfPlaylist[0];
+
+      // Verifying the data of the copied playlist before downloading
+      // the playlist
+
+      checkDownloadedPlaylist(
+        downloadedPlaylist: downloadedPlaylistBeforeDownload,
+        playlistId: globalTestPlaylistId,
+        playlistTitle: globalTestPlaylistTitle,
+        playlistUrl: globalTestPlaylistUrl,
+        playlistDir: globalTestPlaylistDir,
+      );
+
+      List<Audio> downloadedAudioLstBeforeDownload =
+          downloadedPlaylistBeforeDownload.downloadedAudioLst;
+      List<Audio> playableAudioLstBeforeDownload =
+          downloadedPlaylistBeforeDownload.playableAudioLst;
+
+      expect(downloadedAudioLstBeforeDownload.length, 1);
+      expect(playableAudioLstBeforeDownload.length, 1);
+
+      // Checking the data of the audio contained in the downloaded
+      // audio list
+      checkPlaylistAudioTwo(
+        downloadedAudioTwo: downloadedAudioLstBeforeDownload[0],
+        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
+      );
+
+      // Checking the data of the audio contained in the playable
+      // audio list
+      checkPlaylistAudioTwo(
+        downloadedAudioTwo: playableAudioLstBeforeDownload[0],
+        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
+      );
+
+      // await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (BuildContext context) {
+          final WarningMessageVM warningMessageVM = WarningMessageVM();
+          audioDownloadVM = AudioDownloadVM(
+            warningMessageVM: warningMessageVM,
+            isTest: true,
+          );
+          return audioDownloadVM;
+        },
+        child: MaterialApp(
+          // forcing dark theme
+          theme: ScreenMixin.themeDataDark,
+          home: const DownloadPlaylistPage(
+            playlistUrl: globalTestPlaylistUrl,
+          ),
+        ),
+      ));
+
+      // tapping on the downl playlist button in the app which calls the
+      // AudioDownloadVM.downloadPlaylistAudios() method
+      await tester.tap(find.byKey(const Key('downloadPlaylistAudiosButton')));
+      await tester.pump();
+
+      // Add a delay to allow the download to finish. 5 seconds is ok
+      // when running the audio_download_vm_test only.
+      // Waiting 5 seconds only causes MissingPluginException
+      // 'No implementation found for method $method on channel $name'
+      // when all tsts are run. 7 seconds solve the problem.
+      await Future.delayed(const Duration(seconds: secondsDelay));
+      await tester.pump();
+
+      expect(directory.existsSync(), true);
+
+      // Verifying the data of the playlist after downloading it
+
+      Playlist downloadedPlaylist = audioDownloadVM.listOfPlaylist[0];
+
+      checkDownloadedPlaylist(
+        downloadedPlaylist: downloadedPlaylist,
+        playlistId: globalTestPlaylistId,
+        playlistTitle: globalTestPlaylistTitle,
+        playlistUrl: globalTestPlaylistUrl,
+        playlistDir: globalTestPlaylistDir,
+      );
+
+      // this check fails if the secondsDelay value is too small
+      expect(audioDownloadVM.isDownloading, false);
+
+      expect(audioDownloadVM.downloadProgress, 1.0);
+      expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
+      expect(audioDownloadVM.isHighQuality, false);
+
+      // downloadedAudioLst contains added Audio's
+      checkPlaylistDownloadedAudios(
+        downloadedAudioOne: downloadedPlaylist.downloadedAudioLst[1],
+        downloadedAudioTwo: downloadedPlaylist.downloadedAudioLst[0],
+        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
+      );
+
+      // playableAudioLst contains Audio's inserted at list start
+      checkPlaylistDownloadedAudios(
+        downloadedAudioOne: downloadedPlaylist.playableAudioLst[0],
+        downloadedAudioTwo: downloadedPlaylist.playableAudioLst[1],
+        audioOneFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+        audioTwoFileNamePrefix: existingAudioDateOnlyFileNamePrefix,
+      );
+
+      // Checking if there are 3 files in the directory (1 mp3 and 1 json)
+      final List<FileSystemEntity> files =
+          directory.listSync(recursive: false, followLinks: false);
+
+      expect(files.length, 2);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
   });
   group('Download short audio of 1 single video', () {
     testWidgets('Local playlist containing no audio',
@@ -481,7 +628,7 @@ void main() {
       // Waiting 5 seconds only causes MissingPluginException
       // 'No implementation found for method $method on channel $name'
       // when all tsts are run. 7 seconds solve the problem.
-      await Future.delayed(Duration(seconds: (secondsDelay * 1.5).round()));
+      await Future.delayed(Duration(seconds: (secondsDelay * 2.5).round()));
       await tester.pump();
 
       Playlist singleVideoDownloadedPlaylist =
