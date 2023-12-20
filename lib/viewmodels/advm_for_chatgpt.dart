@@ -112,194 +112,6 @@ class AudioDownloadVM extends ChangeNotifier {
 //                       by the _listOfPlaylist changes
   }
 
-  Future<Playlist?> addPlaylist({
-    String playlistUrl = '',
-    String localPlaylistTitle = '',
-    required PlaylistQuality playlistQuality,
-  }) async {
-    return addPlaylistCallableByMock(
-      playlistUrl: playlistUrl,
-      localPlaylistTitle: localPlaylistTitle,
-      playlistQuality: playlistQuality,
-    );
-  }
-
-  void deletePlaylist({
-    required Playlist playlistToDelete,
-  }) {
-    _listOfPlaylist
-        .removeWhere((playlist) => playlist.id == playlistToDelete.id);
-
-    DirUtil.deleteDirIfExist(playlistToDelete.downloadPath);
-
-    notifyListeners();
-  }
-
-  /// The MockAudioDownloadVM exists because when
-  /// executing integration tests, using YoutubeExplode
-  /// to get a Youtube playlist in order to obtain the
-  /// playlist title is not possible, the
-  /// {mockYoutubePlaylistTitle} is passed to the method if
-  /// the method is called by the MockAudioDownloadVM.
-  ///
-  /// This method has been created in order for the
-  /// MockAudioDownloadVM addPlaylist() method to be able
-  /// to use the AudioDownloadVM.addPlaylist() logic.
-  ///
-  /// Additionally, since the method is called by the
-  /// AudioDownloadVM, it contains the logic to add a
-  /// playlist and so, if this logic is modified, it
-  /// will be modified in only one place and will be
-  /// applied to the MockAudioDownloadVM as well and so
-  /// will tested by the integration test.
-  Future<Playlist?> addPlaylistCallableByMock({
-    String playlistUrl = '',
-    String localPlaylistTitle = '',
-    required PlaylistQuality playlistQuality,
-    String? mockYoutubePlaylistTitle,
-  }) async {
-    Playlist addedPlaylist;
-
-    // those two variables are used by the
-    // ExpandablePlaylistListView UI to show a message
-    warningMessageVM.updatedPlaylistTitle = '';
-
-    if (localPlaylistTitle.isNotEmpty) {
-      // handling creation of a local playlist
-
-      addedPlaylist = Playlist(
-        id: localPlaylistTitle, // necessary since the id is used to
-        //                         identify the playlist in the list
-        //                         of playlist
-        title: localPlaylistTitle,
-        playlistType: PlaylistType.local,
-        playlistQuality: playlistQuality,
-      );
-
-      await _setPlaylistPath(
-        playlistTitle: localPlaylistTitle,
-        playlist: addedPlaylist,
-      );
-
-      JsonDataService.saveToFile(
-        model: addedPlaylist,
-        path: addedPlaylist.getPlaylistDownloadFilePathName(),
-      );
-
-      // if the local playlist is not added to the list of
-      // playlist, then it will not be displayed at the end
-      // of the list of playlist in the UI ! This is because
-      // ExpandablePlaylistListVM.getUpToDateSelectablePlaylists()
-      // obtains the list of playlist from the AudioDownloadVM.
-      _listOfPlaylist.add(addedPlaylist);
-      warningMessageVM.setAddPlaylist(
-        playlistTitle: localPlaylistTitle,
-        playlistQuality: playlistQuality,
-      );
-
-      return addedPlaylist;
-    } else if (!playlistUrl.contains('list=')) {
-      // the case if the url is a video url and the user
-      // clicked on the Add button instead of the Download
-      // button or if the String pasted to the url text field
-      // is not a valid Youtube playlist url.
-      warningMessageVM.invalidPlaylistUrl = playlistUrl;
-
-      return null;
-    } else {
-      // handling creation of a Youtube playlist
-
-      // get Youtube playlist
-      String? playlistId;
-      yt.Playlist youtubePlaylist;
-
-      _youtubeExplode ??= yt.YoutubeExplode();
-
-      playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
-
-      if (playlistId == null) {
-        // the case if the String pasted to the url text field
-        // is not a valid Youtube playlist url.
-        warningMessageVM.invalidPlaylistUrl = playlistUrl;
-
-        return null;
-      }
-
-      String playlistTitle;
-
-      if (mockYoutubePlaylistTitle == null) {
-        // the method is called by AudioDownloadVM.addPlaylist()
-        try {
-          youtubePlaylist = await _youtubeExplode!.playlists.get(playlistId);
-        } on SocketException catch (e) {
-          notifyDownloadError(
-            errorType: ErrorType.noInternet,
-            errorArgOne: e.toString(),
-          );
-
-          return null;
-        } catch (e) {
-          warningMessageVM.invalidPlaylistUrl = playlistUrl;
-
-          return null;
-        }
-
-        playlistTitle = youtubePlaylist.title;
-      } else {
-        // the method is called by MockAudioDownloadVM.addPlaylist()
-        playlistTitle = mockYoutubePlaylistTitle;
-      }
-
-      int playlistIndex = _listOfPlaylist
-          .indexWhere((playlist) => playlist.title == playlistTitle);
-
-      if (playlistIndex != -1) {
-        // This means that the playlist was not added, but
-        // that its url was updated. The case when a new
-        // playlist with the same title is created in order
-        // to replace the old one which contains too many
-        // audios.
-        Playlist updatedPlaylist = _listOfPlaylist[playlistIndex];
-        updatedPlaylist.url = playlistUrl;
-        updatedPlaylist.id = playlistId;
-        warningMessageVM.updatedPlaylistTitle = playlistTitle;
-
-        JsonDataService.saveToFile(
-          model: updatedPlaylist,
-          path: updatedPlaylist.getPlaylistDownloadFilePathName(),
-        );
-
-        // since the playlist was not added, but updated, null
-        // is returned to avoid that the playlist is added to
-        // the orderedTitleLst in the SettingsDataService json
-        // file, which will cause a bug when filtering audios
-        // of a playlist
-        return null;
-      }
-
-      // Adding the playlist to the application
-
-      addedPlaylist = await _addPlaylistIfNotExist(
-        playlistUrl: playlistUrl,
-        playlistQuality: playlistQuality,
-        playlistTitle: playlistTitle,
-        playlistId: playlistId,
-      );
-
-      JsonDataService.saveToFile(
-        model: addedPlaylist,
-        path: addedPlaylist.getPlaylistDownloadFilePathName(),
-      );
-    }
-
-    warningMessageVM.setAddPlaylist(
-      playlistTitle: addedPlaylist.title,
-      playlistQuality: playlistQuality,
-    );
-
-    return addedPlaylist;
-  }
-
   /// Downloads the audio of the videos referenced in the passed
   /// playlist.
   Future<void> downloadPlaylistAudios({
@@ -474,64 +286,6 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  void renameAudioFile({
-    required Audio audio,
-    required String modifiedAudioFileName,
-  }) {
-    if (audio.audioFileName == modifiedAudioFileName) {
-      return;
-    }
-
-    if (!DirUtil.renameFile(
-      fileToRenameFilePathName: audio.filePathName,
-      newFileName: modifiedAudioFileName,
-    )) {
-      return;
-    }
-
-    Playlist enclosingPlaylist = audio.enclosingPlaylist!;
-    enclosingPlaylist.renameDownloadedAndPlayableAudioFile(
-      oldFileName: audio.audioFileName,
-      newFileName: modifiedAudioFileName,
-    );
-
-    JsonDataService.saveToFile(
-      model: enclosingPlaylist,
-      path: enclosingPlaylist.getPlaylistDownloadFilePathName(),
-    );
-
-    notifyListeners();
-  }
-
-  /// Since currently only one playlist is selectable, if the playlist
-  /// selection status is changed, the playlist json file will be
-  /// updated.
-  void updatePlaylistSelection({
-    required String playlistId,
-    required bool isPlaylistSelected,
-  }) {
-    Playlist playlist =
-        _listOfPlaylist.firstWhere((element) => element.id == playlistId);
-
-    bool isPlaylistSelectionChanged = playlist.isSelected != isPlaylistSelected;
-
-    if (isPlaylistSelectionChanged) {
-      playlist.isSelected = isPlaylistSelected;
-
-      // if the playlist is selected, the audio quality checkbox will be
-      // checked or not according to the selected playlist quality
-      if (isPlaylistSelected) {
-        isHighQuality = playlist.playlistQuality == PlaylistQuality.music;
-      }
-
-      // saving the playlist since its isSelected property has been updated
-      JsonDataService.saveToFile(
-        model: playlist,
-        path: playlist.getPlaylistDownloadFilePathName(),
-      );
-    }
-  }
-
   notifyDownloadError({
     required ErrorType errorType,
     String? errorArgOne,
@@ -605,345 +359,6 @@ class AudioDownloadVM extends ChangeNotifier {
     isHighQuality = isHighQuality;
 
     notifyListeners();
-  }
-
-  /// {singleVideoTargetPlaylist} is the playlist to which the single
-  /// video will be added.
-  ///
-  /// If the audio of the single video is correctly downloaded and
-  /// is added to a playlist, then true is returned, false otherwise.
-  ///
-  /// Returning true will cause the single video url text field to be
-  /// cleared.
-  Future<bool> downloadSingleVideoAudio({
-    required String videoUrl,
-    required Playlist singleVideoTargetPlaylist,
-  }) async {
-    _audioDownloadError = false;
-    _stopDownloadPressed = false;
-    _youtubeExplode ??= yt.YoutubeExplode();
-
-    yt.VideoId? videoId = _getVideoId(videoUrl);
-
-    if (videoId == null) {
-      return false;
-    }
-
-    yt.Video youtubeVideo;
-
-    try {
-      youtubeVideo = await _youtubeExplode!.videos.get(videoId);
-    } on SocketException catch (e) {
-      notifyDownloadError(
-        errorType: ErrorType.noInternet,
-        errorArgOne: e.toString(),
-      );
-
-      return false;
-    } catch (e) {
-      notifyDownloadError(
-        errorType: ErrorType.downloadAudioYoutubeError,
-        errorArgOne: e.toString(),
-      );
-
-      return false;
-    }
-
-    final Duration? audioDuration = youtubeVideo.duration;
-    DateTime? videoUploadDate = youtubeVideo.uploadDate;
-
-    videoUploadDate ??= DateTime(00, 1, 1);
-
-    String compactVideoDescription = _createCompactVideoDescription(
-      videoDescription: youtubeVideo.description,
-      videoAuthor: youtubeVideo.author,
-    );
-
-    final Audio audio = Audio(
-      enclosingPlaylist: singleVideoTargetPlaylist,
-      originalVideoTitle: youtubeVideo.title,
-      compactVideoDescription: compactVideoDescription,
-      videoUrl: youtubeVideo.url,
-      audioDownloadDateTime: DateTime.now(),
-      videoUploadDate: videoUploadDate,
-      audioDuration: audioDuration!,
-    );
-
-    final List<String> downloadedAudioFileNameLst = DirUtil.listFileNamesInDir(
-      path: singleVideoTargetPlaylist.downloadPath,
-      extension: 'mp3',
-    );
-
-    try {
-      String existingAudioFileName = downloadedAudioFileNameLst
-          .firstWhere((fileName) => fileName.contains(audio.validVideoTitle));
-      notifyDownloadError(
-        errorType: ErrorType.downloadAudioFileAlreadyOnAudioDirectory,
-        errorArgOne: audio.validVideoTitle,
-        errorArgTwo: existingAudioFileName,
-        errorArgThree: singleVideoTargetPlaylist.title,
-      );
-
-      return false;
-    } catch (_) {
-      // file was not found in the downloaded audio directory
-    }
-
-    Stopwatch stopwatch = Stopwatch()..start();
-
-    if (!_isDownloading) {
-      _isDownloading = true;
-
-      notifyListeners();
-    }
-
-    try {
-      await _downloadAudioFile(
-        youtubeVideoId: youtubeVideo.id,
-        audio: audio,
-      );
-    } catch (e) {
-      _youtubeExplode!.close();
-      _youtubeExplode = null;
-
-      notifyDownloadError(
-        errorType: ErrorType.downloadAudioYoutubeError,
-        errorArgOne: e.toString(),
-      );
-
-      return false;
-    }
-
-    stopwatch.stop();
-
-    audio.downloadDuration = stopwatch.elapsed;
-    _isDownloading = false;
-    _youtubeExplode!.close();
-    _youtubeExplode = null;
-
-    singleVideoTargetPlaylist.addDownloadedAudio(audio);
-
-    // fixed bug which caused the playlist including the single
-    // video audio to be not saved and so the audio was not
-    // displayed in the playlist after restarting the app
-    JsonDataService.saveToFile(
-      model: singleVideoTargetPlaylist,
-      path: singleVideoTargetPlaylist.getPlaylistDownloadFilePathName(),
-    );
-
-    notifyListeners();
-
-    return true;
-  }
-
-  yt.VideoId? _getVideoId(String videoUrl) {
-    yt.VideoId? videoId;
-
-    try {
-      videoId = yt.VideoId(videoUrl);
-    } on SocketException catch (e) {
-      notifyDownloadError(
-        errorType: ErrorType.noInternet,
-        errorArgOne: e.toString(),
-      );
-    
-      videoId = null;
-    } catch (e) {
-      // since trying to get the video id from the live video url failed,
-      // the url is modified to its value when the video is referenced
-      // in a playlist
-      videoUrl = videoUrl.replaceFirst('youtube.com/live', 'youtu.be');
-      try {
-        videoId = yt.VideoId(videoUrl);
-      } catch (_) {
-        warningMessageVM.isSingleVideoUrlInvalid = true;
-      videoId = null;
-      }
-    }
-    
-    return videoId;
-  }
-
-  /// This method verifies if the user selected a single playlist
-  /// to download a single video audio. If the user selected more
-  /// than one playlistor if the user did not select any playlist,
-  /// then a warning message is displayed.
-  Playlist? obtainSingleVideoPlaylist(List<Playlist> selectedPlaylists) {
-    if (selectedPlaylists.length == 1) {
-      return selectedPlaylists[0];
-    } else if (selectedPlaylists.isEmpty) {
-      warningMessageVM.isNoPlaylistSelectedForSingleVideoDownload = true;
-      return null;
-    } else {
-      warningMessageVM.isTooManyPlaylistSelectedForSingleVideoDownload = true;
-      return null;
-    }
-  }
-
-  void moveAudioToPlaylist({
-    required Audio audio,
-    required Playlist targetPlaylist,
-    required bool keepAudioDataInSourcePlaylist,
-  }) {
-    Playlist fromPlaylist = audio.enclosingPlaylist!;
-
-    bool wasFileMoved = DirUtil.moveFileToDirectoryIfNotExistSync(
-      sourceFilePathName: audio.filePathName,
-      targetDirectoryPath: targetPlaylist.downloadPath,
-    );
-
-    if (!wasFileMoved) {
-      warningMessageVM.setAudioNotMovedFromToPlaylistTitles(
-          movedAudioValidVideoTitle: audio.validVideoTitle,
-          movedFromPlaylistTitle: fromPlaylist.title,
-          movedToPlaylistTitle: targetPlaylist.title);
-
-      return;
-    }
-
-    if (keepAudioDataInSourcePlaylist) {
-      // Keeping audio data in source playlist downloadedAudioLst
-      // means that the audio will not be redownloaded if the
-      // Download All is applyed to the source playlist. But since
-      // the audio is moved to the target playlist, it has to
-      // be removed from the source playlist playableAudioLst.
-      fromPlaylist.removeDownloadedAudioFromPlayableAudioLstOnly(
-        downloadedAudio: audio,
-      );
-      fromPlaylist.setMovedAudioToPlaylistTitle(
-        movedAudio: audio,
-        movedToPlaylistTitle: targetPlaylist.title,
-      );
-    } else {
-      fromPlaylist.removeDownloadedAudioFromDownloadAndPlayableAudioLst(
-        downloadedAudio: audio,
-      );
-    }
-
-    targetPlaylist.addMovedAudio(
-      movedAudio: audio,
-      movedFromPlaylistTitle: fromPlaylist.title,
-    );
-
-    JsonDataService.saveToFile(
-      model: fromPlaylist,
-      path: fromPlaylist.getPlaylistDownloadFilePathName(),
-    );
-
-    JsonDataService.saveToFile(
-      model: targetPlaylist,
-      path: targetPlaylist.getPlaylistDownloadFilePathName(),
-    );
-
-    warningMessageVM.setAudioMovedFromToPlaylistTitles(
-        movedAudioValidVideoTitle: audio.validVideoTitle,
-        movedFromPlaylistTitle: fromPlaylist.title,
-        movedFromPlaylistType: fromPlaylist.playlistType,
-        movedToPlaylistTitle: targetPlaylist.title,
-        movedToPlaylistType: targetPlaylist.playlistType,
-        keepAudioDataInSourcePlaylist: keepAudioDataInSourcePlaylist);
-  }
-
-  void copyAudioToPlaylist({
-    required Audio audio,
-    required Playlist targetPlaylist,
-  }) {
-    bool wasFileCopied = DirUtil.copyFileToDirectorySync(
-      sourceFilePathName: audio.filePathName,
-      targetDirectoryPath: targetPlaylist.downloadPath,
-    );
-
-    Playlist fromPlaylist = audio.enclosingPlaylist!;
-    String fromPlaylistTitle = fromPlaylist.title;
-
-    if (!wasFileCopied) {
-      warningMessageVM.setAudioNotCopiedFromToPlaylistTitles(
-          copiedAudioValidVideoTitle: audio.validVideoTitle,
-          copiedFromPlaylistTitle: fromPlaylistTitle,
-          copiedToPlaylistTitle: targetPlaylist.title);
-
-      return;
-    }
-
-    // Creating a copy of the audio to be copied so that the
-    // original audio will not be modified by this method.
-    targetPlaylist.addCopiedAudio(
-      copiedAudio: audio,
-      copiedFromPlaylistTitle: fromPlaylistTitle,
-    );
-
-    fromPlaylist.setCopiedAudioToPlaylistTitle(
-      copiedAudio: audio,
-      copiedToPlaylistTitle: targetPlaylist.title,
-    );
-
-    JsonDataService.saveToFile(
-      model: fromPlaylist,
-      path: fromPlaylist.getPlaylistDownloadFilePathName(),
-    );
-
-    JsonDataService.saveToFile(
-      model: targetPlaylist,
-      path: targetPlaylist.getPlaylistDownloadFilePathName(),
-    );
-
-    warningMessageVM.setAudioCopiedFromToPlaylistTitles(
-        copiedAudioValidVideoTitle: audio.validVideoTitle,
-        copiedFromPlaylistTitle: fromPlaylistTitle,
-        copiedFromPlaylistType: fromPlaylist.playlistType,
-        copiedToPlaylistTitle: targetPlaylist.title,
-        copiedToPlaylistType: targetPlaylist.playlistType);
-  }
-
-  /// Physically deletes the audio file from the audio playlist
-  /// directory and removes the audio reference from the playlist
-  /// playable audio list.
-  void deleteAudioMp3({
-    required Audio audio,
-  }) {
-    DirUtil.deleteFileIfExist(audio.filePathName);
-
-    // since the audio mp3 file has been deleted, the audio is no
-    // longer in the playlist playable audio list
-    audio.enclosingPlaylist!.removePlayableAudio(
-      playableAudio: audio,
-    );
-  }
-
-  /// User selected the audio menu item "Delete audio from
-  /// playlist aswell". This method physically deletes the audio
-  /// file from the audio playlist directory as well as deleting
-  /// the audio reference from the playlist downloaded audio list
-  /// and from the playlist playable audio list. This means that
-  /// the playlist json file is modified.
-  void deleteAudioFromPlaylistAswell({
-    required Audio audio,
-  }) {
-    DirUtil.deleteFileIfExist(audio.filePathName);
-
-    Playlist? enclosingPlaylist = audio.enclosingPlaylist;
-
-    enclosingPlaylist!.removeDownloadedAudioFromDownloadAndPlayableAudioLst(
-      downloadedAudio: audio,
-    );
-
-    JsonDataService.saveToFile(
-      model: enclosingPlaylist,
-      path: enclosingPlaylist.getPlaylistDownloadFilePathName(),
-    );
-
-    if (enclosingPlaylist.playlistType == PlaylistType.youtube) {
-      if (audio.movedFromPlaylistTitle == null &&
-          audio.copiedFromPlaylistTitle == null) {
-        // the case if the audio was not moved or copied from
-        // another playlist, but was downloaded from the
-        // Youtube playlist
-        warningMessageVM.setDeleteAudioFromPlaylistAswellTitle(
-            deleteAudioFromPlaylistAswellTitle: enclosingPlaylist.title,
-            deleteAudioFromPlaylistAswellAudioVideoTitle:
-                audio.originalVideoTitle);
-      }
-    }
   }
 
   /// Method called by ExpandablePlaylistVM when the user selects the update playlist
@@ -1241,74 +656,166 @@ class AudioDownloadVM extends ChangeNotifier {
 
     return chapters;
   }
-}
-
-void main() {
-  WarningMessageVM warningMessageVM = WarningMessageVM();
-  AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-    warningMessageVM: warningMessageVM,
-  );
-
-  String videoDescription = '''Ma chaîne YouTube principale
-  https://www.youtube.com/@LeFuturologue
 
 
-  ME SOUTENIR FINANCIÈREMENT :
-
-  Sur Tipeee
-  https://fr.tipeee.com/le-futurologue
-  Sur PayPal
-  https://www.paypal.com/donate/?hosted_button_id=BBXFGSM5D5WQS
-  Sur Patreon
-  https://patreon.com/LeFuturologue
 
 
-  MES VIDÉOS COURTES :
 
-  Sur YouTube 
-  https://youtube.com/@LeFuturologue/shorts
-  Sur Instagram
-  https://www.instagram.com/le.futurologue/
-  Sur TikTok
-  https://www.tiktok.com/@le.futurologue
+  /// {singleVideoTargetPlaylist} is the playlist to which the single
+  /// video will be added.
+  ///
+  /// If the audio of the single video is correctly downloaded and
+  /// is added to a playlist, then true is returned, false otherwise.
+  ///
+  /// Returning true will cause the single video url text field to be
+  /// cleared.
+  Future<bool> downloadSingleVideoAudio({
+    required String videoUrl,
+    required Playlist singleVideoTargetPlaylist,
+  }) async {
+    _audioDownloadError = false;
+    _stopDownloadPressed = false;
+    _youtubeExplode ??= yt.YoutubeExplode();
 
+    yt.VideoId? videoId = _getVideoId(videoUrl);
 
-  TIME CODE :
+    if (videoId == null) {
+      return false;
+    }
 
-  0:00 Introduction
-  1:37 Qui es-tu ?
-  3:29 Les IA vont-elles tous nous mettre au chômage ?
-  21:01 Faut-il mettre les IA en open source ? 
-  48:05 Comment fonctionne les agents ?
-  1:14:31 Définition de l’IA autonome, de l’IA générale et de la super IA
-  1:41:23 Que manque-t-il pour avoir une AGI ?
-  1:57:23 À quel point faut-il avoir peur de L’IA ?
-  2:04:36 Les meilleurs arguments de ceux qui ne croient pas aux risques existentiels des AGI 
-  2:11:48 Y aura-t-il plusieurs AGI ?
-  2:14:06 Est-ce que l’explosion d’intelligence sera rapide ? 
-  2:22:37 Quels impacts aurait une IA qui devient consciente ?
-  2:53:18 Quelle est la probabilité qu’on arrive à aligner une AGI avant qu’on en crée une ?
-  3:09:54 Ressources pour aller plus loin
-  3:11:57 Un message pour l’humanité 
+    yt.Video youtubeVideo;
 
+    try {
+      youtubeVideo = await _youtubeExplode!.videos.get(videoId);
+    } on SocketException catch (e) {
+      notifyDownloadError(
+        errorType: ErrorType.noInternet,
+        errorArgOne: e.toString(),
+      );
 
-  RESSOURCES MENTIONNÉES :
+      return false;
+    } catch (e) {
+      notifyDownloadError(
+        errorType: ErrorType.downloadAudioYoutubeError,
+        errorArgOne: e.toString(),
+      );
 
-  La chaîne YouTube de Jérémy
-  https://youtube.com/@suboptimalchannel9704
-  Le Twitter de Jérémy
-  https://twitter.com/suboptimalc?s=21&t=KiEIZQwoZSOhseL0LUGLpg
-  L’organisation « EffiSciences »
-  https://www.effisciences.org/
+      return false;
+    }
 
-  ChatGPT''';
+    final Duration? audioDuration = youtubeVideo.duration;
+    DateTime? videoUploadDate = youtubeVideo.uploadDate;
 
-  Map<String, String> chapters = audioDownloadVM.getVideoDescriptionChapters(
-    videoDescription: videoDescription,
-  );
+    videoUploadDate ??= DateTime(00, 1, 1);
 
-  // Print the chapters.
-  for (var chapter in chapters.entries) {
-    print('${chapter.key}: ${chapter.value}');
+    String compactVideoDescription = _createCompactVideoDescription(
+      videoDescription: youtubeVideo.description,
+      videoAuthor: youtubeVideo.author,
+    );
+
+    final Audio audio = Audio(
+      enclosingPlaylist: singleVideoTargetPlaylist,
+      originalVideoTitle: youtubeVideo.title,
+      compactVideoDescription: compactVideoDescription,
+      videoUrl: youtubeVideo.url,
+      audioDownloadDateTime: DateTime.now(),
+      videoUploadDate: videoUploadDate,
+      audioDuration: audioDuration!,
+    );
+
+    final List<String> downloadedAudioFileNameLst = DirUtil.listFileNamesInDir(
+      path: singleVideoTargetPlaylist.downloadPath,
+      extension: 'mp3',
+    );
+
+    try {
+      String existingAudioFileName = downloadedAudioFileNameLst
+          .firstWhere((fileName) => fileName.contains(audio.validVideoTitle));
+      notifyDownloadError(
+        errorType: ErrorType.downloadAudioFileAlreadyOnAudioDirectory,
+        errorArgOne: audio.validVideoTitle,
+        errorArgTwo: existingAudioFileName,
+        errorArgThree: singleVideoTargetPlaylist.title,
+      );
+
+      return false;
+    } catch (_) {
+      // file was not found in the downloaded audio directory
+    }
+
+    Stopwatch stopwatch = Stopwatch()..start();
+
+    if (!_isDownloading) {
+      _isDownloading = true;
+
+      notifyListeners();
+    }
+
+    try {
+      await _downloadAudioFile(
+        youtubeVideoId: youtubeVideo.id,
+        audio: audio,
+      );
+    } catch (e) {
+      _youtubeExplode!.close();
+      _youtubeExplode = null;
+
+      notifyDownloadError(
+        errorType: ErrorType.downloadAudioYoutubeError,
+        errorArgOne: e.toString(),
+      );
+
+      return false;
+    }
+
+    stopwatch.stop();
+
+    audio.downloadDuration = stopwatch.elapsed;
+    _isDownloading = false;
+    _youtubeExplode!.close();
+    _youtubeExplode = null;
+
+    singleVideoTargetPlaylist.addDownloadedAudio(audio);
+
+    // fixed bug which caused the playlist including the single
+    // video audio to be not saved and so the audio was not
+    // displayed in the playlist after restarting the app
+    JsonDataService.saveToFile(
+      model: singleVideoTargetPlaylist,
+      path: singleVideoTargetPlaylist.getPlaylistDownloadFilePathName(),
+    );
+
+    notifyListeners();
+
+    return true;
   }
+
+  yt.VideoId? _getVideoId(String videoUrl) {
+    yt.VideoId? videoId;
+
+    try {
+      videoId = yt.VideoId(videoUrl);
+    } on SocketException catch (e) {
+      notifyDownloadError(
+        errorType: ErrorType.noInternet,
+        errorArgOne: e.toString(),
+      );
+    
+      videoId = null;
+    } catch (e) {
+      // since trying to get the video id from the live video url failed,
+      // the url is modified to its value when the video is referenced
+      // in a playlist
+      videoUrl = videoUrl.replaceFirst('youtube.com/live', 'youtu.be');
+      try {
+        videoId = yt.VideoId(videoUrl);
+      } catch (_) {
+        warningMessageVM.isSingleVideoUrlInvalid = true;
+      videoId = null;
+      }
+    }
+    
+    return videoId;
+  }
+
 }
