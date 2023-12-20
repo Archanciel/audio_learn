@@ -623,29 +623,10 @@ class AudioDownloadVM extends ChangeNotifier {
     _stopDownloadPressed = false;
     _youtubeExplode ??= yt.YoutubeExplode();
 
-    yt.VideoId videoId;
+    yt.VideoId? videoId = getVideoId(videoUrl);
 
-    try {
-      videoId = yt.VideoId(videoUrl);
-    } on SocketException catch (e) {
-      notifyDownloadError(
-        errorType: ErrorType.noInternet,
-        errorArgOne: e.toString(),
-      );
-
+    if (videoId == null) {
       return false;
-    } catch (e) {
-      // since trying to get the video id from the live video url failed,
-      // the url is modified to its value when the video is referenced
-      // in a playlist
-      videoUrl = videoUrl.replaceFirst('youtube.com/live', 'youtu.be');
-      try {
-        videoId = yt.VideoId(videoUrl);
-      } catch (_) {
-        warningMessageVM.isSingleVideoUrlInvalid = true;
-
-        return false;
-      }
     }
 
     yt.Video youtubeVideo;
@@ -753,6 +734,34 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
 
     return true;
+  }
+
+  yt.VideoId? getVideoId(String videoUrl) {
+    yt.VideoId? videoId;
+
+    try {
+      videoId = yt.VideoId(videoUrl);
+    } on SocketException catch (e) {
+      notifyDownloadError(
+        errorType: ErrorType.noInternet,
+        errorArgOne: e.toString(),
+      );
+    
+      videoId = null;
+    } catch (e) {
+      // since trying to get the video id from the live video url failed,
+      // the url is modified to its value when the video is referenced
+      // in a playlist
+      videoUrl = videoUrl.replaceFirst('youtube.com/live', 'youtu.be');
+      try {
+        videoId = yt.VideoId(videoUrl);
+      } catch (_) {
+        warningMessageVM.isSingleVideoUrlInvalid = true;
+      videoId = null;
+      }
+    }
+    
+    return videoId;
   }
 
   /// This method verifies if the user selected a single playlist
