@@ -413,6 +413,134 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    testWidgets(
+        'Download live single video in local playlist containing no audio',
+        (WidgetTester tester) async {
+      late AudioDownloadVM audioDownloadVM;
+      String localTestPlaylistTitle =
+          'audio_learn_download_single_video_to_empty_local_playlist_test';
+      String localTestPlaylistDir =
+          "$kDownloadAppTestDir${path.separator}$localTestPlaylistTitle";
+      String savedTestPlaylistDir =
+          "$kDownloadAppTestSavedDataDir${path.separator}$localTestPlaylistTitle";
+
+      final Directory directory = Directory(localTestPlaylistDir);
+
+      // necessary in case the previous test failed and so did not
+      // delete the its playlist dir
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
+
+      await DirUtil.createDirIfNotExist(pathStr: localTestPlaylistDir);
+
+      // Copying the initial local playlist json file with no audio
+      await DirUtil.copyFileToDirectory(
+        sourceFilePathName:
+            "$savedTestPlaylistDir${path.separator}$localTestPlaylistTitle.json",
+        targetDirectoryPath: localTestPlaylistDir,
+      );
+
+      // await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (BuildContext context) {
+          final WarningMessageVM warningMessageVM = WarningMessageVM();
+          audioDownloadVM = AudioDownloadVM(
+            warningMessageVM: warningMessageVM,
+            isTest: true,
+          );
+          return audioDownloadVM;
+        },
+        child: MaterialApp(
+          // forcing dark theme
+          theme: ScreenMixin.themeDataDark,
+          home: const DownloadPlaylistPage(
+            playlistUrl: globalTestPlaylistUrl,
+          ),
+        ),
+      ));
+
+      // String singleVideoUrl =
+      //     'https://www.youtube.com/live/ydYDqZQpim8?si=K06aLnKFN8L1CvML';
+      // String singleVideoUrl = 'https://www.youtube.com/live/fPd7Ys7FC0I?si=fGasoHdks3f1j-Ij';
+      // String singleVideoUrl =
+      // 'https://youtu.be/-XBKYsepG7g?si=kX1baCRYV-GkRBA-';
+      String singleVideoUrl =
+          'https://www.youtube.com/live/5ysUySSNW3M?si=bD41jg1hFh_OwMl5';
+
+      await tester.enterText(
+        find.byKey(const Key('playlistUrlTextField')),
+        singleVideoUrl,
+      );
+
+      // tapping on the downl single video button in the app which
+      // calls the AudioDownloadVM.downloadPlaylistAudios() method
+      await tester.tap(find.byKey(const Key('downloadSingleVideoAudioButton')));
+      await tester.pump();
+
+      // Add a delay to allow the download to finish. 5 seconds is ok
+      // when running the audio_download_vm_test only.
+      // Waiting 5 seconds only causes MissingPluginException
+      // 'No implementation found for method $method on channel $name'
+      // when all tsts are run. 7 seconds solve the problem.
+      await Future.delayed(Duration(seconds: (secondsDelay * 1.5).round()));
+      await tester.pump();
+
+      Playlist singleVideoDownloadedPlaylist =
+          audioDownloadVM.listOfPlaylist[0];
+
+      checkDownloadedPlaylist(
+        downloadedPlaylist: singleVideoDownloadedPlaylist,
+        playlistId: localTestPlaylistTitle,
+        playlistTitle: localTestPlaylistTitle,
+        playlistUrl: '',
+        playlistDir: localTestPlaylistDir,
+      );
+
+      // this check fails if the secondsDelay value is too small
+      expect(audioDownloadVM.isDownloading, false);
+
+      expect(audioDownloadVM.downloadProgress, 1.0);
+      expect(audioDownloadVM.lastSecondDownloadSpeed, 0);
+      expect(audioDownloadVM.isHighQuality, false);
+
+      // Checking the data of the audio contained in the downloaded
+      // audio list
+      checkPlaylistAudioLive(
+        downloadedAudioLive:
+            singleVideoDownloadedPlaylist.downloadedAudioLst[0],
+        audioLiveFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+      );
+
+      // Checking the data of the audio contained in the playable
+      // audio list
+      checkPlaylistAudioLive(
+        downloadedAudioLive: singleVideoDownloadedPlaylist.playableAudioLst[0],
+        audioLiveFileNamePrefix: todayDownloadDateOnlyFileNamePrefix,
+      );
+
+      // Checking if there are 2 files in the directory (1 mp3 and 1 json)
+      final List<FileSystemEntity> files =
+          directory.listSync(recursive: false, followLinks: false);
+
+      expect(files.length, 2);
+
+      // Checking if the playlist json file has been updated with the
+      // downloaded audio data
+
+      String playlistPathFileName =
+          '$localTestPlaylistDir${path.separator}$localTestPlaylistTitle.json';
+
+      Playlist loadedPlaylist = JsonDataService.loadFromFile(
+          jsonPathFileName: playlistPathFileName, type: Playlist);
+
+      compareDeserializedWithOriginalPlaylist(
+        deserializedPlaylist: loadedPlaylist,
+        originalPlaylist: singleVideoDownloadedPlaylist,
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
     testWidgets('Local playlist containing one audio',
         (WidgetTester tester) async {
       late AudioDownloadVM audioDownloadVM;
@@ -821,6 +949,37 @@ void checkPlaylistAudioTwo({
       true);
 
   expect(downloadedAudioTwo.audioFileSize, 61425);
+}
+
+void checkPlaylistAudioLive({
+  required Audio downloadedAudioLive,
+  required String audioLiveFileNamePrefix,
+}) {
+  expect(downloadedAudioLive.originalVideoTitle,
+      "Crise de l'eau, planète terre invivable ? Emma Haziza [EN DIRECT]");
+  expect(downloadedAudioLive.validVideoTitle,
+      "Crise de l'eau, planète terre invivable  Emma Haziza [EN DIRECT]");
+  expect(
+    downloadedAudioLive.compactVideoDescription,
+    "Thinkerview\n\nEmma Haziza est hydrologue, spécialiste de la résilience des territoires face aux risques climatiques extrêmes. Fondatrice de Mayane, centre de recherches appliquées dédié à l'adaptation climatique.\n\nSOUTENEZ-NOUS : ▶️ https://tipeee.com/thinkerview ...\n\nPOSEZ VOS, QUESTIONS EN, SOURCEZ, VERIFIEZ, LES FAITS, EN DIRECT, APPLICATION THINKERVIEW, ECOUTER EN, PODCAST AUDIO, Licence Creative, Commons Attribution, Mêmes Conditions, International. Mettre",
+  );
+  expect(downloadedAudioLive.videoUrl,
+      "https://www.youtube.com/watch?v=5ysUySSNW3M");
+  expect(
+      DateTimeParser.truncateDateTimeToDay(downloadedAudioLive.videoUploadDate),
+      DateTime.parse("2022-05-17"));
+  expect(
+      downloadedAudioLive.audioDuration, const Duration(milliseconds: 7540000));
+  expect(downloadedAudioLive.isMusicQuality, false);
+
+  String secondAudioFileName = downloadedAudioLive.audioFileName;
+  expect(
+      secondAudioFileName.contains(audioLiveFileNamePrefix) &&
+          secondAudioFileName.contains(
+              "Crise de l'eau, planète terre invivable  Emma Haziza [EN DIRECT] 22-05-17.mp3"),
+      true);
+
+  expect(downloadedAudioLive.audioFileSize, 45979689);
 }
 
 // Verify the values of the Audio's extracted from a playlist
