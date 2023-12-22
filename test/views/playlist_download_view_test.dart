@@ -254,6 +254,11 @@ class MockAppLocalizations extends AppLocalizations {
   }
 
   @override
+  String downloadAudioYoutubeErrorDueToLiveVideoInPlaylist(Object playlistTitle, Object liveVideoString) {
+    return 'Error downloading audio from Youtube. The playlist \"$playlistTitle\" contains a live video which causes the playlist audio downloading failure. To solve the problem, after having downloaded the audio of the live video as explained below, remove the live video from the playlist, then restart the application and retry.\n\nThe live video URL contains the following string: \"$liveVideoString\". In order to add the live video audio to the playlist \"$playlistTitle\", download it separately as single video download adding it to the playlist \"$playlistTitle\".';
+  }
+
+  @override
   String downloadAudioFileAlreadyOnAudioDirectory(Object audioValidVideoTitle, Object fileName, Object playlistTitle) {
     return 'Audio "$audioValidVideoTitle" is contained in file "$fileName" present in the "$playlistTitle" playlist directory and so won\'t be redownloaded.';
   }

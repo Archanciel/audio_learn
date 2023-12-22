@@ -78,6 +78,10 @@ enum ErrorType {
 
   downloadAudioYoutubeError, // In case of a Youtube error.
 
+  downloadAudioYoutubeErrorDueToLiveVideoInPlaylist, // In case of a
+  // Youtube error caused by the fact that the playlist contains a
+  // live video.
+
   downloadAudioFileAlreadyOnAudioDirectory, // In case the audio file
   // is already on the audio directory and will not be redownloaded.
 

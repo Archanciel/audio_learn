@@ -95,7 +95,7 @@ void main() {
       // when running the audio_download_vm_test only.
       // Waiting 5 seconds only causes MissingPluginException
       // 'No implementation found for method $method on channel $name'
-      // when all tsts are run. 7 seconds solve the problem.
+      // when all tsts are run. 10 seconds solve the problem.
       await Future.delayed(const Duration(seconds: secondsDelay));
       await tester.pump();
 
@@ -240,7 +240,7 @@ void main() {
       // when running the audio_download_vm_test only.
       // Waiting 5 seconds only causes MissingPluginException
       // 'No implementation found for method $method on channel $name'
-      // when all tsts are run. 7 seconds solve the problem.
+      // when all tsts are run. 10 seconds solve the problem.
       await Future.delayed(const Duration(seconds: secondsDelay));
       await tester.pump();
 
@@ -385,7 +385,7 @@ void main() {
       // when running the audio_download_vm_test only.
       // Waiting 5 seconds only causes MissingPluginException
       // 'No implementation found for method $method on channel $name'
-      // when all tsts are run. 7 seconds solve the problem.
+      // when all tsts are run. 10 seconds solve the problem.
       await Future.delayed(const Duration(seconds: secondsDelay));
       await tester.pump();
 
@@ -498,7 +498,7 @@ void main() {
       // when running the audio_download_vm_test only.
       // Waiting 5 seconds only causes MissingPluginException
       // 'No implementation found for method $method on channel $name'
-      // when all tsts are run. 7 seconds solve the problem.
+      // when all tsts are run. 10 seconds solve the problem.
       await Future.delayed(const Duration(seconds: secondsDelay));
       await tester.pump();
 
@@ -621,12 +621,10 @@ void main() {
       await tester.tap(find.byKey(const Key('downloadSingleVideoAudioButton')));
       await tester.pump();
 
-      // Add a delay to allow the download to finish. 5 seconds is ok
-      // when running the audio_download_vm_test only.
-      // Waiting 5 seconds only causes MissingPluginException
-      // 'No implementation found for method $method on channel $name'
-      // when all tsts are run. 7 seconds solve the problem.
-      await Future.delayed(Duration(seconds: (secondsDelay * 2.5).round()));
+      // Add a delay to allow the download to finish. Without this delay
+      // of 30 seconds, deleting files in the audio test directory fails^
+      // since the current test prevent deleting its files.
+      await Future.delayed(Duration(seconds: (secondsDelay * 3).round()));
       await tester.pump();
 
       Playlist singleVideoDownloadedPlaylist =
@@ -745,7 +743,7 @@ void main() {
       // when running the audio_download_vm_test only.
       // Waiting 5 seconds only causes MissingPluginException
       // 'No implementation found for method $method on channel $name'
-      // when all tsts are run. 7 seconds solve the problem.
+      // when all tsts are run. 10 seconds solve the problem.
       await Future.delayed(const Duration(seconds: secondsDelay));
       await tester.pump();
 
@@ -925,7 +923,7 @@ void main() {
       // when running the audio_download_vm_test only.
       // Waiting 5 seconds only causes MissingPluginException
       // 'No implementation found for method $method on channel $name'
-      // when all tsts are run. 7 seconds solve the problem.
+      // when all tsts are run. 10 seconds solve the problem.
       await Future.delayed(const Duration(seconds: secondsDelay));
       await tester.pump();
 

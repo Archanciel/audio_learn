@@ -56,6 +56,21 @@ class DisplayMessageWidget extends StatelessWidget {
             }
 
             return const SizedBox.shrink();
+          case ErrorType.downloadAudioYoutubeErrorDueToLiveVideoInPlaylist:
+            String playlistTitle = _warningMessageVM.errorArgOne;
+            String liveVideoString = _warningMessageVM.errorArgTwo;
+
+            if (liveVideoString.isNotEmpty) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _displayWarningDialog(
+                    context: _context,
+                    message: AppLocalizations.of(context)!
+                        .downloadAudioYoutubeErrorDueToLiveVideoInPlaylist(playlistTitle, liveVideoString),
+                    warningMessageVM: _warningMessageVM);
+              });
+            }
+
+            return const SizedBox.shrink();
           case ErrorType.noInternet:
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _displayWarningDialog(

@@ -110,6 +110,14 @@
       "exceptionMessage": {}
     }
   },
+  "downloadAudioYoutubeErrorDueToLiveVideoInPlaylist": "Erreur de téléchargement audio Youtube. La playlist \"{playlistTitle}\" contient une video live qui provoque l'échec du téléchargement des audios de la playlist. Pour résoudre le problème, après avoir téléchargé l'audio de la vidéo live comme expliqué ci-dessous, supprimez la vidéo live de la playlist puis redémarrez l'application et rééssayez.\n\nL'URL de la vidéo live contient cet élément: \"{liveVideoString}\". Afin d'ajouter l'audio de cette vidéo live à la playlist \"{playlistTitle}\", téléchargez-la séparément en tant que vidéo unique en l'ajoutant à playlist \"{playlistTitle}\".",
+  "@downloadAudioYoutubeErrorDueToLiveVideoInPlaylist": {
+    "description": "Message d'erreur affiché lorsqu'une erreur se produit lors du téléchargement audio Youtube à cause d'une vidéo live dans la playlist.",
+    "placeholders": {
+      "playlistTitle": {},
+      "liveVideoString": {}
+    }
+  },
   "downloadAudioFileAlreadyOnAudioDirectory": "L'audio \"{audioValidVideoTitle}\" est contenu dans le fichier \"{fileName}\" se trouvant dans le répertoire de la playlist cible \"{playlistTitle}\" et ne sera donc pas retéléchargé.",
   "noInternet": "Pas d'Internet. Connecte ton appareil et rééssaye.",
   "invalidSingleVideoUUrl": "L'URL \"{url}\" censée pointer sur une vidéo unique est invalide. Aucune vidéo n'a donc été téléchargée.",

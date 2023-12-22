@@ -376,8 +376,9 @@ class AudioDownloadVM extends ChangeNotifier {
       );
     } catch (e) {
       notifyDownloadError(
-        errorType: ErrorType.downloadAudioYoutubeError,
-        errorArgOne: e.toString(),
+        errorType: ErrorType.downloadAudioYoutubeErrorDueToLiveVideoInPlaylist,
+        errorArgOne: playlistTitle,
+        errorArgTwo: 'youtube.com/live',
       );
 
       return;
