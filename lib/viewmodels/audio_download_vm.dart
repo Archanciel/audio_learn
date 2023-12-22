@@ -368,8 +368,30 @@ class AudioDownloadVM extends ChangeNotifier {
         await _getPlaylistDownloadedAudioValidVideoTitleLst(
             currentPlaylist: currentPlaylist);
 
-    await for (yt.Video youtubeVideo
-        in _youtubeExplode!.playlists.getVideos(playlistId)) {
+    List<yt.Video> videoList = [];
+
+    try {
+      videoList = await _convertStreamToList(
+        _youtubeExplode!.playlists.getVideos(playlistId),
+      );
+    } catch (e) {
+      notifyDownloadError(
+        errorType: ErrorType.downloadAudioYoutubeError,
+        errorArgOne: e.toString(),
+      );
+
+      return;
+    }
+
+    for (yt.Video youtubeVideo in videoList) {
+      if (youtubeVideo.url.contains('youtube.com/live')) {
+        // the case if the video is a live video. A live video can not
+        // be downloaded and so is skipped. Otherwise, the app can not
+        // download the other audio of the videos referenced in the
+        // playlist.
+        continue;
+      }
+
       _audioDownloadError = false;
       final Duration? audioDuration = youtubeVideo.duration;
 
@@ -472,6 +494,27 @@ class AudioDownloadVM extends ChangeNotifier {
     downloadingPlaylistUrls.remove(playlistUrl);
 
     notifyListeners();
+  }
+
+  Future<List<yt.Video>> _convertStreamToList(
+      Stream<yt.Video> videoStream) async {
+    List<yt.Video> videoList = [];
+
+    Completer<List<yt.Video>> completer = Completer();
+
+    videoStream.listen(
+      (video) {
+        videoList.add(video);
+      },
+      onDone: () {
+        completer.complete(videoList);
+      },
+      onError: (error) {
+        completer.completeError(error);
+      },
+    );
+
+    return completer.future;
   }
 
   void renameAudioFile({
@@ -736,6 +779,8 @@ class AudioDownloadVM extends ChangeNotifier {
     return true;
   }
 
+  /// This method called by the downloadSingleVideoAudio() method
+  /// handles obtaining usable live video url.
   yt.VideoId? _getVideoId(String videoUrl) {
     yt.VideoId? videoId;
 
@@ -746,7 +791,7 @@ class AudioDownloadVM extends ChangeNotifier {
         errorType: ErrorType.noInternet,
         errorArgOne: e.toString(),
       );
-    
+
       videoId = null;
     } catch (e) {
       // since trying to get the video id from the live video url failed,
@@ -757,10 +802,10 @@ class AudioDownloadVM extends ChangeNotifier {
         videoId = yt.VideoId(videoUrl);
       } catch (_) {
         warningMessageVM.isSingleVideoUrlInvalid = true;
-      videoId = null;
+        videoId = null;
       }
     }
-    
+
     return videoId;
   }
 

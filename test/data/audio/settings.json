@@ -1,0 +1,15 @@
+{
+    "SettingType.appTheme": {
+        "SettingType.appTheme": "AppTheme.dark"
+    },
+    "SettingType.language": {
+        "SettingType.language": "Language.english"
+    },
+    "SettingType.playlists": {
+        "Playlists.defaultAudioSort": "AudioSortCriterion.audioDownloadDateTime",
+        "Playlists.isMusicQualityByDefault": "false",
+        "Playlists.orderedTitleLst": "[audio_learn_with_live_test_playlist, audio_learn_test_download_2_small_videos]",
+        "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",
+        "Playlists.rootPath": "/storage/emulated/0/Download/audiolear"
+    }
+}
