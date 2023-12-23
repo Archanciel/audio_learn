@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.7.10';
+const String kApplicationVersion = '0.7.11';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
@@ -73,6 +73,11 @@ const TextStyle kDialogTitlesStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const TextStyle kDialogLabelStyle = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.bold,
+);
+
 const TextStyle kDialogTextFieldStyle = TextStyle(
   fontSize: 13,
 );
@@ -95,7 +100,7 @@ const kPositionButtonTextStyle = TextStyle(
 const kSliderValueTextStyle = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
-  fontSize: 15.0,
+  fontSize: kTitleFontSize,
   color: kButtonColor,
 );
 

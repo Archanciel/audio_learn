@@ -368,31 +368,8 @@ class AudioDownloadVM extends ChangeNotifier {
         await _getPlaylistDownloadedAudioValidVideoTitleLst(
             currentPlaylist: currentPlaylist);
 
-    List<yt.Video> videoList = [];
-
-    try {
-      videoList = await _convertStreamToList(
-        _youtubeExplode!.playlists.getVideos(playlistId),
-      );
-    } catch (e) {
-      notifyDownloadError(
-        errorType: ErrorType.downloadAudioYoutubeErrorDueToLiveVideoInPlaylist,
-        errorArgOne: playlistTitle,
-        errorArgTwo: 'youtube.com/live',
-      );
-
-      return;
-    }
-
-    for (yt.Video youtubeVideo in videoList) {
-      if (youtubeVideo.url.contains('youtube.com/live')) {
-        // the case if the video is a live video. A live video can not
-        // be downloaded and so is skipped. Otherwise, the app can not
-        // download the other audio of the videos referenced in the
-        // playlist.
-        continue;
-      }
-
+    await for (yt.Video youtubeVideo
+        in _youtubeExplode!.playlists.getVideos(playlistId)) {
       _audioDownloadError = false;
       final Duration? audioDuration = youtubeVideo.duration;
 
@@ -495,27 +472,6 @@ class AudioDownloadVM extends ChangeNotifier {
     downloadingPlaylistUrls.remove(playlistUrl);
 
     notifyListeners();
-  }
-
-  Future<List<yt.Video>> _convertStreamToList(
-      Stream<yt.Video> videoStream) async {
-    List<yt.Video> videoList = [];
-
-    Completer<List<yt.Video>> completer = Completer();
-
-    videoStream.listen(
-      (video) {
-        videoList.add(video);
-      },
-      onDone: () {
-        completer.complete(videoList);
-      },
-      onError: (error) {
-        completer.completeError(error);
-      },
-    );
-
-    return completer.future;
   }
 
   void renameAudioFile({
@@ -667,9 +623,20 @@ class AudioDownloadVM extends ChangeNotifier {
     _stopDownloadPressed = false;
     _youtubeExplode ??= yt.YoutubeExplode();
 
-    yt.VideoId? videoId = _getVideoId(videoUrl);
+    final yt.VideoId videoId;
 
-    if (videoId == null) {
+    try {
+      videoId = yt.VideoId(videoUrl);
+    } on SocketException catch (e) {
+      notifyDownloadError(
+        errorType: ErrorType.noInternet,
+        errorArgOne: e.toString(),
+      );
+
+      return false;
+    } catch (e) {
+      warningMessageVM.isSingleVideoUrlInvalid = true;
+
       return false;
     }
 
@@ -778,36 +745,6 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
 
     return true;
-  }
-
-  /// This method called by the downloadSingleVideoAudio() method
-  /// handles obtaining usable live video url.
-  yt.VideoId? _getVideoId(String videoUrl) {
-    yt.VideoId? videoId;
-
-    try {
-      videoId = yt.VideoId(videoUrl);
-    } on SocketException catch (e) {
-      notifyDownloadError(
-        errorType: ErrorType.noInternet,
-        errorArgOne: e.toString(),
-      );
-
-      videoId = null;
-    } catch (e) {
-      // since trying to get the video id from the live video url failed,
-      // the url is modified to its value when the video is referenced
-      // in a playlist
-      videoUrl = videoUrl.replaceFirst('youtube.com/live', 'youtu.be');
-      try {
-        videoId = yt.VideoId(videoUrl);
-      } catch (_) {
-        warningMessageVM.isSingleVideoUrlInvalid = true;
-        videoId = null;
-      }
-    }
-
-    return videoId;
   }
 
   /// This method verifies if the user selected a single playlist
