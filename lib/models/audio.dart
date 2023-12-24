@@ -83,7 +83,7 @@ class Audio {
   // State of the audio
 
   // true if the audio is currently playing or if it is paused
-  // with its position is between 0 and its total duration.
+  // with its position between 0 and its total duration.
   bool isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
   int audioPositionSeconds = 0;
 

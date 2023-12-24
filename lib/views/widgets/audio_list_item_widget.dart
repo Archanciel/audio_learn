@@ -264,7 +264,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   /// Method called when the user clicks on the audio list item
   /// play icon button. This switches to the AudioPlayerView screen
   /// and plays the clicked audio.
-  Future<void> dragToAudioPlayerViewAndPlayAudio(
+  Future<void> _dragToAudioPlayerViewAndPlayAudio(
       AudioPlayerVM audioGlobalPlayerVM) async {
     await audioGlobalPlayerVM.setCurrentAudio(audio);
     await audioGlobalPlayerVM.goToAudioPlayPosition(
@@ -341,40 +341,24 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   Widget _buildPlayButton() {
     return Consumer<AudioPlayerVM>(
       builder: (context, audioGlobalPlayerVM, child) {
-        if (audio.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd) {
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              (audio.isPaused)
-                  ? _buildPlayIcon(context, audioGlobalPlayerVM, audio)
-                  : IconButton(
-                      icon: const Icon(Icons.pause),
-                      onPressed: () async {
-                        await audioGlobalPlayerVM.pause();
-                      },
-                    ),
-            ],
-          );
-        } else {
-          return IconButton(
-            icon: const Icon(Icons.play_arrow),
-            onPressed: () async {
-              await dragToAudioPlayerViewAndPlayAudio(
-                  audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
-            },
-          );
-        }
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildPlayOrPauseIcon(context, audioGlobalPlayerVM, audio)
+          ],
+        );
       },
     );
   }
 
-  /// This method build the audio play buttons displayed at right
-  /// position of the playlist audio ListTile. According of the
-  /// audio state - is it playing or paused, and if not playing,
-  /// is it paused at a certain position or is its position zero,
-  /// the icon type and icon color are different. The current
-  /// application theme is also integrated.
-  InkWell _buildPlayIcon(
+  /// This method build the audio play or pause button displayed
+  /// at right position of the playlist audio ListTile.
+  ///
+  /// According to the audio state - is it playing or paused, and
+  /// if not playing, is it paused at a certain position or is
+  /// its position zero, the icon type and icon color are different.
+  /// The current application theme is also integrated.
+  InkWell _buildPlayOrPauseIcon(
     BuildContext context,
     AudioPlayerVM audioGlobalPlayerVM,
     Audio audio,
@@ -386,18 +370,36 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
       //     audio.audioPositionSeconds < audio.audioDuration!.inSeconds) {
       // the audio is paused on a non-zero position and non end
       // position, i.e. if it was played and paused ...
-      iconContent = const CircleAvatar(
+      Icon playOrPauseIcon;
+
+      if (audio.isPaused) {
+        // if the audio is paused, the displayed icon is
+        // the play icon. Clicking on it will play the audio
+        // from the current position and will switch to the
+        // AudioPlayerView screen.
+        playOrPauseIcon = const Icon(Icons.play_arrow);
+      } else {
+        // if the audio is playing, the displayed icon is
+        // the pause icon. Clicking on it will pause the
+        // audio without switching to the AudioPlayerView
+        // screen.
+        playOrPauseIcon = const Icon(Icons.pause);
+      }
+
+      iconContent = CircleAvatar(
         backgroundColor:
             kDarkAndLightIconColor, // background color of the circle
-        radius: 10, // you can adjust the size
+        radius: 10,
         child: Icon(
-          Icons.play_arrow,
+          playOrPauseIcon.icon,
           color: Colors.white, // icon color
           size: 18, // icon size
         ),
       );
     } else {
-      // the audio is paused at position zero, i.e. if it was not played ...
+      // the audio is neither playing nor paused. It is at position
+      // zero, i.e. if it was not played ... or at the end position,
+      // i.e. if it was played until the end and stopped.
       Color backgroundColor;
 
       if (Theme.of(context).brightness == Brightness.dark) {
@@ -420,8 +422,21 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     // Return the icon wrapped inside a SizedBox to ensure
     // horizontal alignment
     return InkWell(
-      onTap: () async =>
-          await dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM),
+      onTap: () async {
+        if (audio.isPaused) {
+          // if the audio is paused, the displayed icon is
+          // the play icon. Clicking on it will play the audio
+          // from the current position and will switch to the
+          // AudioPlayerView screen.
+          await _dragToAudioPlayerViewAndPlayAudio(audioGlobalPlayerVM);
+        } else {
+          // if the audio is playing, the displayed icon is
+          // the pause icon. Clicking on it will pause the
+          // audio without switching to the AudioPlayerView
+          // screen.
+          await audioGlobalPlayerVM.pause();
+        }
+      },
       child: SizedBox(
         width: 45, // Adjust this width based on the size of your largest icon
         child: Center(child: iconContent),
