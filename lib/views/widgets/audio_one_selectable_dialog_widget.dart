@@ -49,7 +49,7 @@ class _AudioOneSelectableDialogWidgetState
 
   late int currentAudioIndex;
 
-  double itemHeight = 65.0;
+  final double _itemHeight = 70.0;
 
   @override
   void initState() {
@@ -90,18 +90,6 @@ class _AudioOneSelectableDialogWidgetState
       currentAudioIndex = playableAudioLst.indexOf(currentAudio);
     }
 
-    // defining the item height depending on the number of audios
-    // in the playlist so that browsing the playlist is easier
-    // in order to display the current audio in the visible audio
-    // list area is more efficient
-    if (currentAudioIndex > 400) {
-      itemHeight = 105;
-    } else if (currentAudioIndex > 300) {
-      itemHeight = 67.0;
-    } else {
-      itemHeight = 65.0;
-    }
-
     return RawKeyboardListener(
       focusNode: _focusNode,
       onKey: (event) async {
@@ -138,13 +126,9 @@ class _AudioOneSelectableDialogWidgetState
                           await audioGlobalPlayerVM.setCurrentAudio(audio);
                           Navigator.of(context).pop(audio);
                         },
-                        child: Text(
-                          audio.validVideoTitle,
-                          style: TextStyle(
-                            color: (index == currentAudioIndex)
-                                ? Colors.blue
-                                : null,
-                          ),
+                        child: _buildTextWidget(
+                          audio,
+                          index,
                         ),
                       ),
                     );
@@ -199,8 +183,29 @@ class _AudioOneSelectableDialogWidgetState
     );
   }
 
+  Widget _buildTextWidget(Audio audio, int index) {
+    return SizedBox(
+      height: _itemHeight,
+      child: Text(
+        audio.validVideoTitle,
+        maxLines: 3,
+        style: TextStyle(
+          color: (index == currentAudioIndex) ? Colors.blue : null,
+        ),
+      ),
+    );
+  }
+
   void scrollToItem() {
-    final double offset = currentAudioIndex * itemHeight;
+    double multiplier = currentAudioIndex.toDouble();
+
+    if (currentAudioIndex > 300) {
+      multiplier *= 1.23;
+    } else if (currentAudioIndex > 120) {
+      multiplier *= 1.2;
+    }
+
+    final double offset = multiplier * _itemHeight;
 
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
