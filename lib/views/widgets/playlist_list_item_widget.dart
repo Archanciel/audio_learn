@@ -55,20 +55,22 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                   0,
                 ),
                 items: [
-                  if (playlist.playlistType == PlaylistType.youtube)
+                  if (playlist.playlistType == PlaylistType.youtube) ...[
                     PopupMenuItem<PlaylistPopupMenuAction>(
                       key: const Key('popup_menu_open_youtube_playlist'),
                       value: PlaylistPopupMenuAction.openYoutubePlaylist,
                       child: Text(
-                          AppLocalizations.of(context)!.openYoutubePlaylist),
+                          AppLocalizations.of(context)?.openYoutubePlaylist ??
+                              'Open YouTube Playlist'),
                     ),
-                  if (playlist.playlistType == PlaylistType.youtube)
                     PopupMenuItem<PlaylistPopupMenuAction>(
                       key: const Key('popup_copy_youtube_video_url'),
                       value: PlaylistPopupMenuAction.copyYoutubePlaylistUrl,
-                      child: Text(
-                          AppLocalizations.of(context)!.copyYoutubePlaylistUrl),
+                      child: Text(AppLocalizations.of(context)
+                              ?.copyYoutubePlaylistUrl ??
+                          'Copy YouTube Playlist URL'),
                     ),
+                  ],
                   PopupMenuItem<PlaylistPopupMenuAction>(
                     key: const Key('popup_menu_display_playlist_info'),
                     value: PlaylistPopupMenuAction.displayPlaylistInfo,
