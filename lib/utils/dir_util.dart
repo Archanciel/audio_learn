@@ -117,6 +117,25 @@ class DirUtil {
     }
   }
 
+  static void deleteMp3FilesInDir(String filePath) {
+    final directory = Directory(filePath);
+
+    if (!directory.existsSync()) {
+      print("Directory does not exist.");
+      return;
+    }
+
+    directory.listSync().forEach((file) {
+      if (file is File && file.path.endsWith('.mp3')) {
+        try {
+          file.deleteSync();
+        } catch (e) {
+          print("Error deleting file: ${file.path}, Error: $e");
+        }
+      }
+    });
+  }
+
   static void replaceFileContent({
     required String sourcePathFileName,
     required String targetPathFileName,

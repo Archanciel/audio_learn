@@ -536,6 +536,9 @@ class PlaylistListVM extends ChangeNotifier {
   /// item. This method updates the playlist playable audio list
   /// by removing the audios that are no longer present in the
   /// audio playlist directory.
+  /// 
+  /// The method is useful when the user has deleted some audio
+  /// mp3 files from the audio playlist directory.
   int updatePlayableAudioLst({
     required Playlist playlist,
   }) {
