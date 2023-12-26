@@ -23,7 +23,7 @@ enum PlaylistPopupMenuAction {
 /// PlaylistDownloadView list of playlists. At left of the
 /// playlist title, a menu button is displayed with menu items
 /// created by this class. At right of the playlist title, a
-/// checkbox is displayed to select the playlist. 
+/// checkbox is displayed to select the playlist.
 class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
   final Playlist playlist;
   final int index;
@@ -61,12 +61,13 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                     child:
                         Text(AppLocalizations.of(context)!.openYoutubePlaylist),
                   ),
-                  PopupMenuItem<PlaylistPopupMenuAction>(
-                    key: const Key('popup_copy_youtube_video_url'),
-                    value: PlaylistPopupMenuAction.copyYoutubePlaylistUrl,
-                    child: Text(
-                        AppLocalizations.of(context)!.copyYoutubePlaylistUrl),
-                  ),
+                  if (playlist.playlistType == PlaylistType.youtube)
+                    PopupMenuItem<PlaylistPopupMenuAction>(
+                      key: const Key('popup_copy_youtube_video_url'),
+                      value: PlaylistPopupMenuAction.copyYoutubePlaylistUrl,
+                      child: Text(
+                          AppLocalizations.of(context)!.copyYoutubePlaylistUrl),
+                    ),
                   PopupMenuItem<PlaylistPopupMenuAction>(
                     key: const Key('popup_menu_display_playlist_info'),
                     value: PlaylistPopupMenuAction.displayPlaylistInfo,
@@ -74,18 +75,15 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                         Text(AppLocalizations.of(context)!.displayPlaylistInfo),
                   ),
                   PopupMenuItem<PlaylistPopupMenuAction>(
-                    key: const Key(
-                        'popup_menu_update_playable_audio_list'),
+                    key: const Key('popup_menu_update_playable_audio_list'),
                     value: PlaylistPopupMenuAction.updatePlaylistPlayableAudios,
                     child: Text(AppLocalizations.of(context)!
                         .updatePlaylistPlayableAudioList),
                   ),
                   PopupMenuItem<PlaylistPopupMenuAction>(
-                    key: const Key(
-                        'popup_menu_delete_playlist'),
+                    key: const Key('popup_menu_delete_playlist'),
                     value: PlaylistPopupMenuAction.deletePlaylist,
-                    child: Text(AppLocalizations.of(context)!
-                        .deletePlaylist),
+                    child: Text(AppLocalizations.of(context)!.deletePlaylist),
                   ),
                 ],
                 elevation: 8,
@@ -132,20 +130,20 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                       }
                       break;
                     case PlaylistPopupMenuAction.deletePlaylist:
-                        // Using FocusNode to enable clicking on Enter to close
-                        // the dialog
-                        final FocusNode focusNode = FocusNode();
-                        showDialog<void>(
-                          context: context,
-                          barrierDismissible: true,
-                          builder: (BuildContext context) {
-                            return DeletePlaylistDialogWidget(
-                              playlistToDelete: playlist,
-                              focusNode: focusNode,
-                            );
-                          },
-                        );
-                        focusNode.requestFocus();
+                      // Using FocusNode to enable clicking on Enter to close
+                      // the dialog
+                      final FocusNode focusNode = FocusNode();
+                      showDialog<void>(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return DeletePlaylistDialogWidget(
+                            playlistToDelete: playlist,
+                            focusNode: focusNode,
+                          );
+                        },
+                      );
+                      focusNode.requestFocus();
                       break;
                     default:
                       break;
