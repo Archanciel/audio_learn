@@ -3807,7 +3807,6 @@ void main() {
       );
 
       const String youtubePlaylistTitle = 'S8 audio';
-      const String localPlaylistTitle = 'Local_2_audios';
 
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
@@ -3882,6 +3881,180 @@ void main() {
 
         expect(audioListTileTextWidgetFinder, findsOneWidget);
       }
+
+      // Now update the playable audio list of the Youtube
+      // playlist
+
+      // Now find the leading menu icon button of the Playlist ListTile
+      // and tap on it
+      final Finder youtubePlaylistListTileLeadingMenuIconButton =
+          find.descendant(
+        of: youtubePlaylistListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(youtubePlaylistListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the update playlist popup menu item and tap on it
+      final Finder popupUpdatePlayableAudioListPlaylistMenuItem =
+          find.byKey(const Key("popup_menu_update_playable_audio_list"));
+
+      await tester.tap(popupUpdatePlayableAudioListPlaylistMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Now verifying the warning dialog
+
+      // Check the value of the warning dialog title
+      Text warningDialogTitle =
+          tester.widget(find.byKey(const Key('warningDialogTitle')));
+      expect(warningDialogTitle.data, 'WARNING');
+
+      // Check the value of the warning dialog message
+      Text warningDialogMessage =
+          tester.widget(find.byKey(const Key('warningDialogMessage')));
+      expect(warningDialogMessage.data,
+          'Playable audio list for playlist "$youtubePlaylistTitle" was updated. 4 audio(s) were removed.');
+
+      // Close the warning dialog by tapping on the OK button
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('Manually delete audios in local playlist directory.',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}manually_deleting_audios_and_updating_playlists",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      const String youtubePlaylistTitle = 'Local_2_audios';
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      String youtubePlaylistPath =
+          '$kDownloadAppTestDirWindows${path.separator}$youtubePlaylistTitle';
+
+      List<String> youtubePlaylistMp3Lst = DirUtil.listFileNamesInDir(
+        path: youtubePlaylistPath,
+        extension: 'mp3',
+      );
+
+      // *** Manually deleting audio files from Youtube
+      // playlist directory
+
+      DirUtil.deleteMp3FilesInDir(
+        youtubePlaylistPath,
+      );
+
+      // *** Updating the Youtube playlist
+
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the ListTile Playlist containing the audios
+      // which were manually deleted from the Youtube playlist
+      // directory
+
+      // First, find the Youtube playlist ListTile Text widget
+      final Finder youtubePlaylistListTileTextWidgetFinder =
+          find.text(youtubePlaylistTitle);
+
+      // Then obtain the Youtube source playlist ListTile widget
+      // enclosing the Text widget by finding its ancestor
+      final Finder youtubePlaylistListTileWidgetFinder = find.ancestor(
+        of: youtubePlaylistListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the playlist ListTile
+      // and tap on it to select the playlist
+
+      await tapPlaylistCheckboxIfNotAlreadyChecked(
+        playlistListTileWidgetFinder: youtubePlaylistListTileWidgetFinder,
+        widgetTester: tester,
+      );
+
+      // Test that the Youtube playlist is still showing the
+      // deleted audios
+
+      for (String audioTitle in youtubePlaylistMp3Lst) {
+        audioTitle = audioTitle
+            .replaceAll(RegExp(r'[\d\-]'), '')
+            .replaceFirst(' .mp', '')
+            .replaceFirst(' fois', '3 fois')
+            .replaceFirst('antinuke', 'anti-nuke');
+        final Finder audioListTileTextWidgetFinder = find.text(audioTitle);
+
+        expect(audioListTileTextWidgetFinder, findsOneWidget);
+      }
+
+      // Now update the playable audio list of the Youtube
+      // playlist
+
+      // Now find the leading menu icon button of the Playlist ListTile
+      // and tap on it
+      final Finder youtubePlaylistListTileLeadingMenuIconButton =
+          find.descendant(
+        of: youtubePlaylistListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(youtubePlaylistListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the update playlist popup menu item and tap on it
+      final Finder popupUpdatePlayableAudioListPlaylistMenuItem =
+          find.byKey(const Key("popup_menu_update_playable_audio_list"));
+
+      await tester.tap(popupUpdatePlayableAudioListPlaylistMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Now verifying the warning dialog
+
+      // Check the value of the warning dialog title
+      Text warningDialogTitle =
+          tester.widget(find.byKey(const Key('warningDialogTitle')));
+      expect(warningDialogTitle.data, 'WARNING');
+
+      // Check the value of the warning dialog message
+      Text warningDialogMessage =
+          tester.widget(find.byKey(const Key('warningDialogMessage')));
+      expect(warningDialogMessage.data,
+          'Playable audio list for playlist "$youtubePlaylistTitle" was updated. 2 audio(s) were removed.');
+
+      // Close the warning dialog by tapping on the OK button
+      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      await tester.pumpAndSettle();
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
