@@ -3921,6 +3921,20 @@ void main() {
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
+      // Test that the youtube playlist is no longer showing the
+      // deleted audios
+
+      for (String audioTitle in youtubePlaylistMp3Lst) {
+        audioTitle = audioTitle
+            .replaceAll(RegExp(r'[\d\-]'), '')
+            .replaceFirst(' .mp', '')
+            .replaceFirst(' fois', '3 fois')
+            .replaceFirst('antinuke', 'anti-nuke');
+        final Finder audioListTileTextWidgetFinder = find.text(audioTitle);
+
+        expect(audioListTileTextWidgetFinder, findsNothing);
+      }
+
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
@@ -3941,7 +3955,7 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      const String youtubePlaylistTitle = 'Local_2_audios';
+      const String localPlaylistTitle = 'Local_2_audios';
 
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
@@ -3957,22 +3971,22 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      String youtubePlaylistPath =
-          '$kDownloadAppTestDirWindows${path.separator}$youtubePlaylistTitle';
+      String localPlaylistPath =
+          '$kDownloadAppTestDirWindows${path.separator}$localPlaylistTitle';
 
-      List<String> youtubePlaylistMp3Lst = DirUtil.listFileNamesInDir(
-        path: youtubePlaylistPath,
+      List<String> localPlaylistMp3Lst = DirUtil.listFileNamesInDir(
+        path: localPlaylistPath,
         extension: 'mp3',
       );
 
-      // *** Manually deleting audio files from Youtube
+      // *** Manually deleting audio files from local
       // playlist directory
 
       DirUtil.deleteMp3FilesInDir(
-        youtubePlaylistPath,
+        localPlaylistPath,
       );
 
-      // *** Updating the Youtube playlist
+      // *** Updating the local playlist
 
       // Tap the 'Toggle List' button to show the list. If the list
       // is not opened, checking that a ListTile with the title of
@@ -3981,17 +3995,17 @@ void main() {
       await tester.pumpAndSettle();
 
       // Find the ListTile Playlist containing the audios
-      // which were manually deleted from the Youtube playlist
+      // which were manually deleted from the local playlist
       // directory
 
-      // First, find the Youtube playlist ListTile Text widget
-      final Finder youtubePlaylistListTileTextWidgetFinder =
-          find.text(youtubePlaylistTitle);
+      // First, find the local playlist ListTile Text widget
+      final Finder localPlaylistListTileTextWidgetFinder =
+          find.text(localPlaylistTitle);
 
-      // Then obtain the Youtube source playlist ListTile widget
+      // Then obtain the local source playlist ListTile widget
       // enclosing the Text widget by finding its ancestor
-      final Finder youtubePlaylistListTileWidgetFinder = find.ancestor(
-        of: youtubePlaylistListTileTextWidgetFinder,
+      final Finder localPlaylistListTileWidgetFinder = find.ancestor(
+        of: localPlaylistListTileTextWidgetFinder,
         matching: find.byType(ListTile),
       );
 
@@ -3999,14 +4013,14 @@ void main() {
       // and tap on it to select the playlist
 
       await tapPlaylistCheckboxIfNotAlreadyChecked(
-        playlistListTileWidgetFinder: youtubePlaylistListTileWidgetFinder,
+        playlistListTileWidgetFinder: localPlaylistListTileWidgetFinder,
         widgetTester: tester,
       );
 
-      // Test that the Youtube playlist is still showing the
+      // Test that the local playlist is still showing the
       // deleted audios
 
-      for (String audioTitle in youtubePlaylistMp3Lst) {
+      for (String audioTitle in localPlaylistMp3Lst) {
         audioTitle = audioTitle
             .replaceAll(RegExp(r'[\d\-]'), '')
             .replaceFirst(' .mp', '')
@@ -4017,19 +4031,19 @@ void main() {
         expect(audioListTileTextWidgetFinder, findsOneWidget);
       }
 
-      // Now update the playable audio list of the Youtube
+      // Now update the playable audio list of the local
       // playlist
 
       // Now find the leading menu icon button of the Playlist ListTile
       // and tap on it
-      final Finder youtubePlaylistListTileLeadingMenuIconButton =
+      final Finder localPlaylistListTileLeadingMenuIconButton =
           find.descendant(
-        of: youtubePlaylistListTileWidgetFinder,
+        of: localPlaylistListTileWidgetFinder,
         matching: find.byIcon(Icons.menu),
       );
 
       // Tap the leading menu icon button to open the popup menu
-      await tester.tap(youtubePlaylistListTileLeadingMenuIconButton);
+      await tester.tap(localPlaylistListTileLeadingMenuIconButton);
       await tester.pumpAndSettle(); // Wait for popup menu to appear
 
       // Now find the update playlist popup menu item and tap on it
@@ -4050,11 +4064,25 @@ void main() {
       Text warningDialogMessage =
           tester.widget(find.byKey(const Key('warningDialogMessage')));
       expect(warningDialogMessage.data,
-          'Playable audio list for playlist "$youtubePlaylistTitle" was updated. 2 audio(s) were removed.');
+          'Playable audio list for playlist "$localPlaylistTitle" was updated. 2 audio(s) were removed.');
 
       // Close the warning dialog by tapping on the OK button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
+
+      // Test that the local playlist is no longer showing the
+      // deleted audios
+
+      for (String audioTitle in localPlaylistMp3Lst) {
+        audioTitle = audioTitle
+            .replaceAll(RegExp(r'[\d\-]'), '')
+            .replaceFirst(' .mp', '')
+            .replaceFirst(' fois', '3 fois')
+            .replaceFirst('antinuke', 'anti-nuke');
+        final Finder audioListTileTextWidgetFinder = find.text(audioTitle);
+
+        expect(audioListTileTextWidgetFinder, findsNothing);
+      }
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
