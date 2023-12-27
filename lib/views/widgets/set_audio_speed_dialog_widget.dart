@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SetAudioSpeedDialogWidget extends StatefulWidget {
+  const SetAudioSpeedDialogWidget({super.key});
+
   @override
   _SetAudioSpeedDialogWidgetState createState() => _SetAudioSpeedDialogWidgetState();
 }
