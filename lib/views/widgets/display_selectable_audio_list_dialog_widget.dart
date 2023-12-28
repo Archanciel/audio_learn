@@ -12,18 +12,18 @@ import '../../viewmodels/theme_provider_vm.dart';
 /// This dialog is used in the AudioPlayerView to display the list
 /// of playable audios of the selected playlist and to enable the
 /// user to select another audio to listen.
-class AudioOneSelectableDialogWidget extends StatefulWidget {
-  const AudioOneSelectableDialogWidget({
+class DisplaySelectableAudioListDialogWidget extends StatefulWidget {
+  const DisplaySelectableAudioListDialogWidget({
     super.key,
   });
 
   @override
-  _AudioOneSelectableDialogWidgetState createState() =>
-      _AudioOneSelectableDialogWidgetState();
+  _DisplaySelectableAudioListDialogWidgetState createState() =>
+      _DisplaySelectableAudioListDialogWidgetState();
 }
 
-class _AudioOneSelectableDialogWidgetState
-    extends State<AudioOneSelectableDialogWidget> with ScreenMixin {
+class _DisplaySelectableAudioListDialogWidgetState
+    extends State<DisplaySelectableAudioListDialogWidget> with ScreenMixin {
   // Using FocusNode to enable clicking on Enter to close
   // the dialog
   final FocusNode _focusNode = FocusNode();

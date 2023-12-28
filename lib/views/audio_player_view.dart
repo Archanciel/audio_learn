@@ -7,7 +7,7 @@ import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../constants.dart';
 import 'screen_mixin.dart';
-import 'widgets/audio_one_selectable_dialog_widget.dart';
+import 'widgets/display_selectable_audio_list_dialog_widget.dart';
 import 'widgets/set_audio_speed_dialog_widget.dart';
 
 /// Screen enabling the user to play an audio, change the playing
@@ -442,7 +442,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   void _displayOtherAudiosDialog(int audioIndex) {
     showDialog(
       context: context,
-      builder: (context) => const AudioOneSelectableDialogWidget(),
+      builder: (context) => const DisplaySelectableAudioListDialogWidget(),
     ).then((selectedAudio) {
       print(selectedAudio);
     });
