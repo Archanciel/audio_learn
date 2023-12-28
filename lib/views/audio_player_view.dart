@@ -128,6 +128,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     BuildContext context,
   ) {
     return Consumer<AudioPlayerVM>(
+      // using Consumer<AudioPlayerVM> ensure that _audioPlaySpeed
+      // is updated when the another audio is selected in the
+      // AudioOneSelectableDialogWidget or when the next or previous
+      // audio is set as current audio.
       builder: (context, audioGlobalPlayerVM, child) {
         Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
