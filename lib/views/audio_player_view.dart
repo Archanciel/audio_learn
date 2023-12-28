@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../models/audio.dart';
 import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../constants.dart';
 import 'screen_mixin.dart';
 import 'widgets/audio_one_selectable_dialog_widget.dart';
+import 'widgets/set_audio_speed_dialog_widget.dart';
 
 /// Screen enabling the user to play an audio, change the playing
 /// position or go to a previous, next or selected audio.
@@ -21,6 +23,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     with WidgetsBindingObserver, ScreenMixin {
   final double _audioIconSizeMedium = 40;
   final double _audioIconSizeLarge = 80;
+  late double _audioPlaySpeed;
 
   @override
   initState() {
@@ -86,13 +89,28 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
 
   @override
   Widget build(BuildContext context) {
+    AudioPlayerVM audioGlobalPlayerVM = Provider.of<AudioPlayerVM>(
+      context,
+      listen: false,
+    );
+
+    if (audioGlobalPlayerVM.currentAudio == null) {
+      _audioPlaySpeed = 1.0;
+    } else {
+      _audioPlaySpeed = audioGlobalPlayerVM.currentAudio!.audioPlaySpeed;
+    }
+
     return Scaffold(
       appBar: AppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 10.0),
+          _buildSetAudioSpeedButton(
+            context,
+            audioGlobalPlayerVM,
+          ),
+          // const SizedBox(height: 10.0),
           _buildPlayButton(),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -107,61 +125,49 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     );
   }
 
-  Widget _buildAudioSlider() {
-    return Consumer<AudioPlayerVM>(
-      builder: (context, audioGlobalPlayerVM, child) {
-        // Obtaining the slider values here (when audioGlobalPlayerVM
-        // call notifyListeners()) avoids that the slider generate
-        // a 'Value xxx.x is not between minimum 0.0 and maximum 0.0'
-        // error
-        double sliderValue =
-            audioGlobalPlayerVM.currentAudioPosition.inSeconds.toDouble();
-        double maxDuration =
-            audioGlobalPlayerVM.currentAudioTotalDuration.inSeconds.toDouble();
+  Widget _buildSetAudioSpeedButton(
+    BuildContext context,
+    AudioPlayerVM audioGlobalPlayerVM,
+  ) {
+    Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
-        // Ensure the slider value is within the range
-        sliderValue = sliderValue.clamp(0.0, maxDuration);
+    if (currentAudio == null) {
+      return const SizedBox.shrink();
+    }
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kDefaultMargin),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                key: const Key('audioPlayerViewAudioPosition'),
-                audioGlobalPlayerVM.currentAudioPosition.HHmmssZeroHH(),
-                style: kSliderValueTextStyle,
-              ),
-              Expanded(
-                child: SliderTheme(
-                  data: const SliderThemeData(
-                    trackHeight: kSliderThickness,
-                    thumbShape: RoundSliderThumbShape(
-                        enabledThumbRadius:
-                            6.0), // Adjust the radius as you need
-                  ),
-                  child: Slider(
-                    min: 0.0,
-                    max: maxDuration,
-                    value: sliderValue,
-                    onChanged: (double value) {
-                      audioGlobalPlayerVM.goToAudioPlayPosition(
-                        Duration(seconds: value.toInt()),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Text(
-                key: const Key('audioPlayerViewAudioRemainingDuration'),
-                audioGlobalPlayerVM.currentAudioRemainingDuration
-                    .HHmmssZeroHH(),
-                style: kSliderValueTextStyle,
-              ),
-            ],
-          ),
-        );
+    return GestureDetector(
+      onTap: () {
+        final FocusNode focusNode = FocusNode();
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return SetAudioSpeedDialogWidget(
+              audioPlaySpeed: currentAudio.audioPlaySpeed,
+            );
+          },
+        ).then((value) {
+          // not null value is boolean
+          if (value != null) {
+            // value is null if clicking on Cancel or if the dialog
+            // is dismissed by clicking outside the dialog.
+
+            setState(() {
+              _audioPlaySpeed = value as double;
+            });
+            audioGlobalPlayerVM.changeAudioPlaySpeed(_audioPlaySpeed);
+          }
+        });
+        focusNode.requestFocus();
       },
+      child: Tooltip(
+        message: AppLocalizations.of(context)!.addPlaylistButtonTooltip,
+        child: Text(
+          '${_audioPlaySpeed.toStringAsFixed(2)}x',
+          textAlign: TextAlign.center,
+          style: kPositionButtonTextStyle,
+        ),
+      ),
     );
   }
 
@@ -236,6 +242,64 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget _buildAudioSlider() {
+    return Consumer<AudioPlayerVM>(
+      builder: (context, audioGlobalPlayerVM, child) {
+        // Obtaining the slider values here (when audioGlobalPlayerVM
+        // call notifyListeners()) avoids that the slider generate
+        // a 'Value xxx.x is not between minimum 0.0 and maximum 0.0'
+        // error
+        double sliderValue =
+            audioGlobalPlayerVM.currentAudioPosition.inSeconds.toDouble();
+        double maxDuration =
+            audioGlobalPlayerVM.currentAudioTotalDuration.inSeconds.toDouble();
+
+        // Ensure the slider value is within the range
+        sliderValue = sliderValue.clamp(0.0, maxDuration);
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kDefaultMargin),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                key: const Key('audioPlayerViewAudioPosition'),
+                audioGlobalPlayerVM.currentAudioPosition.HHmmssZeroHH(),
+                style: kSliderValueTextStyle,
+              ),
+              Expanded(
+                child: SliderTheme(
+                  data: const SliderThemeData(
+                    trackHeight: kSliderThickness,
+                    thumbShape: RoundSliderThumbShape(
+                        enabledThumbRadius:
+                            6.0), // Adjust the radius as you need
+                  ),
+                  child: Slider(
+                    min: 0.0,
+                    max: maxDuration,
+                    value: sliderValue,
+                    onChanged: (double value) {
+                      audioGlobalPlayerVM.goToAudioPlayPosition(
+                        Duration(seconds: value.toInt()),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Text(
+                key: const Key('audioPlayerViewAudioRemainingDuration'),
+                audioGlobalPlayerVM.currentAudioRemainingDuration
+                    .HHmmssZeroHH(),
+                style: kSliderValueTextStyle,
+              ),
+            ],
+          ),
         );
       },
     );

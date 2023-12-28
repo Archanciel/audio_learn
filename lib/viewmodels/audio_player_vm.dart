@@ -601,4 +601,16 @@ class AudioPlayerVM extends ChangeNotifier {
         .toList()
         .indexWhere((element) => element == _currentAudio);
   }
+
+  void changeAudioPlaySpeed(double speed) async {
+    if (_currentAudio == null) {
+      return;
+    }
+    
+    _currentAudio!.audioPlaySpeed = speed;
+    await _audioPlayer.setPlaybackRate(speed);
+    updateAndSaveCurrentAudio(forceSave: true);
+
+    notifyListeners();
+  }
 }
