@@ -9,25 +9,12 @@ import '../../services/settings_data_service.dart';
 import '../../viewmodels/audio_player_vm.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 
-/// This dialog is used to select a single playlist among the
-/// displayed playlists.
+/// This dialog is used in the AudioPlayerView to display the list
+/// of playable audios of the selected playlist and to enable the
+/// user to select another audio to listen.
 class AudioOneSelectableDialogWidget extends StatefulWidget {
-  // Displaying the audio only checkbox is useful when the dialog is used
-  // in order to move an Audio file to a destination playlist.
-  //
-  // Setting the checkbox to true has the effect that the Audio entry in
-  // the source playlist is not deleted, which has the advantage that it
-  // is not necessary to remove the Audio video link from the Youtube
-  // source playlist in order to avoid to redownload it the next time
-  // download all is applyed to the source playlist.
-  //
-  // In any case, the moved Audio playlist entry is added to the
-  // destination playlist.
-  final bool isAudioOnlyCheckboxDisplayed;
-
   const AudioOneSelectableDialogWidget({
     super.key,
-    this.isAudioOnlyCheckboxDisplayed = false,
   });
 
   @override

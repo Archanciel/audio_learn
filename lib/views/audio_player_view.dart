@@ -108,7 +108,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         children: [
           _buildSetAudioSpeedButton(
             context,
-            audioGlobalPlayerVM,
           ),
           // const SizedBox(height: 10.0),
           _buildPlayButton(),
@@ -127,47 +126,52 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
 
   Widget _buildSetAudioSpeedButton(
     BuildContext context,
-    AudioPlayerVM audioGlobalPlayerVM,
   ) {
-    Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
+    return Consumer<AudioPlayerVM>(
+      builder: (context, audioGlobalPlayerVM, child) {
+        Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
-    if (currentAudio == null) {
-      return const SizedBox.shrink();
-    }
+        if (currentAudio == null) {
+          return const SizedBox.shrink();
+        }
 
-    return GestureDetector(
-      onTap: () {
-        final FocusNode focusNode = FocusNode();
-        showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder: (BuildContext context) {
-            return SetAudioSpeedDialogWidget(
-              audioPlaySpeed: currentAudio.audioPlaySpeed,
-            );
-          },
-        ).then((value) {
-          // not null value is boolean
-          if (value != null) {
-            // value is null if clicking on Cancel or if the dialog
-            // is dismissed by clicking outside the dialog.
+        _audioPlaySpeed = currentAudio.audioPlaySpeed;
 
-            setState(() {
-              _audioPlaySpeed = value as double;
+        return GestureDetector(
+          onTap: () {
+            final FocusNode focusNode = FocusNode();
+            showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (BuildContext context) {
+                return SetAudioSpeedDialogWidget(
+                  audioPlaySpeed: _audioPlaySpeed,
+                );
+              },
+            ).then((value) {
+              // not null value is boolean
+              if (value != null) {
+                // value is null if clicking on Cancel or if the dialog
+                // is dismissed by clicking outside the dialog.
+
+                setState(() {
+                  _audioPlaySpeed = value as double;
+                });
+                audioGlobalPlayerVM.changeAudioPlaySpeed(_audioPlaySpeed);
+              }
             });
-            audioGlobalPlayerVM.changeAudioPlaySpeed(_audioPlaySpeed);
-          }
-        });
-        focusNode.requestFocus();
+            focusNode.requestFocus();
+          },
+          child: Tooltip(
+            message: AppLocalizations.of(context)!.addPlaylistButtonTooltip,
+            child: Text(
+              '${_audioPlaySpeed.toStringAsFixed(2)}x',
+              textAlign: TextAlign.center,
+              style: kPositionButtonTextStyle,
+            ),
+          ),
+        );
       },
-      child: Tooltip(
-        message: AppLocalizations.of(context)!.addPlaylistButtonTooltip,
-        child: Text(
-          '${_audioPlaySpeed.toStringAsFixed(2)}x',
-          textAlign: TextAlign.center,
-          style: kPositionButtonTextStyle,
-        ),
-      ),
     );
   }
 
