@@ -21,8 +21,8 @@ class PlaylistOneSelectableDialogWidget extends StatefulWidget {
   final PlaylistOneSelectableDialogUsedFor usedFor;
   final Playlist? excludedPlaylist;
 
-  // Displaying the audio only checkbox is useful when the dialog is used
-  // in order to move an Audio file to a destination playlist.
+  // Displaying the audio only checkbox is useful when the dialog is
+  // used in order to move an Audio file to a destination playlist.
   //
   // Setting the checkbox to true has the effect that the Audio entry in
   // the source playlist is not deleted, which has the advantage that it
