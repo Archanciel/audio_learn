@@ -78,461 +78,451 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       context,
       listen: false,
     );
-    return Container(
-      margin: const EdgeInsets.all(kDefaultMargin),
-      child: Column(
-        children: <Widget>[
-          Consumer<WarningMessageVM>(
-            builder: (context, warningMessageVM, child) {
-              // displays a warning message each time the
-              // warningMessageVM calls notifyListners(), which
-              // happens when an other view model sets a warning
-              // message on the warningMessageVM
-              return DisplayMessageWidget(
-                warningMessageVM: warningMessageVM,
-                parentContext: context,
-                playlistUrlController: _playlistUrlController,
-              );
-            },
-          ),
-          _buildFirstLine(context, audioDownloadViewModel),
-          // displaying the currently downloading audiodownload
-          // informations.
-          _buildDisplayDownloadProgressionInfo(),
-          _buildSecondLine(context, audioDownloadViewModel),
-          _buildExpandedPlaylistList(),
-          _buildExpandedAudioList(),
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        Consumer<WarningMessageVM>(
+          builder: (context, warningMessageVM, child) {
+            // displays a warning message each time the
+            // warningMessageVM calls notifyListners(), which
+            // happens when an other view model sets a warning
+            // message on the warningMessageVM
+            return DisplayMessageWidget(
+              warningMessageVM: warningMessageVM,
+              parentContext: context,
+              playlistUrlController: _playlistUrlController,
+            );
+          },
+        ),
+        _buildFirstLine(context, audioDownloadViewModel),
+        // displaying the currently downloading audiodownload
+        // informations.
+        _buildDisplayDownloadProgressionInfo(),
+        _buildSecondLine(context, audioDownloadViewModel),
+        _buildExpandedPlaylistList(),
+        _buildExpandedAudioList(),
+      ],
     );
   }
 
   Expanded _buildExpandedAudioList() {
     return Expanded(
-          child: Consumer<PlaylistListVM>(
-            builder: (context, expandablePlaylistListVM, child) {
-              _selectedPlaylistsPlayableAudios = expandablePlaylistListVM
-                  .getSelectedPlaylistPlayableAudios();
-              if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
-                // Scroll the sublist to the top when the audio
-                // list is filtered and/or sorted
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _scrollController.animateTo(
-                    0,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeOut,
-                  );
-                });
-              }
+      child: Consumer<PlaylistListVM>(
+        builder: (context, expandablePlaylistListVM, child) {
+          _selectedPlaylistsPlayableAudios =
+              expandablePlaylistListVM.getSelectedPlaylistPlayableAudios();
+          if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
+            // Scroll the sublist to the top when the audio
+            // list is filtered and/or sorted
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _scrollController.animateTo(
+                0,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+              );
+            });
+          }
 
-              return ListView.builder(
-                key: const Key('audio_list'),
-                controller: _scrollController,
-                itemCount: (_selectedPlaylistsPlayableAudios.isEmpty)
-                    ? 0
-                    : expandablePlaylistListVM
-                        .getSelectedPlaylistPlayableAudios()
-                        .length,
-                itemBuilder: (BuildContext context, int index) {
-                  final audio = _selectedPlaylistsPlayableAudios[index];
-                  return AudioListItemWidget(
-                    audio: audio,
-                    onPageChangedFunction: widget.onPageChangedFunction,
-                  );
-                },
+          return ListView.builder(
+            key: const Key('audio_list'),
+            controller: _scrollController,
+            itemCount: (_selectedPlaylistsPlayableAudios.isEmpty)
+                ? 0
+                : expandablePlaylistListVM
+                    .getSelectedPlaylistPlayableAudios()
+                    .length,
+            itemBuilder: (BuildContext context, int index) {
+              final audio = _selectedPlaylistsPlayableAudios[index];
+              return AudioListItemWidget(
+                audio: audio,
+                onPageChangedFunction: widget.onPageChangedFunction,
               );
             },
-          ),
-        );
+          );
+        },
+      ),
+    );
   }
 
   Consumer<PlaylistListVM> _buildExpandedPlaylistList() {
     return Consumer<PlaylistListVM>(
-          builder: (context, expandablePlaylistListVM, child) {
-            if (expandablePlaylistListVM.isListExpanded) {
-              List<Playlist> upToDateSelectablePlaylists =
-                  expandablePlaylistListVM.getUpToDateSelectablePlaylists();
-              return Expanded(
-                child: ListView.builder(
-                  key: const Key('expandable_playlist_list'),
-                  itemCount: upToDateSelectablePlaylists.length,
-                  itemBuilder: (context, index) {
-                    Playlist playlist = upToDateSelectablePlaylists[index];
-                    return Builder(
-                      builder: (listTileContext) {
-                        return PlaylistListItemWidget(
-                          playlist: playlist,
-                          index: index,
-                        );
-                      },
+      builder: (context, expandablePlaylistListVM, child) {
+        if (expandablePlaylistListVM.isListExpanded) {
+          List<Playlist> upToDateSelectablePlaylists =
+              expandablePlaylistListVM.getUpToDateSelectablePlaylists();
+          return Expanded(
+            child: ListView.builder(
+              key: const Key('expandable_playlist_list'),
+              itemCount: upToDateSelectablePlaylists.length,
+              itemBuilder: (context, index) {
+                Playlist playlist = upToDateSelectablePlaylists[index];
+                return Builder(
+                  builder: (listTileContext) {
+                    return PlaylistListItemWidget(
+                      playlist: playlist,
+                      index: index,
                     );
                   },
-                ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        );
+                );
+              },
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
   }
 
   Consumer<AudioDownloadVM> _buildDisplayDownloadProgressionInfo() {
     return Consumer<AudioDownloadVM>(
-          builder: (context, audioDownloadVM, child) {
-            if (audioDownloadVM.isDownloading) {
-              String downloadProgressPercent =
-                  '${(audioDownloadVM.downloadProgress * 100).toStringAsFixed(1)}%';
-              String downloadFileSize = UiUtil.formatLargeIntValue(
-                context: context,
-                value: audioDownloadVM.currentDownloadingAudio.audioFileSize,
-              );
-              String downloadSpeed = '${UiUtil.formatLargeIntValue(
-                context: context,
-                value: audioDownloadVM.lastSecondDownloadSpeed,
-              )}/sec';
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Text(
-                      audioDownloadVM.currentDownloadingAudio.validVideoTitle,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10.0),
-                    LinearProgressIndicator(
-                        value: audioDownloadVM.downloadProgress),
-                    const SizedBox(height: 10.0),
-                    Text(
-                      '$downloadProgressPercent ${AppLocalizations.of(context)!.ofPreposition} $downloadFileSize ${AppLocalizations.of(context)!.atPreposition} $downloadSpeed',
-                    ),
-                  ],
+      builder: (context, audioDownloadVM, child) {
+        if (audioDownloadVM.isDownloading) {
+          String downloadProgressPercent =
+              '${(audioDownloadVM.downloadProgress * 100).toStringAsFixed(1)}%';
+          String downloadFileSize = UiUtil.formatLargeIntValue(
+            context: context,
+            value: audioDownloadVM.currentDownloadingAudio.audioFileSize,
+          );
+          String downloadSpeed = '${UiUtil.formatLargeIntValue(
+            context: context,
+            value: audioDownloadVM.lastSecondDownloadSpeed,
+          )}/sec';
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Text(
+                  audioDownloadVM.currentDownloadingAudio.validVideoTitle,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        );
+                const SizedBox(height: 10.0),
+                LinearProgressIndicator(
+                    value: audioDownloadVM.downloadProgress),
+                const SizedBox(height: 10.0),
+                Text(
+                  '$downloadProgressPercent ${AppLocalizations.of(context)!.ofPreposition} $downloadFileSize ${AppLocalizations.of(context)!.atPreposition} $downloadSpeed',
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
   }
 
-  Row _buildSecondLine(BuildContext context, AudioDownloadVM audioDownloadViewModel) {
+  Row _buildSecondLine(
+      BuildContext context, AudioDownloadVM audioDownloadViewModel) {
     return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            SizedBox(
-              width: kNormalButtonWidth,
-              child: Tooltip(
-                message:
-                    AppLocalizations.of(context)!.playlistToggleButtonTooltip,
-                child: ElevatedButton(
-                  key: const Key('playlist_toggle_button'),
-                  style: ButtonStyle(
-                    shape: appElevatedButtonRoundedShape,
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(
-                          horizontal: kSmallButtonInsidePadding),
-                    ),
-                  ),
-                  onPressed: () {
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        SizedBox(
+          width: kNormalButtonWidth,
+          child: Tooltip(
+            message: AppLocalizations.of(context)!.playlistToggleButtonTooltip,
+            child: ElevatedButton(
+              key: const Key('playlist_toggle_button'),
+              style: ButtonStyle(
+                shape: appElevatedButtonRoundedShape,
+                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                  const EdgeInsets.symmetric(
+                      horizontal: kSmallButtonInsidePadding),
+                ),
+              ),
+              onPressed: () {
+                Provider.of<PlaylistListVM>(context, listen: false)
+                    .toggleList();
+              },
+              child: const Text('Playlists'),
+            ),
+          ),
+        ),
+        Expanded(
+          child: IconButton(
+            key: const Key('move_up_playlist_button'),
+            onPressed: Provider.of<PlaylistListVM>(context)
+                    .isButtonMoveUpPlaylistEnabled
+                ? () {
                     Provider.of<PlaylistListVM>(context, listen: false)
-                        .toggleList();
-                  },
-                  child: const Text('Playlists'),
-                ),
-              ),
+                        .moveSelectedItemUp();
+                  }
+                : null,
+            padding: const EdgeInsets.all(0),
+            icon: const Icon(
+              Icons.arrow_drop_up,
+              size: 50,
             ),
-            Expanded(
-              child: IconButton(
-                key: const Key('move_up_playlist_button'),
-                onPressed: Provider.of<PlaylistListVM>(context)
-                        .isButtonMoveUpPlaylistEnabled
-                    ? () {
-                        Provider.of<PlaylistListVM>(context, listen: false)
-                            .moveSelectedItemUp();
-                      }
-                    : null,
-                padding: const EdgeInsets.all(0),
-                icon: const Icon(
-                  Icons.arrow_drop_up,
-                  size: 50,
-                ),
-              ),
-            ),
-            Expanded(
-              child: IconButton(
-                key: const Key('move_down_playlist_button'),
-                onPressed: Provider.of<PlaylistListVM>(context)
-                        .isButtonDownPlaylistEnabled
+          ),
+        ),
+        Expanded(
+          child: IconButton(
+            key: const Key('move_down_playlist_button'),
+            onPressed:
+                Provider.of<PlaylistListVM>(context).isButtonDownPlaylistEnabled
                     ? () {
                         Provider.of<PlaylistListVM>(context, listen: false)
                             .moveSelectedItemDown();
                       }
                     : null,
-                padding: const EdgeInsets.all(0),
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  size: 50,
-                ),
-              ),
+            padding: const EdgeInsets.all(0),
+            icon: const Icon(
+              Icons.arrow_drop_down,
+              size: 50,
             ),
-            SizedBox(
-              width: kGreaterButtonWidth,
-              child: Tooltip(
-                message: AppLocalizations.of(context)!
-                    .downloadSelPlaylistsButtonTooltip,
-                child: ElevatedButton(
-                  key: const Key('download_sel_playlists_button'),
-                  style: ButtonStyle(
-                    shape: appElevatedButtonRoundedShape,
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(
-                          horizontal: kSmallButtonInsidePadding),
-                    ),
-                  ),
-                  onPressed: (Provider.of<PlaylistListVM>(context)
-                              .isButtonDownloadSelPlaylistsEnabled &&
-                          !Provider.of<AudioDownloadVM>(context)
-                              .isDownloading)
-                      ? () async {
-                          PlaylistListVM expandablePlaylistListVM =
-                              Provider.of<PlaylistListVM>(context,
-                                  listen: false);
-
-                          // disable the sorted filtered playable audio list
-                          // downloading audios of selected playlists so that
-                          // the currently displayed audio list is not sorted
-                          // or/and filtered. This way, the newly downloaded
-                          // audio will be added at top of the displayed audio
-                          // list.
-                          expandablePlaylistListVM
-                              .disableSortedFilteredPlayableAudioLst();
-
-                          List<Playlist> selectedPlaylists =
-                              expandablePlaylistListVM.getSelectedPlaylist();
-
-                          // currently only one playlist can be selected and
-                          // downloaded at a time.
-                          await Provider.of<AudioDownloadVM>(context,
-                                  listen: false)
-                              .downloadPlaylistAudios(
-                                  playlistUrl: selectedPlaylists[0].url);
-                        }
-                      : null,
-                  child: Row(
-                    mainAxisSize: MainAxisSize
-                        .min, // Pour s'assurer que le Row n'occupe pas plus d'espace que nécessaire
-                    children: <Widget>[
-                      const Icon(
-                        Icons.download_outlined,
-                        size: 15,
-                      ),
-                      Text(AppLocalizations.of(context)!
-                          .downloadSelectedPlaylist), // Texte
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Tooltip(
-              message: AppLocalizations.of(context)!.musicalQualityTooltip,
-              child: SizedBox(
-                width: 20,
-                child: Checkbox(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: VisualDensity.compact,
-                  fillColor: MaterialStateColor.resolveWith(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.disabled)) {
-                        return Colors.grey.shade800;
-                      }
-                      return kDarkAndLightIconColor;
-                    },
-                  ),
-                  value: audioDownloadViewModel.isHighQuality,
-                  onChanged: (Provider.of<PlaylistListVM>(context)
-                              .isButtonMoveUpPlaylistEnabled &&
-                          !Provider.of<AudioDownloadVM>(context)
-                              .isDownloading)
-                      ? (bool? value) {
-                          bool isHighQuality = value ?? false;
-                          audioDownloadViewModel.setAudioQuality(
-                              isHighQuality: isHighQuality);
-                          String snackBarMessage = isHighQuality
-                              ? AppLocalizations.of(context)!
-                                  .audioQualityHighSnackBarMessage
-                              : AppLocalizations.of(context)!
-                                  .audioQualityLowSnackBarMessage;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            AudioLearnSnackBar(
-                              message: snackBarMessage,
-                            ),
-                          );
-                        }
-                      : null,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 35,
-              child: PopupMenuButton<PlaylistPopupMenuButton>(
-                key: const Key('audio_popup_menu_button'),
-                enabled: (Provider.of<PlaylistListVM>(context)
-                    .isButtonAudioPopupMenuEnabled),
-                onSelected: (PlaylistPopupMenuButton value) {
-                  // Handle menu item selection
-                  switch (value) {
-                    case PlaylistPopupMenuButton.sortFilterAudios:
-                      // Using FocusNode to enable clicking on Enter to close
-                      // the dialog
-                      final FocusNode focusNode = FocusNode();
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SortAndFilterAudioDialogWidget(
-                            selectedPlaylistAudioLst:
-                                Provider.of<PlaylistListVM>(context)
-                                    .getSelectedPlaylistPlayableAudios(
-                              subFilterAndSort: false,
-                            ),
-                            focusNode: focusNode,
-                          );
-                        },
-                      ).then((result) {
-                        if (result != null) {
-                          List<Audio> returnedAudioList = result;
-                          Provider.of<PlaylistListVM>(context, listen: false)
-                              .setSortedFilteredSelectedPlaylistsPlayableAudios(
-                                  returnedAudioList);
-                        }
-                      });
-                      focusNode.requestFocus();
-                      break;
-                    case PlaylistPopupMenuButton.subSortFilterAudios:
-                      // Using FocusNode to enable clicking on Enter to close
-                      // the dialog
-                      final FocusNode focusNode = FocusNode();
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SortAndFilterAudioDialogWidget(
-                            selectedPlaylistAudioLst:
-                                Provider.of<PlaylistListVM>(context)
-                                    .getSelectedPlaylistPlayableAudios(
-                              subFilterAndSort: true,
-                            ),
-                            focusNode: focusNode,
-                          );
-                        },
-                      ).then((result) {
-                        if (result != null) {
-                          List<Audio> returnedAudioList = result;
-                          Provider.of<PlaylistListVM>(context, listen: false)
-                              .setSortedFilteredSelectedPlaylistsPlayableAudios(
-                                  returnedAudioList);
-                        }
-                      });
-                      focusNode.requestFocus();
-                      break;
-                    case PlaylistPopupMenuButton.updatePlaylistJson:
-                      Provider.of<PlaylistListVM>(context, listen: false)
-                          .updateSettingsAndPlaylistJsonFiles();
-                      break;
-                    default:
-                      break;
-                  }
-                },
-                icon: const Icon(Icons.filter_list),
-                itemBuilder: (BuildContext context) {
-                  return [
-                    PopupMenuItem<PlaylistPopupMenuButton>(
-                      key: const Key('sort_and_filter_audio_dialog_item'),
-                      value: PlaylistPopupMenuButton.sortFilterAudios,
-                      child: Text(
-                          AppLocalizations.of(context)!.sortFilterAudios),
-                    ),
-                    PopupMenuItem<PlaylistPopupMenuButton>(
-                      key: const Key('sub_sort_and_filter_audio_dialog_item'),
-                      value: PlaylistPopupMenuButton.subSortFilterAudios,
-                      child: Text(
-                          AppLocalizations.of(context)!.subSortFilterAudios),
-                    ),
-                    PopupMenuItem<PlaylistPopupMenuButton>(
-                      key: const Key('update_playlist_json_dialog_item'),
-                      value: PlaylistPopupMenuButton.updatePlaylistJson,
-                      child: Text(AppLocalizations.of(context)!
-                          .updatePlaylistJsonFiles),
-                    ),
-                  ];
-                },
-              ),
-            ),
-          ],
-        );
-  }
-
-  SizedBox _buildFirstLine(BuildContext context, AudioDownloadVM audioDownloadViewModel) {
-    return SizedBox(
-          height: 40,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildPlaylistUrlAndTitle(context),
-              const SizedBox(
-                width: kRowWidthSeparator,
-              ),
-              _buildAddPlaylistButton(context),
-              const SizedBox(
-                width: kRowWidthSeparator,
-              ),
-              _buildDownloadSingleVideoButton(
-                  context, audioDownloadViewModel),
-              const SizedBox(
-                width: kRowWidthSeparator,
-              ),
-              _buildStopDownloadButton(context, audioDownloadViewModel),
-            ],
           ),
-        );
+        ),
+        SizedBox(
+          width: kGreaterButtonWidth,
+          child: Tooltip(
+            message:
+                AppLocalizations.of(context)!.downloadSelPlaylistsButtonTooltip,
+            child: ElevatedButton(
+              key: const Key('download_sel_playlists_button'),
+              style: ButtonStyle(
+                shape: appElevatedButtonRoundedShape,
+                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                  const EdgeInsets.symmetric(
+                      horizontal: kSmallButtonInsidePadding),
+                ),
+              ),
+              onPressed: (Provider.of<PlaylistListVM>(context)
+                          .isButtonDownloadSelPlaylistsEnabled &&
+                      !Provider.of<AudioDownloadVM>(context).isDownloading)
+                  ? () async {
+                      PlaylistListVM expandablePlaylistListVM =
+                          Provider.of<PlaylistListVM>(context, listen: false);
+
+                      // disable the sorted filtered playable audio list
+                      // downloading audios of selected playlists so that
+                      // the currently displayed audio list is not sorted
+                      // or/and filtered. This way, the newly downloaded
+                      // audio will be added at top of the displayed audio
+                      // list.
+                      expandablePlaylistListVM
+                          .disableSortedFilteredPlayableAudioLst();
+
+                      List<Playlist> selectedPlaylists =
+                          expandablePlaylistListVM.getSelectedPlaylist();
+
+                      // currently only one playlist can be selected and
+                      // downloaded at a time.
+                      await Provider.of<AudioDownloadVM>(context, listen: false)
+                          .downloadPlaylistAudios(
+                              playlistUrl: selectedPlaylists[0].url);
+                    }
+                  : null,
+              child: Row(
+                mainAxisSize: MainAxisSize
+                    .min, // Pour s'assurer que le Row n'occupe pas plus d'espace que nécessaire
+                children: <Widget>[
+                  const Icon(
+                    Icons.download_outlined,
+                    size: 15,
+                  ),
+                  Text(AppLocalizations.of(context)!
+                      .downloadSelectedPlaylist), // Texte
+                ],
+              ),
+            ),
+          ),
+        ),
+        Tooltip(
+          message: AppLocalizations.of(context)!.musicalQualityTooltip,
+          child: SizedBox(
+            width: 20,
+            child: Checkbox(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              visualDensity: VisualDensity.compact,
+              fillColor: MaterialStateColor.resolveWith(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return Colors.grey.shade800;
+                  }
+                  return kDarkAndLightIconColor;
+                },
+              ),
+              value: audioDownloadViewModel.isHighQuality,
+              onChanged: (Provider.of<PlaylistListVM>(context)
+                          .isButtonMoveUpPlaylistEnabled &&
+                      !Provider.of<AudioDownloadVM>(context).isDownloading)
+                  ? (bool? value) {
+                      bool isHighQuality = value ?? false;
+                      audioDownloadViewModel.setAudioQuality(
+                          isHighQuality: isHighQuality);
+                      String snackBarMessage = isHighQuality
+                          ? AppLocalizations.of(context)!
+                              .audioQualityHighSnackBarMessage
+                          : AppLocalizations.of(context)!
+                              .audioQualityLowSnackBarMessage;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        AudioLearnSnackBar(
+                          message: snackBarMessage,
+                        ),
+                      );
+                    }
+                  : null,
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 35,
+          child: PopupMenuButton<PlaylistPopupMenuButton>(
+            key: const Key('audio_popup_menu_button'),
+            enabled: (Provider.of<PlaylistListVM>(context)
+                .isButtonAudioPopupMenuEnabled),
+            onSelected: (PlaylistPopupMenuButton value) {
+              // Handle menu item selection
+              switch (value) {
+                case PlaylistPopupMenuButton.sortFilterAudios:
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
+                  final FocusNode focusNode = FocusNode();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SortAndFilterAudioDialogWidget(
+                        selectedPlaylistAudioLst:
+                            Provider.of<PlaylistListVM>(context)
+                                .getSelectedPlaylistPlayableAudios(
+                          subFilterAndSort: false,
+                        ),
+                        focusNode: focusNode,
+                      );
+                    },
+                  ).then((result) {
+                    if (result != null) {
+                      List<Audio> returnedAudioList = result;
+                      Provider.of<PlaylistListVM>(context, listen: false)
+                          .setSortedFilteredSelectedPlaylistsPlayableAudios(
+                              returnedAudioList);
+                    }
+                  });
+                  focusNode.requestFocus();
+                  break;
+                case PlaylistPopupMenuButton.subSortFilterAudios:
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
+                  final FocusNode focusNode = FocusNode();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SortAndFilterAudioDialogWidget(
+                        selectedPlaylistAudioLst:
+                            Provider.of<PlaylistListVM>(context)
+                                .getSelectedPlaylistPlayableAudios(
+                          subFilterAndSort: true,
+                        ),
+                        focusNode: focusNode,
+                      );
+                    },
+                  ).then((result) {
+                    if (result != null) {
+                      List<Audio> returnedAudioList = result;
+                      Provider.of<PlaylistListVM>(context, listen: false)
+                          .setSortedFilteredSelectedPlaylistsPlayableAudios(
+                              returnedAudioList);
+                    }
+                  });
+                  focusNode.requestFocus();
+                  break;
+                case PlaylistPopupMenuButton.updatePlaylistJson:
+                  Provider.of<PlaylistListVM>(context, listen: false)
+                      .updateSettingsAndPlaylistJsonFiles();
+                  break;
+                default:
+                  break;
+              }
+            },
+            icon: const Icon(Icons.filter_list),
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem<PlaylistPopupMenuButton>(
+                  key: const Key('sort_and_filter_audio_dialog_item'),
+                  value: PlaylistPopupMenuButton.sortFilterAudios,
+                  child: Text(AppLocalizations.of(context)!.sortFilterAudios),
+                ),
+                PopupMenuItem<PlaylistPopupMenuButton>(
+                  key: const Key('sub_sort_and_filter_audio_dialog_item'),
+                  value: PlaylistPopupMenuButton.subSortFilterAudios,
+                  child:
+                      Text(AppLocalizations.of(context)!.subSortFilterAudios),
+                ),
+                PopupMenuItem<PlaylistPopupMenuButton>(
+                  key: const Key('update_playlist_json_dialog_item'),
+                  value: PlaylistPopupMenuButton.updatePlaylistJson,
+                  child: Text(
+                      AppLocalizations.of(context)!.updatePlaylistJsonFiles),
+                ),
+              ];
+            },
+          ),
+        ),
+      ],
+    );
   }
 
-  SizedBox _buildStopDownloadButton(BuildContext context, AudioDownloadVM audioDownloadViewModel) {
+  SizedBox _buildFirstLine(
+      BuildContext context, AudioDownloadVM audioDownloadViewModel) {
     return SizedBox(
-                width: kSmallestButtonWidth,
-                child: Tooltip(
-                  message: AppLocalizations.of(context)!
-                      .stopDownloadingButtonTooltip,
-                  child: ElevatedButton(
-                    key: const Key('stopDownloadingButton'),
-                    style: ButtonStyle(
-                      shape: appElevatedButtonRoundedShape,
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(
-                            horizontal: kSmallButtonInsidePadding),
-                      ),
-                    ),
-                    onPressed: audioDownloadViewModel.isDownloading &&
-                            !audioDownloadViewModel.isDownloadStopping
-                        ? () {
-                            // Flushbar creation must be located before calling
-                            // the stopDownload method, otherwise the flushbar
-                            // will be located higher.
-                            Flushbar(
-                              flushbarPosition: FlushbarPosition.TOP,
-                              message: AppLocalizations.of(context)!
-                                  .audioDownloadingStopping,
-                              duration: const Duration(seconds: 8),
-                              backgroundColor: Colors.purple.shade900,
-                              messageColor: Colors.white,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
-                            ).show(context);
-                            audioDownloadViewModel.stopDownload();
-                          }
-                        : null,
-                    child: Text(AppLocalizations.of(context)!.stopDownload),
-                  ),
-                ),
-              );
+      height: 40,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildPlaylistUrlAndTitle(context),
+          const SizedBox(
+            width: kRowWidthSeparator,
+          ),
+          _buildAddPlaylistButton(context),
+          const SizedBox(
+            width: kRowWidthSeparator,
+          ),
+          _buildDownloadSingleVideoButton(context, audioDownloadViewModel),
+          const SizedBox(
+            width: kRowWidthSeparator,
+          ),
+          _buildStopDownloadButton(context, audioDownloadViewModel),
+        ],
+      ),
+    );
+  }
+
+  SizedBox _buildStopDownloadButton(
+      BuildContext context, AudioDownloadVM audioDownloadViewModel) {
+    return SizedBox(
+      width: kSmallestButtonWidth,
+      child: Tooltip(
+        message: AppLocalizations.of(context)!.stopDownloadingButtonTooltip,
+        child: ElevatedButton(
+          key: const Key('stopDownloadingButton'),
+          style: ButtonStyle(
+            shape: appElevatedButtonRoundedShape,
+            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
+            ),
+          ),
+          onPressed: audioDownloadViewModel.isDownloading &&
+                  !audioDownloadViewModel.isDownloadStopping
+              ? () {
+                  // Flushbar creation must be located before calling
+                  // the stopDownload method, otherwise the flushbar
+                  // will be located higher.
+                  Flushbar(
+                    flushbarPosition: FlushbarPosition.TOP,
+                    message:
+                        AppLocalizations.of(context)!.audioDownloadingStopping,
+                    duration: const Duration(seconds: 8),
+                    backgroundColor: Colors.purple.shade900,
+                    messageColor: Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  ).show(context);
+                  audioDownloadViewModel.stopDownload();
+                }
+              : null,
+          child: Text(AppLocalizations.of(context)!.stopDownload),
+        ),
+      ),
+    );
   }
 
   SizedBox _buildDownloadSingleVideoButton(
