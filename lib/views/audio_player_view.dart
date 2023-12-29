@@ -100,27 +100,24 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       _audioPlaySpeed = audioGlobalPlayerVM.currentAudio!.audioPlaySpeed;
     }
 
-    return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          _buildSetAudioSpeedButton(
-            context,
-          ),
-          // const SizedBox(height: 10.0),
-          _buildPlayButton(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              _buildStartEndButtonsWithTitle(),
-              _buildAudioSlider(),
-              _buildPositionButtons(),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _buildSetAudioSpeedButton(
+          context,
+        ),
+        // const SizedBox(height: 10.0),
+        _buildPlayButton(),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            _buildStartEndButtonsWithTitle(),
+            _buildAudioSlider(),
+            _buildPositionButtons(),
+          ],
+        ),
+      ],
     );
   }
 
