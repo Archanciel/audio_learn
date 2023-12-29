@@ -37,18 +37,18 @@ mixin ScreenMixin {
   static const double screenIconSizeDarkTheme = 29.0;
 
   // Defining custom icon themes for light theme
-  final IconThemeData activeScreenIconLightTheme =  const IconThemeData(
-    color: Color(0xff6750a4), // slider thumbColor in light mode
+  final IconThemeData activeScreenIconLightTheme = const IconThemeData(
+    color: kSliderThumbColorInLightMode,
     size: screenIconSizeLightTheme,
   );
-  final IconThemeData inactiveScreenIconLightTheme =  const IconThemeData(
+  final IconThemeData inactiveScreenIconLightTheme = const IconThemeData(
     color: Colors.grey,
     size: screenIconSizeLightTheme,
   );
 
   // Defining custom icon themes for dark theme
-  final IconThemeData activeScreenIconDarkTheme =  const IconThemeData(
-    color: Color(0xffd0bcff), // slider thumbColor in dark mode
+  final IconThemeData activeScreenIconDarkTheme = const IconThemeData(
+    color: kSliderThumbColorInDarkMode,
     size: screenIconSizeDarkTheme,
   );
   final IconThemeData inactiveScreenIconDarkTheme = const IconThemeData(

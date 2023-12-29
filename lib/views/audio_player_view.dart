@@ -1,3 +1,5 @@
+import 'package:audio_learn/services/settings_data_service.dart';
+import 'package:audio_learn/viewmodels/theme_provider_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -124,12 +126,12 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildSetAudioSpeedButton(
     BuildContext context,
   ) {
-    return Consumer<AudioPlayerVM>(
+    return Consumer2<AudioPlayerVM, ThemeProviderVM>(
       // using Consumer<AudioPlayerVM> ensure that _audioPlaySpeed
       // is updated when the another audio is selected in the
       // AudioOneSelectableDialogWidget or when the next or previous
       // audio is set as current audio.
-      builder: (context, audioGlobalPlayerVM, child) {
+      builder: (context, audioGlobalPlayerVM, themeProviderVM, child) {
         Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
         if (currentAudio == null) {
@@ -168,7 +170,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             child: Text(
               '${_audioPlaySpeed.toStringAsFixed(2)}x',
               textAlign: TextAlign.center,
-              style: kPositionButtonTextStyle,
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kSetAudioSpeedTextButtonStyleDarkMode
+                  : kSetAudioSpeedTextButtonStyleLightMode,
             ),
           ),
         );
