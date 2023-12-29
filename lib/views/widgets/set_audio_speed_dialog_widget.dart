@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SetAudioSpeedDialogWidget extends StatefulWidget {
   double audioPlaySpeed;
@@ -15,11 +16,24 @@ class SetAudioSpeedDialogWidget extends StatefulWidget {
 
 class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
   double _audioPlaySpeed = 1.0;
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     _audioPlaySpeed = widget.audioPlaySpeed;
+
+    // Request focus when the widget is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   void _changeSliderValue(double newValue) {
@@ -30,24 +44,35 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Vitesse de lecture'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text('${_audioPlaySpeed.toStringAsFixed(2)}x'),
-          _buildSlider(),
-          _buildSpeedButtons(),
+    return RawKeyboardListener(
+      focusNode: _focusNode,
+      onKey: (event) {
+        if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
+            event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
+          // executing the same code as in the 'Ok' TextButton
+          // onPressed callback
+          Navigator.of(context).pop(_audioPlaySpeed);
+        }
+      },
+      child: AlertDialog(
+        title: const Text('Vitesse de lecture'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text('${_audioPlaySpeed.toStringAsFixed(2)}x'),
+            _buildSlider(),
+            _buildSpeedButtons(),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop(_audioPlaySpeed);
+            },
+          ),
         ],
       ),
-      actions: <Widget>[
-        TextButton(
-          child: const Text('OK'),
-          onPressed: () {
-            Navigator.of(context).pop(_audioPlaySpeed);
-          },
-        ),
-      ],
     );
   }
 
