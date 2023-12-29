@@ -105,7 +105,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+        children: <Widget>[
           _buildSetAudioSpeedButton(
             context,
           ),
