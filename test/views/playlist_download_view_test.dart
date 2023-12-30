@@ -638,6 +638,9 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get appBarTitleAudioExtractor => 'Audio Extractor';
+
+  @override
+  String get setAudioPlaySpeedTooltip => 'Set audio play speed';
 }
 
 class MockAppLocalizationsDelegate
