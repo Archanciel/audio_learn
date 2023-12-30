@@ -236,5 +236,6 @@
   "deleteYoutubePlaylistDialogTitle": "Supprimer la playlist Youtube \"{title}\"",
   "deleteLocalPlaylistDialogTitle": "Supprimer la playlist locale \"{title}\"",
   "deletePlaylistDialogComment": "Suppression de la playlist ainsi que de tous ses fichiers audio, de son fichier JSON et de son répertoire.",
-  "appBarTitleAudioExtractor": "Extracteur Audio"
+  "appBarTitleAudioExtractor": "Extracteur Audio",
+  "setAudioPlaySpeedTooltip": "Définir la vitesse de lecture de l'audio"
 }

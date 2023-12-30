@@ -166,7 +166,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             focusNode.requestFocus();
           },
           child: Tooltip(
-            message: AppLocalizations.of(context)!.addPlaylistButtonTooltip,
+            message: AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
             child: Text(
               '${_audioPlaySpeed.toStringAsFixed(2)}x',
               textAlign: TextAlign.center,

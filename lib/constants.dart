@@ -102,14 +102,14 @@ const Color kSliderThumbColorInLightMode = Color(0xff6750a4);
 const kSetAudioSpeedTextButtonStyleDarkMode = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
-  fontSize: 19.0,
+  fontSize: 18.0,
   color: kSliderThumbColorInDarkMode,
 );
 
 const kSetAudioSpeedTextButtonStyleLightMode = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
-  fontSize: 19.0,
+  fontSize: 18.0,
   color: kSliderThumbColorInLightMode,
 );
 
