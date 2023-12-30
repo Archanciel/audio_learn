@@ -228,8 +228,14 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  _displayOtherAudiosDialog(
-                      audioGlobalPlayerVM.getCurrentAudioIndex());
+                  if (audioGlobalPlayerVM
+                      .getPlayableAudiosOrderedByDownloadDate()
+                      .isEmpty) {
+                    // there is no audio to play
+                    return;
+                  }
+
+                  _displayOtherAudiosDialog();
                 },
                 child: Text(
                   currentAudioTitleWithDuration,
@@ -242,8 +248,16 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               ),
             ),
             GestureDetector(
-              onLongPress: () => _displayOtherAudiosDialog(
-                  audioGlobalPlayerVM.getCurrentAudioIndex()),
+              onLongPress: () {
+                if (audioGlobalPlayerVM
+                    .getPlayableAudiosOrderedByDownloadDate()
+                    .isEmpty) {
+                  // there is no audio to play
+                  return;
+                }
+
+                _displayOtherAudiosDialog();
+              },
               child: IconButton(
                 iconSize: _audioIconSizeMedium,
                 onPressed: () => audioGlobalPlayerVM.skipToEndAndPlay(),
@@ -440,7 +454,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     );
   }
 
-  void _displayOtherAudiosDialog(int audioIndex) {
+  void _displayOtherAudiosDialog() {
     showDialog(
       context: context,
       builder: (context) => const DisplaySelectableAudioListDialogWidget(),

@@ -213,13 +213,73 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    testWidgets(
+        'Opening AudioPlayerView by clicking on AudioPlayerView icon button in situation where no playlist is selected.',
+        (WidgetTester tester) async {
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_view_no_playlist_selected_test',
+        selectedPlaylistTitle: null, // no playlist selected
+      );
+
+      // Now we tap on the AudioPlayerView icon button to open
+      // AudioPlayerView screen which displays the current
+      // playable audio which is paused
+
+      // Assuming you have a button to navigate to the AudioPlayerView
+      final audioPlayerNavButton =
+          find.byKey(const ValueKey('audioPlayerViewIconButton'));
+      await tester.tap(audioPlayerNavButton);
+      await tester.pumpAndSettle();
+
+      // Verify the no selected audio title is displayed
+      Finder noAudioTitleFinder = find.text("No audio selected");
+      expect(noAudioTitleFinder, findsOneWidget);
+
+      await tester.tap(noAudioTitleFinder);
+      await tester.pumpAndSettle();
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Opening AudioPlayerView by clicking on AudioPlayerView icon button in situation where no playlist exist.',
+        (WidgetTester tester) async {
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: null, // no playlist created
+        selectedPlaylistTitle: null, // no playlist selected
+      );
+
+      // Now we tap on the AudioPlayerView icon button to open
+      // AudioPlayerView screen which displays the current
+      // playable audio which is paused
+
+      // Assuming you have a button to navigate to the AudioPlayerView
+      final audioPlayerNavButton =
+          find.byKey(const ValueKey('audioPlayerViewIconButton'));
+      await tester.tap(audioPlayerNavButton);
+      await tester.pumpAndSettle();
+
+      // Verify the no selected audio title is displayed
+      Finder noAudioTitleFinder = find.text("No audio selected");
+      expect(noAudioTitleFinder, findsOneWidget);
+
+      await tester.tap(noAudioTitleFinder);
+      await tester.pumpAndSettle();
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
   });
 }
 
 Future<void> initializeApplication({
   required WidgetTester tester,
-  required String savedTestDataDirName,
-  required String selectedPlaylistTitle,
+  String? savedTestDataDirName,
+  String? selectedPlaylistTitle,
 }) async {
   // Purge the test playlist directory if it exists so that the
   // playlist list is empty
@@ -228,12 +288,14 @@ Future<void> initializeApplication({
     deleteSubDirectoriesAsWell: true,
   );
 
-  // Copy the test initial audio data to the app dir
-  DirUtil.copyFilesFromDirAndSubDirsToDirectory(
-    sourceRootPath:
-        "$kDownloadAppTestSavedDataDir${path.separator}$savedTestDataDirName",
-    destinationRootPath: kDownloadAppTestDirWindows,
-  );
+  if (savedTestDataDirName != null) {
+    // Copy the test initial audio data to the app dir
+    DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+      sourceRootPath:
+          "$kDownloadAppTestSavedDataDir${path.separator}$savedTestDataDirName",
+      destinationRootPath: kDownloadAppTestDirWindows,
+    );
+  }
 
   SettingsDataService settingsDataService = SettingsDataService(isTest: true);
 
@@ -254,37 +316,39 @@ Future<void> initializeApplication({
   await tester.tap(find.byKey(const Key('playlist_toggle_button')));
   await tester.pumpAndSettle();
 
-  // Find the ListTile Playlist containing the playlist which
-  // contains the audio to play
+  if (selectedPlaylistTitle != null) {
+    // Find the ListTile Playlist containing the playlist which
+    // contains the audio to play
 
-  // First, find the Playlist ListTile Text widget
-  final Finder audioPlayerSelectedPlaylistFinder =
-      find.text(selectedPlaylistTitle);
+    // First, find the Playlist ListTile Text widget
+    final Finder audioPlayerSelectedPlaylistFinder =
+        find.text(selectedPlaylistTitle);
 
-  // Then obtain the Playlist ListTile widget enclosing the Text
-  // widget by finding its ancestor
-  final Finder selectedPlaylistListTileWidgetFinder = find.ancestor(
-    of: audioPlayerSelectedPlaylistFinder,
-    matching: find.byType(ListTile),
-  );
+    // Then obtain the Playlist ListTile widget enclosing the Text
+    // widget by finding its ancestor
+    final Finder selectedPlaylistListTileWidgetFinder = find.ancestor(
+      of: audioPlayerSelectedPlaylistFinder,
+      matching: find.byType(ListTile),
+    );
 
-  // Now find the Checkbox widget located in the Playlist ListTile
-  // and tap on it to select the playlist
-  final Finder selectedPlaylistCheckboxWidgetFinder = find.descendant(
-    of: selectedPlaylistListTileWidgetFinder,
-    matching: find.byType(Checkbox),
-  );
+    // Now find the Checkbox widget located in the Playlist ListTile
+    // and tap on it to select the playlist
+    final Finder selectedPlaylistCheckboxWidgetFinder = find.descendant(
+      of: selectedPlaylistListTileWidgetFinder,
+      matching: find.byType(Checkbox),
+    );
 
-  // Retrieve the Checkbox widget
-  final Checkbox checkbox =
-      tester.widget<Checkbox>(selectedPlaylistCheckboxWidgetFinder);
+    // Retrieve the Checkbox widget
+    final Checkbox checkbox =
+        tester.widget<Checkbox>(selectedPlaylistCheckboxWidgetFinder);
 
-  // Check if the checkbox is checked
-  if (checkbox.value == null || !checkbox.value!) {
-    // Tap the ListTile Playlist checkbox to select it
-    // so that the playlist audios are listed
-    await tester.tap(selectedPlaylistCheckboxWidgetFinder);
-    await tester.pumpAndSettle();
+    // Check if the checkbox is checked
+    if (checkbox.value == null || !checkbox.value!) {
+      // Tap the ListTile Playlist checkbox to select it
+      // so that the playlist audios are listed
+      await tester.tap(selectedPlaylistCheckboxWidgetFinder);
+      await tester.pumpAndSettle();
+    }
   }
 }
 

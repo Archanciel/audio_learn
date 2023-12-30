@@ -34,7 +34,7 @@ class _DisplaySelectableAudioListDialogWidgetState
   final ScrollController _scrollController = ScrollController();
   final GlobalKey myKey = GlobalKey();
 
-  late int currentAudioIndex;
+  late int _currentAudioIndex;
 
   final double _itemHeight = 70.0;
 
@@ -45,7 +45,7 @@ class _DisplaySelectableAudioListDialogWidgetState
     // Request focus when the widget is initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
-      scrollToItem();
+      _scrollToItem();
     });
   }
 
@@ -72,9 +72,9 @@ class _DisplaySelectableAudioListDialogWidgetState
     // avoid error when the dialog is opened and the current
     // audio is not yet set
     if (currentAudio == null) {
-      currentAudioIndex = -1;
+      _currentAudioIndex = -1;
     } else {
-      currentAudioIndex = playableAudioLst.indexOf(currentAudio);
+      _currentAudioIndex = playableAudioLst.indexOf(currentAudio);
     }
 
     return RawKeyboardListener(
@@ -170,25 +170,28 @@ class _DisplaySelectableAudioListDialogWidgetState
     );
   }
 
-  Widget _buildTextWidget(Audio audio, int index) {
+  Widget _buildTextWidget(
+    Audio audio,
+    int index,
+  ) {
     return SizedBox(
       height: _itemHeight,
       child: Text(
         audio.validVideoTitle,
         maxLines: 3,
         style: TextStyle(
-          color: (index == currentAudioIndex) ? Colors.blue : null,
+          color: (index == _currentAudioIndex) ? Colors.blue : null,
         ),
       ),
     );
   }
 
-  void scrollToItem() {
-    double multiplier = currentAudioIndex.toDouble();
+  void _scrollToItem() {
+    double multiplier = _currentAudioIndex.toDouble();
 
-    if (currentAudioIndex > 300) {
+    if (_currentAudioIndex > 300) {
       multiplier *= 1.23;
-    } else if (currentAudioIndex > 120) {
+    } else if (_currentAudioIndex > 120) {
       multiplier *= 1.2;
     }
 
@@ -203,7 +206,7 @@ class _DisplaySelectableAudioListDialogWidgetState
     } else {
       // The scroll controller isn't attached to any scroll views.
       // Schedule a callback to try again after the next frame.
-      WidgetsBinding.instance.addPostFrameCallback((_) => scrollToItem());
+      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToItem());
     }
   }
 }

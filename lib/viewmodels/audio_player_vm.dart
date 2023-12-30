@@ -571,6 +571,14 @@ class AudioPlayerVM extends ChangeNotifier {
     if (_currentAudio == null) {
       // the case if "No audio selected" audio title is
       // displayed in the AudioPlayerView screen
+
+      if (_playlistListVM.getSelectedPlaylist().isEmpty) {
+        // the case if no playlist is selected. Solves
+        // AudioPlayerView integration test no playlist
+        // selected or no playlist exist failure.
+        return [];
+      }
+
       return _playlistListVM
           .getSelectedPlaylist()
           .first
