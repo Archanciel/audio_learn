@@ -126,12 +126,16 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildSetAudioSpeedTextButton(
     BuildContext context,
   ) {
-    return Consumer2<AudioPlayerVM, ThemeProviderVM>(
+    return Consumer<ThemeProviderVM>(
       // using Consumer<AudioPlayerVM> ensure that _audioPlaySpeed
       // is updated when the another audio is selected in the
       // AudioOneSelectableDialogWidget or when the next or previous
       // audio is set as current audio.
-      builder: (context, audioGlobalPlayerVM, themeProviderVM, child) {
+      builder: (context, themeProviderVM, child) {
+        AudioPlayerVM audioGlobalPlayerVM = Provider.of<AudioPlayerVM>(
+          context,
+          listen: false,
+        );
         Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
         if (currentAudio == null) {
@@ -160,6 +164,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 setState(() {
                   _audioPlaySpeed = value as double;
                 });
+                
                 audioGlobalPlayerVM.changeAudioPlaySpeed(_audioPlaySpeed);
               }
             });
