@@ -1,5 +1,10 @@
+import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/audio.dart';
+import '../../viewmodels/audio_player_vm.dart';
 
 class SetAudioSpeedDialogWidget extends StatefulWidget {
   double audioPlaySpeed;
@@ -36,14 +41,18 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
     super.dispose();
   }
 
-  void _changeSliderValue(double newValue) {
-    setState(() {
-      _audioPlaySpeed = newValue;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    AudioPlayerVM audioGlobalPlayerVM = Provider.of<AudioPlayerVM>(
+      context,
+      listen: false,
+    );
+    Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
+
+    if (currentAudio != null) {
+      _audioPlaySpeed = currentAudio.audioPlaySpeed;
+    }
+
     return RawKeyboardListener(
       focusNode: _focusNode,
       onKey: (event) {
@@ -60,8 +69,8 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text('${_audioPlaySpeed.toStringAsFixed(2)}x'),
-            _buildSlider(),
-            _buildSpeedButtons(),
+            _buildSlider(audioGlobalPlayerVM),
+            _buildSpeedButtons(audioGlobalPlayerVM),
           ],
         ),
         actions: <Widget>[
@@ -76,16 +85,21 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
     );
   }
 
-  Row _buildSlider() {
+  Row _buildSlider(
+    AudioPlayerVM audioGlobalPlayerVM,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
           icon: const Icon(Icons.remove),
           onPressed: () {
-            double newSpeed = _audioPlaySpeed - 0.25;
+            double newSpeed = _audioPlaySpeed - 0.1;
             if (newSpeed >= 0.5) {
-              _changeSliderValue(newSpeed);
+              _setPlaybackSpeed(
+                audioGlobalPlayerVM,
+                newSpeed,
+              );
             }
           },
         ),
@@ -97,16 +111,22 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
             label: "${_audioPlaySpeed.toStringAsFixed(1)}x",
             value: _audioPlaySpeed,
             onChanged: (value) {
-              _changeSliderValue(value);
+              _setPlaybackSpeed(
+                audioGlobalPlayerVM,
+                value,
+              );
             },
           ),
         ),
         IconButton(
           icon: const Icon(Icons.add),
           onPressed: () {
-            double newSpeed = _audioPlaySpeed + 0.25;
+            double newSpeed = _audioPlaySpeed + 0.1;
             if (newSpeed <= 2.0) {
-              _changeSliderValue(newSpeed);
+              _setPlaybackSpeed(
+                audioGlobalPlayerVM,
+                newSpeed,
+              );
             }
           },
         ),
@@ -114,23 +134,39 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
     );
   }
 
-  Widget _buildSpeedButtons() {
-    final speeds = [0.5, 1.0, 1.5, 2.0];
+  Widget _buildSpeedButtons(
+    AudioPlayerVM audioGlobalPlayerVM,
+  ) {
+    final speeds = [0.7, 1.0, 1.25, 1.5, 2.0];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: speeds.map((speed) {
         return TextButton(
+          style: TextButton.styleFrom(
+            minimumSize: Size(18, 18), // Set a minimum touch target size
+            padding:
+                EdgeInsets.symmetric(horizontal: 0), // Adjust padding as needed
+          ),
           child: Text('${speed}x'),
-          onPressed: () => _setPlaybackSpeed(speed),
+          onPressed: () {
+            _setPlaybackSpeed(
+              audioGlobalPlayerVM,
+              speed,
+            );
+          },
         );
       }).toList(),
     );
   }
 
-  void _setPlaybackSpeed(double speed) {
+  void _setPlaybackSpeed(
+    AudioPlayerVM audioGlobalPlayerVM,
+    double newValue,
+  ) {
     setState(() {
-      _audioPlaySpeed = speed;
+      _audioPlaySpeed = newValue;
     });
-    // Ajouter la logique pour changer la vitesse de lecture de l'audio
+
+    audioGlobalPlayerVM.changeAudioPlaySpeed(_audioPlaySpeed);
   }
 }

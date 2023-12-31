@@ -164,8 +164,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 setState(() {
                   _audioPlaySpeed = value as double;
                 });
-                
-                audioGlobalPlayerVM.changeAudioPlaySpeed(_audioPlaySpeed);
               }
             });
             focusNode.requestFocus();
