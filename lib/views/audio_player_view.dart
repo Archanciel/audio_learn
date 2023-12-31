@@ -106,7 +106,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _buildSetAudioSpeedButton(
+        _buildSetAudioSpeedTextButton(
           context,
         ),
         // const SizedBox(height: 10.0),
@@ -123,7 +123,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     );
   }
 
-  Widget _buildSetAudioSpeedButton(
+  Widget _buildSetAudioSpeedTextButton(
     BuildContext context,
   ) {
     return Consumer2<AudioPlayerVM, ThemeProviderVM>(
