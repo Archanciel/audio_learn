@@ -33,7 +33,7 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
       onKey: (event) {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // executing the same code as in the 'Ok'
+          // executing the same code as in the 'OK'
           // ElevatedButton onPressed callback
           Navigator.of(context).pop();
         }
@@ -43,7 +43,8 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
         actionsPadding:
             // reduces the top vertical space between the buttons
             // and the content
-            const EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
+            const EdgeInsets.fromLTRB(
+                10, 0, 10, 10), // Adjust the value as needed
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[

@@ -65,7 +65,8 @@ class DisplayMessageWidget extends StatelessWidget {
                 _displayWarningDialog(
                     context: _context,
                     message: AppLocalizations.of(context)!
-                        .downloadAudioYoutubeErrorDueToLiveVideoInPlaylist(playlistTitle, liveVideoString),
+                        .downloadAudioYoutubeErrorDueToLiveVideoInPlaylist(
+                            playlistTitle, liveVideoString),
                     warningMessageVM: _warningMessageVM);
               });
             }
@@ -417,7 +418,7 @@ class DisplayMessageWidget extends StatelessWidget {
         onKey: (event) {
           if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
               event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-            // executing the same code as in the 'Ok'
+            // executing the same code as in the 'OK'
             // ElevatedButton onPressed callback
             warningMessageVM.warningMessageType = WarningMessageType.none;
             Navigator.of(context).pop();
@@ -442,7 +443,7 @@ class DisplayMessageWidget extends StatelessWidget {
             TextButton(
               child: const Text(
                 key: Key('warningDialogOkButton'),
-                'Ok',
+                'OK',
               ),
               onPressed: () {
                 warningMessageVM.warningMessageType = WarningMessageType.none;
