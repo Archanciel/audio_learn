@@ -83,8 +83,19 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
             },
           ),
           TextButton(
-            child: const Text('Cancel'),
+            child: Text(
+              AppLocalizations.of(context)!.cancel,
+            ),
             onPressed: () {
+              // restoring the previous audio play speed when
+              // cancel button is pressed. Otherwise, the audio
+              // play speed is changed even if the user presses
+              // the cancel button.
+              _setPlaybackSpeed(
+                audioGlobalPlayerVM,
+                widget.audioPlaySpeed,
+              );
+
               Navigator.of(context).pop();
             },
           ),
