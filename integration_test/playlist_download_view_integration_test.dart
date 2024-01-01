@@ -5333,9 +5333,9 @@ void verifyWidgetIsDisabled({
   // Check if the widget is disabled based on its type
   if (widget is IconButton) {
     expect(widget.onPressed, isNull, reason: 'IconButton should be disabled');
-  } else if (widget is ElevatedButton) {
+  } else if (widget is TextButton) {
     expect(widget.onPressed, isNull,
-        reason: 'ElevatedButton should be disabled');
+        reason: 'TextButton should be disabled');
   } else if (widget is Checkbox) {
     // For Checkbox, you can check if onChanged is null
     expect(widget.onChanged, isNull, reason: 'Checkbox should be disabled');
@@ -5363,9 +5363,9 @@ void verifyWidgetIsEnabled({
   if (widget is IconButton) {
     expect(widget.onPressed, isNotNull,
         reason: 'IconButton should be disabled');
-  } else if (widget is ElevatedButton) {
+  } else if (widget is TextButton) {
     expect(widget.onPressed, isNotNull,
-        reason: 'ElevatedButton should be disabled');
+        reason: 'TextButton should be disabled');
   } else if (widget is Checkbox) {
     // For Checkbox, you can check if onChanged is null
     expect(widget.onChanged, isNotNull, reason: 'Checkbox should be disabled');

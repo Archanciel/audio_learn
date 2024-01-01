@@ -174,8 +174,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               '${_audioPlaySpeed.toStringAsFixed(2)}x',
               textAlign: TextAlign.center,
               style: (themeProviderVM.currentTheme == AppTheme.dark)
-                  ? kSetAudioSpeedTextButtonStyleDarkMode
-                  : kSetAudioSpeedTextButtonStyleLightMode,
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
             ),
           ),
         );

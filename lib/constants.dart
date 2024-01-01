@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.8.0';
+const String kApplicationVersion = '0.8.1';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
@@ -99,14 +99,14 @@ const kPositionButtonTextStyle = TextStyle(
 const Color kSliderThumbColorInDarkMode = Color(0xffd0bcff);
 const Color kSliderThumbColorInLightMode = Color(0xff6750a4);
 
-const kSetAudioSpeedTextButtonStyleDarkMode = TextStyle(
+const kTextButtonStyleDarkMode = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
   fontSize: 18.0,
   color: kSliderThumbColorInDarkMode,
 );
 
-const kSetAudioSpeedTextButtonStyleLightMode = TextStyle(
+const kTextButtonStyleLightMode = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
   fontSize: 18.0,

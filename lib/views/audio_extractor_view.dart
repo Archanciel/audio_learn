@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
+import '../services/settings_data_service.dart';
+import '../viewmodels/theme_provider_vm.dart';
 import 'screen_mixin.dart';
 
 class AudioExtractorView extends StatefulWidget {
@@ -224,6 +227,8 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
   }
 
   Widget _buildPlayStopButtonsRow() {
+    ThemeProviderVM themeProviderVM =
+        Provider.of<ThemeProviderVM>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -235,7 +240,12 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
             ),
           ),
           onPressed: () {/* Play action */},
-          child: const Text('Play'),
+          child: Text(
+            'Play',
+            style: (themeProviderVM.currentTheme == AppTheme.dark)
+                ? kTextButtonStyleDarkMode
+                : kTextButtonStyleLightMode,
+          ),
         ),
         const SizedBox(
           width: kRowWidthSeparator,
@@ -248,7 +258,12 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
             ),
           ),
           onPressed: () {/* Stop action */},
-          child: const Text('Stop'),
+          child: Text(
+            'Stop',
+            style: (themeProviderVM.currentTheme == AppTheme.dark)
+                ? kTextButtonStyleDarkMode
+                : kTextButtonStyleLightMode,
+          ),
         ),
       ],
     );

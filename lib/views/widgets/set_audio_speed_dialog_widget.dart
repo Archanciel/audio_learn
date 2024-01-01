@@ -3,8 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../constants.dart';
 import '../../models/audio.dart';
+import '../../services/settings_data_service.dart';
 import '../../viewmodels/audio_player_vm.dart';
+import '../../viewmodels/theme_provider_vm.dart';
 
 class SetAudioSpeedDialogWidget extends StatefulWidget {
   double audioPlaySpeed;
@@ -43,7 +46,11 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
 
   @override
   Widget build(BuildContext context) {
-    AudioPlayerVM audioGlobalPlayerVM = Provider.of<AudioPlayerVM>(
+    final AudioPlayerVM audioGlobalPlayerVM = Provider.of<AudioPlayerVM>(
+      context,
+      listen: false,
+    );
+    final ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(
       context,
       listen: false,
     );
@@ -78,7 +85,12 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
         actions: <Widget>[
           TextButton(
             key: const Key('okButtonKey'),
-            child: const Text('Ok'),
+            child: Text(
+              'Ok',
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
+            ),
             onPressed: () {
               Navigator.of(context).pop(_audioPlaySpeed);
             },
@@ -87,6 +99,9 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
             key: const Key('cancelButtonKey'),
             child: Text(
               AppLocalizations.of(context)!.cancel,
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
             ),
             onPressed: () {
               // restoring the previous audio play speed when

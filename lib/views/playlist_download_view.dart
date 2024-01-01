@@ -8,9 +8,11 @@ import '../constants.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
 import '../services/permission_requester_service.dart';
+import '../services/settings_data_service.dart';
 import '../utils/ui_util.dart';
 import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/playlist_list_vm.dart';
+import '../viewmodels/theme_provider_vm.dart';
 import '../viewmodels/warning_message_vm.dart';
 import 'widgets/add_playlist_dialog_widget.dart';
 import 'widgets/audio_learn_snackbar.dart';
@@ -78,6 +80,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       context,
       listen: false,
     );
+    final ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(
+      context,
+      listen: false,
+    );
     return Column(
       children: <Widget>[
         Consumer<WarningMessageVM>(
@@ -93,11 +99,19 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             );
           },
         ),
-        _buildFirstLine(context, audioDownloadViewModel),
+        _buildFirstLine(
+          context,
+          audioDownloadViewModel,
+          themeProviderVM,
+        ),
         // displaying the currently downloading audiodownload
         // informations.
         _buildDisplayDownloadProgressionInfo(),
-        _buildSecondLine(context, audioDownloadViewModel),
+        _buildSecondLine(
+          context,
+          audioDownloadViewModel,
+          themeProviderVM,
+        ),
         _buildExpandedPlaylistList(),
         _buildExpandedAudioList(),
       ],
@@ -213,15 +227,18 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   }
 
   Row _buildSecondLine(
-      BuildContext context, AudioDownloadVM audioDownloadViewModel) {
+    BuildContext context,
+    AudioDownloadVM audioDownloadViewModel,
+    ThemeProviderVM themeProviderVM,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         SizedBox(
-          width: kNormalButtonWidth,
+          width: kGreaterButtonWidth,
           child: Tooltip(
             message: AppLocalizations.of(context)!.playlistToggleButtonTooltip,
-            child: ElevatedButton(
+            child: TextButton(
               key: const Key('playlist_toggle_button'),
               style: ButtonStyle(
                 shape: appElevatedButtonRoundedShape,
@@ -234,11 +251,17 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 Provider.of<PlaylistListVM>(context, listen: false)
                     .toggleList();
               },
-              child: const Text('Playlists'),
+              child: Text(
+                'Playlists',
+                style: (themeProviderVM.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode,
+              ),
             ),
           ),
         ),
-        Expanded(
+        SizedBox(
+          width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_up_playlist_button'),
             onPressed: Provider.of<PlaylistListVM>(context)
@@ -255,7 +278,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             ),
           ),
         ),
-        Expanded(
+        SizedBox(
+          width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_down_playlist_button'),
             onPressed:
@@ -273,11 +297,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           ),
         ),
         SizedBox(
-          width: kGreaterButtonWidth,
+          width: kGreaterButtonWidth + 10,
           child: Tooltip(
             message:
                 AppLocalizations.of(context)!.downloadSelPlaylistsButtonTooltip,
-            child: ElevatedButton(
+            child: TextButton(
               key: const Key('download_sel_playlists_button'),
               style: ButtonStyle(
                 shape: appElevatedButtonRoundedShape,
@@ -318,10 +342,14 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 children: <Widget>[
                   const Icon(
                     Icons.download_outlined,
-                    size: 15,
+                    size: 18,
                   ),
-                  Text(AppLocalizations.of(context)!
-                      .downloadSelectedPlaylist), // Texte
+                  Text(
+                    AppLocalizations.of(context)!.downloadSelectedPlaylist,
+                    style: (themeProviderVM.currentTheme == AppTheme.dark)
+                        ? kTextButtonStyleDarkMode
+                        : kTextButtonStyleLightMode,
+                  ), // Texte
                 ],
               ),
             ),
@@ -463,7 +491,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   }
 
   SizedBox _buildFirstLine(
-      BuildContext context, AudioDownloadVM audioDownloadViewModel) {
+    BuildContext context,
+    AudioDownloadVM audioDownloadViewModel,
+    ThemeProviderVM themeProviderVM,
+  ) {
     return SizedBox(
       height: 40,
       child: Row(
@@ -473,27 +504,41 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           const SizedBox(
             width: kRowWidthSeparator,
           ),
-          _buildAddPlaylistButton(context),
+          _buildAddPlaylistButton(
+            context,
+            themeProviderVM,
+          ),
           const SizedBox(
             width: kRowWidthSeparator,
           ),
-          _buildDownloadSingleVideoButton(context, audioDownloadViewModel),
+          _buildDownloadSingleVideoButton(
+            context,
+            audioDownloadViewModel,
+            themeProviderVM,
+          ),
           const SizedBox(
             width: kRowWidthSeparator,
           ),
-          _buildStopDownloadButton(context, audioDownloadViewModel),
+          _buildStopDownloadButton(
+            context,
+            audioDownloadViewModel,
+            themeProviderVM,
+          ),
         ],
       ),
     );
   }
 
   SizedBox _buildStopDownloadButton(
-      BuildContext context, AudioDownloadVM audioDownloadViewModel) {
+    BuildContext context,
+    AudioDownloadVM audioDownloadViewModel,
+    ThemeProviderVM themeProviderVM,
+  ) {
     return SizedBox(
-      width: kSmallestButtonWidth,
+      width: kNormalButtonWidth - 30,
       child: Tooltip(
         message: AppLocalizations.of(context)!.stopDownloadingButtonTooltip,
-        child: ElevatedButton(
+        child: TextButton(
           key: const Key('stopDownloadingButton'),
           style: ButtonStyle(
             shape: appElevatedButtonRoundedShape,
@@ -519,19 +564,27 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   audioDownloadViewModel.stopDownload();
                 }
               : null,
-          child: Text(AppLocalizations.of(context)!.stopDownload),
+          child: Text(
+            AppLocalizations.of(context)!.stopDownload,
+            style: (themeProviderVM.currentTheme == AppTheme.dark)
+                ? kTextButtonStyleDarkMode
+                : kTextButtonStyleLightMode,
+          ),
         ),
       ),
     );
   }
 
   SizedBox _buildDownloadSingleVideoButton(
-      BuildContext context, AudioDownloadVM audioDownloadViewModel) {
+    BuildContext context,
+    AudioDownloadVM audioDownloadViewModel,
+    ThemeProviderVM themeProviderVM,
+  ) {
     return SizedBox(
-      width: kSmallButtonWidth, // necessary to display english text
+      width: kSmallButtonWidth + 10, // necessary to display english text
       child: Tooltip(
         message: AppLocalizations.of(context)!.downloadSingleVideoButtonTooltip,
-        child: ElevatedButton(
+        child: TextButton(
           key: const Key('downloadSingleVideoButton'),
           style: ButtonStyle(
             shape: appElevatedButtonRoundedShape,
@@ -652,10 +705,13 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             children: <Widget>[
               const Icon(
                 Icons.download_outlined,
-                size: 15,
+                size: 18,
               ), // Icône
               Text(
                 AppLocalizations.of(context)!.downloadSingleVideoAudio,
+                style: (themeProviderVM.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode,
               ),
             ],
           ),
@@ -664,12 +720,15 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  SizedBox _buildAddPlaylistButton(BuildContext context) {
+  SizedBox _buildAddPlaylistButton(
+    BuildContext context,
+    ThemeProviderVM themeProviderVM,
+  ) {
     return SizedBox(
-      width: kSmallestButtonWidth,
+      width: kNormalButtonWidth - 25,
       child: Tooltip(
         message: AppLocalizations.of(context)!.addPlaylistButtonTooltip,
-        child: ElevatedButton(
+        child: TextButton(
           key: const Key('addPlaylistButton'),
           style: ButtonStyle(
             shape: appElevatedButtonRoundedShape,
@@ -707,7 +766,12 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             });
             focusNode.requestFocus();
           },
-          child: Text(AppLocalizations.of(context)!.addPlaylist),
+          child: Text(
+            AppLocalizations.of(context)!.addPlaylist,
+            style: (themeProviderVM.currentTheme == AppTheme.dark)
+                ? kTextButtonStyleDarkMode
+                : kTextButtonStyleLightMode,
+          ),
         ),
       ),
     );
