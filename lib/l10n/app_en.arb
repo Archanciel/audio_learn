@@ -3,7 +3,7 @@
   "@tiappBarTitleDownloadAudiotle": {
     "description": "The page title displayed in the appbar."
   },
-  "appBarTitleAudioPlayer": "Audio Player",
+  "appBarTitleAudioPlayer": "Play Audio",
   "toggleList": "Toggle List",
   "delete": "Delete",
   "moveItemUp": "Move item up",
@@ -235,6 +235,6 @@
   "deleteYoutubePlaylistDialogTitle": "Delete Youtube Playlist \"{title}\"",
   "deleteLocalPlaylistDialogTitle": "Delete local Playlist \"{title}\"",
   "deletePlaylistDialogComment": "Deleting the playlist and all its audios as well as its JSON file and its directory.",
-  "appBarTitleAudioExtractor": "Audio Extractor",
+  "appBarTitleAudioExtractor": "Extract Audio",
   "setAudioPlaySpeedTooltip": "Set audio play speed"
 }
