@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/audio.dart';
 import '../../viewmodels/audio_player_vm.dart';
@@ -63,7 +64,9 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
         }
       },
       child: AlertDialog(
-        title: const Text('Vitesse de lecture'),
+        title: Text(
+          AppLocalizations.of(context)!.setAudioPlaySpeedDialogTitle,
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -77,6 +80,12 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
             child: const Text('OK'),
             onPressed: () {
               Navigator.of(context).pop(_audioPlaySpeed);
+            },
+          ),
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
             },
           ),
         ],
@@ -143,8 +152,8 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
         return TextButton(
           style: TextButton.styleFrom(
             minimumSize: const Size(18, 18), // Set a minimum touch target size
-            padding:
-                const EdgeInsets.symmetric(horizontal: 0), // Adjust padding as needed
+            padding: const EdgeInsets.symmetric(
+                horizontal: 0), // Adjust padding as needed
           ),
           child: Text('${speed}x'),
           onPressed: () {
