@@ -227,7 +227,7 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        ElevatedButton(
+        TextButton(
           style: ButtonStyle(
             shape: widget.appElevatedButtonRoundedShape,
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
@@ -240,7 +240,7 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
         const SizedBox(
           width: kRowWidthSeparator,
         ),
-        ElevatedButton(
+        TextButton(
           style: ButtonStyle(
             shape: widget.appElevatedButtonRoundedShape,
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(

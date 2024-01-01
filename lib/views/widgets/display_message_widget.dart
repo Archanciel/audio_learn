@@ -418,8 +418,8 @@ class DisplayMessageWidget extends StatelessWidget {
         onKey: (event) {
           if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
               event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-            // executing the same code as in the 'OK'
-            // ElevatedButton onPressed callback
+            // executing the same code as in the 'Ok'
+            // TextButton onPressed callback
             warningMessageVM.warningMessageType = WarningMessageType.none;
             Navigator.of(context).pop();
           }
@@ -443,7 +443,7 @@ class DisplayMessageWidget extends StatelessWidget {
             TextButton(
               child: const Text(
                 key: Key('warningDialogOkButton'),
-                'OK',
+                'Ok',
               ),
               onPressed: () {
                 warningMessageVM.warningMessageType = WarningMessageType.none;

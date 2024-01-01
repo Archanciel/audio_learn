@@ -202,7 +202,7 @@ class _PlaylistOneSelectableDialogWidgetState
           // audio. This is tested by 'Bug fix
           // verification with partial download single
           // video audio' integration test
-          ElevatedButton(
+          TextButton(
             key: const Key('confirmButton'),
             onPressed: () {
               if (widget.usedFor ==
@@ -221,7 +221,7 @@ class _PlaylistOneSelectableDialogWidgetState
             },
             child: Text(AppLocalizations.of(context)!.confirmButton),
           ),
-          ElevatedButton(
+          TextButton(
             key: const Key('cancelButton'),
             onPressed: () {
               Navigator.of(context).pop();

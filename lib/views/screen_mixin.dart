@@ -72,6 +72,14 @@ mixin ScreenMixin {
         foregroundColor: Colors.white, // Set button text color in dark mode
       ),
     ),
+    // WARNING: The following code does not work: all TextButton are
+    // replaced by ElevatedButton. This is a bug in Flutter.
+    // textButtonTheme: TextButtonThemeData(
+    //   style: TextButton.styleFrom(
+    //     backgroundColor: kButtonColor, // Set button color in dark mode
+    //     foregroundColor: Colors.white, // Set button text color in dark mode
+    //   ),
+    // ),
     textTheme: ThemeData.dark().textTheme.copyWith(
           bodyMedium: ThemeData.dark()
               .textTheme
@@ -121,6 +129,14 @@ mixin ScreenMixin {
         foregroundColor: Colors.white, // Set button text color in light mode
       ),
     ),
+    // WARNING: The following code does not work: all TextButton are
+    // replaced by ElevatedButton. This is a bug in Flutter.
+    // textButtonTheme: TextButtonThemeData(
+    //   style: TextButton.styleFrom(
+    //     backgroundColor: kButtonColor, // Set button color in light mode
+    //     foregroundColor: Colors.white, // Set button text color in light mode
+    //   ),
+    // ),
     textTheme: ThemeData.light().textTheme.copyWith(
           bodyMedium: ThemeData.light()
               .textTheme

@@ -48,7 +48,7 @@ enum WarningMessageType {
   // one playlist to which the downloaded audio will be added is
   // selected.
 
-  ok, // The case if the user clicks on the OK button after a
+  ok, // The case if the user clicks on the Ok button after a
   // confirmation message is displayed.
 
   confirmSingleVideoDownload, // The case if the user clicks on the
@@ -97,7 +97,7 @@ class WarningMessageVM extends ChangeNotifier {
   WarningMessageType get warningMessageType => _warningMessageType;
 
   /// Called after a warning message is displayed when the user
-  /// clicks on the OK button.
+  /// clicks on the Ok button.
   set warningMessageType(WarningMessageType warningMessageType) {
     _warningMessageType = warningMessageType;
   }

@@ -60,7 +60,7 @@ class _RenameAudioFileDialogWidgetState
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
           // executing the same code as in the 'Rename'
-          // ElevatedButton onPressed callback
+          // TextButton onPressed callback
           _renameAudioFile(context);
           Navigator.of(context).pop();
         }
@@ -95,7 +95,7 @@ class _RenameAudioFileDialogWidgetState
           ),
         ),
         actions: [
-          ElevatedButton(
+          TextButton(
             key: const Key('renameAudioFileButton'),
             onPressed: () {
               _renameAudioFile(context);
@@ -103,7 +103,7 @@ class _RenameAudioFileDialogWidgetState
             },
             child: Text(AppLocalizations.of(context)!.renameAudioFileButton),
           ),
-          ElevatedButton(
+          TextButton(
             key: const Key('renameAudioFileCancelButton'),
             onPressed: () {
               Navigator.of(context).pop();

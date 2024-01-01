@@ -82,7 +82,7 @@ class _DisplaySelectableAudioListDialogWidgetState
       onKey: (event) async {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // executing the same code as in the 'Confirm' ElevatedButton
+          // executing the same code as in the 'Confirm' TextButton
           // onPressed callback
           await audioGlobalPlayerVM.setCurrentAudio(_selectedAudio!);
           Navigator.of(context).pop(_selectedAudio);
@@ -158,7 +158,7 @@ class _DisplaySelectableAudioListDialogWidgetState
           ),
         ),
         actions: [
-          ElevatedButton(
+          TextButton(
             key: const Key('cancelButton'),
             onPressed: () {
               Navigator.of(context).pop();

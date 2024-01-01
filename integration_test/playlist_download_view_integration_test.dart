@@ -183,7 +183,7 @@ void main() {
       expect(warningDialogMessage.data,
           'Playlist "$youtubeNewPlaylistTitle" of audio quality added at end of list of playlists.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -446,7 +446,7 @@ void main() {
       expect(warningDialogMessage.data,
           'Playlist "$youtubeNewPlaylistTitle" of audio quality added at end of list of playlists.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -559,7 +559,7 @@ void main() {
       expect(warningDialogMessage.data,
           'Playlist "$youtubeNewPlaylistTitle" with this URL "$youtubePlaylistUrl" is already in the list of playlists and so won\'t be recreated.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -801,7 +801,7 @@ void main() {
       expect(warningDialogMessage.data,
           'Playlist "$localPlaylistTitle" of music quality added at end of list of playlists.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -1056,7 +1056,7 @@ void main() {
       expect(warningDialogMessage.data,
           'Playlist "$localPlaylistTitle" of music quality added at end of list of playlists.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -1303,7 +1303,7 @@ void main() {
           .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
       await tester.pumpAndSettle();
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -1508,7 +1508,7 @@ void main() {
           .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
       await tester.pumpAndSettle();
 
-      // Close the warning dialog by tapping on the OK button.
+      // Close the warning dialog by tapping on the Ok button.
       // If the warning dialog is not closed, tapping on the
       // 'Add playlist button' button will fail
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
@@ -1535,7 +1535,7 @@ void main() {
           .tap(find.byKey(const Key('addPlaylistConfirmDialogAddButton')));
       await tester.pumpAndSettle();
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -1723,7 +1723,7 @@ void main() {
       expect(warningDialogMessage.data,
           'Playlist with invalid URL "$invalidYoutubePlaylistUrl" neither added nor modified.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -1864,7 +1864,7 @@ void main() {
       expect(warningDialogMessage.data,
           'Playlist with invalid URL "$invalidYoutubePlaylistUrl" neither added nor modified.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -2034,7 +2034,7 @@ void main() {
       expect(warningDialogMessage.data,
           'The URL "$invalidSingleVideoUrl" supposed to point to a unique video is invalid. Therefore, no video has been downloaded.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -2305,7 +2305,7 @@ void main() {
         expectedWarningDialogMessageStr,
       );
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -2406,7 +2406,7 @@ void main() {
       expect(warningDialogMessage.data,
           'Playlist "$localAudioPlaylistTitle" of audio quality added at end of list of playlists.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -3917,7 +3917,7 @@ void main() {
       expect(warningDialogMessage.data,
           'Playable audio list for playlist "$youtubePlaylistTitle" was updated. 4 audio(s) were removed.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -4036,8 +4036,7 @@ void main() {
 
       // Now find the leading menu icon button of the Playlist ListTile
       // and tap on it
-      final Finder localPlaylistListTileLeadingMenuIconButton =
-          find.descendant(
+      final Finder localPlaylistListTileLeadingMenuIconButton = find.descendant(
         of: localPlaylistListTileWidgetFinder,
         matching: find.byIcon(Icons.menu),
       );
@@ -4066,7 +4065,7 @@ void main() {
       expect(warningDialogMessage.data,
           'Playable audio list for playlist "$localPlaylistTitle" was updated. 2 audio(s) were removed.');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 
@@ -4575,7 +4574,7 @@ void main() {
       expect(warningDialogMessage.data,
           'If the deleted audio video "$audioToDeleteTitle" remains in the "$youtubeAudioPlaylistTitle" Youtube playlist, it will be downloaded again the next time you download the playlist !');
 
-      // Close the warning dialog by tapping on the OK button
+      // Close the warning dialog by tapping on the Ok button
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
 

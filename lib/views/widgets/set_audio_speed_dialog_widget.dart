@@ -63,7 +63,7 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
         }
       },
       child: AlertDialog(
-        // executing the same code as in the 'OK' TextButton
+        // executing the same code as in the 'Ok' TextButton
         title: Text(
           AppLocalizations.of(context)!.setAudioPlaySpeedDialogTitle,
         ),
@@ -78,7 +78,7 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
         actions: <Widget>[
           TextButton(
             key: const Key('okButtonKey'),
-            child: const Text('OK'),
+            child: const Text('Ok'),
             onPressed: () {
               Navigator.of(context).pop(_audioPlaySpeed);
             },

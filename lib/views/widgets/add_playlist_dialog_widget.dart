@@ -62,7 +62,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
           // executing the same code as in the 'Add'
-          // ElevatedButton onPressed callback
+          // TextButton onPressed callback
           bool isYoutubePlaylistAdded = await _addPlaylist(context);
           Navigator.of(context).pop(isYoutubePlaylistAdded);
         }
@@ -122,7 +122,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
           ),
         ),
         actions: [
-          ElevatedButton(
+          TextButton(
             key: const Key('addPlaylistConfirmDialogAddButton'),
             onPressed: () async {
               bool isYoutubePlaylistAdded = await _addPlaylist(context);
@@ -130,7 +130,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
             },
             child: Text(AppLocalizations.of(context)!.add),
           ),
-          ElevatedButton(
+          TextButton(
             key: const Key('addPlaylistConfirmDialogCancelButton'),
             onPressed: () {
               Navigator.of(context).pop();

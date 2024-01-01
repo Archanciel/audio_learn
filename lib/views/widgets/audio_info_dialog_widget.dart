@@ -29,8 +29,8 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
       onKey: (event) {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // executing the same code as in the 'OK'
-          // ElevatedButton onPressed callback
+          // executing the same code as in the 'Ok'
+          // TextButton onPressed callback
           Navigator.of(context).pop();
         }
       },
@@ -166,7 +166,7 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
         actions: <Widget>[
           TextButton(
             key: const Key('audioInfoOkButtonKey'),
-            child: const Text('OK'),
+            child: const Text('Ok'),
             onPressed: () {
               Navigator.of(context).pop();
             },

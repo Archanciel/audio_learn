@@ -584,7 +584,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   onKey: (event) {
                     if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
                         event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-                      // executing the same code as in the 'OK'
+                      // executing the same code as in the 'Ok'
                       // ElevatedButton onPressed callback
                       Navigator.of(context).pop('ok');
                     }
@@ -610,7 +610,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     actions: [
                       TextButton(
                         key: const Key('okButtonKey'),
-                        child: const Text('OK'),
+                        child: const Text('Ok'),
                         onPressed: () {
                           Navigator.of(context).pop('ok');
                         },
@@ -627,7 +627,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 ),
               ).then((value) async {
                 if (value != null) {
-                  // the case if the user clicked on OK button
+                  // the case if the user clicked on Ok button
                   bool isSingleVideoAudioCorrectlyDownloaded =
                       await audioDownloadViewModel.downloadSingleVideoAudio(
                     videoUrl: _playlistUrlController.text.trim(),

@@ -807,7 +807,7 @@ void main() async {
       // Finder deleteButtonFinder = find.byKey(const ValueKey('delete_button'));
       // expect(deleteButtonFinder, findsOneWidget);
       // expect(
-      //     tester.widget<ElevatedButton>(deleteButtonFinder).enabled, isFalse);
+      //     tester.widget<TextButton>(deleteButtonFinder).enabled, isFalse);
 
       // testing that the up and down buttons are disabled
       IconButton upButton = tester.widget<IconButton>(
@@ -848,9 +848,9 @@ void main() async {
       // The Delete button must be obtained again
       // since the widget has been recreated !
       // expect(
-      //   tester.widget<ElevatedButton>(
-      //       find.widgetWithText(ElevatedButton, 'Delete')),
-      //   isA<ElevatedButton>().having((b) => b.enabled, 'enabled', true),
+      //   tester.widget<TextButton>(
+      //       find.widgetWithText(TextButton, 'Delete')),
+      //   isA<TextButton>().having((b) => b.enabled, 'enabled', true),
       // );
 
       // Verify that the up and down buttons are now enabled.
@@ -947,7 +947,7 @@ void main() async {
       // Finder deleteButtonFinder = find.byKey(const ValueKey('Delete'));
       // expect(deleteButtonFinder, findsOneWidget);
       // expect(
-      //     tester.widget<ElevatedButton>(deleteButtonFinder).enabled, isFalse);
+      //     tester.widget<TextButton>(deleteButtonFinder).enabled, isFalse);
 
       // testing that the up and down buttons are disabled
       IconButton upButton = tester.widget<IconButton>(
@@ -968,9 +968,9 @@ void main() async {
       // The Delete button must be obtained again
       // since the widget has been recreated !
       // expect(
-      //   tester.widget<ElevatedButton>(
-      //       find.widgetWithText(ElevatedButton, 'Delete')),
-      //   isA<ElevatedButton>().having((b) => b.enabled, 'enabled', true),
+      //   tester.widget<TextButton>(
+      //       find.widgetWithText(TextButton, 'Delete')),
+      //   isA<TextButton>().having((b) => b.enabled, 'enabled', true),
       // );
 
       // Verify that the up and down buttons are now enabled.
@@ -1079,9 +1079,9 @@ void main() async {
       // The Delete button must be obtained again
       // since the widget has been recreated !
       // expect(
-      //   tester.widget<ElevatedButton>(
-      //       find.widgetWithText(ElevatedButton, 'Delete')),
-      //   isA<ElevatedButton>().having((b) => b.enabled, 'enabled', true),
+      //   tester.widget<TextButton>(
+      //       find.widgetWithText(TextButton, 'Delete')),
+      //   isA<TextButton>().having((b) => b.enabled, 'enabled', true),
       // );
 
       // Verify that the up and down buttons are now enabled.
@@ -1117,7 +1117,7 @@ void main() async {
       // Finder deleteButtonFinder = find.byKey(const ValueKey('Delete'));
       // expect(deleteButtonFinder, findsOneWidget);
       // expect(
-      //     tester.widget<ElevatedButton>(deleteButtonFinder).enabled, isFalse);
+      //     tester.widget<TextButton>(deleteButtonFinder).enabled, isFalse);
 
       // testing that the up and down buttons are now disabled
       upButton = tester.widget<IconButton>(
@@ -1274,11 +1274,11 @@ void main() async {
 
     //   // Verify that the Delete button is disabled
     //   expect(find.text('Delete'), findsOneWidget);
-    //   expect(find.widgetWithText(ElevatedButton, 'Delete'), findsOneWidget);
+    //   expect(find.widgetWithText(TextButton, 'Delete'), findsOneWidget);
     //   expect(
-    //     tester.widget<ElevatedButton>(
-    //         find.widgetWithText(ElevatedButton, 'Delete')),
-    //     isA<ElevatedButton>().having((b) => b.enabled, 'enabled', false),
+    //     tester.widget<TextButton>(
+    //         find.widgetWithText(TextButton, 'Delete')),
+    //     isA<TextButton>().having((b) => b.enabled, 'enabled', false),
     //   );
 
     //   // Find and select the ListTile item to delete
@@ -1291,13 +1291,13 @@ void main() async {
 
     //   // Verify that the Delete button is now enabled
     //   expect(
-    //     tester.widget<ElevatedButton>(
-    //         find.widgetWithText(ElevatedButton, 'Delete')),
-    //     isA<ElevatedButton>().having((b) => b.enabled, 'enabled', true),
+    //     tester.widget<TextButton>(
+    //         find.widgetWithText(TextButton, 'Delete')),
+    //     isA<TextButton>().having((b) => b.enabled, 'enabled', true),
     //   );
 
     //   // Tap the Delete button
-    //   await tester.tap(find.widgetWithText(ElevatedButton, 'Delete'));
+    //   await tester.tap(find.widgetWithText(TextButton, 'Delete'));
     //   await tester.pump();
 
     //   // Verify that the item was deleted by checking that

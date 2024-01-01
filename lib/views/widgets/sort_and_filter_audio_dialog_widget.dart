@@ -135,7 +135,7 @@ class _SortAndFilterAudioDialogWidgetState
           if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
               event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
             // executing the same code as in the 'Apply'
-            // ElevatedButton onPressed callback
+            // TextButton onPressed callback
             List<Audio> sortedAudioLstBySortingOption =
                 _filterAndSortAudioLst();
             Navigator.of(context).pop(sortedAudioLstBySortingOption);
@@ -522,7 +522,7 @@ class _SortAndFilterAudioDialogWidgetState
             ),
           ),
           actions: [
-            ElevatedButton(
+            TextButton(
               key: const Key('applySortFilterButton'),
               onPressed: () {
                 // Apply sorting and filtering options
@@ -548,7 +548,7 @@ class _SortAndFilterAudioDialogWidgetState
               },
               child: Text(AppLocalizations.of(context)!.apply),
             ),
-            ElevatedButton(
+            TextButton(
               key: const Key('cancelSortFilterButton'),
               onPressed: () {
                 Navigator.of(context).pop();

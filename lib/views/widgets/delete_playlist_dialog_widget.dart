@@ -42,7 +42,7 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
           // executing the same code as in the 'Delete'
-          // ElevatedButton onPressed callback
+          // TextButton onPressed callback
           _deletePlaylist(context);
           Navigator.of(context).pop();
         }
@@ -71,7 +71,7 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
           ),
         ),
         actions: [
-          ElevatedButton(
+          TextButton(
             key: const Key('deletePlaylistConfirmDialogDeleteButton'),
             onPressed: () {
               _deletePlaylist(context);
@@ -79,7 +79,7 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
             },
             child: Text(AppLocalizations.of(context)!.delete),
           ),
-          ElevatedButton(
+          TextButton(
             key: const Key('deletePlaylistConfirmDialogCancelButton'),
             onPressed: () {
               Navigator.of(context).pop();
