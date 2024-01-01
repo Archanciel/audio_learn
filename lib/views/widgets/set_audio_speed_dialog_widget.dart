@@ -58,12 +58,12 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
       onKey: (event) {
         if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
             event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // executing the same code as in the 'Ok' TextButton
           // onPressed callback
           Navigator.of(context).pop(_audioPlaySpeed);
         }
       },
       child: AlertDialog(
+        // executing the same code as in the 'OK' TextButton
         title: Text(
           AppLocalizations.of(context)!.setAudioPlaySpeedDialogTitle,
         ),
@@ -77,12 +77,14 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
         ),
         actions: <Widget>[
           TextButton(
+            key: const Key('okButtonKey'),
             child: const Text('OK'),
             onPressed: () {
               Navigator.of(context).pop(_audioPlaySpeed);
             },
           ),
           TextButton(
+            key: const Key('cancelButtonKey'),
             child: Text(
               AppLocalizations.of(context)!.cancel,
             ),
