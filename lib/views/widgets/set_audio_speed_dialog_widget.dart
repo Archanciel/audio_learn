@@ -1,4 +1,3 @@
-import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -143,9 +142,9 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
       children: speeds.map((speed) {
         return TextButton(
           style: TextButton.styleFrom(
-            minimumSize: Size(18, 18), // Set a minimum touch target size
+            minimumSize: const Size(18, 18), // Set a minimum touch target size
             padding:
-                EdgeInsets.symmetric(horizontal: 0), // Adjust padding as needed
+                const EdgeInsets.symmetric(horizontal: 0), // Adjust padding as needed
           ),
           child: Text('${speed}x'),
           onPressed: () {
