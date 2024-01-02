@@ -113,6 +113,20 @@ const kTextButtonStyleLightMode = TextStyle(
   color: kSliderThumbColorInLightMode,
 );
 
+const kTextButtonSmallStyleDarkMode = TextStyle(
+  // the color is the one defined in textTheme bodyMedium
+  // specified in the ScreenMixin theme's
+  fontSize: 16.0,
+  color: kSliderThumbColorInDarkMode,
+);
+
+const kTextButtonSmallStyleLightMode = TextStyle(
+  // the color is the one defined in textTheme bodyMedium
+  // specified in the ScreenMixin theme's
+  fontSize: 16.0,
+  color: kSliderThumbColorInLightMode,
+);
+
 const kSliderValueTextStyle = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's

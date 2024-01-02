@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'screen_mixin.dart';
 import '../constants.dart';
 import '../services/settings_data_service.dart';
 import '../viewmodels/theme_provider_vm.dart';
-import 'screen_mixin.dart';
 
 class AudioExtractorView extends StatefulWidget {
   final MaterialStateProperty<RoundedRectangleBorder>

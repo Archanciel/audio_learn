@@ -1,9 +1,10 @@
-import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../views/screen_mixin.dart';
+import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/audio_player_vm.dart';
@@ -60,8 +61,8 @@ class _DisplaySelectableAudioListDialogWidgetState
 
   @override
   Widget build(BuildContext context) {
-    ThemeProviderVM themeProvider = Provider.of<ThemeProviderVM>(context);
-    bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;
+    ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
+    bool isDarkTheme = themeProviderVM.currentTheme == AppTheme.dark;
     AudioPlayerVM audioGlobalPlayerVM =
         Provider.of<AudioPlayerVM>(context, listen: false);
     Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
@@ -163,7 +164,10 @@ class _DisplaySelectableAudioListDialogWidgetState
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(AppLocalizations.of(context)!.cancel),
+            child: Text(AppLocalizations.of(context)!.cancel,                style: (themeProviderVM.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode,
+),
           ),
         ],
       ),

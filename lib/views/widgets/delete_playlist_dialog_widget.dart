@@ -1,13 +1,16 @@
-import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
+import '../../views/screen_mixin.dart';
 import '../../models/audio.dart';
 import '../../models/playlist.dart';
+import '../../services/settings_data_service.dart';
 import '../../utils/ui_util.dart';
 import '../../viewmodels/playlist_list_vm.dart';
+import '../../viewmodels/theme_provider_vm.dart';
 
 class DeletePlaylistDialogWidget extends StatefulWidget {
   final Playlist playlistToDelete;
@@ -26,7 +29,6 @@ class DeletePlaylistDialogWidget extends StatefulWidget {
 
 class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
     with ScreenMixin {
-
   @override
   void initState() {
     super.initState();
@@ -34,6 +36,8 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
 
   @override
   Widget build(BuildContext context) {
+    ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
+
     return RawKeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
@@ -77,14 +81,24 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
               _deletePlaylist(context);
               Navigator.of(context).pop();
             },
-            child: Text(AppLocalizations.of(context)!.delete),
+            child: Text(
+              AppLocalizations.of(context)!.delete,
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
+            ),
           ),
           TextButton(
             key: const Key('deletePlaylistConfirmDialogCancelButton'),
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(AppLocalizations.of(context)!.cancel),
+            child: Text(
+              AppLocalizations.of(context)!.cancel,
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
+            ),
           ),
         ],
       ),

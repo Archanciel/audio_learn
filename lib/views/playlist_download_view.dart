@@ -14,10 +14,10 @@ import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/playlist_list_vm.dart';
 import '../viewmodels/theme_provider_vm.dart';
 import '../viewmodels/warning_message_vm.dart';
+import 'screen_mixin.dart';
 import 'widgets/add_playlist_dialog_widget.dart';
 import 'widgets/audio_learn_snackbar.dart';
 import 'widgets/audio_list_item_widget.dart';
-import 'screen_mixin.dart';
 import 'widgets/display_message_widget.dart';
 import 'widgets/playlist_list_item_widget.dart';
 import 'widgets/playlist_one_selectable_dialog_widget.dart';
@@ -663,14 +663,23 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     actions: [
                       TextButton(
                         key: const Key('okButtonKey'),
-                        child: const Text('Ok'),
+                        child: Text(
+                          'Ok',
+                          style: (themeProviderVM.currentTheme == AppTheme.dark)
+                              ? kTextButtonStyleDarkMode
+                              : kTextButtonStyleLightMode,
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop('ok');
                         },
                       ),
                       TextButton(
                         key: const Key('cancelButtonKey'),
-                        child: Text(AppLocalizations.of(context)!.cancel),
+                        child: Text(AppLocalizations.of(context)!.cancel,
+                            style:
+                                (themeProviderVM.currentTheme == AppTheme.dark)
+                                    ? kTextButtonStyleDarkMode
+                                    : kTextButtonStyleLightMode),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },

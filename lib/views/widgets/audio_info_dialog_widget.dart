@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
+import '../../services/settings_data_service.dart';
 import '../../utils/duration_expansion.dart';
+import '../../viewmodels/theme_provider_vm.dart';
 import '../../views/screen_mixin.dart';
 import '../../constants.dart';
 import '../../models/audio.dart';
@@ -22,6 +25,8 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
+
     return RawKeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
@@ -166,7 +171,12 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
         actions: <Widget>[
           TextButton(
             key: const Key('audioInfoOkButtonKey'),
-            child: const Text('Ok'),
+            child: Text(
+              'Ok',
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },

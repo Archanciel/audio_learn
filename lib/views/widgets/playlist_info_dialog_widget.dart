@@ -1,11 +1,14 @@
-import 'package:audio_learn/utils/duration_expansion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
+import '/../utils/duration_expansion.dart';
 import '../../constants.dart';
 import '../../models/playlist.dart';
+import '../../services/settings_data_service.dart';
 import '../../utils/ui_util.dart';
+import '../../viewmodels/theme_provider_vm.dart';
 import '../screen_mixin.dart';
 
 class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
@@ -22,6 +25,7 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
     DateTime? lastDownloadDateTime = playlist.getLastDownloadDateTime();
     String lastDownloadDateTimeStr = (lastDownloadDateTime != null)
         ? frenchDateTimeFormat.format(lastDownloadDateTime)
@@ -125,7 +129,10 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('Ok'),
+            child: Text('Ok',                style: (themeProviderVM.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode,
+),
             onPressed: () {
               Navigator.of(context).pop();
             },

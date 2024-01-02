@@ -1,9 +1,10 @@
-import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../views/screen_mixin.dart';
+import '../../constants.dart';
 import '../../models/playlist.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/playlist_list_vm.dart';
@@ -219,14 +220,20 @@ class _PlaylistOneSelectableDialogWidgetState
 
               Navigator.of(context).pop(resultMap);
             },
-            child: Text(AppLocalizations.of(context)!.confirmButton),
+            child: Text(AppLocalizations.of(context)!.confirmButton,
+                style: (themeProvider.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode),
           ),
           TextButton(
             key: const Key('cancelButton'),
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(AppLocalizations.of(context)!.cancel),
+            child: Text(AppLocalizations.of(context)!.cancel,
+                style: (themeProvider.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode),
           ),
         ],
       ),

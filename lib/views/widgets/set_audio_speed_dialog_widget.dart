@@ -77,9 +77,12 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text('${_audioPlaySpeed.toStringAsFixed(2)}x'),
+            Text('${_audioPlaySpeed.toStringAsFixed(2)}x',
+                style: (themeProviderVM.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode),
             _buildSlider(audioGlobalPlayerVM),
-            _buildSpeedButtons(audioGlobalPlayerVM),
+            _buildSpeedButtons(audioGlobalPlayerVM, themeProviderVM),
           ],
         ),
         actions: <Widget>[
@@ -172,6 +175,7 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
 
   Widget _buildSpeedButtons(
     AudioPlayerVM audioGlobalPlayerVM,
+    ThemeProviderVM themeProviderVM,
   ) {
     final speeds = [0.7, 1.0, 1.25, 1.5, 2.0];
     return Row(
@@ -183,7 +187,12 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
             padding: const EdgeInsets.symmetric(
                 horizontal: 0), // Adjust padding as needed
           ),
-          child: Text('${speed}x'),
+          child: Text(
+            '${speed}x',
+            style: (themeProviderVM.currentTheme == AppTheme.dark)
+                ? kTextButtonSmallStyleDarkMode
+                : kTextButtonSmallStyleLightMode,
+          ),
           onPressed: () {
             _setPlaybackSpeed(
               audioGlobalPlayerVM,

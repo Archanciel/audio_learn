@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../models/audio.dart';
 import '../../services/audio_sort_filter_service.dart';
+import '../../services/settings_data_service.dart';
+import '../../viewmodels/theme_provider_vm.dart';
 
 class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final List<Audio> selectedPlaylistAudioLst;
@@ -127,7 +130,10 @@ class _SortAndFilterAudioDialogWidgetState
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-
+    ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(
+      context,
+      listen: false,
+    );
     return Center(
       child: RawKeyboardListener(
         focusNode: widget.focusNode,
@@ -146,7 +152,8 @@ class _SortAndFilterAudioDialogWidgetState
           actionsPadding:
               // reduces the top vertical space between the buttons
               // and the content
-              const EdgeInsets.fromLTRB(10, 0, 10, 10), // Adjust the value as needed
+              const EdgeInsets.fromLTRB(
+                  10, 0, 10, 10), // Adjust the value as needed
           content: SizedBox(
             width: double.maxFinite,
             height: 800,
@@ -546,14 +553,24 @@ class _SortAndFilterAudioDialogWidgetState
                     _filterAndSortAudioLst();
                 Navigator.of(context).pop(sortedAudioLstBySortingOption);
               },
-              child: Text(AppLocalizations.of(context)!.apply),
+              child: Text(
+                AppLocalizations.of(context)!.apply,
+                style: (themeProviderVM.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode,
+              ),
             ),
             TextButton(
               key: const Key('cancelSortFilterButton'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text(AppLocalizations.of(context)!.cancel),
+              child: Text(
+                AppLocalizations.of(context)!.cancel,
+                style: (themeProviderVM.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode,
+              ),
             ),
           ],
         ),

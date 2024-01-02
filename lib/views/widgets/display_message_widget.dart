@@ -1,9 +1,12 @@
-import 'package:audio_learn/models/playlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/playlist.dart';
 import '../../constants.dart';
+import '../../services/settings_data_service.dart';
+import '../../viewmodels/theme_provider_vm.dart';
 import '../../viewmodels/warning_message_vm.dart';
 
 enum WarningMode {
@@ -36,6 +39,7 @@ class DisplayMessageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     WarningMessageType warningMessageType =
         _warningMessageVM.warningMessageType;
+    ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
 
     switch (warningMessageType) {
       case WarningMessageType.errorMessage:
@@ -48,10 +52,12 @@ class DisplayMessageWidget extends StatelessWidget {
             if (exceptionMessage.isNotEmpty) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 _displayWarningDialog(
-                    context: _context,
-                    message: AppLocalizations.of(context)!
-                        .downloadAudioYoutubeError(exceptionMessage),
-                    warningMessageVM: _warningMessageVM);
+                  context: _context,
+                  message: AppLocalizations.of(context)!
+                      .downloadAudioYoutubeError(exceptionMessage),
+                  warningMessageVM: _warningMessageVM,
+                  themeProviderVM: themeProviderVM,
+                );
               });
             }
 
@@ -63,11 +69,13 @@ class DisplayMessageWidget extends StatelessWidget {
             if (liveVideoString.isNotEmpty) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 _displayWarningDialog(
-                    context: _context,
-                    message: AppLocalizations.of(context)!
-                        .downloadAudioYoutubeErrorDueToLiveVideoInPlaylist(
-                            playlistTitle, liveVideoString),
-                    warningMessageVM: _warningMessageVM);
+                  context: _context,
+                  message: AppLocalizations.of(context)!
+                      .downloadAudioYoutubeErrorDueToLiveVideoInPlaylist(
+                          playlistTitle, liveVideoString),
+                  warningMessageVM: _warningMessageVM,
+                  themeProviderVM: themeProviderVM,
+                );
               });
             }
 
@@ -77,7 +85,8 @@ class DisplayMessageWidget extends StatelessWidget {
               _displayWarningDialog(
                   context: _context,
                   message: AppLocalizations.of(context)!.noInternet,
-                  warningMessageVM: _warningMessageVM);
+                  warningMessageVM: _warningMessageVM,
+                  themeProviderVM: themeProviderVM);
             });
 
             return const SizedBox.shrink();
@@ -91,7 +100,8 @@ class DisplayMessageWidget extends StatelessWidget {
                     _warningMessageVM.errorArgTwo,
                     _warningMessageVM.errorArgThree,
                   ),
-                  warningMessageVM: _warningMessageVM);
+                  warningMessageVM: _warningMessageVM,
+                  themeProviderVM: themeProviderVM);
             });
 
             return const SizedBox.shrink();
@@ -107,7 +117,8 @@ class DisplayMessageWidget extends StatelessWidget {
                 context: _context,
                 message: AppLocalizations.of(context)!
                     .updatedPlaylistUrlTitle(updatedPlayListTitle),
-                warningMessageVM: _warningMessageVM);
+                warningMessageVM: _warningMessageVM,
+                themeProviderVM: themeProviderVM);
           });
         }
 
@@ -132,7 +143,8 @@ class DisplayMessageWidget extends StatelessWidget {
                 context: _context,
                 message: AppLocalizations.of(context)!
                     .addPlaylistTitle(addedPlayListTitle, playlistQualityStr),
-                warningMessageVM: _warningMessageVM);
+                warningMessageVM: _warningMessageVM,
+                themeProviderVM: themeProviderVM);
           });
         }
 
@@ -146,6 +158,7 @@ class DisplayMessageWidget extends StatelessWidget {
             message:
                 AppLocalizations.of(context)!.invalidPlaylistUrl(playlistUrl),
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
           );
         });
 
@@ -161,6 +174,7 @@ class DisplayMessageWidget extends StatelessWidget {
                 .playlistWithUrlAlreadyInListOfPlaylists(
                     playlistUrl, playlistTitle),
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
           );
         });
 
@@ -175,6 +189,7 @@ class DisplayMessageWidget extends StatelessWidget {
             message: AppLocalizations.of(context)!
                 .localPlaylistWithTitleAlreadyInListOfPlaylists(playlistTitle),
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
           );
         });
 
@@ -194,6 +209,7 @@ class DisplayMessageWidget extends StatelessWidget {
               playlistTitle,
             ),
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
           );
         });
 
@@ -207,6 +223,7 @@ class DisplayMessageWidget extends StatelessWidget {
             message: AppLocalizations.of(context)!
                 .invalidSingleVideoUUrl(playlistUrl),
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
           );
         });
 
@@ -220,6 +237,7 @@ class DisplayMessageWidget extends StatelessWidget {
               _warningMessageVM.updatedPlayableAudioLstPlaylistTitle,
             ),
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
           );
         });
 
@@ -231,6 +249,7 @@ class DisplayMessageWidget extends StatelessWidget {
             message: AppLocalizations.of(context)!
                 .noPlaylistSelectedForSingleVideoDownload,
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
           );
         });
 
@@ -242,6 +261,7 @@ class DisplayMessageWidget extends StatelessWidget {
             message: AppLocalizations.of(context)!
                 .tooManyPlaylistSelectedForSingleVideoDownload,
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
           );
         });
 
@@ -256,6 +276,7 @@ class DisplayMessageWidget extends StatelessWidget {
               _warningMessageVM.movedToPlaylistTitle,
             ),
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
           );
         });
 
@@ -270,6 +291,7 @@ class DisplayMessageWidget extends StatelessWidget {
               _warningMessageVM.copiedToPlaylistTitle,
             ),
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
           );
         });
 
@@ -333,6 +355,7 @@ class DisplayMessageWidget extends StatelessWidget {
             context: _context,
             message: audioMovedFromToPlaylistMessage,
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
             warningMode: WarningMode.confirm,
           );
         });
@@ -379,6 +402,7 @@ class DisplayMessageWidget extends StatelessWidget {
             context: _context,
             message: audioCopiedFromToPlaylistMessage,
             warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
             warningMode: WarningMode.confirm,
           );
         });
@@ -393,6 +417,7 @@ class DisplayMessageWidget extends StatelessWidget {
     required BuildContext context,
     required String message,
     required WarningMessageVM warningMessageVM,
+    required ThemeProviderVM themeProviderVM,
     WarningMode warningMode = WarningMode.warning,
   }) {
     final focusNode = FocusNode();
@@ -441,9 +466,12 @@ class DisplayMessageWidget extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              child: const Text(
+              child: Text(
                 key: Key('warningDialogOkButton'),
                 'Ok',
+                style: (themeProviderVM.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode,
               ),
               onPressed: () {
                 warningMessageVM.warningMessageType = WarningMessageType.none;
