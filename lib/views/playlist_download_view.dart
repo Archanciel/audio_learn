@@ -241,7 +241,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             child: TextButton(
               key: const Key('playlist_toggle_button'),
               style: ButtonStyle(
-                shape: appElevatedButtonRoundedShape,
+                shape: getButtonRoundedShape(
+                    currentTheme: themeProviderVM.currentTheme),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(
                       horizontal: kSmallButtonInsidePadding),
@@ -304,7 +305,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             child: TextButton(
               key: const Key('download_sel_playlists_button'),
               style: ButtonStyle(
-                shape: appElevatedButtonRoundedShape,
+                shape: getButtonRoundedShape(
+                    currentTheme: themeProviderVM.currentTheme),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(
                       horizontal: kSmallButtonInsidePadding),
@@ -544,7 +546,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         child: TextButton(
           key: const Key('stopDownloadingButton'),
           style: ButtonStyle(
-            shape: appElevatedButtonRoundedShape,
+            shape: getButtonRoundedShape(
+              currentTheme: themeProviderVM.currentTheme,
+              isButtonEnabled: isButtonEnabled,
+              context: context,
+            ),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),
@@ -595,7 +601,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         child: TextButton(
           key: const Key('downloadSingleVideoButton'),
           style: ButtonStyle(
-            shape: appElevatedButtonRoundedShape,
+            shape: getButtonRoundedShape(
+                currentTheme: themeProviderVM.currentTheme),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),
@@ -796,7 +803,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         child: TextButton(
           key: const Key('addPlaylistButton'),
           style: ButtonStyle(
-            shape: appElevatedButtonRoundedShape,
+            shape: getButtonRoundedShape(
+                currentTheme: themeProviderVM.currentTheme),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),

@@ -22,11 +22,36 @@ enum MultipleIconType { iconOne, iconTwo, iconThree }
 late AudioPlayerVM globalAudioGlobalPlayerVM;
 
 mixin ScreenMixin {
-  final MaterialStateProperty<RoundedRectangleBorder>
-      appElevatedButtonRoundedShape =
-      MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius),
-  ));
+
+  /// Returns the TextButton border based on the [currentTheme]
+  /// currently applyed as well as the [isButtonEnabled]
+  /// parameter value.
+  MaterialStateProperty<RoundedRectangleBorder> getButtonRoundedShape({
+    required AppTheme currentTheme,
+    bool isButtonEnabled = true,
+    BuildContext? context,
+  }) {
+    MaterialStateProperty<RoundedRectangleBorder> buttonRoundedShape =
+        MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius),
+      side: BorderSide(
+          color: (isButtonEnabled) ? (currentTheme == AppTheme.dark)
+              ? kSliderThumbColorInDarkMode
+              : kSliderThumbColorInLightMode : getTextInactiveColor(context!)),
+    ));
+    return buttonRoundedShape;
+  }
+
+  /// Returns the Text widget inactive color so that the
+  /// TextButton border color is the same as the TextButton
+  /// Text color if the TextButton is inactive.
+  Color getTextInactiveColor(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+
+    // Retrieve a color for inactive/disabled text
+    return themeData.disabledColor; // or themeData.hintColor
+  }
 
   static const double CHECKBOX_WIDTH_HEIGHT = 20.0;
   static const int PLAYLIST_DOWNLOAD_VIEW_DRAGGABLE_INDEX = 0;
