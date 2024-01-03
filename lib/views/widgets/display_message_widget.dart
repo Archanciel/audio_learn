@@ -467,7 +467,7 @@ class DisplayMessageWidget extends StatelessWidget {
           actions: [
             TextButton(
               child: Text(
-                key: Key('warningDialogOkButton'),
+                key: const Key('warningDialogOkButton'),
                 'Ok',
                 style: (themeProviderVM.currentTheme == AppTheme.dark)
                     ? kTextButtonStyleDarkMode
