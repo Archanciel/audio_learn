@@ -99,31 +99,34 @@ const kPositionButtonTextStyle = TextStyle(
 const Color kSliderThumbColorInDarkMode = Color(0xffd0bcff);
 const Color kSliderThumbColorInLightMode = Color(0xff6750a4);
 
+const double kTextButtonFontSize = 18.0;
+const double kTextButtonSmallerFontSize = 16.0;
+
 const kTextButtonStyleDarkMode = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
-  fontSize: 18.0,
+  fontSize: kTextButtonFontSize,
   color: kSliderThumbColorInDarkMode,
 );
 
 const kTextButtonStyleLightMode = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
-  fontSize: 18.0,
+  fontSize: kTextButtonFontSize,
   color: kSliderThumbColorInLightMode,
 );
 
 const kTextButtonSmallStyleDarkMode = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
-  fontSize: 16.0,
+  fontSize: kTextButtonSmallerFontSize,
   color: kSliderThumbColorInDarkMode,
 );
 
 const kTextButtonSmallStyleLightMode = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
-  fontSize: 16.0,
+  fontSize: kTextButtonSmallerFontSize,
   color: kSliderThumbColorInLightMode,
 );
 

@@ -534,6 +534,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     AudioDownloadVM audioDownloadViewModel,
     ThemeProviderVM themeProviderVM,
   ) {
+    bool isButtonEnabled = audioDownloadViewModel.isDownloading &&
+        !audioDownloadViewModel.isDownloadStopping;
+
     return SizedBox(
       width: kNormalButtonWidth - 30,
       child: Tooltip(
@@ -546,8 +549,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),
           ),
-          onPressed: audioDownloadViewModel.isDownloading &&
-                  !audioDownloadViewModel.isDownloadStopping
+          onPressed: (isButtonEnabled)
               ? () {
                   // Flushbar creation must be located before calling
                   // the stopDownload method, otherwise the flushbar
@@ -566,9 +568,15 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               : null,
           child: Text(
             AppLocalizations.of(context)!.stopDownload,
-            style: (themeProviderVM.currentTheme == AppTheme.dark)
-                ? kTextButtonStyleDarkMode
-                : kTextButtonStyleLightMode,
+            style: (isButtonEnabled)
+                ? (themeProviderVM.currentTheme == AppTheme.dark)
+                    ? kTextButtonStyleDarkMode
+                    : kTextButtonStyleLightMode
+                : const TextStyle(
+                    // required to display the button in grey if
+                    // the button is disabled
+                    fontSize: kTextButtonFontSize,
+                  ),
           ),
         ),
       ),
@@ -729,6 +737,54 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
+  Expanded _buildPlaylistUrlAndTitle(BuildContext context) {
+    return Expanded(
+      // necessary to avoid Exception
+      child: Column(
+        children: [
+          Expanded(
+            flex: 6, // controls the height ratio
+            child: TextField(
+              key: const Key('playlistUrlTextField'),
+              controller: _playlistUrlController,
+              style: const TextStyle(fontSize: 15),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.ytPlaylistLinkLabel,
+                hintText: AppLocalizations.of(context)!.ytPlaylistLinkHintText,
+                border: const OutlineInputBorder(),
+                isDense: true,
+                contentPadding: const EdgeInsets.all(2),
+              ),
+              maxLines: 1,
+            ),
+          ),
+          Expanded(
+            flex: 4, // controls the height ratio
+            child: TextField(
+              key: const Key('selectedPlaylistTextField'),
+              readOnly: true,
+              controller: TextEditingController(
+                text: Provider.of<PlaylistListVM>(context)
+                        .uniqueSelectedPlaylist
+                        ?.title ??
+                    '',
+              ),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                isDense: true,
+                contentPadding: EdgeInsets.all(2),
+              ),
+              style: const TextStyle(
+                fontSize: 12,
+              ),
+              maxLines: 1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   SizedBox _buildAddPlaylistButton(
     BuildContext context,
     ThemeProviderVM themeProviderVM,
@@ -782,54 +838,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 : kTextButtonStyleLightMode,
           ),
         ),
-      ),
-    );
-  }
-
-  Expanded _buildPlaylistUrlAndTitle(BuildContext context) {
-    return Expanded(
-      // necessary to avoid Exception
-      child: Column(
-        children: [
-          Expanded(
-            flex: 6, // controls the height ratio
-            child: TextField(
-              key: const Key('playlistUrlTextField'),
-              controller: _playlistUrlController,
-              style: const TextStyle(fontSize: 15),
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.ytPlaylistLinkLabel,
-                hintText: AppLocalizations.of(context)!.ytPlaylistLinkHintText,
-                border: const OutlineInputBorder(),
-                isDense: true,
-                contentPadding: const EdgeInsets.all(2),
-              ),
-              maxLines: 1,
-            ),
-          ),
-          Expanded(
-            flex: 4, // controls the height ratio
-            child: TextField(
-              key: const Key('selectedPlaylistTextField'),
-              readOnly: true,
-              controller: TextEditingController(
-                text: Provider.of<PlaylistListVM>(context)
-                        .uniqueSelectedPlaylist
-                        ?.title ??
-                    '',
-              ),
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                isDense: true,
-                contentPadding: EdgeInsets.all(2),
-              ),
-              style: const TextStyle(
-                fontSize: 12,
-              ),
-              maxLines: 1,
-            ),
-          ),
-        ],
       ),
     );
   }
