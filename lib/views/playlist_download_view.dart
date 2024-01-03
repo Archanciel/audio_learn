@@ -231,6 +231,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     AudioDownloadVM audioDownloadViewModel,
     ThemeProviderVM themeProviderVM,
   ) {
+    bool isButtonEnabled = Provider.of<PlaylistListVM>(context)
+            .isButtonDownloadSelPlaylistsEnabled &&
+        !Provider.of<AudioDownloadVM>(context).isDownloading;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -242,7 +246,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               key: const Key('playlist_toggle_button'),
               style: ButtonStyle(
                 shape: getButtonRoundedShape(
-                    currentTheme: themeProviderVM.currentTheme),
+                  currentTheme: themeProviderVM.currentTheme,
+                ),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(
                       horizontal: kSmallButtonInsidePadding),
@@ -306,15 +311,15 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               key: const Key('download_sel_playlists_button'),
               style: ButtonStyle(
                 shape: getButtonRoundedShape(
-                    currentTheme: themeProviderVM.currentTheme),
+                    currentTheme: themeProviderVM.currentTheme,
+                    isButtonEnabled: isButtonEnabled,
+                    context: context),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(
                       horizontal: kSmallButtonInsidePadding),
                 ),
               ),
-              onPressed: (Provider.of<PlaylistListVM>(context)
-                          .isButtonDownloadSelPlaylistsEnabled &&
-                      !Provider.of<AudioDownloadVM>(context).isDownloading)
+              onPressed: (isButtonEnabled)
                   ? () async {
                       PlaylistListVM expandablePlaylistListVM =
                           Provider.of<PlaylistListVM>(context, listen: false);
@@ -348,9 +353,15 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   ),
                   Text(
                     AppLocalizations.of(context)!.downloadSelectedPlaylist,
-                    style: (themeProviderVM.currentTheme == AppTheme.dark)
-                        ? kTextButtonStyleDarkMode
-                        : kTextButtonStyleLightMode,
+                    style: (isButtonEnabled)
+                        ? (themeProviderVM.currentTheme == AppTheme.dark)
+                            ? kTextButtonStyleDarkMode
+                            : kTextButtonStyleLightMode
+                        : const TextStyle(
+                            // required to display the button in grey if
+                            // the button is disabled
+                            fontSize: kTextButtonFontSize,
+                          ),
                   ), // Texte
                 ],
               ),
