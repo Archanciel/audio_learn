@@ -106,9 +106,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _buildSetAudioSpeedTextButton(
-          context,
-        ),
+        _buildSetAudioSpeedTextButton(context),
         // const SizedBox(height: 10.0),
         _buildPlayButton(),
         Column(
@@ -126,54 +124,62 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildSetAudioSpeedTextButton(
     BuildContext context,
   ) {
-    return Consumer2<ThemeProviderVM, AudioPlayerVM>(
-      // using Consumer<AudioPlayerVM> ensure that _audioPlaySpeed
-      // is updated when the another audio is selected in the
-      // AudioOneSelectableDialogWidget or when the next or previous
-      // audio is set as current audio.
-      builder: (context, themeProviderVM, audioGlobalPlayerVM, child) {
-        Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
-
-        if (currentAudio == null) {
-          return const SizedBox.shrink();
-        }
-
-        _audioPlaySpeed = currentAudio.audioPlaySpeed;
-
-        return GestureDetector(
-          onTap: () {
-            final FocusNode focusNode = FocusNode();
-            showDialog(
-              context: context,
-              barrierDismissible: true,
-              builder: (BuildContext context) {
-                return SetAudioSpeedDialogWidget(
-                  audioPlaySpeed: _audioPlaySpeed,
-                );
-              },
-            ).then((value) {
-              // not null value is boolean
-              if (value != null) {
-                // value is null if clicking on Cancel or if the dialog
-                // is dismissed by clicking outside the dialog.
-
-                setState(() {
-                  _audioPlaySpeed = value as double;
-                });
-              }
-            });
-            focusNode.requestFocus();
-          },
-          child: Tooltip(
-            message: AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
-            child: Text(
-              '${_audioPlaySpeed.toStringAsFixed(2)}x',
-              textAlign: TextAlign.center,
-              style: (themeProviderVM.currentTheme == AppTheme.dark)
-                  ? kTextButtonStyleDarkMode
-                  : kTextButtonStyleLightMode,
+    return Consumer<ThemeProviderVM>(
+      builder: (context, themeProviderVM, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Tooltip(
+              message: AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
+              child: TextButton(
+                key: const Key('addPlaylistButton'),
+                style: ButtonStyle(
+                  shape: getButtonRoundedShape(
+                      currentTheme: themeProviderVM.currentTheme),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    const EdgeInsets.symmetric(
+                        horizontal: kSmallButtonInsidePadding),
+                  ),
+                ),
+                onPressed: () {
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
+                  final FocusNode focusNode = FocusNode();
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return SetAudioSpeedDialogWidget(
+                        audioPlaySpeed: _audioPlaySpeed,
+                      );
+                    },
+                  ).then((value) {
+                    // not null value is boolean
+                    if (value != null) {
+                      // value is null if clicking on Cancel or if the dialog
+                      // is dismissed by clicking outside the dialog.
+            
+                      setState(() {
+                        _audioPlaySpeed = value as double;
+                      });
+                    }
+                  });
+                  focusNode.requestFocus();
+                },
+                child: Tooltip(
+                  message: AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
+                  child: Text(
+                    '${_audioPlaySpeed.toStringAsFixed(2)}x',
+                    textAlign: TextAlign.center,
+                    style: (themeProviderVM.currentTheme == AppTheme.dark)
+                        ? kTextButtonStyleDarkMode
+                        : kTextButtonStyleLightMode,
+                  ),
+                ),
+              ),
             ),
-          ),
+          ],
         );
       },
     );

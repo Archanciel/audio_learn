@@ -7,13 +7,7 @@ import '../services/settings_data_service.dart';
 import '../viewmodels/theme_provider_vm.dart';
 
 class AudioExtractorView extends StatefulWidget {
-  final MaterialStateProperty<RoundedRectangleBorder>
-      appElevatedButtonRoundedShape =
-      MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius),
-  ));
-
-  AudioExtractorView({super.key});
+  const AudioExtractorView({super.key});
 
   @override
   _AudioExtractorViewState createState() => _AudioExtractorViewState();
@@ -234,7 +228,9 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
       children: <Widget>[
         TextButton(
           style: ButtonStyle(
-            shape: widget.appElevatedButtonRoundedShape,
+            shape: getButtonRoundedShape(
+              currentTheme: themeProviderVM.currentTheme,
+            ),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),
@@ -252,7 +248,9 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
         ),
         TextButton(
           style: ButtonStyle(
-            shape: widget.appElevatedButtonRoundedShape,
+            shape: getButtonRoundedShape(
+              currentTheme: themeProviderVM.currentTheme,
+            ),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),
