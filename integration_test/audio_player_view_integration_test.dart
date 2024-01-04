@@ -265,6 +265,30 @@ void main() {
         expectedAudioPlaySpeed,
       );
 
+      // Now we go back to the PlayListDownloadView in order
+      // to tap on the last downloaded audio title
+
+      final audioPlayerNavButton =
+          find.byKey(const ValueKey('playlistDownloadViewIconButton'));
+      await tester.tap(audioPlayerNavButton);
+      await tester.pumpAndSettle();
+
+      // Now we want to tap on the last downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // First, get the last downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder lastDownloadedAudioListTileTextWidgetFinder =
+          find.text(lastDownloadedAudioTitle);
+
+      await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed of the last downloaded audio
+      // which was not modified is 1.50x
+      expect(find.text('1.50x'), findsOneWidget);
+
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
