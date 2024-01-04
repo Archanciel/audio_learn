@@ -133,7 +133,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             Tooltip(
               message: AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
               child: TextButton(
-                key: const Key('addPlaylistButton'),
+                key: const Key('setAudioSpeedTextButton'),
                 style: ButtonStyle(
                   shape: getButtonRoundedShape(
                       currentTheme: themeProviderVM.currentTheme),
