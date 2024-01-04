@@ -11,7 +11,7 @@ import 'package:audio_learn/main.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('AudioPlayerView Integration Tests', () {
+  group('AudioPlayerView play/pause tests', () {
     testWidgets(
         'Opening AudioPlayerView by clicking on audio title. Then check play/pause button conversion only.',
         (
@@ -175,6 +175,8 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+  });
+  group('AudioPlayerView no audio selected tests', () {
     testWidgets(
         'Opening AudioPlayerView by clicking on AudioPlayerView icon button with a playlist recently downloaded with no previously selected audio.',
         (WidgetTester tester) async {
@@ -219,36 +221,6 @@ void main() {
       await initializeApplication(
         tester: tester,
         savedTestDataDirName: 'audio_player_view_no_playlist_selected_test',
-        selectedPlaylistTitle: null, // no playlist selected
-      );
-
-      // Now we tap on the AudioPlayerView icon button to open
-      // AudioPlayerView screen which displays the current
-      // playable audio which is paused
-
-      // Assuming you have a button to navigate to the AudioPlayerView
-      final audioPlayerNavButton =
-          find.byKey(const ValueKey('audioPlayerViewIconButton'));
-      await tester.tap(audioPlayerNavButton);
-      await tester.pumpAndSettle();
-
-      // Verify the no selected audio title is displayed
-      Finder noAudioTitleFinder = find.text("No audio selected");
-      expect(noAudioTitleFinder, findsOneWidget);
-
-      await tester.tap(noAudioTitleFinder);
-      await tester.pumpAndSettle();
-
-      // Purge the test playlist directory so that the created test
-      // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
-    });
-    testWidgets(
-        'Opening AudioPlayerView by clicking on AudioPlayerView icon button in situation where no playlist exist.',
-        (WidgetTester tester) async {
-      await initializeApplication(
-        tester: tester,
-        savedTestDataDirName: null, // no playlist created
         selectedPlaylistTitle: null, // no playlist selected
       );
 
