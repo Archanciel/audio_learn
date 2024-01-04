@@ -1,3 +1,5 @@
+import 'package:audio_learn/models/playlist.dart';
+import 'package:audio_learn/services/json_data_service.dart';
 import 'package:audio_learn/utils/date_time_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -39,8 +41,7 @@ void main() {
       await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
 
-      await tester
-          .tap(find.byIcon(Icons.play_arrow)); // Replace with your interaction
+      await tester.tap(find.byIcon(Icons.play_arrow));
       await tester.pumpAndSettle();
 
       await Future.delayed(const Duration(seconds: 1));
@@ -214,43 +215,85 @@ void main() {
         (
       WidgetTester tester,
     ) async {
-      const String audioPlayerSelectedPlaylistTitle =
-          'audio_player_view_2_shorts_test';
-      const String lastDownloadedAudioTitle = 'morning _ cinematic video';
+      const String audioPlayerSelectedPlaylistTitle = 'S8 audio';
+      const String lastDownloadedAudioTitle =
+          '3 fois où Aurélien Barrau tire à balles réelles sur les riches';
+      const String firstDownloadedAudioTitle =
+          'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
 
       await initializeApplication(
         tester: tester,
-        savedTestDataDirName: 'audio_player_view_test',
+        savedTestDataDirName: 'audio_play_speed_bug_fix_test_data',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
       );
 
-      // Now we want to tap on the lastly downloaded audio of the
+      // Now we want to tap on the first downloaded audio of the
       // playlist in order to open the AudioPlayerView displaying
-      // the currently paused audio
+      // the audio
 
-      // First, get the lastly downloaded Audio ListTile Text
+      // First, get the first downloaded Audio ListTile Text
       // widget finder and tap on it
-      final Finder lastDownloadedAudioListTileTextWidgetFinder =
-          find.text(lastDownloadedAudioTitle);
+      final Finder firstDownloadedAudioListTileTextWidgetFinder =
+          find.text(firstDownloadedAudioTitle);
 
-      await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
+      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
 
-      await tester
-          .tap(find.byIcon(Icons.play_arrow)); // Replace with your interaction
+      // Now open the audio play speed dialog
+      await tester.tap(find.byKey(const Key('setAudioSpeedTextButton')));
       await tester.pumpAndSettle();
 
-      await Future.delayed(const Duration(seconds: 1));
+      // Now select the 0.7x play speed
+      await tester.tap(find.text('0.7x'));
       await tester.pumpAndSettle();
 
-      // Verify if the play button changes to pause button
-      expect(find.byIcon(Icons.pause), findsOneWidget);
+      // And click on the Ok button
+      await tester.tap(find.text('Ok'));
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed is 0.70x
+      expect(find.text('0.70x'), findsOneWidget);
+
+      // Check the saved local playlist values in the json file
+
+      int playableAudioLstAudioIndex = 1;
+      double expectedAudioPlaySpeed = 0.7;
+
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+}
+
+void verifyAudioPlaySpeedStoredInPlaylistJsonFile(String audioPlayerSelectedPlaylistTitle,
+    int playableAudioLstAudioIndex, double expectedAudioPlaySpeed) {
+  final String selectedPlaylistPath = path.join(
+    kDownloadAppTestDirWindows,
+    audioPlayerSelectedPlaylistTitle,
+  );
+
+  final selectedPlaylistFilePathName = path.join(
+    selectedPlaylistPath,
+    '$audioPlayerSelectedPlaylistTitle.json',
+  );
+
+  // Load playlist from the json file
+  Playlist loadedSelectedPlaylist = JsonDataService.loadFromFile(
+    jsonPathFileName: selectedPlaylistFilePathName,
+    type: Playlist,
+  );
+
+  expect(
+      loadedSelectedPlaylist
+          .playableAudioLst[playableAudioLstAudioIndex].audioPlaySpeed,
+      expectedAudioPlaySpeed);
 }
 
 Future<void> initializeApplication({
