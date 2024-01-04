@@ -54,44 +54,6 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
-        'Opening AudioPlayerView by clicking on AudioPlayerView icon button. Then check play/pause button conversion only.',
-        (
-      WidgetTester tester,
-    ) async {
-      const String audioPlayerSelectedPlaylistTitle =
-          'audio_player_view_2_shorts_test';
-
-      await initializeApplication(
-        tester: tester,
-        savedTestDataDirName: 'audio_player_view_test',
-        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
-      );
-
-      // Now we tap on the AudioPlayerView icon button to open
-      // AudioPlayerView screen which displays the current
-      // playable audio which is paused
-
-      // Assuming you have a button to navigate to the AudioPlayerView
-      final audioPlayerNavButton =
-          find.byKey(const ValueKey('audioPlayerViewIconButton'));
-      await tester.tap(audioPlayerNavButton);
-      await tester.pumpAndSettle();
-
-      await tester
-          .tap(find.byIcon(Icons.play_arrow)); // Replace with your interaction
-      await tester.pumpAndSettle();
-
-      await Future.delayed(const Duration(seconds: 1));
-      await tester.pumpAndSettle();
-
-      // Verify if the play button changes to pause button
-      expect(find.byIcon(Icons.pause), findsOneWidget);
-
-      // Purge the test playlist directory so that the created test
-      // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
-    });
-    testWidgets(
         'Opening AudioPlayerView by clicking on audio title. Then play audio during 5 seconds and the pause it',
         (
       WidgetTester tester,
@@ -240,6 +202,49 @@ void main() {
 
       await tester.tap(noAudioTitleFinder);
       await tester.pumpAndSettle();
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
+  group('AudioPlayerView set play speed tests', () {
+    testWidgets(
+        'Opening AudioPlayerView by clicking on audio title. Then reduce play speed. Then go back to PlaylistDownloadView and click on another audio title.',
+        (
+      WidgetTester tester,
+    ) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'audio_player_view_2_shorts_test';
+      const String lastDownloadedAudioTitle = 'morning _ cinematic video';
+
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_view_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the lastly downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the currently paused audio
+
+      // First, get the lastly downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder lastDownloadedAudioListTileTextWidgetFinder =
+          find.text(lastDownloadedAudioTitle);
+
+      await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      await tester
+          .tap(find.byIcon(Icons.play_arrow)); // Replace with your interaction
+      await tester.pumpAndSettle();
+
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
+
+      // Verify if the play button changes to pause button
+      expect(find.byIcon(Icons.pause), findsOneWidget);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
