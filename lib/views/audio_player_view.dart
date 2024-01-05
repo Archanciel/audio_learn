@@ -124,8 +124,11 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildSetAudioSpeedTextButton(
     BuildContext context,
   ) {
-    return Consumer<ThemeProviderVM>(
-      builder: (context, themeProviderVM, child) {
+    return Consumer2<ThemeProviderVM, AudioPlayerVM>(
+      builder: (context, themeProviderVM, globalAudioPlayerVM, child) {
+        _audioPlaySpeed = globalAudioPlayerVM.currentAudio?.audioPlaySpeed ??
+            _audioPlaySpeed;
+            
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,6 +229,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
+              key: const Key('audioPlayerViewSkipToStartButton'),
               iconSize: _audioIconSizeMedium,
               onPressed: () => audioGlobalPlayerVM.skipToStart(),
               icon: const Icon(Icons.skip_previous),
@@ -264,6 +268,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 _displayOtherAudiosDialog();
               },
               child: IconButton(
+                key: const Key('audioPlayerViewSkipToEndButton'),
                 iconSize: _audioIconSizeMedium,
                 onPressed: () => audioGlobalPlayerVM.skipToEndAndPlay(),
                 icon: const Icon(Icons.skip_next),

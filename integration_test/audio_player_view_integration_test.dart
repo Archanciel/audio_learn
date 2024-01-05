@@ -254,7 +254,8 @@ void main() {
       // Verify if the play speed is 0.70x
       expect(find.text('0.70x'), findsOneWidget);
 
-      // Check the saved local playlist values in the json file
+      // Check the saved playlist first downloaded audio
+      // play speed value in the json file
 
       int playableAudioLstAudioIndex = 1;
       double expectedAudioPlaySpeed = 0.7;
@@ -288,6 +289,113 @@ void main() {
       // Verify if the play speed of the last downloaded audio
       // which was not modified is 1.50x
       expect(find.text('1.50x'), findsOneWidget);
+
+      // Check the saved playlist last downloaded audio
+      // play speed value in the json file
+
+      playableAudioLstAudioIndex = 0;
+      expectedAudioPlaySpeed = 1.5;
+
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Opening AudioPlayerView by clicking on audio title. Then reduce play speed. Then click twice on >| button to start playing the most recently downloaded audio.',
+        (
+      WidgetTester tester,
+    ) async {
+      const String audioPlayerSelectedPlaylistTitle = 'S8 audio';
+      const String lastDownloadedAudioTitle =
+          '3 fois où Aurélien Barrau tire à balles réelles sur les riches';
+      const String firstDownloadedAudioTitle =
+          'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
+
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_play_speed_bug_fix_test_data',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // First, get the first downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder firstDownloadedAudioListTileTextWidgetFinder =
+          find.text(firstDownloadedAudioTitle);
+
+      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now open the audio play speed dialog
+      await tester.tap(find.byKey(const Key('setAudioSpeedTextButton')));
+      await tester.pumpAndSettle();
+
+      // Now select the 0.7x play speed
+      await tester.tap(find.text('0.7x'));
+      await tester.pumpAndSettle();
+
+      // And click on the Ok button
+      await tester.tap(find.text('Ok'));
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed is 0.70x
+      expect(find.text('0.70x'), findsOneWidget);
+
+      // Check the saved playlist first downloaded audio
+      // play speed value in the json file
+
+      int playableAudioLstAudioIndex = 1;
+      double expectedAudioPlaySpeed = 0.7;
+
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
+
+      // Now we tap twice on the >| button in order to start
+      // playing the last downloaded audio of the playlist
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToEndButton')));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToEndButton')));
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed of the last downloaded audio
+      // which was not modified is 1.50x
+      expect(find.text('1.50x'), findsOneWidget);
+
+      // Verify if the play button changed to pause button
+      // Finder pauseIconFinder = find.byIcon(Icons.pause);
+      // expect(pauseIconFinder, findsOneWidget);
+
+      // // Now pause the audio and wait 1 second
+      // await tester.tap(pauseIconFinder);
+      // await tester.pumpAndSettle();
+
+      // await Future.delayed(const Duration(seconds: 1));
+
+      // Check the saved playlist last downloaded audio
+      // play speed value in the json file
+
+      playableAudioLstAudioIndex = 0;
+      expectedAudioPlaySpeed = 1.5;
+
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
