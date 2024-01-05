@@ -1,0 +1,15 @@
+{
+    "SettingType.appTheme": {
+        "SettingType.appTheme": "AppTheme.dark"
+    },
+    "SettingType.language": {
+        "SettingType.language": "Language.english"
+    },
+    "SettingType.playlists": {
+        "Playlists.defaultAudioSort": "AudioSortCriterion.audioDownloadDateTime",
+        "Playlists.isMusicQualityByDefault": "false",
+        "Playlists.orderedTitleLst": "[S8 audio]",
+        "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",
+        "Playlists.rootPath": "/storage/emulated/0/Download/audiolear"
+    }
+}

@@ -138,6 +138,52 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    testWidgets(
+        'Opening AudioPlayerView by clicking on audio title. Then click on play button to finish playing the first downloaded audio and start playing the last downloaded audio, ignoring the 2 precendent audios already fully played.',
+        (
+      WidgetTester tester,
+    ) async {
+      const String audioPlayerSelectedPlaylistTitle = 'S8 audio';
+      const String firstDownloadedAudioTitle =
+          'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
+
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_view_first_to_last_audio_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // First, get the first downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder firstDownloadedAudioListTileTextWidgetFinder =
+          find.text(firstDownloadedAudioTitle);
+
+      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now we tap on the play button in order to finish
+      // playing the first downloaded audio and start playing
+      // the last downloaded audio of the playlist. The 2
+      // audios in between are ignored since they are already
+      // fully played.
+
+      await tester.tap(find.byIcon(Icons.play_arrow));
+      await tester.pumpAndSettle();
+
+      await Future.delayed(const Duration(seconds: 5));
+      await tester.pumpAndSettle();
+
+      // Verify the last downloaded played audio title
+      expect(find.text('3 fois où Aurélien Barrau tire à balles réelles sur les riches\n8:50'), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
   });
   group('AudioPlayerView no audio selected tests', () {
     testWidgets(
@@ -312,8 +358,6 @@ void main() {
       WidgetTester tester,
     ) async {
       const String audioPlayerSelectedPlaylistTitle = 'S8 audio';
-      const String lastDownloadedAudioTitle =
-          '3 fois où Aurélien Barrau tire à balles réelles sur les riches';
       const String firstDownloadedAudioTitle =
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
 
@@ -375,18 +419,253 @@ void main() {
       // which was not modified is 1.50x
       expect(find.text('1.50x'), findsOneWidget);
 
-      // Verify if the play button changed to pause button
-      // Finder pauseIconFinder = find.byIcon(Icons.pause);
-      // expect(pauseIconFinder, findsOneWidget);
+      playableAudioLstAudioIndex = 0;
+      expectedAudioPlaySpeed = 1.5;
 
-      // // Now pause the audio and wait 1 second
-      // await tester.tap(pauseIconFinder);
-      // await tester.pumpAndSettle();
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
 
-      // await Future.delayed(const Duration(seconds: 1));
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Opening AudioPlayerView by clicking on audio title. Then reduce play speed. Then click on play button to finish playing the first downloaded audio and start playing the next downloaded audio.',
+        (
+      WidgetTester tester,
+    ) async {
+      const String audioPlayerSelectedPlaylistTitle = 'S8 audio';
+      const String firstDownloadedAudioTitle =
+          'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
 
-      // Check the saved playlist last downloaded audio
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_play_speed_bug_fix_test_data',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // First, get the first downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder firstDownloadedAudioListTileTextWidgetFinder =
+          find.text(firstDownloadedAudioTitle);
+
+      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now open the audio play speed dialog
+      await tester.tap(find.byKey(const Key('setAudioSpeedTextButton')));
+      await tester.pumpAndSettle();
+
+      // Now select the 0.7x play speed
+      await tester.tap(find.text('0.7x'));
+      await tester.pumpAndSettle();
+
+      // And click on the Ok button
+      await tester.tap(find.text('Ok'));
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed is 0.70x
+      expect(find.text('0.70x'), findsOneWidget);
+
+      // Check the saved playlist first downloaded audio
       // play speed value in the json file
+
+      int playableAudioLstAudioIndex = 1;
+      double expectedAudioPlaySpeed = 0.7;
+
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
+
+      // Now we tap on the play button in order to finish
+      // playing the first downloaded audio and start playing
+      // the last downloaded audio of the playlist
+
+      await tester.tap(find.byIcon(Icons.play_arrow));
+      await tester.pumpAndSettle();
+
+      await Future.delayed(const Duration(seconds: 5));
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed of the last downloaded audio
+      // which was not modified is 1.50x
+      expect(find.text('1.50x'), findsOneWidget);
+
+      playableAudioLstAudioIndex = 0;
+      expectedAudioPlaySpeed = 1.5;
+
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Opening AudioPlayerView by clicking on audio title. Then reduce play speed. Then click on play button to finish playing the first downloaded audio and start playing the last downloaded audio, ignoring the 2 precendent audios already fully played.',
+        (
+      WidgetTester tester,
+    ) async {
+      const String audioPlayerSelectedPlaylistTitle = 'S8 audio';
+      const String firstDownloadedAudioTitle =
+          'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
+      const String lastDownloadedAudioTitle =
+          '3 fois où Aurélien Barrau tire à balles réelles sur les riches';
+
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_view_first_to_last_audio_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // First, get the first downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder firstDownloadedAudioListTileTextWidgetFinder =
+          find.text(firstDownloadedAudioTitle);
+
+      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now open the audio play speed dialog
+      await tester.tap(find.byKey(const Key('setAudioSpeedTextButton')));
+      await tester.pumpAndSettle();
+
+      // Now select the 0.7x play speed
+      await tester.tap(find.text('0.7x'));
+      await tester.pumpAndSettle();
+
+      // And click on the Ok button
+      await tester.tap(find.text('Ok'));
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed is 0.70x
+      expect(find.text('0.70x'), findsOneWidget);
+
+      // Check the saved playlist first downloaded audio
+      // play speed value in the json file
+
+      int playableAudioLstAudioIndex = 1;
+      double expectedAudioPlaySpeed = 0.7;
+
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
+
+      // Now we tap on the play button in order to finish
+      // playing the first downloaded audio and start playing
+      // the last downloaded audio of the playlist. The 2
+      // audios in between are ignored since they are already
+      // fully played.
+
+      await tester.tap(find.byIcon(Icons.play_arrow));
+      await tester.pumpAndSettle();
+
+      await Future.delayed(const Duration(seconds: 5));
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed of the last downloaded audio
+      // which was not modified is 1.50x
+      expect(find.text('1.50x'), findsOneWidget);
+
+      playableAudioLstAudioIndex = 0;
+      expectedAudioPlaySpeed = 1.5;
+
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Opening AudioPlayerView by clicking on audio title. Then reduce play speed. Then open the DisplaySelectableAudioListDialogWidget and select the most recently downloaded audio.',
+        (
+      WidgetTester tester,
+    ) async {
+      const String audioPlayerSelectedPlaylistTitle = 'S8 audio';
+      const String lastDownloadedAudioTitle =
+          '3 fois où Aurélien Barrau tire à balles réelles sur les riches';
+      const String firstDownloadedAudioTitle =
+          'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
+
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_play_speed_bug_fix_test_data',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // First, get the first downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder firstDownloadedAudioListTileTextWidgetFinder =
+          find.text(firstDownloadedAudioTitle);
+
+      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now open the audio play speed dialog
+      await tester.tap(find.byKey(const Key('setAudioSpeedTextButton')));
+      await tester.pumpAndSettle();
+
+      // Now select the 0.7x play speed
+      await tester.tap(find.text('0.7x'));
+      await tester.pumpAndSettle();
+
+      // And click on the Ok button
+      await tester.tap(find.text('Ok'));
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed is 0.70x
+      expect(find.text('0.70x'), findsOneWidget);
+
+      // Check the saved playlist first downloaded audio
+      // play speed value in the json file
+
+      int playableAudioLstAudioIndex = 1;
+      double expectedAudioPlaySpeed = 0.7;
+
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
+
+      // Now we open the DisplaySelectableAudioListDialogWidget
+      // and select the last downloaded audio of the playlist
+
+      await tester.tap(find.text('Ce qui va vraiment sauver notre espèce par Jancovici et Barrau\n6:29'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text(lastDownloadedAudioTitle));
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed of the last downloaded audio
+      // which was not modified is 1.50x
+      expect(find.text('1.50x'), findsOneWidget);
 
       playableAudioLstAudioIndex = 0;
       expectedAudioPlaySpeed = 1.5;

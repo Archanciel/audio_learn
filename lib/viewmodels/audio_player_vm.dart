@@ -254,7 +254,14 @@ class AudioPlayerVM extends ChangeNotifier {
           // solves the problem of playing the last playable audio
           // when the current audio which is not before the last
           // audio is terminated
-          await _audioPlayer.dispose();
+          //
+          // this problem no longer occurs ! It is tested in the
+          // AudioPlayerView integration test.
+          // try {
+          //   await _audioPlayer.dispose();
+          // } catch (e) {
+          //   // avoid integration test failure
+          // }
 
           // Play next audio when current audio finishes.
           await playNextAudio();
@@ -279,7 +286,7 @@ class AudioPlayerVM extends ChangeNotifier {
       // to the AudioPlayerView screen causes the "No audio selected"
       // audio title to be displayed in the AudioPlayerView screen.
       _clearCurrentAudio();
-      
+
       return;
     }
 
@@ -312,7 +319,7 @@ class AudioPlayerVM extends ChangeNotifier {
     _currentAudio = null;
     _currentAudioTotalDuration = const Duration();
     _currentAudioPosition = const Duration(seconds: 0);
-    
+
     _audioPlayer.dispose();
   }
 
@@ -614,7 +621,7 @@ class AudioPlayerVM extends ChangeNotifier {
     if (_currentAudio == null) {
       return;
     }
-    
+
     _currentAudio!.audioPlaySpeed = speed;
     await _audioPlayer.setPlaybackRate(speed);
     updateAndSaveCurrentAudio(forceSave: true);
