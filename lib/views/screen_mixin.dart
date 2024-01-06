@@ -22,7 +22,6 @@ enum MultipleIconType { iconOne, iconTwo, iconThree }
 late AudioPlayerVM globalAudioGlobalPlayerVM;
 
 mixin ScreenMixin {
-
   /// Returns the TextButton border based on the [currentTheme]
   /// currently applyed as well as the [isButtonEnabled]
   /// parameter value.
@@ -36,9 +35,11 @@ mixin ScreenMixin {
             RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(kRoundedButtonBorderRadius),
       side: BorderSide(
-          color: (isButtonEnabled) ? (currentTheme == AppTheme.dark)
-              ? kSliderThumbColorInDarkMode
-              : kSliderThumbColorInLightMode : getTextInactiveColor(context!)),
+          color: (isButtonEnabled)
+              ? (currentTheme == AppTheme.dark)
+                  ? kSliderThumbColorInDarkMode
+                  : kSliderThumbColorInLightMode
+              : getTextInactiveColor(context!)),
     ));
     return buttonRoundedShape;
   }
@@ -60,6 +61,12 @@ mixin ScreenMixin {
 
   static const double screenIconSizeLightTheme = 30.0;
   static const double screenIconSizeDarkTheme = 29.0;
+
+  // When clicking on TextButton, the color of the button is
+  // changed shortly to the color defined in the following
+  // property.
+  final MaterialStateProperty<Color> textButtonTapModification =
+      MaterialStateProperty.all(Colors.grey.withOpacity(0.6));
 
   // Defining custom icon themes for light theme
   final IconThemeData activeScreenIconLightTheme = const IconThemeData(

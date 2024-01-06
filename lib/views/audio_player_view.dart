@@ -125,9 +125,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   ) {
     return Consumer2<ThemeProviderVM, AudioPlayerVM>(
       builder: (context, themeProviderVM, globalAudioPlayerVM, child) {
-        _audioPlaySpeed = globalAudioPlayerVM.currentAudio?.audioPlaySpeed ??
-            _audioPlaySpeed;
-            
+        _audioPlaySpeed =
+            globalAudioPlayerVM.currentAudio?.audioPlaySpeed ?? _audioPlaySpeed;
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,6 +143,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     const EdgeInsets.symmetric(
                         horizontal: kSmallButtonInsidePadding),
                   ),
+                  overlayColor: textButtonTapModification, // Tap feedback color
                 ),
                 onPressed: () {
                   // Using FocusNode to enable clicking on Enter to close
@@ -161,7 +162,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     if (value != null) {
                       // value is null if clicking on Cancel or if the dialog
                       // is dismissed by clicking outside the dialog.
-            
+
                       setState(() {
                         _audioPlaySpeed = value as double;
                       });
@@ -170,7 +171,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   focusNode.requestFocus();
                 },
                 child: Tooltip(
-                  message: AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
+                  message:
+                      AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
                   child: Text(
                     '${_audioPlaySpeed.toStringAsFixed(2)}x',
                     textAlign: TextAlign.center,

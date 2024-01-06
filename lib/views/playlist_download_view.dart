@@ -231,9 +231,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     AudioDownloadVM audioDownloadViewModel,
     ThemeProviderVM themeProviderVM,
   ) {
-    bool arePlaylistDownloadWidgetsEnabled = Provider.of<PlaylistListVM>(context)
-            .isButtonDownloadSelPlaylistsEnabled &&
-        !Provider.of<AudioDownloadVM>(context).isDownloading;
+    bool arePlaylistDownloadWidgetsEnabled =
+        Provider.of<PlaylistListVM>(context)
+                .isButtonDownloadSelPlaylistsEnabled &&
+            !Provider.of<AudioDownloadVM>(context).isDownloading;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -252,6 +253,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   const EdgeInsets.symmetric(
                       horizontal: kSmallButtonInsidePadding),
                 ),
+                overlayColor: textButtonTapModification, // Tap feedback color
               ),
               onPressed: () {
                 Provider.of<PlaylistListVM>(context, listen: false)
@@ -318,6 +320,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   const EdgeInsets.symmetric(
                       horizontal: kSmallButtonInsidePadding),
                 ),
+                overlayColor: textButtonTapModification, // Tap feedback color
               ),
               onPressed: (arePlaylistDownloadWidgetsEnabled)
                   ? () async {
@@ -563,6 +566,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),
+            overlayColor: textButtonTapModification, // Tap feedback color
           ),
           onPressed: (isButtonEnabled)
               ? () {
@@ -615,6 +619,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),
+            overlayColor: textButtonTapModification, // Tap feedback color
           ),
           onPressed: () {
             PlaylistListVM expandablePlaylistListVM =
@@ -817,6 +822,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),
+            overlayColor: textButtonTapModification, // Tap feedback color
           ),
           onPressed: () {
             final String playlistUrl = _playlistUrlController.text.trim();

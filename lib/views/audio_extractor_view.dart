@@ -234,6 +234,7 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),
+            overlayColor: textButtonTapModification, // Tap feedback color
           ),
           onPressed: () {/* Play action */},
           child: Text(
@@ -254,6 +255,7 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
             ),
+            overlayColor: textButtonTapModification, // Tap feedback color
           ),
           onPressed: () {/* Stop action */},
           child: Text(
