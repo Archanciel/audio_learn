@@ -231,7 +231,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     AudioDownloadVM audioDownloadViewModel,
     ThemeProviderVM themeProviderVM,
   ) {
-    bool isButtonEnabled = Provider.of<PlaylistListVM>(context)
+    bool arePlaylistDownloadWidgetsEnabled = Provider.of<PlaylistListVM>(context)
             .isButtonDownloadSelPlaylistsEnabled &&
         !Provider.of<AudioDownloadVM>(context).isDownloading;
 
@@ -312,14 +312,14 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               style: ButtonStyle(
                 shape: getButtonRoundedShape(
                     currentTheme: themeProviderVM.currentTheme,
-                    isButtonEnabled: isButtonEnabled,
+                    isButtonEnabled: arePlaylistDownloadWidgetsEnabled,
                     context: context),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(
                       horizontal: kSmallButtonInsidePadding),
                 ),
               ),
-              onPressed: (isButtonEnabled)
+              onPressed: (arePlaylistDownloadWidgetsEnabled)
                   ? () async {
                       PlaylistListVM expandablePlaylistListVM =
                           Provider.of<PlaylistListVM>(context, listen: false);
@@ -353,7 +353,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   ),
                   Text(
                     AppLocalizations.of(context)!.downloadSelectedPlaylist,
-                    style: (isButtonEnabled)
+                    style: (arePlaylistDownloadWidgetsEnabled)
                         ? (themeProviderVM.currentTheme == AppTheme.dark)
                             ? kTextButtonStyleDarkMode
                             : kTextButtonStyleLightMode
@@ -384,9 +384,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 },
               ),
               value: audioDownloadViewModel.isHighQuality,
-              onChanged: (Provider.of<PlaylistListVM>(context)
-                          .isButtonMoveUpPlaylistEnabled &&
-                      !Provider.of<AudioDownloadVM>(context).isDownloading)
+              onChanged: (arePlaylistDownloadWidgetsEnabled)
                   ? (bool? value) {
                       bool isHighQuality = value ?? false;
                       audioDownloadViewModel.setAudioQuality(
