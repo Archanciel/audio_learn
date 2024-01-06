@@ -288,13 +288,13 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_down_playlist_button'),
-            onPressed:
-                Provider.of<PlaylistListVM>(context).isButtonDownPlaylistEnabled
-                    ? () {
-                        Provider.of<PlaylistListVM>(context, listen: false)
-                            .moveSelectedItemDown();
-                      }
-                    : null,
+            onPressed: Provider.of<PlaylistListVM>(context)
+                    .isButtonMoveDownPlaylistEnabled
+                ? () {
+                    Provider.of<PlaylistListVM>(context, listen: false)
+                        .moveSelectedItemDown();
+                  }
+                : null,
             padding: const EdgeInsets.all(0),
             icon: const Icon(
               Icons.arrow_drop_down,

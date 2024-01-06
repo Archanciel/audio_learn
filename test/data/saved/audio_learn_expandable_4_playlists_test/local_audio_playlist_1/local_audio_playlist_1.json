@@ -1,1 +1,13 @@
-{"id":"local_audio_playlist_1","title":"local_audio_playlist_1","url":"","playlistType":"local","playlistQuality":"voice","downloadPath":"C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio\\local_audio_playlist_1","downloadedAudioLst":[],"playableAudioLst":[],"isSelected":false}
+{
+    "downloadedAudioLst": [
+    ],
+    "downloadPath": "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio\\local_audio_playlist_1",
+    "id": "local_audio_playlist_1",
+    "isSelected": true,
+    "playableAudioLst": [
+    ],
+    "playlistQuality": "voice",
+    "playlistType": "local",
+    "title": "local_audio_playlist_1",
+    "url": ""
+}

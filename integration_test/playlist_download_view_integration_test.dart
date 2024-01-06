@@ -5281,12 +5281,16 @@ void main() {
         widgetKeyStr: 'move_down_playlist_button',
       );
 
+      // since a local playlist is selected, the download
+      // audios of selected playlist button is disabled
       verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsEnabled(
+      // since the selected local playlist has no audios, the
+      // audio popup menu button is disabled
+      verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );

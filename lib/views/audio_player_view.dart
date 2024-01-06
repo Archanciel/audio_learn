@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../models/audio.dart';
 import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../constants.dart';

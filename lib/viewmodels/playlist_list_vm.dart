@@ -33,14 +33,14 @@ class PlaylistListVM extends ChangeNotifier {
   bool _isListExpanded = false;
   bool _isButtonDownloadSelPlaylistsEnabled = false;
   bool _isButtonMoveUpPlaylistEnabled = false;
-  bool _isButtonDownPlaylistEnabled = false;
+  bool _isButtonMoveDownPlaylistEnabled = false;
   bool _isButtonAudioPopupMenuEnabled = false;
 
   bool get isListExpanded => _isListExpanded;
   bool get isButtonDownloadSelPlaylistsEnabled =>
       _isButtonDownloadSelPlaylistsEnabled;
   bool get isButtonMoveUpPlaylistEnabled => _isButtonMoveUpPlaylistEnabled;
-  bool get isButtonDownPlaylistEnabled => _isButtonDownPlaylistEnabled;
+  bool get isButtonMoveDownPlaylistEnabled => _isButtonMoveDownPlaylistEnabled;
   bool get isButtonAudioPopupMenuEnabled => _isButtonAudioPopupMenuEnabled;
 
   final AudioDownloadVM _audioDownloadVM;
@@ -161,7 +161,7 @@ class PlaylistListVM extends ChangeNotifier {
       _uniqueSelectedPlaylist =
           _listOfSelectablePlaylists[selectedPlaylistIndex];
 
-      _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
+      _setPlaylistButtonsStateIfOnePlaylistIsSelected(
         selectedPlaylist: _listOfSelectablePlaylists[selectedPlaylistIndex],
       );
     } else {
@@ -250,7 +250,7 @@ class PlaylistListVM extends ChangeNotifier {
     } else {
       int selectedPlaylistIndex = _getSelectedIndex();
       if (selectedPlaylistIndex != -1) {
-        _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
+        _setPlaylistButtonsStateIfOnePlaylistIsSelected(
           selectedPlaylist: _listOfSelectablePlaylists[selectedPlaylistIndex],
         );
       } else {
@@ -344,7 +344,7 @@ class PlaylistListVM extends ChangeNotifier {
       // the playlist URL TextField is updated (emptied)
       _uniqueSelectedPlaylist = null;
     } else {
-      _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded(
+      _setPlaylistButtonsStateIfOnePlaylistIsSelected(
         selectedPlaylist: playlistSelectedOrUnselected,
       );
 
@@ -536,7 +536,7 @@ class PlaylistListVM extends ChangeNotifier {
   /// item. This method updates the playlist playable audio list
   /// by removing the audios that are no longer present in the
   /// audio playlist directory.
-  /// 
+  ///
   /// The method is useful when the user has deleted some audio
   /// mp3 files from the audio playlist directory.
   int updatePlayableAudioLst({
@@ -594,7 +594,7 @@ class PlaylistListVM extends ChangeNotifier {
     return -1;
   }
 
-  void _enableAllButtonsIfOnePlaylistIsSelectedAndPlaylistListIsExpanded({
+  void _setPlaylistButtonsStateIfOnePlaylistIsSelected({
     required Playlist selectedPlaylist,
   }) {
     if (_isListExpanded) {
@@ -607,23 +607,71 @@ class PlaylistListVM extends ChangeNotifier {
       _isButtonDownloadSelPlaylistsEnabled = true;
     }
 
-    _isButtonAudioPopupMenuEnabled = true;
+    _setButtonAudioPopupMenuState(
+      buttonStateIfAudiosAvailable: true,
+      selectedPlaylist: selectedPlaylist,
+    );
+  }
+
+  /// If the selected playlist has no audio, then the
+  /// button is disabled.
+  void _setButtonAudioPopupMenuState({
+    required bool buttonStateIfAudiosAvailable,
+    Playlist? selectedPlaylist,
+  }) {
+    if (buttonStateIfAudiosAvailable) {
+      if (selectedPlaylist != null &&
+          selectedPlaylist.playableAudioLst.isNotEmpty) {
+        _isButtonAudioPopupMenuEnabled = true;
+      } else {
+        _isButtonAudioPopupMenuEnabled = false;
+      }
+    } else {
+      _isButtonAudioPopupMenuEnabled = false;
+    }
   }
 
   void _enableExpandedListButtons() {
     _isButtonMoveUpPlaylistEnabled = true;
-    _isButtonDownPlaylistEnabled = true;
+    _isButtonMoveDownPlaylistEnabled = true;
   }
 
   void _disableAllButtonsIfNoPlaylistIsSelected() {
     _disableExpandedListButtons();
-    _isButtonAudioPopupMenuEnabled = false;
+    _setButtonAudioPopupMenuState(
+      buttonStateIfAudiosAvailable: false,
+    );
   }
 
+  /// If the selected playlist is local, then the download
+  /// playlist audios button is disabled.
+  /// 
+  /// If the selected playlist is remote, then the download
+  /// playlist audios button is enabled.
+  /// 
+  /// If no playlist is selected, then the download playlist
+  /// audios button is disabled.
+  /// 
+  /// Finally, the move up and down buttons are disabled.
   void _disableExpandedListButtons() {
-    _isButtonDownloadSelPlaylistsEnabled = false;
+    if (_isOnePlaylistSelected) {
+      Playlist selectedPlaylist =
+          _listOfSelectablePlaylists[_getSelectedIndex()];
+      if (selectedPlaylist.playlistType == PlaylistType.local) {
+        // if the selected playlist is local, the download
+        // playlist audios button is disabled
+        _isButtonDownloadSelPlaylistsEnabled = false;
+      } else {
+        _isButtonDownloadSelPlaylistsEnabled = true;
+      }
+    } else {
+      // if no playlist is selected, the download playlist
+      // audios button is disabled
+      _isButtonDownloadSelPlaylistsEnabled = false;
+    }
+
     _isButtonMoveUpPlaylistEnabled = false;
-    _isButtonDownPlaylistEnabled = false;
+    _isButtonMoveDownPlaylistEnabled = false;
   }
 
   void _doSelectUniquePlaylist({

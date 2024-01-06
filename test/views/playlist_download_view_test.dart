@@ -14,19 +14,11 @@ import 'package:audio_learn/viewmodels/theme_provider_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:audio_learn/views/playlist_download_view.dart';
 
-class MockPlaylistListVM extends PlaylistListVM {
-  MockPlaylistListVM({
-    required super.warningMessageVM,
-    required super.audioDownloadVM,
-    required super.settingsDataService,
-  });
-}
-
 /// This mock class is necessary in order to define two getters
 /// which return an empty string. This is necessary to avoid the
 /// following error when running the playlist_download_view_test
 /// tests:
-/// 
+///
 /// ══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY
 /// ╞═════════════════════════════════════════════════════════
 /// The following assertion was thrown during layout:
@@ -120,7 +112,8 @@ class MockAppLocalizations extends AppLocalizations {
   }
 
   @override
-  String get singleVideoAudioDownload => 'Downloading single video audio in Various dir';
+  String get singleVideoAudioDownload =>
+      'Downloading single video audio in Various dir';
 
   @override
   String get about => 'About ...';
@@ -213,10 +206,12 @@ class MockAppLocalizations extends AppLocalizations {
   String get deleteAudio => 'Delete audio';
 
   @override
-  String get deleteAudioFromPlaylistAswell => 'Delete audio from playlist as well';
+  String get deleteAudioFromPlaylistAswell =>
+      'Delete audio from playlist as well';
 
   @override
-  String deleteAudioFromPlaylistAswellWarning(Object audioTitle, Object playlistTitle) {
+  String deleteAudioFromPlaylistAswellWarning(
+      Object audioTitle, Object playlistTitle) {
     return 'If the deleted audio video "$audioTitle" remains in the "$playlistTitle" Youtube playlist, it will be downloaded again the next time you download the playlist !';
   }
 
@@ -254,12 +249,14 @@ class MockAppLocalizations extends AppLocalizations {
   }
 
   @override
-  String downloadAudioYoutubeErrorDueToLiveVideoInPlaylist(Object playlistTitle, Object liveVideoString) {
+  String downloadAudioYoutubeErrorDueToLiveVideoInPlaylist(
+      Object playlistTitle, Object liveVideoString) {
     return 'Error downloading audio from Youtube. The playlist "$playlistTitle" contains a live video which causes the playlist audio downloading failure. To solve the problem, after having downloaded the audio of the live video as explained below, remove the live video from the playlist, then restart the application and retry.\n\nThe live video URL contains the following string: "$liveVideoString". In order to add the live video audio to the playlist "$playlistTitle", download it separately as single video download adding it to the playlist "$playlistTitle".';
   }
 
   @override
-  String downloadAudioFileAlreadyOnAudioDirectory(Object audioValidVideoTitle, Object fileName, Object playlistTitle) {
+  String downloadAudioFileAlreadyOnAudioDirectory(
+      Object audioValidVideoTitle, Object fileName, Object playlistTitle) {
     return 'Audio "$audioValidVideoTitle" is contained in file "$fileName" present in the "$playlistTitle" playlist directory and so won\'t be redownloaded.';
   }
 
@@ -371,7 +368,8 @@ class MockAppLocalizations extends AppLocalizations {
   String get playlistDownloadPathLabel => 'Playlist download path';
 
   @override
-  String get playlistLastDownloadDateTimeLabel => 'Playlist last downl date time';
+  String get playlistLastDownloadDateTimeLabel =>
+      'Playlist last downl date time';
 
   @override
   String get playlistIsSelectedLabel => 'Playlist is selected';
@@ -383,7 +381,8 @@ class MockAppLocalizations extends AppLocalizations {
   String get playlistPlayableAudioNumberLabel => 'Playable audio number';
 
   @override
-  String get playlistPlayableAudioTotalDurationLabel => 'Playable audio total duration';
+  String get playlistPlayableAudioTotalDurationLabel =>
+      'Playable audio total duration';
 
   @override
   String get playlistPlayableAudioTotalSizeLabel => 'Playable audio total size';
@@ -400,13 +399,15 @@ class MockAppLocalizations extends AppLocalizations {
   String get addPlaylistDialogTitle => 'Add Playlist';
 
   @override
-  String get addPlaylistDialogComment => 'Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.';
+  String get addPlaylistDialogComment =>
+      'Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.';
 
   @override
   String get renameAudioFileDialogTitle => 'Rename Audio File';
 
   @override
-  String get renameAudioFileDialogComment => 'Renaming audio file in order to improve their playing order.';
+  String get renameAudioFileDialogComment =>
+      'Renaming audio file in order to improve their playing order.';
 
   @override
   String get youtubePlaylistUrlLabel => 'Youtube playlist URL';
@@ -445,10 +446,12 @@ class MockAppLocalizations extends AppLocalizations {
   String get add => 'Add';
 
   @override
-  String get noPlaylistSelectedForSingleVideoDownload => 'No playlist selected for single video download. Select one playlist and retry ...';
+  String get noPlaylistSelectedForSingleVideoDownload =>
+      'No playlist selected for single video download. Select one playlist and retry ...';
 
   @override
-  String get tooManyPlaylistSelectedForSingleVideoDownload => 'More than one playlist selected for single video download. Select only one playlist and retry ...';
+  String get tooManyPlaylistSelectedForSingleVideoDownload =>
+      'More than one playlist selected for single video download. Select only one playlist and retry ...';
 
   @override
   String get confirmDialogTitle => 'CONFIRMATION';
@@ -471,47 +474,56 @@ class MockAppLocalizations extends AppLocalizations {
   String get enclosingPlaylistLabel => 'Enclosing playlist';
 
   @override
-  String audioNotMovedFromToPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioNotMovedFromToPlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" NOT moved from playlist "$fromPlaylistTitle" to playlist "$toPlaylistTitle" since it is already present in the destination playlist.';
   }
 
   @override
-  String audioNotCopiedFromToPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioNotCopiedFromToPlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" NOT copied from playlist "$fromPlaylistTitle" to playlist "$toPlaylistTitle" since it is already present in the destination playlist.';
   }
 
   @override
-  String audioMovedFromLocalPlaylistToLocalPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioMovedFromLocalPlaylistToLocalPlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" moved from local playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".';
   }
 
   @override
-  String audioMovedFromLocalPlaylistToYoutubePlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioMovedFromLocalPlaylistToYoutubePlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" moved from local playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".';
   }
 
   @override
-  String audioMovedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioMovedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" moved from Youtube playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".\n\nIF THE DELETED AUDIO VIDEO "$audioTitle" REMAINS IN THE "$fromPlaylistTitle" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
   }
 
   @override
-  String audioMovedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioMovedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" moved from Youtube playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".\n\nIF THE DELETED AUDIO VIDEO "$audioTitle" REMAINS IN THE "$fromPlaylistTitle" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
   }
 
   @override
-  String audioMovedFromYoutubePlaylistToLocalPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioMovedFromYoutubePlaylistToLocalPlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" moved from Youtube playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".';
   }
 
   @override
-  String audioMovedFromYoutubePlaylistToYoutubePlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioMovedFromYoutubePlaylistToYoutubePlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" moved from Youtube playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".';
   }
 
   @override
-  String audioCopiedFromToPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioCopiedFromToPlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" copied from playlist "$fromPlaylistTitle" to playlist "$toPlaylistTitle".';
   }
 
@@ -522,10 +534,12 @@ class MockAppLocalizations extends AppLocalizations {
   String get authorName => 'Jean-Pierre Schnyder / Switzerland';
 
   @override
-  String get aboutAppDescription => 'This application allows you to download audio from Youtube playlists or from single video links.\n\nThe future version will enable you to listen the audios, to add comments to them and to extract significative portions of the audio and share them or combine them in a new summary audio.';
+  String get aboutAppDescription =>
+      'This application allows you to download audio from Youtube playlists or from single video links.\n\nThe future version will enable you to listen the audios, to add comments to them and to extract significative portions of the audio and share them or combine them in a new summary audio.';
 
   @override
-  String get keepAudioEntryInSourcePlaylist => 'Keep audio entry in source playlist';
+  String get keepAudioEntryInSourcePlaylist =>
+      'Keep audio entry in source playlist';
 
   @override
   String get movedFromPlaylistLabel => 'Moved from playlist';
@@ -546,7 +560,8 @@ class MockAppLocalizations extends AppLocalizations {
   String get playlistToggleButtonTooltip => 'Show/hide playlists';
 
   @override
-  String get downloadSelPlaylistsButtonTooltip => 'Download audios of selected playlist';
+  String get downloadSelPlaylistsButtonTooltip =>
+      'Download audios of selected playlist';
 
   @override
   String get option1 => 'Option one';
@@ -582,32 +597,38 @@ class MockAppLocalizations extends AppLocalizations {
   String get audioPlaySpeedLabel => 'Play speed';
 
   @override
-  String audioCopiedFromLocalPlaylistToLocalPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioCopiedFromLocalPlaylistToLocalPlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" copied from local playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".';
   }
 
   @override
-  String audioCopiedFromLocalPlaylistToYoutubePlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioCopiedFromLocalPlaylistToYoutubePlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" copied from local playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".';
   }
 
   @override
-  String audioCopiedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioCopiedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".\n\nIF THE DELETED AUDIO VIDEO "$audioTitle" REMAINS IN THE "$fromPlaylistTitle" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
   }
 
   @override
-  String audioCopiedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioCopiedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".\n\nIF THE DELETED AUDIO VIDEO "$audioTitle" REMAINS IN THE "$fromPlaylistTitle" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
   }
 
   @override
-  String audioCopiedFromYoutubePlaylistToLocalPlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioCopiedFromYoutubePlaylistToLocalPlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".';
   }
 
   @override
-  String audioCopiedFromYoutubePlaylistToYoutubePlaylist(Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
+  String audioCopiedFromYoutubePlaylistToYoutubePlaylist(
+      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".';
   }
 
@@ -634,7 +655,8 @@ class MockAppLocalizations extends AppLocalizations {
   }
 
   @override
-  String get deletePlaylistDialogComment => 'Deleting the playlist and all its audios as well as its JSON file and its directory.';
+  String get deletePlaylistDialogComment =>
+      'Deleting the playlist and all its audios as well as its JSON file and its directory.';
 
   @override
   String get appBarTitleAudioExtractor => 'Audio Extractor';
@@ -730,7 +752,7 @@ void main() async {
       final Finder toggleButtonFinder =
           find.byKey(const ValueKey('playlist_toggle_button'));
       await tester.tap(toggleButtonFinder);
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       final Finder listTileFinder = find.byType(ListTile);
       expect(listTileFinder, findsWidgets);
@@ -1809,11 +1831,22 @@ Future<void> _createPlaylistDownloadView({
     MultiProvider(
       providers: [
         ChangeNotifierProvider<PlaylistListVM>(
-          create: (_) => MockPlaylistListVM(
-            warningMessageVM: warningMessageVM,
-            audioDownloadVM: audioDownloadVM,
-            settingsDataService: settingsDataService,
-          ),
+          create: (_) {
+            PlaylistListVM playlistListVM = PlaylistListVM(
+              warningMessageVM: warningMessageVM,
+              audioDownloadVM: audioDownloadVM,
+              settingsDataService: settingsDataService,
+            );
+
+            // necessary so that the playlist list of the
+            // PlaylistListVM is filled. Otherwise, the
+            // playlist list is empty and the
+            // ExpandablePlaylistListView is not displayed,
+            // which causes the tests to fail
+            playlistListVM.getUpToDateSelectablePlaylists();
+
+            return playlistListVM;
+          },
         ),
         ChangeNotifierProvider(create: (_) => audioDownloadVM),
         ChangeNotifierProvider(
