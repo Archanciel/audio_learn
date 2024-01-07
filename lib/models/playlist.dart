@@ -148,7 +148,10 @@ class Playlist {
     required Audio copiedAudio,
     required String copiedFromPlaylistTitle,
   }) {
+    // Creating a copy of the audio to be copied so that the
+    // original audio will not be modified by this method.
     Audio copiedAudioCopy = copiedAudio.copy();
+    
     Audio? existingPlayableAudio;
 
     try {

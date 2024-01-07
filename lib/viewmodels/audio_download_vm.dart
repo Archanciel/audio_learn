@@ -848,8 +848,6 @@ class AudioDownloadVM extends ChangeNotifier {
       return;
     }
 
-    // Creating a copy of the audio to be copied so that the
-    // original audio will not be modified by this method.
     targetPlaylist.addCopiedAudio(
       copiedAudio: audio,
       copiedFromPlaylistTitle: fromPlaylistTitle,
