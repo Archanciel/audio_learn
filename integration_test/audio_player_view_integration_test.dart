@@ -178,7 +178,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify the last downloaded played audio title
-      expect(find.text('3 fois où Aurélien Barrau tire à balles réelles sur les riches\n8:50'), findsOneWidget);
+      expect(
+          find.text(
+              '3 fois où Aurélien Barrau tire à balles réelles sur les riches\n8:50'),
+          findsOneWidget);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -657,7 +660,8 @@ void main() {
       // Now we open the DisplaySelectableAudioListDialogWidget
       // and select the last downloaded audio of the playlist
 
-      await tester.tap(find.text('Ce qui va vraiment sauver notre espèce par Jancovici et Barrau\n6:29'));
+      await tester.tap(find.text(
+          'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau\n6:29'));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text(lastDownloadedAudioTitle));
@@ -681,10 +685,62 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+  group(
+      'AudioPlayerView skip to next audio ignoring already listened audios tests',
+      () {
+    testWidgets('On Youtube playlist.', (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String firstDownloadedAudioTitle =
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
+      const String lastDownloadedAudioTitle =
+          "La résilience insulaire par Fiona Roche\n13:35";
+
+      await initializeApplication(
+        tester: tester,
+        savedTestDataDirName: 'audio_play_skip_to_next_unread_audio_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which will hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the first downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder firstDownloadedAudioListTileTextWidgetFinder =
+          find.text(firstDownloadedAudioTitle);
+
+      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now play the audio and wait 5 seconds
+      await tester.tap(find.byIcon(Icons.play_arrow));
+      await tester.pumpAndSettle();
+
+      await Future.delayed(const Duration(seconds: 5));
+      await tester.pumpAndSettle();
+
+      // Verify if the last downloaded audio title is displayed
+      expect(find.text(lastDownloadedAudioTitle), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
 }
 
-void verifyAudioPlaySpeedStoredInPlaylistJsonFile(String audioPlayerSelectedPlaylistTitle,
-    int playableAudioLstAudioIndex, double expectedAudioPlaySpeed) {
+void verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+    String audioPlayerSelectedPlaylistTitle,
+    int playableAudioLstAudioIndex,
+    double expectedAudioPlaySpeed) {
   final String selectedPlaylistPath = path.join(
     kDownloadAppTestDirWindows,
     audioPlayerSelectedPlaylistTitle,
