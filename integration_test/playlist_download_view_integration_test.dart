@@ -1,8 +1,5 @@
 import 'dart:io';
 
-import 'package:audio_learn/viewmodels/audio_player_vm.dart';
-import 'package:audio_learn/viewmodels/single_video_audio_download_vm.dart';
-import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +8,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
 
+import 'package:audio_learn/viewmodels/audio_player_vm.dart';
+import 'package:audio_learn/viewmodels/single_video_audio_download_vm.dart';
+import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/services/json_data_service.dart';
