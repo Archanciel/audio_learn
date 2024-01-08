@@ -766,7 +766,7 @@ class AudioDownloadVM extends ChangeNotifier {
   void moveAudioToPlaylist({
     required Audio audio,
     required Playlist targetPlaylist,
-    required bool keepAudioDataInSourcePlaylist,
+    required bool keepAudioInSourcePlaylistDownloadedAudioLst,
   }) {
     Playlist fromPlaylist = audio.enclosingPlaylist!;
 
@@ -784,7 +784,7 @@ class AudioDownloadVM extends ChangeNotifier {
       return;
     }
 
-    if (keepAudioDataInSourcePlaylist) {
+    if (keepAudioInSourcePlaylistDownloadedAudioLst) {
       // Keeping audio data in source playlist downloadedAudioLst
       // means that the audio will not be redownloaded if the
       // Download All is applyed to the source playlist. But since
@@ -824,7 +824,8 @@ class AudioDownloadVM extends ChangeNotifier {
         movedFromPlaylistType: fromPlaylist.playlistType,
         movedToPlaylistTitle: targetPlaylist.title,
         movedToPlaylistType: targetPlaylist.playlistType,
-        keepAudioDataInSourcePlaylist: keepAudioDataInSourcePlaylist);
+        keepAudioDataInSourcePlaylist:
+            keepAudioInSourcePlaylistDownloadedAudioLst);
   }
 
   void copyAudioToPlaylist({

@@ -490,12 +490,13 @@ class PlaylistListVM extends ChangeNotifier {
   void moveAudioToPlaylist({
     required Audio audio,
     required Playlist targetPlaylist,
-    required bool keepAudioDataInSourcePlaylist,
+    required bool keepAudioInSourcePlaylistDownloadedAudioLst,
   }) {
     _audioDownloadVM.moveAudioToPlaylist(
         audio: audio,
         targetPlaylist: targetPlaylist,
-        keepAudioDataInSourcePlaylist: keepAudioDataInSourcePlaylist);
+        keepAudioInSourcePlaylistDownloadedAudioLst:
+            keepAudioInSourcePlaylistDownloadedAudioLst);
 
     _removeAudioFromSortedFilteredPlayableAudioList(audio);
 
@@ -645,13 +646,13 @@ class PlaylistListVM extends ChangeNotifier {
 
   /// If the selected playlist is local, then the download
   /// playlist audios button is disabled.
-  /// 
+  ///
   /// If the selected playlist is remote, then the download
   /// playlist audios button is enabled.
-  /// 
+  ///
   /// If no playlist is selected, then the download playlist
   /// audios button is disabled.
-  /// 
+  ///
   /// Finally, the move up and down buttons are disabled.
   void _disableExpandedListButtons() {
     if (_isOnePlaylistSelected) {

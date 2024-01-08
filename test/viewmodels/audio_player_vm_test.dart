@@ -72,7 +72,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}playlist_list_vm_test_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}playlist_list_vm_copy_audio_test_data",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -116,7 +116,8 @@ void main() {
       // play position at start of audio
       testCopyAudioToPlaylist(
         playlistListVM,
-        sourcePlaylist.playableAudioLst[0],
+        sourcePlaylist,
+        0,
         targetPlaylist,
       );
 
@@ -124,7 +125,8 @@ void main() {
       // with play position at end of audio
       testCopyAudioToPlaylist(
         playlistListVM,
-        sourcePlaylist.playableAudioLst[1],
+        sourcePlaylist,
+        1,
         targetPlaylist,
       );
 
@@ -132,7 +134,8 @@ void main() {
       // et Barrau with play position 2 seconds before end of audio
       testCopyAudioToPlaylist(
         playlistListVM,
-        sourcePlaylist.playableAudioLst[4],
+        sourcePlaylist,
+        4,
         targetPlaylist,
       );
 
@@ -140,56 +143,184 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    // Add more tests as needed
+    test('moveAudioToPlaylist moves audio to playlist', () {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}playlist_list_vm_move_audio_test_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      const String sourcePlaylistTitle = 'S8 audio';
+
+      final sourcePlaylistPath = path.join(
+        kDownloadAppTestDirWindows,
+        sourcePlaylistTitle,
+      );
+
+      final sourcePlaylistFilePathName = path.join(
+        sourcePlaylistPath,
+        '$sourcePlaylistTitle.json',
+      );
+
+      // Load playlist from the json file
+      Playlist sourcePlaylist = JsonDataService.loadFromFile(
+        jsonPathFileName: sourcePlaylistFilePathName,
+        type: Playlist,
+      );
+
+      const String targetPlaylistTitle = 'local_target';
+
+      final targetPlaylistPath = path.join(
+        kDownloadAppTestDirWindows,
+        targetPlaylistTitle,
+      );
+
+      final targetPlaylistFilePathName = path.join(
+        targetPlaylistPath,
+        '$targetPlaylistTitle.json',
+      );
+
+      // Load playlist from the json file
+      Playlist targetPlaylist = JsonDataService.loadFromFile(
+        jsonPathFileName: targetPlaylistFilePathName,
+        type: Playlist,
+      );
+
+      // Testing move La résilience insulaire par Fiona Roche with
+      // play position at start of audio
+      testMoveAudioToPlaylist(
+        playlistListVM,
+        sourcePlaylist,
+        0,
+        targetPlaylist,
+      );
+
+      // Testing move Le Secret de la RESILIENCE révélé par Boris Cyrulnik
+      // with play position at end of audio
+      testMoveAudioToPlaylist(
+        playlistListVM,
+        sourcePlaylist,
+        0,
+        targetPlaylist,
+      );
+
+      // Testing move Ce qui va vraiment sauver notre espèce par Jancovici
+      // et Barrau with play position 2 seconds before end of audio
+      testMoveAudioToPlaylist(
+        playlistListVM,
+        sourcePlaylist,
+        2,
+        targetPlaylist,
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
   });
 }
 
 void testCopyAudioToPlaylist(
   PlaylistListVM playlistListVM,
-  Audio audio,
+  Playlist sourcePlaylist,
+  int sourceAudioIndex,
   Playlist targetPlaylist,
 ) {
+  Audio sourceAudio = sourcePlaylist.playableAudioLst[sourceAudioIndex];
+
   playlistListVM.copyAudioToPlaylist(
-    audio: audio,
+    audio: sourceAudio,
     targetPlaylist: targetPlaylist,
   );
 
+  Audio modifiedSourceAudio = sourcePlaylist.playableAudioLst[sourceAudioIndex];
   Audio copiedAudio = targetPlaylist.playableAudioLst[0];
 
   expect(
       ensureAudioAreEquals(
-        audio,
+        modifiedSourceAudio,
         copiedAudio,
       ),
       isTrue);
 
-  expect(
-      copiedAudio.copiedFromPlaylistTitle ==
-          audio.enclosingPlaylist!.title,
+  expect(modifiedSourceAudio.copiedFromPlaylistTitle == null,
       isTrue);
 
-  expect(
-      copiedAudio.copiedToPlaylistTitle ==
-          null,
+  expect(modifiedSourceAudio.copiedToPlaylistTitle == targetPlaylist.title, isTrue);
+
+  expect(modifiedSourceAudio.movedFromPlaylistTitle == null, isTrue);
+
+  expect(modifiedSourceAudio.movedToPlaylistTitle == null, isTrue);
+
+  expect(copiedAudio.copiedFromPlaylistTitle == sourceAudio.enclosingPlaylist!.title,
       isTrue);
 
-  expect(
-      copiedAudio.movedFromPlaylistTitle ==
-          null,
-      isTrue);
+  expect(copiedAudio.copiedToPlaylistTitle == null, isTrue);
 
-  expect(
-      copiedAudio.movedToPlaylistTitle ==
-          null,
-      isTrue);
+  expect(copiedAudio.movedFromPlaylistTitle == null, isTrue);
+
+  expect(copiedAudio.movedToPlaylistTitle == null, isTrue);
 }
 
-      // audio1.enclosingPlaylist == audio2.enclosingPlaylist &&
-      // audio1.movedFromPlaylistTitle == audio2.movedFromPlaylistTitle &&
-      // audio1.movedToPlaylistTitle == audio2.movedToPlaylistTitle &&
-      // audio1.copiedFromPlaylistTitle == audio2.copiedFromPlaylistTitle &&
-      // audio1.copiedToPlaylistTitle == audio2.copiedToPlaylistTitle &&
-      
+void testMoveAudioToPlaylist(
+  PlaylistListVM playlistListVM,
+  Playlist sourcePlaylist,
+  int sourceAudioIndex,
+  Playlist targetPlaylist,
+) {
+  Audio sourceAudio = sourcePlaylist.playableAudioLst[sourceAudioIndex];
+
+  playlistListVM.moveAudioToPlaylist(
+    audio: sourceAudio,
+    targetPlaylist: targetPlaylist,
+    keepAudioInSourcePlaylistDownloadedAudioLst: true,
+  );
+
+  List<Audio> sourcePlaylistDownloadedAudioLst =
+      sourcePlaylist.downloadedAudioLst;
+
+  int modifiedSourceAudioIndex = sourcePlaylistDownloadedAudioLst.indexWhere(
+    (audio) => audio == sourceAudio,
+  );
+  
+  Audio modifiedSourceAudio =
+      sourcePlaylistDownloadedAudioLst[modifiedSourceAudioIndex];
+  Audio movedAudio = targetPlaylist.playableAudioLst[0];
+
+  expect(
+      ensureAudioAreEquals(
+        sourceAudio,
+        movedAudio,
+      ),
+      isTrue);
+
+  expect(modifiedSourceAudio.movedFromPlaylistTitle == null,
+      isTrue);
+
+  expect(modifiedSourceAudio.movedToPlaylistTitle == targetPlaylist.title, isTrue);
+
+  expect(modifiedSourceAudio.copiedFromPlaylistTitle == null, isTrue);
+
+  expect(modifiedSourceAudio.copiedToPlaylistTitle == null, isTrue);
+
+  expect(movedAudio.movedFromPlaylistTitle == sourceAudio.enclosingPlaylist!.title,
+      isTrue);
+
+  expect(movedAudio.movedToPlaylistTitle == null, isTrue);
+
+  expect(movedAudio.copiedFromPlaylistTitle == null, isTrue);
+
+  expect(movedAudio.copiedToPlaylistTitle == null, isTrue);
+}
+
 bool ensureAudioAreEquals(Audio audio1, Audio audio2) {
   return audio1.originalVideoTitle == audio2.originalVideoTitle &&
       audio1.validVideoTitle == audio2.validVideoTitle &&

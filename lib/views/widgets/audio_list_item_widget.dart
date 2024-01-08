@@ -186,7 +186,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                     expandablePlaylistVM.moveAudioToPlaylist(
                       audio: audio,
                       targetPlaylist: targetPlaylist,
-                      keepAudioDataInSourcePlaylist:
+                      keepAudioInSourcePlaylistDownloadedAudioLst:
                           keepAudioDataInSourcePlaylist,
                     );
                   });
