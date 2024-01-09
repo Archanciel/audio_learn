@@ -72,7 +72,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}playlist_list_vm_copy_audio_test_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}playlist_list_vm_copy_move_audio_test_data",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
@@ -154,7 +154,7 @@ void main() {
       // Copy the test initial audio data to the app dir
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
-            "$kDownloadAppTestSavedDataDir${path.separator}playlist_list_vm_move_audio_test_data",
+            "$kDownloadAppTestSavedDataDir${path.separator}playlist_list_vm_copy_move_audio_test_data",
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
