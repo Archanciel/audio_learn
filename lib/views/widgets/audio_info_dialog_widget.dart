@@ -55,6 +55,16 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   value: audio.originalVideoTitle),
               createInfoRowFunction(
                   context: context,
+                  label: AppLocalizations.of(context)!.videoUploadDateLabel,
+                  value: frenchDateFormat.format(audio.videoUploadDate)),
+              createInfoRowFunction(
+                  context: context,
+                  label:
+                      AppLocalizations.of(context)!.audioDownloadDateTimeLabel,
+                  value:
+                      frenchDateTimeFormat.format(audio.audioDownloadDateTime)),
+              createInfoRowFunction(
+                  context: context,
                   label: AppLocalizations.of(context)!.videoUrlLabel,
                   value: audio.videoUrl),
               createInfoRowFunction(
@@ -65,10 +75,6 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   context: context,
                   label: AppLocalizations.of(context)!.validVideoTitleLabel,
                   value: audio.validVideoTitle),
-              createInfoRowFunction(
-                  context: context,
-                  label: AppLocalizations.of(context)!.videoUploadDateLabel,
-                  value: frenchDateFormat.format(audio.videoUploadDate)),
               createInfoRowFunction(
                   valueTextWidgetKey: const Key('enclosingPlaylistTitleKey'),
                   context: context,
@@ -104,12 +110,6 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   value: (audio.copiedToPlaylistTitle == null)
                       ? ''
                       : audio.copiedToPlaylistTitle!),
-              createInfoRowFunction(
-                  context: context,
-                  label:
-                      AppLocalizations.of(context)!.audioDownloadDateTimeLabel,
-                  value:
-                      frenchDateTimeFormat.format(audio.audioDownloadDateTime)),
               createInfoRowFunction(
                   context: context,
                   label:
