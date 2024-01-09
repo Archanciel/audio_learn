@@ -13,18 +13,18 @@ import '../../viewmodels/theme_provider_vm.dart';
 /// This dialog is used in the AudioPlayerView to display the list
 /// of playable audios of the selected playlist and to enable the
 /// user to select another audio to listen.
-class DisplaySelectableAudioListDialogWidget extends StatefulWidget {
-  const DisplaySelectableAudioListDialogWidget({
+class ListPlayableAudiosDialogWidget extends StatefulWidget {
+  const ListPlayableAudiosDialogWidget({
     super.key,
   });
 
   @override
-  _DisplaySelectableAudioListDialogWidgetState createState() =>
-      _DisplaySelectableAudioListDialogWidgetState();
+  _ListPlayableAudiosDialogWidgetState createState() =>
+      _ListPlayableAudiosDialogWidgetState();
 }
 
-class _DisplaySelectableAudioListDialogWidgetState
-    extends State<DisplaySelectableAudioListDialogWidget> with ScreenMixin {
+class _ListPlayableAudiosDialogWidgetState
+    extends State<ListPlayableAudiosDialogWidget> with ScreenMixin {
   // Using FocusNode to enable clicking on Enter to close
   // the dialog
   final FocusNode _focusNode = FocusNode();
@@ -114,9 +114,10 @@ class _DisplaySelectableAudioListDialogWidgetState
                           await audioGlobalPlayerVM.setCurrentAudio(audio);
                           Navigator.of(context).pop(audio);
                         },
-                        child: _buildTextWidget(
+                        child: _buildAudioTitleTextWidget(
                           audio,
                           index,
+                          isDarkTheme,
                         ),
                       ),
                     );
@@ -164,27 +165,42 @@ class _DisplaySelectableAudioListDialogWidgetState
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(AppLocalizations.of(context)!.cancel,                style: (themeProviderVM.currentTheme == AppTheme.dark)
-                    ? kTextButtonStyleDarkMode
-                    : kTextButtonStyleLightMode,
-),
+            child: Text(
+              AppLocalizations.of(context)!.cancel,
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTextWidget(
+  Widget _buildAudioTitleTextWidget(
     Audio audio,
     int index,
+    bool isDarkTheme,
   ) {
+    Color? audioTitleColor;
+
+    if (index == _currentAudioIndex) {
+      audioTitleColor = Colors.blue;
+    } else if (audio.wasFullyListened()) {
+      audioTitleColor = (isDarkTheme)
+          ? kSliderThumbColorInDarkMode
+          : kSliderThumbColorInLightMode;
+    } else {
+      audioTitleColor = null;
+    }
+
     return SizedBox(
       height: _itemHeight,
       child: Text(
         audio.validVideoTitle,
         maxLines: 3,
         style: TextStyle(
-          color: (index == _currentAudioIndex) ? Colors.blue : null,
+          color: audioTitleColor,
         ),
       ),
     );

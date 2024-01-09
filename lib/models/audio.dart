@@ -266,6 +266,12 @@ class Audio {
     return '${enclosingPlaylist!.downloadPath}${Platform.pathSeparator}$audioFileName';
   }
 
+  bool wasFullyListened() {
+    return (audioDuration == null)
+        ? false
+        : (audioPositionSeconds >= audioDuration!.inSeconds - 5);
+  }
+  
   static String buildDownloadDatePrefix(DateTime downloadDate) {
     String formattedDateStr = (kAudioFileNamePrefixIncludeTime)
         ? downloadDateTimePrefixFormatter.format(downloadDate)

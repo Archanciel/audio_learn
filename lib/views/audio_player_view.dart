@@ -468,7 +468,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   void _displayOtherAudiosDialog() {
     showDialog(
       context: context,
-      builder: (context) => const DisplaySelectableAudioListDialogWidget(),
+      builder: (context) => const ListPlayableAudiosDialogWidget(),
     ).then((selectedAudio) {
       print(selectedAudio);
     });
