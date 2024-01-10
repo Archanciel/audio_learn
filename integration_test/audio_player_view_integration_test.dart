@@ -607,7 +607,7 @@ void main() {
       WidgetTester tester,
     ) async {
       const String audioPlayerSelectedPlaylistTitle = 'S8 audio';
-      const String lastDownloadedAudioTitle =
+      const String nextUnreadAndLastDownloadedAudioTitle =
           '3 fois où Aurélien Barrau tire à balles réelles sur les riches';
       const String firstDownloadedAudioTitle =
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
@@ -664,7 +664,7 @@ void main() {
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau\n6:29'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text(lastDownloadedAudioTitle));
+      await tester.tap(find.text(nextUnreadAndLastDownloadedAudioTitle));
       await tester.pumpAndSettle();
 
       // Verify if the play speed of the last downloaded audio
@@ -740,7 +740,7 @@ void main() {
           'S8 audio'; // Youtube playlist
       const String firstDownloadedAudioTitle =
           "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
-      const String nextNotLastDownloadedAudioTitle =
+      const String nextUnreadNotLastDownloadedAudioTitle =
           "Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik\n13:39";
 
       await initializeApplication(
@@ -775,8 +775,8 @@ void main() {
       await Future.delayed(const Duration(seconds: 5));
       await tester.pumpAndSettle();
 
-      // Verify if the last downloaded audio title is displayed
-      expect(find.text(nextNotLastDownloadedAudioTitle), findsOneWidget);
+      // Verify if the next unread audio title is displayed
+      expect(find.text(nextUnreadNotLastDownloadedAudioTitle), findsOneWidget);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
