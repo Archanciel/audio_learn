@@ -740,8 +740,9 @@ class PlaylistListVM extends ChangeNotifier {
     }
 
     if (currentAudioIndex == 0) {
-      // means the current audio is the newest downloaded audio available
-      // in the playableAudioLst
+      // means the current audio is the last downloaded audio
+      // available in the playableAudioLst and so there is no
+      // subsequently downloaded audio !
       return null;
     }
 

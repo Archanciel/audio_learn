@@ -356,7 +356,7 @@ void main() {
         currentAudio: lastDownloadedAudio,
       );
 
-      // Since the first downloaded audio is not fully played, it
+      // Since the last downloaded audio is not fully played, it
       // is the next playable audio and so there is no next playable
       // audio
       expect(nextAudio, null);
@@ -425,7 +425,7 @@ void main() {
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist = selectablePlaylistLst[3];
+      Playlist sourcePlaylist = selectablePlaylistLst[4];
       Audio lastDownloadedAudio = sourcePlaylist.playableAudioLst[0];
 
       // Obtaining the next playable audio
@@ -433,9 +433,8 @@ void main() {
         currentAudio: lastDownloadedAudio,
       );
 
-      // Since the first downloaded audio is not fully played, it
-      // is the next playable audio and so there is no next playable
-      // audio
+      // Since the last downloaded audio is fully played, there is no
+      // next playable audio
       expect(nextAudio, null);
 
       // Purge the test playlist directory so that the created test
