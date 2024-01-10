@@ -757,6 +757,14 @@ class PlaylistListVM extends ChangeNotifier {
     return null;
   }
 
+  List<Audio> getNotFullyPlayedAudioLst({
+    required Playlist playlist,
+  }) {
+    return playlist.playableAudioLst
+        .where((audio) => !audio.wasFullyListened())
+        .toList();
+  }
+
   /// Returns the audio contained in the playableAudioLst which
   /// has been downloaded right before the current audio.
   Audio? getPreviouslyDownloadedPlayableAudio({
