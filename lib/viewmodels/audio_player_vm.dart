@@ -44,6 +44,8 @@ class AudioPlayerVM extends ChangeNotifier {
 
   DateTime _currentAudioLastSaveDateTime = DateTime.now();
 
+  bool _obtainedNextAudioToPlay = false;
+
   AudioPlayerVM({
     required PlaylistListVM playlistListVM,
   }) : _playlistListVM = playlistListVM {
@@ -188,14 +190,23 @@ class AudioPlayerVM extends ChangeNotifier {
   /// Method called by skipToEndNoPlay() if the audio is positioned
   /// at end and by playNextAudio().
   Future<void> _setNextNotPlayedAudio() async {
-    Audio? nextAudio =
-        _playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
-      currentAudio: _currentAudio!,
-    );
+    Audio? nextAudio;
+
+    if (!_obtainedNextAudioToPlay) {
+      nextAudio = _playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
+        currentAudio: _currentAudio!,
+      );
+    } else {
+      _obtainedNextAudioToPlay = false;
+
+      return;
+    }
 
     if (nextAudio == null) {
       return;
     }
+
+    _obtainedNextAudioToPlay = true;
 
     await setCurrentAudio(nextAudio);
   }
@@ -266,7 +277,9 @@ class AudioPlayerVM extends ChangeNotifier {
           // }
 
           // Play next audio when current audio finishes.
-          await playNextAudio();
+          // if (!_obtainedNextAudioToPlay) {
+            await playNextAudio();
+          // }
         });
 
         notifyListeners();

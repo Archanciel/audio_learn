@@ -720,6 +720,10 @@ class PlaylistListVM extends ChangeNotifier {
   Audio? getSubsequentlyDownloadedNotFullyPlayedAudio({
     required Audio currentAudio,
   }) {
+    if (!currentAudio.wasFullyListened()) {
+      return null;
+    }
+    
     // playableAudioLst order: [available audio last downloaded, ...,
     //                          available audio first downloaded]
     List<Audio> playableAudioLst =
@@ -746,6 +750,7 @@ class PlaylistListVM extends ChangeNotifier {
         return audio;
       }
     }
+
     return playableAudioLst[currentAudioIndex - 1];
   }
 
