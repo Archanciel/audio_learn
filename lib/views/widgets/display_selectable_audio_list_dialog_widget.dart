@@ -30,7 +30,7 @@ class _ListPlayableAudiosDialogWidgetState
   final FocusNode _focusNode = FocusNode();
 
   Audio? _selectedAudio;
-  bool _keepAudioDataInSourcePlaylist = true;
+  bool _excludeFullyPlayedAudios = false;
 
   final ScrollController _scrollController = ScrollController();
   final GlobalKey myKey = GlobalKey();
@@ -67,8 +67,15 @@ class _ListPlayableAudiosDialogWidgetState
         Provider.of<AudioPlayerVM>(context, listen: false);
     Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
-    List<Audio> playableAudioLst =
-        audioGlobalPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+    List<Audio> playableAudioLst;
+
+    if (_excludeFullyPlayedAudios) {
+      playableAudioLst =
+          audioGlobalPlayerVM.getNotFullyPlayedAudiosOrderedByDownloadDate();
+    } else {
+      playableAudioLst =
+          audioGlobalPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+    }
 
     // avoid error when the dialog is opened and the current
     // audio is not yet set
@@ -132,8 +139,7 @@ class _ListPlayableAudiosDialogWidgetState
                 children: [
                   Expanded(
                     child: Text(
-                      AppLocalizations.of(context)!
-                          .keepAudioEntryInSourcePlaylist,
+                      AppLocalizations.of(context)!.excludeFullyPlayedAudios,
                       style: TextStyle(
                         color: isDarkTheme ? Colors.white : Colors.black,
                       ),
@@ -143,10 +149,10 @@ class _ListPlayableAudiosDialogWidgetState
                     width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
                     height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
                     child: Checkbox(
-                      value: _keepAudioDataInSourcePlaylist,
+                      value: _excludeFullyPlayedAudios,
                       onChanged: (bool? newValue) {
                         setState(() {
-                          _keepAudioDataInSourcePlaylist = newValue!;
+                          _excludeFullyPlayedAudios = newValue!;
                         });
                         // now clicking on Enter works since the
                         // Checkbox is not focused anymore

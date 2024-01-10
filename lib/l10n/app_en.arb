@@ -237,5 +237,6 @@
   "deletePlaylistDialogComment": "Deleting the playlist and all its audios as well as its JSON file and its directory.",
   "appBarTitleAudioExtractor": "Extract Audio",
   "setAudioPlaySpeedDialogTitle": "Playback speed",
-  "setAudioPlaySpeedTooltip": "Set audio play speed"
+  "setAudioPlaySpeedTooltip": "Set audio play speed",
+  "excludeFullyPlayedAudios": "Exclude fully played audios"
 }

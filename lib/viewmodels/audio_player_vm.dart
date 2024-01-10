@@ -603,6 +603,12 @@ class AudioPlayerVM extends ChangeNotifier {
     return _currentAudio!.enclosingPlaylist!.playableAudioLst.reversed.toList();
   }
 
+  List<Audio> getNotFullyPlayedAudiosOrderedByDownloadDate() {
+    return _playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
+      playlist: _currentAudio!.enclosingPlaylist!,
+    );
+  }
+
   String? getCurrentAudioTitleWithDuration() {
     if (_currentAudio == null) {
       return null;

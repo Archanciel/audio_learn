@@ -278,17 +278,21 @@ void main() {
       Audio currentAudio = sourcePlaylist.playableAudioLst[7];
 
       // Obtaining the next playable audio
-      Audio? nextAudio = playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
+      Audio? nextAudio =
+          playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
         currentAudio: currentAudio,
       );
 
-      expect(nextAudio!.validVideoTitle, 'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
+      expect(nextAudio!.validVideoTitle,
+          'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    test('Next playable audio when current audio is last downloaded audio which is not fully played', () {
+    test(
+        'Next playable audio when current audio is last downloaded audio which is not fully played',
+        () {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -344,7 +348,8 @@ void main() {
       // playlist json files from the app dir and so enables
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
-      List<Playlist> selectablePlaylistLst = playlistListVM.getUpToDateSelectablePlaylists();
+      List<Playlist> selectablePlaylistLst =
+          playlistListVM.getUpToDateSelectablePlaylists();
 
       // Obtaining the audio from which to obtain the next playable
       // audio
@@ -352,7 +357,8 @@ void main() {
       Audio lastDownloadedAudio = sourcePlaylist.playableAudioLst[0];
 
       // Obtaining the next playable audio
-      Audio? nextAudio = playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
+      Audio? nextAudio =
+          playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
         currentAudio: lastDownloadedAudio,
       );
 
@@ -365,7 +371,9 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    test('Next playable audio when current audio is last downloaded audio which is fully played', () {
+    test(
+        'Next playable audio when current audio is last downloaded audio which is fully played',
+        () {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -421,7 +429,8 @@ void main() {
       // playlist json files from the app dir and so enables
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
-      List<Playlist> selectablePlaylistLst = playlistListVM.getUpToDateSelectablePlaylists();
+      List<Playlist> selectablePlaylistLst =
+          playlistListVM.getUpToDateSelectablePlaylists();
 
       // Obtaining the audio from which to obtain the next playable
       // audio
@@ -429,7 +438,8 @@ void main() {
       Audio lastDownloadedAudio = sourcePlaylist.playableAudioLst[0];
 
       // Obtaining the next playable audio
-      Audio? nextAudio = playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
+      Audio? nextAudio =
+          playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
         currentAudio: lastDownloadedAudio,
       );
 
@@ -497,7 +507,8 @@ void main() {
       // playlist json files from the app dir and so enables
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
-      List<Playlist> selectablePlaylistLst = playlistListVM.getUpToDateSelectablePlaylists();
+      List<Playlist> selectablePlaylistLst =
+          playlistListVM.getUpToDateSelectablePlaylists();
 
       // Obtaining the audio from which to obtain the next playable
       // audio
@@ -505,7 +516,8 @@ void main() {
       Audio firstDownloadedAudio = sourcePlaylist.playableAudioLst[1];
 
       // Obtaining the next playable audio
-      Audio? nextAudio_isLastDownloaded = playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
+      Audio? nextAudio_isLastDownloaded =
+          playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
         currentAudio: firstDownloadedAudio,
       );
 
@@ -577,16 +589,21 @@ void main() {
       // playlist json files from the app dir and so enables
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
-      List<Playlist> selectablePlaylistLst = playlistListVM.getUpToDateSelectablePlaylists();
+      List<Playlist> selectablePlaylistLst =
+          playlistListVM.getUpToDateSelectablePlaylists();
 
       // Obtaining the audio from which to obtain the next playable
       // audio
       Playlist sourcePlaylist = selectablePlaylistLst[0];
       List<Audio> playableAudioLst =
-          playlistListVM.getNotFullyPlayedAudioLst(playlist: sourcePlaylist,);
+          playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
+        playlist: sourcePlaylist,
+      );
 
-      expect(playableAudioLst[0].validVideoTitle, 'La résilience insulaire par Fiona Roche');
-      expect(playableAudioLst[1].validVideoTitle, 'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
+      expect(playableAudioLst[0].validVideoTitle,
+          'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
+      expect(playableAudioLst[1].validVideoTitle,
+          'La résilience insulaire par Fiona Roche');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -648,13 +665,16 @@ void main() {
       // playlist json files from the app dir and so enables
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
-      List<Playlist> selectablePlaylistLst = playlistListVM.getUpToDateSelectablePlaylists();
+      List<Playlist> selectablePlaylistLst =
+          playlistListVM.getUpToDateSelectablePlaylists();
 
       // Obtaining the audio from which to obtain the next playable
       // audio
       Playlist sourcePlaylist = selectablePlaylistLst[1];
       List<Audio> playableAudioLst =
-          playlistListVM.getNotFullyPlayedAudioLst(playlist: sourcePlaylist,);
+          playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
+        playlist: sourcePlaylist,
+      );
 
       expect(playableAudioLst.length, 0);
 
