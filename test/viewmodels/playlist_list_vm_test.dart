@@ -288,7 +288,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    test('Next playable audio is first downloaded audio', () {
+    test('Next playable audio when current audio is last downloaded audio which is not fully played', () {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -344,19 +344,175 @@ void main() {
       // playlist json files from the app dir and so enables
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
-      playlistListVM.getUpToDateSelectablePlaylists();
+      List<Playlist> selectablePlaylistLst = playlistListVM.getUpToDateSelectablePlaylists();
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist = playlistListVM.getSelectedPlaylist()[0];
-      Audio currentAudio = sourcePlaylist.playableAudioLst[7];
+      Playlist sourcePlaylist = selectablePlaylistLst[2];
+      Audio lastDownloadedAudio = sourcePlaylist.playableAudioLst[0];
 
       // Obtaining the next playable audio
       Audio? nextAudio = playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
-        currentAudio: currentAudio,
+        currentAudio: lastDownloadedAudio,
       );
 
-      expect(nextAudio!.validVideoTitle, 'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
+      // Since the first downloaded audio is not fully played, it
+      // is the next playable audio and so there is no next playable
+      // audio
+      expect(nextAudio, null);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    test('Next playable audio when current audio is last downloaded audio which is fully played', () {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_play_skip_to_next_not_last_unread_audio_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      // Since we have to use a mock AudioDownloadVM to add the
+      // youtube playlist, we can not use app.main() to start the
+      // app because app.main() uses the real AudioDownloadVM
+      // and we don't want to make the main.dart file dependent
+      // of a mock class. So we have to start the app by hand.
+
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      // MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
+      //   warningMessageVM: warningMessageVM,
+      //   isTest: true,
+      // );
+      // mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
+
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+
+      // audioDownloadVM.youtubeExplode = mockYoutubeExplode;
+
+      playlistListVM = PlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      List<Playlist> selectablePlaylistLst = playlistListVM.getUpToDateSelectablePlaylists();
+
+      // Obtaining the audio from which to obtain the next playable
+      // audio
+      Playlist sourcePlaylist = selectablePlaylistLst[3];
+      Audio lastDownloadedAudio = sourcePlaylist.playableAudioLst[0];
+
+      // Obtaining the next playable audio
+      Audio? nextAudio = playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
+        currentAudio: lastDownloadedAudio,
+      );
+
+      // Since the first downloaded audio is not fully played, it
+      // is the next playable audio and so there is no next playable
+      // audio
+      expect(nextAudio, null);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    test('Next playable audio is last downloaded audio', () {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_play_skip_to_next_not_last_unread_audio_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      // Since we have to use a mock AudioDownloadVM to add the
+      // youtube playlist, we can not use app.main() to start the
+      // app because app.main() uses the real AudioDownloadVM
+      // and we don't want to make the main.dart file dependent
+      // of a mock class. So we have to start the app by hand.
+
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      // MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
+      //   warningMessageVM: warningMessageVM,
+      //   isTest: true,
+      // );
+      // mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
+
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+
+      // audioDownloadVM.youtubeExplode = mockYoutubeExplode;
+
+      playlistListVM = PlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      List<Playlist> selectablePlaylistLst = playlistListVM.getUpToDateSelectablePlaylists();
+
+      // Obtaining the audio from which to obtain the next playable
+      // audio
+      Playlist sourcePlaylist = selectablePlaylistLst[3];
+      Audio firstDownloadedAudio = sourcePlaylist.playableAudioLst[1];
+
+      // Obtaining the next playable audio
+      Audio? nextAudio_isLastDownloaded = playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
+        currentAudio: firstDownloadedAudio,
+      );
+
+      // Since the first downloaded audio is not fully played, it
+      // is the next playable audio and so there is no next playableaudio
+      expect(nextAudio_isLastDownloaded!.validVideoTitle, 'Really short video');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
