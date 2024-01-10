@@ -717,7 +717,7 @@ class PlaylistListVM extends ChangeNotifier {
 
   /// Returns the audio contained in the playableAudioLst which
   /// has been downloaded right after the current audio.
-  Audio? getSubsequentlyDownloadedPlayableAudio({
+  Audio? getSubsequentlyDownloadedNotFullyPlayedAudio({
     required Audio currentAudio,
   }) {
     // playableAudioLst order: [available audio last downloaded, ...,

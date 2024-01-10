@@ -187,8 +187,9 @@ class AudioPlayerVM extends ChangeNotifier {
 
   /// Method called by skipToEndNoPlay() if the audio is positioned
   /// at end and by playNextAudio().
-  Future<void> _setNextAudio() async {
-    Audio? nextAudio = _playlistListVM.getSubsequentlyDownloadedPlayableAudio(
+  Future<void> _setNextNotPlayedAudio() async {
+    Audio? nextAudio =
+        _playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
       currentAudio: _currentAudio!,
     );
 
@@ -200,7 +201,8 @@ class AudioPlayerVM extends ChangeNotifier {
   }
 
   Future<void> _setNextAudioAndplay() async {
-    Audio? nextAudio = _playlistListVM.getSubsequentlyDownloadedPlayableAudio(
+    Audio? nextAudio =
+        _playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
       currentAudio: _currentAudio!,
     );
     if (nextAudio == null) {
@@ -450,7 +452,7 @@ class AudioPlayerVM extends ChangeNotifier {
       // situation when the user clicks on >| when the audio
       // position is at audio end. This is the case if the user
       // clicks twice on the >| icon.
-      await _setNextAudio();
+      await _setNextNotPlayedAudio();
 
       notifyListeners();
 
@@ -503,7 +505,7 @@ class AudioPlayerVM extends ChangeNotifier {
   }
 
   /// Method called when _audioPlayer.onPlayerComplete happens,
-  /// i.e. when the current audio is terminated and when
+  /// i.e. when the current audio is terminated or when
   /// skipToEndAndPlay() is executed after the user clicked
   /// the second time on the >| icon button.
   Future<void> playNextAudio() async {
@@ -514,7 +516,7 @@ class AudioPlayerVM extends ChangeNotifier {
     _currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
     updateAndSaveCurrentAudio();
 
-    await _setNextAudio();
+    await _setNextNotPlayedAudio();
     await playFromCurrentAudioFile();
 
     notifyListeners();
