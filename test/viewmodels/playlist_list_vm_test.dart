@@ -516,14 +516,14 @@ void main() {
       Audio firstDownloadedAudio = sourcePlaylist.playableAudioLst[1];
 
       // Obtaining the next playable audio
-      Audio? nextAudio_isLastDownloaded =
+      Audio? nextaudioIslastdownloaded =
           playlistListVM.getSubsequentlyDownloadedNotFullyPlayedAudio(
         currentAudio: firstDownloadedAudio,
       );
 
       // Since the first downloaded audio is not fully played, it
       // is the next playable audio and so there is no next playableaudio
-      expect(nextAudio_isLastDownloaded!.validVideoTitle, 'Really short video');
+      expect(nextaudioIslastdownloaded!.validVideoTitle, 'Really short video');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
