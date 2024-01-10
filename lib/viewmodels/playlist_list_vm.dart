@@ -738,6 +738,14 @@ class PlaylistListVM extends ChangeNotifier {
       return null;
     }
 
+    for (int i = currentAudioIndex - 1; i >= 0; i--) {
+      Audio audio = playableAudioLst[i];
+      if (audio.wasFullyListened()) {
+        continue;
+      } else {
+        return audio;
+      }
+    }
     return playableAudioLst[currentAudioIndex - 1];
   }
 
