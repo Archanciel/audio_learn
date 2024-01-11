@@ -131,6 +131,9 @@ class _ListPlayableAudiosDialogWidgetState
                   },
                 ),
               ),
+              const SizedBox(
+                height: 15.0 ,
+              ),
               Row(
                 // in this case, the audio is moved from a Youtube
                 // playlist and so the keep audio entry in source
