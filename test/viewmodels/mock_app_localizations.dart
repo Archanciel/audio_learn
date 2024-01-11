@@ -657,5 +657,8 @@ class MockAppLocalizations extends AppLocalizations {
   String get excludeFullyPlayedAudios => 'Exclude fully played audios';
 
   @override
-  String get setAudioVolumeIconButton => 'Set audio volume';
+  String get increaseAudioVolumeIconButton => 'Increase audio volume';
+
+  @override
+  String get decreaseAudioVolumeIconButton => 'Increase audio volume';
 }

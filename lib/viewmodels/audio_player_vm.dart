@@ -44,7 +44,7 @@ class AudioPlayerVM extends ChangeNotifier {
 
   DateTime _currentAudioLastSaveDateTime = DateTime.now();
 
-  double _audioVolume = 0.8;
+  double _audioVolume = 0.7;
   double get audioVolume => _audioVolume;
 
   AudioPlayerVM({

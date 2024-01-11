@@ -239,5 +239,7 @@
   "appBarTitleAudioExtractor": "Extraire Audio",
   "setAudioPlaySpeedDialogTitle": "Vitesse de lecture",
   "setAudioPlaySpeedTooltip": "Définir la vitesse de lecture de l'audio",
-  "excludeFullyPlayedAudios": "Exclure les audios entièrement joués"
+  "excludeFullyPlayedAudios": "Exclure les audios entièrement joués",
+  "increaseAudioVolumeIconButton": "Augmenter le volume audio",
+  "decreaseAudioVolumeIconButton": "Diminuer le volume audio"
 }
