@@ -156,37 +156,9 @@ class _PlaylistOneSelectableDialogWidgetState
                   //                               from a playlist, the
                   //                               excluded playlist is
                   //                               the source playlist
-                  ? Row(
-                      // in this case, the audio is moved from a Youtube
-                      // playlist and so the keep audio entry in source
-                      // playlist checkbox is displayed
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            AppLocalizations.of(context)!
-                                .keepAudioEntryInSourcePlaylist,
-                            style: TextStyle(
-                              color: isDarkTheme ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
-                          height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
-                          child: Checkbox(
-                            value: _keepAudioDataInSourcePlaylist,
-                            onChanged: (bool? newValue) {
-                              setState(() {
-                                _keepAudioDataInSourcePlaylist = newValue!;
-                              });
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              // _audioTitleSubStringFocusNode.requestFocus();
-                            },
-                          ),
-                        ),
-                      ],
+                  ? _buildBottomTextAndCheckbox(
+                      context,
+                      isDarkTheme,
                     )
                   : Container(), // here, we are moving an audio from a
               //                    local playlist, or we are copying an
@@ -237,6 +209,50 @@ class _PlaylistOneSelectableDialogWidgetState
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildBottomTextAndCheckbox(
+    BuildContext context,
+    bool isDarkTheme,
+  ) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: ScreenMixin.dialogCheckboxSizeBoxHeight,
+        ),
+        Row(
+          // in this case, the audio is moved from a Youtube
+          // playlist and so the keep audio entry in source
+          // playlist checkbox is displayed
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                AppLocalizations.of(context)!.keepAudioEntryInSourcePlaylist,
+                style: TextStyle(
+                  color: isDarkTheme ? Colors.white : Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
+              height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
+              child: Checkbox(
+                value: _keepAudioDataInSourcePlaylist,
+                onChanged: (bool? newValue) {
+                  setState(() {
+                    _keepAudioDataInSourcePlaylist = newValue!;
+                  });
+                  // now clicking on Enter works since the
+                  // Checkbox is not focused anymore
+                  // _audioTitleSubStringFocusNode.requestFocus();
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

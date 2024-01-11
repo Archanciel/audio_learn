@@ -61,6 +61,7 @@ mixin ScreenMixin {
 
   static const double screenIconSizeLightTheme = 30.0;
   static const double screenIconSizeDarkTheme = 29.0;
+  static const double dialogCheckboxSizeBoxHeight = 15.0;
 
   // When clicking on TextButton, the color of the button is
   // changed shortly to the color defined in the following
