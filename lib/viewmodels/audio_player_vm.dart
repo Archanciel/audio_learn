@@ -44,6 +44,9 @@ class AudioPlayerVM extends ChangeNotifier {
 
   DateTime _currentAudioLastSaveDateTime = DateTime.now();
 
+  double _audioVolume = 0.8;
+  double get audioVolume => _audioVolume;
+
   AudioPlayerVM({
     required PlaylistListVM playlistListVM,
   }) : _playlistListVM = playlistListVM {
@@ -71,6 +74,26 @@ class AudioPlayerVM extends ChangeNotifier {
   void setCurrentPlaylist({
     required Playlist selectedPlaylist,
   }) {}
+
+  /// {volumeIncreaseValue} must be between 0.0 and 1.0. The
+  /// initial audio volume is 0.8 and will be increased by this
+  /// value.
+  void increaseAudioVolume({required double volumeIncreaseValue,}) {
+    _audioVolume = (_audioVolume + volumeIncreaseValue).clamp(0.0, 1.0); // Increase and clamp to max 1.0
+    _audioPlayer.setVolume(_audioVolume);
+
+    notifyListeners();
+  }
+
+  /// {volumeDecreaseValue} must be between 0.0 and 1.0. The
+  /// initial audio volume is 0.8 and will be decreased by this
+  /// value.
+  void decreaseAudioVolume({required double volumeDecreaseValue,}) {
+    _audioVolume = (_audioVolume - volumeDecreaseValue).clamp(0.0, 1.0); // Increase and clamp to max 1.0
+    _audioPlayer.setVolume(_audioVolume);
+
+    notifyListeners();
+  }
 
   /// Method called when the user clicks on the audio title or sub
   /// title or when he clicks on a play icon or when he selects an
@@ -244,6 +267,8 @@ class AudioPlayerVM extends ChangeNotifier {
         _currentAudioTotalDuration = duration;
         notifyListeners();
       });
+
+      _audioPlayer.setVolume(_audioVolume);
 
       _audioPlayer.onPositionChanged.listen((position) {
         if (_audioPlayer.state == PlayerState.playing) {
