@@ -775,7 +775,7 @@ void main() {
       await Future.delayed(const Duration(seconds: 5));
       await tester.pumpAndSettle();
 
-      // Verify if the next unread audio title is displayed
+      // Verify that the next unread audio title is displayed
       expect(find.text(nextUnreadNotLastDownloadedAudioTitle), findsOneWidget);
 
       // Purge the test playlist directory so that the created test

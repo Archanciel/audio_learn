@@ -353,7 +353,7 @@ void main() {
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist = selectablePlaylistLst[2];
+      Playlist sourcePlaylist = selectablePlaylistLst[3]; // local
       Audio lastDownloadedAudio = sourcePlaylist.playableAudioLst[0];
 
       // Obtaining the next playable audio
@@ -434,7 +434,7 @@ void main() {
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist = selectablePlaylistLst[4];
+      Playlist sourcePlaylist = selectablePlaylistLst[5]; // local_3
       Audio lastDownloadedAudio = sourcePlaylist.playableAudioLst[0];
 
       // Obtaining the next playable audio
@@ -512,7 +512,7 @@ void main() {
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist = selectablePlaylistLst[3];
+      Playlist sourcePlaylist = selectablePlaylistLst[4]; // local_2
       Audio firstDownloadedAudio = sourcePlaylist.playableAudioLst[1];
 
       // Obtaining the next playable audio
@@ -533,7 +533,9 @@ void main() {
   group('Obtain list of playable audios', () {
     late PlaylistListVM playlistListVM;
 
-    test('Playlist has several not fully played audios', () {
+    test(
+        'Playlist has several not fully played audios. Last downloaded audio is not played.',
+        () {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -594,16 +596,99 @@ void main() {
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist = selectablePlaylistLst[0];
+      Playlist sourcePlaylist = selectablePlaylistLst[0]; // S8 audio
       List<Audio> playableAudioLst =
           playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
         playlist: sourcePlaylist,
       );
 
+      expect(playableAudioLst.length, 2);
       expect(playableAudioLst[0].validVideoTitle,
           'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
       expect(playableAudioLst[1].validVideoTitle,
           'La résilience insulaire par Fiona Roche');
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    test(
+        'Playlist has several not fully played audios. Last downloaded audio is fully played.',
+        () {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_play_skip_to_next_not_last_unread_audio_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      // Since we have to use a mock AudioDownloadVM to add the
+      // youtube playlist, we can not use app.main() to start the
+      // app because app.main() uses the real AudioDownloadVM
+      // and we don't want to make the main.dart file dependent
+      // of a mock class. So we have to start the app by hand.
+
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      // MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
+      //   warningMessageVM: warningMessageVM,
+      //   isTest: true,
+      // );
+      // mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
+
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+
+      // audioDownloadVM.youtubeExplode = mockYoutubeExplode;
+
+      playlistListVM = PlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      List<Playlist> selectablePlaylistLst =
+          playlistListVM.getUpToDateSelectablePlaylists();
+
+      // Obtaining the audio from which to obtain the next playable
+      // audio
+      Playlist sourcePlaylist =
+          selectablePlaylistLst[1]; // local_several_played_unplayed_audios
+      List<Audio> playableAudioLst =
+          playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
+        playlist: sourcePlaylist,
+      );
+
+      expect(playableAudioLst.length, 3);
+      expect(playableAudioLst[0].validVideoTitle,
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)");
+      expect(playableAudioLst[1].validVideoTitle,
+          "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau");
+      expect(playableAudioLst[2].validVideoTitle,
+          "Les besoins artificiels par R.Keucheyan");
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -668,7 +753,8 @@ void main() {
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist = selectablePlaylistLst[1];
+      Playlist sourcePlaylist =
+          selectablePlaylistLst[2]; // audio_player_view_2_shorts_test
       List<Audio> playableAudioLst =
           playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
         playlist: sourcePlaylist,
