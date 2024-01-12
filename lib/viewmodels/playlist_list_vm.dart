@@ -761,9 +761,10 @@ class PlaylistListVM extends ChangeNotifier {
   List<Audio> getNotFullyPlayedAudiosOrderedByDownloadDate({
     required Playlist playlist,
   }) {
-    return playlist.playableAudioLst.reversed
-        .toList()
+    return playlist.playableAudioLst
         .where((audio) => !audio.wasFullyListened())
+        .toList()
+        .reversed
         .toList();
   }
 
