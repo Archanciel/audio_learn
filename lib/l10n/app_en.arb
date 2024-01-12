@@ -130,7 +130,7 @@
   "displayAudioInfo": "Display audio data",
   "renameAudioFile": "Rename audio file",
   "moveAudioToPlaylist": "Move audio to playlist ...",
-  "copyAudioToPlaylist": "Copy audio in playlist ...",
+  "copyAudioToPlaylist": "Copy audio to playlist ...",
   "audioInfoDialogTitle": "Audio Info",
   "originalVideoTitleLabel": "Original video title",
   "validVideoTitleLabel": "Valid video title",
