@@ -266,6 +266,8 @@ class Audio {
     return '${enclosingPlaylist!.downloadPath}${Platform.pathSeparator}$audioFileName';
   }
 
+  /// Returns true if the audio position is greater or equal to
+  /// the audio duration minus 5 seconds.
   bool wasFullyListened() {
     return (audioDuration == null)
         ? false

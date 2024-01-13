@@ -406,6 +406,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       children: [
                         Expanded(
                           child: IconButton(
+                            key: const Key('audioPlayerViewRewind1mButton'),
                             iconSize: _audioIconSizeMedium,
                             onPressed: () =>
                                 audioGlobalPlayerVM.changeAudioPlayPosition(
@@ -416,6 +417,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         ),
                         Expanded(
                           child: IconButton(
+                            key: const Key('audioPlayerViewRewind10sButton'),
                             iconSize: _audioIconSizeMedium,
                             onPressed: () =>
                                 audioGlobalPlayerVM.changeAudioPlayPosition(
@@ -426,6 +428,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         ),
                         Expanded(
                           child: IconButton(
+                            key: const Key('audioPlayerViewForward10sButton'),
                             iconSize: _audioIconSizeMedium,
                             onPressed: () =>
                                 audioGlobalPlayerVM.changeAudioPlayPosition(
@@ -436,6 +439,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         ),
                         Expanded(
                           child: IconButton(
+                            key: const Key('audioPlayerViewForward1mButton'),
                             iconSize: _audioIconSizeMedium,
                             onPressed: () =>
                                 audioGlobalPlayerVM.changeAudioPlayPosition(

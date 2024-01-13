@@ -23,7 +23,7 @@ void main() {
           'audio_player_view_2_shorts_test';
       const String lastDownloadedAudioTitle = 'morning _ cinematic video';
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName: 'audio_player_view_test',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
@@ -63,7 +63,7 @@ void main() {
           'audio_player_view_2_shorts_test';
       const String lastDownloadedAudioTitle = 'morning _ cinematic video';
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName: 'audio_player_view_test',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
@@ -147,7 +147,7 @@ void main() {
       const String firstDownloadedAudioTitle =
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName: 'audio_player_view_first_to_last_audio_test',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
@@ -195,7 +195,7 @@ void main() {
       const String audioPlayerSelectedPlaylistTitle =
           'audio_player_view_no_sel_audio_test';
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName: 'audio_player_view_test',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
@@ -230,7 +230,7 @@ void main() {
     testWidgets(
         'Opening AudioPlayerView by clicking on AudioPlayerView icon button in situation where no playlist is selected.',
         (WidgetTester tester) async {
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName: 'audio_player_view_no_playlist_selected_test',
         selectedPlaylistTitle: null, // no playlist selected
@@ -270,7 +270,7 @@ void main() {
       const String firstDownloadedAudioTitle =
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName: 'audio_play_speed_bug_fix_test_data',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
@@ -364,7 +364,7 @@ void main() {
       const String firstDownloadedAudioTitle =
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName: 'audio_play_speed_bug_fix_test_data',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
@@ -444,7 +444,7 @@ void main() {
       const String firstDownloadedAudioTitle =
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName: 'audio_play_speed_bug_fix_test_data',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
@@ -527,7 +527,7 @@ void main() {
       const String lastDownloadedAudioTitle =
           '3 fois où Aurélien Barrau tire à balles réelles sur les riches';
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName: 'audio_player_view_first_to_last_audio_test',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
@@ -612,7 +612,7 @@ void main() {
       const String firstDownloadedAudioTitle =
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName: 'audio_play_speed_bug_fix_test_data',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
@@ -696,7 +696,7 @@ void main() {
       const String lastDownloadedAudioTitle =
           "La résilience insulaire par Fiona Roche\n13:35";
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName:
             'audio_play_skip_to_next_and_last_unread_audio_test',
@@ -708,7 +708,7 @@ void main() {
       // the audio
 
       // Tap the 'Toggle List' button to avoid displaying the list
-      // of playlists which will hide the audio title we want to
+      // of playlists which may hide the audio title we want to
       // tap on
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
@@ -743,7 +743,7 @@ void main() {
       const String nextUnreadNotLastDownloadedAudioTitle =
           "Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik\n13:39";
 
-      await initializeApplication(
+      await initializeApplicationAndSelectPlaylist(
         tester: tester,
         savedTestDataDirName:
             'audio_play_skip_to_next_not_last_unread_audio_test',
@@ -755,7 +755,7 @@ void main() {
       // the audio
 
       // Tap the 'Toggle List' button to avoid displaying the list
-      // of playlists which will hide the audio title we want to
+      // of playlists which may hide the audio title we want to
       // tap on
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
@@ -775,8 +775,88 @@ void main() {
       await Future.delayed(const Duration(seconds: 5));
       await tester.pumpAndSettle();
 
-      // Verify that the next unread audio title is displayed
+      // Verify that the next unread audio title is now displayed
       expect(find.text(nextUnreadNotLastDownloadedAudioTitle), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('Skipping 3 times ...', (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'local_several_played_unplayed_audios'; // local playlist
+
+      const String firstDownloadedAudioTitle =
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
+      const String nextUnreadNotLastDownloadedAudioTitle =
+          "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau\n6:29";
+      const String lastUnreadNotLastDownloadedAudioTitle =
+          "Les besoins artificiels par R.Keucheyan\n19:05";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName:
+            'audio_play_skip_to_next_not_last_unread_audio_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the first downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder firstDownloadedAudioListTileTextWidgetFinder =
+          find.text(firstDownloadedAudioTitle);
+
+      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now play the audio and wait 6 seconds
+      await tester.tap(find.byIcon(Icons.play_arrow));
+      await tester.pumpAndSettle();
+
+      await Future.delayed(const Duration(seconds: 6));
+      await tester.pumpAndSettle();
+
+      // Verify that the next unread audio title is now displayed
+      expect(find.text(nextUnreadNotLastDownloadedAudioTitle), findsOneWidget);
+
+      // Verify if the pause button is displayed
+      expect(find.byIcon(Icons.pause), findsOneWidget);
+
+      // The next audio is playing. Tapping 3 times on the
+      // forward 10s button to accelarate skipping to the last
+      // unread audio
+      await tester.tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
+      await tester.tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
+      await tester.tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
+      await tester.pumpAndSettle(); // required so we can see the result
+
+      await Future.delayed(const Duration(seconds: 6));
+      await tester.pumpAndSettle();
+
+      // Verify that the last unread audio title is now displayed
+      expect(find.text(lastUnreadNotLastDownloadedAudioTitle), findsOneWidget);
+
+      // Verify if the pause button is displayed
+      expect(find.byIcon(Icons.pause), findsOneWidget);
+
+      // The last audio is playing. Tapping 3 times on the
+      // forward 10s button to accelarate going to the end of
+      // the last unread audio
+      await tester.tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
+      await tester.tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
+      await tester.pumpAndSettle(); // required so we can see the result
+
+      await Future.delayed(const Duration(seconds: 6));
+      await tester.pumpAndSettle();
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -811,7 +891,9 @@ void verifyAudioPlaySpeedStoredInPlaylistJsonFile(
       expectedAudioPlaySpeed);
 }
 
-Future<void> initializeApplication({
+/// Initializes the application and selects the playlist if
+/// [selectedPlaylistTitle] is not null.
+Future<void> initializeApplicationAndSelectPlaylist({
   required WidgetTester tester,
   String? savedTestDataDirName,
   String? selectedPlaylistTitle,
@@ -877,7 +959,8 @@ Future<void> initializeApplication({
     final Checkbox checkbox =
         tester.widget<Checkbox>(selectedPlaylistCheckboxWidgetFinder);
 
-    // Check if the checkbox is checked
+    // Tap on the playlist checkbox to select it if it is not
+    // already selected
     if (checkbox.value == null || !checkbox.value!) {
       // Tap the ListTile Playlist checkbox to select it
       // so that the playlist audios are listed
