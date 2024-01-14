@@ -39,6 +39,8 @@ class _ListPlayableAudiosDialogWidgetState
 
   final double _itemHeight = 70.0;
 
+  bool _backToAllAudios = false;
+
   @override
   void initState() {
     super.initState();
@@ -67,13 +69,13 @@ class _ListPlayableAudiosDialogWidgetState
         Provider.of<AudioPlayerVM>(context, listen: false);
     Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
-    List<Audio> playableAudioLst;
+    List<Audio> _playableAudioLst;
 
     if (_excludeFullyPlayedAudios) {
-      playableAudioLst =
+      _playableAudioLst =
           audioGlobalPlayerVM.getNotFullyPlayedAudiosOrderedByDownloadDate();
     } else {
-      playableAudioLst =
+      _playableAudioLst =
           audioGlobalPlayerVM.getPlayableAudiosOrderedByDownloadDate();
     }
 
@@ -82,7 +84,7 @@ class _ListPlayableAudiosDialogWidgetState
     if (currentAudio == null) {
       _currentAudioIndex = -1;
     } else {
-      _currentAudioIndex = playableAudioLst.indexOf(currentAudio);
+      _currentAudioIndex = _playableAudioLst.indexOf(currentAudio);
     }
 
     return RawKeyboardListener(
@@ -111,10 +113,10 @@ class _ListPlayableAudiosDialogWidgetState
               Expanded(
                 child: ListView.builder(
                   controller: _scrollController,
-                  itemCount: playableAudioLst.length,
+                  itemCount: _playableAudioLst.length,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    Audio audio = playableAudioLst[index];
+                    Audio audio = _playableAudioLst[index];
                     return ListTile(
                       title: GestureDetector(
                         onTap: () async {
@@ -186,7 +188,15 @@ class _ListPlayableAudiosDialogWidgetState
                 value: _excludeFullyPlayedAudios,
                 onChanged: (bool? newValue) {
                   setState(() {
-                    _excludeFullyPlayedAudios = newValue!;
+                    if (newValue != null) {
+                      if (newValue) {
+                        _backToAllAudios = false;
+                      } else {
+                        _backToAllAudios = true;
+                      }
+                      _excludeFullyPlayedAudios = newValue!;
+                      _scrollToItem();
+                    }
                   });
                   // now clicking on Enter works since the
                   // Checkbox is not focused anymore
@@ -238,9 +248,17 @@ class _ListPlayableAudiosDialogWidgetState
       multiplier *= 1.2;
     }
 
-    final double offset = multiplier * _itemHeight;
+    double offset = multiplier * _itemHeight;
+
+    if (_backToAllAudios) {
+      // improves the scrolling when the user goes back to
+      // the list of all audios
+      offset *= 1.4;
+      _backToAllAudios = false;
+    }
 
     if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0.0);
       _scrollController.animateTo(
         offset,
         duration: const Duration(seconds: 1),
