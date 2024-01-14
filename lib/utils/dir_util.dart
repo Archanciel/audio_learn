@@ -14,6 +14,7 @@ class DirUtil {
         return kDownloadAppDirWindows;
       }
     } else {
+      // On Android or mobile emulator
       if (isTest) {
         return kDownloadAppTestDir;
       } else {
