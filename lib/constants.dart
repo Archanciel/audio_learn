@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 const String kApplicationName = "Audio Learn";
 const String kApplicationVersion = '0.8.82';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
+const String kDownloadAppTestDir = '/storage/emulated/0/Download/test/audiolear';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
 //const String kDownloadAppDir = '/storage/9016-4EF8/Audio';
@@ -15,8 +16,6 @@ const String kDownloadAppDirWindows =
 
 // Tests are run on Windows only. Files in this local test dir are stored in project test_data dir updated
 // on GitHub
-const String kDownloadAppTestDir =
-    "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
 const String kDownloadAppTestSavedDataDir =
     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved";
 
