@@ -69,13 +69,13 @@ class _ListPlayableAudiosDialogWidgetState
         Provider.of<AudioPlayerVM>(context, listen: false);
     Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
-    List<Audio> _playableAudioLst;
+    List<Audio> playableAudioLst;
 
     if (_excludeFullyPlayedAudios) {
-      _playableAudioLst =
+      playableAudioLst =
           audioGlobalPlayerVM.getNotFullyPlayedAudiosOrderedByDownloadDate();
     } else {
-      _playableAudioLst =
+      playableAudioLst =
           audioGlobalPlayerVM.getPlayableAudiosOrderedByDownloadDate();
     }
 
@@ -84,7 +84,7 @@ class _ListPlayableAudiosDialogWidgetState
     if (currentAudio == null) {
       _currentAudioIndex = -1;
     } else {
-      _currentAudioIndex = _playableAudioLst.indexOf(currentAudio);
+      _currentAudioIndex = playableAudioLst.indexOf(currentAudio);
     }
 
     return RawKeyboardListener(
@@ -113,10 +113,10 @@ class _ListPlayableAudiosDialogWidgetState
               Expanded(
                 child: ListView.builder(
                   controller: _scrollController,
-                  itemCount: _playableAudioLst.length,
+                  itemCount: playableAudioLst.length,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    Audio audio = _playableAudioLst[index];
+                    Audio audio = playableAudioLst[index];
                     return ListTile(
                       title: GestureDetector(
                         onTap: () async {
@@ -194,7 +194,7 @@ class _ListPlayableAudiosDialogWidgetState
                       } else {
                         _backToAllAudios = true;
                       }
-                      _excludeFullyPlayedAudios = newValue!;
+                      _excludeFullyPlayedAudios = newValue;
                       _scrollToItem();
                     }
                   });
