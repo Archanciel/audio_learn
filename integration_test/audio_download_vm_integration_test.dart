@@ -26,7 +26,7 @@ const String globalTestPlaylistUrl =
 const String globalTestPlaylistTitle =
     'audio_learn_test_download_2_small_videos';
 final String globalTestPlaylistDir =
-    '$kDownloadAppTestDir${path.separator}$globalTestPlaylistTitle';
+    '$kDownloadAppTestDirWindows${path.separator}$globalTestPlaylistTitle';
 
 void main() {
   // Necessary to avoid FatalFailureException (FatalFailureException: Failed
@@ -66,7 +66,7 @@ void main() {
 
       // necessary in case the previous test failed and so did not
       // delete the its playlist dir
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
 
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
@@ -157,7 +157,7 @@ void main() {
 
       // necessary in case the previous test failed and so did not
       // delete the its playlist dir
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
 
       await DirUtil.createDirIfNotExist(pathStr: globalTestPlaylistDir);
 
@@ -300,7 +300,7 @@ void main() {
       String localTestPlaylistTitle =
           'audio_learn_download_single_video_to_empty_local_playlist_test';
       String localTestPlaylistDir =
-          "$kDownloadAppTestDir${path.separator}$localTestPlaylistTitle";
+          "$kDownloadAppTestDirWindows${path.separator}$localTestPlaylistTitle";
       String savedTestPlaylistDir =
           "$kDownloadAppTestSavedDataDir${path.separator}$localTestPlaylistTitle";
 
@@ -308,7 +308,7 @@ void main() {
 
       // necessary in case the previous test failed and so did not
       // delete the its playlist dir
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
 
       await DirUtil.createDirIfNotExist(pathStr: localTestPlaylistDir);
 
@@ -420,7 +420,7 @@ void main() {
       String localTestPlaylistTitle =
           'audio_learn_download_single_video_to_not_empty_local_playlist_test';
       String localTestPlaylistDir =
-          "$kDownloadAppTestDir${path.separator}$localTestPlaylistTitle";
+          "$kDownloadAppTestDirWindows${path.separator}$localTestPlaylistTitle";
       String savedTestPlaylistDir =
           "$kDownloadAppTestSavedDataDir${path.separator}$localTestPlaylistTitle";
 
@@ -428,7 +428,7 @@ void main() {
 
       // necessary in case the previous test failed and so did not
       // delete the its playlist dir
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
 
       await DirUtil.createDirIfNotExist(pathStr: localTestPlaylistDir);
 
@@ -560,7 +560,7 @@ void main() {
 
       // necessary in case the previous test failed and so did not
       // delete the its playlist dir
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDir);
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
 
       await DirUtil.createDirIfNotExist(pathStr: globalTestPlaylistDir);
 

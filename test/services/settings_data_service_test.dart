@@ -10,7 +10,7 @@ enum UnsupportedSettingsEnum { unsupported }
 
 void main() {
   const String testSettingsDir =
-      '$kDownloadAppTestDir\\audio_learn_test_settings';
+      '$kDownloadAppTestDirWindows\\audio_learn_test_settings';
 
   group('Settings', () {
     late SettingsDataService settings;
