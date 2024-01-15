@@ -376,6 +376,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           child: SizedBox(
             width: 20,
             child: Checkbox(
+              key: const Key('audio_quality_checkbox'),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               visualDensity: VisualDensity.compact,
               fillColor: MaterialStateColor.resolveWith(

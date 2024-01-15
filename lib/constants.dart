@@ -12,8 +12,8 @@ const String kSettingsFileName = 'settings.json';
 const String kDownloadAppDirWindows =
     // 'C:\\Users\\Jean-Pierre\\Downloads\\Audio';
     // 'C:\\Users\\Jean-Pierre\\Downloads\\copy_move_audio_integr_test_data';
-    "D:\\Users\\Jean-Pierre\\Downloads\\audio";
-
+    "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
+    
 // Tests are run on Windows only. Files in this local test dir are stored in project test_data dir updated
 // on GitHub
 const String kDownloadAppTestSavedDataDir =
