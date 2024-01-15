@@ -244,6 +244,8 @@ class _ListPlayableAudiosDialogWidgetState
 
     if (_currentAudioIndex > 300) {
       multiplier *= 1.23;
+    } else if (_currentAudioIndex > 200) {
+      multiplier *= 1.21;
     } else if (_currentAudioIndex > 120) {
       multiplier *= 1.2;
     }
