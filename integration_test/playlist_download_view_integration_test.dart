@@ -5710,7 +5710,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Select a Youtube playlist with audio, then delete it', (tester) async {
+    testWidgets('Delete a Youtube playlist with audios', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -5837,7 +5837,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Select a local playlist with audio, then delete it', (tester) async {
+    testWidgets('Delete a local playlist with 1 audio', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -5930,7 +5930,7 @@ void main() {
           find.byKey(const Key('deletePlaylistConfirmDialogDeleteButton')));
       await tester.pumpAndSettle();
 
-      // since the Youtube playlist was deleted, verify that all
+      // since the local playlist was deleted, verify that all
       // buttons are disabled
       verifyWidgetIsDisabled(
         tester: tester,
@@ -5954,6 +5954,255 @@ void main() {
       
       // since the playlist has audios, the audio popup menu
       // button is enabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('Delete a unique audio in a local playlist', (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}playlist_download_view_button_state_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to show the list of no selected playlist's.
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the local playlist to select
+
+      // First, find the Playlist ListTile Text widget
+      const String localPlaylistTitle = 'local_3';
+      final Finder localPlaylistToSelectListTileTextWidgetFinder =
+          find.text(localPlaylistTitle);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder localPlaylistToSelectListTileWidgetFinder = find.ancestor(
+        of: localPlaylistToSelectListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the Playlist ListTile
+      // and tap on it to select the playlist
+      final Finder localPlaylistToSelectListTileCheckboxWidgetFinder =
+          find.descendant(
+        of: localPlaylistToSelectListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
+
+      // Tap the ListTile Playlist checkbox to select it
+      await tester.tap(localPlaylistToSelectListTileCheckboxWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // now delete the unique audio of the playlist
+
+      // Now we want to tap the popup menu of the unique Audio ListTile
+      // "audio learn test short video two"
+
+      // First, find the Audio sublist ListTile Text widget
+      final Finder uniqueAudioListTileTextWidgetFinder =
+          find.text('audio learn test short video two');
+
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      final Finder uniqueAudioListTileWidgetFinder = find.ancestor(
+        of: uniqueAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the leading menu icon button of the Audio ListTile
+      // and tap on it
+      final Finder uniqueAudioListTileLeadingMenuIconButton = find.descendant(
+        of: uniqueAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(uniqueAudioListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the delete audio popup menu item and tap on it
+      final Finder popupCopyMenuItem =
+          find.byKey(const Key("popup_menu_delete_audio"));
+
+      await tester.tap(popupCopyMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'move_up_playlist_button',
+      );
+      
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'move_down_playlist_button',
+      );
+      
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'download_sel_playlists_button',
+      );
+      
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'audio_quality_checkbox',
+      );
+      
+      // since the unique playlist audio was deleted, the audio
+      // popup menu button is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('Delete a unique audio in a Youtube playlist', (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}playlist_download_view_button_state_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to show the list of no selected playlist's.
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the Youtube playlist to select
+
+      // First, find the Playlist ListTile Text widget
+      const String youtubePlaylistToSelectTitle = 'audio_learn_new_youtube_playlist_test';
+
+      final Finder youtubePlaylistToSelectListTileTextWidgetFinder =
+          find.text(youtubePlaylistToSelectTitle);
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder youtubePlaylistToSelectListTileWidgetFinder = find.ancestor(
+        of: youtubePlaylistToSelectListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the Playlist ListTile
+      // and tap on it to select the playlist
+      final Finder youtubePlaylistToSelectListTileCheckboxWidgetFinder =
+          find.descendant(
+        of: youtubePlaylistToSelectListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
+
+      // Tap the ListTile Playlist checkbox to select it
+      await tester.tap(youtubePlaylistToSelectListTileCheckboxWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // now delete the unique audio of the playlist
+
+      // Now we want to tap the popup menu of the unique Audio ListTile
+      // "audio learn test short video two"
+
+      // First, find the Audio sublist ListTile Text widget
+      final Finder uniqueAudioListTileTextWidgetFinder =
+          find.text('audio learn test short video two');
+
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      final Finder uniqueAudioListTileWidgetFinder = find.ancestor(
+        of: uniqueAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the leading menu icon button of the Audio ListTile
+      // and tap on it
+      final Finder uniqueAudioListTileLeadingMenuIconButton = find.descendant(
+        of: uniqueAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(uniqueAudioListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the delete audio popup menu item and tap on it
+      final Finder popupCopyMenuItem =
+          find.byKey(const Key("popup_menu_delete_audio"));
+
+      await tester.tap(popupCopyMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'move_up_playlist_button',
+      );
+      
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'move_down_playlist_button',
+      );
+      
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'download_sel_playlists_button',
+      );
+      
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'audio_quality_checkbox',
+      );
+      
+      // since the unique playlist audio was deleted, the audio
+      // popup menu button is disabled
       verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',

@@ -529,6 +529,11 @@ class PlaylistListVM extends ChangeNotifier {
 
     _removeAudioFromSortedFilteredPlayableAudioList(audio);
 
+    _setButtonAudioPopupMenuState(
+      buttonStateIfAudiosAvailable: true,
+      selectedPlaylist: audio.enclosingPlaylist!,
+    );
+
     notifyListeners();
   }
 
