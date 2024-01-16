@@ -109,7 +109,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         _buildDisplayDownloadProgressionInfo(),
         _buildSecondLine(
           context,
-          audioDownloadViewModel,
           themeProviderVM,
         ),
         _buildExpandedPlaylistList(),
@@ -228,9 +227,12 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   Row _buildSecondLine(
     BuildContext context,
-    AudioDownloadVM audioDownloadViewModel,
     ThemeProviderVM themeProviderVM,
   ) {
+    final AudioDownloadVM audioDownloadViewModel = Provider.of<AudioDownloadVM>(
+      context,
+      listen: true,
+    );
     bool arePlaylistDownloadWidgetsEnabled =
         Provider.of<PlaylistListVM>(context)
                 .isButtonDownloadSelPlaylistsEnabled &&

@@ -55,7 +55,9 @@ class AudioDownloadVM extends ChangeNotifier {
   late Audio _currentDownloadingAudio;
   Audio get currentDownloadingAudio => _currentDownloadingAudio;
 
-  bool isHighQuality = false;
+  bool _isHighQuality = false;
+  bool get isHighQuality => _isHighQuality;
+  set isHighQuality(bool isHighQuality) => _isHighQuality = isHighQuality;
 
   bool _stopDownloadPressed = false;
   bool get isDownloadStopping => _stopDownloadPressed;
@@ -102,7 +104,7 @@ class AudioDownloadVM extends ChangeNotifier {
       // if the playlist is selected, the audio quality checkbox will be
       // checked or not according to the selected playlist quality
       if (currentPlaylist.isSelected) {
-        isHighQuality =
+        _isHighQuality =
             currentPlaylist.playlistQuality == PlaylistQuality.music;
       }
     }
@@ -521,7 +523,7 @@ class AudioDownloadVM extends ChangeNotifier {
       // if the playlist is selected, the audio quality checkbox will be
       // checked or not according to the selected playlist quality
       if (isPlaylistSelected) {
-        isHighQuality = playlist.playlistQuality == PlaylistQuality.music;
+        _isHighQuality = playlist.playlistQuality == PlaylistQuality.music;
       }
 
       // saving the playlist since its isSelected property has been updated
@@ -601,8 +603,10 @@ class AudioDownloadVM extends ChangeNotifier {
     return addedPlaylist;
   }
 
-  void setAudioQuality({required bool isHighQuality}) {
-    isHighQuality = isHighQuality;
+  void setAudioQuality({
+    required bool isHighQuality,
+  }) {
+    _isHighQuality = isHighQuality;
 
     notifyListeners();
   }
@@ -1125,13 +1129,13 @@ class AudioDownloadVM extends ChangeNotifier {
 
     final yt.AudioOnlyStreamInfo audioStreamInfo;
 
-    if (isHighQuality) {
+    if (_isHighQuality) {
       audioStreamInfo = streamManifest.audioOnly.withHighestBitrate();
     } else {
       audioStreamInfo = streamManifest.audioOnly.first;
     }
 
-    audio.isMusicQuality = isHighQuality;
+    audio.isMusicQuality = _isHighQuality;
     final int audioFileSize = audioStreamInfo.size.totalBytes;
     audio.audioFileSize = audioFileSize;
 
