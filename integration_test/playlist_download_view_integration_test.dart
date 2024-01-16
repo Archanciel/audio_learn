@@ -4630,7 +4630,81 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-  });
+      testWidgets('Click on download at musical quality checkbox bug fix', (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}playlist_download_view_button_state_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to show the list of no selected playlist's.
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the Youtube playlist to select
+
+      // First, find the Playlist ListTile Text widget
+      final Finder youtubePlaylistToSelectListTileTextWidgetFinder =
+          find.text('audio_player_view_2_shorts_test');
+
+      // Then obtain the Playlist ListTile widget enclosing the Text widget
+      // by finding its ancestor
+      final Finder youtubePlaylistToSelectListTileWidgetFinder = find.ancestor(
+        of: youtubePlaylistToSelectListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the Playlist ListTile
+      // and tap on it to select the playlist
+      final Finder youtubePlaylistToSelectListTileCheckboxWidgetFinder =
+          find.descendant(
+        of: youtubePlaylistToSelectListTileWidgetFinder,
+        matching: find.byType(Checkbox),
+      );
+
+      // Tap the ListTile Playlist checkbox to select it
+      await tester.tap(youtubePlaylistToSelectListTileCheckboxWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now tap the download at musical quality checkbox
+      await tester.tap(find.byKey(const Key('audio_quality_checkbox')));
+      await tester.pumpAndSettle();
+
+      // Verify that the download at musical quality checkbox is
+      // checked
+      final Finder downloadAtMusicalQualityCheckBoxFinder =
+          find.byKey(const Key('audio_quality_checkbox'));
+      final Checkbox downloadAtMusicalQualityCheckBoxWidget =
+          tester.widget<Checkbox>(downloadAtMusicalQualityCheckBoxFinder);
+      expect(downloadAtMusicalQualityCheckBoxWidget.value, true);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+});
   group('Delete existing playlist test', () {
     testWidgets('Delete selected Youtube playlist', (tester) async {
       // Purge the test playlist directory if it exists so that the
