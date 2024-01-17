@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -4694,11 +4695,34 @@ void main() {
 
       // Verify that the download at musical quality checkbox is
       // checked
-      final Finder downloadAtMusicalQualityCheckBoxFinder =
+      Finder downloadAtMusicalQualityCheckBoxFinder =
           find.byKey(const Key('audio_quality_checkbox'));
-      final Checkbox downloadAtMusicalQualityCheckBoxWidget =
+      Checkbox downloadAtMusicalQualityCheckBoxWidget =
           tester.widget<Checkbox>(downloadAtMusicalQualityCheckBoxFinder);
       expect(downloadAtMusicalQualityCheckBoxWidget.value, true);
+
+      Finder snackBarMessageFinder =
+          find.text("Download at music quality");
+      expect(snackBarMessageFinder, findsOneWidget);
+
+      await Future.delayed(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
+
+      // Now retap the download at musical quality checkbox
+      await tester.tap(find.byKey(const Key('audio_quality_checkbox')));
+      await tester.pumpAndSettle();
+
+      // Verify that the download at musical quality checkbox is
+      // unchecked
+      downloadAtMusicalQualityCheckBoxFinder =
+          find.byKey(const Key('audio_quality_checkbox'));
+      downloadAtMusicalQualityCheckBoxWidget =
+          tester.widget<Checkbox>(downloadAtMusicalQualityCheckBoxFinder);
+      expect(downloadAtMusicalQualityCheckBoxWidget.value, false);
+
+      snackBarMessageFinder =
+          find.text("Download at audio quality");
+      expect(snackBarMessageFinder, findsOneWidget);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
