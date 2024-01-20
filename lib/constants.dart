@@ -63,7 +63,7 @@ const Color kDarkAndLightIconColor =
     Color.fromARGB(246, 44, 61, 255); // rgba(44, 61, 246, 255)
 const Color kButtonColor = Color(0xFF3D3EC2);
 const Color kScreenButtonColor = kSliderThumbColorInDarkMode;
-const double kAudioDefaultPlayVolume = 0.7;
+const double kAudioDefaultPlayVolume = 0.5;
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");
