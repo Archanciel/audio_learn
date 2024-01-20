@@ -246,7 +246,7 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
           ),
         ),
         const SizedBox(
-          width: kRowWidthSeparator,
+          width: kRowSmallWidthSeparator,
         ),
         TextButton(
           style: ButtonStyle(

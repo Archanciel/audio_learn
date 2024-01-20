@@ -253,8 +253,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 ),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(
-                      horizontal: kSmallButtonInsidePadding,
-                      vertical: 0,
+                    horizontal: kSmallButtonInsidePadding,
+                    vertical: 0,
                   ),
                 ),
                 overlayColor: textButtonTapModification, // Tap feedback color
@@ -286,7 +286,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             padding: const EdgeInsets.all(0),
             icon: const Icon(
               Icons.arrow_drop_down,
-              size: 50,
+              size: kUpDownButtonSize,
             ),
           ),
         ),
@@ -304,7 +304,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             padding: const EdgeInsets.all(0),
             icon: const Icon(
               Icons.arrow_drop_up,
-              size: 50,
+              size: kUpDownButtonSize,
             ),
           ),
         ),
@@ -523,14 +523,14 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         children: [
           _buildPlaylistUrlAndTitle(context),
           const SizedBox(
-            width: kRowWidthSeparator,
+            width: kRowSmallWidthSeparator,
           ),
           _buildAddPlaylistButton(
             context,
             themeProviderVM,
           ),
           const SizedBox(
-            width: kRowWidthSeparator,
+            width: kRowSmallWidthSeparator,
           ),
           _buildDownloadSingleVideoButton(
             context,
@@ -538,7 +538,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             themeProviderVM,
           ),
           const SizedBox(
-            width: kRowWidthSeparator,
+            width: kRowSmallWidthSeparator,
           ),
           _buildStopDownloadButton(
             context,
@@ -634,7 +634,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             ),
             overlayColor: textButtonTapModification, // Tap feedback color
           ),
-          onPressed: () {   
+          onPressed: () {
             PlaylistListVM expandablePlaylistListVM =
                 Provider.of<PlaylistListVM>(context, listen: false);
 

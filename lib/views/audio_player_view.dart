@@ -110,7 +110,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
           children: [
             _buildSetAudioVolumeIconButton(context),
             const SizedBox(
-              width: 30,
+              width: kRowButtonGroupWidthSeparator,
             ),
             _buildSetAudioSpeedTextButton(context),
           ],
@@ -148,7 +148,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 width: kSmallButtonWidth,
                 child: IconButton(
                     icon: const Icon(Icons.arrow_drop_down),
-                    iconSize: 50,
+                    iconSize: kUpDownButtonSize,
                     onPressed: () {
                       globalAudioPlayerVM.decreaseAudioVolume(
                         volumeDecreaseValue: 0.1,
@@ -163,7 +163,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 width: kSmallButtonWidth,
                 child: IconButton(
                     icon: const Icon(Icons.arrow_drop_up),
-                    iconSize: 50,
+                    iconSize: kUpDownButtonSize,
                     onPressed: () {
                       globalAudioPlayerVM.increaseAudioVolume(
                         volumeIncreaseValue: 0.1,
