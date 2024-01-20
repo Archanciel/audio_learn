@@ -232,7 +232,8 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
               currentTheme: themeProviderVM.currentTheme,
             ),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
+              const EdgeInsets.symmetric(
+                  horizontal: kSmallButtonInsidePadding, vertical: 0),
             ),
             overlayColor: textButtonTapModification, // Tap feedback color
           ),
@@ -253,7 +254,10 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
               currentTheme: themeProviderVM.currentTheme,
             ),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
+              const EdgeInsets.symmetric(
+                horizontal: kSmallButtonInsidePadding,
+                vertical: 0,
+              ),
             ),
             overlayColor: textButtonTapModification, // Tap feedback color
           ),
