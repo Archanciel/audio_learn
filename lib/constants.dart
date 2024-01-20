@@ -4,7 +4,8 @@ import 'package:intl/intl.dart';
 const String kApplicationName = "Audio Learn";
 const String kApplicationVersion = '0.8.84';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
-const String kDownloadAppTestDir = '/storage/emulated/0/Download/test/audiolear';
+const String kDownloadAppTestDir =
+    '/storage/emulated/0/Download/test/audiolear';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
 //const String kDownloadAppDir = '/storage/9016-4EF8/Audio';
@@ -13,7 +14,7 @@ const String kDownloadAppDirWindows =
     // 'C:\\Users\\Jean-Pierre\\Downloads\\Audio';
     // 'C:\\Users\\Jean-Pierre\\Downloads\\copy_move_audio_integr_test_data';
     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
-    
+
 // Tests are run on Windows only. Files in this local test dir are stored in project test_data dir updated
 // on GitHub
 const String kDownloadAppTestSavedDataDir =
@@ -60,6 +61,7 @@ const Color kDarkAndLightIconColor =
     Color.fromARGB(246, 44, 61, 255); // rgba(44, 61, 246, 255)
 const Color kButtonColor = Color(0xFF3D3EC2);
 const Color kScreenButtonColor = kSliderThumbColorInDarkMode;
+const double kAudioDefaultPlayVolume = 0.7;
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");

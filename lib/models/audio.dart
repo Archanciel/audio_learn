@@ -102,6 +102,7 @@ class Audio {
   DateTime? audioPausedDateTime;
 
   double audioPlaySpeed = kAudioDefaultPlaySpeed;
+  double audioPlayVolume = kAudioDefaultPlayVolume;
 
   bool isAudioMusicQuality = false;
   bool get isMusicQuality => isAudioMusicQuality;
@@ -142,6 +143,7 @@ class Audio {
     required this.audioDuration,
     required this.isAudioMusicQuality,
     required this.audioPlaySpeed,
+    required this.audioPlayVolume,
     required this.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd,
     required this.isPaused,
     required this.audioPausedDateTime,
@@ -169,6 +171,7 @@ class Audio {
       audioDuration: audioDuration,
       isAudioMusicQuality: isAudioMusicQuality,
       audioPlaySpeed: audioPlaySpeed,
+      audioPlayVolume: audioPlayVolume,
       isPlayingOrPausedWithPositionBetweenAudioStartAndEnd:
           isPlayingOrPausedWithPositionBetweenAudioStartAndEnd,
       isPaused: isPaused,
@@ -207,6 +210,7 @@ class Audio {
       audioDuration: Duration(milliseconds: json['audioDurationMs'] ?? 0),
       isAudioMusicQuality: json['isAudioMusicQuality'] ?? false,
       audioPlaySpeed: json['audioPlaySpeed'] ?? kAudioDefaultPlaySpeed,
+      audioPlayVolume: json['audioPlayVolume'] ?? kAudioDefaultPlayVolume,
       isPlayingOrPausedWithPositionBetweenAudioStartAndEnd:
           json['isPlayingOrPausedWithPositionBetweenAudioStartAndEnd'] ?? false,
       isPaused: json['isPaused'] ?? true,
@@ -238,6 +242,7 @@ class Audio {
       'audioDurationMs': audioDuration?.inMilliseconds,
       'isAudioMusicQuality': isAudioMusicQuality,
       'audioPlaySpeed': audioPlaySpeed,
+      'audioPlayVolume': audioPlayVolume,
       'isPlayingOrPausedWithPositionBetweenAudioStartAndEnd':
           isPlayingOrPausedWithPositionBetweenAudioStartAndEnd,
       'isPaused': isPaused,
@@ -273,7 +278,7 @@ class Audio {
         ? false
         : (audioPositionSeconds >= audioDuration!.inSeconds - 5);
   }
-  
+
   static String buildDownloadDatePrefix(DateTime downloadDate) {
     String formattedDateStr = (kAudioFileNamePrefixIncludeTime)
         ? downloadDateTimePrefixFormatter.format(downloadDate)

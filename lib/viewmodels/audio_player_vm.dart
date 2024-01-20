@@ -1,3 +1,4 @@
+import 'package:audio_learn/constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
@@ -44,9 +45,6 @@ class AudioPlayerVM extends ChangeNotifier {
 
   DateTime _currentAudioLastSaveDateTime = DateTime.now();
 
-  double _audioVolume = 0.7;
-  double get audioVolume => _audioVolume;
-
   AudioPlayerVM({
     required PlaylistListVM playlistListVM,
   }) : _playlistListVM = playlistListVM {
@@ -76,21 +74,23 @@ class AudioPlayerVM extends ChangeNotifier {
   }) {}
 
   /// {volumeIncreaseValue} must be between 0.0 and 1.0. The
-  /// initial audio volume is 0.8 and will be increased by this
+  /// initial audio volume is 0.5 and will be increased by this
   /// value.
   void increaseAudioVolume({required double volumeIncreaseValue,}) {
-    _audioVolume = (_audioVolume + volumeIncreaseValue).clamp(0.0, 1.0); // Increase and clamp to max 1.0
-    _audioPlayer.setVolume(_audioVolume);
+    double newAudioPlayVolume = (_currentAudio!.audioPlayVolume + volumeIncreaseValue).clamp(0.0, 1.0);
+    _currentAudio!.audioPlayVolume = newAudioPlayVolume; // Increase and clamp to max 1.0
+    _audioPlayer.setVolume(newAudioPlayVolume);
 
     notifyListeners();
   }
 
   /// {volumeDecreaseValue} must be between 0.0 and 1.0. The
-  /// initial audio volume is 0.8 and will be decreased by this
+  /// initial audio volume is 0.5 and will be decreased by this
   /// value.
   void decreaseAudioVolume({required double volumeDecreaseValue,}) {
-    _audioVolume = (_audioVolume - volumeDecreaseValue).clamp(0.0, 1.0); // Increase and clamp to max 1.0
-    _audioPlayer.setVolume(_audioVolume);
+    double newAudioPlayVolume = (_currentAudio!.audioPlayVolume - volumeDecreaseValue).clamp(0.0, 1.0);
+    _currentAudio!.audioPlayVolume = newAudioPlayVolume; // Increase and clamp to max 1.0
+    _audioPlayer.setVolume(newAudioPlayVolume);
 
     notifyListeners();
   }
@@ -254,7 +254,7 @@ class AudioPlayerVM extends ChangeNotifier {
         notifyListeners();
       });
 
-      _audioPlayer.setVolume(_audioVolume);
+      _audioPlayer.setVolume(_currentAudio?.audioPlayVolume ?? kAudioDefaultPlayVolume);
 
       _audioPlayer.onPositionChanged.listen((position) {
         if (_audioPlayer.state == PlayerState.playing) {

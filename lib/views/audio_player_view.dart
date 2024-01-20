@@ -110,7 +110,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
           children: [
             _buildSetAudioVolumeIconButton(context),
             const SizedBox(
-              width: kRowWidthSeparator,
+              width: 30,
             ),
             _buildSetAudioSpeedTextButton(context),
           ],
@@ -144,24 +144,32 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             Tooltip(
               message:
                   AppLocalizations.of(context)!.decreaseAudioVolumeIconButton,
-              child: IconButton(
-                  icon: const Icon(Icons.remove),
-                  onPressed: () {
-                    globalAudioPlayerVM.decreaseAudioVolume(
-                      volumeDecreaseValue: 0.1,
-                    );
-                  }),
+              child: SizedBox(
+                width: kSmallButtonWidth,
+                child: IconButton(
+                    icon: const Icon(Icons.arrow_drop_down),
+                    iconSize: 50,
+                    onPressed: () {
+                      globalAudioPlayerVM.decreaseAudioVolume(
+                        volumeDecreaseValue: 0.1,
+                      );
+                    }),
+              ),
             ),
             Tooltip(
               message:
                   AppLocalizations.of(context)!.increaseAudioVolumeIconButton,
-              child: IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () {
-                    globalAudioPlayerVM.increaseAudioVolume(
-                      volumeIncreaseValue: 0.1,
-                    );
-                  }),
+              child: SizedBox(
+                width: kSmallButtonWidth,
+                child: IconButton(
+                    icon: const Icon(Icons.arrow_drop_up),
+                    iconSize: 50,
+                    onPressed: () {
+                      globalAudioPlayerVM.increaseAudioVolume(
+                        volumeIncreaseValue: 0.1,
+                      );
+                    }),
+              ),
             ),
           ],
         );
@@ -190,7 +198,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       currentTheme: themeProviderVM.currentTheme),
                   padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                     const EdgeInsets.symmetric(
-                        horizontal: kSmallButtonInsidePadding),
+                        horizontal: kSmallButtonInsidePadding, vertical: 0),
                   ),
                   overlayColor: textButtonTapModification, // Tap feedback color
                 ),

@@ -253,7 +253,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 ),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(
-                      horizontal: kSmallButtonInsidePadding),
+                      horizontal: kSmallButtonInsidePadding,
+                      vertical: 0,
+                  ),
                 ),
                 overlayColor: textButtonTapModification, // Tap feedback color
               ),
@@ -267,24 +269,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     ? kTextButtonStyleDarkMode
                     : kTextButtonStyleLightMode,
               ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: kSmallButtonWidth,
-          child: IconButton(
-            key: const Key('move_up_playlist_button'),
-            onPressed: Provider.of<PlaylistListVM>(context)
-                    .isButtonMoveUpPlaylistEnabled
-                ? () {
-                    Provider.of<PlaylistListVM>(context, listen: false)
-                        .moveSelectedItemUp();
-                  }
-                : null,
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(
-              Icons.arrow_drop_up,
-              size: 50,
             ),
           ),
         ),
@@ -307,6 +291,24 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           ),
         ),
         SizedBox(
+          width: kSmallButtonWidth,
+          child: IconButton(
+            key: const Key('move_up_playlist_button'),
+            onPressed: Provider.of<PlaylistListVM>(context)
+                    .isButtonMoveUpPlaylistEnabled
+                ? () {
+                    Provider.of<PlaylistListVM>(context, listen: false)
+                        .moveSelectedItemUp();
+                  }
+                : null,
+            padding: const EdgeInsets.all(0),
+            icon: const Icon(
+              Icons.arrow_drop_up,
+              size: 50,
+            ),
+          ),
+        ),
+        SizedBox(
           width: kGreaterButtonWidth + 10,
           child: Tooltip(
             message:
@@ -320,7 +322,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     context: context),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(
-                      horizontal: kSmallButtonInsidePadding),
+                    horizontal: kSmallButtonInsidePadding,
+                    vertical: 0,
+                  ),
                 ),
                 overlayColor: textButtonTapModification, // Tap feedback color
               ),
@@ -567,7 +571,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               context: context,
             ),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
+              const EdgeInsets.symmetric(
+                horizontal: kSmallButtonInsidePadding,
+                vertical: 0,
+              ),
             ),
             overlayColor: textButtonTapModification, // Tap feedback color
           ),
@@ -620,11 +627,14 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             shape: getButtonRoundedShape(
                 currentTheme: themeProviderVM.currentTheme),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
+              const EdgeInsets.symmetric(
+                  horizontal: kSmallButtonInsidePadding,
+                  // necessary to display english text
+                  vertical: 0),
             ),
             overlayColor: textButtonTapModification, // Tap feedback color
           ),
-          onPressed: () {
+          onPressed: () {   
             PlaylistListVM expandablePlaylistListVM =
                 Provider.of<PlaylistListVM>(context, listen: false);
 
@@ -823,7 +833,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             shape: getButtonRoundedShape(
                 currentTheme: themeProviderVM.currentTheme),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(horizontal: kSmallButtonInsidePadding),
+              const EdgeInsets.symmetric(
+                horizontal: kSmallButtonInsidePadding,
+                vertical: 0,
+              ),
             ),
             overlayColor: textButtonTapModification, // Tap feedback color
           ),
