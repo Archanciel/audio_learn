@@ -739,14 +739,16 @@ void main() {
     });
   });
   group('AudioPlayerView display audio list.', () {
+    const Color fullyPlayedAudioTitleColor = kSliderThumbColorInDarkMode;
+    const Color currentlyPlayingAudioColor = Colors.blue;
+    const Color? unplayedOrPartiallyPlayedAudioTitleColor = null;
+
     testWidgets('Current audio partially listened.',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
       const String currentPartiallyPlayedAudioTitle =
           "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau";
-      const String lastDownloadedAudioTitle =
-          "La résilience insulaire par Fiona Roche\n13:35";
 
       await initializeApplicationAndSelectPlaylist(
         tester: tester,
@@ -783,7 +785,32 @@ void main() {
         tester: tester,
         audioTitle:
             "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)",
-        expectedColor: kSliderThumbColorInDarkMode,
+        expectedColor: fullyPlayedAudioTitleColor,
+      );
+
+      await _checkAudioTextColor(
+        tester: tester,
+        audioTitle:
+            "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
+        expectedColor: currentlyPlayingAudioColor,
+      );
+
+      await _checkAudioTextColor(
+        tester: tester,
+        audioTitle: "Les besoins artificiels par R.Keucheyan",
+        expectedColor: fullyPlayedAudioTitleColor,
+      );
+
+      await _checkAudioTextColor(
+        tester: tester,
+        audioTitle: "Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik",
+        expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
+      );
+
+      await _checkAudioTextColor(
+        tester: tester,
+        audioTitle: "La résilience insulaire par Fiona Roche",
+        expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
       );
 
       // Purge the test playlist directory so that the created test
@@ -796,7 +823,7 @@ void main() {
 Future<void> _checkAudioTextColor({
   required WidgetTester tester,
   required String audioTitle,
-  required Color expectedColor,
+  required Color? expectedColor,
 }) async {
   // Find the Text widget by its text content
   final Finder textFinder = find.text(audioTitle);
