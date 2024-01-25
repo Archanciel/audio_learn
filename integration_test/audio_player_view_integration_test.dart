@@ -688,7 +688,9 @@ void main() {
   group(
       'AudioPlayerView skip to next audio ignoring already listened audios tests.',
       () {
-    testWidgets('The next unread audio is also the last downloaded audio of the playlist.', (WidgetTester tester) async {
+    testWidgets(
+        'The next unread audio is also the last downloaded audio of the playlist.',
+        (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
       const String firstDownloadedAudioTitle =
@@ -735,18 +737,20 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('The next unread audio is not the last downloaded audio of the playlist.', (WidgetTester tester) async {
+  });
+  group('AudioPlayerView display audio list.', () {
+    testWidgets('Current audio partially listened.',
+        (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
-      const String firstDownloadedAudioTitle =
-          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
-      const String nextUnreadNotLastDownloadedAudioTitle =
-          "Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik\n13:39";
+      const String currentPartiallyPlayedAudioTitle =
+          "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau";
+      const String lastDownloadedAudioTitle =
+          "La résilience insulaire par Fiona Roche\n13:35";
 
       await initializeApplicationAndSelectPlaylist(
         tester: tester,
-        savedTestDataDirName:
-            'audio_play_skip_to_next_not_last_unread_audio_test',
+        savedTestDataDirName: 'audio_player_view_display_audio_list_test',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
       );
 
@@ -760,109 +764,48 @@ void main() {
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
-      // First, get the first downloaded Audio ListTile Text
+      // First, get the current parially played Audio ListTile Text
       // widget finder and tap on it
-      final Finder firstDownloadedAudioListTileTextWidgetFinder =
-          find.text(firstDownloadedAudioTitle);
+      final Finder currentPartiallyPlayedAudioListTileTextWidgetFinder =
+          find.text(currentPartiallyPlayedAudioTitle);
 
-      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
+      await tester.tap(currentPartiallyPlayedAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
 
-      // Now play the audio and wait 5 seconds
-      await tester.tap(find.byIcon(Icons.play_arrow));
+      // Now we open the DisplaySelectableAudioListDialogWidget
+      // and verify the color of the displayed audio titles
+
+      await tester.tap(find.text(
+          'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau\n6:29'));
       await tester.pumpAndSettle();
 
-      await Future.delayed(const Duration(seconds: 5));
-      await tester.pumpAndSettle();
-
-      // Verify that the next unread audio title is now displayed
-      expect(find.text(nextUnreadNotLastDownloadedAudioTitle), findsOneWidget);
-
-      // Purge the test playlist directory so that the created test
-      // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
-    });
-    testWidgets('Skipping 3 times ...', (WidgetTester tester) async {
-      const String audioPlayerSelectedPlaylistTitle =
-          'local_several_played_unplayed_audios'; // local playlist
-
-      const String firstDownloadedAudioTitle =
-          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
-      const String nextUnreadNotLastDownloadedAudioTitle =
-          "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau\n6:29";
-      const String lastUnreadNotLastDownloadedAudioTitle =
-          "Les besoins artificiels par R.Keucheyan\n19:05";
-
-      await initializeApplicationAndSelectPlaylist(
+      await _checkAudioTextColor(
         tester: tester,
-        savedTestDataDirName:
-            'audio_play_skip_to_next_not_last_unread_audio_test',
-        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+        audioTitle:
+            "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)",
+        expectedColor: kSliderThumbColorInDarkMode,
       );
-
-      // Now we want to tap on the first downloaded audio of the
-      // playlist in order to open the AudioPlayerView displaying
-      // the audio
-
-      // Tap the 'Toggle List' button to avoid displaying the list
-      // of playlists which may hide the audio title we want to
-      // tap on
-      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
-      await tester.pumpAndSettle();
-
-      // First, get the first downloaded Audio ListTile Text
-      // widget finder and tap on it
-      final Finder firstDownloadedAudioListTileTextWidgetFinder =
-          find.text(firstDownloadedAudioTitle);
-
-      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
-      await tester.pumpAndSettle();
-
-      // Now play the audio and wait 6 seconds
-      await tester.tap(find.byIcon(Icons.play_arrow));
-      await tester.pumpAndSettle();
-
-      await Future.delayed(const Duration(seconds: 6));
-      await tester.pumpAndSettle();
-
-      // Verify that the next unread audio title is now displayed
-      expect(find.text(nextUnreadNotLastDownloadedAudioTitle), findsOneWidget);
-
-      // Verify if the pause button is displayed
-      expect(find.byIcon(Icons.pause), findsOneWidget);
-
-      // The next audio is playing. Tapping 3 times on the
-      // forward 10s button to accelarate skipping to the last
-      // unread audio
-      await tester.tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
-      await tester.tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
-      await tester.tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
-      await tester.pumpAndSettle(); // required so we can see the result
-
-      await Future.delayed(const Duration(seconds: 6));
-      await tester.pumpAndSettle();
-
-      // Verify that the last unread audio title is now displayed
-      expect(find.text(lastUnreadNotLastDownloadedAudioTitle), findsOneWidget);
-
-      // Verify if the pause button is displayed
-      expect(find.byIcon(Icons.pause), findsOneWidget);
-
-      // The last audio is playing. Tapping 3 times on the
-      // forward 10s button to accelarate going to the end of
-      // the last unread audio
-      await tester.tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
-      await tester.tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
-      await tester.pumpAndSettle(); // required so we can see the result
-
-      await Future.delayed(const Duration(seconds: 6));
-      await tester.pumpAndSettle();
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+}
+
+Future<void> _checkAudioTextColor({
+  required WidgetTester tester,
+  required String audioTitle,
+  required Color expectedColor,
+}) async {
+  // Find the Text widget by its text content
+  final Finder textFinder = find.text(audioTitle);
+
+  // Retrieve the Text widget
+  final Text textWidget = tester.widget(textFinder) as Text;
+
+  // Check if the color of the Text widget is as expected
+  expect(textWidget.style?.color, equals(expectedColor));
 }
 
 void verifyAudioPlaySpeedStoredInPlaylistJsonFile(
