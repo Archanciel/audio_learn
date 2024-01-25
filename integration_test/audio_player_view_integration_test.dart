@@ -743,7 +743,7 @@ void main() {
     const Color currentlyPlayingAudioColor = Colors.blue;
     const Color? unplayedOrPartiallyPlayedAudioTitleColor = null;
 
-    testWidgets('Current audio partially listened.',
+    testWidgets('Current audio partially listened. All audio displayed',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
@@ -799,6 +799,74 @@ void main() {
         tester: tester,
         audioTitle: "Les besoins artificiels par R.Keucheyan",
         expectedColor: fullyPlayedAudioTitleColor,
+      );
+
+      await _checkAudioTextColor(
+        tester: tester,
+        audioTitle: "Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik",
+        expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
+      );
+
+      await _checkAudioTextColor(
+        tester: tester,
+        audioTitle: "La résilience insulaire par Fiona Roche",
+        expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('Current audio partially listened. Only no played or partially played audio displayed',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String currentPartiallyPlayedAudioTitle =
+          "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_view_display_audio_list_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the current parially played Audio ListTile Text
+      // widget finder and tap on it
+      final Finder currentPartiallyPlayedAudioListTileTextWidgetFinder =
+          find.text(currentPartiallyPlayedAudioTitle);
+
+      await tester.tap(currentPartiallyPlayedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now we open the DisplaySelectableAudioListDialogWidget
+      // and verify the color of the displayed audio titles
+
+      await tester.tap(find.text(
+          'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau\n6:29'));
+      await tester.pumpAndSettle();
+
+      // Tap the Exclude fuly played audio checkbox
+      await tester.tap(find.byKey(const Key('excludeFullyPlayedAudiosCheckbox')));
+      await tester.pumpAndSettle();
+
+      expect(find.text("3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)"), findsNothing);
+      expect(find.text("Les besoins artificiels par R.Keucheyan"), findsNothing);
+
+      await _checkAudioTextColor(
+        tester: tester,
+        audioTitle:
+            "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
+        expectedColor: currentlyPlayingAudioColor,
       );
 
       await _checkAudioTextColor(

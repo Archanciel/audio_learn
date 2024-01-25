@@ -185,6 +185,7 @@ class _ListPlayableAudiosDialogWidgetState
               width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
               height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
               child: Checkbox(
+                key: const Key('excludeFullyPlayedAudiosCheckbox'),
                 value: _excludeFullyPlayedAudios,
                 onChanged: (bool? newValue) {
                   setState(() {
