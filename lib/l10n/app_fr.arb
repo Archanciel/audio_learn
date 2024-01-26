@@ -223,6 +223,7 @@
   "audioStateNotStarted": "Non démarré",
   "audioPausedDateTimeLabel": "Date/heure mise en pause",
   "audioPlaySpeedLabel": "Vitesse lecture",
+  "audioPlayVolumeLabel": "Volume lecture",
   "audioCopiedFromLocalPlaylistToLocalPlaylist": "Audio \"{audioTitle}\" copié de la playlist locale \"{fromPlaylistTitle}\" vers la playlist locale \"{toPlaylistTitle}\".",
   "audioCopiedFromLocalPlaylistToYoutubePlaylist": "Audio \"{audioTitle}\" copié de la playlist locale \"{fromPlaylistTitle}\" vers la playlist Youtube \"{toPlaylistTitle}\".",
   "audioCopiedFromYoutubePlaylistToLocalPlaylistPlaylistWarning": "Audio \"{audioTitle}\" copié de la playlist Youtube \"{fromPlaylistTitle}\" vers la playlist locale \"{toPlaylistTitle}\".\n\nSUPPRIME L'AUDIO \"{audioTitle}\" DE LA PLAYLIST YOUTUBE \"{fromPlaylistTitle}\", SINON L'AUDIO SERA TÉLÉCHARGÉ À NOUVEAU LORS DU PROCHAIN TÉLÉCHARGEMENT DE LA PLAYLIST.",

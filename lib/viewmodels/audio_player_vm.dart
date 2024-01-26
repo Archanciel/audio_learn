@@ -73,13 +73,27 @@ class AudioPlayerVM extends ChangeNotifier {
     required Playlist selectedPlaylist,
   }) {}
 
-  /// {volumeIncreaseValue} must be between 0.0 and 1.0. The
-  /// initial audio volume is 0.5 and will be increased by this
-  /// value.
-  void increaseAudioVolume({required double volumeIncreaseValue,}) {
-    double newAudioPlayVolume = (_currentAudio!.audioPlayVolume + volumeIncreaseValue).clamp(0.0, 1.0);
-    _currentAudio!.audioPlayVolume = newAudioPlayVolume; // Increase and clamp to max 1.0
+  bool isCurrentAudioVolumeMax() {
+    return _currentAudio!.audioPlayVolume == 1.0;
+  }
+
+  bool isCurrentAudioVolumeMin() {
+    return _currentAudio!.audioPlayVolume == 0.0;
+  }
+  
+  /// {volumeChangedValue} must be between -1.0 and 1.0. The
+  /// initial audio volume is 0.5 and will be decreased or
+  /// increased by this value.
+  void changeAudioVolume({
+    required double volumeChangedValue,
+  }) {
+    double newAudioPlayVolume =
+        (_currentAudio!.audioPlayVolume + volumeChangedValue).clamp(0.0, 1.0);
+    _currentAudio!.audioPlayVolume =
+        newAudioPlayVolume; // Increase and clamp to max 1.0
     _audioPlayer.setVolume(newAudioPlayVolume);
+
+    updateAndSaveCurrentAudio(forceSave: true);
 
     notifyListeners();
   }
@@ -87,9 +101,13 @@ class AudioPlayerVM extends ChangeNotifier {
   /// {volumeDecreaseValue} must be between 0.0 and 1.0. The
   /// initial audio volume is 0.5 and will be decreased by this
   /// value.
-  void decreaseAudioVolume({required double volumeDecreaseValue,}) {
-    double newAudioPlayVolume = (_currentAudio!.audioPlayVolume - volumeDecreaseValue).clamp(0.0, 1.0);
-    _currentAudio!.audioPlayVolume = newAudioPlayVolume; // Increase and clamp to max 1.0
+  void decreaseAudioVolume({
+    required double volumeChangedValue,
+  }) {
+    double newAudioPlayVolume =
+        (_currentAudio!.audioPlayVolume - volumeChangedValue).clamp(0.0, 1.0);
+    _currentAudio!.audioPlayVolume =
+        newAudioPlayVolume; // Increase and clamp to max 1.0
     _audioPlayer.setVolume(newAudioPlayVolume);
 
     notifyListeners();
@@ -254,7 +272,8 @@ class AudioPlayerVM extends ChangeNotifier {
         notifyListeners();
       });
 
-      _audioPlayer.setVolume(_currentAudio?.audioPlayVolume ?? kAudioDefaultPlayVolume);
+      _audioPlayer
+          .setVolume(_currentAudio?.audioPlayVolume ?? kAudioDefaultPlayVolume);
 
       _audioPlayer.onPositionChanged.listen((position) {
         if (_audioPlayer.state == PlayerState.playing) {

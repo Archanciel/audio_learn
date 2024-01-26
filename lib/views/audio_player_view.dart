@@ -149,11 +149,13 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 child: IconButton(
                     icon: const Icon(Icons.arrow_drop_down),
                     iconSize: kUpDownButtonSize,
-                    onPressed: () {
-                      globalAudioPlayerVM.decreaseAudioVolume(
-                        volumeDecreaseValue: 0.1,
-                      );
-                    }),
+                    onPressed: globalAudioPlayerVM.isCurrentAudioVolumeMin()
+                        ? null // Disable the button if the volume is min
+                        : () {
+                            globalAudioPlayerVM.changeAudioVolume(
+                              volumeChangedValue: -0.1,
+                            );
+                          }),
               ),
             ),
             Tooltip(
@@ -164,11 +166,13 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 child: IconButton(
                     icon: const Icon(Icons.arrow_drop_up),
                     iconSize: kUpDownButtonSize,
-                    onPressed: () {
-                      globalAudioPlayerVM.increaseAudioVolume(
-                        volumeIncreaseValue: 0.1,
-                      );
-                    }),
+                    onPressed: globalAudioPlayerVM.isCurrentAudioVolumeMax()
+                        ? null // Disable the button if the volume is max
+                        : () {
+                            globalAudioPlayerVM.changeAudioVolume(
+                              volumeChangedValue: 0.1,
+                            );
+                          }),
               ),
             ),
           ],

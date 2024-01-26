@@ -583,6 +583,9 @@ class MockAppLocalizations extends AppLocalizations {
   String get audioPlaySpeedLabel => 'Play speed';
 
   @override
+  String get audioPlayVolumeLabel => 'Play volume';
+
+  @override
   String audioCopiedFromLocalPlaylistToLocalPlaylist(
       Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" copied from local playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".';
