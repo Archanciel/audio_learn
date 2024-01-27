@@ -74,10 +74,18 @@ class AudioPlayerVM extends ChangeNotifier {
   }) {}
 
   bool isCurrentAudioVolumeMax() {
+    if (_currentAudio == null) {
+      return false;
+    }
+
     return _currentAudio!.audioPlayVolume == 1.0;
   }
 
   bool isCurrentAudioVolumeMin() {
+    if (_currentAudio == null) {
+      return false;
+    }
+    
     return _currentAudio!.audioPlayVolume == 0.0;
   }
   
