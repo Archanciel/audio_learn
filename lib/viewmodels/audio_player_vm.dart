@@ -9,6 +9,63 @@ import '../services/json_data_service.dart';
 import '../utils/duration_expansion.dart';
 import 'playlist_list_vm.dart';
 
+abstract class Command {
+  void redo();
+  void undo();
+}
+
+class ForwardCommand implements Command {
+  final int seconds;
+  final AudioPlayerVM audioPlayerVM;
+
+  ForwardCommand({
+    required this.audioPlayerVM,
+    required this.seconds,
+  });
+
+  @override
+  void redo() {
+    audioPlayerVM.changeAudioPlayPosition(
+      positiveOrNegativeDuration: Duration(seconds: seconds),
+      isUndoRedo: true,
+    );
+  }
+
+  @override
+  void undo() {
+    audioPlayerVM.changeAudioPlayPosition(
+      positiveOrNegativeDuration: Duration(seconds: -seconds),
+      isUndoRedo: true,
+    );
+  }
+}
+
+class BackwardCommand implements Command {
+  final int seconds;
+  final AudioPlayerVM audioPlayerVM;
+
+  BackwardCommand({
+    required this.audioPlayerVM,
+    required this.seconds,
+  });
+
+  @override
+  void redo() {
+    audioPlayerVM.changeAudioPlayPosition(
+      positiveOrNegativeDuration: Duration(seconds: -seconds),
+      isUndoRedo: true,
+    );
+  }
+
+  @override
+  void undo() {
+    audioPlayerVM.changeAudioPlayPosition(
+      positiveOrNegativeDuration: Duration(seconds: seconds),
+      isUndoRedo: true,
+    );
+  }
+}
+
 /// This VM (View Model) class is part of the MVVM architecture.
 ///
 /// This class manages the audio player obtained from the
@@ -44,6 +101,9 @@ class AudioPlayerVM extends ChangeNotifier {
   bool get isPlaying => _audioPlayer.state == PlayerState.playing;
 
   DateTime _currentAudioLastSaveDateTime = DateTime.now();
+
+  final List<Command> _undoList = [];
+  final List<Command> _redoList = [];
 
   AudioPlayerVM({
     required PlaylistListVM playlistListVM,
@@ -85,10 +145,10 @@ class AudioPlayerVM extends ChangeNotifier {
     if (_currentAudio == null) {
       return false;
     }
-    
+
     return _currentAudio!.audioPlayVolume == 0.0;
   }
-  
+
   /// {volumeChangedValue} must be between -1.0 and 1.0. The
   /// initial audio volume is 0.5 and will be decreased or
   /// increased by this value.
@@ -415,9 +475,15 @@ class AudioPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Method called when the user clicks on the '<<' or '>>' buttons
-  Future<void> changeAudioPlayPosition(
-      Duration positiveOrNegativeDuration) async {
+  /// Method called when the user clicks on the '<<' or '>>' buttons.
+  ///
+  /// {isUndoRedo} is true when the method is called by the AudioPlayerVM
+  /// undo or redo methods. In this case, the method does not add a
+  /// command to the undo list.
+  Future<void> changeAudioPlayPosition({
+    required Duration positiveOrNegativeDuration,
+    bool isUndoRedo = false,
+  }) async {
     Duration currentAudioDuration =
         _currentAudio!.audioDuration ?? Duration.zero;
     Duration newAudioPosition =
@@ -437,6 +503,22 @@ class AudioPlayerVM extends ChangeNotifier {
       _currentAudioPosition = newAudioPosition;
     }
 
+    if (!isUndoRedo) {
+      int inSeconds = positiveOrNegativeDuration.inSeconds;
+
+      Command command = (inSeconds > 0)
+          ? ForwardCommand(
+              audioPlayerVM: this,
+              seconds: inSeconds,
+            )
+          : BackwardCommand(
+              audioPlayerVM: this,
+              seconds: -inSeconds,
+            );
+
+      _undoList.add(command);
+    }
+
     // necessary so that the audio position is stored on the
     // audio
     _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
@@ -450,8 +532,32 @@ class AudioPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Method called when the user clicks on the audio slider
-  Future<void> goToAudioPlayPosition(Duration position) async {
+  /// Method called when the user clicks on the audio slider.
+  ///
+  /// {isUndoRedo} is true when the method is called by the AudioPlayerVM
+  /// undo or redo methods. In this case, the method does not add a
+  /// command to the undo list.
+  Future<void> goToAudioPlayPosition({
+    required position,
+    bool isUndoRedo = false,
+  }) async {
+    if (!isUndoRedo) {
+      int inSeconds =
+          position.inSeconds - _currentAudioPosition.inSeconds as int;
+
+      Command command = (inSeconds > 0)
+          ? ForwardCommand(
+              audioPlayerVM: this,
+              seconds: inSeconds,
+            )
+          : BackwardCommand(
+              audioPlayerVM: this,
+              seconds: -inSeconds,
+            );
+
+      _undoList.add(command);
+    }
+
     _currentAudioPosition = position; // Immediately update the position
 
     // necessary so that the audio position is stored on the
@@ -463,7 +569,14 @@ class AudioPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> skipToStart() async {
+  /// Method called when the user clicks on the '|<' buttons.
+  ///
+  /// {isUndoRedo} is true when the method is called by the AudioPlayerVM
+  /// undo or redo methods. In this case, the method does not add a
+  /// command to the undo list.
+  Future<void> skipToStart({
+    bool isUndoRedo = false,
+  }) async {
     if (_currentAudioPosition.inSeconds == 0) {
       // situation when the user clicks on |< when the audio
       // position is at audio start. The case if the user clicked
@@ -473,6 +586,17 @@ class AudioPlayerVM extends ChangeNotifier {
       notifyListeners();
 
       return;
+    }
+
+    if (!isUndoRedo) {
+      int inSeconds = 0 - _currentAudioPosition.inSeconds;
+
+      Command command = BackwardCommand(
+        audioPlayerVM: this,
+        seconds: -inSeconds,
+      );
+
+      _undoList.add(command);
     }
 
     _currentAudioPosition = Duration.zero;
@@ -486,7 +610,13 @@ class AudioPlayerVM extends ChangeNotifier {
   }
 
   /// Method not used for the moment
-  Future<void> skipToEndNoPlay() async {
+  ///
+  /// {isUndoRedo} is true when the method is called by the AudioPlayerVM
+  /// undo or redo methods. In this case, the method does not add a
+  /// command to the undo list.
+  Future<void> skipToEndNoPlay({
+    bool isUndoRedo = false,
+  }) async {
     if (_currentAudioPosition == _currentAudioTotalDuration) {
       updateAndSaveCurrentAudio();
 
@@ -509,7 +639,20 @@ class AudioPlayerVM extends ChangeNotifier {
     // _currentAudioPosition =
     //     _currentAudioTotalDuration - const Duration(seconds: 1);
 
+    if (!isUndoRedo) {
+      int inSeconds = _currentAudioTotalDuration.inSeconds -
+          _currentAudioPosition.inSeconds;
+
+      Command command = ForwardCommand(
+        audioPlayerVM: this,
+        seconds: inSeconds,
+      );
+
+      _undoList.add(command);
+    }
+
     _currentAudioPosition = _currentAudioTotalDuration;
+
     // necessary so that the audio position is stored on the
     // audio
     _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
@@ -523,7 +666,13 @@ class AudioPlayerVM extends ChangeNotifier {
 
   /// Method called when the user clicks on the >| icon,
   /// either the first time or the second time.
-  Future<void> skipToEndAndPlay() async {
+  ///
+  /// {isUndoRedo} is true when the method is called by the AudioPlayerVM
+  /// undo or redo methods. In this case, the method does not add a
+  /// command to the undo list.
+  Future<void> skipToEndAndPlay({
+    bool isUndoRedo = false,
+  }) async {
     if (_currentAudioPosition == _currentAudioTotalDuration) {
       // situation when the user clicks on >| when the audio
       // position is at audio end. This is also the case when
@@ -535,6 +684,18 @@ class AudioPlayerVM extends ChangeNotifier {
 
     // part of method executed when the user click the first time
     // on the >| icon button
+
+    if (!isUndoRedo) {
+      int inSeconds = _currentAudioTotalDuration.inSeconds -
+          _currentAudioPosition.inSeconds;
+
+      Command command = ForwardCommand(
+        audioPlayerVM: this,
+        seconds: inSeconds,
+      );
+
+      _undoList.add(command);
+    }
 
     _currentAudioPosition = _currentAudioTotalDuration;
     _currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
@@ -677,5 +838,42 @@ class AudioPlayerVM extends ChangeNotifier {
     updateAndSaveCurrentAudio(forceSave: true);
 
     notifyListeners();
+  }
+
+  // void _executeCommand(Command command) {
+  //   command.execute();
+  //   _undoList.add(command);
+  //   // redoList.clear();
+  //   notifyListeners();
+  // }
+
+  void undo() {
+    if (_undoList.isNotEmpty) {
+      Command command = _undoList.removeLast();
+      command.undo();
+      _redoList.add(command);
+      notifyListeners();
+    }
+  }
+
+  void redo() {
+    if (_redoList.isNotEmpty) {
+      Command command = _redoList.removeLast();
+      command.redo();
+      _undoList.add(command);
+      notifyListeners();
+    }
+  }
+
+  /// Method used to activate or deactivate the AudioPlayerView
+  /// undo button
+  bool isUndoListEmpty() {
+    return _undoList.isEmpty;
+  }
+
+  /// Method used to activate or deactivate the AudioPlayerView
+  /// redo button
+  bool isRedoListEmpty() {
+    return _redoList.isEmpty;
   }
 }

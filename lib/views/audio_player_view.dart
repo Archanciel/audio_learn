@@ -22,6 +22,7 @@ class AudioPlayerView extends StatefulWidget {
 
 class _AudioPlayerViewState extends State<AudioPlayerView>
     with WidgetsBindingObserver, ScreenMixin {
+  final double _audioIconSizeSmall = 35;
   final double _audioIconSizeMedium = 40;
   final double _audioIconSizeLarge = 80;
   late double _audioPlaySpeed;
@@ -90,15 +91,15 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
 
   @override
   Widget build(BuildContext context) {
-    AudioPlayerVM audioGlobalPlayerVM = Provider.of<AudioPlayerVM>(
+    AudioPlayerVM globalAudioPlayerVM = Provider.of<AudioPlayerVM>(
       context,
       listen: false,
     );
 
-    if (audioGlobalPlayerVM.currentAudio == null) {
+    if (globalAudioPlayerVM.currentAudio == null) {
       _audioPlaySpeed = 1.0;
     } else {
-      _audioPlaySpeed = audioGlobalPlayerVM.currentAudio!.audioPlaySpeed;
+      _audioPlaySpeed = globalAudioPlayerVM.currentAudio!.audioPlaySpeed;
     }
 
     return Column(
@@ -147,15 +148,16 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               child: SizedBox(
                 width: kSmallButtonWidth,
                 child: IconButton(
-                    icon: const Icon(Icons.arrow_drop_down),
-                    iconSize: kUpDownButtonSize,
-                    onPressed: globalAudioPlayerVM.isCurrentAudioVolumeMin()
-                        ? null // Disable the button if the volume is min
-                        : () {
-                            globalAudioPlayerVM.changeAudioVolume(
-                              volumeChangedValue: -0.1,
-                            );
-                          }),
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: kUpDownButtonSize,
+                  onPressed: globalAudioPlayerVM.isCurrentAudioVolumeMin()
+                      ? null // Disable the button if the volume is min
+                      : () {
+                          globalAudioPlayerVM.changeAudioVolume(
+                            volumeChangedValue: -0.1,
+                          );
+                        },
+                ),
               ),
             ),
             Tooltip(
@@ -252,7 +254,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
 
   Widget _buildPlayButton() {
     return Consumer<AudioPlayerVM>(
-      builder: (context, audioGlobalPlayerVM, child) {
+      builder: (context, globalAudioPlayerVM, child) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -261,11 +263,11 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               child: IconButton(
                 iconSize: _audioIconSizeLarge,
                 onPressed: (() async {
-                  audioGlobalPlayerVM.isPlaying
-                      ? await audioGlobalPlayerVM.pause()
-                      : await audioGlobalPlayerVM.playFromCurrentAudioFile();
+                  globalAudioPlayerVM.isPlaying
+                      ? await globalAudioPlayerVM.pause()
+                      : await globalAudioPlayerVM.playFromCurrentAudioFile();
                 }),
-                icon: Icon(audioGlobalPlayerVM.isPlaying
+                icon: Icon(globalAudioPlayerVM.isPlaying
                     ? Icons.pause
                     : Icons.play_arrow),
               ),
@@ -278,9 +280,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
 
   Widget _buildStartEndButtonsWithTitle() {
     return Consumer<AudioPlayerVM>(
-      builder: (context, audioGlobalPlayerVM, child) {
+      builder: (context, globalAudioPlayerVM, child) {
         String? currentAudioTitleWithDuration =
-            audioGlobalPlayerVM.getCurrentAudioTitleWithDuration();
+            globalAudioPlayerVM.getCurrentAudioTitleWithDuration();
 
         // If the current audio title is null, set it to the
         // 'no current audio' translated title
@@ -293,13 +295,13 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             IconButton(
               key: const Key('audioPlayerViewSkipToStartButton'),
               iconSize: _audioIconSizeMedium,
-              onPressed: () => audioGlobalPlayerVM.skipToStart(),
+              onPressed: () => globalAudioPlayerVM.skipToStart(),
               icon: const Icon(Icons.skip_previous),
             ),
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  if (audioGlobalPlayerVM
+                  if (globalAudioPlayerVM
                       .getPlayableAudiosOrderedByDownloadDate()
                       .isEmpty) {
                     // there is no audio to play
@@ -320,7 +322,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             ),
             GestureDetector(
               onLongPress: () {
-                if (audioGlobalPlayerVM
+                if (globalAudioPlayerVM
                     .getPlayableAudiosOrderedByDownloadDate()
                     .isEmpty) {
                   // there is no audio to play
@@ -332,7 +334,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               child: IconButton(
                 key: const Key('audioPlayerViewSkipToEndButton'),
                 iconSize: _audioIconSizeMedium,
-                onPressed: () => audioGlobalPlayerVM.skipToEndAndPlay(),
+                onPressed: () => globalAudioPlayerVM.skipToEndAndPlay(),
                 icon: const Icon(Icons.skip_next),
               ),
             ),
@@ -344,15 +346,15 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
 
   Widget _buildAudioSlider() {
     return Consumer<AudioPlayerVM>(
-      builder: (context, audioGlobalPlayerVM, child) {
-        // Obtaining the slider values here (when audioGlobalPlayerVM
+      builder: (context, globalAudioPlayerVM, child) {
+        // Obtaining the slider values here (when globalAudioPlayerVM
         // call notifyListeners()) avoids that the slider generate
         // a 'Value xxx.x is not between minimum 0.0 and maximum 0.0'
         // error
         double sliderValue =
-            audioGlobalPlayerVM.currentAudioPosition.inSeconds.toDouble();
+            globalAudioPlayerVM.currentAudioPosition.inSeconds.toDouble();
         double maxDuration =
-            audioGlobalPlayerVM.currentAudioTotalDuration.inSeconds.toDouble();
+            globalAudioPlayerVM.currentAudioTotalDuration.inSeconds.toDouble();
 
         // Ensure the slider value is within the range
         sliderValue = sliderValue.clamp(0.0, maxDuration);
@@ -364,7 +366,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             children: [
               Text(
                 key: const Key('audioPlayerViewAudioPosition'),
-                audioGlobalPlayerVM.currentAudioPosition.HHmmssZeroHH(),
+                globalAudioPlayerVM.currentAudioPosition.HHmmssZeroHH(),
                 style: kSliderValueTextStyle,
               ),
               Expanded(
@@ -380,8 +382,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     max: maxDuration,
                     value: sliderValue,
                     onChanged: (double value) {
-                      audioGlobalPlayerVM.goToAudioPlayPosition(
-                        Duration(seconds: value.toInt()),
+                      globalAudioPlayerVM.goToAudioPlayPosition(
+                        position: Duration(seconds: value.toInt()),
                       );
                     },
                   ),
@@ -389,7 +391,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               ),
               Text(
                 key: const Key('audioPlayerViewAudioRemainingDuration'),
-                audioGlobalPlayerVM.currentAudioRemainingDuration
+                globalAudioPlayerVM.currentAudioRemainingDuration
                     .HHmmssZeroHH(),
                 style: kSliderValueTextStyle,
               ),
@@ -402,7 +404,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
 
   Widget _buildPositionButtons() {
     return Consumer<AudioPlayerVM>(
-      builder: (context, audioGlobalPlayerVM, child) {
+      builder: (context, globalAudioPlayerVM, child) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -421,8 +423,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                             key: const Key('audioPlayerViewRewind1mButton'),
                             iconSize: _audioIconSizeMedium,
                             onPressed: () =>
-                                audioGlobalPlayerVM.changeAudioPlayPosition(
-                              const Duration(minutes: -1),
+                                globalAudioPlayerVM.changeAudioPlayPosition(
+                              positiveOrNegativeDuration:
+                                  const Duration(minutes: -1),
                             ),
                             icon: const Icon(Icons.fast_rewind),
                           ),
@@ -432,8 +435,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                             key: const Key('audioPlayerViewRewind10sButton'),
                             iconSize: _audioIconSizeMedium,
                             onPressed: () =>
-                                audioGlobalPlayerVM.changeAudioPlayPosition(
-                              const Duration(seconds: -10),
+                                globalAudioPlayerVM.changeAudioPlayPosition(
+                              positiveOrNegativeDuration:
+                                  const Duration(seconds: -10),
                             ),
                             icon: const Icon(Icons.fast_rewind),
                           ),
@@ -443,8 +447,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                             key: const Key('audioPlayerViewForward10sButton'),
                             iconSize: _audioIconSizeMedium,
                             onPressed: () =>
-                                audioGlobalPlayerVM.changeAudioPlayPosition(
-                              const Duration(seconds: 10),
+                                globalAudioPlayerVM.changeAudioPlayPosition(
+                              positiveOrNegativeDuration:
+                                  const Duration(seconds: 10),
                             ),
                             icon: const Icon(Icons.fast_forward),
                           ),
@@ -454,8 +459,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                             key: const Key('audioPlayerViewForward1mButton'),
                             iconSize: _audioIconSizeMedium,
                             onPressed: () =>
-                                audioGlobalPlayerVM.changeAudioPlayPosition(
-                              const Duration(minutes: 1),
+                                globalAudioPlayerVM.changeAudioPlayPosition(
+                              positiveOrNegativeDuration:
+                                  const Duration(minutes: 1),
                             ),
                             icon: const Icon(Icons.fast_forward),
                           ),
@@ -470,8 +476,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       Expanded(
                         child: GestureDetector(
                           onTap: () =>
-                              audioGlobalPlayerVM.changeAudioPlayPosition(
-                            const Duration(minutes: -1),
+                              globalAudioPlayerVM.changeAudioPlayPosition(
+                            positiveOrNegativeDuration:
+                                const Duration(minutes: -1),
                           ),
                           child: const Text(
                             '1 m',
@@ -483,8 +490,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       Expanded(
                         child: GestureDetector(
                           onTap: () =>
-                              audioGlobalPlayerVM.changeAudioPlayPosition(
-                            const Duration(seconds: -10),
+                              globalAudioPlayerVM.changeAudioPlayPosition(
+                            positiveOrNegativeDuration:
+                                const Duration(seconds: -10),
                           ),
                           child: const Text(
                             '10 s',
@@ -496,8 +504,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       Expanded(
                         child: GestureDetector(
                           onTap: () =>
-                              audioGlobalPlayerVM.changeAudioPlayPosition(
-                            const Duration(seconds: 10),
+                              globalAudioPlayerVM.changeAudioPlayPosition(
+                            positiveOrNegativeDuration:
+                                const Duration(seconds: 10),
                           ),
                           child: const Text(
                             '10 s',
@@ -509,8 +518,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       Expanded(
                         child: GestureDetector(
                           onTap: () =>
-                              audioGlobalPlayerVM.changeAudioPlayPosition(
-                            const Duration(minutes: 1),
+                              globalAudioPlayerVM.changeAudioPlayPosition(
+                            positiveOrNegativeDuration:
+                                const Duration(minutes: 1),
                           ),
                           child: const Text(
                             '1 m',
@@ -521,8 +531,49 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       ),
                     ],
                   ),
+                  _buildUndoRedoButtons(),
                 ],
               ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildUndoRedoButtons() {
+    return Consumer<AudioPlayerVM>(
+      builder: (context, globalAudioPlayerVM, child) {
+        String? currentAudioTitleWithDuration =
+            globalAudioPlayerVM.getCurrentAudioTitleWithDuration();
+
+        // If the current audio title is null, set it to the
+        // 'no current audio' translated title
+        currentAudioTitleWithDuration ??=
+            AppLocalizations.of(context)!.audioPlayerViewNoCurrentAudio;
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              key: const Key('audioPlayerViewUndoButton'),
+              iconSize: _audioIconSizeSmall,
+              onPressed: globalAudioPlayerVM.isUndoListEmpty()
+                  ? null // Disable the button if the volume is min
+                  : () {
+                      globalAudioPlayerVM.undo();
+                    },
+              icon: const Icon(Icons.undo),
+            ),
+            IconButton(
+              key: const Key('audioPlayerViewRedoButton'),
+              iconSize: _audioIconSizeSmall,
+              onPressed: globalAudioPlayerVM.isRedoListEmpty()
+                  ? null // Disable the button if the volume is min
+                  : () {
+                      globalAudioPlayerVM.redo();
+                    },
+              icon: const Icon(Icons.redo),
             ),
           ],
         );
