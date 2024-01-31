@@ -114,14 +114,12 @@ class MainApp extends StatelessWidget with ScreenMixin {
       settingsDataService: _settingsDataService,
     );
 
-    // the global audioGlobalPlayerVM variable is created
+    // the globalAudioPlayerVM ScreenMixin variable is created
     // here since it needs expandablePlaylistListVM which is
     // created above
-    AudioPlayerVM audioGlobalPlayerVM = AudioPlayerVM(
+    globalAudioPlayerVM = AudioPlayerVM(
       playlistListVM: expandablePlaylistListVM,
     );
-
-    globalAudioGlobalPlayerVM = audioGlobalPlayerVM;
 
     // calling getUpToDateSelectablePlaylists() loads all the
     // playlist json files from the app dir and so enables
@@ -135,14 +133,14 @@ class MainApp extends StatelessWidget with ScreenMixin {
     // of containing one selected playlist (as valid now)
 
     // not necessary
-    // audioGlobalPlayerVM.setCurrentAudioFromSelectedPlaylist();
+    // globalAudioPlayerVM.setCurrentAudioFromSelectedPlaylist();
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => audioDownloadVM),
         ChangeNotifierProvider(
           create: (_) {
-            return audioGlobalPlayerVM;
+            return globalAudioPlayerVM;
           },
         ),
         ChangeNotifierProvider(

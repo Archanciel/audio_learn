@@ -19,7 +19,7 @@ enum MultipleIconType { iconOne, iconTwo, iconThree }
 // possible to pass the AudioGlobalPlayerVM instance to the
 // PageView widget since the onPageChangedFunction must have
 // only an int parameter.
-late AudioPlayerVM globalAudioGlobalPlayerVM;
+late AudioPlayerVM globalAudioPlayerVM;
 
 mixin ScreenMixin {
   /// Returns the TextButton border based on the [currentTheme]

@@ -9,6 +9,8 @@ import '../services/json_data_service.dart';
 import '../utils/duration_expansion.dart';
 import 'playlist_list_vm.dart';
 
+/// Abstract class used to implement the Command design pattern
+/// for the undo/redo functionality.
 abstract class Command {
   void redo();
   void undo();

@@ -163,13 +163,15 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
         return IconButton(
           key: _screenNavigationIconButtonKeyLst[entry.key],
           icon: IconTheme(
-            data: _currentIndex == entry.key ? getIconThemeData(
-              themeProviderVM: themeProvider,
-              iconType: MultipleIconType.iconOne,
-            ) : getIconThemeData(
-              themeProviderVM: themeProvider,
-              iconType: MultipleIconType.iconTwo,
-            ),
+            data: _currentIndex == entry.key
+                ? getIconThemeData(
+                    themeProviderVM: themeProvider,
+                    iconType: MultipleIconType.iconOne,
+                  )
+                : getIconThemeData(
+                    themeProviderVM: themeProvider,
+                    iconType: MultipleIconType.iconTwo,
+                  ),
             child: Icon(entry.value),
           ),
           onPressed: () async {
@@ -202,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
     if (index == ScreenMixin.AUDIO_PLAYER_VIEW_DRAGGABLE_INDEX) {
       // dragging to the AudioPlayerView screen requires to set
       // the current audio defined on the currently selected playlist.
-      await globalAudioGlobalPlayerVM.setCurrentAudioFromSelectedPlaylist();
+      await globalAudioPlayerVM.setCurrentAudioFromSelectedPlaylist();
     }
 
     setState(() {
