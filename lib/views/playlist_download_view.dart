@@ -343,7 +343,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                           .disableSortedFilteredPlayableAudioLst();
 
                       List<Playlist> selectedPlaylists =
-                          expandablePlaylistListVM.getSelectedPlaylist();
+                          expandablePlaylistListVM.getSelectedPlaylists();
 
                       // currently only one playlist can be selected and
                       // downloaded at a time.

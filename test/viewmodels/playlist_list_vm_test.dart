@@ -274,7 +274,7 @@ void main() {
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist = playlistListVM.getSelectedPlaylist()[0];
+      Playlist sourcePlaylist = playlistListVM.getSelectedPlaylists()[0];
       Audio currentAudio = sourcePlaylist.playableAudioLst[7];
 
       // Obtaining the next playable audio

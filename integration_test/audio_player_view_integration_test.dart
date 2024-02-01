@@ -781,33 +781,33 @@ void main() {
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau\n6:29'));
       await tester.pumpAndSettle();
 
-      await _checkAudioTextColor(
+      await checkAudioTextColor(
         tester: tester,
         audioTitle:
             "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)",
         expectedColor: fullyPlayedAudioTitleColor,
       );
 
-      await _checkAudioTextColor(
+      await checkAudioTextColor(
         tester: tester,
         audioTitle:
             "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
         expectedColor: currentlyPlayingAudioColor,
       );
 
-      await _checkAudioTextColor(
+      await checkAudioTextColor(
         tester: tester,
         audioTitle: "Les besoins artificiels par R.Keucheyan",
         expectedColor: fullyPlayedAudioTitleColor,
       );
 
-      await _checkAudioTextColor(
+      await checkAudioTextColor(
         tester: tester,
         audioTitle: "Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik",
         expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
       );
 
-      await _checkAudioTextColor(
+      await checkAudioTextColor(
         tester: tester,
         audioTitle: "La résilience insulaire par Fiona Roche",
         expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
@@ -862,20 +862,20 @@ void main() {
       expect(find.text("3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)"), findsNothing);
       expect(find.text("Les besoins artificiels par R.Keucheyan"), findsNothing);
 
-      await _checkAudioTextColor(
+      await checkAudioTextColor(
         tester: tester,
         audioTitle:
             "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
         expectedColor: currentlyPlayingAudioColor,
       );
 
-      await _checkAudioTextColor(
+      await checkAudioTextColor(
         tester: tester,
         audioTitle: "Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik",
         expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
       );
 
-      await _checkAudioTextColor(
+      await checkAudioTextColor(
         tester: tester,
         audioTitle: "La résilience insulaire par Fiona Roche",
         expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
@@ -888,7 +888,7 @@ void main() {
   });
 }
 
-Future<void> _checkAudioTextColor({
+Future<void> checkAudioTextColor({
   required WidgetTester tester,
   required String audioTitle,
   required Color? expectedColor,

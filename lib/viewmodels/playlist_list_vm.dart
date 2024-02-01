@@ -426,7 +426,7 @@ class PlaylistListVM extends ChangeNotifier {
   }
 
   Future<void> downloadSelectedPlaylist(BuildContext context) async {
-    List<Playlist> selectedPlaylists = getSelectedPlaylist();
+    List<Playlist> selectedPlaylists = getSelectedPlaylists();
 
     for (Playlist playlist in selectedPlaylists) {
       await _audioDownloadVM.downloadPlaylistAudios(playlistUrl: playlist.url);
@@ -434,8 +434,9 @@ class PlaylistListVM extends ChangeNotifier {
   }
 
   /// Currently, only one playlist is selectable. So, this method
-  /// returns the unique selected playlist.
-  List<Playlist> getSelectedPlaylist() {
+  /// returns a list of Playlists containing the unique selected
+  /// playlist.
+  List<Playlist> getSelectedPlaylists() {
     return _listOfSelectablePlaylists
         .where((playlist) => playlist.isSelected)
         .toList();

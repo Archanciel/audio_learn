@@ -384,7 +384,7 @@ class AudioPlayerVM extends ChangeNotifier {
   /// the selected playlist current or last played audio which
   /// is displayed correctly in the AudioPlayerView screen.
   Future<void> setCurrentAudioFromSelectedPlaylist() async {
-    List<Playlist> selectedPlaylistLst = _playlistListVM.getSelectedPlaylist();
+    List<Playlist> selectedPlaylistLst = _playlistListVM.getSelectedPlaylists();
 
     if (selectedPlaylistLst.isEmpty) {
       // ensures that when the user deselect the playlist, switching
@@ -439,9 +439,10 @@ class AudioPlayerVM extends ChangeNotifier {
       // currently only one playlist can be selected at a time
       // in the PlaylistDownloadView.
       _currentAudio = _playlistListVM
-          .getSelectedPlaylist()
+          .getSelectedPlaylists()
           .first
           .getCurrentOrLastlyPlayedAudioContainedInPlayableAudioLst();
+
       if (_currentAudio == null) {
         // the case if no audio in the selected playlist was ever played
         return;
@@ -786,19 +787,16 @@ class AudioPlayerVM extends ChangeNotifier {
       // the case if "No audio selected" audio title is
       // displayed in the AudioPlayerView screen
 
-      if (_playlistListVM.getSelectedPlaylist().isEmpty) {
+      List<Playlist> selectedPlaylists = _playlistListVM.getSelectedPlaylists();
+
+      if (selectedPlaylists.isEmpty) {
         // the case if no playlist is selected. Solves
         // AudioPlayerView integration test no playlist
         // selected or no playlist exist failure.
         return [];
       }
 
-      return _playlistListVM
-          .getSelectedPlaylist()
-          .first
-          .playableAudioLst
-          .reversed
-          .toList();
+      return selectedPlaylists.first.playableAudioLst.reversed.toList();
     }
 
     return _currentAudio!.enclosingPlaylist!.playableAudioLst.reversed.toList();
