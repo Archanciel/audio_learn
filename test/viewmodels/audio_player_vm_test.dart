@@ -23,46 +23,148 @@ void main() {
     // See https://stackoverflow.com/questions/57743173/flutter-unhandled-exception-servicesbinding-defaultbinarymessenger-was-accesse
     TestWidgetsFlutterBinding.ensureInitialized();
   });
-  group('AudioPlayerVM << >> undo/redo', () {
-    test('Test single undo/redo', () async {
-      final SettingsDataService settingsDataService =
-          await initializeTestDataAndLoadSettingsDataService(
-        savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
-      );
-      WarningMessageVM warningMessageVM = WarningMessageVM();
-      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-        warningMessageVM: warningMessageVM,
-        isTest: true,
-      );
-      PlaylistListVM expandablePlaylistListVM = PlaylistListVM(
-        warningMessageVM: warningMessageVM,
-        audioDownloadVM: audioDownloadVM,
-        settingsDataService: settingsDataService,
-      );
+  group('AudioPlayerVM changeAudioPlayPosition undo/redo', () {
+    test('Test single undo/redo of forward position change', () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
 
-      // calling getUpToDateSelectablePlaylists() loads all the
-      // playlist json files from the app dir and so enables
-      // expandablePlaylistListVM to know which playlists are
-      // selected and which are not
-      expandablePlaylistListVM.getUpToDateSelectablePlaylists();
-
-      // the globalAudioPlayerVM ScreenMixin variable is created
-      // here since it needs expandablePlaylistListVM which is
-      // created above
-      AudioPlayerVM audioPlayerVM = AudioPlayerVM(
-        playlistListVM: expandablePlaylistListVM,
-      );
-
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
           audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
 
+      // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // obtain the current audio's initial position
+      Duration currentAudioInitialPosition = audioPlayerVM.currentAudioPosition;
+
+      // change the current audio's play position
+
+      int forwardChangePosition = 100;
+      audioPlayerVM.changeAudioPlayPosition(
+          positiveOrNegativeDuration: Duration(seconds: forwardChangePosition));
+
+      // obtain the current audio's changed position
+      Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(
+          currentAudioChangedPosition.inSeconds -
+              currentAudioInitialPosition.inSeconds,
+          forwardChangePosition);
+
+      // undo the change
+      audioPlayerVM.undo();
+
+      // obtain the current audio's position after the undo
+      Duration currentAudioPositionAfterUndo = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterUndo.inSeconds,
+          currentAudioInitialPosition.inSeconds);
+
+      // redo the change
+      audioPlayerVM.redo();
+
+      // obtain the current audio's position after the redo
+      Duration currentAudioPositionAfterRedo = audioPlayerVM.currentAudioPosition;
+
+      expect(
+          currentAudioPositionAfterRedo.inSeconds -
+              currentAudioInitialPosition.inSeconds,
+          forwardChangePosition);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    test('Test single undo/redo of backward position change', () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // obtain the current audio's initial position
+      Duration currentAudioInitialPosition = audioPlayerVM.currentAudioPosition;
+
+      // change the current audio's play position
+
+      int backwardChangePosition = -100;
+      audioPlayerVM.changeAudioPlayPosition(
+          positiveOrNegativeDuration: Duration(seconds: backwardChangePosition));
+
+      // obtain the current audio's changed position
+      Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(
+          currentAudioChangedPosition.inSeconds -
+              currentAudioInitialPosition.inSeconds,
+          backwardChangePosition);
+
+      // undo the change
+      audioPlayerVM.undo();
+
+      // obtain the current audio's position after the undo
+      Duration currentAudioPositionAfterUndo = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterUndo.inSeconds,
+          currentAudioInitialPosition.inSeconds);
+
+      // redo the change
+      audioPlayerVM.redo();
+
+      // obtain the current audio's position after the redo
+      Duration currentAudioPositionAfterRedo = audioPlayerVM.currentAudioPosition;
+
+      expect(
+          currentAudioPositionAfterRedo.inSeconds -
+              currentAudioInitialPosition.inSeconds,
+          backwardChangePosition);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+  group('AudioPlayerVM goToAudioPlayPosition undo/redo', () {
+  });
+  group('AudioPlayerVM skipToStart undo/redo', () {
+  });
+  group('AudioPlayerVM skipToEndNoPlay undo/redo', () {
+  });
+  group('AudioPlayerVM skipToEndAndPlay undo/redo', () {
+  });
+}
+
+Future<AudioPlayerVM> createAudioPlayerVM() async {
+  final SettingsDataService settingsDataService =
+      await initializeTestDataAndLoadSettingsDataService(
+    savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
+  );
+  final WarningMessageVM warningMessageVM = WarningMessageVM();
+  final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+    warningMessageVM: warningMessageVM,
+    isTest: true,
+  );
+  final PlaylistListVM playlistListVM = PlaylistListVM(
+    warningMessageVM: warningMessageVM,
+    audioDownloadVM: audioDownloadVM,
+    settingsDataService: settingsDataService,
+  );
+  
+  // calling getUpToDateSelectablePlaylists() loads all the
+  // playlist json files from the app dir and so enables
+  // playlistListVM to know which playlists are
+  // selected and which are not
+  playlistListVM.getUpToDateSelectablePlaylists();
+  
+  AudioPlayerVM audioPlayerVM = AudioPlayerVM(
+    playlistListVM: playlistListVM,
+  );
+  return audioPlayerVM;
 }
 
 Future<SettingsDataService> initializeTestDataAndLoadSettingsDataService({
