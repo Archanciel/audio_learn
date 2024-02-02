@@ -40,6 +40,12 @@ void main() {
         settingsDataService: settingsDataService,
       );
 
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      expandablePlaylistListVM.getUpToDateSelectablePlaylists();
+
       // the globalAudioPlayerVM ScreenMixin variable is created
       // here since it needs expandablePlaylistListVM which is
       // created above
@@ -49,6 +55,8 @@ void main() {
 
       List<Audio> selectedPlaylistAudioList =
           audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
