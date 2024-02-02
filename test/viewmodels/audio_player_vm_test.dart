@@ -276,7 +276,7 @@ void main() {
       // redo the last change
       audioPlayerVM.redo();
 
-      // obtain the current audio's position after the first redo
+      // obtain the current audio's position after the second redo
       Duration currentAudioPositionAfterSecondRedo =
           audioPlayerVM.currentAudioPosition;
 
@@ -286,7 +286,7 @@ void main() {
           forwardChangePositionOne +
               backwardChangePositionOne +
               forwardChangePositionTwo);
-              
+
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
