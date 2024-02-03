@@ -740,8 +740,10 @@ void main() {
   });
   group('AudioPlayerView display audio list.', () {
     const Color fullyPlayedAudioTitleColor = kSliderThumbColorInDarkMode;
-    const Color currentlyPlayingAudioColor = Colors.blue;
-    const Color? unplayedOrPartiallyPlayedAudioTitleColor = null;
+    const Color currentlyPlayingAudioTitleTextColor = Colors.white;
+    const Color currentlyPlayingAudioTitleTextBackgroundColor = Colors.blue;
+    const Color? unplayedAudioTitleTextColor = null;
+    const Color partiallyPlayedAudioTitleTextdColor = Colors.blue;
 
     testWidgets('Current audio partially listened. All audio displayed',
         (WidgetTester tester) async {
@@ -785,32 +787,37 @@ void main() {
         tester: tester,
         audioTitle:
             "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)",
-        expectedColor: fullyPlayedAudioTitleColor,
+        expectedTitleTextColor: fullyPlayedAudioTitleColor,
+        expectedTitleTextBackgroundColor: null,
       );
 
       await checkAudioTextColor(
         tester: tester,
         audioTitle:
             "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
-        expectedColor: currentlyPlayingAudioColor,
+        expectedTitleTextColor: currentlyPlayingAudioTitleTextColor,
+        expectedTitleTextBackgroundColor: currentlyPlayingAudioTitleTextBackgroundColor,
       );
 
       await checkAudioTextColor(
         tester: tester,
         audioTitle: "Les besoins artificiels par R.Keucheyan",
-        expectedColor: fullyPlayedAudioTitleColor,
+        expectedTitleTextColor: fullyPlayedAudioTitleColor,
+        expectedTitleTextBackgroundColor: null,
       );
 
       await checkAudioTextColor(
         tester: tester,
         audioTitle: "Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik",
-        expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
+        expectedTitleTextColor: unplayedAudioTitleTextColor,
+        expectedTitleTextBackgroundColor: null,
       );
 
       await checkAudioTextColor(
         tester: tester,
         audioTitle: "La résilience insulaire par Fiona Roche",
-        expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
+        expectedTitleTextColor: partiallyPlayedAudioTitleTextdColor,
+        expectedTitleTextBackgroundColor: null,
       );
 
       // Purge the test playlist directory so that the created test
@@ -866,19 +873,22 @@ void main() {
         tester: tester,
         audioTitle:
             "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
-        expectedColor: currentlyPlayingAudioColor,
+        expectedTitleTextColor: currentlyPlayingAudioTitleTextColor,
+        expectedTitleTextBackgroundColor: currentlyPlayingAudioTitleTextBackgroundColor,
       );
 
       await checkAudioTextColor(
         tester: tester,
         audioTitle: "Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik",
-        expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
+        expectedTitleTextColor: unplayedAudioTitleTextColor,
+        expectedTitleTextBackgroundColor: null,
       );
 
       await checkAudioTextColor(
         tester: tester,
         audioTitle: "La résilience insulaire par Fiona Roche",
-        expectedColor: unplayedOrPartiallyPlayedAudioTitleColor,
+        expectedTitleTextColor: partiallyPlayedAudioTitleTextdColor,
+        expectedTitleTextBackgroundColor: null,
       );
 
       // Purge the test playlist directory so that the created test
@@ -891,7 +901,8 @@ void main() {
 Future<void> checkAudioTextColor({
   required WidgetTester tester,
   required String audioTitle,
-  required Color? expectedColor,
+  required Color? expectedTitleTextColor,
+  required Color? expectedTitleTextBackgroundColor,
 }) async {
   // Find the Text widget by its text content
   final Finder textFinder = find.text(audioTitle);
@@ -900,7 +911,8 @@ Future<void> checkAudioTextColor({
   final Text textWidget = tester.widget(textFinder) as Text;
 
   // Check if the color of the Text widget is as expected
-  expect(textWidget.style?.color, equals(expectedColor));
+  expect(textWidget.style?.color, equals(expectedTitleTextColor));
+  expect(textWidget.style?.backgroundColor, equals(expectedTitleTextBackgroundColor));
 }
 
 void verifyAudioPlaySpeedStoredInPlaylistJsonFile(
