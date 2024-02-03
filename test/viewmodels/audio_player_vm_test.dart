@@ -334,7 +334,7 @@ void main() {
               backwardChangePositionOne + // -60
               forwardChangePositionTwo); // 80
 
-      // undo the last forward change
+      // undo the last forward change (forward two)
       audioPlayerVM.undo();
 
       // enter a new command
@@ -351,7 +351,7 @@ void main() {
       expect(currentAudioPositionAfterUndoAndCommand.inSeconds,
           currentAudioInitialPosition.inSeconds + 160);
 
-      // redo the last forward change
+      // redo the last forward change (forward two)
       audioPlayerVM.redo();
 
       // obtain the current audio's position after the redoing
@@ -364,7 +364,7 @@ void main() {
               currentAudioInitialPosition.inSeconds,
           240);
 
-      // redo the last change
+      // undo the last forward change
       // audioPlayerVM.redo();
 
       // // obtain the current audio's position after the second redo
