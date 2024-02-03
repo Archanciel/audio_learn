@@ -216,16 +216,23 @@ class _ListPlayableAudiosDialogWidgetState
     int index,
     bool isDarkTheme,
   ) {
-    Color? audioTitleColor;
+    Color? audioTitleTextColor;
+    Color? audioTitleBackgroundColor;
 
     if (index == _currentAudioIndex) {
-      audioTitleColor = Colors.blue;
+      audioTitleTextColor = Colors.white;
+      audioTitleBackgroundColor = Colors.blue;
     } else if (audio.wasFullyListened()) {
-      audioTitleColor = (isDarkTheme)
+      audioTitleTextColor = (isDarkTheme)
           ? kSliderThumbColorInDarkMode
           : kSliderThumbColorInLightMode;
+      audioTitleBackgroundColor = null;
+    } else if (audio.isPartiallyListened()) {
+      audioTitleTextColor = Colors.blue;
+      audioTitleBackgroundColor = null;
     } else {
-      audioTitleColor = null;
+      audioTitleTextColor = null;
+      audioTitleBackgroundColor = null;
     }
 
     return SizedBox(
@@ -234,7 +241,8 @@ class _ListPlayableAudiosDialogWidgetState
         audio.validVideoTitle,
         maxLines: 3,
         style: TextStyle(
-          color: audioTitleColor,
+          color: audioTitleTextColor,
+          backgroundColor: audioTitleBackgroundColor,
         ),
       ),
     );

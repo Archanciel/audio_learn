@@ -279,6 +279,10 @@ class Audio {
         : (audioPositionSeconds >= audioDuration!.inSeconds - 5);
   }
 
+  bool isPartiallyListened() {
+    return (audioPositionSeconds > 0) && !wasFullyListened();
+  }
+  
   static String buildDownloadDatePrefix(DateTime downloadDate) {
     String formattedDateStr = (kAudioFileNamePrefixIncludeTime)
         ? downloadDateTimePrefixFormatter.format(downloadDate)
