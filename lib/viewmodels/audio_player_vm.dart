@@ -131,10 +131,6 @@ class AudioPlayerVM extends ChangeNotifier {
     _audioPlayer.dispose();
   }
 
-  void setCurrentPlaylist({
-    required Playlist selectedPlaylist,
-  }) {}
-
   bool isCurrentAudioVolumeMax() {
     if (_currentAudio == null) {
       return false;
@@ -195,8 +191,19 @@ class AudioPlayerVM extends ChangeNotifier {
 
     audio.enclosingPlaylist!.setCurrentOrPastPlayableAudio(audio);
     updateAndSaveCurrentAudio(forceSave: true);
+    _clearUndoRedoLists();
 
     notifyListeners();
+  }
+
+  /// Method called when the user clicks on the audio title or sub
+  /// title or when he clicks on a play icon or when he selects an
+  /// audio in the AudioOneSelectableDialogWidget displayed by
+  /// clicking on the audio title on the AudioPlayerView or by
+  /// long pressing on the >| button.
+  void _clearUndoRedoLists() {
+    _undoList.clear();
+    _redoList.clear();
   }
 
   /// Method called indirectly when the user clicks on the audio title
@@ -213,7 +220,9 @@ class AudioPlayerVM extends ChangeNotifier {
   /// the AudioPlayerView screen without playing the selected playlist
   /// current or last played audio which is displayed correctly in the
   /// AudioPlayerView screen.
-  Future<void> _setCurrentAudioAndInitializeAudioPlayer(Audio audio) async {
+  Future<void> _setCurrentAudioAndInitializeAudioPlayer(
+    Audio audio,
+  ) async {
     if (_currentAudio != null && !_currentAudio!.isPaused) {
       _currentAudio!.isPaused = true;
       // saving the previous current audio state before changing
@@ -237,6 +246,7 @@ class AudioPlayerVM extends ChangeNotifier {
     // is reduced according to the time elapsed since the audio was
     // paused, which is done in _setCurrentAudioPosition().
     _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
+    _clearUndoRedoLists();
 
     _initializeAudioPlayer();
   }
@@ -391,12 +401,14 @@ class AudioPlayerVM extends ChangeNotifier {
       // to the AudioPlayerView screen causes the "No audio selected"
       // audio title to be displayed in the AudioPlayerView screen.
       _clearCurrentAudio();
+      _clearUndoRedoLists();
 
       return;
     }
 
     Audio? currentOrPastPlaylistAudio = selectedPlaylistLst.first
         .getCurrentOrLastlyPlayedAudioContainedInPlayableAudioLst();
+
     if (currentOrPastPlaylistAudio == null) {
       // causes "No audio selected" audio title to be displayed
       // in the AudioPlayerView screen. Reinitializing the
@@ -408,6 +420,7 @@ class AudioPlayerVM extends ChangeNotifier {
       _currentAudioPosition = const Duration();
       _currentAudioTotalDuration = const Duration();
 
+      _clearUndoRedoLists();
       _initializeAudioPlayer();
 
       return;
