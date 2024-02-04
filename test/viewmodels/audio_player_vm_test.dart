@@ -305,7 +305,8 @@ void main() {
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
 
       // obtain the current audio's initial position
-      Duration currentAudioInitialPosition = audioPlayerVM.currentAudioPosition;
+      Duration currentAudioInitialPosition =
+          audioPlayerVM.currentAudioPosition; // 600
 
       // change three times the current audio's play position
 
@@ -330,15 +331,15 @@ void main() {
       expect(
           currentAudioChangedPosition.inSeconds -
               currentAudioInitialPosition.inSeconds,
-          forwardChangePositionOne + // 100
-              backwardChangePositionOne + // -60
+          forwardChangePositionOne + // 100 +
+              backwardChangePositionOne + // -60 +
               forwardChangePositionTwo); // 80
 
       // undo the last forward change (forward two)
       audioPlayerVM.undo();
 
       // enter a new command
-      int forwardChangePositionThree = 120;
+      int forwardChangePositionThree = 125;
       audioPlayerVM.changeAudioPlayPosition(
           positiveOrNegativeDuration:
               Duration(seconds: forwardChangePositionThree));
@@ -349,34 +350,35 @@ void main() {
           audioPlayerVM.currentAudioPosition;
 
       expect(currentAudioPositionAfterUndoAndCommand.inSeconds,
-          currentAudioInitialPosition.inSeconds + 160);
+          currentAudioInitialPosition.inSeconds + 165); // 765
 
       // redo the last forward change (forward two)
       audioPlayerVM.redo();
 
       // obtain the current audio's position after the redoing
-      // the last forward change
+      // the last forward change (forward two)
       Duration currentAudioPositionAfterRedo =
-          audioPlayerVM.currentAudioPosition;
+          audioPlayerVM.currentAudioPosition; // 845
 
       expect(
           currentAudioPositionAfterRedo.inSeconds -
               currentAudioInitialPosition.inSeconds,
-          240);
+          245);
 
-      // undo the last forward change
-      // audioPlayerVM.redo();
+      // undo the last forward change (forward two), the new
+      // command and the previous backward change (backward one)
+      audioPlayerVM.undo(); // 765
+      audioPlayerVM.undo(); // 640
+      audioPlayerVM.undo(); // 700
 
-      // // obtain the current audio's position after the second redo
-      // Duration currentAudioPositionAfterSecondRedo =
-      //     audioPlayerVM.currentAudioPosition;
+      // obtain the current audio's position after the second redo
+      Duration currentAudioPositionAfterThreeUndo =
+          audioPlayerVM.currentAudioPosition;
 
-      // expect(
-      //     currentAudioPositionAfterSecondRedo.inSeconds -
-      //         currentAudioInitialPosition.inSeconds,
-      //     forwardChangePositionOne +
-      //         backwardChangePositionOne +
-      //         forwardChangePositionTwo);
+      expect(
+          currentAudioPositionAfterThreeUndo.inSeconds -
+              currentAudioInitialPosition.inSeconds,
+          100); // 700 - 600
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
