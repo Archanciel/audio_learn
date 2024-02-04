@@ -550,16 +550,18 @@ class AudioPlayerVM extends ChangeNotifier {
 
   /// Method called when the user clicks on the audio slider.
   ///
+  /// {durationPosition} is the new audio position.
+  /// 
   /// {isUndoRedo} is true when the method is called by the AudioPlayerVM
   /// undo or redo methods. In this case, the method does not add a
   /// command to the undo list.
   Future<void> goToAudioPlayPosition({
-    required position,
+    required Duration durationPosition,
     bool isUndoRedo = false,
   }) async {
     if (!isUndoRedo) {
       int inSeconds =
-          position.inSeconds - _currentAudioPosition.inSeconds as int;
+          durationPosition.inSeconds - _currentAudioPosition.inSeconds as int;
 
       Command command = (inSeconds > 0)
           ? ForwardCommand(
@@ -574,13 +576,13 @@ class AudioPlayerVM extends ChangeNotifier {
       _undoList.add(command);
     }
 
-    _currentAudioPosition = position; // Immediately update the position
+    _currentAudioPosition = durationPosition; // Immediately update the position
 
     // necessary so that the audio position is stored on the
     // audio
     _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
 
-    await _audioPlayer.seek(position);
+    await _audioPlayer.seek(durationPosition);
 
     notifyListeners();
   }

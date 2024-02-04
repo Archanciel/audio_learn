@@ -383,7 +383,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     value: sliderValue,
                     onChanged: (double value) {
                       globalAudioPlayerVM.goToAudioPlayPosition(
-                        position: Duration(seconds: value.toInt()),
+                        durationPosition: Duration(seconds: value.toInt()),
                       );
                     },
                   ),
