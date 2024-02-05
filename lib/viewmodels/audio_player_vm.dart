@@ -17,8 +17,8 @@ abstract class Command {
 }
 
 class AddDurationToAudioPositionCommand implements Command {
-  final int seconds;
   final AudioPlayerVM audioPlayerVM;
+  final int seconds;
 
   AddDurationToAudioPositionCommand({
     required this.audioPlayerVM,
@@ -43,8 +43,8 @@ class AddDurationToAudioPositionCommand implements Command {
 }
 
 class SubtractDurationToAudioPositionCommand implements Command {
-  final int seconds;
   final AudioPlayerVM audioPlayerVM;
+  final int seconds;
 
   SubtractDurationToAudioPositionCommand({
     required this.audioPlayerVM,
@@ -63,6 +63,34 @@ class SubtractDurationToAudioPositionCommand implements Command {
   void undo() {
     audioPlayerVM.changeAudioPlayPosition(
       positiveOrNegativeDuration: Duration(seconds: seconds),
+      isUndoRedo: true,
+    );
+  }
+}
+
+class SetAudioPositionCommand implements Command {
+  final AudioPlayerVM audioPlayerVM;
+  final Duration oldDurationPosition;
+  final Duration newDurationPosition;
+
+  SetAudioPositionCommand({
+    required this.audioPlayerVM,
+    required this.oldDurationPosition,
+    required this.newDurationPosition,
+  });
+
+  @override
+  void redo() {
+    audioPlayerVM.goToAudioPlayPosition(
+      durationPosition: newDurationPosition,
+      isUndoRedo: true,
+    );
+  }
+
+  @override
+  void undo() {
+    audioPlayerVM.goToAudioPlayPosition(
+      durationPosition: oldDurationPosition,
       isUndoRedo: true,
     );
   }
@@ -495,7 +523,7 @@ class AudioPlayerVM extends ChangeNotifier {
   ///
   /// {positiveOrNegativeDuration} is the duration to be added or
   /// subtracted to the current audio position.
-  /// 
+  ///
   /// {isUndoRedo} is true when the method is called by the AudioPlayerVM
   /// undo or redo methods. In this case, the method does not add a
   /// command to the undo list.
@@ -554,27 +582,22 @@ class AudioPlayerVM extends ChangeNotifier {
   /// Method called when the user clicks on the audio slider.
   ///
   /// {durationPosition} is the new audio position.
-  /// 
-  /// {isUndoRedo} is true when the method is called by the AudioPlayerVM
-  /// undo or redo methods. In this case, the method does not add a
+  ///
+  /// {isUndoRedo} is true when the method is called by the
+  /// AudioPlayerVM undo or redo methods as well as when the
+  /// method is called after clicking on the audio title in
+  /// theIn this case, the method does not add a
   /// command to the undo list.
   Future<void> goToAudioPlayPosition({
     required Duration durationPosition,
     bool isUndoRedo = false,
   }) async {
     if (!isUndoRedo) {
-      int inSeconds =
-          durationPosition.inSeconds - _currentAudioPosition.inSeconds;
-
-      Command command = (inSeconds > 0)
-          ? AddDurationToAudioPositionCommand(
-              audioPlayerVM: this,
-              seconds: inSeconds,
-            )
-          : SubtractDurationToAudioPositionCommand(
-              audioPlayerVM: this,
-              seconds: -inSeconds,
-            );
+      Command command = SetAudioPositionCommand(
+        audioPlayerVM: this,
+        oldDurationPosition: _currentAudioPosition,
+        newDurationPosition: durationPosition,
+      );
 
       _undoList.add(command);
     }

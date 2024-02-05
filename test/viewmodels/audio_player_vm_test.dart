@@ -386,7 +386,7 @@ void main() {
     });
   });
   group('AudioPlayerVM goToAudioPlayPosition undo/redo', () {
-    test('Test single undo/redo of forward position change', () async {
+    test('Test single undo/redo of forward slider position change', () async {
       AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
 
       // obtain the list of playable audios of the selected
@@ -401,11 +401,11 @@ void main() {
       Duration currentAudioInitialPosition =
           audioPlayerVM.currentAudioPosition; // 600
 
-      // change the current audio's play position
+      // change the current audio's play slider position
 
-      int forwardNewPosition = 700;
+      int forwardNewSliderPosition = 700;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardNewPosition));
+          durationPosition: Duration(seconds: forwardNewSliderPosition));
 
       // obtain the current audio's changed position
       Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
@@ -438,7 +438,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    test('Test single undo/redo of backward position change', () async {
+    test('Test single undo/redo of backward slider position change', () async {
       AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
 
       // obtain the list of playable audios of the selected
@@ -453,11 +453,11 @@ void main() {
       Duration currentAudioInitialPosition =
           audioPlayerVM.currentAudioPosition; // 600
 
-      // change the current audio's play position
+      // change the current audio's play slider position
 
-      int backwardNewPosition = 540;
+      int backwardNewSliderPosition = 540;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: backwardNewPosition));
+          durationPosition: Duration(seconds: backwardNewSliderPosition));
 
       // obtain the current audio's changed position
       Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
@@ -494,7 +494,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     test(
-        'Test single undo/redo of multiple forward and backward position changes',
+        'Test single undo/redo of multiple forward and backward slider position changes',
         () async {
       AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
 
@@ -510,19 +510,19 @@ void main() {
       Duration currentAudioInitialPosition =
           audioPlayerVM.currentAudioPosition; // 600
 
-      // change three times the current audio's play position
+      // change three times the current audio's play slider position
 
-      int forwardNewPositionOne = 700;
+      int forwardNewSliderPositionOne = 700;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardNewPositionOne));
+          durationPosition: Duration(seconds: forwardNewSliderPositionOne));
 
-      int backwardNewPositionOne = 640;
+      int backwardNewSliderPositionOne = 640;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: backwardNewPositionOne));
+          durationPosition: Duration(seconds: backwardNewSliderPositionOne));
 
-      int forwardNewPositionTwo = 720;
+      int forwardNewSliderPositionTwo = 720;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardNewPositionTwo));
+          durationPosition: Duration(seconds: forwardNewSliderPositionTwo));
 
       // obtain the current audio's changed position
       Duration currentAudioChangedPosition =
@@ -559,7 +559,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     test(
-        'Test multiple undo/redo of multiple forward and backward position changes',
+        'Test multiple undo/redo of multiple forward and backward slider position changes',
         () async {
       AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
 
@@ -575,19 +575,19 @@ void main() {
       Duration currentAudioInitialPosition =
           audioPlayerVM.currentAudioPosition; // 600
 
-      // change three times the current audio's play position
+      // change three times the current audio's slider play position
 
-      int forwardNewPositionOne = 700;
+      int forwardNewSliderPositionOne = 700;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardNewPositionOne));
+          durationPosition: Duration(seconds: forwardNewSliderPositionOne));
 
-      int backwardNewPositionOne = 640;
+      int backwardNewSliderPositionOne = 640;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: backwardNewPositionOne));
+          durationPosition: Duration(seconds: backwardNewSliderPositionOne));
 
-      int forwardNewPositionTwo = 720;
+      int forwardNewSliderPositionTwo = 720;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardNewPositionTwo));
+          durationPosition: Duration(seconds: forwardNewSliderPositionTwo));
 
       // obtain the current audio's changed position
       Duration currentAudioChangedPosition =
@@ -637,7 +637,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     test(
-        'Test insert a new command between multiple undo/redo of multiple forward and backward position changes',
+        'Test insert a new slider command between multiple undo/redo of multiple forward and backward slider position changes',
         () async {
       AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
 
@@ -655,17 +655,17 @@ void main() {
 
       // change three times the current audio's play position
 
-      int forwardNewPositionOne = 700;
+      int forwardNewSliderPositionOne = 700;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardNewPositionOne));
+          durationPosition: Duration(seconds: forwardNewSliderPositionOne));
 
-      int backwardNewPositionOne = 640;
+      int backwardNewSliderPositionOne = 640;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: backwardNewPositionOne));
+          durationPosition: Duration(seconds: backwardNewSliderPositionOne));
 
-      int forwardNewPositionTwo = 720;
+      int forwardNewSliderPositionTwo = 720;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardNewPositionTwo));
+          durationPosition: Duration(seconds: forwardNewSliderPositionTwo));
 
       // obtain the current audio's changed position
       Duration currentAudioChangedPosition =
@@ -676,23 +676,23 @@ void main() {
               currentAudioInitialPosition.inSeconds,
           120);
 
-      // undo the last change
+      // undo the last slider change
       audioPlayerVM.undo(); // undo 720 --> 640
 
       // enter a new command
-      int forwardNewPositionThree = 825;
+      int forwardNewSliderPositionThree = 825;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardNewPositionThree));
+          durationPosition: Duration(seconds: forwardNewSliderPositionThree));
 
       // obtain the current audio's position after
-      // the undo and the new command
-      Duration currentAudioPositionAfterUndoAndCommand =
+      // the undo and the new slider command
+      Duration currentAudioPositionAfterUndoAndNewSliderCommand =
           audioPlayerVM.currentAudioPosition; // 825
 
-      expect(currentAudioPositionAfterUndoAndCommand.inSeconds,
+      expect(currentAudioPositionAfterUndoAndNewSliderCommand.inSeconds,
           currentAudioInitialPosition.inSeconds + 225); // 825
 
-      // redo the last forward change (forward two)
+      // redo the last slider forward change (forward two)
       audioPlayerVM.redo(); // redo 720 --> 720
 
       // obtain the current audio's position after the redoing
@@ -755,6 +755,7 @@ Future<AudioPlayerVM> createAudioPlayerVM() async {
   AudioPlayerVM audioPlayerVM = AudioPlayerVM(
     playlistListVM: playlistListVM,
   );
+  
   return audioPlayerVM;
 }
 
