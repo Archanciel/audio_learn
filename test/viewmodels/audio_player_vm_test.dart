@@ -655,66 +655,65 @@ void main() {
 
       // change three times the current audio's play position
 
-      int forwardChangePositionOne = 100;
+      int forwardNewPositionOne = 700;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardChangePositionOne));
+          durationPosition: Duration(seconds: forwardNewPositionOne));
 
-      int backwardChangePositionOne = -60;
+      int backwardNewPositionOne = 640;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: backwardChangePositionOne));
+          durationPosition: Duration(seconds: backwardNewPositionOne));
 
-      int forwardChangePositionTwo = 80;
+      int forwardNewPositionTwo = 720;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardChangePositionTwo));
+          durationPosition: Duration(seconds: forwardNewPositionTwo));
 
       // obtain the current audio's changed position
-      Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+      Duration currentAudioChangedPosition =
+          audioPlayerVM.currentAudioPosition; // 720
 
       expect(
           currentAudioChangedPosition.inSeconds -
               currentAudioInitialPosition.inSeconds,
-          forwardChangePositionOne + // 100 +
-              backwardChangePositionOne + // -60 +
-              forwardChangePositionTwo); // 80
+          120);
 
-      // undo the last forward change (forward two)
-      audioPlayerVM.undo();
+      // undo the last change
+      audioPlayerVM.undo(); // undo 720 --> 640
 
       // enter a new command
-      int forwardChangePositionThree = 125;
+      int forwardNewPositionThree = 825;
       audioPlayerVM.goToAudioPlayPosition(
-          durationPosition: Duration(seconds: forwardChangePositionThree));
+          durationPosition: Duration(seconds: forwardNewPositionThree));
 
       // obtain the current audio's position after
       // the undo and the new command
       Duration currentAudioPositionAfterUndoAndCommand =
-          audioPlayerVM.currentAudioPosition;
+          audioPlayerVM.currentAudioPosition; // 825
 
       expect(currentAudioPositionAfterUndoAndCommand.inSeconds,
-          currentAudioInitialPosition.inSeconds + 165); // 765
+          currentAudioInitialPosition.inSeconds + 225); // 825
 
       // redo the last forward change (forward two)
-      audioPlayerVM.redo();
+      audioPlayerVM.redo(); // redo 720 --> 720
 
       // obtain the current audio's position after the redoing
       // the last forward change (forward two)
       Duration currentAudioPositionAfterRedo =
-          audioPlayerVM.currentAudioPosition; // 845
+          audioPlayerVM.currentAudioPosition; // 720
 
       expect(
           currentAudioPositionAfterRedo.inSeconds -
               currentAudioInitialPosition.inSeconds,
-          245);
+          120);
 
       // undo the last forward change (forward two), the new
       // command and the previous backward change (backward one)
-      audioPlayerVM.undo(); // 765
-      audioPlayerVM.undo(); // 640
-      audioPlayerVM.undo(); // 700
+      audioPlayerVM.undo(); // 720 --> 640
+      audioPlayerVM.undo(); // 825 --> 640
+      audioPlayerVM.undo(); // 640 --> 700
 
       // obtain the current audio's position after the second redo
       Duration currentAudioPositionAfterThreeUndo =
-          audioPlayerVM.currentAudioPosition;
+          audioPlayerVM.currentAudioPosition; // 700
 
       expect(
           currentAudioPositionAfterThreeUndo.inSeconds -

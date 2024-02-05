@@ -16,11 +16,11 @@ abstract class Command {
   void undo();
 }
 
-class ForwardCommand implements Command {
+class AddDurationToAudioPositionCommand implements Command {
   final int seconds;
   final AudioPlayerVM audioPlayerVM;
 
-  ForwardCommand({
+  AddDurationToAudioPositionCommand({
     required this.audioPlayerVM,
     required this.seconds,
   });
@@ -42,11 +42,11 @@ class ForwardCommand implements Command {
   }
 }
 
-class BackwardCommand implements Command {
+class SubtractDurationToAudioPositionCommand implements Command {
   final int seconds;
   final AudioPlayerVM audioPlayerVM;
 
-  BackwardCommand({
+  SubtractDurationToAudioPositionCommand({
     required this.audioPlayerVM,
     required this.seconds,
   });
@@ -493,6 +493,9 @@ class AudioPlayerVM extends ChangeNotifier {
 
   /// Method called when the user clicks on the '<<' or '>>' buttons.
   ///
+  /// {positiveOrNegativeDuration} is the duration to be added or
+  /// subtracted to the current audio position.
+  /// 
   /// {isUndoRedo} is true when the method is called by the AudioPlayerVM
   /// undo or redo methods. In this case, the method does not add a
   /// command to the undo list.
@@ -523,11 +526,11 @@ class AudioPlayerVM extends ChangeNotifier {
       int inSeconds = positiveOrNegativeDuration.inSeconds;
 
       Command command = (inSeconds > 0)
-          ? ForwardCommand(
+          ? AddDurationToAudioPositionCommand(
               audioPlayerVM: this,
               seconds: inSeconds,
             )
-          : BackwardCommand(
+          : SubtractDurationToAudioPositionCommand(
               audioPlayerVM: this,
               seconds: -inSeconds,
             );
@@ -561,14 +564,14 @@ class AudioPlayerVM extends ChangeNotifier {
   }) async {
     if (!isUndoRedo) {
       int inSeconds =
-          durationPosition.inSeconds - _currentAudioPosition.inSeconds as int;
+          durationPosition.inSeconds - _currentAudioPosition.inSeconds;
 
       Command command = (inSeconds > 0)
-          ? ForwardCommand(
+          ? AddDurationToAudioPositionCommand(
               audioPlayerVM: this,
               seconds: inSeconds,
             )
-          : BackwardCommand(
+          : SubtractDurationToAudioPositionCommand(
               audioPlayerVM: this,
               seconds: -inSeconds,
             );
@@ -609,7 +612,7 @@ class AudioPlayerVM extends ChangeNotifier {
     if (!isUndoRedo) {
       int inSeconds = 0 - _currentAudioPosition.inSeconds;
 
-      Command command = BackwardCommand(
+      Command command = SubtractDurationToAudioPositionCommand(
         audioPlayerVM: this,
         seconds: -inSeconds,
       );
@@ -661,7 +664,7 @@ class AudioPlayerVM extends ChangeNotifier {
       int inSeconds = _currentAudioTotalDuration.inSeconds -
           _currentAudioPosition.inSeconds;
 
-      Command command = ForwardCommand(
+      Command command = AddDurationToAudioPositionCommand(
         audioPlayerVM: this,
         seconds: inSeconds,
       );
@@ -707,7 +710,7 @@ class AudioPlayerVM extends ChangeNotifier {
       int inSeconds = _currentAudioTotalDuration.inSeconds -
           _currentAudioPosition.inSeconds;
 
-      Command command = ForwardCommand(
+      Command command = AddDurationToAudioPositionCommand(
         audioPlayerVM: this,
         seconds: inSeconds,
       );
