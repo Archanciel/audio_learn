@@ -140,9 +140,9 @@ class AudioPlayerVM extends ChangeNotifier {
   }) : _playlistListVM = playlistListVM {
     // the next line is necessary since _audioPlayer.dispose() is
     // called in _initializePlayer()
-    _audioPlayer = AudioPlayer();
+    // _audioPlayer = AudioPlayer();
 
-    _initializeAudioPlayer();
+    initializeAudioPlayer();
   }
 
   @override
@@ -276,7 +276,7 @@ class AudioPlayerVM extends ChangeNotifier {
     _currentAudioPosition = Duration(seconds: audio.audioPositionSeconds);
     _clearUndoRedoLists();
 
-    _initializeAudioPlayer();
+    initializeAudioPlayer();
   }
 
   /// Adjusts the playback start position of the current audio based on the elapsed
@@ -366,8 +366,14 @@ class AudioPlayerVM extends ChangeNotifier {
     await setCurrentAudio(previousAudio);
   }
 
-  void _initializeAudioPlayer() {
-    _audioPlayer.dispose();
+  /// Method to be redefined in AudioPlayerVMTestVersion 
+  void initializeAudioPlayer() {
+    try {
+      _audioPlayer.dispose();
+    } catch (e) {
+      // avoid integration test failure
+    }
+
     _audioPlayer = AudioPlayer();
 
     // Assuming filePath is the full path to your audio file
@@ -449,7 +455,7 @@ class AudioPlayerVM extends ChangeNotifier {
       _currentAudioTotalDuration = const Duration();
 
       _clearUndoRedoLists();
-      _initializeAudioPlayer();
+      initializeAudioPlayer();
 
       return;
     }
@@ -570,7 +576,7 @@ class AudioPlayerVM extends ChangeNotifier {
     // audio
     _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
 
-    await _audioPlayer.seek(_currentAudioPosition);
+    await modifyAudioPlayerPosition(_currentAudioPosition);
 
     // now, when clicking on position buttons, the playlist.json file
     // is updated
@@ -608,9 +614,14 @@ class AudioPlayerVM extends ChangeNotifier {
     // audio
     _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
 
-    await _audioPlayer.seek(durationPosition);
+    await modifyAudioPlayerPosition(durationPosition);
 
     notifyListeners();
+  }
+
+  /// Method to be redefined in AudioPlayerVMTestVersion 
+  Future<void> modifyAudioPlayerPosition(Duration durationPosition) async {
+    await _audioPlayer.seek(durationPosition);
   }
 
   /// Method called when the user clicks on the '|<' buttons.

@@ -11,6 +11,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 
+import 'audio_player_vm_test_version.dart';
+
 void main() {
   setUp(() {
     // This is necessary to avoid the following error:
@@ -752,7 +754,7 @@ Future<AudioPlayerVM> createAudioPlayerVM() async {
   // selected and which are not
   playlistListVM.getUpToDateSelectablePlaylists();
 
-  AudioPlayerVM audioPlayerVM = AudioPlayerVM(
+  AudioPlayerVM audioPlayerVM = AudioPlayerVMTestVersion(
     playlistListVM: playlistListVM,
   );
   
