@@ -14,17 +14,6 @@ import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'audio_player_vm_test_version.dart';
 
 void main() {
-  setUp(() {
-    // This is necessary to avoid the following error:
-    // FlutterError (Binding has not yet been initialized.
-    // The "instance" getter on the ServicesBinding binding
-    // mixin is only available once that binding has been
-    // initialized. Typically, this is done by calling
-    // "WidgetsFlutterBinding.ensureInitialized()"
-    //
-    // See https://stackoverflow.com/questions/57743173/flutter-unhandled-exception-servicesbinding-defaultbinarymessenger-was-accesse
-    TestWidgetsFlutterBinding.ensureInitialized();
-  });
   group('AudioPlayerVM changeAudioPlayPosition undo/redo', () {
     test('Test single undo/redo of forward position change', () async {
       AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
