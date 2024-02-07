@@ -15,7 +15,7 @@ void main() {
           SingleVideoAudioDownloadVM(youtubeExplode: mockYoutubeExplode);
     });
 
-    test('Échec du téléchargement lorsque le service renvoie une erreur',
+    test('Test download failure when the Youtube service returns an error',
         () async {
       Playlist singleVideoTargetPlaylist = Playlist(
         playlistType: PlaylistType.youtube,
