@@ -716,6 +716,234 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+  group('AudioPlayerVM bug', () {
+    test(
+        'Test bug single undo/redo of sliding backward to 3 seconds and then going 1 minute backward',
+        () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // obtain the current audio's initial position
+      Duration currentAudioInitialPosition =
+          audioPlayerVM.currentAudioPosition; // 600
+
+      // change the current audio's play slider position to 3
+      // seconds
+
+      int backwardNewSliderPositionThreeSeconds = 3;
+      audioPlayerVM.goToAudioPlayPosition(
+          durationPosition:
+              Duration(seconds: backwardNewSliderPositionThreeSeconds));
+
+      // obtain the current audio's new position
+      Duration currentAudioNewPosition =
+          audioPlayerVM.currentAudioPosition; // 3
+
+      expect(
+          currentAudioInitialPosition.inSeconds - // 600 - 3
+              currentAudioNewPosition.inSeconds,
+          597);
+
+      // change the current audio's play position minus 1 minute
+
+      int backwardChangePositionOneMinute = -60;
+      audioPlayerVM.changeAudioPlayPosition(
+          positiveOrNegativeDuration:
+              Duration(seconds: backwardChangePositionOneMinute));
+
+      // obtain the current audio's changed position (0 second)
+      currentAudioNewPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioNewPosition.inSeconds, 0);
+
+      // undo the change
+      audioPlayerVM.undo();
+
+      // obtain the current audio's position after the undo
+      Duration currentAudioPositionAfterUndo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterUndo.inSeconds, 3);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    test(
+        'Test bug single undo/redo of sliding backward to 3 seconds and then going 10 seconds backward',
+        () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // obtain the current audio's initial position
+      Duration currentAudioInitialPosition =
+          audioPlayerVM.currentAudioPosition; // 600
+
+      // change the current audio's play slider position to 3
+      // seconds
+
+      int backwardNewSliderPositionThreeSeconds = 3;
+      audioPlayerVM.goToAudioPlayPosition(
+          durationPosition:
+              Duration(seconds: backwardNewSliderPositionThreeSeconds));
+
+      // obtain the current audio's new position
+      Duration currentAudioNewPosition =
+          audioPlayerVM.currentAudioPosition; // 3
+
+      expect(
+          currentAudioInitialPosition.inSeconds - // 600 - 3
+              currentAudioNewPosition.inSeconds,
+          597);
+
+      // change the current audio's play position minus 1 minute
+
+      int backwardChangePositionTenSeconds = -10;
+      audioPlayerVM.changeAudioPlayPosition(
+          positiveOrNegativeDuration:
+              Duration(seconds: backwardChangePositionTenSeconds));
+
+      // obtain the current audio's changed position (0 second)
+      currentAudioNewPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioNewPosition.inSeconds, 0);
+
+      // undo the change
+      audioPlayerVM.undo();
+
+      // obtain the current audio's position after the undo
+      Duration currentAudioPositionAfterUndo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterUndo.inSeconds, 3);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    test(
+        'Test bug single undo/redo of sliding forward to 20 minutes 25 seconds and then going 1 minute forward',
+        () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // change the current audio's play slider position to 3
+      // seconds
+
+      int forwardNewSliderPositionTwentyMinutesTwentyFiveSeconds = 1225;
+      audioPlayerVM.goToAudioPlayPosition(
+          durationPosition:
+              Duration(seconds: forwardNewSliderPositionTwentyMinutesTwentyFiveSeconds));
+
+      // obtain the current audio's new position
+      Duration currentAudioNewPosition =
+          audioPlayerVM.currentAudioPosition; // 20 minutes 25 secs = 1225 secs
+
+      expect(
+              currentAudioNewPosition.inSeconds,
+          1225);
+
+      // change the current audio's play position plus 1 minute
+
+      int backwardChangePositionOneMinute = 60;
+      audioPlayerVM.changeAudioPlayPosition(
+          positiveOrNegativeDuration:
+              Duration(seconds: backwardChangePositionOneMinute));
+
+      // obtain the current audio's changed position (audio duration)
+      currentAudioNewPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioNewPosition.inSeconds, audioPlayerVM.currentAudio!.audioDuration!.inSeconds);
+
+      // undo the change
+      audioPlayerVM.undo();
+
+      // obtain the current audio's position after the undo
+      Duration currentAudioPositionAfterUndo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterUndo.inSeconds, 1225);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    test(
+        'Test bug single undo/redo of sliding forward to 20 minutes 25 seconds and then going 10 seconds forward',
+        () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // change the current audio's play slider position to 3
+      // seconds
+
+      int forwardNewSliderPositionTwentyMinutesTwentyFiveSeconds = 1225;
+      audioPlayerVM.goToAudioPlayPosition(
+          durationPosition:
+              Duration(seconds: forwardNewSliderPositionTwentyMinutesTwentyFiveSeconds));
+
+      // obtain the current audio's new position
+      Duration currentAudioNewPosition =
+          audioPlayerVM.currentAudioPosition; // 20 minutes 25 secs = 1225 secs
+
+      expect(
+              currentAudioNewPosition.inSeconds,
+          1225);
+
+      // change the current audio's play position plus 1 minute
+
+      int forwardChangePositionTenSeconds = 10;
+      audioPlayerVM.changeAudioPlayPosition(
+          positiveOrNegativeDuration:
+              Duration(seconds: forwardChangePositionTenSeconds));
+
+      // obtain the current audio's changed position (audio duration)
+      currentAudioNewPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioNewPosition.inSeconds, audioPlayerVM.currentAudio!.audioDuration!.inSeconds);
+
+      // undo the change
+      audioPlayerVM.undo();
+
+      // obtain the current audio's position after the undo
+      Duration currentAudioPositionAfterUndo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterUndo.inSeconds, 1225);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
   group('AudioPlayerVM skipToStart undo/redo', () {});
   group('AudioPlayerVM skipToEndNoPlay undo/redo', () {});
   group('AudioPlayerVM skipToEndAndPlay undo/redo', () {});
@@ -746,7 +974,7 @@ Future<AudioPlayerVM> createAudioPlayerVM() async {
   AudioPlayerVM audioPlayerVM = AudioPlayerVMTestVersion(
     playlistListVM: playlistListVM,
   );
-  
+
   return audioPlayerVM;
 }
 

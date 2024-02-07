@@ -529,7 +529,8 @@ class AudioPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Method called when the user clicks on the '<<' or '>>' buttons.
+  /// Method called when the user clicks on the '<<' or '>>'
+  /// 10 seconds or 1 minute buttons.
   ///
   /// {positiveOrNegativeDuration} is the duration to be added or
   /// subtracted to the current audio position.
@@ -552,25 +553,28 @@ class AudioPlayerVM extends ChangeNotifier {
     //
     // This fixes the bug when clicking on >> after having clicked
     // on >| or clicking on << after having clicked on |<.
+    int positionChangeInSeconds;
+
     if (newAudioPosition < Duration.zero) {
+      positionChangeInSeconds = - _currentAudioPosition.inSeconds;
       _currentAudioPosition = Duration.zero;
     } else if (newAudioPosition > currentAudioDuration) {
+      positionChangeInSeconds = currentAudioDuration.inSeconds - _currentAudioPosition.inSeconds;
       _currentAudioPosition = currentAudioDuration;
     } else {
+      positionChangeInSeconds = positiveOrNegativeDuration.inSeconds;
       _currentAudioPosition = newAudioPosition;
     }
 
     if (!isUndoRedo) {
-      int inSeconds = positiveOrNegativeDuration.inSeconds;
-
-      Command command = (inSeconds > 0)
+      Command command = (positionChangeInSeconds > 0)
           ? AddDurationToAudioPositionCommand(
               audioPlayerVM: this,
-              seconds: inSeconds,
+              seconds: positionChangeInSeconds,
             )
           : SubtractDurationToAudioPositionCommand(
               audioPlayerVM: this,
-              seconds: -inSeconds,
+              seconds: -positionChangeInSeconds,
             );
 
       _undoList.add(command);
