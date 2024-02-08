@@ -965,9 +965,7 @@ void main() {
       // obtain the current audio's changed position
       Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
 
-      expect(
-          currentAudioChangedPosition.inSeconds,
-          0);
+      expect(currentAudioChangedPosition.inSeconds, 0);
 
       // undo the change
       audioPlayerVM.undo();
@@ -986,15 +984,103 @@ void main() {
       Duration currentAudioPositionAfterRedo =
           audioPlayerVM.currentAudioPosition;
 
-      expect(
-          currentAudioPositionAfterRedo.inSeconds,
-          0);
+      expect(currentAudioPositionAfterRedo.inSeconds, 0);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    test('Test multiple undo/redo of multiple forward and skipToStart position change', () async {
+    test(
+        'Test multiple undo/redo of multiple forward and skipToStart position change',
+        () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // skip to the end of the current audio
+
+      audioPlayerVM.skipToStart();
+
+      // obtain the current audio's changed position
+      Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioChangedPosition.inSeconds, 0);
+
+      // change the current audio's play position from the start
+      // to 100 seconds
+
+      int forwardChangePosition = 100;
+      audioPlayerVM.changeAudioPlayPosition(
+          positiveOrNegativeDuration: Duration(seconds: forwardChangePosition));
+
+      // obtain the current audio's changed position
+      currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(
+          currentAudioChangedPosition.inSeconds, forwardChangePosition); // 100
+
+      // skip a second time to the start of the current audio
+
+      audioPlayerVM.skipToStart();
+
+      // obtain the current audio's changed position
+      currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioChangedPosition.inSeconds, 0);
+
+      // undo the second skip to start
+      audioPlayerVM.undo();
+
+      currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioChangedPosition.inSeconds, 100);
+
+      // undo forward change to 100 seconds
+      audioPlayerVM.undo();
+
+      // obtain the current audio's position after the second undo
+      Duration currentAudioPositionAfterUndo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterUndo.inSeconds, 0);
+
+      // undo the first skip to start
+      audioPlayerVM.undo();
+
+      currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioChangedPosition.inSeconds, 600);
+
+      // redo the first skip to start
+      audioPlayerVM.redo();
+
+      // obtain the current audio's position after the redo
+      Duration currentAudioPositionAfterRedo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterRedo.inSeconds, 0);
+
+      // redo the first forward change to 100 seconds
+      audioPlayerVM.redo();
+
+      // obtain the current audio's position after the redo
+      currentAudioPositionAfterRedo = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterRedo.inSeconds, 100);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
+  group('AudioPlayerVM skipToEndAndPlay undo/redo', () {
+    test('Test single undo/redo of skipToEnd position change', () async {
       AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
 
       // obtain the list of playable audios of the selected
@@ -1009,52 +1095,100 @@ void main() {
       Duration currentAudioInitialPosition =
           audioPlayerVM.currentAudioPosition; // 600
 
-      // skip to the start of the current audio
+      // skip to the end of the current audio
 
-      audioPlayerVM.skipToStart();
+      audioPlayerVM.skipToEndAndPlay();
 
       // obtain the current audio's changed position
       Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
 
-      expect(
-          currentAudioChangedPosition.inSeconds,
-          0);
+      expect(currentAudioChangedPosition.inSeconds,
+          audioPlayerVM.currentAudio!.audioDuration!.inSeconds);
+
+      // undo the change
+      audioPlayerVM.undo();
+
+      // obtain the current audio's position after the undo
+      Duration currentAudioPositionAfterUndo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterUndo.inSeconds,
+          currentAudioInitialPosition.inSeconds);
+
+      // redo the change
+      audioPlayerVM.redo();
+
+      // obtain the current audio's position after the redo
+      Duration currentAudioPositionAfterRedo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterRedo.inSeconds,
+          audioPlayerVM.currentAudio!.audioDuration!.inSeconds);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    test(
+        'Test multiple undo/redo of multiple forward and skipToEnd position change',
+        () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // skip to the start of the current audio
+
+      audioPlayerVM.skipToEndAndPlay();
+
+      // obtain the current audio's changed position
+      Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      int currentAudioTotalDurationInSeconds =
+          audioPlayerVM.currentAudioTotalDuration.inSeconds;
+
+      expect(currentAudioChangedPosition.inSeconds,
+          currentAudioTotalDurationInSeconds);
 
       // change the current audio's play position from the start
       // to 100 seconds
 
-      int forwardChangePosition = 100;
+      int backwardChangePosition = -100;
+
       audioPlayerVM.changeAudioPlayPosition(
-          positiveOrNegativeDuration: Duration(seconds: forwardChangePosition));
+          positiveOrNegativeDuration:
+              Duration(seconds: backwardChangePosition));
 
       // obtain the current audio's changed position
       currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
 
-      expect(
-          currentAudioChangedPosition.inSeconds,
-          forwardChangePosition); // 100
+      expect(currentAudioChangedPosition.inSeconds,
+          currentAudioTotalDurationInSeconds - 100);
 
-      // skip a second time to the start of the current audio
+      // skip a second time to the end of the current audio
 
-      audioPlayerVM.skipToStart();
+      audioPlayerVM.skipToEndAndPlay();
 
       // obtain the current audio's changed position
       currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
 
-      expect(
-          currentAudioChangedPosition.inSeconds,
-          0);
+      expect(currentAudioChangedPosition.inSeconds,
+          currentAudioTotalDurationInSeconds);
 
-      // undo the second skip to start
+      // undo the second skip to end
       audioPlayerVM.undo();
 
       currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
 
-      expect(
-          currentAudioChangedPosition.inSeconds,
-          100);
+      expect(currentAudioChangedPosition.inSeconds,
+          currentAudioTotalDurationInSeconds - 100); // 100
 
-      // undo forward change to 100 seconds
+      // undo backward change to -100 seconds
       audioPlayerVM.undo();
 
       // obtain the current audio's position after the second undo
@@ -1062,46 +1196,189 @@ void main() {
           audioPlayerVM.currentAudioPosition;
 
       expect(currentAudioPositionAfterUndo.inSeconds,
-          0);
+          currentAudioTotalDurationInSeconds);
 
-      // undo the first skip to start
+      // undo the first skip to end
       audioPlayerVM.undo();
 
       currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
 
-      expect(
-          currentAudioChangedPosition.inSeconds,
-          600);
+      expect(currentAudioChangedPosition.inSeconds, 600);
 
-      // redo the first skip to start
+      // redo the first skip to end
       audioPlayerVM.redo();
 
       // obtain the current audio's position after the redo
       Duration currentAudioPositionAfterRedo =
           audioPlayerVM.currentAudioPosition;
 
-      expect(
-          currentAudioPositionAfterRedo.inSeconds,
-          0);
+      expect(currentAudioPositionAfterRedo.inSeconds,
+          currentAudioTotalDurationInSeconds);
 
-      // redo the first forward change to 100 seconds
+      // redo the first backward change to -100 seconds
       audioPlayerVM.redo();
 
       // obtain the current audio's position after the redo
-      currentAudioPositionAfterRedo =
-          audioPlayerVM.currentAudioPosition;
+      currentAudioPositionAfterRedo = audioPlayerVM.currentAudioPosition;
 
-      expect(
-          currentAudioPositionAfterRedo.inSeconds,
-          100);
+      expect(currentAudioPositionAfterRedo.inSeconds,
+          currentAudioTotalDurationInSeconds - 100);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-  group('AudioPlayerVM skipToEndNoPlay undo/redo', () {});
-  group('AudioPlayerVM skipToEndAndPlay undo/redo', () {});
+  group('AudioPlayerVM skipToEndNoPlay (method not used) undo/redo', () {
+    test('Test single undo/redo of skipToEnd position change', () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // obtain the current audio's initial position
+      Duration currentAudioInitialPosition =
+          audioPlayerVM.currentAudioPosition; // 600
+
+      // skip to the end of the current audio
+
+      audioPlayerVM.skipToEndNoPlay();
+
+      // obtain the current audio's changed position
+      Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioChangedPosition.inSeconds,
+          audioPlayerVM.currentAudio!.audioDuration!.inSeconds);
+
+      // undo the change
+      audioPlayerVM.undo();
+
+      // obtain the current audio's position after the undo
+      Duration currentAudioPositionAfterUndo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterUndo.inSeconds,
+          currentAudioInitialPosition.inSeconds);
+
+      // redo the change
+      audioPlayerVM.redo();
+
+      // obtain the current audio's position after the redo
+      Duration currentAudioPositionAfterRedo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterRedo.inSeconds,
+          audioPlayerVM.currentAudio!.audioDuration!.inSeconds);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    test(
+        'Test multiple undo/redo of multiple forward and skipToEnd position change',
+        () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // skip to the end of the current audio
+
+      audioPlayerVM.skipToEndNoPlay();
+
+      // obtain the current audio's changed position
+      Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      int currentAudioTotalDurationInSeconds =
+          audioPlayerVM.currentAudioTotalDuration.inSeconds;
+
+      expect(currentAudioChangedPosition.inSeconds,
+          currentAudioTotalDurationInSeconds);
+
+      // change the current audio's play position from the start
+      // to 100 seconds
+
+      int backwardChangePosition = -100;
+
+      audioPlayerVM.changeAudioPlayPosition(
+          positiveOrNegativeDuration:
+              Duration(seconds: backwardChangePosition));
+
+      // obtain the current audio's changed position
+      currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioChangedPosition.inSeconds,
+          currentAudioTotalDurationInSeconds - 100);
+
+      // skip a second time to the end of the current audio
+
+      audioPlayerVM.skipToEndNoPlay();
+
+      // obtain the current audio's changed position
+      currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioChangedPosition.inSeconds,
+          currentAudioTotalDurationInSeconds);
+
+      // undo the second skip to end
+      audioPlayerVM.undo();
+
+      currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioChangedPosition.inSeconds,
+          currentAudioTotalDurationInSeconds - 100); // 100
+
+      // undo backward change to -100 seconds
+      audioPlayerVM.undo();
+
+      // obtain the current audio's position after the second undo
+      Duration currentAudioPositionAfterUndo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterUndo.inSeconds,
+          currentAudioTotalDurationInSeconds);
+
+      // undo the first skip to end
+      audioPlayerVM.undo();
+
+      currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioChangedPosition.inSeconds, 600);
+
+      // redo the first skip to end
+      audioPlayerVM.redo();
+
+      // obtain the current audio's position after the redo
+      Duration currentAudioPositionAfterRedo =
+          audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterRedo.inSeconds,
+          currentAudioTotalDurationInSeconds);
+
+      // redo the first backward change to -100 seconds
+      audioPlayerVM.redo();
+
+      // obtain the current audio's position after the redo
+      currentAudioPositionAfterRedo = audioPlayerVM.currentAudioPosition;
+
+      expect(currentAudioPositionAfterRedo.inSeconds,
+          currentAudioTotalDurationInSeconds - 100);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
 }
 
 Future<AudioPlayerVM> createAudioPlayerVM() async {
