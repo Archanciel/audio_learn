@@ -369,7 +369,8 @@ class AudioPlayerVM extends ChangeNotifier {
     await setCurrentAudio(previousAudio);
   }
 
-  /// Method to be redefined in AudioPlayerVMTestVersion
+  /// Method to be redefined in AudioPlayerVMTestVersion in order
+  /// to avoid the use of the audio player plugin in unit tests.
   void initializeAudioPlayerPlugin() {
     try {
       _audioPlayerPlugin.dispose();
@@ -635,7 +636,8 @@ class AudioPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Method to be redefined in AudioPlayerVMTestVersion
+  /// Method to be redefined in AudioPlayerVMTestVersion in order
+  /// to avoid the use of the audio player plugin in unit tests.
   Future<void> modifyAudioPlayerPluginPosition(
       Duration durationPosition) async {
     await _audioPlayerPlugin.seek(durationPosition);
@@ -676,7 +678,7 @@ class AudioPlayerVM extends ChangeNotifier {
     // audio
     _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
 
-    await _audioPlayerPlugin.seek(_currentAudioPosition);
+    await modifyAudioPlayerPluginPosition(_currentAudioPosition);
 
     notifyListeners();
   }
@@ -731,7 +733,7 @@ class AudioPlayerVM extends ChangeNotifier {
     _currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
     updateAndSaveCurrentAudio();
 
-    await _audioPlayerPlugin.seek(_currentAudioTotalDuration);
+    await modifyAudioPlayerPluginPosition(_currentAudioTotalDuration);
 
     notifyListeners();
   }
@@ -773,7 +775,7 @@ class AudioPlayerVM extends ChangeNotifier {
     _currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
     updateAndSaveCurrentAudio();
 
-    await _audioPlayerPlugin.seek(_currentAudioTotalDuration);
+    await modifyAudioPlayerPluginPosition(_currentAudioTotalDuration);
 
     notifyListeners();
   }
