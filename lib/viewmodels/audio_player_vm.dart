@@ -16,6 +16,9 @@ abstract class Command {
   void undo();
 }
 
+/// Command class used when the user clicks on the '>>' 10 seconds
+/// or 1 minute buttons or when the user clicks the first time on
+/// the >| icon if the audio position is not already at end.
 class AddDurationToAudioPositionCommand implements Command {
   final AudioPlayerVM audioPlayerVM;
   final int seconds;
@@ -42,6 +45,9 @@ class AddDurationToAudioPositionCommand implements Command {
   }
 }
 
+/// Command class used when the user clicks on the '<<' 10 seconds
+/// or 1 minute buttons or when the user clicks the first time on
+/// the |< icon if the audio position is not already at start.
 class SubtractDurationToAudioPositionCommand implements Command {
   final AudioPlayerVM audioPlayerVM;
   final int seconds;
@@ -68,6 +74,7 @@ class SubtractDurationToAudioPositionCommand implements Command {
   }
 }
 
+/// Command class used when the user clicks on the audio slider.
 class SetAudioPositionCommand implements Command {
   final AudioPlayerVM audioPlayerVM;
   final Duration oldDurationPosition;
@@ -556,10 +563,11 @@ class AudioPlayerVM extends ChangeNotifier {
     int positionChangeInSeconds;
 
     if (newAudioPosition < Duration.zero) {
-      positionChangeInSeconds = - _currentAudioPosition.inSeconds;
+      positionChangeInSeconds = -_currentAudioPosition.inSeconds;
       _currentAudioPosition = Duration.zero;
     } else if (newAudioPosition > currentAudioDuration) {
-      positionChangeInSeconds = currentAudioDuration.inSeconds - _currentAudioPosition.inSeconds;
+      positionChangeInSeconds =
+          currentAudioDuration.inSeconds - _currentAudioPosition.inSeconds;
       _currentAudioPosition = currentAudioDuration;
     } else {
       positionChangeInSeconds = positiveOrNegativeDuration.inSeconds;
@@ -633,7 +641,7 @@ class AudioPlayerVM extends ChangeNotifier {
     await _audioPlayerPlugin.seek(durationPosition);
   }
 
-  /// Method called when the user clicks on the '|<' buttons.
+  /// Method called when the user clicks on the |< icon.
   ///
   /// {isUndoRedo} is true when the method is called by the AudioPlayerVM
   /// undo or redo methods. In this case, the method does not add a
