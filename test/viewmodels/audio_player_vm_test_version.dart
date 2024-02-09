@@ -1,5 +1,4 @@
 import 'package:audio_learn/viewmodels/audio_player_vm.dart';
-import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 
 /// This is a test version of the AudioPlayerVM. It is used in the
 /// test environment to avoid the use of the audio player plugin
@@ -12,10 +11,8 @@ import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 /// player plugin.
 class AudioPlayerVMTestVersion extends AudioPlayerVM {
   AudioPlayerVMTestVersion({
-    required PlaylistListVM playlistListVM,
-  }) : super(
-          playlistListVM: playlistListVM,
-        );
+    required super.playlistListVM,
+  });
 
   @override
   void initializeAudioPlayerPlugin() {
