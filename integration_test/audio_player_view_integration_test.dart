@@ -1,6 +1,8 @@
+import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/services/json_data_service.dart';
 import 'package:audio_learn/utils/date_time_parser.dart';
+import 'package:audio_learn/viewmodels/audio_player_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -260,7 +262,7 @@ void main() {
   });
   group('AudioPlayerView set play speed tests', () {
     testWidgets(
-        'Opening AudioPlayerView by clicking on audio title. Then reduce play speed. Then go back to PlaylistDownloadView and click on another audio title.',
+        'Reduce play speed. Then go back to PlaylistDownloadView and click on another audio title.',
         (
       WidgetTester tester,
     ) async {
@@ -356,7 +358,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
-        'Opening AudioPlayerView by clicking on audio title. Then reduce play speed. Then click twice on >| button to start playing the most recently downloaded audio.',
+        'Reduce play speed. Then click twice on >| button to start playing the most recently downloaded audio.',
         (
       WidgetTester tester,
     ) async {
@@ -436,7 +438,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
-        'Opening AudioPlayerView by clicking on audio title. Then reduce play speed. Then click on play button to finish playing the first downloaded audio and start playing the next downloaded audio.',
+        'Reduce play speed. Then click on play button to finish playing the first downloaded audio and start playing the next downloaded audio.',
         (
       WidgetTester tester,
     ) async {
@@ -517,7 +519,65 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
-        'Opening AudioPlayerView by clicking on audio title. Then reduce play speed. Then click on play button to finish playing the first downloaded audio and start playing the last downloaded audio, ignoring the 2 precendent audios already fully played.',
+        'Reduce play speed. Then click on Cancel.',
+        (
+      WidgetTester tester,
+    ) async {
+      const String audioPlayerSelectedPlaylistTitle = 'S8 audio';
+      const String firstDownloadedAudioTitle =
+          'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_play_speed_bug_fix_test_data',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // First, get the first downloaded Audio ListTile Text
+      // widget finder and tap on it
+      final Finder firstDownloadedAudioListTileTextWidgetFinder =
+          find.text(firstDownloadedAudioTitle);
+
+      await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // Now open the audio play speed dialog
+      await tester.tap(find.byKey(const Key('setAudioSpeedTextButton')));
+      await tester.pumpAndSettle();
+
+      // Now select the 0.7x play speed
+      await tester.tap(find.text('0.7x'));
+      await tester.pumpAndSettle();
+
+      // And click on the Cancel button
+      await tester.tap(find.text('Cancel'));
+      await tester.pumpAndSettle();
+
+      // Verify if the play speed is 1.25x
+      expect(find.text('1.25x'), findsOneWidget);
+
+      // Check the saved playlist first downloaded audio
+      // play speed value in the json file
+
+      int playableAudioLstAudioIndex = 1;
+      double expectedAudioPlaySpeed = 1.25;
+
+      verifyAudioPlaySpeedStoredInPlaylistJsonFile(
+        audioPlayerSelectedPlaylistTitle,
+        playableAudioLstAudioIndex,
+        expectedAudioPlaySpeed,
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Reduce play speed. Then click on play button to finish playing the first downloaded audio and start playing the last downloaded audio, ignoring the 2 precendent audios already fully played.',
         (
       WidgetTester tester,
     ) async {
@@ -602,7 +662,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
-        'Opening AudioPlayerView by clicking on audio title. Then reduce play speed. Then open the DisplaySelectableAudioListDialogWidget and select the most recently downloaded audio.',
+        'Reduce play speed. Then open the DisplaySelectableAudioListDialogWidget and select the most recently downloaded audio.',
         (
       WidgetTester tester,
     ) async {
@@ -796,7 +856,8 @@ void main() {
         audioTitle:
             "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
         expectedTitleTextColor: currentlyPlayingAudioTitleTextColor,
-        expectedTitleTextBackgroundColor: currentlyPlayingAudioTitleTextBackgroundColor,
+        expectedTitleTextBackgroundColor:
+            currentlyPlayingAudioTitleTextBackgroundColor,
       );
 
       await checkAudioTextColor(
@@ -824,7 +885,8 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Current audio partially listened. Only no played or partially played audio displayed',
+    testWidgets(
+        'Current audio partially listened. Only no played or partially played audio displayed',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
@@ -863,18 +925,24 @@ void main() {
       await tester.pumpAndSettle();
 
       // Tap the Exclude fuly played audio checkbox
-      await tester.tap(find.byKey(const Key('excludeFullyPlayedAudiosCheckbox')));
+      await tester
+          .tap(find.byKey(const Key('excludeFullyPlayedAudiosCheckbox')));
       await tester.pumpAndSettle();
 
-      expect(find.text("3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)"), findsNothing);
-      expect(find.text("Les besoins artificiels par R.Keucheyan"), findsNothing);
+      expect(
+          find.text(
+              "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)"),
+          findsNothing);
+      expect(
+          find.text("Les besoins artificiels par R.Keucheyan"), findsNothing);
 
       await checkAudioTextColor(
         tester: tester,
         audioTitle:
             "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
         expectedTitleTextColor: currentlyPlayingAudioTitleTextColor,
-        expectedTitleTextBackgroundColor: currentlyPlayingAudioTitleTextBackgroundColor,
+        expectedTitleTextBackgroundColor:
+            currentlyPlayingAudioTitleTextBackgroundColor,
       );
 
       await checkAudioTextColor(
@@ -896,10 +964,97 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+  group('AudioPlayerVM undo/redo tests', () {
+    testWidgets('Test single undo/redo of forward position change',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String currentPartiallyPlayedAudioTitle =
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the current parially played Audio ListTile Text
+      // widget finder and tap on it
+      final Finder currentPartiallyPlayedAudioListTileTextWidgetFinder =
+          find.text(currentPartiallyPlayedAudioTitle);
+
+      await tester.tap(currentPartiallyPlayedAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+      int i = 0;
+      // AudioPlayerVM audioPlayerVM;
+
+      // // obtain the list of playable audios of the selected
+      // // playlist ordered by download date
+      // List<Audio> selectedPlaylistAudioList =
+      //     audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // // set the current audio to the first audio in the list
+      // await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // // obtain the current audio's initial position
+      // Duration currentAudioInitialPosition = audioPlayerVM.currentAudioPosition;
+
+      // // change the current audio's play position
+
+      // int forwardChangePosition = 100;
+      // audioPlayerVM.changeAudioPlayPosition(
+      //     positiveOrNegativeDuration: Duration(seconds: forwardChangePosition));
+
+      // // obtain the current audio's changed position
+      // Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+
+      // expect(
+      //     currentAudioChangedPosition.inSeconds -
+      //         currentAudioInitialPosition.inSeconds,
+      //     forwardChangePosition);
+
+      // // undo the change
+      // audioPlayerVM.undo();
+
+      // // obtain the current audio's position after the undo
+      // Duration currentAudioPositionAfterUndo =
+      //     audioPlayerVM.currentAudioPosition;
+
+      // expect(currentAudioPositionAfterUndo.inSeconds,
+      //     currentAudioInitialPosition.inSeconds);
+
+      // // redo the change
+      // audioPlayerVM.redo();
+
+      // // obtain the current audio's position after the redo
+      // Duration currentAudioPositionAfterRedo =
+      //     audioPlayerVM.currentAudioPosition;
+
+      // expect(
+      //     currentAudioPositionAfterRedo.inSeconds -
+      //         currentAudioInitialPosition.inSeconds,
+      //     forwardChangePosition);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
 }
 
 Future<void> checkAudioTextColor({
   required WidgetTester tester,
+
   required String audioTitle,
   required Color? expectedTitleTextColor,
   required Color? expectedTitleTextBackgroundColor,
@@ -912,7 +1067,8 @@ Future<void> checkAudioTextColor({
 
   // Check if the color of the Text widget is as expected
   expect(textWidget.style?.color, equals(expectedTitleTextColor));
-  expect(textWidget.style?.backgroundColor, equals(expectedTitleTextBackgroundColor));
+  expect(textWidget.style?.backgroundColor,
+      equals(expectedTitleTextBackgroundColor));
 }
 
 void verifyAudioPlaySpeedStoredInPlaylistJsonFile(
