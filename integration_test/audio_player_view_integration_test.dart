@@ -924,7 +924,7 @@ void main() {
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau\n6:29'));
       await tester.pumpAndSettle();
 
-      // Tap the Exclude fuly played audio checkbox
+      // Tap the Exclude fully played audio checkbox
       await tester
           .tap(find.byKey(const Key('excludeFullyPlayedAudiosCheckbox')));
       await tester.pumpAndSettle();
@@ -964,12 +964,12 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-  group('AudioPlayerVM undo/redo tests', () {
+  group('AudioPlayerView undo/redo tests', () {
     testWidgets('Test single undo/redo of forward position change',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
-      const String currentPartiallyPlayedAudioTitle =
+      const String toSelectAudioTitle =
           "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
 
       await initializeApplicationAndSelectPlaylist(
@@ -988,62 +988,43 @@ void main() {
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
-      // First, get the current parially played Audio ListTile Text
-      // widget finder and tap on it
-      final Finder currentPartiallyPlayedAudioListTileTextWidgetFinder =
-          find.text(currentPartiallyPlayedAudioTitle);
+      // First, get the ListTile Text widget finder of the audio
+      // to be selected and tap on it
+      final Finder toSelectAudioListTileTextWidgetFinder =
+          find.text(toSelectAudioTitle);
 
-      await tester.tap(currentPartiallyPlayedAudioListTileTextWidgetFinder);
+      await tester.tap(toSelectAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
-      int i = 0;
-      // AudioPlayerVM audioPlayerVM;
 
-      // // obtain the list of playable audios of the selected
-      // // playlist ordered by download date
-      // List<Audio> selectedPlaylistAudioList =
-      //     audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+      // check the current audio's changed position
+      expect(find.text('10:00'), findsOneWidget);
 
-      // // set the current audio to the first audio in the list
-      // await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+      // change the current audio's play position
 
-      // // obtain the current audio's initial position
-      // Duration currentAudioInitialPosition = audioPlayerVM.currentAudioPosition;
+      await tester
+          .tap(find.byKey(const Key('audioPlayerViewForward1mButton')));
+      await tester.pumpAndSettle();
 
-      // // change the current audio's play position
+      // check the current audio's changed position
+      expect(find.text('11:00'), findsOneWidget);
 
-      // int forwardChangePosition = 100;
-      // audioPlayerVM.changeAudioPlayPosition(
-      //     positiveOrNegativeDuration: Duration(seconds: forwardChangePosition));
+      // undo the change
 
-      // // obtain the current audio's changed position
-      // Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
+      await tester
+          .tap(find.byKey(const Key('audioPlayerViewUndoButton')));
+      await tester.pumpAndSettle();
 
-      // expect(
-      //     currentAudioChangedPosition.inSeconds -
-      //         currentAudioInitialPosition.inSeconds,
-      //     forwardChangePosition);
+      // check the current audio's changed position after the undo
+      expect(find.text('10:00'), findsOneWidget);
 
-      // // undo the change
-      // audioPlayerVM.undo();
+      // redo the change
+      
+      await tester
+          .tap(find.byKey(const Key('audioPlayerViewRedoButton')));
+      await tester.pumpAndSettle();
 
-      // // obtain the current audio's position after the undo
-      // Duration currentAudioPositionAfterUndo =
-      //     audioPlayerVM.currentAudioPosition;
-
-      // expect(currentAudioPositionAfterUndo.inSeconds,
-      //     currentAudioInitialPosition.inSeconds);
-
-      // // redo the change
-      // audioPlayerVM.redo();
-
-      // // obtain the current audio's position after the redo
-      // Duration currentAudioPositionAfterRedo =
-      //     audioPlayerVM.currentAudioPosition;
-
-      // expect(
-      //     currentAudioPositionAfterRedo.inSeconds -
-      //         currentAudioInitialPosition.inSeconds,
-      //     forwardChangePosition);
+      // check the current audio's changed position
+      expect(find.text('11:00'), findsOneWidget);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
