@@ -715,6 +715,128 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    test(
+        "Test insert a new slider command after first undo forward slider position change, then perform one undo before one redo. This test could not be done in the AudioPlayerView integration test because the moving the slider to a new position is not possible in the integration test.",
+        () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // change one time the current audio's play position
+
+      int forwardNewSliderPositionOne = 720;
+      audioPlayerVM.goToAudioPlayPosition(
+          durationPosition: Duration(seconds: forwardNewSliderPositionOne));
+
+      // check the current audio's changed position
+      expect(audioPlayerVM.currentAudioPosition.inSeconds, 720);
+
+      // undo the first slider forward change
+      audioPlayerVM.undo(); // undo 720 --> 600
+
+      // enter a new command. Entering a new command does not affect the
+      // undo command list
+      int backwardNewSliderPositionTwo = 560;
+      audioPlayerVM.goToAudioPlayPosition(
+          durationPosition: Duration(seconds: backwardNewSliderPositionTwo));
+
+      // check the current audio's position after the first undo and the
+      // new slider backward command
+      expect(audioPlayerVM.currentAudioPosition.inSeconds, 560);
+
+      // redo the first slider undone change (forward one). Entering a new
+      // command did not affect the redoing of the first undone slider change
+      audioPlayerVM.redo(); // redo 720 --> 720
+
+      // check the current audio's position after the redoing the first
+      // forward change (forward one)
+      expect(audioPlayerVM.currentAudioPosition.inSeconds, 720);
+
+      // undo the redone first forward change (forward one)
+      audioPlayerVM.undo(); // 720 --> 600
+
+      // check the current audio's position after the first undo
+      expect(audioPlayerVM.currentAudioPosition.inSeconds, 600);
+
+      // redo the first slider change
+      audioPlayerVM.redo(); // redo 720 --> 720
+
+      // check the current audio's position after the redo
+      expect(audioPlayerVM.currentAudioPosition.inSeconds, 720);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    test(
+        "Test insert a new slider command after first undo forward slider position change, then perform two undo's before one redo in order to redo the new slider backward command. This test could not be done in the AudioPlayerView integration test because the moving the slider to a new position is not possible in the integration test.",
+        () async {
+      AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
+
+      // obtain the list of playable audios of the selected
+      // playlist ordered by download date
+      List<Audio> selectedPlaylistAudioList =
+          audioPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+
+      // set the current audio to the first audio in the list
+      await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
+
+      // change one time the current audio's play position
+
+      int forwardNewSliderPositionOne = 720;
+      audioPlayerVM.goToAudioPlayPosition(
+          durationPosition: Duration(seconds: forwardNewSliderPositionOne));
+
+      // check the current audio's changed position
+      expect(audioPlayerVM.currentAudioPosition.inSeconds, 720);
+
+      // undo the first slider forward change
+      audioPlayerVM.undo(); // undo 720 --> 600
+
+      // enter a new command. Entering a new command does not affect the
+      // undo command list
+      int backwardNewSliderPositionTwo = 560;
+      audioPlayerVM.goToAudioPlayPosition(
+          durationPosition: Duration(seconds: backwardNewSliderPositionTwo));
+
+      // check the current audio's position after the first undo and the
+      // new slider backward command
+      expect(audioPlayerVM.currentAudioPosition.inSeconds, 560);
+
+      // redo the first slider undone change (forward one). Entering a new
+      // command did not affect the redoing of the first undone slider change
+      audioPlayerVM.redo(); // redo 720 --> 720
+
+      // check the current audio's position after the redoing the first
+      // forward change (forward one)
+      expect(audioPlayerVM.currentAudioPosition.inSeconds, 720);
+
+      // undo the redone first forward change (forward one)
+      audioPlayerVM.undo(); // 720 --> 600
+
+      // perform a second undo in order to be able to redo the slider new
+      // backward command
+      audioPlayerVM.undo(); // 600 --> 600
+
+      // check the current audio's position after the first undo
+      expect(audioPlayerVM.currentAudioPosition.inSeconds, 600);
+
+      // redo the first slider change
+      audioPlayerVM.redo(); // redo 560 --> 560
+
+      // check the current audio's position after the redo
+      expect(audioPlayerVM.currentAudioPosition.inSeconds, 560);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
   });
   group('AudioPlayerVM bug', () {
     test(
