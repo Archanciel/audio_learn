@@ -663,17 +663,17 @@ class AudioPlayerVM extends ChangeNotifier {
     }
 
     if (!isUndoRedo) {
-      int inSeconds = 0 - _currentAudioPosition.inSeconds;
-
-      Command command = SubtractDurationToAudioPositionCommand(
+      Command command = SetAudioPositionCommand(
         audioPlayerVM: this,
-        seconds: -inSeconds,
+        oldDurationPosition: _currentAudioPosition,
+        newDurationPosition: Duration.zero,
       );
 
       _undoList.add(command);
     }
 
     _currentAudioPosition = Duration.zero;
+    
     // necessary so that the audio position is stored on the
     // audio
     _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
@@ -714,12 +714,10 @@ class AudioPlayerVM extends ChangeNotifier {
     //     _currentAudioTotalDuration - const Duration(seconds: 1);
 
     if (!isUndoRedo) {
-      int inSeconds = _currentAudioTotalDuration.inSeconds -
-          _currentAudioPosition.inSeconds;
-
-      Command command = AddDurationToAudioPositionCommand(
+      Command command = SetAudioPositionCommand(
         audioPlayerVM: this,
-        seconds: inSeconds,
+        oldDurationPosition: _currentAudioPosition,
+        newDurationPosition: _currentAudioTotalDuration,
       );
 
       _undoList.add(command);
@@ -760,12 +758,10 @@ class AudioPlayerVM extends ChangeNotifier {
     // on the >| icon button
 
     if (!isUndoRedo) {
-      int inSeconds = _currentAudioTotalDuration.inSeconds -
-          _currentAudioPosition.inSeconds;
-
-      Command command = AddDurationToAudioPositionCommand(
+      Command command = SetAudioPositionCommand(
         audioPlayerVM: this,
-        seconds: inSeconds,
+        oldDurationPosition: _currentAudioPosition,
+        newDurationPosition: _currentAudioTotalDuration,
       );
 
       _undoList.add(command);
