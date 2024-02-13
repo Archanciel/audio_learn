@@ -958,8 +958,8 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-  group('AudioPlayerView undo/redo tests', () {
-    testWidgets('Single undo/redo of forward 1 minute position change',
+  group('AudioPlayerView single undo/redo tests', () {
+    testWidgets('forward 1 minute position change',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
@@ -1021,7 +1021,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Single undo/redo of forward 10 seconds position change',
+    testWidgets('forward 10 seconds position change',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
@@ -1084,7 +1084,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Single undo/redo of backward 1 minute position change',
+    testWidgets('backward 1 minute position change',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
@@ -1146,7 +1146,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Single undo/redo of backward 10 seconds position change',
+    testWidgets('backward 10 seconds position change',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
@@ -1208,7 +1208,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Single undo/redo of skip to start position change',
+    testWidgets('skip to start position change',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
@@ -1242,7 +1242,7 @@ void main() {
       // check the current audio's changed position
       expect(find.text('10:00'), findsOneWidget);
 
-      // change the current audio's play position to audio end
+      // change the current audio's play position to audio start
 
       await tester.tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
       await tester.pumpAndSettle();
@@ -1270,7 +1270,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Single undo/redo of skip to end position change',
+    testWidgets('skip to end position change',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
@@ -1319,6 +1319,397 @@ void main() {
 
       // check the current audio's changed position after the undo
       expect(find.text('10:00'), findsOneWidget);
+
+      // redo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewRedoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('20:32'), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
+  group('AudioPlayerView undo/redo with new command between tests', () {
+    testWidgets('forward 1 minute position change',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String toSelectAudioTitle =
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the ListTile Text widget finder of the audio
+      // to be selected and tap on it
+      final Finder toSelectAudioListTileTextWidgetFinder =
+          find.text(toSelectAudioTitle);
+
+      await tester.tap(toSelectAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('10:00'), findsOneWidget);
+
+      // change the current audio's play position
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewForward1mButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('11:00'), findsOneWidget);
+
+      // undo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewUndoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position after the undo
+      expect(find.text('10:00'), findsOneWidget);
+
+      // redo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewRedoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('11:00'), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('forward 10 seconds position change',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String toSelectAudioTitle =
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the ListTile Text widget finder of the audio
+      // to be selected and tap on it
+      final Finder toSelectAudioListTileTextWidgetFinder =
+          find.text(toSelectAudioTitle);
+
+      await tester.tap(toSelectAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('10:00'), findsOneWidget);
+
+      // change the current audio's play position
+
+      await tester
+          .tap(find.byKey(const Key('audioPlayerViewForward10sButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('10:10'), findsOneWidget);
+
+      // undo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewUndoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position after the undo
+      expect(find.text('10:00'), findsOneWidget);
+
+      // redo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewRedoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('10:10'), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('backward 1 minute position change',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String toSelectAudioTitle =
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the ListTile Text widget finder of the audio
+      // to be selected and tap on it
+      final Finder toSelectAudioListTileTextWidgetFinder =
+          find.text(toSelectAudioTitle);
+
+      await tester.tap(toSelectAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('10:00'), findsOneWidget);
+
+      // change the current audio's play position
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewRewind1mButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('9:00'), findsOneWidget);
+
+      // undo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewUndoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position after the undo
+      expect(find.text('10:00'), findsOneWidget);
+
+      // redo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewRedoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('9:00'), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('backward 10 seconds position change',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String toSelectAudioTitle =
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the ListTile Text widget finder of the audio
+      // to be selected and tap on it
+      final Finder toSelectAudioListTileTextWidgetFinder =
+          find.text(toSelectAudioTitle);
+
+      await tester.tap(toSelectAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('10:00'), findsOneWidget);
+
+      // change the current audio's play position
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewRewind10sButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('9:50'), findsOneWidget);
+
+      // undo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewUndoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position after the undo
+      expect(find.text('10:00'), findsOneWidget);
+
+      // redo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewRedoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('9:50'), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('skip to start position change',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String toSelectAudioTitle =
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the ListTile Text widget finder of the audio
+      // to be selected and tap on it
+      final Finder toSelectAudioListTileTextWidgetFinder =
+          find.text(toSelectAudioTitle);
+
+      await tester.tap(toSelectAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('10:00'), findsOneWidget);
+
+      // change the current audio's play position to audio start
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('0:00'), findsOneWidget);
+
+      // undo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewUndoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position after the undo
+      expect(find.text('10:00'), findsOneWidget);
+
+      // new command: go forward 1 minute
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewForward1mButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('11:00'), findsOneWidget);
+
+      // redo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewRedoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('0:00'), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets('skip to end position change',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String toSelectAudioTitle =
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the ListTile Text widget finder of the audio
+      // to be selected and tap on it
+      final Finder toSelectAudioListTileTextWidgetFinder =
+          find.text(toSelectAudioTitle);
+
+      await tester.tap(toSelectAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('10:00'), findsOneWidget);
+
+      // change the current audio's play position to audio end
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToEndButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('20:32'), findsOneWidget);
+
+      // undo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewUndoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position after the undo
+      expect(find.text('10:00'), findsOneWidget);
+
+      // new command: go back 1 minute
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewRewind1mButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('9:00'), findsOneWidget);
 
       // redo the change
 
