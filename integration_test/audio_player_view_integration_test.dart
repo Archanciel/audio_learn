@@ -1384,6 +1384,13 @@ void main() {
       // check the current audio's changed position after the undo
       expect(find.text('10:00'), findsOneWidget);
 
+      // new command: change the current audio's play position to audio start
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('0:00'), findsOneWidget);
+
       // redo the change
 
       await tester.tap(find.byKey(const Key('audioPlayerViewRedoButton')));
