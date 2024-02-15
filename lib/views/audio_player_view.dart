@@ -107,8 +107,12 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            _buildAudioOrderTextButton(context),
+            const SizedBox(
+              width: kRowButtonGroupWidthSeparator,
+            ),
             _buildSetAudioVolumeIconButton(context),
             const SizedBox(
               width: kRowButtonGroupWidthSeparator,
@@ -175,6 +179,75 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                               volumeChangedValue: 0.1,
                             );
                           }),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildAudioOrderTextButton(
+    BuildContext context,
+  ) {
+    return Consumer2<ThemeProviderVM, AudioPlayerVM>(
+      builder: (context, themeProviderVM, globalAudioPlayerVM, child) {
+        _audioPlaySpeed =
+            globalAudioPlayerVM.currentAudio?.audioPlaySpeed ?? _audioPlaySpeed;
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Tooltip(
+              message: AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
+              child: TextButton(
+                key: const Key('audioOrderTextButton'),
+                style: ButtonStyle(
+                  shape: getButtonRoundedShape(
+                      currentTheme: themeProviderVM.currentTheme),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    const EdgeInsets.symmetric(
+                        horizontal: kSmallButtonInsidePadding, vertical: 0),
+                  ),
+                  overlayColor: textButtonTapModification, // Tap feedback color
+                ),
+                onPressed: () {
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
+                  final FocusNode focusNode = FocusNode();
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return SetAudioSpeedDialogWidget(
+                        audioPlaySpeed: _audioPlaySpeed,
+                      );
+                    },
+                  ).then((value) {
+                    // not null value is boolean
+                    if (value != null) {
+                      // value is null if clicking on Cancel or if the dialog
+                      // is dismissed by clicking outside the dialog.
+
+                      setState(() {
+                        _audioPlaySpeed = value as double;
+                      });
+                    }
+                  });
+                  focusNode.requestFocus();
+                },
+                child: Tooltip(
+                  message:
+                      AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
+                  child: Text(
+                    AppLocalizations.of(context)!.audioOrder,
+                    textAlign: TextAlign.center,
+                    style: (themeProviderVM.currentTheme == AppTheme.dark)
+                        ? kTextButtonStyleDarkMode
+                        : kTextButtonStyleLightMode,
+                  ),
+                ),
               ),
             ),
           ],

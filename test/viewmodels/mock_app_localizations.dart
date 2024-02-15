@@ -664,4 +664,7 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get decreaseAudioVolumeIconButton => 'Increase audio volume';
+
+  @override
+  String get audioOrder => 'Audio order';
 }
