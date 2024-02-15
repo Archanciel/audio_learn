@@ -16,65 +16,14 @@ abstract class Command {
   void undo();
 }
 
-/// Command class used when the user clicks on the '>>' 10 seconds
-/// or 1 minute buttons or when the user clicks the first time on
-/// the >| icon if the audio position is not already at end.
-class AddDurationToAudioPositionCommand implements Command {
-  final AudioPlayerVM audioPlayerVM;
-  final int seconds;
-
-  AddDurationToAudioPositionCommand({
-    required this.audioPlayerVM,
-    required this.seconds,
-  });
-
-  @override
-  void redo() {
-    audioPlayerVM.changeAudioPlayPosition(
-      positiveOrNegativeDuration: Duration(seconds: seconds),
-      isUndoRedo: true,
-    );
-  }
-
-  @override
-  void undo() {
-    audioPlayerVM.changeAudioPlayPosition(
-      positiveOrNegativeDuration: Duration(seconds: -seconds),
-      isUndoRedo: true,
-    );
-  }
-}
-
-/// Command class used when the user clicks on the '<<' 10 seconds
-/// or 1 minute buttons or when the user clicks the first time on
-/// the |< icon if the audio position is not already at start.
-class SubtractDurationToAudioPositionCommand implements Command {
-  final AudioPlayerVM audioPlayerVM;
-  final int seconds;
-
-  SubtractDurationToAudioPositionCommand({
-    required this.audioPlayerVM,
-    required this.seconds,
-  });
-
-  @override
-  void redo() {
-    audioPlayerVM.changeAudioPlayPosition(
-      positiveOrNegativeDuration: Duration(seconds: -seconds),
-      isUndoRedo: true,
-    );
-  }
-
-  @override
-  void undo() {
-    audioPlayerVM.changeAudioPlayPosition(
-      positiveOrNegativeDuration: Duration(seconds: seconds),
-      isUndoRedo: true,
-    );
-  }
-}
-
-/// Command class used when the user clicks on the audio slider.
+/// Command class used when the user clicks on 
+/// '>>' 10 seconds or 1 minute buttons OR
+/// '<<' 10 seconds or 1 minute buttons
+/// or when the user clicks the first time on
+/// the >| icon if the audio position is not already at end or
+/// when the user clicks on the the first time on
+/// the |< icon if the audio position is not already at start or
+/// when the user clicks on the audio slider.
 class SetAudioPositionCommand implements Command {
   final AudioPlayerVM audioPlayerVM;
   final Duration oldDurationPosition;
@@ -561,37 +510,28 @@ class AudioPlayerVM extends ChangeNotifier {
     //
     // This fixes the bug when clicking on >> after having clicked
     // on >| or clicking on << after having clicked on |<.
-    int positionChangeInSeconds;
 
     if (newAudioPosition < Duration.zero) {
-      positionChangeInSeconds = -_currentAudioPosition.inSeconds;
-      _currentAudioPosition = Duration.zero;
+      newAudioPosition = Duration.zero;
     } else if (newAudioPosition > currentAudioDuration) {
-      positionChangeInSeconds =
-          currentAudioDuration.inSeconds - _currentAudioPosition.inSeconds;
-      _currentAudioPosition = currentAudioDuration;
-    } else {
-      positionChangeInSeconds = positiveOrNegativeDuration.inSeconds;
-      _currentAudioPosition = newAudioPosition;
+      newAudioPosition = currentAudioDuration;
     }
 
     if (!isUndoRedo) {
-      Command command = (positionChangeInSeconds > 0)
-          ? AddDurationToAudioPositionCommand(
-              audioPlayerVM: this,
-              seconds: positionChangeInSeconds,
-            )
-          : SubtractDurationToAudioPositionCommand(
-              audioPlayerVM: this,
-              seconds: -positionChangeInSeconds,
-            );
+      Command command = SetAudioPositionCommand(
+        audioPlayerVM: this,
+        oldDurationPosition: _currentAudioPosition,
+        newDurationPosition: newAudioPosition,
+      );
 
       _undoList.add(command);
     }
 
+    _currentAudioPosition = newAudioPosition;
+
     // necessary so that the audio position is stored on the
     // audio
-    _currentAudio!.audioPositionSeconds = _currentAudioPosition.inSeconds;
+    _currentAudio!.audioPositionSeconds = newAudioPosition.inSeconds;
 
     await modifyAudioPlayerPluginPosition(_currentAudioPosition);
 

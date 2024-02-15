@@ -304,34 +304,34 @@ void main() {
       int forwardChangePositionOne = 100;
       audioPlayerVM.changeAudioPlayPosition(
           positiveOrNegativeDuration:
-              Duration(seconds: forwardChangePositionOne));
+              Duration(seconds: forwardChangePositionOne)); // 700
 
       int backwardChangePositionOne = -60;
       audioPlayerVM.changeAudioPlayPosition(
           positiveOrNegativeDuration:
-              Duration(seconds: backwardChangePositionOne));
+              Duration(seconds: backwardChangePositionOne)); // 640
 
       int forwardChangePositionTwo = 80;
       audioPlayerVM.changeAudioPlayPosition(
           positiveOrNegativeDuration:
-              Duration(seconds: forwardChangePositionTwo));
+              Duration(seconds: forwardChangePositionTwo)); // 720
 
       // obtain the current audio's changed position
       Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
 
       expect(
-          currentAudioChangedPosition.inSeconds -
+          currentAudioChangedPosition.inSeconds - // 720
               currentAudioInitialPosition.inSeconds,
           forwardChangePositionOne + // 100 +
               backwardChangePositionOne + // -60 +
-              forwardChangePositionTwo); // 80
+              forwardChangePositionTwo); // 80 --> 120
 
       // undo the last forward change (forward two)
       audioPlayerVM.undo();
 
       // enter a new command
       int forwardChangePositionThree = 125;
-      audioPlayerVM.changeAudioPlayPosition(
+      audioPlayerVM.changeAudioPlayPosition( // 765
           positiveOrNegativeDuration:
               Duration(seconds: forwardChangePositionThree));
 
@@ -349,12 +349,12 @@ void main() {
       // obtain the current audio's position after the redoing
       // the last forward change (forward two)
       Duration currentAudioPositionAfterRedo =
-          audioPlayerVM.currentAudioPosition; // 845
+          audioPlayerVM.currentAudioPosition; // 720
 
       expect(
           currentAudioPositionAfterRedo.inSeconds -
               currentAudioInitialPosition.inSeconds,
-          245);
+          120);
 
       // undo the last forward change (forward two), the new
       // command and the previous backward change (backward one)

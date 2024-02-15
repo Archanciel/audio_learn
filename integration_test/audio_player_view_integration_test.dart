@@ -1365,7 +1365,7 @@ void main() {
       await tester.tap(toSelectAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
 
-      // check the current audio's changed position
+      // check the current audio's play position
       expect(find.text('10:00'), findsOneWidget);
 
       // change the current audio's play position
@@ -1434,7 +1434,7 @@ void main() {
       await tester.tap(toSelectAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
 
-      // check the current audio's changed position
+      // check the current audio's initial position
       expect(find.text('10:00'), findsOneWidget);
 
       // change the current audio's play position
@@ -1454,12 +1454,19 @@ void main() {
       // check the current audio's changed position after the undo
       expect(find.text('10:00'), findsOneWidget);
 
+      // new command: change the current audio's play position to audio start
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('0:00'), findsOneWidget);
+
       // redo the change
 
       await tester.tap(find.byKey(const Key('audioPlayerViewRedoButton')));
       await tester.pumpAndSettle();
 
-      // check the current audio's changed position
+      // check the current audio's redoned change position
       expect(find.text('10:10'), findsOneWidget);
 
       // Purge the test playlist directory so that the created test
@@ -1497,7 +1504,7 @@ void main() {
       await tester.tap(toSelectAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
 
-      // check the current audio's changed position
+      // check the current audio's play position
       expect(find.text('10:00'), findsOneWidget);
 
       // change the current audio's play position
@@ -1515,6 +1522,13 @@ void main() {
 
       // check the current audio's changed position after the undo
       expect(find.text('10:00'), findsOneWidget);
+
+      // new command: change the current audio's play position to audio end
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToEndButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('20:32'), findsOneWidget);
 
       // redo the change
 
@@ -1559,7 +1573,7 @@ void main() {
       await tester.tap(toSelectAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
 
-      // check the current audio's changed position
+      // check the current audio's play position
       expect(find.text('10:00'), findsOneWidget);
 
       // change the current audio's play position
@@ -1577,6 +1591,13 @@ void main() {
 
       // check the current audio's changed position after the undo
       expect(find.text('10:00'), findsOneWidget);
+
+      // new command: change the current audio's play position to audio end
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToEndButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('20:32'), findsOneWidget);
 
       // redo the change
 
