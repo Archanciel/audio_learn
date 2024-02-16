@@ -242,6 +242,5 @@
   "setAudioPlaySpeedTooltip": "Définir la vitesse de lecture de l'audio",
   "excludeFullyPlayedAudios": "Exclure les audios entièrement joués",
   "increaseAudioVolumeIconButton": "Augmenter le volume audio",
-  "decreaseAudioVolumeIconButton": "Diminuer le volume audio",
-  "audioOrder": "Ordre audio"
+  "decreaseAudioVolumeIconButton": "Diminuer le volume audio"
 }
