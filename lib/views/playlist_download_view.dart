@@ -84,6 +84,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       context,
       listen: false,
     );
+    final PlaylistListVM playlistListVM = Provider.of<PlaylistListVM>(
+      context,
+      listen: true,
+    );
+
     return Column(
       children: <Widget>[
         Consumer<WarningMessageVM>(
@@ -103,6 +108,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           context,
           audioDownloadViewModel,
           themeProviderVM,
+          playlistListVM,
         ),
         // displaying the currently downloading audiodownload
         // informations.
@@ -110,6 +116,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         _buildSecondLine(
           context,
           themeProviderVM,
+          playlistListVM,
         ),
         _buildExpandedPlaylistList(),
         _buildExpandedAudioList(),
@@ -228,14 +235,15 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   Row _buildSecondLine(
     BuildContext context,
     ThemeProviderVM themeProviderVM,
+    PlaylistListVM playlistListVM,
   ) {
     final AudioDownloadVM audioDownloadViewModel = Provider.of<AudioDownloadVM>(
       context,
       listen: true,
     );
+
     bool arePlaylistDownloadWidgetsEnabled =
-        Provider.of<PlaylistListVM>(context)
-                .isButtonDownloadSelPlaylistsEnabled &&
+        playlistListVM.isButtonDownloadSelPlaylistsEnabled &&
             !Provider.of<AudioDownloadVM>(context).isDownloading;
 
     return Row(
@@ -260,8 +268,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 overlayColor: textButtonTapModification, // Tap feedback color
               ),
               onPressed: () {
-                Provider.of<PlaylistListVM>(context, listen: false)
-                    .toggleList();
+                playlistListVM.toggleList();
               },
               child: Text(
                 'Playlists',
@@ -276,11 +283,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_down_playlist_button'),
-            onPressed: Provider.of<PlaylistListVM>(context)
-                    .isButtonMoveDownPlaylistEnabled
+            onPressed: playlistListVM.isButtonMoveDownPlaylistEnabled
                 ? () {
-                    Provider.of<PlaylistListVM>(context, listen: false)
-                        .moveSelectedItemDown();
+                    playlistListVM.moveSelectedItemDown();
                   }
                 : null,
             padding: const EdgeInsets.all(0),
@@ -294,11 +299,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_up_playlist_button'),
-            onPressed: Provider.of<PlaylistListVM>(context)
-                    .isButtonMoveUpPlaylistEnabled
+            onPressed: playlistListVM.isButtonMoveUpPlaylistEnabled
                 ? () {
-                    Provider.of<PlaylistListVM>(context, listen: false)
-                        .moveSelectedItemUp();
+                    playlistListVM.moveSelectedItemUp();
                   }
                 : null,
             padding: const EdgeInsets.all(0),
@@ -330,20 +333,16 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               ),
               onPressed: (arePlaylistDownloadWidgetsEnabled)
                   ? () async {
-                      PlaylistListVM expandablePlaylistListVM =
-                          Provider.of<PlaylistListVM>(context, listen: false);
-
                       // disable the sorted filtered playable audio list
                       // downloading audios of selected playlists so that
                       // the currently displayed audio list is not sorted
                       // or/and filtered. This way, the newly downloaded
                       // audio will be added at top of the displayed audio
                       // list.
-                      expandablePlaylistListVM
-                          .disableSortedFilteredPlayableAudioLst();
+                      playlistListVM.disableSortedFilteredPlayableAudioLst();
 
                       List<Playlist> selectedPlaylists =
-                          expandablePlaylistListVM.getSelectedPlaylists();
+                          playlistListVM.getSelectedPlaylists();
 
                       // currently only one playlist can be selected and
                       // downloaded at a time.
@@ -414,98 +413,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             ),
           ),
         ),
-        SizedBox(
-          width: 35,
-          child: PopupMenuButton<PlaylistPopupMenuButton>(
-            key: const Key('audio_popup_menu_button'),
-            enabled: (Provider.of<PlaylistListVM>(context)
-                .isButtonAudioPopupMenuEnabled),
-            onSelected: (PlaylistPopupMenuButton value) {
-              // Handle menu item selection
-              switch (value) {
-                case PlaylistPopupMenuButton.sortFilterAudios:
-                  // Using FocusNode to enable clicking on Enter to close
-                  // the dialog
-                  final FocusNode focusNode = FocusNode();
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SortAndFilterAudioDialogWidget(
-                        selectedPlaylistAudioLst:
-                            Provider.of<PlaylistListVM>(context)
-                                .getSelectedPlaylistPlayableAudios(
-                          subFilterAndSort: false,
-                        ),
-                        focusNode: focusNode,
-                      );
-                    },
-                  ).then((result) {
-                    if (result != null) {
-                      List<Audio> returnedAudioList = result;
-                      Provider.of<PlaylistListVM>(context, listen: false)
-                          .setSortedFilteredSelectedPlaylistsPlayableAudios(
-                              returnedAudioList);
-                    }
-                  });
-                  focusNode.requestFocus();
-                  break;
-                case PlaylistPopupMenuButton.subSortFilterAudios:
-                  // Using FocusNode to enable clicking on Enter to close
-                  // the dialog
-                  final FocusNode focusNode = FocusNode();
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SortAndFilterAudioDialogWidget(
-                        selectedPlaylistAudioLst:
-                            Provider.of<PlaylistListVM>(context)
-                                .getSelectedPlaylistPlayableAudios(
-                          subFilterAndSort: true,
-                        ),
-                        focusNode: focusNode,
-                      );
-                    },
-                  ).then((result) {
-                    if (result != null) {
-                      List<Audio> returnedAudioList = result;
-                      Provider.of<PlaylistListVM>(context, listen: false)
-                          .setSortedFilteredSelectedPlaylistsPlayableAudios(
-                              returnedAudioList);
-                    }
-                  });
-                  focusNode.requestFocus();
-                  break;
-                case PlaylistPopupMenuButton.updatePlaylistJson:
-                  Provider.of<PlaylistListVM>(context, listen: false)
-                      .updateSettingsAndPlaylistJsonFiles();
-                  break;
-                default:
-                  break;
-              }
-            },
-            icon: const Icon(Icons.filter_list),
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem<PlaylistPopupMenuButton>(
-                  key: const Key('sort_and_filter_audio_dialog_item'),
-                  value: PlaylistPopupMenuButton.sortFilterAudios,
-                  child: Text(AppLocalizations.of(context)!.sortFilterAudios),
-                ),
-                PopupMenuItem<PlaylistPopupMenuButton>(
-                  key: const Key('sub_sort_and_filter_audio_dialog_item'),
-                  value: PlaylistPopupMenuButton.subSortFilterAudios,
-                  child:
-                      Text(AppLocalizations.of(context)!.subSortFilterAudios),
-                ),
-                PopupMenuItem<PlaylistPopupMenuButton>(
-                  key: const Key('update_playlist_json_dialog_item'),
-                  value: PlaylistPopupMenuButton.updatePlaylistJson,
-                  child: Text(
-                      AppLocalizations.of(context)!.updatePlaylistJsonFiles),
-                ),
-              ];
-            },
-          ),
+        _buildAudioPopupMenuButton(
+          context,
+          playlistListVM,
         ),
       ],
     );
@@ -515,13 +425,17 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     BuildContext context,
     AudioDownloadVM audioDownloadViewModel,
     ThemeProviderVM themeProviderVM,
+    PlaylistListVM playlistListVM,
   ) {
     return SizedBox(
       height: 40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildPlaylistUrlAndTitle(context),
+          _buildPlaylistUrlAndTitle(
+            context,
+            playlistListVM,
+          ),
           const SizedBox(
             width: kRowSmallWidthSeparator,
           ),
@@ -536,6 +450,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             context,
             audioDownloadViewModel,
             themeProviderVM,
+            playlistListVM,
           ),
           const SizedBox(
             width: kRowSmallWidthSeparator,
@@ -546,6 +461,100 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             themeProviderVM,
           ),
         ],
+      ),
+    );
+  }
+
+  SizedBox _buildAudioPopupMenuButton(
+    BuildContext context,
+    PlaylistListVM playlistListVM,
+  ) {
+    return SizedBox(
+      width: kRowButtonGroupWidthSeparator,
+      child: PopupMenuButton<PlaylistPopupMenuButton>(
+        key: const Key('audio_popup_menu_button'),
+        enabled: (playlistListVM.isButtonAudioPopupMenuEnabled),
+        onSelected: (PlaylistPopupMenuButton value) {
+          // Handle menu item selection
+          switch (value) {
+            case PlaylistPopupMenuButton.sortFilterAudios:
+              // Using FocusNode to enable clicking on Enter to close
+              // the dialog
+              final FocusNode focusNode = FocusNode();
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return SortAndFilterAudioDialogWidget(
+                    selectedPlaylistAudioLst:
+                        playlistListVM.getSelectedPlaylistPlayableAudios(
+                      subFilterAndSort: false,
+                    ),
+                    focusNode: focusNode,
+                  );
+                },
+              ).then((result) {
+                if (result != null) {
+                  List<Audio> returnedAudioList = result;
+                  playlistListVM
+                      .setSortedFilteredSelectedPlaylistsPlayableAudios(
+                          returnedAudioList);
+                }
+              });
+              focusNode.requestFocus();
+              break;
+            case PlaylistPopupMenuButton.subSortFilterAudios:
+              // Using FocusNode to enable clicking on Enter to close
+              // the dialog
+              final FocusNode focusNode = FocusNode();
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return SortAndFilterAudioDialogWidget(
+                    selectedPlaylistAudioLst:
+                        playlistListVM.getSelectedPlaylistPlayableAudios(
+                      subFilterAndSort: true,
+                    ),
+                    focusNode: focusNode,
+                  );
+                },
+              ).then((result) {
+                if (result != null) {
+                  List<Audio> returnedAudioList = result;
+                  playlistListVM
+                      .setSortedFilteredSelectedPlaylistsPlayableAudios(
+                          returnedAudioList);
+                }
+              });
+              focusNode.requestFocus();
+              break;
+            case PlaylistPopupMenuButton.updatePlaylistJson:
+              playlistListVM.updateSettingsAndPlaylistJsonFiles();
+              break;
+            default:
+              break;
+          }
+        },
+        icon: const Icon(Icons.filter_list),
+        itemBuilder: (BuildContext context) {
+          return [
+            PopupMenuItem<PlaylistPopupMenuButton>(
+              key: const Key('sort_and_filter_audio_dialog_item'),
+              value: PlaylistPopupMenuButton.sortFilterAudios,
+              child: Text(AppLocalizations.of(context)!.sortFilterAudios),
+            ),
+            PopupMenuItem<PlaylistPopupMenuButton>(
+              key: const Key('sub_sort_and_filter_audio_dialog_item'),
+              value: PlaylistPopupMenuButton.subSortFilterAudios,
+              child: Text(AppLocalizations.of(context)!.subSortFilterAudios),
+            ),
+            PopupMenuItem<PlaylistPopupMenuButton>(
+              key: const Key('update_playlist_json_dialog_item'),
+              value: PlaylistPopupMenuButton.updatePlaylistJson,
+              child:
+                  Text(AppLocalizations.of(context)!.updatePlaylistJsonFiles),
+            ),
+          ];
+        },
       ),
     );
   }
@@ -616,6 +625,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     BuildContext context,
     AudioDownloadVM audioDownloadViewModel,
     ThemeProviderVM themeProviderVM,
+    PlaylistListVM expandablePlaylistListVM,
   ) {
     return SizedBox(
       width: kSmallButtonWidth + 10, // necessary to display english text
@@ -635,9 +645,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             overlayColor: textButtonTapModification, // Tap feedback color
           ),
           onPressed: () {
-            PlaylistListVM expandablePlaylistListVM =
-                Provider.of<PlaylistListVM>(context, listen: false);
-
             // disabling the sorted filtered playable audio list
             // downloading audios of selected playlists so that
             // the currently displayed audio list is not sorted
@@ -771,7 +778,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  Expanded _buildPlaylistUrlAndTitle(BuildContext context) {
+  Expanded _buildPlaylistUrlAndTitle(
+    BuildContext context,
+    PlaylistListVM playlistListVM,
+  ) {
     return Expanded(
       // necessary to avoid Exception
       child: Column(
@@ -798,10 +808,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               key: const Key('selectedPlaylistTextField'),
               readOnly: true,
               controller: TextEditingController(
-                text: Provider.of<PlaylistListVM>(context)
-                        .uniqueSelectedPlaylist
-                        ?.title ??
-                    '',
+                text: playlistListVM.uniqueSelectedPlaylist?.title ?? '',
               ),
               decoration: const InputDecoration(
                 border: InputBorder.none,
