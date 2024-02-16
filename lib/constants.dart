@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+enum PlaylistPopupMenuButton {
+  sortFilterAudios,
+  subSortFilterAudios,
+  updatePlaylistJson,
+  updateAppPlaylistList,
+}
+
 const String kApplicationName = "Audio Learn";
 const String kApplicationVersion = '0.8.9';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';

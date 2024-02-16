@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../constants.dart';
+import '../models/audio.dart';
 import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_player_vm.dart';
-import '../constants.dart';
+import '../viewmodels/playlist_list_vm.dart';
 import 'screen_mixin.dart';
 import 'widgets/list_playable_audios_dialog_widget.dart';
 import 'widgets/set_audio_speed_dialog_widget.dart';
+import 'widgets/sort_and_filter_audio_dialog_widget.dart';
 
 /// Screen enabling the user to play an audio, change the playing
 /// position or go to a previous, next or selected audio.
@@ -107,13 +110,20 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             _buildSetAudioVolumeIconButton(context),
             const SizedBox(
               width: kRowButtonGroupWidthSeparator,
             ),
             _buildSetAudioSpeedTextButton(context),
+            _buildAudioPopupMenuButton(
+              context,
+              Provider.of<PlaylistListVM>(
+                context,
+                listen: false,
+              ),
+            ),
           ],
         ),
         // const SizedBox(height: 10.0),
@@ -249,6 +259,100 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
           ],
         );
       },
+    );
+  }
+
+  Widget _buildAudioPopupMenuButton(
+    BuildContext context,
+    PlaylistListVM playlistListVM,
+  ) {
+    return SizedBox(
+      width: kRowButtonGroupWidthSeparator,
+      child: PopupMenuButton<PlaylistPopupMenuButton>(
+        key: const Key('audio_popup_menu_button'),
+        enabled: (playlistListVM.isButtonAudioPopupMenuEnabled),
+        onSelected: (PlaylistPopupMenuButton value) {
+          // Handle menu item selection
+          switch (value) {
+            case PlaylistPopupMenuButton.sortFilterAudios:
+              // Using FocusNode to enable clicking on Enter to close
+              // the dialog
+              final FocusNode focusNode = FocusNode();
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return SortAndFilterAudioDialogWidget(
+                    selectedPlaylistAudioLst:
+                        playlistListVM.getSelectedPlaylistPlayableAudios(
+                      subFilterAndSort: false,
+                    ),
+                    focusNode: focusNode,
+                  );
+                },
+              ).then((result) {
+                if (result != null) {
+                  List<Audio> returnedAudioList = result;
+                  playlistListVM
+                      .setSortedFilteredSelectedPlaylistsPlayableAudios(
+                          returnedAudioList);
+                }
+              });
+              focusNode.requestFocus();
+              break;
+            case PlaylistPopupMenuButton.subSortFilterAudios:
+              // Using FocusNode to enable clicking on Enter to close
+              // the dialog
+              final FocusNode focusNode = FocusNode();
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return SortAndFilterAudioDialogWidget(
+                    selectedPlaylistAudioLst:
+                        playlistListVM.getSelectedPlaylistPlayableAudios(
+                      subFilterAndSort: true,
+                    ),
+                    focusNode: focusNode,
+                  );
+                },
+              ).then((result) {
+                if (result != null) {
+                  List<Audio> returnedAudioList = result;
+                  playlistListVM
+                      .setSortedFilteredSelectedPlaylistsPlayableAudios(
+                          returnedAudioList);
+                }
+              });
+              focusNode.requestFocus();
+              break;
+            case PlaylistPopupMenuButton.updatePlaylistJson:
+              playlistListVM.updateSettingsAndPlaylistJsonFiles();
+              break;
+            default:
+              break;
+          }
+        },
+        icon: const Icon(Icons.filter_list),
+        itemBuilder: (BuildContext context) {
+          return [
+            PopupMenuItem<PlaylistPopupMenuButton>(
+              key: const Key('sort_and_filter_audio_dialog_item'),
+              value: PlaylistPopupMenuButton.sortFilterAudios,
+              child: Text(AppLocalizations.of(context)!.sortFilterAudios),
+            ),
+            PopupMenuItem<PlaylistPopupMenuButton>(
+              key: const Key('sub_sort_and_filter_audio_dialog_item'),
+              value: PlaylistPopupMenuButton.subSortFilterAudios,
+              child: Text(AppLocalizations.of(context)!.subSortFilterAudios),
+            ),
+            PopupMenuItem<PlaylistPopupMenuButton>(
+              key: const Key('update_playlist_json_dialog_item'),
+              value: PlaylistPopupMenuButton.updatePlaylistJson,
+              child:
+                  Text(AppLocalizations.of(context)!.updatePlaylistJsonFiles),
+            ),
+          ];
+        },
+      ),
     );
   }
 

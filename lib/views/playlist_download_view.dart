@@ -23,13 +23,6 @@ import 'widgets/playlist_list_item_widget.dart';
 import 'widgets/playlist_one_selectable_dialog_widget.dart';
 import 'widgets/sort_and_filter_audio_dialog_widget.dart';
 
-enum PlaylistPopupMenuButton {
-  sortFilterAudios,
-  subSortFilterAudios,
-  updatePlaylistJson,
-  updateAppPlaylistList,
-}
-
 class PlaylistDownloadView extends StatefulWidget {
   // this instance variable stores the function defined in
   // _MyHomePageState which causes the PageView widget to drag
@@ -465,7 +458,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  SizedBox _buildAudioPopupMenuButton(
+  Widget _buildAudioPopupMenuButton(
     BuildContext context,
     PlaylistListVM playlistListVM,
   ) {
