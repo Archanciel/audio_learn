@@ -81,7 +81,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       context,
       listen: true,
     );
-    final PlaylistListVM playlistListVMlistenFalse = Provider.of<PlaylistListVM>(
+    final PlaylistListVM playlistListVMlistenFalse =
+        Provider.of<PlaylistListVM>(
       context,
       listen: false,
     );
@@ -102,19 +103,19 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           },
         ),
         _buildFirstLine(
-          context,
-          audioDownloadViewModel,
-          themeProviderVM,
-          playlistListVMlistenFalse,
+          context: context,
+          audioDownloadViewModel: audioDownloadViewModel,
+          themeProviderVM: themeProviderVM,
+          playlistListVMlistenFalse: playlistListVMlistenFalse,
         ),
         // displaying the currently downloading audiodownload
         // informations.
         _buildDisplayDownloadProgressionInfo(),
         _buildSecondLine(
-          context,
-          themeProviderVM,
-          playlistListVMlistenFalse,
-          playlistListVMlistenTrue,
+          context: context,
+          themeProviderVM: themeProviderVM,
+          playlistListVMlistenFalse: playlistListVMlistenFalse,
+          playlistListVMlistenTrue: playlistListVMlistenTrue,
         ),
         _buildExpandedPlaylistList(),
         _buildExpandedAudioList(),
@@ -230,12 +231,12 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  Row _buildSecondLine(
-    BuildContext context,
-    ThemeProviderVM themeProviderVM,
-    PlaylistListVM playlistListVMlistenFalse,
-    PlaylistListVM playlistListVMlistenTrue,
-  ) {
+  Row _buildSecondLine({
+    required BuildContext context,
+    required ThemeProviderVM themeProviderVM,
+    required PlaylistListVM playlistListVMlistenFalse,
+    required PlaylistListVM playlistListVMlistenTrue,
+  }) {
     final AudioDownloadVM audioDownloadViewModel = Provider.of<AudioDownloadVM>(
       context,
       listen: true,
@@ -338,7 +339,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                       // or/and filtered. This way, the newly downloaded
                       // audio will be added at top of the displayed audio
                       // list.
-                      playlistListVMlistenTrue.disableSortedFilteredPlayableAudioLst();
+                      playlistListVMlistenTrue
+                          .disableSortedFilteredPlayableAudioLst();
 
                       List<Playlist> selectedPlaylists =
                           playlistListVMlistenTrue.getSelectedPlaylists();
@@ -413,61 +415,61 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           ),
         ),
         _buildAudioPopupMenuButton(
-          context,
-          playlistListVMlistenFalse,
+          context: context,
+          playlistListVMlistenFalse: playlistListVMlistenFalse,
         ),
       ],
     );
   }
 
-  SizedBox _buildFirstLine(
-    BuildContext context,
-    AudioDownloadVM audioDownloadViewModel,
-    ThemeProviderVM themeProviderVM,
-    PlaylistListVM playlistListVMlistenFalse,
-  ) {
+  SizedBox _buildFirstLine({
+    required BuildContext context,
+    required AudioDownloadVM audioDownloadViewModel,
+    required ThemeProviderVM themeProviderVM,
+    required PlaylistListVM playlistListVMlistenFalse,
+  }) {
     return SizedBox(
       height: 40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildPlaylistUrlAndTitle(
-            context,
-            playlistListVMlistenFalse,
+            context: context,
+            playlistListVMlistenFalse: playlistListVMlistenFalse,
           ),
           const SizedBox(
             width: kRowSmallWidthSeparator,
           ),
           _buildAddPlaylistButton(
-            context,
-            themeProviderVM,
+            context: context,
+            themeProviderVM: themeProviderVM,
           ),
           const SizedBox(
             width: kRowSmallWidthSeparator,
           ),
           _buildDownloadSingleVideoButton(
-            context,
-            audioDownloadViewModel,
-            themeProviderVM,
-            playlistListVMlistenFalse,
+            context: context,
+            audioDownloadViewModel: audioDownloadViewModel,
+            themeProviderVM: themeProviderVM,
+            playlistListVMlistenFalse: playlistListVMlistenFalse,
           ),
           const SizedBox(
             width: kRowSmallWidthSeparator,
           ),
           _buildStopDownloadButton(
-            context,
-            audioDownloadViewModel,
-            themeProviderVM,
+            context: context,
+            audioDownloadViewModel: audioDownloadViewModel,
+            themeProviderVM: themeProviderVM,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildAudioPopupMenuButton(
-    BuildContext context,
-    PlaylistListVM playlistListVMlistenFalse,
-  ) {
+  Widget _buildAudioPopupMenuButton({
+    required BuildContext context,
+    required PlaylistListVM playlistListVMlistenFalse,
+  }) {
     return SizedBox(
       width: kRowButtonGroupWidthSeparator,
       child: PopupMenuButton<PlaylistPopupMenuButton>(
@@ -484,8 +486,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylistAudioLst:
-                        playlistListVMlistenFalse.getSelectedPlaylistPlayableAudios(
+                    selectedPlaylistAudioLst: playlistListVMlistenFalse
+                        .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
                     ),
                     focusNode: focusNode,
@@ -509,8 +511,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylistAudioLst:
-                        playlistListVMlistenFalse.getSelectedPlaylistPlayableAudios(
+                    selectedPlaylistAudioLst: playlistListVMlistenFalse
+                        .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: true,
                     ),
                     focusNode: focusNode,
@@ -558,11 +560,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  SizedBox _buildStopDownloadButton(
-    BuildContext context,
-    AudioDownloadVM audioDownloadViewModel,
-    ThemeProviderVM themeProviderVM,
-  ) {
+  SizedBox _buildStopDownloadButton({
+    required BuildContext context,
+    required AudioDownloadVM audioDownloadViewModel,
+    required ThemeProviderVM themeProviderVM,
+  }) {
     bool isButtonEnabled = audioDownloadViewModel.isDownloading &&
         !audioDownloadViewModel.isDownloadStopping;
 
@@ -620,12 +622,12 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  SizedBox _buildDownloadSingleVideoButton(
-    BuildContext context,
-    AudioDownloadVM audioDownloadViewModel,
-    ThemeProviderVM themeProviderVM,
-    PlaylistListVM playlistListVMlistenFalse,
-  ) {
+  SizedBox _buildDownloadSingleVideoButton({
+    required BuildContext context,
+    required AudioDownloadVM audioDownloadViewModel,
+    required ThemeProviderVM themeProviderVM,
+    required PlaylistListVM playlistListVMlistenFalse,
+  }) {
     return SizedBox(
       width: kSmallButtonWidth + 10, // necessary to display english text
       child: Tooltip(
@@ -777,10 +779,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  Expanded _buildPlaylistUrlAndTitle(
-    BuildContext context,
-    PlaylistListVM playlistListVMlistenFalse,
-  ) {
+  Expanded _buildPlaylistUrlAndTitle({
+    required BuildContext context,
+    required PlaylistListVM playlistListVMlistenFalse,
+  }) {
     return Expanded(
       // necessary to avoid Exception
       child: Column(
@@ -807,7 +809,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               key: const Key('selectedPlaylistTextField'),
               readOnly: true,
               controller: TextEditingController(
-                text: playlistListVMlistenFalse.uniqueSelectedPlaylist?.title ?? '',
+                text: playlistListVMlistenFalse.uniqueSelectedPlaylist?.title ??
+                    '',
               ),
               decoration: const InputDecoration(
                 border: InputBorder.none,
@@ -825,10 +828,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  SizedBox _buildAddPlaylistButton(
-    BuildContext context,
-    ThemeProviderVM themeProviderVM,
-  ) {
+  SizedBox _buildAddPlaylistButton({
+    required BuildContext context,
+    required ThemeProviderVM themeProviderVM,
+  }) {
     return SizedBox(
       width: kNormalButtonWidth - 25,
       child: Tooltip(
