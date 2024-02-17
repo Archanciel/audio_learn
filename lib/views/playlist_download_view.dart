@@ -77,9 +77,13 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       context,
       listen: false,
     );
-    final PlaylistListVM playlistListVM = Provider.of<PlaylistListVM>(
+    final PlaylistListVM playlistListVMlistenTrue = Provider.of<PlaylistListVM>(
       context,
       listen: true,
+    );
+    final PlaylistListVM playlistListVMlistenFalse = Provider.of<PlaylistListVM>(
+      context,
+      listen: false,
     );
 
     return Column(
@@ -101,7 +105,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           context,
           audioDownloadViewModel,
           themeProviderVM,
-          playlistListVM,
+          playlistListVMlistenTrue,
         ),
         // displaying the currently downloading audiodownload
         // informations.
@@ -109,7 +113,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         _buildSecondLine(
           context,
           themeProviderVM,
-          playlistListVM,
+          playlistListVMlistenFalse,
         ),
         _buildExpandedPlaylistList(),
         _buildExpandedAudioList(),
