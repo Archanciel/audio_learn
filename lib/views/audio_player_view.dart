@@ -264,13 +264,13 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
 
   Widget _buildAudioPopupMenuButton(
     BuildContext context,
-    PlaylistListVM playlistListVM,
+    PlaylistListVM playlistListVMlistenFalse,
   ) {
     return SizedBox(
       width: kRowButtonGroupWidthSeparator,
       child: PopupMenuButton<PlaylistPopupMenuButton>(
         key: const Key('audio_popup_menu_button'),
-        enabled: (playlistListVM.isButtonAudioPopupMenuEnabled),
+        enabled: (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
         onSelected: (PlaylistPopupMenuButton value) {
           // Handle menu item selection
           switch (value) {
@@ -283,7 +283,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst:
-                        playlistListVM.getSelectedPlaylistPlayableAudios(
+                        playlistListVMlistenFalse.getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
                     ),
                     focusNode: focusNode,
@@ -292,7 +292,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               ).then((result) {
                 if (result != null) {
                   List<Audio> returnedAudioList = result;
-                  playlistListVM
+                  playlistListVMlistenFalse
                       .setSortedFilteredSelectedPlaylistsPlayableAudios(
                           returnedAudioList);
                 }
@@ -308,7 +308,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst:
-                        playlistListVM.getSelectedPlaylistPlayableAudios(
+                        playlistListVMlistenFalse.getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: true,
                     ),
                     focusNode: focusNode,
@@ -317,7 +317,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               ).then((result) {
                 if (result != null) {
                   List<Audio> returnedAudioList = result;
-                  playlistListVM
+                  playlistListVMlistenFalse
                       .setSortedFilteredSelectedPlaylistsPlayableAudios(
                           returnedAudioList);
                 }
@@ -325,7 +325,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               focusNode.requestFocus();
               break;
             case PlaylistPopupMenuButton.updatePlaylistJson:
-              playlistListVM.updateSettingsAndPlaylistJsonFiles();
+              playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();
               break;
             default:
               break;

@@ -211,17 +211,6 @@ void main() async {
       ));
       expect(firstListItemCheckbox.value, isTrue);
 
-      // The Delete button does not exist on the
-      // ExpandableListView.
-      // Verify that the Delete button is now enabled.
-      // The Delete button must be obtained again
-      // since the widget has been recreated !
-      // expect(
-      //   tester.widget<TextButton>(
-      //       find.widgetWithText(TextButton, 'Delete')),
-      //   isA<TextButton>().having((b) => b.enabled, 'enabled', true),
-      // );
-
       // Verify that the up and down buttons are now enabled.
       // The Up and Down buttons must be obtained again
       // since the widget has been recreated !

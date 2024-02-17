@@ -105,7 +105,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           context,
           audioDownloadViewModel,
           themeProviderVM,
-          playlistListVMlistenTrue,
+          playlistListVMlistenFalse,
         ),
         // displaying the currently downloading audiodownload
         // informations.
@@ -114,6 +114,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           context,
           themeProviderVM,
           playlistListVMlistenFalse,
+          playlistListVMlistenTrue,
         ),
         _buildExpandedPlaylistList(),
         _buildExpandedAudioList(),
@@ -232,7 +233,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   Row _buildSecondLine(
     BuildContext context,
     ThemeProviderVM themeProviderVM,
-    PlaylistListVM playlistListVM,
+    PlaylistListVM playlistListVMlistenFalse,
+    PlaylistListVM playlistListVMlistenTrue,
   ) {
     final AudioDownloadVM audioDownloadViewModel = Provider.of<AudioDownloadVM>(
       context,
@@ -240,7 +242,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
 
     bool arePlaylistDownloadWidgetsEnabled =
-        playlistListVM.isButtonDownloadSelPlaylistsEnabled &&
+        playlistListVMlistenTrue.isButtonDownloadSelPlaylistsEnabled &&
             !Provider.of<AudioDownloadVM>(context).isDownloading;
 
     return Row(
@@ -265,7 +267,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 overlayColor: textButtonTapModification, // Tap feedback color
               ),
               onPressed: () {
-                playlistListVM.toggleList();
+                playlistListVMlistenTrue.toggleList();
               },
               child: Text(
                 'Playlists',
@@ -280,9 +282,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_down_playlist_button'),
-            onPressed: playlistListVM.isButtonMoveDownPlaylistEnabled
+            onPressed: playlistListVMlistenTrue.isButtonMoveDownPlaylistEnabled
                 ? () {
-                    playlistListVM.moveSelectedItemDown();
+                    playlistListVMlistenTrue.moveSelectedItemDown();
                   }
                 : null,
             padding: const EdgeInsets.all(0),
@@ -296,9 +298,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_up_playlist_button'),
-            onPressed: playlistListVM.isButtonMoveUpPlaylistEnabled
+            onPressed: playlistListVMlistenTrue.isButtonMoveUpPlaylistEnabled
                 ? () {
-                    playlistListVM.moveSelectedItemUp();
+                    playlistListVMlistenTrue.moveSelectedItemUp();
                   }
                 : null,
             padding: const EdgeInsets.all(0),
@@ -336,10 +338,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                       // or/and filtered. This way, the newly downloaded
                       // audio will be added at top of the displayed audio
                       // list.
-                      playlistListVM.disableSortedFilteredPlayableAudioLst();
+                      playlistListVMlistenTrue.disableSortedFilteredPlayableAudioLst();
 
                       List<Playlist> selectedPlaylists =
-                          playlistListVM.getSelectedPlaylists();
+                          playlistListVMlistenTrue.getSelectedPlaylists();
 
                       // currently only one playlist can be selected and
                       // downloaded at a time.
@@ -412,7 +414,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         ),
         _buildAudioPopupMenuButton(
           context,
-          playlistListVM,
+          playlistListVMlistenFalse,
         ),
       ],
     );
@@ -422,7 +424,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     BuildContext context,
     AudioDownloadVM audioDownloadViewModel,
     ThemeProviderVM themeProviderVM,
-    PlaylistListVM playlistListVM,
+    PlaylistListVM playlistListVMlistenFalse,
   ) {
     return SizedBox(
       height: 40,
@@ -431,7 +433,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         children: [
           _buildPlaylistUrlAndTitle(
             context,
-            playlistListVM,
+            playlistListVMlistenFalse,
           ),
           const SizedBox(
             width: kRowSmallWidthSeparator,
@@ -447,7 +449,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             context,
             audioDownloadViewModel,
             themeProviderVM,
-            playlistListVM,
+            playlistListVMlistenFalse,
           ),
           const SizedBox(
             width: kRowSmallWidthSeparator,
@@ -464,13 +466,13 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   Widget _buildAudioPopupMenuButton(
     BuildContext context,
-    PlaylistListVM playlistListVM,
+    PlaylistListVM playlistListVMlistenFalse,
   ) {
     return SizedBox(
       width: kRowButtonGroupWidthSeparator,
       child: PopupMenuButton<PlaylistPopupMenuButton>(
         key: const Key('audio_popup_menu_button'),
-        enabled: (playlistListVM.isButtonAudioPopupMenuEnabled),
+        enabled: (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
         onSelected: (PlaylistPopupMenuButton value) {
           // Handle menu item selection
           switch (value) {
@@ -483,7 +485,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst:
-                        playlistListVM.getSelectedPlaylistPlayableAudios(
+                        playlistListVMlistenFalse.getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
                     ),
                     focusNode: focusNode,
@@ -492,7 +494,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               ).then((result) {
                 if (result != null) {
                   List<Audio> returnedAudioList = result;
-                  playlistListVM
+                  playlistListVMlistenFalse
                       .setSortedFilteredSelectedPlaylistsPlayableAudios(
                           returnedAudioList);
                 }
@@ -508,7 +510,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst:
-                        playlistListVM.getSelectedPlaylistPlayableAudios(
+                        playlistListVMlistenFalse.getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: true,
                     ),
                     focusNode: focusNode,
@@ -517,7 +519,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               ).then((result) {
                 if (result != null) {
                   List<Audio> returnedAudioList = result;
-                  playlistListVM
+                  playlistListVMlistenFalse
                       .setSortedFilteredSelectedPlaylistsPlayableAudios(
                           returnedAudioList);
                 }
@@ -525,7 +527,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               focusNode.requestFocus();
               break;
             case PlaylistPopupMenuButton.updatePlaylistJson:
-              playlistListVM.updateSettingsAndPlaylistJsonFiles();
+              playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();
               break;
             default:
               break;
@@ -622,7 +624,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     BuildContext context,
     AudioDownloadVM audioDownloadViewModel,
     ThemeProviderVM themeProviderVM,
-    PlaylistListVM expandablePlaylistListVM,
+    PlaylistListVM playlistListVMlistenFalse,
   ) {
     return SizedBox(
       width: kSmallButtonWidth + 10, // necessary to display english text
@@ -648,7 +650,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             // or/and filtered. This way, the newly downloaded
             // audio will be added at top of the displayed audio
             // list.
-            expandablePlaylistListVM.disableSortedFilteredPlayableAudioLst();
+            playlistListVMlistenFalse.disableSortedFilteredPlayableAudioLst();
 
             Playlist? selectedTargetPlaylist;
 
@@ -777,7 +779,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   Expanded _buildPlaylistUrlAndTitle(
     BuildContext context,
-    PlaylistListVM playlistListVM,
+    PlaylistListVM playlistListVMlistenFalse,
   ) {
     return Expanded(
       // necessary to avoid Exception
@@ -805,7 +807,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               key: const Key('selectedPlaylistTextField'),
               readOnly: true,
               controller: TextEditingController(
-                text: playlistListVM.uniqueSelectedPlaylist?.title ?? '',
+                text: playlistListVMlistenFalse.uniqueSelectedPlaylist?.title ?? '',
               ),
               decoration: const InputDecoration(
                 border: InputBorder.none,
