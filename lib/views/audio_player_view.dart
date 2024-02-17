@@ -118,8 +118,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             ),
             _buildSetAudioSpeedTextButton(context),
             _buildAudioPopupMenuButton(
-              context,
-              Provider.of<PlaylistListVM>(
+              context: context,
+              playlistListVMlistenFalse: Provider.of<PlaylistListVM>(
                 context,
                 listen: false,
               ),
@@ -262,10 +262,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     );
   }
 
-  Widget _buildAudioPopupMenuButton(
-    BuildContext context,
-    PlaylistListVM playlistListVMlistenFalse,
-  ) {
+  Widget _buildAudioPopupMenuButton({
+    required BuildContext context,
+    required PlaylistListVM playlistListVMlistenFalse,
+  }) {
     return SizedBox(
       width: kRowButtonGroupWidthSeparator,
       child: PopupMenuButton<PlaylistPopupMenuButton>(
@@ -282,8 +282,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylistAudioLst:
-                        playlistListVMlistenFalse.getSelectedPlaylistPlayableAudios(
+                    selectedPlaylistAudioLst: playlistListVMlistenFalse
+                        .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
                     ),
                     focusNode: focusNode,
@@ -307,8 +307,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylistAudioLst:
-                        playlistListVMlistenFalse.getSelectedPlaylistPlayableAudios(
+                    selectedPlaylistAudioLst: playlistListVMlistenFalse
+                        .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: true,
                     ),
                     focusNode: focusNode,
