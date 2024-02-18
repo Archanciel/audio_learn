@@ -642,7 +642,7 @@ void main() {
               .toList()));
     });
   });
-  group('filterAndSortAudioLst', () {
+  group('filterAndSortAudioLst by title and description', () {
     late AudioSortFilterService audioSortFilterService;
 
     setUp(() {
@@ -650,7 +650,7 @@ void main() {
     });
 
     test(
-        'filter and sort by title and description with search word in title only',
+        'with search word in title only',
         () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
@@ -873,7 +873,7 @@ void main() {
               .toList()));
     });
     test(
-        'filter and sort by title and description with search word in compact description only',
+        'with search word in compact description only',
         () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
@@ -1056,7 +1056,7 @@ void main() {
               .toList()));
     });
     test(
-        'filter and sort by title and description with search word in title and in compact description',
+        'with search word in title and in compact description',
         () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
@@ -1240,8 +1240,16 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
     });
+  });
+  group('filterAndSortAudioLst by title only', () {
+    late AudioSortFilterService audioSortFilterService;
+
+    setUp(() {
+      audioSortFilterService = AudioSortFilterService();
+    });
+
     test(
-        'filter and sort by title only with search word in title and in compact description',
+        'with search word in title and in compact description',
         () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,

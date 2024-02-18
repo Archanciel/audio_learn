@@ -486,6 +486,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
+                    selectedPlaylist: playlistListVMlistenFalse
+                        .uniqueSelectedPlaylist!,
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
@@ -511,6 +513,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
+                    selectedPlaylist: playlistListVMlistenFalse
+                        .uniqueSelectedPlaylist!,
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: true,

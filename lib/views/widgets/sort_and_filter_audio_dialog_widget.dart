@@ -6,16 +6,19 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../models/audio.dart';
+import '../../models/playlist.dart';
 import '../../services/audio_sort_filter_service.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 
 class SortAndFilterAudioDialogWidget extends StatefulWidget {
+  final Playlist selectedPlaylist;
   final List<Audio> selectedPlaylistAudioLst;
   final FocusNode focusNode;
 
   const SortAndFilterAudioDialogWidget({
     super.key,
+    required this.selectedPlaylist,
     required this.selectedPlaylistAudioLst,
     required this.focusNode,
   });
@@ -36,12 +39,12 @@ class _SortAndFilterAudioDialogWidgetState
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash
-  SortingOption _selectedSortingOption = SortingOption.audioDownloadDateTime;
+  late SortingOption _selectedSortingOption;
 
-  bool _sortAscending = false;
-  bool _filterMusicQuality = false;
-  bool _ignoreCase = true;
-  bool _searchInVideoCompactDescription = true;
+  late bool _sortAscending;
+  late bool _filterMusicQuality;
+  late bool _ignoreCase;
+  late bool _searchInVideoCompactDescription;
 
   final TextEditingController _startFileSizeController =
       TextEditingController();
@@ -79,6 +82,8 @@ class _SortAndFilterAudioDialogWidgetState
         _audioTitleSubStringFocusNode,
       );
     });
+
+    _setPlaylistSortFilterOptions();
   }
 
   @override
@@ -95,6 +100,50 @@ class _SortAndFilterAudioDialogWidgetState
     _audioTitleSubStringFocusNode.dispose();
 
     super.dispose();
+  }
+
+  void _resetSortFilterOptions() {
+    _selectedSortingOption = SortingOption.audioDownloadDateTime;
+    _sortAscending = false;
+    _filterMusicQuality = false;
+    _ignoreCase = true;
+    _searchInVideoCompactDescription = true;
+    _startFileSizeController.clear();
+    _endFileSizeController.clear();
+    _audioTitleSubStringController.clear();
+    _startDownloadDateTimeController.clear();
+    _endDownloadDateTimeController.clear();
+    _startUploadDateTimeController.clear();
+    _endUploadDateTimeController.clear();
+    _startAudioDurationController.clear();
+    _endAudioDurationController.clear();
+    _audioTitleSubString = null;
+    _startDownloadDateTime = null;
+    _endDownloadDateTime = null;
+    _startUploadDateTime = null;
+    _endUploadDateTime = null;
+  }
+
+  void _setPlaylistSortFilterOptions() {
+    _selectedSortingOption = SortingOption.audioDownloadDateTime;
+    _sortAscending = false;
+    _filterMusicQuality = false;
+    _ignoreCase = true;
+    _searchInVideoCompactDescription = true;
+    _startFileSizeController.clear();
+    _endFileSizeController.clear();
+    _audioTitleSubStringController.clear();
+    _startDownloadDateTimeController.clear();
+    _endDownloadDateTimeController.clear();
+    _startUploadDateTimeController.clear();
+    _endUploadDateTimeController.clear();
+    _startAudioDurationController.clear();
+    _endAudioDurationController.clear();
+    _audioTitleSubString = null;
+    _startDownloadDateTime = null;
+    _endDownloadDateTime = null;
+    _startUploadDateTime = null;
+    _endUploadDateTime = null;
   }
 
   String _sortingOptionToString(
@@ -172,6 +221,7 @@ class _SortAndFilterAudioDialogWidgetState
                         style: kDialogTitlesStyle,
                       ),
                       DropdownButton<SortingOption>(
+                        key: const Key('sortingOptionDropdownButton'),
                         value: _selectedSortingOption,
                         onChanged: (SortingOption? newValue) {
                           setState(() {
@@ -192,6 +242,9 @@ class _SortAndFilterAudioDialogWidgetState
                       Row(
                         children: [
                           ChoiceChip(
+                            // The Flutter ChoiceChip widget is designed
+                            // to represent a single choice from a set of
+                            // options.
                             key: const Key('sortAscending'),
                             label: Text(
                                 AppLocalizations.of(context)!.sortAscending),
@@ -200,9 +253,16 @@ class _SortAndFilterAudioDialogWidgetState
                               setState(() {
                                 _sortAscending = selected;
                               });
+
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
+                              _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
                           ChoiceChip(
+                            // The Flutter ChoiceChip widget is designed
+                            // to represent a single choice from a set of
+                            // options.
                             key: const Key('sortDescending'),
                             label: Text(
                                 AppLocalizations.of(context)!.sortDescending),
@@ -211,6 +271,10 @@ class _SortAndFilterAudioDialogWidgetState
                               setState(() {
                                 _sortAscending = !selected;
                               });
+
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
+                              _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
                         ],
@@ -249,11 +313,13 @@ class _SortAndFilterAudioDialogWidgetState
                         children: [
                           Text(AppLocalizations.of(context)!.ignoreCase),
                           Checkbox(
+                            key: const Key('ignoreCaseCheckbox'),
                             value: _ignoreCase,
                             onChanged: (bool? newValue) {
                               setState(() {
                                 _ignoreCase = newValue!;
                               });
+
                               // now clicking on Enter works since the
                               // Checkbox is not focused anymore
                               _audioTitleSubStringFocusNode.requestFocus();
@@ -266,11 +332,13 @@ class _SortAndFilterAudioDialogWidgetState
                           Text(AppLocalizations.of(context)!
                               .searchInVideoCompactDescription),
                           Checkbox(
+                            key: const Key('searchInVideoCompactDescription'),
                             value: _searchInVideoCompactDescription,
                             onChanged: (bool? newValue) {
                               setState(() {
                                 _searchInVideoCompactDescription = newValue!;
                               });
+
                               // now clicking on Enter works since the
                               // Checkbox is not focused anymore
                               _audioTitleSubStringFocusNode.requestFocus();
@@ -282,11 +350,13 @@ class _SortAndFilterAudioDialogWidgetState
                         children: [
                           Text(AppLocalizations.of(context)!.audioMusicQuality),
                           Checkbox(
+                            key: const Key('filterMusicQualityCheckbox'),
                             value: _filterMusicQuality,
                             onChanged: (bool? newValue) {
                               setState(() {
                                 _filterMusicQuality = newValue!;
                               });
+
                               // now clicking on Enter works since the
                               // Checkbox is not focused anymore
                               _audioTitleSubStringFocusNode.requestFocus();
@@ -303,6 +373,7 @@ class _SortAndFilterAudioDialogWidgetState
                                 .startDownloadDate),
                           ),
                           IconButton(
+                            key: const Key('startDownloadDateIconButton'),
                             icon: const Icon(Icons.calendar_month_rounded),
                             onPressed: () async {
                               DateTime? pickedDate = await showDatePicker(
@@ -319,12 +390,17 @@ class _SortAndFilterAudioDialogWidgetState
                                     DateFormat('dd-MM-yyyy')
                                         .format(_startDownloadDateTime!);
                               }
+
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
+                              _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
                           SizedBox(
                             width: 90,
                             height: kDialogTextFieldHeight,
                             child: TextField(
+                              key: const Key('startDownloadDateTextField'),
                               style: kDialogTextFieldStyle,
                               decoration: _dialogTextFieldDecoration,
                               controller: _startDownloadDateTimeController,
@@ -342,6 +418,7 @@ class _SortAndFilterAudioDialogWidgetState
                                 AppLocalizations.of(context)!.endDownloadDate),
                           ),
                           IconButton(
+                            key: const Key('endDownloadDateIconButton'),
                             icon: const Icon(Icons.calendar_month_rounded),
                             onPressed: () async {
                               DateTime? pickedDate = await showDatePicker(
@@ -358,12 +435,17 @@ class _SortAndFilterAudioDialogWidgetState
                                     DateFormat('dd-MM-yyyy')
                                         .format(_endDownloadDateTime!);
                               }
+
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
+                              _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
                           SizedBox(
                             width: 90,
                             height: kDialogTextFieldHeight,
                             child: TextField(
+                              key: const Key('endDownloadDateTextField'),
                               style: kDialogTextFieldStyle,
                               decoration: _dialogTextFieldDecoration,
                               controller: _endDownloadDateTimeController,
@@ -381,6 +463,7 @@ class _SortAndFilterAudioDialogWidgetState
                                 AppLocalizations.of(context)!.startUploadDate),
                           ),
                           IconButton(
+                            key: const Key('startUploadDateIconButton'),
                             icon: const Icon(Icons.calendar_month_rounded),
                             onPressed: () async {
                               DateTime? pickedDate = await showDatePicker(
@@ -397,12 +480,17 @@ class _SortAndFilterAudioDialogWidgetState
                                     DateFormat('dd-MM-yyyy')
                                         .format(_startUploadDateTime!);
                               }
+
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
+                              _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
                           SizedBox(
                             width: 90,
                             height: kDialogTextFieldHeight,
                             child: TextField(
+                              key: const Key('startUploadDateTextField'),
                               style: kDialogTextFieldStyle,
                               decoration: _dialogTextFieldDecoration,
                               controller: _startUploadDateTimeController,
@@ -420,6 +508,7 @@ class _SortAndFilterAudioDialogWidgetState
                                 AppLocalizations.of(context)!.endUploadDate),
                           ),
                           IconButton(
+                            key: const Key('endUploadDateIconButton'),
                             icon: const Icon(Icons.calendar_month_rounded),
                             onPressed: () async {
                               DateTime? pickedDate = await showDatePicker(
@@ -436,9 +525,14 @@ class _SortAndFilterAudioDialogWidgetState
                                     DateFormat('dd-MM-yyyy')
                                         .format(_endUploadDateTime!);
                               }
+
+                              // now clicking on Enter works since the
+                              // Checkbox is not focused anymore
+                              _audioTitleSubStringFocusNode.requestFocus();
                             },
                           ),
                           SizedBox(
+                            key: const Key('endUploadDateTextField'),
                             width: 90,
                             height: kDialogTextFieldHeight,
                             child: TextField(
@@ -466,6 +560,7 @@ class _SortAndFilterAudioDialogWidgetState
                             width: 85,
                             height: kDialogTextFieldHeight,
                             child: TextField(
+                              key: const Key('startFileSizeTextField'),
                               style: kDialogTextFieldStyle,
                               decoration: _dialogTextFieldDecoration,
                               controller: _startFileSizeController,
@@ -478,6 +573,7 @@ class _SortAndFilterAudioDialogWidgetState
                             width: 85,
                             height: kDialogTextFieldHeight,
                             child: TextField(
+                              key: const Key('endFileSizeTextField'),
                               style: kDialogTextFieldStyle,
                               decoration: _dialogTextFieldDecoration,
                               controller: _endFileSizeController,
@@ -502,6 +598,8 @@ class _SortAndFilterAudioDialogWidgetState
                             width: 85,
                             height: kDialogTextFieldHeight,
                             child: TextField(
+                              key:
+                                  const Key('audioDurationRangeStartTextField'),
                               style: kDialogTextFieldStyle,
                               decoration: _dialogTextFieldDecoration,
                               controller: _startAudioDurationController,
@@ -514,6 +612,7 @@ class _SortAndFilterAudioDialogWidgetState
                             width: 85,
                             height: kDialogTextFieldHeight,
                             child: TextField(
+                              key: const Key('audioDurationRangeEndTextField'),
                               style: kDialogTextFieldStyle,
                               decoration: _dialogTextFieldDecoration,
                               controller: _endAudioDurationController,
@@ -529,6 +628,28 @@ class _SortAndFilterAudioDialogWidgetState
             ),
           ),
           actions: [
+            IconButton(
+              key: const Key('resetSortFilterOptionsIconButton'),
+              icon: const Icon(Icons.clear),
+              onPressed: () async {
+                _resetSortFilterOptions();
+
+                // now clicking on Enter works since the
+                // Checkbox is not focused anymore
+                _audioTitleSubStringFocusNode.requestFocus();
+              },
+            ),
+            IconButton(
+              key: const Key('setPlaylistSortFilterOptionsIconButton'),
+              icon: const Icon(Icons.perm_data_setting),
+              onPressed: () async {
+                _setPlaylistSortFilterOptions();
+
+                // now clicking on Enter works since the
+                // Checkbox is not focused anymore
+                _audioTitleSubStringFocusNode.requestFocus();
+              },
+            ),
             TextButton(
               key: const Key('applySortFilterButton'),
               onPressed: () {
