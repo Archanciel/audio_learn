@@ -22,7 +22,7 @@ import 'warning_message_vm.dart';
 /// sort and filter the selected playlist audios. When the
 /// selected playlist audio is asked to the PlaylistListVM,
 /// either the full playable audio list of the selected playlist
-/// is returned or the filtered and sorted audio list is returned.
+/// or the filtered and sorted audio list is returned.
 ///
 /// The class is also used in the AudioPlayerVM to obtain the
 /// next or previous playable audio.

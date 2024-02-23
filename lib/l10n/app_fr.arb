@@ -242,5 +242,7 @@
   "setAudioPlaySpeedTooltip": "Définir la vitesse de lecture de l'audio",
   "excludeFullyPlayedAudios": "Exclure les audios entièrement joués",
   "increaseAudioVolumeIconButton": "Augmenter le volume audio",
-  "decreaseAudioVolumeIconButton": "Diminuer le volume audio"
+  "decreaseAudioVolumeIconButton": "Diminuer le volume audio",
+  "resetSortFilterOptionsTooltip": "Réinitialiser les options de tri et de filtre",
+  "setPlaylistSortFilterOptionsTooltip": "Définir les options de tri et de filtre stockés dans la playlist"
 }
