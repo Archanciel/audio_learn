@@ -39,7 +39,7 @@ class _SortAndFilterAudioDialogWidgetState
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash
-  late List<SortingOption> _selectedSortingOptionLst;
+  final List<SortingOption> _selectedSortingOptionLst = [];
 
   late bool _sortAscending;
   late bool _filterMusicQuality;
@@ -103,7 +103,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _resetSortFilterOptions() {
-    _selectedSortingOptionLst = [SortingOption.audioDownloadDateTime];
+    _selectedSortingOptionLst.clear();
     _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
@@ -125,7 +125,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _setPlaylistSortFilterOptions() {
-    _selectedSortingOptionLst = [SortingOption.audioDownloadDateTime];
+    _selectedSortingOptionLst.clear();
     _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
@@ -222,12 +222,14 @@ class _SortAndFilterAudioDialogWidgetState
                       ),
                       DropdownButton<SortingOption>(
                         key: const Key('sortingOptionDropdownButton'),
-                        value: _selectedSortingOptionLst[0],
+                        value: SortingOption.audioDownloadDateTime,
                         onChanged: (SortingOption? newValue) {
                           setState(() {
-                            _selectedSortingOptionLst[0] = newValue!;
-                            _sortAscending = AudioSortFilterService
-                                .sortingOptionToAscendingMap[newValue]!;
+                            if (!_selectedSortingOptionLst.contains(newValue)) {
+                              _selectedSortingOptionLst.add(newValue!);
+                              _sortAscending = AudioSortFilterService
+                                  .sortingOptionToAscendingMap[newValue]!;
+                            }
                           });
                         },
                         items: SortingOption.values
@@ -240,6 +242,10 @@ class _SortAndFilterAudioDialogWidgetState
                         }).toList(),
                       ),
                       SizedBox(
+                        // Required to solve the error RenderBox was
+                        // not laid out: RenderPhysicalShape#ee087
+                        // relayoutBoundary=up2 'package:flutter/src/
+                        // rendering/box.dart':
                         width: double.maxFinite,
                         child: ListView.builder(
                           // controller: _scrollController,
@@ -249,8 +255,27 @@ class _SortAndFilterAudioDialogWidgetState
                             SortingOption sortingOption =
                                 _selectedSortingOptionLst[index];
                             return ListTile(
+                              leading: IconButton(
+                                key: const Key(
+                                    'move_down_playlist_button'),
+                                onPressed: () {},
+                                padding: const EdgeInsets.all(0),
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                  size: kUpDownButtonSize,
+                                ),
+                              ),
                               title: Text(_sortingOptionToString(
                                   sortingOption, context)),
+                              trailing: IconButton(
+                                key: const Key('removeSortingOptionIconButton'),
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  setState(() {
+                                    _selectedSortingOptionLst.removeAt(index);
+                                  });
+                                },
+                              ),
                             );
                           },
                         ),
