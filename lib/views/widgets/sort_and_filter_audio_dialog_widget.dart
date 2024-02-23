@@ -39,7 +39,7 @@ class _SortAndFilterAudioDialogWidgetState
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash
-  late SortingOption _selectedSortingOption;
+  late List<SortingOption> _selectedSortingOptionLst;
 
   late bool _sortAscending;
   late bool _filterMusicQuality;
@@ -103,7 +103,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _resetSortFilterOptions() {
-    _selectedSortingOption = SortingOption.audioDownloadDateTime;
+    _selectedSortingOptionLst = [SortingOption.audioDownloadDateTime];
     _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
@@ -125,7 +125,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _setPlaylistSortFilterOptions() {
-    _selectedSortingOption = SortingOption.audioDownloadDateTime;
+    _selectedSortingOptionLst = [SortingOption.audioDownloadDateTime];
     _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
@@ -222,10 +222,10 @@ class _SortAndFilterAudioDialogWidgetState
                       ),
                       DropdownButton<SortingOption>(
                         key: const Key('sortingOptionDropdownButton'),
-                        value: _selectedSortingOption,
+                        value: _selectedSortingOptionLst[0],
                         onChanged: (SortingOption? newValue) {
                           setState(() {
-                            _selectedSortingOption = newValue!;
+                            _selectedSortingOptionLst[0] = newValue!;
                             _sortAscending = AudioSortFilterService
                                 .sortingOptionToAscendingMap[newValue]!;
                           });
@@ -238,6 +238,22 @@ class _SortAndFilterAudioDialogWidgetState
                             child: Text(_sortingOptionToString(value, context)),
                           );
                         }).toList(),
+                      ),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: ListView.builder(
+                          // controller: _scrollController,
+                          itemCount: _selectedSortingOptionLst.length,
+                          shrinkWrap: true,
+                          itemBuilder: (BuildContext context, int index) {
+                            SortingOption sortingOption =
+                                _selectedSortingOptionLst[index];
+                            return ListTile(
+                              title: Text(_sortingOptionToString(
+                                  sortingOption, context)),
+                            );
+                          },
+                        ),
                       ),
                       Row(
                         children: [
@@ -628,33 +644,41 @@ class _SortAndFilterAudioDialogWidgetState
             ),
           ),
           actions: [
-            IconButton(
-              key: const Key('resetSortFilterOptionsIconButton'),
-              icon: const Icon(Icons.clear),
-              onPressed: () async {
-                _resetSortFilterOptions();
+            Tooltip(
+              message:
+                  AppLocalizations.of(context)!.resetSortFilterOptionsTooltip,
+              child: IconButton(
+                key: const Key('resetSortFilterOptionsIconButton'),
+                icon: const Icon(Icons.clear),
+                onPressed: () async {
+                  _resetSortFilterOptions();
 
-                // now clicking on Enter works since the
-                // Checkbox is not focused anymore
-                _audioTitleSubStringFocusNode.requestFocus();
-              },
+                  // now clicking on Enter works since the
+                  // Checkbox is not focused anymore
+                  _audioTitleSubStringFocusNode.requestFocus();
+                },
+              ),
             ),
-            IconButton(
-              key: const Key('setPlaylistSortFilterOptionsIconButton'),
-              icon: const Icon(Icons.perm_data_setting),
-              onPressed: () async {
-                _setPlaylistSortFilterOptions();
+            Tooltip(
+              message: AppLocalizations.of(context)!
+                  .setPlaylistSortFilterOptionsTooltip,
+              child: IconButton(
+                key: const Key('setPlaylistSortFilterOptionsIconButton'),
+                icon: const Icon(Icons.perm_data_setting),
+                onPressed: () async {
+                  _setPlaylistSortFilterOptions();
 
-                // now clicking on Enter works since the
-                // Checkbox is not focused anymore
-                _audioTitleSubStringFocusNode.requestFocus();
-              },
+                  // now clicking on Enter works since the
+                  // Checkbox is not focused anymore
+                  _audioTitleSubStringFocusNode.requestFocus();
+                },
+              ),
             ),
             TextButton(
               key: const Key('applySortFilterButton'),
               onPressed: () {
                 // Apply sorting and filtering options
-                print('Sorting option: $_selectedSortingOption');
+                print('Sorting option: $_selectedSortingOptionLst[0]');
                 print('Sort ascending: $_sortAscending');
                 print('Filter by music quality: $_filterMusicQuality');
                 print('Audio title substring: $_audioTitleSubString');
@@ -703,7 +727,7 @@ class _SortAndFilterAudioDialogWidgetState
     List<Audio> sortedAudioLstBySortingOption =
         AudioSortFilterService().filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
-      sortingOption: _selectedSortingOption,
+      sortingOption: _selectedSortingOptionLst[0],
       searchWords: _audioTitleSubString,
       ignoreCase: _ignoreCase,
       searchInVideoCompactDescription: _searchInVideoCompactDescription,
