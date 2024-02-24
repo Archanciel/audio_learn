@@ -664,4 +664,10 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get decreaseAudioVolumeIconButton => 'Increase audio volume';
+
+  @override
+  String get resetSortFilterOptionsTooltip => 'Reset sort and filter options';
+
+  @override
+  String get setPlaylistSortFilterOptionsTooltip => 'Set sort and filter options stored in playlist';
 }
