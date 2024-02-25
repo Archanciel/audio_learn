@@ -77,10 +77,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       context,
       listen: false,
     );
-    final PlaylistListVM playlistListVMlistenTrue = Provider.of<PlaylistListVM>(
-      context,
-      listen: true,
-    );
     final PlaylistListVM playlistListVMlistenFalse =
         Provider.of<PlaylistListVM>(
       context,
@@ -115,7 +111,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           context: context,
           themeProviderVM: themeProviderVM,
           playlistListVMlistenFalse: playlistListVMlistenFalse,
-          playlistListVMlistenTrue: playlistListVMlistenTrue,
         ),
         _buildExpandedPlaylistList(),
         _buildExpandedAudioList(),
@@ -235,7 +230,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     required BuildContext context,
     required ThemeProviderVM themeProviderVM,
     required PlaylistListVM playlistListVMlistenFalse,
-    required PlaylistListVM playlistListVMlistenTrue,
   }) {
     final AudioDownloadVM audioDownloadViewModel = Provider.of<AudioDownloadVM>(
       context,
@@ -243,7 +237,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
 
     bool arePlaylistDownloadWidgetsEnabled =
-        playlistListVMlistenTrue.isButtonDownloadSelPlaylistsEnabled &&
+        playlistListVMlistenFalse.isButtonDownloadSelPlaylistsEnabled &&
             !Provider.of<AudioDownloadVM>(context).isDownloading;
 
     return Row(
@@ -268,7 +262,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 overlayColor: textButtonTapModification, // Tap feedback color
               ),
               onPressed: () {
-                playlistListVMlistenTrue.toggleList();
+                playlistListVMlistenFalse.toggleList();
               },
               child: Text(
                 'Playlists',
@@ -283,9 +277,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_down_playlist_button'),
-            onPressed: playlistListVMlistenTrue.isButtonMoveDownPlaylistEnabled
+            onPressed: playlistListVMlistenFalse.isButtonMoveDownPlaylistEnabled
                 ? () {
-                    playlistListVMlistenTrue.moveSelectedItemDown();
+                    playlistListVMlistenFalse.moveSelectedItemDown();
                   }
                 : null,
             padding: const EdgeInsets.all(0),
@@ -299,9 +293,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_up_playlist_button'),
-            onPressed: playlistListVMlistenTrue.isButtonMoveUpPlaylistEnabled
+            onPressed: playlistListVMlistenFalse.isButtonMoveUpPlaylistEnabled
                 ? () {
-                    playlistListVMlistenTrue.moveSelectedItemUp();
+                    playlistListVMlistenFalse.moveSelectedItemUp();
                   }
                 : null,
             padding: const EdgeInsets.all(0),
@@ -339,11 +333,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                       // or/and filtered. This way, the newly downloaded
                       // audio will be added at top of the displayed audio
                       // list.
-                      playlistListVMlistenTrue
+                      playlistListVMlistenFalse
                           .disableSortedFilteredPlayableAudioLst();
 
                       List<Playlist> selectedPlaylists =
-                          playlistListVMlistenTrue.getSelectedPlaylists();
+                          playlistListVMlistenFalse.getSelectedPlaylists();
 
                       // currently only one playlist can be selected and
                       // downloaded at a time.
@@ -435,7 +429,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         children: [
           _buildPlaylistUrlAndTitle(
             context: context,
-            playlistListVMlistenFalse: playlistListVMlistenFalse,
           ),
           const SizedBox(
             width: kRowSmallWidthSeparator,
@@ -486,8 +479,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylist: playlistListVMlistenFalse
-                        .uniqueSelectedPlaylist!,
+                    selectedPlaylist:
+                        playlistListVMlistenFalse.uniqueSelectedPlaylist!,
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
@@ -513,8 +506,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylist: playlistListVMlistenFalse
-                        .uniqueSelectedPlaylist!,
+                    selectedPlaylist:
+                        playlistListVMlistenFalse.uniqueSelectedPlaylist!,
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: true,
@@ -785,8 +778,12 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   Expanded _buildPlaylistUrlAndTitle({
     required BuildContext context,
-    required PlaylistListVM playlistListVMlistenFalse,
   }) {
+    PlaylistListVM playlistListVMlistenTrue = Provider.of<PlaylistListVM>(
+      context,
+      listen: true,
+    );
+
     return Expanded(
       // necessary to avoid Exception
       child: Column(
@@ -813,7 +810,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               key: const Key('selectedPlaylistTextField'),
               readOnly: true,
               controller: TextEditingController(
-                text: playlistListVMlistenFalse.uniqueSelectedPlaylist?.title ??
+                // using playlistListVM with listen:True guaranties
+                // that the selected playlist title is updated when
+                // the selected playlist changes 
+                text: playlistListVMlistenTrue.uniqueSelectedPlaylist?.title ??
                     '',
               ),
               decoration: const InputDecoration(
