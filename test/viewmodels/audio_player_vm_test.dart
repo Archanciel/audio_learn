@@ -331,7 +331,8 @@ void main() {
 
       // enter a new command
       int forwardChangePositionThree = 125;
-      audioPlayerVM.changeAudioPlayPosition( // 765
+      audioPlayerVM.changeAudioPlayPosition(
+          // 765
           positiveOrNegativeDuration:
               Duration(seconds: forwardChangePositionThree));
 
@@ -1539,7 +1540,8 @@ Future<SettingsDataService> initializeTestDataAndLoadSettingsDataService({
   // playlist list is empty
   DirUtil.deleteFilesInDirAndSubDirs(
     rootPath: kDownloadAppTestDirWindows,
-    deleteSubDirectoriesAsWell: true,
+    deleteSubDirectoriesAsWell:
+        true, // reduce number of times the Flutter test fails. Not explanable.
   );
 
   if (savedTestDataDirName != null) {
