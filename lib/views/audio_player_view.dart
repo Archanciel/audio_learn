@@ -652,15 +652,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildUndoRedoButtons() {
     return Consumer<AudioPlayerVM>(
       builder: (context, globalAudioPlayerVM, child) {
-        String? currentAudioTitleWithDuration =
-            globalAudioPlayerVM.getCurrentAudioTitleWithDuration();
-
-        // If the current audio title is null, set it to the
-        // 'no current audio' translated title
-        currentAudioTitleWithDuration ??=
-            AppLocalizations.of(context)!.audioPlayerViewNoCurrentAudio;
-
-        return Row(
+         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(

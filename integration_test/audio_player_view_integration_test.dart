@@ -250,9 +250,6 @@ void main() {
       Finder noAudioTitleFinder = find.text("No audio selected");
       expect(noAudioTitleFinder, findsOneWidget);
 
-      await tester.tap(noAudioTitleFinder);
-      await tester.pumpAndSettle();
-
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
