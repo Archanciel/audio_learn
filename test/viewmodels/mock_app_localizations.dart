@@ -669,5 +669,10 @@ class MockAppLocalizations extends AppLocalizations {
   String get resetSortFilterOptionsTooltip => 'Reset sort and filter options';
 
   @override
-  String get setPlaylistSortFilterOptionsTooltip => 'Set sort and filter options stored in playlist';
+  String get setPlaylistSortFilterOptionsTooltip =>
+      'Set sort and filter options stored in playlist';
+
+  @override
+  String get clickToSetAscendingOrDescendingTooltip =>
+      'Click to set ascending or descending';
 }

@@ -36,11 +36,21 @@ class _SortAndFilterAudioDialogWidgetState
     border: OutlineInputBorder(),
   );
 
+  final SortingItem _initialSortingItem = SortingItem(
+    sortingOption: SortingOption.audioDownloadDateTime,
+    isAscending: AudioSortFilterService
+        .sortingOptionToAscendingMap[SortingOption.audioDownloadDateTime]!,
+  );
+
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash
-  final List<SortingOption> _selectedSortingOptionLst = [
-    SortingOption.audioDownloadDateTime,
+  final List<SortingItem> _sortingItemLst = [
+    SortingItem(
+      sortingOption: SortingOption.audioDownloadDateTime,
+      isAscending: AudioSortFilterService
+          .sortingOptionToAscendingMap[SortingOption.audioDownloadDateTime]!,
+    ),
   ];
 
   late bool _sortAscending;
@@ -105,7 +115,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _resetSortFilterOptions() {
-    _selectedSortingOptionLst[0] = SortingOption.audioDownloadDateTime;
+    _sortingItemLst[0] = _initialSortingItem;
     _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
@@ -127,7 +137,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _setPlaylistSortFilterOptions() {
-    _selectedSortingOptionLst[0] = SortingOption.audioDownloadDateTime;
+    _sortingItemLst[0] = _initialSortingItem;
     _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
@@ -228,10 +238,13 @@ class _SortAndFilterAudioDialogWidgetState
                         value: SortingOption.audioDownloadDateTime,
                         onChanged: (SortingOption? newValue) {
                           setState(() {
-                            if (!_selectedSortingOptionLst.contains(newValue)) {
-                              _selectedSortingOptionLst.add(newValue!);
-                              _sortAscending = AudioSortFilterService
-                                  .sortingOptionToAscendingMap[newValue]!;
+                            if (!_sortingItemLst.any((sortingItem) =>
+                                sortingItem.sortingOption == newValue)) {
+                              _sortingItemLst.add(SortingItem(
+                                sortingOption: newValue!,
+                                isAscending: AudioSortFilterService
+                                    .sortingOptionToAscendingMap[newValue]!,
+                              ));
                             }
                           });
                         },
@@ -252,14 +265,14 @@ class _SortAndFilterAudioDialogWidgetState
                         width: double.maxFinite,
                         child: ListView.builder(
                           // controller: _scrollController,
-                          itemCount: _selectedSortingOptionLst.length,
+                          itemCount: _sortingItemLst.length,
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
-                            SortingOption sortingOption =
-                                _selectedSortingOptionLst[index];
                             return ListTile(
                               title: Text(_sortingOptionToString(
-                                  sortingOption, context)),
+                                _sortingItemLst[index].sortingOption,
+                                context,
+                              )),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -267,11 +280,22 @@ class _SortAndFilterAudioDialogWidgetState
                                     message: AppLocalizations.of(context)!
                                         .clickToSetAscendingOrDescendingTooltip,
                                     child: IconButton(
-                                      key: const Key('move_up_playlist_button'),
-                                      onPressed: () {},
+                                      key: const Key(
+                                          'sort_ascending_or_descending_button'),
+                                      onPressed: () {
+                                        setState(() {
+                                          _sortingItemLst[index]
+                                              .isAscending = !_sortingItemLst[
+                                                  index]
+                                              .isAscending; // Toggle the sorting state
+                                        });
+                                      },
                                       padding: const EdgeInsets.all(0),
-                                      icon: const Icon(
-                                        Icons.arrow_drop_up,
+                                      icon: Icon(
+                                        _sortingItemLst[index].isAscending
+                                            ? Icons.arrow_drop_up
+                                            : Icons
+                                                .arrow_drop_down, // Conditional icon
                                         size: kUpDownButtonSize,
                                       ),
                                     ),
@@ -282,10 +306,8 @@ class _SortAndFilterAudioDialogWidgetState
                                     icon: const Icon(Icons.clear),
                                     onPressed: () {
                                       setState(() {
-                                        if (_selectedSortingOptionLst.length >
-                                            1) {
-                                          _selectedSortingOptionLst
-                                              .removeAt(index);
+                                        if (_sortingItemLst.length > 1) {
+                                          _sortingItemLst.removeAt(index);
                                         }
                                       });
                                     },
@@ -295,46 +317,6 @@ class _SortAndFilterAudioDialogWidgetState
                             );
                           },
                         ),
-                      ),
-                      Row(
-                        children: [
-                          ChoiceChip(
-                            // The Flutter ChoiceChip widget is designed
-                            // to represent a single choice from a set of
-                            // options.
-                            key: const Key('sortAscending'),
-                            label: Text(
-                                AppLocalizations.of(context)!.sortAscending),
-                            selected: _sortAscending,
-                            onSelected: (bool selected) {
-                              setState(() {
-                                _sortAscending = selected;
-                              });
-
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              _audioTitleSubStringFocusNode.requestFocus();
-                            },
-                          ),
-                          ChoiceChip(
-                            // The Flutter ChoiceChip widget is designed
-                            // to represent a single choice from a set of
-                            // options.
-                            key: const Key('sortDescending'),
-                            label: Text(
-                                AppLocalizations.of(context)!.sortDescending),
-                            selected: !_sortAscending,
-                            onSelected: (bool selected) {
-                              setState(() {
-                                _sortAscending = !selected;
-                              });
-
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              _audioTitleSubStringFocusNode.requestFocus();
-                            },
-                          ),
-                        ],
                       ),
                       const SizedBox(
                         height: 10,
@@ -719,7 +701,7 @@ class _SortAndFilterAudioDialogWidgetState
               key: const Key('applySortFilterButton'),
               onPressed: () {
                 // Apply sorting and filtering options
-                print('Sorting option: $_selectedSortingOptionLst[0]');
+                print('Sorting option: $_sortingItemLst[0].sortingOption');
                 print('Sort ascending: $_sortAscending');
                 print('Filter by music quality: $_filterMusicQuality');
                 print('Audio title substring: $_audioTitleSubString');
@@ -768,7 +750,7 @@ class _SortAndFilterAudioDialogWidgetState
     List<Audio> sortedAudioLstBySortingOption =
         AudioSortFilterService().filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
-      sortingOption: _selectedSortingOptionLst[0],
+      sortingOption: _sortingItemLst[0].sortingOption,
       searchWords: _audioTitleSubString,
       ignoreCase: _ignoreCase,
       searchInVideoCompactDescription: _searchInVideoCompactDescription,
@@ -777,6 +759,16 @@ class _SortAndFilterAudioDialogWidgetState
 
     return sortedAudioLstBySortingOption;
   }
+}
+
+class SortingItem {
+  final SortingOption sortingOption;
+  bool isAscending;
+
+  SortingItem({
+    required this.sortingOption,
+    required this.isAscending,
+  });
 }
 
 class FilterAndSortAudioParameters {
