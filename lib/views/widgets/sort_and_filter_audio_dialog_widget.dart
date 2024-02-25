@@ -39,7 +39,9 @@ class _SortAndFilterAudioDialogWidgetState
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash
-  final List<SortingOption> _selectedSortingOptionLst = [];
+  final List<SortingOption> _selectedSortingOptionLst = [
+    SortingOption.audioDownloadDateTime,
+  ];
 
   late bool _sortAscending;
   late bool _filterMusicQuality;
@@ -103,7 +105,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _resetSortFilterOptions() {
-    _selectedSortingOptionLst.clear();
+    _selectedSortingOptionLst[0] = SortingOption.audioDownloadDateTime;
     _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
@@ -125,7 +127,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _setPlaylistSortFilterOptions() {
-    _selectedSortingOptionLst.clear();
+    _selectedSortingOptionLst[0] = SortingOption.audioDownloadDateTime;
     _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
@@ -214,6 +216,7 @@ class _SortAndFilterAudioDialogWidgetState
                   (BuildContext context, ScrollController scrollController) {
                 return SingleChildScrollView(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -255,26 +258,39 @@ class _SortAndFilterAudioDialogWidgetState
                             SortingOption sortingOption =
                                 _selectedSortingOptionLst[index];
                             return ListTile(
-                              leading: IconButton(
-                                key: const Key(
-                                    'move_down_playlist_button'),
-                                onPressed: () {},
-                                padding: const EdgeInsets.all(0),
-                                icon: const Icon(
-                                  Icons.arrow_drop_down,
-                                  size: kUpDownButtonSize,
-                                ),
-                              ),
                               title: Text(_sortingOptionToString(
                                   sortingOption, context)),
-                              trailing: IconButton(
-                                key: const Key('removeSortingOptionIconButton'),
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  setState(() {
-                                    _selectedSortingOptionLst.removeAt(index);
-                                  });
-                                },
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Tooltip(
+                                    message: AppLocalizations.of(context)!
+                                        .clickToSetAscendingOrDescendingTooltip,
+                                    child: IconButton(
+                                      key: const Key('move_up_playlist_button'),
+                                      onPressed: () {},
+                                      padding: const EdgeInsets.all(0),
+                                      icon: const Icon(
+                                        Icons.arrow_drop_up,
+                                        size: kUpDownButtonSize,
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    key: const Key(
+                                        'removeSortingOptionIconButton'),
+                                    icon: const Icon(Icons.clear),
+                                    onPressed: () {
+                                      setState(() {
+                                        if (_selectedSortingOptionLst.length >
+                                            1) {
+                                          _selectedSortingOptionLst
+                                              .removeAt(index);
+                                        }
+                                      });
+                                    },
+                                  ),
+                                ],
                               ),
                             );
                           },
@@ -761,4 +777,27 @@ class _SortAndFilterAudioDialogWidgetState
 
     return sortedAudioLstBySortingOption;
   }
+}
+
+class FilterAndSortAudioParameters {
+  final List<SortingOption> _sortingOptionLst;
+  get sortingOptionLst => _sortingOptionLst;
+
+  String _videoTitleAndDescriptionSearchWords;
+  get videoTitleAndDescriptionSearchWords =>
+      _videoTitleAndDescriptionSearchWords;
+
+  bool ignoreCase;
+  bool searchInVideoCompactDescription;
+  bool asc;
+
+  FilterAndSortAudioParameters({
+    required List<SortingOption> sortingOptionLst,
+    required String videoTitleAndDescriptionSearchWords,
+    required this.ignoreCase,
+    required this.searchInVideoCompactDescription,
+    required this.asc,
+  })  : _videoTitleAndDescriptionSearchWords =
+            videoTitleAndDescriptionSearchWords,
+        _sortingOptionLst = sortingOptionLst;
 }
