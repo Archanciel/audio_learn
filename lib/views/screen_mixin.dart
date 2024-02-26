@@ -88,6 +88,7 @@ mixin ScreenMixin {
     color: Colors.grey,
     size: screenIconSizeDarkTheme,
   );
+  final kDialogActionsPadding = EdgeInsets.all(0);
 
   static ThemeData themeDataDark = ThemeData.dark().copyWith(
     colorScheme: ThemeData.dark().colorScheme.copyWith(

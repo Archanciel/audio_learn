@@ -48,7 +48,7 @@ class PlaylistOneSelectableDialogWidget extends StatefulWidget {
 }
 
 class _PlaylistOneSelectableDialogWidgetState
-    extends State<PlaylistOneSelectableDialogWidget> {
+    extends State<PlaylistOneSelectableDialogWidget> with ScreenMixin {
   Playlist? _selectedPlaylist;
   bool _keepAudioDataInSourcePlaylist = true;
 
@@ -120,11 +120,7 @@ class _PlaylistOneSelectableDialogWidgetState
           key: const Key('playlistOneSelectableDialogTitleKey'),
           AppLocalizations.of(context)!.playlistOneSelectedDialogTitle,
         ),
-        actionsPadding:
-            // reduces the top vertical space between the buttons
-            // and the content
-            const EdgeInsets.fromLTRB(
-                10, 0, 10, 10), // Adjust the value as needed
+        actionsPadding: kDialogActionsPadding,
         content: SizedBox(
           width: double.maxFinite,
           child: Column(

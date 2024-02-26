@@ -77,11 +77,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
           key: const Key('playlistConfirmDialogTitleKey'),
           AppLocalizations.of(context)!.addPlaylistDialogTitle,
         ),
-        actionsPadding:
-            // reduces the top vertical space between the buttons
-            // and the content
-            const EdgeInsets.fromLTRB(
-                10, 0, 10, 10), // Adjust the value as needed
+        actionsPadding: kDialogActionsPadding,
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[

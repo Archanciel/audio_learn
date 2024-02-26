@@ -8,6 +8,7 @@ import '../../constants.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 import '../../viewmodels/warning_message_vm.dart';
+import '../screen_mixin.dart';
 
 enum WarningMode {
   warning,
@@ -21,12 +22,12 @@ enum WarningMode {
 /// The warning messages are displayed as a dialog whose content
 /// depends on the type of the warning message set to the
 /// WarningMessageVM.
-class DisplayMessageWidget extends StatelessWidget {
+class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
   final BuildContext _context;
   final WarningMessageVM _warningMessageVM;
   final TextEditingController _playlistUrlController;
 
-  const DisplayMessageWidget({
+  DisplayMessageWidget({
     required BuildContext parentContext,
     required WarningMessageVM warningMessageVM,
     required TextEditingController playlistUrlController,
@@ -454,11 +455,7 @@ class DisplayMessageWidget extends StatelessWidget {
             key: const Key('warningDialogTitle'),
             alertDialogTitle,
           ),
-          actionsPadding:
-              // reduces the top vertical space between the buttons
-              // and the content
-              const EdgeInsets.fromLTRB(
-                  10, 0, 10, 10), // Adjust the value as needed
+          actionsPadding: kDialogActionsPadding,
           content: Text(
             key: const Key('warningDialogMessage'),
             message,

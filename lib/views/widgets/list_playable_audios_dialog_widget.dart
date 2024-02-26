@@ -100,11 +100,7 @@ class _ListPlayableAudiosDialogWidgetState
       },
       child: AlertDialog(
         title: Text(AppLocalizations.of(context)!.audioOneSelectedDialogTitle),
-        actionsPadding:
-            // reduces the top vertical space between the buttons
-            // and the content
-            const EdgeInsets.fromLTRB(
-                10, 0, 10, 10), // Adjust the value as needed
+        actionsPadding: kDialogActionsPadding,
         content: SizedBox(
           width: double.maxFinite,
           child: Column(

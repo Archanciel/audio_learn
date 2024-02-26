@@ -185,7 +185,7 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
           style: TextButton.styleFrom(
             minimumSize: const Size(18, 18), // Set a minimum touch target size
             padding: const EdgeInsets.symmetric(
-                horizontal: 0), // Adjust padding as needed
+                horizontal: 0),
           ),
           child: Text(
             '${speed}x',
