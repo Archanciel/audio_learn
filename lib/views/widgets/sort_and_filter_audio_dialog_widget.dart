@@ -10,6 +10,7 @@ import '../../models/playlist.dart';
 import '../../services/audio_sort_filter_service.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
+import '../screen_mixin.dart';
 
 class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final Playlist selectedPlaylist;
@@ -29,10 +30,10 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
 }
 
 class _SortAndFilterAudioDialogWidgetState
-    extends State<SortAndFilterAudioDialogWidget> {
+    extends State<SortAndFilterAudioDialogWidget> with ScreenMixin {
   final InputDecoration _dialogTextFieldDecoration = const InputDecoration(
     isDense: true, //  better aligns the text vertically
-    contentPadding: EdgeInsets.all(8),
+    contentPadding: EdgeInsets.all(5),
     border: OutlineInputBorder(),
   );
 
@@ -213,8 +214,7 @@ class _SortAndFilterAudioDialogWidgetState
           actionsPadding:
               // reduces the top vertical space between the buttons
               // and the content
-              const EdgeInsets.fromLTRB(
-                  10, 0, 10, 10), // Adjust the value as needed
+              kDialogActionsPadding,
           content: SizedBox(
             width: double.maxFinite,
             height: 800,
@@ -284,10 +284,11 @@ class _SortAndFilterAudioDialogWidgetState
                                           'sort_ascending_or_descending_button'),
                                       onPressed: () {
                                         setState(() {
-                                          _sortingItemLst[index]
-                                              .isAscending = !_sortingItemLst[
-                                                  index]
-                                              .isAscending; // Toggle the sorting state
+                                          bool isAscending =
+                                              _sortingItemLst[index]
+                                                  .isAscending;
+                                          _sortingItemLst[index].isAscending =
+                                              !isAscending; // Toggle the sorting state
                                         });
                                       },
                                       padding: const EdgeInsets.all(0),
