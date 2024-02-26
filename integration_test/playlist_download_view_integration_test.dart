@@ -6511,24 +6511,24 @@ void onPageChanged(int index) {
 
 /// Verifies the elements of the audio info dialog.
 ///
-/// {@param tester} is the WidgetTester
+/// {tester} is the WidgetTester
 ///
-/// {@param audioTitle} is the title of the audio the method verifies
+/// {audioTitle} is the title of the audio the method verifies
 /// the elements of the audio info dialog
 ///
-/// {@param playlistEnclosingAudioTitle} is the title of the playlist
+/// {playlistEnclosingAudioTitle} is the title of the playlist
 /// enclosing the audio
 ///
-/// {@param copiedAudioSourcePlaylistTitle} is the title of the playlist
+/// {copiedAudioSourcePlaylistTitle} is the title of the playlist
 /// from which the audio was copied
 ///
-/// {@param copiedAudioTargetPlaylistTitle} is the title of the playlist
+/// {copiedAudioTargetPlaylistTitle} is the title of the playlist
 /// to which the audio was copied
 ///
-/// {@param movedAudioSourcePlaylistTitle} is the title of the playlist
+/// {movedAudioSourcePlaylistTitle} is the title of the playlist
 /// from which the audio was moved
 ///
-/// {@param movedAudioTargetPlaylistTitle} is the title of the playlist
+/// {movedAudioTargetPlaylistTitle} is the title of the playlist
 /// to which the audio was moved
 Future<void> verifyAudioInfoDialogElements({
   required WidgetTester tester,

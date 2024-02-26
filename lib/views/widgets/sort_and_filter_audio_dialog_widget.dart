@@ -5,12 +5,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
+import '../screen_mixin.dart';
 import '../../models/audio.dart';
 import '../../models/playlist.dart';
 import '../../services/audio_sort_filter_service.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
-import '../screen_mixin.dart';
 
 class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final Playlist selectedPlaylist;

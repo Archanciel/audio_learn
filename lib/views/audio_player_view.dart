@@ -274,7 +274,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         onSelected: (PlaylistPopupMenuButton value) {
           // Handle menu item selection
           switch (value) {
-            case PlaylistPopupMenuButton.sortFilterAudios:
+            case PlaylistPopupMenuButton.defineSortFilterAudiosSettings:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
@@ -282,8 +282,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylist: playlistListVMlistenFalse
-                        .uniqueSelectedPlaylist!,
+                    selectedPlaylist:
+                        playlistListVMlistenFalse.uniqueSelectedPlaylist!,
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
@@ -301,7 +301,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               });
               focusNode.requestFocus();
               break;
-            case PlaylistPopupMenuButton.subSortFilterAudios:
+            case PlaylistPopupMenuButton.saveSortFilterAudiosSettingsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
@@ -309,8 +309,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylist: playlistListVMlistenFalse
-                        .uniqueSelectedPlaylist!,
+                    selectedPlaylist:
+                        playlistListVMlistenFalse.uniqueSelectedPlaylist!,
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: true,
@@ -339,14 +339,15 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         itemBuilder: (BuildContext context) {
           return [
             PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('sort_and_filter_audio_dialog_item'),
-              value: PlaylistPopupMenuButton.sortFilterAudios,
-              child: Text(AppLocalizations.of(context)!.sortFilterAudios),
+              key: const Key('define_sort_and_filter_audio_settings_dialog_item'),
+              value: PlaylistPopupMenuButton.defineSortFilterAudiosSettings,
+              child: Text(AppLocalizations.of(context)!.defineSortFilterAudiosSettings),
             ),
             PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('sub_sort_and_filter_audio_dialog_item'),
-              value: PlaylistPopupMenuButton.subSortFilterAudios,
-              child: Text(AppLocalizations.of(context)!.subSortFilterAudios),
+              key: const Key('save_sort_and_filter_audio_settings_in_playlist_item'),
+              value: PlaylistPopupMenuButton
+                  .saveSortFilterAudiosSettingsToPlaylist,
+              child: Text(AppLocalizations.of(context)!.saveSortFilterAudiosSettingsToPlaylist),
             ),
             PopupMenuItem<PlaylistPopupMenuButton>(
               key: const Key('update_playlist_json_dialog_item'),
@@ -652,7 +653,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildUndoRedoButtons() {
     return Consumer<AudioPlayerVM>(
       builder: (context, globalAudioPlayerVM, child) {
-         return Row(
+        return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(

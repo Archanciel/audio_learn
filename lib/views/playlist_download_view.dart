@@ -471,7 +471,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         onSelected: (PlaylistPopupMenuButton value) {
           // Handle menu item selection
           switch (value) {
-            case PlaylistPopupMenuButton.sortFilterAudios:
+            case PlaylistPopupMenuButton.defineSortFilterAudiosSettings:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
@@ -498,7 +498,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               });
               focusNode.requestFocus();
               break;
-            case PlaylistPopupMenuButton.subSortFilterAudios:
+            case PlaylistPopupMenuButton.saveSortFilterAudiosSettingsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
@@ -536,14 +536,15 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         itemBuilder: (BuildContext context) {
           return [
             PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('sort_and_filter_audio_dialog_item'),
-              value: PlaylistPopupMenuButton.sortFilterAudios,
-              child: Text(AppLocalizations.of(context)!.sortFilterAudios),
+              key: const Key('define_sort_and_filter_audio_settings_dialog_item'),
+              value: PlaylistPopupMenuButton.defineSortFilterAudiosSettings,
+              child: Text(AppLocalizations.of(context)!.defineSortFilterAudiosSettings),
             ),
             PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('sub_sort_and_filter_audio_dialog_item'),
-              value: PlaylistPopupMenuButton.subSortFilterAudios,
-              child: Text(AppLocalizations.of(context)!.subSortFilterAudios),
+              key: const Key('save_sort_and_filter_audio_settings_in_playlist_item'),
+              value: PlaylistPopupMenuButton
+                  .saveSortFilterAudiosSettingsToPlaylist,
+              child: Text(AppLocalizations.of(context)!.saveSortFilterAudiosSettingsToPlaylist),
             ),
             PopupMenuItem<PlaylistPopupMenuButton>(
               key: const Key('update_playlist_json_dialog_item'),
@@ -812,7 +813,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               controller: TextEditingController(
                 // using playlistListVM with listen:True guaranties
                 // that the selected playlist title is updated when
-                // the selected playlist changes 
+                // the selected playlist changes
                 text: playlistListVMlistenTrue.uniqueSelectedPlaylist?.title ??
                     '',
               ),

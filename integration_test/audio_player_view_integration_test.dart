@@ -577,8 +577,6 @@ void main() {
       const String audioPlayerSelectedPlaylistTitle = 'S8 audio';
       const String firstDownloadedAudioTitle =
           'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau';
-      const String lastDownloadedAudioTitle =
-          '3 fois où Aurélien Barrau tire à balles réelles sur les riches';
 
       await initializeApplicationAndSelectPlaylist(
         tester: tester,

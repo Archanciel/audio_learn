@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 enum PlaylistPopupMenuButton {
-  sortFilterAudios,
-  subSortFilterAudios,
+  defineSortFilterAudiosSettings,
+  saveSortFilterAudiosSettingsToPlaylist,
   updatePlaylistJson,
-  updateAppPlaylistList,
+  updateAppPlaylistsList,
 }
 
 const String kApplicationName = "Audio Learn";

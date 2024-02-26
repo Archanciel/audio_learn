@@ -105,10 +105,10 @@ class MockAppLocalizations extends AppLocalizations {
   String get about => 'About ...';
 
   @override
-  String get sortFilterAudios => 'Sort/filter audios';
+  String get defineSortFilterAudiosSettings => 'Sort/filter audios';
 
   @override
-  String get subSortFilterAudios => 'Sub sort/filter audios';
+  String get saveSortFilterAudiosSettingsToPlaylist => 'Sub sort/filter audios';
 
   @override
   String get sortFilterDialogTitle => 'Sort and Filter Options';
