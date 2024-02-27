@@ -27,16 +27,18 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
   Widget build(BuildContext context) {
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
 
-    return RawKeyboardListener(
+    return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
       focusNode: focusNode,
-      onKey: (event) {
-        if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-            event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // executing the same code as in the 'Ok'
-          // TextButton onPressed callback
-          Navigator.of(context).pop();
+      onKeyEvent: (event) {
+        if (event is KeyDownEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.enter ||
+              event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+            // executing the same code as in the 'Ok'
+            // TextButton onPressed callback
+            Navigator.of(context).pop();
+          }
         }
       },
       child: AlertDialog(
@@ -164,7 +166,8 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
               createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.audioPlayVolumeLabel,
-                  value: '${(audio.audioPlayVolume * 100).toStringAsFixed(1)} %'),
+                  value:
+                      '${(audio.audioPlayVolume * 100).toStringAsFixed(1)} %'),
             ],
           ),
         ),

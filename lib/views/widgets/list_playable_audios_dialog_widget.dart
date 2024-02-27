@@ -87,16 +87,17 @@ class _ListPlayableAudiosDialogWidgetState
       _currentAudioIndex = playableAudioLst.indexOf(currentAudio);
     }
 
-    return RawKeyboardListener(
+    return KeyboardListener(
       focusNode: _focusNode,
-      onKey: (event) async {
-        if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-            event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
+        onKeyEvent: (event) async {
+          if (event is KeyDownEvent) {
+            if (event.logicalKey == LogicalKeyboardKey.enter ||
+                event.logicalKey == LogicalKeyboardKey.numpadEnter) {
           // executing the same code as in the 'Confirm' TextButton
           // onPressed callback
-          await audioGlobalPlayerVM.setCurrentAudio(_selectedAudio!);
+          // await audioGlobalPlayerVM.setCurrentAudio(_selectedAudio!);
           Navigator.of(context).pop(_selectedAudio);
-        }
+        }}
       },
       child: AlertDialog(
         title: Text(AppLocalizations.of(context)!.audioOneSelectedDialogTitle),

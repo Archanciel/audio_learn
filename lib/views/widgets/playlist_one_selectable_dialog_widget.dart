@@ -93,18 +93,20 @@ class _PlaylistOneSelectableDialogWidgetState
               excludedPlaylist: widget.excludedPlaylist!);
     }
 
-    return RawKeyboardListener(
+    return KeyboardListener(
       focusNode: _focusNode,
-      onKey: (event) {
-        if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-            event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // executing the same code as in the 'Confirm' ElevatedButton
-          // onPressed callback
-          if (widget.usedFor ==
-              PlaylistOneSelectableDialogUsedFor.downloadSingleVideoAudio) {
-            expandablePlaylistVM.setUniqueSelectedPlaylist(
-              selectedPlaylist: _selectedPlaylist,
-            );
+      onKeyEvent: (event) {
+        if (event is KeyDownEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.enter ||
+              event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+            // executing the same code as in the 'Confirm' ElevatedButton
+            // onPressed callback
+            if (widget.usedFor ==
+                PlaylistOneSelectableDialogUsedFor.downloadSingleVideoAudio) {
+              expandablePlaylistVM.setUniqueSelectedPlaylist(
+                selectedPlaylist: _selectedPlaylist,
+              );
+            }
           }
 
           Map<String, dynamic> resultMap = {

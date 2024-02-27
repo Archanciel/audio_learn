@@ -59,17 +59,19 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
   Widget build(BuildContext context) {
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
 
-    return RawKeyboardListener(
+    return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
       focusNode: widget.focusNode,
-      onKey: (event) async {
-        if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-            event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // executing the same code as in the 'Add'
-          // TextButton onPressed callback
-          bool isYoutubePlaylistAdded = await _addPlaylist(context);
-          Navigator.of(context).pop(isYoutubePlaylistAdded);
+      onKeyEvent: (event) async {
+        if (event is KeyDownEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.enter ||
+              event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+            // executing the same code as in the 'Add'
+            // TextButton onPressed callback
+            bool isYoutubePlaylistAdded = await _addPlaylist(context);
+            Navigator.of(context).pop(isYoutubePlaylistAdded);
+          }
         }
       },
       child: AlertDialog(

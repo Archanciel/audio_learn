@@ -437,17 +437,19 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
 
     showDialog(
       context: context,
-      builder: (context) => RawKeyboardListener(
+      builder: (context) => KeyboardListener(
         // Using FocusNode to enable clicking on Enter to close
         // the dialog
         focusNode: focusNode,
-        onKey: (event) {
-          if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-              event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-            // executing the same code as in the 'Ok'
-            // TextButton onPressed callback
-            warningMessageVM.warningMessageType = WarningMessageType.none;
-            Navigator.of(context).pop();
+        onKeyEvent: (event) {
+          if (event is KeyDownEvent) {
+            if (event.logicalKey == LogicalKeyboardKey.enter ||
+                event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+              // executing the same code as in the 'Ok'
+              // TextButton onPressed callback
+              warningMessageVM.warningMessageType = WarningMessageType.none;
+              Navigator.of(context).pop();
+            }
           }
         },
         child: AlertDialog(

@@ -197,16 +197,18 @@ class _SortAndFilterAudioDialogWidgetState
       listen: false,
     );
     return Center(
-      child: RawKeyboardListener(
+      child: KeyboardListener(
         focusNode: widget.focusNode,
-        onKey: (event) {
-          if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-              event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-            // executing the same code as in the 'Apply'
-            // TextButton onPressed callback
-            List<Audio> sortedAudioLstBySortingOption =
-                _filterAndSortAudioLst();
-            Navigator.of(context).pop(sortedAudioLstBySortingOption);
+        onKeyEvent: (event) {
+          if (event is KeyDownEvent) {
+            if (event.logicalKey == LogicalKeyboardKey.enter ||
+                event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+              // executing the same code as in the 'Apply'
+              // TextButton onPressed callback
+              List<Audio> sortedAudioLstBySortingOption =
+                  _filterAndSortAudioLst();
+              Navigator.of(context).pop(sortedAudioLstBySortingOption);
+            }
           }
         },
         child: AlertDialog(
@@ -665,94 +667,88 @@ class _SortAndFilterAudioDialogWidgetState
 
   SizedBox _buildSelectedSortingList() {
     return SizedBox(
-                      // Required to solve the error RenderBox was
-                      // not laid out: RenderPhysicalShape#ee087
-                      // relayoutBoundary=up2 'package:flutter/src/
-                      // rendering/box.dart':
-                      width: double.maxFinite,
-                      child: ListView.builder(
-                        // controller: _scrollController,
-                        itemCount: _sortingItemLst.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(_sortingOptionToString(
-                              _sortingItemLst[index].sortingOption,
-                              context,
-                            )),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Tooltip(
-                                  message: AppLocalizations.of(context)!
-                                      .clickToSetAscendingOrDescendingTooltip,
-                                  child: IconButton(
-                                    key: const Key(
-                                        'sort_ascending_or_descending_button'),
-                                    onPressed: () {
-                                      setState(() {
-                                        bool isAscending =
-                                            _sortingItemLst[index]
-                                                .isAscending;
-                                        _sortingItemLst[index].isAscending =
-                                            !isAscending; // Toggle the sorting state
-                                      });
-                                    },
-                                    padding: const EdgeInsets.all(0),
-                                    icon: Icon(
-                                      _sortingItemLst[index].isAscending
-                                          ? Icons.arrow_drop_up
-                                          : Icons
-                                              .arrow_drop_down, // Conditional icon
-                                      size: kUpDownButtonSize,
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  key: const Key(
-                                      'removeSortingOptionIconButton'),
-                                  icon: const Icon(Icons.clear),
-                                  onPressed: () {
-                                    setState(() {
-                                      if (_sortingItemLst.length > 1) {
-                                        _sortingItemLst.removeAt(index);
-                                      }
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    );
+      // Required to solve the error RenderBox was
+      // not laid out: RenderPhysicalShape#ee087
+      // relayoutBoundary=up2 'package:flutter/src/
+      // rendering/box.dart':
+      width: double.maxFinite,
+      child: ListView.builder(
+        // controller: _scrollController,
+        itemCount: _sortingItemLst.length,
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(_sortingOptionToString(
+              _sortingItemLst[index].sortingOption,
+              context,
+            )),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Tooltip(
+                  message: AppLocalizations.of(context)!
+                      .clickToSetAscendingOrDescendingTooltip,
+                  child: IconButton(
+                    key: const Key('sort_ascending_or_descending_button'),
+                    onPressed: () {
+                      setState(() {
+                        bool isAscending = _sortingItemLst[index].isAscending;
+                        _sortingItemLst[index].isAscending =
+                            !isAscending; // Toggle the sorting state
+                      });
+                    },
+                    padding: const EdgeInsets.all(0),
+                    icon: Icon(
+                      _sortingItemLst[index].isAscending
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down, // Conditional icon
+                      size: kUpDownButtonSize,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  key: const Key('removeSortingOptionIconButton'),
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    setState(() {
+                      if (_sortingItemLst.length > 1) {
+                        _sortingItemLst.removeAt(index);
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 
   DropdownButton<SortingOption> _buildSortingChoiceList(BuildContext context) {
     return DropdownButton<SortingOption>(
-                      key: const Key('sortingOptionDropdownButton'),
-                      value: SortingOption.audioDownloadDateTime,
-                      onChanged: (SortingOption? newValue) {
-                        setState(() {
-                          if (!_sortingItemLst.any((sortingItem) =>
-                              sortingItem.sortingOption == newValue)) {
-                            _sortingItemLst.add(SortingItem(
-                              sortingOption: newValue!,
-                              isAscending: AudioSortFilterService
-                                  .sortingOptionToAscendingMap[newValue]!,
-                            ));
-                          }
-                        });
-                      },
-                      items: SortingOption.values
-                          .map<DropdownMenuItem<SortingOption>>(
-                              (SortingOption value) {
-                        return DropdownMenuItem<SortingOption>(
-                          value: value,
-                          child: Text(_sortingOptionToString(value, context)),
-                        );
-                      }).toList(),
-                    );
+      key: const Key('sortingOptionDropdownButton'),
+      value: SortingOption.audioDownloadDateTime,
+      onChanged: (SortingOption? newValue) {
+        setState(() {
+          if (!_sortingItemLst
+              .any((sortingItem) => sortingItem.sortingOption == newValue)) {
+            _sortingItemLst.add(SortingItem(
+              sortingOption: newValue!,
+              isAscending:
+                  AudioSortFilterService.sortingOptionToAscendingMap[newValue]!,
+            ));
+          }
+        });
+      },
+      items: SortingOption.values
+          .map<DropdownMenuItem<SortingOption>>((SortingOption value) {
+        return DropdownMenuItem<SortingOption>(
+          value: value,
+          child: Text(_sortingOptionToString(value, context)),
+        );
+      }).toList(),
+    );
   }
 
   List<Audio> _filterAndSortAudioLst() {

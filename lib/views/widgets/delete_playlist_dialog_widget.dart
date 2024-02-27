@@ -38,17 +38,19 @@ class _DeletePlaylistDialogWidgetState extends State<DeletePlaylistDialogWidget>
   Widget build(BuildContext context) {
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
 
-    return RawKeyboardListener(
+    return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
       focusNode: widget.focusNode,
-      onKey: (event) {
-        if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-            event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // executing the same code as in the 'Delete'
-          // TextButton onPressed callback
-          _deletePlaylist(context);
-          Navigator.of(context).pop();
+      onKeyEvent: (event) {
+        if (event is KeyDownEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.enter ||
+              event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+            // executing the same code as in the 'Delete'
+            // TextButton onPressed callback
+            _deletePlaylist(context);
+            Navigator.of(context).pop();
+          }
         }
       },
       child: AlertDialog(

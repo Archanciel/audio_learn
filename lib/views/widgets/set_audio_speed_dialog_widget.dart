@@ -60,13 +60,15 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
       _audioPlaySpeed = currentAudio.audioPlaySpeed;
     }
 
-    return RawKeyboardListener(
+    return KeyboardListener(
       focusNode: _focusNode,
-      onKey: (event) {
-        if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-            event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // onPressed callback
-          Navigator.of(context).pop(_audioPlaySpeed);
+      onKeyEvent: (event) {
+        if (event is KeyDownEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.enter ||
+              event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+            // onPressed callback
+            Navigator.of(context).pop(_audioPlaySpeed);
+          }
         }
       },
       child: AlertDialog(
@@ -184,8 +186,7 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
         return TextButton(
           style: TextButton.styleFrom(
             minimumSize: const Size(18, 18), // Set a minimum touch target size
-            padding: const EdgeInsets.symmetric(
-                horizontal: 0),
+            padding: const EdgeInsets.symmetric(horizontal: 0),
           ),
           child: Text(
             '${speed}x',

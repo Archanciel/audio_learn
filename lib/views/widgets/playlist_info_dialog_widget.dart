@@ -30,16 +30,18 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
     String lastDownloadDateTimeStr = (lastDownloadDateTime != null)
         ? frenchDateTimeFormat.format(lastDownloadDateTime)
         : '';
-    return RawKeyboardListener(
+    return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
       focusNode: focusNode,
-      onKey: (event) {
-        if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-            event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-          // executing the same code as in the 'Ok'
-          // TextButton onPressed callback
-          Navigator.of(context).pop();
+      onKeyEvent: (event) {
+        if (event is KeyDownEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.enter ||
+              event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+            // executing the same code as in the 'Ok'
+            // TextButton onPressed callback
+            Navigator.of(context).pop();
+          }
         }
       },
       child: AlertDialog(
@@ -125,10 +127,12 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('Ok',                style: (themeProviderVM.currentTheme == AppTheme.dark)
-                    ? kTextButtonStyleDarkMode
-                    : kTextButtonStyleLightMode,
-),
+            child: Text(
+              'Ok',
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
