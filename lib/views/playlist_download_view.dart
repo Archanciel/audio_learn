@@ -536,15 +536,19 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         itemBuilder: (BuildContext context) {
           return [
             PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('define_sort_and_filter_audio_settings_dialog_item'),
+              key: const Key(
+                  'define_sort_and_filter_audio_settings_dialog_item'),
               value: PlaylistPopupMenuButton.defineSortFilterAudiosSettings,
-              child: Text(AppLocalizations.of(context)!.defineSortFilterAudiosSettings),
+              child: Text(
+                  AppLocalizations.of(context)!.defineSortFilterAudiosSettings),
             ),
             PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('save_sort_and_filter_audio_settings_in_playlist_item'),
+              key: const Key(
+                  'save_sort_and_filter_audio_settings_in_playlist_item'),
               value: PlaylistPopupMenuButton
                   .saveSortFilterAudiosSettingsToPlaylist,
-              child: Text(AppLocalizations.of(context)!.saveSortFilterAudiosSettingsToPlaylist),
+              child: Text(AppLocalizations.of(context)!
+                  .saveSortFilterAudiosSettingsToPlaylist),
             ),
             PopupMenuItem<PlaylistPopupMenuButton>(
               key: const Key('update_playlist_json_dialog_item'),
@@ -678,16 +682,18 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               // audio to the selected playlist
               showDialog(
                 context: context,
-                builder: (context) => RawKeyboardListener(
+                builder: (context) => KeyboardListener(
                   // Using FocusNode to enable clicking on Enter to close
                   // the dialog
                   focusNode: focusNode,
-                  onKey: (event) {
-                    if (event.isKeyPressed(LogicalKeyboardKey.enter) ||
-                        event.isKeyPressed(LogicalKeyboardKey.numpadEnter)) {
-                      // executing the same code as in the 'Ok'
-                      // ElevatedButton onPressed callback
-                      Navigator.of(context).pop('ok');
+                  onKeyEvent: (event) {
+                    if (event is KeyDownEvent) {
+                      if (event.logicalKey == LogicalKeyboardKey.enter ||
+                          event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+                        // executing the same code as in the 'Ok'
+                        // ElevatedButton onPressed callback
+                        Navigator.of(context).pop('ok');
+                      }
                     }
                   },
                   child: AlertDialog(
