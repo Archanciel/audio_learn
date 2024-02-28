@@ -76,22 +76,21 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
   void initState() {
     super.initState();
 
-    _appBarTitleWidgetLst.add(
-      AppBarTitleForPlaylistDownloadView(),
-    );
-
-    _appBarTitleWidgetLst.add(
-      const AppBarTitleForAudioPlayerView(),
-    );
-
-    _appBarTitleWidgetLst.add(
-      AppBarTitleForAudioExtractorView(),
-    );
+    _appBarTitleWidgetLst
+      ..add(
+        AppBarTitleForPlaylistDownloadView(),
+      )
+      ..add(
+        const AppBarTitleForAudioPlayerView(),
+      )
+      ..add(
+        AppBarTitleForAudioExtractorView(),
+      );
 
     _screenWidgetLst
-        .add(PlaylistDownloadView(onPageChangedFunction: changePage));
-    _screenWidgetLst.add(const AudioPlayerView());
-    _screenWidgetLst.add(const AudioExtractorView());
+      ..add(PlaylistDownloadView(onPageChangedFunction: changePage))
+      ..add(const AudioPlayerView())
+      ..add(const AudioExtractorView());
   }
 
   @override
