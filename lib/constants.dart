@@ -9,7 +9,7 @@ enum PlaylistPopupMenuButton {
 }
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.8.91';
+const String kApplicationVersion = '0.9.0';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
 const String kDownloadAppTestDir =
     '/storage/emulated/0/Download/test/audiolear';

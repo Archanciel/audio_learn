@@ -5,7 +5,7 @@ const int sortDescending = -1;
 
 class SortCriteria<T> {
   final Comparable Function(T) selectorFunction;
-  final int sortOrder;
+  int sortOrder;
 
   SortCriteria({
     required this.selectorFunction,

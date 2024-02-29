@@ -108,7 +108,7 @@ void main() {
 
       List<Audio> sortedByTitleAsc =
           audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: List<Audio>.from(audioList), // copy list
+        audioLste: List<Audio>.from(audioList), // copy list
         sortingOption: SortingOption.validAudioTitle,
         asc: true,
       );
@@ -121,7 +121,7 @@ void main() {
 
       List<Audio> sortedByTitleDesc =
           audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: List<Audio>.from(audioList), // copy list
+        audioLste: List<Audio>.from(audioList), // copy list
         sortingOption: SortingOption.validAudioTitle,
         asc: false,
       );
@@ -617,7 +617,7 @@ void main() {
 
       List<Audio> sortedByTitleAsc =
           audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: List<Audio>.from(audioLst), // copy list
+        audioLste: List<Audio>.from(audioLst), // copy list
         sortingOption: SortingOption.validAudioTitle,
         asc: true,
       );
@@ -630,7 +630,7 @@ void main() {
 
       List<Audio> sortedByTitleDesc =
           audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: List<Audio>.from(audioLst), // copy list
+        audioLste: List<Audio>.from(audioLst), // copy list
         sortingOption: SortingOption.validAudioTitle,
         asc: false,
       );
@@ -649,9 +649,7 @@ void main() {
       audioSortFilterService = AudioSortFilterService();
     });
 
-    test(
-        'with search word in title only',
-        () {
+    test('with search word in title only', () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
@@ -804,7 +802,7 @@ void main() {
 
       List<Audio> sortedByTitleAsc =
           audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: List<Audio>.from(audioList), // copy list
+        audioLste: List<Audio>.from(audioList), // copy list
         sortingOption: SortingOption.validAudioTitle,
         asc: true,
       );
@@ -817,7 +815,7 @@ void main() {
 
       List<Audio> sortedByTitleDesc =
           audioSortFilterService.sortAudioLstBySortingOption(
-        audioLst: List<Audio>.from(audioList), // copy list
+        audioLste: List<Audio>.from(audioList), // copy list
         sortingOption: SortingOption.validAudioTitle,
         asc: false,
       );
@@ -872,9 +870,7 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
     });
-    test(
-        'with search word in compact description only',
-        () {
+    test('with search word in compact description only', () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
@@ -1055,9 +1051,7 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
     });
-    test(
-        'with search word in title and in compact description',
-        () {
+    test('with search word in title and in compact description', () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
@@ -1248,9 +1242,7 @@ void main() {
       audioSortFilterService = AudioSortFilterService();
     });
 
-    test(
-        'with search word in title and in compact description',
-        () {
+    test('with search word in title and in compact description', () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,

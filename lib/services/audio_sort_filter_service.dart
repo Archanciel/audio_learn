@@ -15,66 +15,78 @@ enum SortingOption {
   videoUrl, // useful to detect audio duplicates
 }
 
+class SortingItem {
+  final SortingOption sortingOption;
+  bool isAscending;
+
+  SortingItem({
+    required this.sortingOption,
+    required this.isAscending,
+  });
+}
+
 class AudioSortFilterService {
-  static Map<SortingOption, SortCriteria<Audio>> sortingOptionToSortCriteriaMap = {
-    SortingOption.audioDownloadDateTime: SortCriteria(
-        selectorFunction: (Audio audio) {
-          return DateTimeParser.truncateDateTimeToDay(audio.audioDownloadDateTime);
-        },
+  static Map<SortingOption, SortCriteria<Audio>>
+      sortCriteriaForSortingOptionMap = {
+    SortingOption.audioDownloadDateTime: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return DateTimeParser.truncateDateTimeToDay(
+            audio.audioDownloadDateTime);
+      },
       sortOrder: sortDescending,
     ),
-    SortingOption.videoUploadDate: SortCriteria(
-        selectorFunction: (Audio audio) {
-          return DateTimeParser.truncateDateTimeToDay(audio.videoUploadDate);
-        },
+    SortingOption.videoUploadDate: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return DateTimeParser.truncateDateTimeToDay(audio.videoUploadDate);
+      },
       sortOrder: sortDescending,
     ),
-    SortingOption.validAudioTitle: SortCriteria(
-        selectorFunction: (Audio audio) {
-          return audio.validVideoTitle.toLowerCase();       
-        },
+    SortingOption.validAudioTitle: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.validVideoTitle.toLowerCase();
+      },
       sortOrder: sortAscending,
     ),
-    SortingOption.audioEnclosingPlaylistTitle: SortCriteria(
-        selectorFunction: (Audio audio) {
-          return audio.enclosingPlaylist!.title;       
-        },
+    SortingOption.audioEnclosingPlaylistTitle: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.enclosingPlaylist!.title;
+      },
       sortOrder: sortAscending,
     ),
-    SortingOption.audioDuration: SortCriteria(
-        selectorFunction: (Audio audio) {
-          return audio.audioDuration!.inMilliseconds;
-        },
+    SortingOption.audioDuration: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.audioDuration!.inMilliseconds;
+      },
       sortOrder: sortAscending,
     ),
-    SortingOption.audioFileSize: SortCriteria(
-        selectorFunction: (Audio audio) {
-          return audio.audioFileSize;
-        },
+    SortingOption.audioFileSize: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.audioFileSize;
+      },
       sortOrder: sortDescending,
     ),
-    SortingOption.audioMusicQuality: SortCriteria(
-        selectorFunction: (Audio audio) {
-          return audio.isMusicQuality ? 1 : 0;
-        },
+    SortingOption.audioMusicQuality: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.isMusicQuality ? 1 : 0;
+      },
       sortOrder: sortAscending,
     ),
-    SortingOption.audioDownloadSpeed: SortCriteria(
-        selectorFunction: (Audio audio) {
-          return audio.audioDownloadSpeed;
-        },
+    SortingOption.audioDownloadSpeed: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.audioDownloadSpeed;
+      },
       sortOrder: sortDescending,
     ),
-    SortingOption.audioDownloadDuration: SortCriteria(
-        selectorFunction: (Audio audio) {
-          return audio.audioDownloadDuration!.inMilliseconds;
-        },
+    SortingOption.audioDownloadDuration: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.audioDownloadDuration!.inMilliseconds;
+      },
       sortOrder: sortDescending,
     ),
-    SortingOption.videoUrl: SortCriteria(
-        selectorFunction: (Audio audio) {
-          return audio.videoUrl;
-        },
+    SortingOption.videoUrl: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.videoUrl;
+      },
       sortOrder: sortAscending,
     ),
   };
@@ -83,63 +95,86 @@ class AudioSortFilterService {
   /// option. It is public only in order to be tested.
   List<Audio> sortAudioLstBySortingOption({
     required List<Audio> audioLst,
-    required SortingOption sortingOption,
+    required List<SortingItem> selectedSortOptionsLst,
     bool asc = true,
   }) {
-    switch (sortingOption) {
-      case SortingOption.audioDownloadDateTime:
-        return _sortAudioLstByAudioDownloadDateTime(
-          audioLst: audioLst,
-          asc: asc,
-        );
-      case SortingOption.videoUploadDate:
-        return _sortAudioLstByVideoUploadDate(
-          audioLst: audioLst,
-          asc: asc,
-        );
-      case SortingOption.validAudioTitle:
-        return _sortAudioLstByTitle(
-          audioLst: audioLst,
-          asc: asc,
-        );
-      case SortingOption.audioEnclosingPlaylistTitle:
-        return _sortAudioLstByEnclosingPlaylistTitle(
-          audioLst: audioLst,
-          asc: asc,
-        );
-      case SortingOption.audioDuration:
-        return _sortAudioLstByDuration(
-          audioLst: audioLst,
-          asc: asc,
-        );
-      case SortingOption.audioFileSize:
-        return _sortAudioLstByFileSize(
-          audioLst: audioLst,
-          asc: asc,
-        );
-      case SortingOption.audioMusicQuality:
-        return _sortAudioLstByMusicQuality(
-          audioLst: audioLst,
-          asc: asc,
-        );
-      case SortingOption.audioDownloadSpeed:
-        return _sortAudioLstByDownloadSpeed(
-          audioLst: audioLst,
-          asc: asc,
-        );
-      case SortingOption.audioDownloadDuration:
-        return _sortAudioLstByDownloadDuration(
-          audioLst: audioLst,
-          asc: asc,
-        );
-      case SortingOption.videoUrl:
-        return _sortAudioLstByVideoUrl(
-          audioLst: audioLst,
-          asc: asc,
-        );
-      default:
-        return audioLst;
-    }
+    List<SortCriteria<Audio>> sortCriteriaLst =
+        selectedSortOptionsLst.map((sortingItem) {
+      SortCriteria<Audio> sortCriteria =
+          sortCriteriaForSortingOptionMap[sortingItem.sortingOption]!;
+      sortCriteria.sortOrder =
+          sortingItem.isAscending ? sortAscending : sortDescending;
+
+      return sortCriteria;
+    }).toList();
+
+    audioLst.sort((a, b) {
+      for (SortCriteria<Audio> sortCriteria in sortCriteriaLst) {
+        int comparison = sortCriteria
+                .selectorFunction(a)
+                .compareTo(sortCriteria.selectorFunction(b)) *
+            sortCriteria.sortOrder;
+        if (comparison != 0) return comparison;
+      }
+      return 0;
+    });
+
+    return audioLst;
+
+    // switch (sortingOption) {
+    //   case SortingOption.audioDownloadDateTime:
+    //     return _sortAudioLstByAudioDownloadDateTime(
+    //       audioLst: audioLst,
+    //       asc: asc,
+    //     );
+    //   case SortingOption.videoUploadDate:
+    //     return _sortAudioLstByVideoUploadDate(
+    //       audioLst: audioLst,
+    //       asc: asc,
+    //     );
+    //   case SortingOption.validAudioTitle:
+    //     return _sortAudioLstByTitle(
+    //       audioLst: audioLst,
+    //       asc: asc,
+    //     );
+    //   case SortingOption.audioEnclosingPlaylistTitle:
+    //     return _sortAudioLstByEnclosingPlaylistTitle(
+    //       audioLst: audioLst,
+    //       asc: asc,
+    //     );
+    //   case SortingOption.audioDuration:
+    //     return _sortAudioLstByDuration(
+    //       audioLst: audioLst,
+    //       asc: asc,
+    //     );
+    //   case SortingOption.audioFileSize:
+    //     return _sortAudioLstByFileSize(
+    //       audioLst: audioLst,
+    //       asc: asc,
+    //     );
+    //   case SortingOption.audioMusicQuality:
+    //     return _sortAudioLstByMusicQuality(
+    //       audioLst: audioLst,
+    //       asc: asc,
+    //     );
+    //   case SortingOption.audioDownloadSpeed:
+    //     return _sortAudioLstByDownloadSpeed(
+    //       audioLst: audioLst,
+    //       asc: asc,
+    //     );
+    //   case SortingOption.audioDownloadDuration:
+    //     return _sortAudioLstByDownloadDuration(
+    //       audioLst: audioLst,
+    //       asc: asc,
+    //     );
+    //   case SortingOption.videoUrl:
+    //     return _sortAudioLstByVideoUrl(
+    //       audioLst: audioLst,
+    //       asc: asc,
+    //     );
+    //   default:
+    //     return audioLst;
+    // }
   }
 
   List<Audio> _sortAudioLstByVideoUploadDate({
@@ -410,22 +445,24 @@ class AudioSortFilterService {
 
   List<Audio> filterAndSortAudioLst({
     required List<Audio> audioLst,
-    required SortingOption sortingOption,
+    required List<SortingItem> selectedSortOptionsLst,
     String? searchWords,
     bool ignoreCase = false,
     bool searchInVideoCompactDescription = false,
     bool asc = true,
   }) {
+    List<Audio> audioLstCopy = List<Audio>.from(audioLst);
+
     if (searchWords != null && searchWords.isNotEmpty) {
       if (!searchInVideoCompactDescription) {
-        audioLst = _filterAudioLstByVideoTitleOnly(
-          audioLst: audioLst,
+        audioLstCopy = _filterAudioLstByVideoTitleOnly(
+          audioLst: audioLstCopy,
           searchWords: searchWords,
           ignoreCase: ignoreCase,
         );
       } else {
-        audioLst = _filterAudioLstByVideoTitleOrDescription(
-          audioLst: audioLst,
+        audioLstCopy = _filterAudioLstByVideoTitleOrDescription(
+          audioLst: audioLstCopy,
           searchWords: searchWords,
           ignoreCase: ignoreCase,
         );
@@ -433,8 +470,8 @@ class AudioSortFilterService {
     }
 
     return sortAudioLstBySortingOption(
-      audioLst: audioLst,
-      sortingOption: sortingOption,
+      audioLst: audioLstCopy,
+      selectedSortOptionsLst: selectedSortOptionsLst,
       asc: asc,
     );
   }

@@ -41,7 +41,7 @@ class _SortAndFilterAudioDialogWidgetState
   final SortingItem _initialSortingItem = SortingItem(
     sortingOption: SortingOption.audioDownloadDateTime,
     isAscending: AudioSortFilterService
-            .sortingOptionToSortCriteriaMap[
+            .sortCriteriaForSortingOptionMap[
                 SortingOption.audioDownloadDateTime]!
             .sortOrder ==
         sortAscending,
@@ -50,11 +50,11 @@ class _SortAndFilterAudioDialogWidgetState
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash
-  final List<SortingItem> _sortingItemLst = [
+  final List<SortingItem> _selectedSortOptionsLst = [
     SortingItem(
       sortingOption: SortingOption.audioDownloadDateTime,
       isAscending: AudioSortFilterService
-              .sortingOptionToSortCriteriaMap[
+              .sortCriteriaForSortingOptionMap[
                   SortingOption.audioDownloadDateTime]!
               .sortOrder ==
           sortAscending,
@@ -123,7 +123,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _resetSortFilterOptions() {
-    _sortingItemLst[0] = _initialSortingItem;
+    _selectedSortOptionsLst[0] = _initialSortingItem;
     _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
@@ -145,7 +145,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _setPlaylistSortFilterOptions() {
-    _sortingItemLst[0] = _initialSortingItem;
+    _selectedSortOptionsLst[0] = _initialSortingItem;
     _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
@@ -627,7 +627,7 @@ class _SortAndFilterAudioDialogWidgetState
               key: const Key('applySortFilterButton'),
               onPressed: () {
                 // Apply sorting and filtering options
-                print('Sorting option: $_sortingItemLst[0].sortingOption');
+                print('Sorting option: $_selectedSortOptionsLst[0].sortingOption');
                 print('Sort ascending: $_sortAscending');
                 print('Filter by music quality: $_filterMusicQuality');
                 print('Audio title substring: $_audioTitleSubString');
@@ -681,12 +681,12 @@ class _SortAndFilterAudioDialogWidgetState
       width: double.maxFinite,
       child: ListView.builder(
         // controller: _scrollController,
-        itemCount: _sortingItemLst.length,
+        itemCount: _selectedSortOptionsLst.length,
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             title: Text(_sortingOptionToString(
-              _sortingItemLst[index].sortingOption,
+              _selectedSortOptionsLst[index].sortingOption,
               context,
             )),
             trailing: Row(
@@ -699,14 +699,14 @@ class _SortAndFilterAudioDialogWidgetState
                     key: const Key('sort_ascending_or_descending_button'),
                     onPressed: () {
                       setState(() {
-                        bool isAscending = _sortingItemLst[index].isAscending;
-                        _sortingItemLst[index].isAscending =
+                        bool isAscending = _selectedSortOptionsLst[index].isAscending;
+                        _selectedSortOptionsLst[index].isAscending =
                             !isAscending; // Toggle the sorting state
                       });
                     },
                     padding: const EdgeInsets.all(0),
                     icon: Icon(
-                      _sortingItemLst[index].isAscending
+                      _selectedSortOptionsLst[index].isAscending
                           ? Icons.arrow_drop_up
                           : Icons.arrow_drop_down, // Conditional icon
                       size: kUpDownButtonSize,
@@ -718,8 +718,8 @@ class _SortAndFilterAudioDialogWidgetState
                   icon: const Icon(Icons.clear),
                   onPressed: () {
                     setState(() {
-                      if (_sortingItemLst.length > 1) {
-                        _sortingItemLst.removeAt(index);
+                      if (_selectedSortOptionsLst.length > 1) {
+                        _selectedSortOptionsLst.removeAt(index);
                       }
                     });
                   },
@@ -738,12 +738,12 @@ class _SortAndFilterAudioDialogWidgetState
       value: SortingOption.audioDownloadDateTime,
       onChanged: (SortingOption? newValue) {
         setState(() {
-          if (!_sortingItemLst
+          if (!_selectedSortOptionsLst
               .any((sortingItem) => sortingItem.sortingOption == newValue)) {
-            _sortingItemLst.add(SortingItem(
+            _selectedSortOptionsLst.add(SortingItem(
               sortingOption: newValue!,
               isAscending: (AudioSortFilterService
-                      .sortingOptionToSortCriteriaMap[newValue]!.sortOrder) ==
+                      .sortCriteriaForSortingOptionMap[newValue]!.sortOrder) ==
                   sortAscending,
             ));
           }
@@ -763,7 +763,7 @@ class _SortAndFilterAudioDialogWidgetState
     List<Audio> sortedAudioLstBySortingOption =
         AudioSortFilterService().filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
-      sortingOption: _sortingItemLst[0].sortingOption,
+      selectedSortOptionsLst: _selectedSortOptionsLst,
       searchWords: _audioTitleSubString,
       ignoreCase: _ignoreCase,
       searchInVideoCompactDescription: _searchInVideoCompactDescription,
@@ -774,21 +774,11 @@ class _SortAndFilterAudioDialogWidgetState
   }
 }
 
-class SortingItem {
-  final SortingOption sortingOption;
-  bool isAscending;
-
-  SortingItem({
-    required this.sortingOption,
-    required this.isAscending,
-  });
-}
-
 class FilterAndSortAudioParameters {
   final List<SortingOption> _sortingOptionLst;
   get sortingOptionLst => _sortingOptionLst;
 
-  String _videoTitleAndDescriptionSearchWords;
+  final String _videoTitleAndDescriptionSearchWords;
   get videoTitleAndDescriptionSearchWords =>
       _videoTitleAndDescriptionSearchWords;
 
