@@ -345,17 +345,7 @@ class DateTimeParser {
     return englishDateTimeFormat.parse(englishDateTimeFormat.format(dateTime));
   }
 
-  /// This method takes a DateTime object as input and returns a new DateTime
-  /// object with the same year, month, day as the input, but with hours
-  /// minutes, seconds and milliseconds set to zero. Essentially, it rounds
-  /// the input DateTime object down to a date object.
-  ///
-  /// englishDateFormat.format(dateTime) returns a String formatted as
-  /// yyyy-MM-dd. Then this String is parsed by englishDateTimeFormat
-  /// and returns a DateTime object with the same year, month, day
-  /// as the input, but with hours, minutes, seconds and milliseconds
-  /// set to zero.
   static DateTime truncateDateTimeToDay(DateTime dateTime) {
-    return englishDateFormat.parse(englishDateFormat.format(dateTime));
+    return DateTime(dateTime.year, dateTime.month, dateTime.day);
   }
 }

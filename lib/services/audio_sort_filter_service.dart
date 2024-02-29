@@ -1,4 +1,6 @@
 import '../models/audio.dart';
+import '../utils/date_time_parser.dart';
+import 'sort_filter_parameters.dart';
 
 enum SortingOption {
   audioDownloadDateTime,
@@ -14,17 +16,67 @@ enum SortingOption {
 }
 
 class AudioSortFilterService {
-  static Map<SortingOption, bool> sortingOptionToAscendingMap = {
-    SortingOption.audioDownloadDateTime: false,
-    SortingOption.videoUploadDate: false,
-    SortingOption.validAudioTitle: true,
-    SortingOption.audioEnclosingPlaylistTitle: true,
-    SortingOption.audioDuration: false,
-    SortingOption.audioFileSize: false,
-    SortingOption.audioMusicQuality: false,
-    SortingOption.audioDownloadSpeed: false,
-    SortingOption.audioDownloadDuration: false,
-    SortingOption.videoUrl: true,
+  static Map<SortingOption, SortCriteria<Audio>> sortingOptionToSortCriteriaMap = {
+    SortingOption.audioDownloadDateTime: SortCriteria(
+        selectorFunction: (Audio audio) {
+          return DateTimeParser.truncateDateTimeToDay(audio.audioDownloadDateTime);
+        },
+      sortOrder: sortDescending,
+    ),
+    SortingOption.videoUploadDate: SortCriteria(
+        selectorFunction: (Audio audio) {
+          return DateTimeParser.truncateDateTimeToDay(audio.videoUploadDate);
+        },
+      sortOrder: sortDescending,
+    ),
+    SortingOption.validAudioTitle: SortCriteria(
+        selectorFunction: (Audio audio) {
+          return audio.validVideoTitle.toLowerCase();       
+        },
+      sortOrder: sortAscending,
+    ),
+    SortingOption.audioEnclosingPlaylistTitle: SortCriteria(
+        selectorFunction: (Audio audio) {
+          return audio.enclosingPlaylist!.title;       
+        },
+      sortOrder: sortAscending,
+    ),
+    SortingOption.audioDuration: SortCriteria(
+        selectorFunction: (Audio audio) {
+          return audio.audioDuration!.inMilliseconds;
+        },
+      sortOrder: sortAscending,
+    ),
+    SortingOption.audioFileSize: SortCriteria(
+        selectorFunction: (Audio audio) {
+          return audio.audioFileSize;
+        },
+      sortOrder: sortDescending,
+    ),
+    SortingOption.audioMusicQuality: SortCriteria(
+        selectorFunction: (Audio audio) {
+          return audio.isMusicQuality ? 1 : 0;
+        },
+      sortOrder: sortAscending,
+    ),
+    SortingOption.audioDownloadSpeed: SortCriteria(
+        selectorFunction: (Audio audio) {
+          return audio.audioDownloadSpeed;
+        },
+      sortOrder: sortDescending,
+    ),
+    SortingOption.audioDownloadDuration: SortCriteria(
+        selectorFunction: (Audio audio) {
+          return audio.audioDownloadDuration!.inMilliseconds;
+        },
+      sortOrder: sortDescending,
+    ),
+    SortingOption.videoUrl: SortCriteria(
+        selectorFunction: (Audio audio) {
+          return audio.videoUrl;
+        },
+      sortOrder: sortAscending,
+    ),
   };
 
   /// This method is used to sort the audio list by the given sorting

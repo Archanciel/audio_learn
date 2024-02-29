@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
+import '../../services/sort_filter_parameters.dart';
 import '../screen_mixin.dart';
 import '../../models/audio.dart';
 import '../../models/playlist.dart';
@@ -40,7 +41,10 @@ class _SortAndFilterAudioDialogWidgetState
   final SortingItem _initialSortingItem = SortingItem(
     sortingOption: SortingOption.audioDownloadDateTime,
     isAscending: AudioSortFilterService
-        .sortingOptionToAscendingMap[SortingOption.audioDownloadDateTime]!,
+            .sortingOptionToSortCriteriaMap[
+                SortingOption.audioDownloadDateTime]!
+            .sortOrder ==
+        sortAscending,
   );
 
   // must be initialized with a value included in the list of
@@ -50,7 +54,10 @@ class _SortAndFilterAudioDialogWidgetState
     SortingItem(
       sortingOption: SortingOption.audioDownloadDateTime,
       isAscending: AudioSortFilterService
-          .sortingOptionToAscendingMap[SortingOption.audioDownloadDateTime]!,
+              .sortingOptionToSortCriteriaMap[
+                  SortingOption.audioDownloadDateTime]!
+              .sortOrder ==
+          sortAscending,
     ),
   ];
 
@@ -735,8 +742,9 @@ class _SortAndFilterAudioDialogWidgetState
               .any((sortingItem) => sortingItem.sortingOption == newValue)) {
             _sortingItemLst.add(SortingItem(
               sortingOption: newValue!,
-              isAscending:
-                  AudioSortFilterService.sortingOptionToAscendingMap[newValue]!,
+              isAscending: (AudioSortFilterService
+                      .sortingOptionToSortCriteriaMap[newValue]!.sortOrder) ==
+                  sortAscending,
             ));
           }
         });
