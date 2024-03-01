@@ -322,10 +322,8 @@ class AudioDownloadVM extends ChangeNotifier {
     _youtubeExplode ??= yt.YoutubeExplode();
 
     // get Youtube playlist
-    String? playlistId;
+    String? playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
     yt.Playlist youtubePlaylist;
-
-    playlistId = yt.PlaylistId.parsePlaylistId(playlistUrl);
 
     try {
       youtubePlaylist = await _youtubeExplode!.playlists.get(playlistId);
@@ -366,8 +364,8 @@ class AudioDownloadVM extends ChangeNotifier {
     String playlistDownloadFilePathName =
         currentPlaylist.getPlaylistDownloadFilePathName();
 
-    final List<String> downloadedAudioValidVideoTitleLst =
-        await _getPlaylistDownloadedAudioValidVideoTitleLst(
+    final List<String> downloadedAudioOriginalVideoTitleLst =
+        await _getPlaylistDownloadedAudioOriginalVideoTitleLst(
             currentPlaylist: currentPlaylist);
 
     await for (yt.Video youtubeVideo
@@ -375,11 +373,11 @@ class AudioDownloadVM extends ChangeNotifier {
       _audioDownloadError = false;
       final Duration? audioDuration = youtubeVideo.duration;
 
-      // using youtubeVideo.uploadDate is not correct since it
-      // it is null !
       DateTime? videoUploadDate =
           (await _youtubeExplode!.videos.get(youtubeVideo.id.value)).uploadDate;
 
+      // if the video upload date is not available, then the
+      // video upload date is set so it is not null.
       videoUploadDate ??= DateTime(00, 1, 1);
 
       // using youtubeVideo.description is not correct since it
@@ -393,22 +391,12 @@ class AudioDownloadVM extends ChangeNotifier {
         videoAuthor: youtubeVideo.author,
       );
 
-      final Audio audio = Audio(
-        enclosingPlaylist: currentPlaylist,
-        originalVideoTitle: youtubeVideo.title,
-        compactVideoDescription: compactVideoDescription,
-        videoUrl: youtubeVideo.url,
-        audioDownloadDateTime: DateTime.now(),
-        videoUploadDate: videoUploadDate,
-        audioDuration: audioDuration!,
-      );
+      String youtubeVideoTitle = youtubeVideo.title;
 
-      final bool alreadyDownloaded = downloadedAudioValidVideoTitleLst.any(
-          (validVideoTitle) => validVideoTitle.contains(audio.validVideoTitle));
+      final bool alreadyDownloaded = downloadedAudioOriginalVideoTitleLst.any(
+          (originalVideoTitle) => originalVideoTitle == youtubeVideoTitle);
 
       if (alreadyDownloaded) {
-        // print('${audio.audioFileName} already downloaded');
-
         // avoids that the last downloaded audio download
         // informations remain displayed until all videos referenced
         // in the playlist have been handled.
@@ -434,6 +422,17 @@ class AudioDownloadVM extends ChangeNotifier {
       }
 
       // Download the audio file
+
+      final Audio audio = Audio(
+        enclosingPlaylist: currentPlaylist,
+        originalVideoTitle: youtubeVideoTitle,
+        compactVideoDescription: compactVideoDescription,
+        videoUrl: youtubeVideo.url,
+        audioDownloadDateTime: DateTime.now(),
+        videoUploadDate: videoUploadDate,
+        audioDuration: audioDuration!,
+      );
+
       try {
         await _downloadAudioFile(
           youtubeVideoId: youtubeVideo.id,
@@ -460,7 +459,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
       // should avoid that the last downloaded audio is
       // re-downloaded
-      downloadedAudioValidVideoTitleLst.add(audio.validVideoTitle);
+      downloadedAudioOriginalVideoTitleLst.add(audio.validVideoTitle);
 
       notifyListeners();
     }
@@ -559,7 +558,6 @@ class AudioDownloadVM extends ChangeNotifier {
     _stopDownloadPressed = true;
   }
 
-  /// I think this method is not used anymore
   Future<Playlist> _addPlaylistIfNotExist({
     required String playlistUrl,
     required PlaylistQuality playlistQuality,
@@ -1097,13 +1095,13 @@ class AudioDownloadVM extends ChangeNotifier {
 
   /// Returns an empty list if the passed playlist was created or
   /// recreated.
-  Future<List<String>> _getPlaylistDownloadedAudioValidVideoTitleLst({
+  Future<List<String>> _getPlaylistDownloadedAudioOriginalVideoTitleLst({
     required Playlist currentPlaylist,
   }) async {
     List<Audio> playlistDownloadedAudioLst = currentPlaylist.downloadedAudioLst;
 
     return playlistDownloadedAudioLst
-        .map((downloadedAudio) => downloadedAudio.validVideoTitle)
+        .map((downloadedAudio) => downloadedAudio.originalVideoTitle)
         .toList();
   }
 
