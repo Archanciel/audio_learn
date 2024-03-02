@@ -61,7 +61,6 @@ class _SortAndFilterAudioDialogWidgetState
     ),
   ];
 
-  late bool _sortAscending;
   late bool _filterMusicQuality;
   late bool _ignoreCase;
   late bool _searchInVideoCompactDescription;
@@ -69,7 +68,7 @@ class _SortAndFilterAudioDialogWidgetState
   final TextEditingController _startFileSizeController =
       TextEditingController();
   final TextEditingController _endFileSizeController = TextEditingController();
-  final TextEditingController _audioTitleSubStringController =
+  final TextEditingController _audioTitleSearchWordsController =
       TextEditingController();
   final TextEditingController _startDownloadDateTimeController =
       TextEditingController();
@@ -83,7 +82,7 @@ class _SortAndFilterAudioDialogWidgetState
       TextEditingController();
   final TextEditingController _endAudioDurationController =
       TextEditingController();
-  String? _audioTitleSubString;
+  String? _audioTitleSearchWords;
   DateTime? _startDownloadDateTime;
   DateTime? _endDownloadDateTime;
   DateTime? _startUploadDateTime;
@@ -110,7 +109,7 @@ class _SortAndFilterAudioDialogWidgetState
   void dispose() {
     _startFileSizeController.dispose();
     _endFileSizeController.dispose();
-    _audioTitleSubStringController.dispose();
+    _audioTitleSearchWordsController.dispose();
     _startDownloadDateTimeController.dispose();
     _endDownloadDateTimeController.dispose();
     _startUploadDateTimeController.dispose();
@@ -124,20 +123,19 @@ class _SortAndFilterAudioDialogWidgetState
 
   void _resetSortFilterOptions() {
     _selectedSortOptionsLst[0] = _initialSortingItem;
-    _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
     _searchInVideoCompactDescription = true;
     _startFileSizeController.clear();
     _endFileSizeController.clear();
-    _audioTitleSubStringController.clear();
+    _audioTitleSearchWordsController.clear();
     _startDownloadDateTimeController.clear();
     _endDownloadDateTimeController.clear();
     _startUploadDateTimeController.clear();
     _endUploadDateTimeController.clear();
     _startAudioDurationController.clear();
     _endAudioDurationController.clear();
-    _audioTitleSubString = null;
+    _audioTitleSearchWords = null;
     _startDownloadDateTime = null;
     _endDownloadDateTime = null;
     _startUploadDateTime = null;
@@ -146,20 +144,19 @@ class _SortAndFilterAudioDialogWidgetState
 
   void _setPlaylistSortFilterOptions() {
     _selectedSortOptionsLst[0] = _initialSortingItem;
-    _sortAscending = false;
     _filterMusicQuality = false;
     _ignoreCase = true;
     _searchInVideoCompactDescription = true;
     _startFileSizeController.clear();
     _endFileSizeController.clear();
-    _audioTitleSubStringController.clear();
+    _audioTitleSearchWordsController.clear();
     _startDownloadDateTimeController.clear();
     _endDownloadDateTimeController.clear();
     _startUploadDateTimeController.clear();
     _endUploadDateTimeController.clear();
     _startAudioDurationController.clear();
     _endAudioDurationController.clear();
-    _audioTitleSubString = null;
+    _audioTitleSearchWords = null;
     _startDownloadDateTime = null;
     _endDownloadDateTime = null;
     _startUploadDateTime = null;
@@ -267,10 +264,10 @@ class _SortAndFilterAudioDialogWidgetState
                           focusNode: _audioTitleSubStringFocusNode,
                           style: kDialogTextFieldStyle,
                           decoration: _dialogTextFieldDecoration,
-                          controller: _audioTitleSubStringController,
+                          controller: _audioTitleSearchWordsController,
                           keyboardType: TextInputType.text,
                           onChanged: (value) {
-                            _audioTitleSubString = value;
+                            _audioTitleSearchWords = value;
                           },
                         ),
                       ),
@@ -628,9 +625,8 @@ class _SortAndFilterAudioDialogWidgetState
               onPressed: () {
                 // Apply sorting and filtering options
                 print('Sorting option: $_selectedSortOptionsLst[0].sortingOption');
-                print('Sort ascending: $_sortAscending');
                 print('Filter by music quality: $_filterMusicQuality');
-                print('Audio title substring: $_audioTitleSubString');
+                print('Audio title substring: $_audioTitleSearchWords');
                 print(
                     'Start download date: ${(_startDownloadDateTime != null) ? _startDownloadDateTime!.toIso8601String() : ''}');
                 print(
@@ -759,15 +755,16 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
+  // Method called when the user clicks on the 'Apply' button or
+  // presses the Enter key on Windows
   List<Audio> _filterAndSortAudioLst() {
     List<Audio> sortedAudioLstBySortingOption =
         AudioSortFilterService().filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
       selectedSortOptionsLst: _selectedSortOptionsLst,
-      searchWords: _audioTitleSubString,
+      searchWords: _audioTitleSearchWords,
       ignoreCase: _ignoreCase,
       searchInVideoCompactDescription: _searchInVideoCompactDescription,
-      asc: _sortAscending,
     );
 
     return sortedAudioLstBySortingOption;

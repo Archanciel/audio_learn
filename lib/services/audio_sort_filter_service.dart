@@ -93,11 +93,12 @@ class AudioSortFilterService {
 
   /// This method is used to sort the audio list by the given sorting
   /// option. It is public only in order to be tested.
-  List<Audio> sortAudioLstBySortingOption({
+  List<Audio> sortAudioLstBySortingOptions({
     required List<Audio> audioLst,
     required List<SortingItem> selectedSortOptionsLst,
-    bool asc = true,
   }) {
+    // Create a list of SortCriteria corresponding to the list of
+    // selected sorting options coming from the UI.
     List<SortCriteria<Audio>> sortCriteriaLst =
         selectedSortOptionsLst.map((sortingItem) {
       SortCriteria<Audio> sortCriteria =
@@ -108,6 +109,8 @@ class AudioSortFilterService {
       return sortCriteria;
     }).toList();
 
+    // Sorting the audio list by applying the SortCriteria of the
+    // sortCriteriaLst
     audioLst.sort((a, b) {
       for (SortCriteria<Audio> sortCriteria in sortCriteriaLst) {
         int comparison = sortCriteria
@@ -120,61 +123,6 @@ class AudioSortFilterService {
     });
 
     return audioLst;
-
-    // switch (sortingOption) {
-    //   case SortingOption.audioDownloadDateTime:
-    //     return _sortAudioLstByAudioDownloadDateTime(
-    //       audioLst: audioLst,
-    //       asc: asc,
-    //     );
-    //   case SortingOption.videoUploadDate:
-    //     return _sortAudioLstByVideoUploadDate(
-    //       audioLst: audioLst,
-    //       asc: asc,
-    //     );
-    //   case SortingOption.validAudioTitle:
-    //     return _sortAudioLstByTitle(
-    //       audioLst: audioLst,
-    //       asc: asc,
-    //     );
-    //   case SortingOption.audioEnclosingPlaylistTitle:
-    //     return _sortAudioLstByEnclosingPlaylistTitle(
-    //       audioLst: audioLst,
-    //       asc: asc,
-    //     );
-    //   case SortingOption.audioDuration:
-    //     return _sortAudioLstByDuration(
-    //       audioLst: audioLst,
-    //       asc: asc,
-    //     );
-    //   case SortingOption.audioFileSize:
-    //     return _sortAudioLstByFileSize(
-    //       audioLst: audioLst,
-    //       asc: asc,
-    //     );
-    //   case SortingOption.audioMusicQuality:
-    //     return _sortAudioLstByMusicQuality(
-    //       audioLst: audioLst,
-    //       asc: asc,
-    //     );
-    //   case SortingOption.audioDownloadSpeed:
-    //     return _sortAudioLstByDownloadSpeed(
-    //       audioLst: audioLst,
-    //       asc: asc,
-    //     );
-    //   case SortingOption.audioDownloadDuration:
-    //     return _sortAudioLstByDownloadDuration(
-    //       audioLst: audioLst,
-    //       asc: asc,
-    //     );
-    //   case SortingOption.videoUrl:
-    //     return _sortAudioLstByVideoUrl(
-    //       audioLst: audioLst,
-    //       asc: asc,
-    //     );
-    //   default:
-    //     return audioLst;
-    // }
   }
 
   List<Audio> _sortAudioLstByVideoUploadDate({
@@ -449,7 +397,6 @@ class AudioSortFilterService {
     String? searchWords,
     bool ignoreCase = false,
     bool searchInVideoCompactDescription = false,
-    bool asc = true,
   }) {
     List<Audio> audioLstCopy = List<Audio>.from(audioLst);
 
@@ -469,10 +416,9 @@ class AudioSortFilterService {
       }
     }
 
-    return sortAudioLstBySortingOption(
+    return sortAudioLstBySortingOptions(
       audioLst: audioLstCopy,
       selectedSortOptionsLst: selectedSortOptionsLst,
-      asc: asc,
     );
   }
 

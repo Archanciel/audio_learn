@@ -1,3 +1,4 @@
+import 'package:audio_learn/services/sort_filter_parameters.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:audio_learn/constants.dart';
@@ -106,11 +107,17 @@ void main() {
         apple,
       ];
 
+      final List<SortingItem> selectedSortOptionsLstAsc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: true,
+        ),
+      ];
+
       List<Audio> sortedByTitleAsc =
-          audioSortFilterService.sortAudioLstBySortingOption(
-        audioLste: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
-        asc: true,
+          audioSortFilterService.sortAudioLstBySortingOptions(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst: selectedSortOptionsLstAsc,
       );
 
       expect(
@@ -119,11 +126,17 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
+      final List<SortingItem> selectedSortOptionsLstDesc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: false,
+        ),
+      ];
+
       List<Audio> sortedByTitleDesc =
-          audioSortFilterService.sortAudioLstBySortingOption(
-        audioLste: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
-        asc: false,
+          audioSortFilterService.sortAudioLstBySortingOptions(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst: selectedSortOptionsLstDesc,
       );
 
       expect(
@@ -543,83 +556,52 @@ void main() {
       ];
 
       List<Audio?> expectedResultForTitleAsc = [
-        eightTitle,
-        ninetyThreeTitle,
+        amenTitle,
         ninetyFourTitle,
         ninetyFiveTitle,
-        nineTitle,
-        epicure,
-        amenTitle,
         avecPercentTitle,
-        echapper,
-        aLireTitle,
         percentTitle,
-        powerTitle,
         title,
+        eightTitle,
+        nineTitle,
+        ninetyThreeTitle,
+        powerTitle,
+        aLireTitle,
+        echapper,
+        epicure,
         eventuelTitle,
         evidentTitle,
       ];
-/* Results if sorting was totally correct ! 
- [
-            '8 title',
-            '93 title',
-            '#94 title',
-            '%95 title',
-            '9 title',
-            'ÉPICURE - La mort n\'est rien',
-            'Échapper à l\'illusion de l\'esprit',
-            '#\'amen title',
-            '%avec percent title',
-            'à lire title',
-            '%percent title',
-            'power title',
-            '\'title',
-            'éventuel title',
-            'évident title'
-          ]     
-
-      List<Audio?> expectedResultForTitleDesc = [
-        evident_title,
-        eventuel_title,
-        title,
-        power_title,
-        percent_title,
-        a_lire_title,
-        avec_percent_title,
-        amen_title,
-        echapper,
-        epicure,
-        nine_title,
-        ninety_five_title,
-        ninety_four_title,
-        ninety_three_title,
-        eight_title,
-      ];
-*/
 
       List<Audio?> expectedResultForTitleDesc = [
         evidentTitle,
         eventuelTitle,
-        title,
-        powerTitle,
-        percentTitle,
-        aLireTitle,
-        echapper,
-        avecPercentTitle,
-        amenTitle,
         epicure,
+        echapper,
+        aLireTitle,
+        powerTitle,
+        ninetyThreeTitle,
         nineTitle,
+        eightTitle,
+        title,
+        percentTitle,
+        avecPercentTitle,
         ninetyFiveTitle,
         ninetyFourTitle,
-        ninetyThreeTitle,
-        eightTitle,
+        amenTitle,
+      ];
+
+      final List<SortingItem> selectedSortOptionsLstAsc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: true,
+        ),
       ];
 
       List<Audio> sortedByTitleAsc =
-          audioSortFilterService.sortAudioLstBySortingOption(
-        audioLste: List<Audio>.from(audioLst), // copy list
-        sortingOption: SortingOption.validAudioTitle,
-        asc: true,
+          audioSortFilterService.sortAudioLstBySortingOptions(
+        audioLst: List<Audio>.from(audioLst), // copy list
+        selectedSortOptionsLst: selectedSortOptionsLstAsc,
       );
 
       expect(
@@ -628,11 +610,17 @@ void main() {
               .map((audio) => audio!.validVideoTitle)
               .toList()));
 
+      final List<SortingItem> selectedSortOptionsLstDesc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: false,
+        ),
+      ];
+
       List<Audio> sortedByTitleDesc =
-          audioSortFilterService.sortAudioLstBySortingOption(
-        audioLste: List<Audio>.from(audioLst), // copy list
-        sortingOption: SortingOption.validAudioTitle,
-        asc: false,
+          audioSortFilterService.sortAudioLstBySortingOptions(
+        audioLst: List<Audio>.from(audioLst), // copy list
+        selectedSortOptionsLst: selectedSortOptionsLstDesc,
       );
 
       expect(
@@ -800,11 +788,17 @@ void main() {
         apple,
       ];
 
+      final List<SortingItem> selectedSortOptionsLstAsc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: true,
+        ),
+      ];
+
       List<Audio> sortedByTitleAsc =
-          audioSortFilterService.sortAudioLstBySortingOption(
-        audioLste: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
-        asc: true,
+          audioSortFilterService.sortAudioLstBySortingOptions(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst: selectedSortOptionsLstAsc,
       );
 
       expect(
@@ -813,11 +807,17 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
+      final List<SortingItem> selectedSortOptionsLstDesc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: false,
+        ),
+      ];
+
       List<Audio> sortedByTitleDesc =
-          audioSortFilterService.sortAudioLstBySortingOption(
-        audioLste: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
-        asc: false,
+          audioSortFilterService.sortAudioLstBySortingOptions(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst: selectedSortOptionsLstDesc,
       );
 
       expect(
@@ -841,9 +841,8 @@ void main() {
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
+        selectedSortOptionsLst: selectedSortOptionsLstAsc,
         searchWords: 'Zeb',
-        asc: true,
       );
 
       expect(
@@ -857,9 +856,8 @@ void main() {
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
+        selectedSortOptionsLst: selectedSortOptionsLstDesc,
         searchWords: 'Zeb',
-        asc: false,
       );
 
       expect(
@@ -1017,13 +1015,19 @@ void main() {
         zebra1,
       ];
 
+      final List<SortingItem> selectedSortOptionsLstAsc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: true,
+        ),
+      ];
+
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
+        selectedSortOptionsLst: selectedSortOptionsLstAsc,
         searchWords: 'Julien',
         searchInVideoCompactDescription: true,
-        asc: true,
       );
 
       expect(
@@ -1034,13 +1038,19 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
+      final List<SortingItem> selectedSortOptionsLstDesc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: false,
+        ),
+      ];
+
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
+        selectedSortOptionsLst: selectedSortOptionsLstDesc,
         searchInVideoCompactDescription: true,
         searchWords: 'Julien',
-        asc: false,
       );
 
       expect(
@@ -1200,13 +1210,19 @@ void main() {
         apple,
       ];
 
+      final List<SortingItem> selectedSortOptionsLstAsc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: true,
+        ),
+      ];
+
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
+        selectedSortOptionsLst: selectedSortOptionsLstAsc,
         searchWords: 'Julien',
         searchInVideoCompactDescription: true,
-        asc: true,
       );
 
       expect(
@@ -1217,13 +1233,19 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
+      final List<SortingItem> selectedSortOptionsLstDesc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: false,
+        ),
+      ];
+
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
+        selectedSortOptionsLst: selectedSortOptionsLstDesc,
         searchWords: 'Julien',
         searchInVideoCompactDescription: true,
-        asc: false,
       );
 
       expect(
@@ -1387,12 +1409,18 @@ void main() {
         apple,
       ];
 
+      final List<SortingItem> selectedSortOptionsLstAsc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: true,
+        ),
+      ];
+
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
+        selectedSortOptionsLst: selectedSortOptionsLstAsc,
         searchWords: 'Julien',
-        asc: true,
       );
 
       expect(
@@ -1403,12 +1431,18 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
+      final List<SortingItem> selectedSortOptionsLstDesc = [
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: false,
+        ),
+      ];
+
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        sortingOption: SortingOption.validAudioTitle,
+        selectedSortOptionsLst: selectedSortOptionsLstDesc,
         searchWords: 'Julien',
-        asc: false,
       );
 
       expect(
