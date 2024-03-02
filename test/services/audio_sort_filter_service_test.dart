@@ -6,7 +6,7 @@ import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/services/audio_sort_filter_service.dart';
 
 void main() {
-  group('sortAudioLstBySortingOption', () {
+  group('sort audio lst by one SortingOption', () {
     late AudioSortFilterService audioSortFilterService;
 
     setUp(() {
@@ -629,6 +629,183 @@ void main() {
               .map((audio) => audio!.validVideoTitle)
               .toList()));
     });
+  });
+  group("sort audio lst by multiple SortingOption's", () {
+    late AudioSortFilterService audioSortFilterService;
+
+    setUp(() {
+      audioSortFilterService = AudioSortFilterService();
+    });
+    test('sort by duration and title', () {
+      final Audio zebra = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        movedFromPlaylistTitle: null,
+        movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
+        originalVideoTitle: 'Zebra ?',
+        compactVideoDescription: '',
+        validVideoTitle: 'Zebra',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
+        audioPlayVolume: kAudioDefaultPlayVolume,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
+        isPaused: true,
+        audioPausedDateTime: null,
+        audioPositionSeconds: 0,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio apple = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        movedFromPlaylistTitle: null,
+        movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
+        originalVideoTitle: 'Apple ?',
+        compactVideoDescription: '',
+        validVideoTitle: 'Apple',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
+        audioPlayVolume: kAudioDefaultPlayVolume,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
+        isPaused: true,
+        audioPausedDateTime: null,
+        audioPositionSeconds: 0,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio bananna = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        movedFromPlaylistTitle: null,
+        movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
+        originalVideoTitle: 'Bananna ?',
+        compactVideoDescription: '',
+        validVideoTitle: 'Bananna',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 15, seconds: 30),
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
+        audioPlayVolume: kAudioDefaultPlayVolume,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
+        isPaused: true,
+        audioPausedDateTime: null,
+        audioPositionSeconds: 0,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+      final Audio banannaLonger = Audio.fullConstructor(
+        enclosingPlaylist: null,
+        movedFromPlaylistTitle: null,
+        movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
+        originalVideoTitle: 'Bananna ?',
+        compactVideoDescription: '',
+        validVideoTitle: 'Bananna Longer',
+        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
+        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime(2023, 3, 1),
+        audioDuration: const Duration(minutes: 25, seconds: 30),
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
+        audioPlayVolume: kAudioDefaultPlayVolume,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
+        isPaused: true,
+        audioPausedDateTime: null,
+        audioPositionSeconds: 0,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+
+      List<Audio> audioList = [
+        zebra,
+        banannaLonger,
+        apple,
+        bananna,
+      ];
+
+      List<Audio> expectedResultForDurationAscAndTitleAsc = [
+        apple,
+        zebra,
+        bananna,
+        banannaLonger,
+      ];
+
+      List<Audio> expectedResultForDurationDescAndTitleDesc = [
+        banannaLonger,
+        bananna,
+        zebra,
+        apple,
+      ];
+
+      final List<SortingItem> selectedSortOptionsLstDurationAscAndTitleAsc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: true,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: true,
+        ),
+      ];
+
+      List<Audio> sortedByTitleAsc =
+          audioSortFilterService.sortAudioLstBySortingOptions(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst: selectedSortOptionsLstDurationAscAndTitleAsc,
+      );
+
+      expect(
+          sortedByTitleAsc.map((audio) => audio.validVideoTitle).toList(),
+          equals(expectedResultForDurationAscAndTitleAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
+
+      final List<SortingItem> selectedSortOptionsLstDurationDescAndTitleDesc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: false,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.validAudioTitle,
+          isAscending: false,
+        ),
+      ];
+
+      List<Audio> sortedByTitleDesc =
+          audioSortFilterService.sortAudioLstBySortingOptions(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst: selectedSortOptionsLstDurationDescAndTitleDesc,
+      );
+
+      expect(
+          sortedByTitleDesc.map((audio) => audio.validVideoTitle).toList(),
+          equals(expectedResultForDurationDescAndTitleDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList()));
+    });
+
   });
   group('filterAndSortAudioLst by title and description', () {
     late AudioSortFilterService audioSortFilterService;
