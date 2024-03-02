@@ -1,6 +1,12 @@
-import 'package:audio_learn/services/sort_filter_parameters.dart';
+import 'package:path/path.dart' as path;
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:audio_learn/services/settings_data_service.dart';
+import 'package:audio_learn/services/sort_filter_parameters.dart';
+import 'package:audio_learn/utils/dir_util.dart';
+import 'package:audio_learn/viewmodels/audio_download_vm.dart';
+import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
+import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/services/audio_sort_filter_service.dart';
@@ -805,7 +811,6 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
     });
-
   });
   group('filterAndSortAudioLst by title and description', () {
     late AudioSortFilterService audioSortFilterService;
@@ -1631,181 +1636,160 @@ void main() {
               .toList()));
     });
   });
-  group("filter sort audio by multiple filter and multiple SortingOption's", () {
+  group("filter sort audio by multiple filter and multiple SortingOption's",
+      () {
     late AudioSortFilterService audioSortFilterService;
+    late PlaylistListVM playlistListVM;
 
     setUp(() {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_sort_filter_service_test_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      // Since we have to use a mock AudioDownloadVM to add the
+      // youtube playlist, we can not use app.main() to start the
+      // app because app.main() uses the real AudioDownloadVM
+      // and we don't want to make the main.dart file dependent
+      // of a mock class. So we have to start the app by hand.
+
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      // MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
+      //   warningMessageVM: warningMessageVM,
+      //   isTest: true,
+      // );
+      // mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
+
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+
+      // audioDownloadVM.youtubeExplode = mockYoutubeExplode;
+
+      playlistListVM = PlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      playlistListVM.getUpToDateSelectablePlaylists();
+
       audioSortFilterService = AudioSortFilterService();
     });
-    test('sort by duration and title', () {
-      final Audio zebra = Audio.fullConstructor(
-        enclosingPlaylist: null,
-        movedFromPlaylistTitle: null,
-        movedToPlaylistTitle: null,
-        copiedFromPlaylistTitle: null,
-        copiedToPlaylistTitle: null,
-        originalVideoTitle: 'Zebra ?',
-        compactVideoDescription: '',
-        validVideoTitle: 'Zebra',
-        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
-        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
-        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
-        audioDownloadSpeed: 1000000,
-        videoUploadDate: DateTime(2023, 3, 1),
-        audioDuration: const Duration(minutes: 5, seconds: 30),
-        isAudioMusicQuality: false,
-        audioPlaySpeed: kAudioDefaultPlaySpeed,
-        audioPlayVolume: kAudioDefaultPlayVolume,
-        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
-        isPaused: true,
-        audioPausedDateTime: null,
-        audioPositionSeconds: 0,
-        audioFileName: 'Test Video Title.mp3',
-        audioFileSize: 330000000,
-      );
-      final Audio apple = Audio.fullConstructor(
-        enclosingPlaylist: null,
-        movedFromPlaylistTitle: null,
-        movedToPlaylistTitle: null,
-        copiedFromPlaylistTitle: null,
-        copiedToPlaylistTitle: null,
-        originalVideoTitle: 'Apple ?',
-        compactVideoDescription: '',
-        validVideoTitle: 'Apple',
-        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
-        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
-        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
-        audioDownloadSpeed: 1000000,
-        videoUploadDate: DateTime(2023, 3, 1),
-        audioDuration: const Duration(minutes: 5, seconds: 30),
-        isAudioMusicQuality: false,
-        audioPlaySpeed: kAudioDefaultPlaySpeed,
-        audioPlayVolume: kAudioDefaultPlayVolume,
-        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
-        isPaused: true,
-        audioPausedDateTime: null,
-        audioPositionSeconds: 0,
-        audioFileName: 'Test Video Title.mp3',
-        audioFileSize: 330000000,
-      );
-      final Audio bananna = Audio.fullConstructor(
-        enclosingPlaylist: null,
-        movedFromPlaylistTitle: null,
-        movedToPlaylistTitle: null,
-        copiedFromPlaylistTitle: null,
-        copiedToPlaylistTitle: null,
-        originalVideoTitle: 'Bananna ?',
-        compactVideoDescription: '',
-        validVideoTitle: 'Bananna',
-        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
-        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
-        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
-        audioDownloadSpeed: 1000000,
-        videoUploadDate: DateTime(2023, 3, 1),
-        audioDuration: const Duration(minutes: 15, seconds: 30),
-        isAudioMusicQuality: false,
-        audioPlaySpeed: kAudioDefaultPlaySpeed,
-        audioPlayVolume: kAudioDefaultPlayVolume,
-        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
-        isPaused: true,
-        audioPausedDateTime: null,
-        audioPositionSeconds: 0,
-        audioFileName: 'Test Video Title.mp3',
-        audioFileSize: 330000000,
-      );
-      final Audio banannaLonger = Audio.fullConstructor(
-        enclosingPlaylist: null,
-        movedFromPlaylistTitle: null,
-        movedToPlaylistTitle: null,
-        copiedFromPlaylistTitle: null,
-        copiedToPlaylistTitle: null,
-        originalVideoTitle: 'Bananna ?',
-        compactVideoDescription: '',
-        validVideoTitle: 'Bananna Longer',
-        videoUrl: 'https://www.youtube.com/watch?v=testVideoID',
-        audioDownloadDateTime: DateTime(2023, 3, 24, 20, 5, 32),
-        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
-        audioDownloadSpeed: 1000000,
-        videoUploadDate: DateTime(2023, 3, 1),
-        audioDuration: const Duration(minutes: 25, seconds: 30),
-        isAudioMusicQuality: false,
-        audioPlaySpeed: kAudioDefaultPlaySpeed,
-        audioPlayVolume: kAudioDefaultPlayVolume,
-        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
-        isPaused: true,
-        audioPausedDateTime: null,
-        audioPositionSeconds: 0,
-        audioFileName: 'Test Video Title.mp3',
-        audioFileSize: 330000000,
-      );
+    test(
+        'filter by word and sort by download date descending and duration ascending',
+        () {
+      List<Audio> audioList =
+          playlistListVM.getSelectedPlaylistPlayableAudios();
 
-      List<Audio> audioList = [
-        zebra,
-        banannaLonger,
-        apple,
-        bananna,
+      List<String> originalAudioValidVideoTitleLst = audioList
+          .map((audio) => audio.validVideoTitle)
+          .toList()
+          .cast<String>();
+
+      List<String>
+          expectedResultForFilteredByWordAndDownloadDateDescAndDurationAsc = [
+        "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
+        "La surpopulation mondiale par Jancovici et Barrau",
+        "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
       ];
 
-      List<Audio> expectedResultForDurationAscAndTitleAsc = [
-        apple,
-        zebra,
-        bananna,
-        banannaLonger,
-      ];
+      List<Audio> expectedResultForDurationDescAndTitleDesc = [];
 
-      List<Audio> expectedResultForDurationDescAndTitleDesc = [
-        banannaLonger,
-        bananna,
-        zebra,
-        apple,
-      ];
-
-      final List<SortingItem> selectedSortOptionsLstDurationAscAndTitleAsc = [
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: false,
+        ),
         SortingItem(
           sortingOption: SortingOption.audioDuration,
           isAscending: true,
         ),
-        SortingItem(
-          sortingOption: SortingOption.validAudioTitle,
-          isAscending: true,
-        ),
       ];
 
-      List<Audio> sortedByTitleAsc =
-          audioSortFilterService.sortAudioLstBySortingOptions(
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDurationAscAndTitleAsc,
+        selectedSortOptionsLst:
+            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+        searchWords: 'Jancovici',
+        ignoreCase: true,
+        searchInVideoCompactDescription: true,
       );
 
       expect(
-          sortedByTitleAsc.map((audio) => audio.validVideoTitle).toList(),
-          equals(expectedResultForDurationAscAndTitleAsc
+          filteredByWordAndSortedByDownloadDateDescAndDurationAsc
               .map((audio) => audio.validVideoTitle)
-              .toList()));
+              .toList(),
+          expectedResultForFilteredByWordAndDownloadDateDescAndDurationAsc);
 
-      final List<SortingItem> selectedSortOptionsLstDurationDescAndTitleDesc = [
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: true,
+        ),
         SortingItem(
           sortingOption: SortingOption.audioDuration,
           isAscending: false,
         ),
-        SortingItem(
-          sortingOption: SortingOption.validAudioTitle,
-          isAscending: false,
-        ),
       ];
 
-      List<Audio> sortedByTitleDesc =
-          audioSortFilterService.sortAudioLstBySortingOptions(
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDurationDescAndTitleDesc,
+        selectedSortOptionsLst:
+            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
+        searchWords: 'Janco',
+        ignoreCase: true,
+        searchInVideoCompactDescription: true,
       );
 
+      List<String>
+          expectedResultForFilteredByWordAndDownloadDateAscAndDurationDesc = [
+        "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
+        "La surpopulation mondiale par Jancovici et Barrau",
+        "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
+      ];
+
       expect(
-          sortedByTitleDesc.map((audio) => audio.validVideoTitle).toList(),
-          equals(expectedResultForDurationDescAndTitleDesc
+          filteredByWordAndSortedByDownloadDateAscAndDurationDesc
               .map((audio) => audio.validVideoTitle)
-              .toList()));
+              .toList(),
+          expectedResultForFilteredByWordAndDownloadDateAscAndDurationDesc);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
     });
-
   });
 }
