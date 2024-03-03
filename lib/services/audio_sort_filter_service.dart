@@ -394,25 +394,29 @@ class AudioSortFilterService {
   List<Audio> filterAndSortAudioLst({
     required List<Audio> audioLst,
     required List<SortingItem> selectedSortOptionsLst,
-    String? searchWords,
+    List<String> searchSentencesLst = const [],
     bool ignoreCase = false,
     bool searchInVideoCompactDescription = false,
   }) {
     List<Audio> audioLstCopy = List<Audio>.from(audioLst);
 
-    if (searchWords != null && searchWords.isNotEmpty) {
+    if (searchSentencesLst.isNotEmpty) {
       if (!searchInVideoCompactDescription) {
-        audioLstCopy = _filterAudioLstByVideoTitleOnly(
-          audioLst: audioLstCopy,
-          searchWords: searchWords,
-          ignoreCase: ignoreCase,
-        );
+        for (String searchSentence in searchSentencesLst) {
+          audioLstCopy = _filterAudioLstByVideoTitleOnly(
+            audioLst: audioLstCopy,
+            searchWords: searchSentence,
+            ignoreCase: ignoreCase,
+          );
+        }
       } else {
-        audioLstCopy = _filterAudioLstByVideoTitleOrDescription(
-          audioLst: audioLstCopy,
-          searchWords: searchWords,
-          ignoreCase: ignoreCase,
-        );
+        for (String searchSentence in searchSentencesLst) {
+          audioLstCopy = _filterAudioLstByVideoTitleOrDescription(
+            audioLst: audioLstCopy,
+            searchWords: searchSentence,
+            ignoreCase: ignoreCase,
+          );
+        }
       }
     }
 

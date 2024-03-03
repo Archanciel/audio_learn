@@ -47,6 +47,8 @@ class _SortAndFilterAudioDialogWidgetState
         sortAscending,
   );
 
+  final List<String> _audioTitleFilterSentencesLst = [];
+
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
   // display any value and he app will crash
@@ -68,7 +70,7 @@ class _SortAndFilterAudioDialogWidgetState
   final TextEditingController _startFileSizeController =
       TextEditingController();
   final TextEditingController _endFileSizeController = TextEditingController();
-  final TextEditingController _audioTitleSearchWordsController =
+  final TextEditingController _audioTitleSearchSentenceController =
       TextEditingController();
   final TextEditingController _startDownloadDateTimeController =
       TextEditingController();
@@ -82,7 +84,7 @@ class _SortAndFilterAudioDialogWidgetState
       TextEditingController();
   final TextEditingController _endAudioDurationController =
       TextEditingController();
-  String? _audioTitleSearchWords;
+  String _audioTitleSearchSentence = '';
   DateTime? _startDownloadDateTime;
   DateTime? _endDownloadDateTime;
   DateTime? _startUploadDateTime;
@@ -109,7 +111,7 @@ class _SortAndFilterAudioDialogWidgetState
   void dispose() {
     _startFileSizeController.dispose();
     _endFileSizeController.dispose();
-    _audioTitleSearchWordsController.dispose();
+    _audioTitleSearchSentenceController.dispose();
     _startDownloadDateTimeController.dispose();
     _endDownloadDateTimeController.dispose();
     _startUploadDateTimeController.dispose();
@@ -128,14 +130,14 @@ class _SortAndFilterAudioDialogWidgetState
     _searchInVideoCompactDescription = true;
     _startFileSizeController.clear();
     _endFileSizeController.clear();
-    _audioTitleSearchWordsController.clear();
+    _audioTitleSearchSentenceController.clear();
     _startDownloadDateTimeController.clear();
     _endDownloadDateTimeController.clear();
     _startUploadDateTimeController.clear();
     _endUploadDateTimeController.clear();
     _startAudioDurationController.clear();
     _endAudioDurationController.clear();
-    _audioTitleSearchWords = null;
+    _audioTitleSearchSentence = '';
     _startDownloadDateTime = null;
     _endDownloadDateTime = null;
     _startUploadDateTime = null;
@@ -149,14 +151,14 @@ class _SortAndFilterAudioDialogWidgetState
     _searchInVideoCompactDescription = true;
     _startFileSizeController.clear();
     _endFileSizeController.clear();
-    _audioTitleSearchWordsController.clear();
+    _audioTitleSearchSentenceController.clear();
     _startDownloadDateTimeController.clear();
     _endDownloadDateTimeController.clear();
     _startUploadDateTimeController.clear();
     _endUploadDateTimeController.clear();
     _startAudioDurationController.clear();
     _endAudioDurationController.clear();
-    _audioTitleSearchWords = null;
+    _audioTitleSearchSentence = '';
     _startDownloadDateTime = null;
     _endDownloadDateTime = null;
     _startUploadDateTime = null;
@@ -259,15 +261,67 @@ class _SortAndFilterAudioDialogWidgetState
                       ),
                       SizedBox(
                         height: kDialogTextFieldHeight,
-                        child: TextField(
-                          key: const Key('audioTitleSubStringTextField'),
-                          focusNode: _audioTitleSubStringFocusNode,
-                          style: kDialogTextFieldStyle,
-                          decoration: _dialogTextFieldDecoration,
-                          controller: _audioTitleSearchWordsController,
-                          keyboardType: TextInputType.text,
-                          onChanged: (value) {
-                            _audioTitleSearchWords = value;
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 215,
+                              child: TextField(
+                                key: const Key(
+                                    'audioTitleSearchSentenceTextField'),
+                                focusNode: _audioTitleSubStringFocusNode,
+                                style: kDialogTextFieldStyle,
+                                decoration: _dialogTextFieldDecoration,
+                                controller: _audioTitleSearchSentenceController,
+                                keyboardType: TextInputType.text,
+                                onChanged: (value) {
+                                  _audioTitleSearchSentence = value;
+                                },
+                              ),
+                            ),
+                            IconButton(
+                              key: const Key('addSentenceIconButton'),
+                              icon: const Icon(Icons.add),
+                              onPressed: () async {
+                                setState(() {
+                                  if (!_audioTitleFilterSentencesLst
+                                      .contains(_audioTitleSearchSentence)) {
+                                    _audioTitleFilterSentencesLst
+                                        .add(_audioTitleSearchSentence);
+                                    _audioTitleSearchSentence = '';
+                                    _audioTitleSearchSentenceController.clear();
+                                  }
+                                });
+
+                                // now clicking on Enter works since the
+                                // IconButton is not focused anymore
+                                _audioTitleSubStringFocusNode.requestFocus();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: ListView.builder(
+                          itemCount: _audioTitleFilterSentencesLst.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text(_audioTitleFilterSentencesLst[index]),
+                              trailing: IconButton(
+                                key: const Key('removeSentenceIconButton'),
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  setState(() {
+                                    _audioTitleFilterSentencesLst.removeAt(index);
+                                  });
+
+                                  // now clicking on Enter works since the
+                                  // IconButton is not focused anymore
+                                  _audioTitleSubStringFocusNode.requestFocus();
+                                },
+                              ),
+                            );
                           },
                         ),
                       ),
@@ -624,9 +678,10 @@ class _SortAndFilterAudioDialogWidgetState
               key: const Key('applySortFilterButton'),
               onPressed: () {
                 // Apply sorting and filtering options
-                print('Sorting option: $_selectedSortOptionsLst[0].sortingOption');
+                print(
+                    'Sorting option: $_selectedSortOptionsLst[0].sortingOption');
                 print('Filter by music quality: $_filterMusicQuality');
-                print('Audio title substring: $_audioTitleSearchWords');
+                print('Audio title substring: $_audioTitleSearchSentence');
                 print(
                     'Start download date: ${(_startDownloadDateTime != null) ? _startDownloadDateTime!.toIso8601String() : ''}');
                 print(
@@ -695,7 +750,8 @@ class _SortAndFilterAudioDialogWidgetState
                     key: const Key('sort_ascending_or_descending_button'),
                     onPressed: () {
                       setState(() {
-                        bool isAscending = _selectedSortOptionsLst[index].isAscending;
+                        bool isAscending =
+                            _selectedSortOptionsLst[index].isAscending;
                         _selectedSortOptionsLst[index].isAscending =
                             !isAscending; // Toggle the sorting state
                       });
@@ -762,7 +818,7 @@ class _SortAndFilterAudioDialogWidgetState
         AudioSortFilterService().filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
       selectedSortOptionsLst: _selectedSortOptionsLst,
-      searchWords: _audioTitleSearchWords,
+      searchSentencesLst: [_audioTitleSearchSentence],
       ignoreCase: _ignoreCase,
       searchInVideoCompactDescription: _searchInVideoCompactDescription,
     );

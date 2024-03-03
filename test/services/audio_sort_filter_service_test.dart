@@ -2,7 +2,6 @@ import 'package:path/path.dart' as path;
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/services/sort_filter_parameters.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
 import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
@@ -1024,7 +1023,7 @@ void main() {
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst: selectedSortOptionsLstAsc,
-        searchWords: 'Zeb',
+        searchSentencesLst: ['Zeb'],
       );
 
       expect(
@@ -1039,7 +1038,7 @@ void main() {
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst: selectedSortOptionsLstDesc,
-        searchWords: 'Zeb',
+        searchSentencesLst: ['Zeb'],
       );
 
       expect(
@@ -1208,7 +1207,7 @@ void main() {
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst: selectedSortOptionsLstAsc,
-        searchWords: 'Julien',
+        searchSentencesLst: ['Julien'],
         searchInVideoCompactDescription: true,
       );
 
@@ -1232,7 +1231,7 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst: selectedSortOptionsLstDesc,
         searchInVideoCompactDescription: true,
-        searchWords: 'Julien',
+        searchSentencesLst: ['Julien'],
       );
 
       expect(
@@ -1403,7 +1402,7 @@ void main() {
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst: selectedSortOptionsLstAsc,
-        searchWords: 'Julien',
+        searchSentencesLst: ['Julien'],
         searchInVideoCompactDescription: true,
       );
 
@@ -1426,7 +1425,7 @@ void main() {
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst: selectedSortOptionsLstDesc,
-        searchWords: 'Julien',
+        searchSentencesLst: ['Julien'],
         searchInVideoCompactDescription: true,
       );
 
@@ -1602,7 +1601,7 @@ void main() {
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst: selectedSortOptionsLstAsc,
-        searchWords: 'Julien',
+        searchSentencesLst: ['Julien'],
       );
 
       expect(
@@ -1624,7 +1623,7 @@ void main() {
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst: selectedSortOptionsLstDesc,
-        searchWords: 'Julien',
+        searchSentencesLst: ['Julien'],
       );
 
       expect(
@@ -1708,7 +1707,8 @@ void main() {
           playlistListVM.getSelectedPlaylistPlayableAudios();
 
       List<String>
-          expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc = [
+          expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc =
+          [
         "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
         "La surpopulation mondiale par Jancovici et Barrau",
         "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
@@ -1731,7 +1731,7 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchWords: 'Jancovici',
+        searchSentencesLst: ['Jancovici'],
         ignoreCase: true,
         searchInVideoCompactDescription: true,
       );
@@ -1759,13 +1759,14 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchWords: 'Janco',
+        searchSentencesLst: ['Janco'],
         ignoreCase: true,
         searchInVideoCompactDescription: true,
       );
 
       List<String>
-          expectedResultForFilterByWordAndSortByDownloadDateAscAndDurationDesc = [
+          expectedResultForFilterByWordAndSortByDownloadDateAscAndDurationDesc =
+          [
         "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
         "La surpopulation mondiale par Jancovici et Barrau",
         "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
@@ -1791,7 +1792,8 @@ void main() {
           playlistListVM.getSelectedPlaylistPlayableAudios();
 
       List<String>
-          expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc = [
+          expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc =
+          [
         "La surpopulation mondiale par Jancovici et Barrau",
         "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
       ];
@@ -1813,7 +1815,7 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchWords: 'Éthique et tac',
+        searchSentencesLst: ['Éthique et tac','Jancovici'],
         ignoreCase: true,
         searchInVideoCompactDescription: true,
       );
@@ -1841,15 +1843,16 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchWords: 'Éthique et tac',
+        searchSentencesLst: ['Éthique et tac','Jancovici'],
         ignoreCase: true,
         searchInVideoCompactDescription: true,
       );
 
       List<String>
-          expectedResultForFilterByWordAndSortByDownloadDateAscAndDurationDesc = [
+          expectedResultForFilterByWordAndSortByDownloadDateAscAndDurationDesc =
+          [
+        "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
         "La surpopulation mondiale par Jancovici et Barrau",
-        "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
       ];
 
       expect(
@@ -1888,7 +1891,7 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchWords: 'Éthique et tac',
+        searchSentencesLst: ['Éthique et tac'],
         ignoreCase: true,
         searchInVideoCompactDescription: false,
       );
@@ -1916,7 +1919,7 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchWords: 'Éthique et tac',
+        searchSentencesLst: ['Éthique et tac'],
         ignoreCase: true,
         searchInVideoCompactDescription: false,
       );
