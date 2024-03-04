@@ -264,7 +264,7 @@ class _SortAndFilterAudioDialogWidgetState
                         child: Row(
                           children: [
                             SizedBox(
-                              width: 215,
+                              width: 200,
                               child: TextField(
                                 key: const Key(
                                     'audioTitleSearchSentenceTextField'),
