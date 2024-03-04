@@ -1815,7 +1815,7 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchSentencesLst: ['Éthique et tac','Jancovici'],
+        searchSentencesLst: ['Éthique et tac', 'Jancovici'],
         ignoreCase: true,
         searchInVideoCompactDescription: true,
       );
@@ -1843,7 +1843,7 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchSentencesLst: ['Éthique et tac','Jancovici'],
+        searchSentencesLst: ['Éthique et tac', 'Jancovici'],
         ignoreCase: true,
         searchInVideoCompactDescription: true,
       );
@@ -1960,7 +1960,11 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchSentencesLst: ['Janco','Éthique et tac',],
+        searchSentencesLst: [
+          'Janco',
+          'Éthique et tac',
+        ],
+        searchSentencesAnd: true,
         ignoreCase: true,
         searchInVideoCompactDescription: false,
       );
@@ -1989,6 +1993,7 @@ void main() {
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
         searchSentencesLst: ['Éthique et tac'],
+        searchSentencesAnd: true,
         ignoreCase: true,
         searchInVideoCompactDescription: false,
       );
@@ -2029,7 +2034,11 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchSentencesLst: ['Janco','Éthique et tac',],
+        searchSentencesLst: [
+          'Janco',
+          'Éthique et tac',
+        ],
+        searchSentencesAnd: true,
         ignoreCase: true,
         searchInVideoCompactDescription: true,
       );
@@ -2038,8 +2047,10 @@ void main() {
           filteredByWordAndSortedByDownloadDateDescAndDurationAsc
               .map((audio) => audio.validVideoTitle)
               .toList(),
-          ['La surpopulation mondiale par Jancovici et Barrau',
-            'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau']);
+          [
+            'La surpopulation mondiale par Jancovici et Barrau',
+            'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau'
+          ]);
 
       final List<SortingItem>
           selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
@@ -2058,7 +2069,8 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchSentencesLst: ['Éthique et tac','Janco'],
+        searchSentencesLst: ['Éthique et tac', 'Janco'],
+        searchSentencesAnd: true,
         ignoreCase: true,
         searchInVideoCompactDescription: true,
       );
@@ -2069,7 +2081,183 @@ void main() {
               .toList(),
           [
             'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau',
-            'La surpopulation mondiale par Jancovici et Barrau']);
+            'La surpopulation mondiale par Jancovici et Barrau'
+          ]);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+    });
+    test(
+        "filter by multiple words in 'or' mode in audio description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending",
+        () {
+      List<Audio> audioList =
+          playlistListVM.getSelectedPlaylistPlayableAudios();
+
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: false,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: true,
+        ),
+      ];
+
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst:
+            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+        searchSentencesLst: [
+          'Janco',
+          'Roche',
+        ],
+        searchSentencesAnd: false, // 'or' mode
+        ignoreCase: true,
+        searchInVideoCompactDescription: false,
+      );
+
+      expect(
+          filteredByWordAndSortedByDownloadDateDescAndDurationAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          [
+            "Jancovici m\'explique l’importance des ordres de grandeur face au changement climatique",
+            'La surpopulation mondiale par Jancovici et Barrau',
+            'La résilience insulaire par Fiona Roche',
+            'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau'
+          ]);
+
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: true,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: false,
+        ),
+      ];
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst:
+            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
+        searchSentencesLst: [
+          'Janco',
+          'Roche',
+        ],
+        searchSentencesAnd: false, // 'or' mode
+        ignoreCase: true,
+        searchInVideoCompactDescription: false,
+      );
+
+      expect(
+          filteredByWordAndSortedByDownloadDateAscAndDurationDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          [
+            'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau',
+            'La résilience insulaire par Fiona Roche',
+            'La surpopulation mondiale par Jancovici et Barrau',
+            "Jancovici m\'explique l’importance des ordres de grandeur face au changement climatique",
+          ]);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+    });
+    test(
+        "filter by multiple words in 'or' mode in audio description with searchInVideoCompactDescription = true and sort by download date descending and duration ascending",
+        () {
+      List<Audio> audioList =
+          playlistListVM.getSelectedPlaylistPlayableAudios();
+
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: false,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: true,
+        ),
+      ];
+
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst:
+            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+        searchSentencesLst: [
+          'Janco',
+          'Éthique et tac',
+        ],
+        searchSentencesAnd: false, // 'or' mode
+        ignoreCase: true,
+        searchInVideoCompactDescription: true,
+      );
+
+      expect(
+          filteredByWordAndSortedByDownloadDateDescAndDurationAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          [
+            "Jancovici m\'explique l’importance des ordres de grandeur face au changement climatique",
+            'La surpopulation mondiale par Jancovici et Barrau',
+            'La résilience insulaire par Fiona Roche',
+            'Les besoins artificiels par R.Keucheyan',
+            'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau',
+            "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)"
+          ]);
+
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: true,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: false,
+        ),
+      ];
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst:
+            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
+        searchSentencesLst: ['Éthique et tac', 'Janco'],
+        searchSentencesAnd: false, // 'or' mode
+        ignoreCase: true,
+        searchInVideoCompactDescription: true,
+      );
+
+      expect(
+          filteredByWordAndSortedByDownloadDateAscAndDurationDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          [
+            "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)",
+            'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau',
+            'Les besoins artificiels par R.Keucheyan',
+            'La résilience insulaire par Fiona Roche',
+            'La surpopulation mondiale par Jancovici et Barrau',
+            "Jancovici m\'explique l’importance des ordres de grandeur face au changement climatique",
+          ]);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub

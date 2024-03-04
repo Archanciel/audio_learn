@@ -395,6 +395,7 @@ class AudioSortFilterService {
     required List<Audio> audioLst,
     required List<SortingItem> selectedSortOptionsLst,
     List<String> searchSentencesLst = const [],
+    bool searchSentencesAnd = true, // if false, searchSentencesOr !
     bool ignoreCase = false,
     bool searchInVideoCompactDescription = false,
   }) {
@@ -402,20 +403,60 @@ class AudioSortFilterService {
 
     if (searchSentencesLst.isNotEmpty) {
       if (!searchInVideoCompactDescription) {
-        for (String searchSentence in searchSentencesLst) {
-          audioLstCopy = _filterAudioLstByVideoTitleOnly(
-            audioLst: audioLstCopy,
-            searchWords: searchSentence,
-            ignoreCase: ignoreCase,
-          );
+        if (searchSentencesAnd) {
+          for (String searchSentence in searchSentencesLst) {
+            audioLstCopy = _filterAudioLstByVideoTitleOnly(
+              audioLst: audioLstCopy,
+              searchWords: searchSentence,
+              ignoreCase: ignoreCase,
+            );
+          }
+        } else {
+          // handling searchSentencesOr
+          List<List<Audio>> lstOfSentenceAudioLst = [];
+
+          for (String searchSentence in searchSentencesLst) {
+            lstOfSentenceAudioLst.add(
+              _filterAudioLstByVideoTitleOnly(
+                audioLst: audioLstCopy,
+                searchWords: searchSentence,
+                ignoreCase: ignoreCase,
+              ),
+            );
+          }
+
+          audioLstCopy = lstOfSentenceAudioLst
+              .expand((element) => element)
+              .toSet()
+              .toList();
         }
       } else {
-        for (String searchSentence in searchSentencesLst) {
-          audioLstCopy = _filterAudioLstByVideoTitleOrDescription(
-            audioLst: audioLstCopy,
-            searchWords: searchSentence,
-            ignoreCase: ignoreCase,
-          );
+        if (searchSentencesAnd) {
+          for (String searchSentence in searchSentencesLst) {
+            audioLstCopy = _filterAudioLstByVideoTitleOrDescription(
+              audioLst: audioLstCopy,
+              searchWords: searchSentence,
+              ignoreCase: ignoreCase,
+            );
+          }
+        } else {
+          // handling searchSentencesOr
+          List<List<Audio>> lstOfSentenceAudioLst = [];
+
+          for (String searchSentence in searchSentencesLst) {
+            lstOfSentenceAudioLst.add(
+              _filterAudioLstByVideoTitleOrDescription(
+                audioLst: audioLstCopy,
+                searchWords: searchSentence,
+                ignoreCase: ignoreCase,
+              ),
+            );
+          }
+
+          audioLstCopy = lstOfSentenceAudioLst
+              .expand((element) => element)
+              .toSet()
+              .toList();
         }
       }
     }

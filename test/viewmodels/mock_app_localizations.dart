@@ -117,7 +117,7 @@ class MockAppLocalizations extends AppLocalizations {
   String get sortBy => 'Sort by:';
 
   @override
-  String get audioDownloadDateTime => 'Audio download date time';
+  String get audioDownloadDate => 'Audio download date';
 
   @override
   String get videoUploadDate => 'Video upload date';
