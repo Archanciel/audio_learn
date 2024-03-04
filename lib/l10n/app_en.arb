@@ -37,7 +37,7 @@
   "saveSortFilterAudiosSettingsToPlaylist": "Save sort/filter settings to playlist",
   "sortFilterDialogTitle": "Sort and Filter Options",
   "sortBy": "Sort by:",
-  "audioDownloadDateTime": "Audio download date time",
+  "audioDownloadDate": "Audio download date",
   "videoUploadDate": "Video upload date",
   "audioEnclosingPlaylistTitle": "Audio playlist title",
   "audioDuration": "Audio duration",

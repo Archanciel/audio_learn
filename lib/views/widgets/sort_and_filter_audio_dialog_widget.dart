@@ -171,7 +171,7 @@ class _SortAndFilterAudioDialogWidgetState
   ) {
     switch (option) {
       case SortingOption.audioDownloadDateTime:
-        return AppLocalizations.of(context)!.audioDownloadDateTime;
+        return AppLocalizations.of(context)!.audioDownloadDate;
       case SortingOption.videoUploadDate:
         return AppLocalizations.of(context)!.videoUploadDate;
       case SortingOption.validAudioTitle:
@@ -818,7 +818,7 @@ class _SortAndFilterAudioDialogWidgetState
         AudioSortFilterService().filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
       selectedSortOptionsLst: _selectedSortOptionsLst,
-      searchSentencesLst: [_audioTitleSearchSentence],
+      searchSentencesLst: _audioTitleFilterSentencesLst,
       ignoreCase: _ignoreCase,
       searchInVideoCompactDescription: _searchInVideoCompactDescription,
     );
