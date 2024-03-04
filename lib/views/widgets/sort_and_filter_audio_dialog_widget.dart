@@ -92,6 +92,9 @@ class _SortAndFilterAudioDialogWidgetState
 
   final _audioTitleSubStringFocusNode = FocusNode();
 
+  bool _isAnd = true;
+  bool _isOr = false;
+
   @override
   void initState() {
     super.initState();
@@ -259,71 +262,23 @@ class _SortAndFilterAudioDialogWidgetState
                       const SizedBox(
                         height: 5,
                       ),
-                      SizedBox(
-                        height: kDialogTextFieldHeight,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 200,
-                              child: TextField(
-                                key: const Key(
-                                    'audioTitleSearchSentenceTextField'),
-                                focusNode: _audioTitleSubStringFocusNode,
-                                style: kDialogTextFieldStyle,
-                                decoration: _dialogTextFieldDecoration,
-                                controller: _audioTitleSearchSentenceController,
-                                keyboardType: TextInputType.text,
-                                onChanged: (value) {
-                                  _audioTitleSearchSentence = value;
-                                },
-                              ),
-                            ),
-                            IconButton(
-                              key: const Key('addSentenceIconButton'),
-                              icon: const Icon(Icons.add),
-                              onPressed: () async {
-                                setState(() {
-                                  if (!_audioTitleFilterSentencesLst
-                                      .contains(_audioTitleSearchSentence)) {
-                                    _audioTitleFilterSentencesLst
-                                        .add(_audioTitleSearchSentence);
-                                    _audioTitleSearchSentence = '';
-                                    _audioTitleSearchSentenceController.clear();
-                                  }
-                                });
-
-                                // now clicking on Enter works since the
-                                // IconButton is not focused anymore
-                                _audioTitleSubStringFocusNode.requestFocus();
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: ListView.builder(
-                          itemCount: _audioTitleFilterSentencesLst.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(_audioTitleFilterSentencesLst[index]),
-                              trailing: IconButton(
-                                key: const Key('removeSentenceIconButton'),
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  setState(() {
-                                    _audioTitleFilterSentencesLst.removeAt(index);
-                                  });
-
-                                  // now clicking on Enter works since the
-                                  // IconButton is not focused anymore
-                                  _audioTitleSubStringFocusNode.requestFocus();
-                                },
-                              ),
-                            );
-                          },
-                        ),
+                      _buildAudioFilterSentence(),
+                      _buildAudioFilterSentencesLst(),
+                      Row(
+                        children: <Widget>[
+                          Text(AppLocalizations.of(context)!.and),
+                          Checkbox(
+                            key: const Key('andCheckbox'),
+                            value: _isAnd,
+                            onChanged: _toggleCheckboxAnd,
+                          ),
+                          Text(AppLocalizations.of(context)!.or),
+                          Checkbox(
+                            key: const Key('orCheckbox'),
+                            value: _isOr,
+                            onChanged: _toggleCheckboxOr,
+                          ),
+                        ],
                       ),
                       Row(
                         children: [
@@ -723,6 +678,76 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
+  SizedBox _buildAudioFilterSentencesLst() {
+    return SizedBox(
+      width: double.maxFinite,
+      child: ListView.builder(
+        itemCount: _audioTitleFilterSentencesLst.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(_audioTitleFilterSentencesLst[index]),
+            trailing: IconButton(
+              key: const Key('removeSentenceIconButton'),
+              icon: const Icon(Icons.clear),
+              onPressed: () {
+                setState(() {
+                  _audioTitleFilterSentencesLst.removeAt(index);
+                });
+
+                // now clicking on Enter works since the
+                // IconButton is not focused anymore
+                _audioTitleSubStringFocusNode.requestFocus();
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  SizedBox _buildAudioFilterSentence() {
+    return SizedBox(
+      height: kDialogTextFieldHeight,
+      child: Row(
+        children: [
+          SizedBox(
+            width: 200,
+            child: TextField(
+              key: const Key('audioTitleSearchSentenceTextField'),
+              focusNode: _audioTitleSubStringFocusNode,
+              style: kDialogTextFieldStyle,
+              decoration: _dialogTextFieldDecoration,
+              controller: _audioTitleSearchSentenceController,
+              keyboardType: TextInputType.text,
+              onChanged: (value) {
+                _audioTitleSearchSentence = value;
+              },
+            ),
+          ),
+          IconButton(
+            key: const Key('addSentenceIconButton'),
+            icon: const Icon(Icons.add),
+            onPressed: () async {
+              setState(() {
+                if (!_audioTitleFilterSentencesLst
+                    .contains(_audioTitleSearchSentence)) {
+                  _audioTitleFilterSentencesLst.add(_audioTitleSearchSentence);
+                  _audioTitleSearchSentence = '';
+                  _audioTitleSearchSentenceController.clear();
+                }
+              });
+
+              // now clicking on Enter works since the
+              // IconButton is not focused anymore
+              _audioTitleSubStringFocusNode.requestFocus();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   SizedBox _buildSelectedSortingList() {
     return SizedBox(
       // Required to solve the error RenderBox was
@@ -811,6 +836,22 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
+  void _toggleCheckboxAnd(bool? value) {
+    setState(() {
+      _isAnd = !_isAnd;
+      // When checkbox 1 is checked, ensure checkbox 2 is unchecked
+      if (_isAnd) _isOr = false;
+    });
+  }
+
+  void _toggleCheckboxOr(bool? value) {
+    setState(() {
+      _isOr = !_isOr;
+      // When checkbox 2 is checked, ensure checkbox 1 is unchecked
+      if (_isOr) _isAnd = false;
+    });
+  }
+
   // Method called when the user clicks on the 'Apply' button or
   // presses the Enter key on Windows
   List<Audio> _filterAndSortAudioLst() {
@@ -819,6 +860,7 @@ class _SortAndFilterAudioDialogWidgetState
       audioLst: widget.selectedPlaylistAudioLst,
       selectedSortOptionsLst: _selectedSortOptionsLst,
       searchSentencesLst: _audioTitleFilterSentencesLst,
+      searchSentencesAnd: _isAnd,
       ignoreCase: _ignoreCase,
       searchInVideoCompactDescription: _searchInVideoCompactDescription,
     );

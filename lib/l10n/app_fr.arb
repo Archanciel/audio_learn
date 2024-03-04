@@ -245,5 +245,7 @@
   "decreaseAudioVolumeIconButton": "Diminuer le volume audio",
   "resetSortFilterOptionsTooltip": "Réinitialiser les options de tri et de filtre",
   "setPlaylistSortFilterOptionsTooltip": "Définir les options de tri et de filtre stockés dans la playlist",
-  "clickToSetAscendingOrDescendingTooltip": "Cliquez pour définir l'ordre de tri croissant ou décroissant"
+  "clickToSetAscendingOrDescendingTooltip": "Cliquez pour définir l'ordre de tri croissant ou décroissant",
+  "and": "Et",
+  "or": "Ou"
 }
