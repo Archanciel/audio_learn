@@ -1701,7 +1701,7 @@ void main() {
       audioSortFilterService = AudioSortFilterService();
     });
     test(
-        'filter by word in audio title and sort by download date descending and duration ascending',
+        'filter by one word in audio title and sort by download date descending and duration ascending',
         () {
       List<Audio> audioList =
           playlistListVM.getSelectedPlaylistPlayableAudios();
@@ -1786,7 +1786,7 @@ void main() {
       );
     });
     test(
-        'filter by word in audio title and word in audio description only and sort by download date descending and duration ascending',
+        'filter by multiple words in audio or in audio description only and sort by download date descending and duration ascending',
         () {
       List<Audio> audioList =
           playlistListVM.getSelectedPlaylistPlayableAudios();
@@ -1869,7 +1869,7 @@ void main() {
       );
     });
     test(
-        'filter by word in audio description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending',
+        'filter by one word in audio description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending',
         () {
       List<Audio> audioList =
           playlistListVM.getSelectedPlaylistPlayableAudios();
@@ -1929,6 +1929,147 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList(),
           []);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+    });
+    test(
+        "filter by multiple words in 'and' mode in audio description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending",
+        () {
+      List<Audio> audioList =
+          playlistListVM.getSelectedPlaylistPlayableAudios();
+
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: false,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: true,
+        ),
+      ];
+
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst:
+            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+        searchSentencesLst: ['Janco','Éthique et tac',],
+        ignoreCase: true,
+        searchInVideoCompactDescription: false,
+      );
+
+      expect(
+          filteredByWordAndSortedByDownloadDateDescAndDurationAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          []);
+
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: true,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: false,
+        ),
+      ];
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst:
+            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
+        searchSentencesLst: ['Éthique et tac'],
+        ignoreCase: true,
+        searchInVideoCompactDescription: false,
+      );
+
+      expect(
+          filteredByWordAndSortedByDownloadDateAscAndDurationDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          []);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+    });
+    test(
+        "filter by multiple words in 'and' mode in audio description with searchInVideoCompactDescription = true and sort by download date descending and duration ascending",
+        () {
+      List<Audio> audioList =
+          playlistListVM.getSelectedPlaylistPlayableAudios();
+
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: false,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: true,
+        ),
+      ];
+
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst:
+            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+        searchSentencesLst: ['Janco','Éthique et tac',],
+        ignoreCase: true,
+        searchInVideoCompactDescription: true,
+      );
+
+      expect(
+          filteredByWordAndSortedByDownloadDateDescAndDurationAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          ['La surpopulation mondiale par Jancovici et Barrau',
+            'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau']);
+
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: true,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: false,
+        ),
+      ];
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionsLst:
+            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
+        searchSentencesLst: ['Éthique et tac','Janco'],
+        ignoreCase: true,
+        searchInVideoCompactDescription: true,
+      );
+
+      expect(
+          filteredByWordAndSortedByDownloadDateAscAndDurationDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          [
+            'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau',
+            'La surpopulation mondiale par Jancovici et Barrau']);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
