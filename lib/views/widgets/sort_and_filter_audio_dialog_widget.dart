@@ -273,19 +273,33 @@ class _SortAndFilterAudioDialogWidgetState
                             fillColor: MaterialStateColor.resolveWith(
                               (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.disabled)) {
-                                  return Colors.grey.shade800;
+                                  return Colors.grey.shade600;
                                 }
                                 return kDarkAndLightIconColor;
                               },
                             ),
                             value: _isAnd,
-                            onChanged: _toggleCheckboxAnd,
+                            onChanged:
+                                (_audioTitleFilterSentencesLst.length > 1)
+                                    ? _toggleCheckboxAnd
+                                    : null,
                           ),
                           Text(AppLocalizations.of(context)!.or),
                           Checkbox(
                             key: const Key('orCheckbox'),
+                            fillColor: MaterialStateColor.resolveWith(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.disabled)) {
+                                  return Colors.grey.shade600;
+                                }
+                                return kDarkAndLightIconColor;
+                              },
+                            ),
                             value: _isOr,
-                            onChanged: _toggleCheckboxOr,
+                            onChanged:
+                                (_audioTitleFilterSentencesLst.length > 1)
+                                    ? _toggleCheckboxOr
+                                    : null,
                           ),
                         ],
                       ),
@@ -731,7 +745,10 @@ class _SortAndFilterAudioDialogWidgetState
               keyboardType: TextInputType.text,
               onChanged: (value) {
                 _audioTitleSearchSentence = value;
-                    _audioTitleSearchSentencePlusButtonIconColor = _audioTitleSearchSentence.isNotEmpty ? kDarkAndLightIconColor : Colors.grey.shade600;
+                _audioTitleSearchSentencePlusButtonIconColor =
+                    _audioTitleSearchSentence.isNotEmpty
+                        ? kDarkAndLightIconColor
+                        : Colors.grey.shade600;
 
                 setState(() {}); // necessary to update Plus button color
               },
