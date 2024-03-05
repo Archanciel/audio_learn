@@ -782,6 +782,9 @@ class _SortAndFilterAudioDialogWidgetState
         _audioTitleFilterSentencesLst.add(_audioTitleSearchSentence);
         _audioTitleSearchSentence = '';
         _audioTitleSearchSentenceController.clear();
+
+        // reset the Plus button color to disabled color
+        // since the TextField is now empty
         _audioTitleSearchSentencePlusButtonIconColor = kDarkAndLightDisabledIconColor;
       }
     });
