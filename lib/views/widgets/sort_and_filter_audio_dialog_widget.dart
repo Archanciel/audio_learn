@@ -90,8 +90,9 @@ class _SortAndFilterAudioDialogWidgetState
   DateTime? _startUploadDateTime;
   DateTime? _endUploadDateTime;
 
-  final _audioTitleSubStringFocusNode = FocusNode();
+  final _audioTitleSearchSentenceFocusNode = FocusNode();
 
+  Color _audioTitleSearchSentencePlusButtonIconColor = Colors.grey.shade600;
   bool _isAnd = true;
   bool _isOr = false;
 
@@ -103,7 +104,7 @@ class _SortAndFilterAudioDialogWidgetState
     // method has been called
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(
-        _audioTitleSubStringFocusNode,
+        _audioTitleSearchSentenceFocusNode,
       );
     });
 
@@ -121,7 +122,7 @@ class _SortAndFilterAudioDialogWidgetState
     _endUploadDateTimeController.dispose();
     _startAudioDurationController.dispose();
     _endAudioDurationController.dispose();
-    _audioTitleSubStringFocusNode.dispose();
+    _audioTitleSearchSentenceFocusNode.dispose();
 
     super.dispose();
   }
@@ -301,7 +302,7 @@ class _SortAndFilterAudioDialogWidgetState
 
                               // now clicking on Enter works since the
                               // Checkbox is not focused anymore
-                              _audioTitleSubStringFocusNode.requestFocus();
+                              _audioTitleSearchSentenceFocusNode.requestFocus();
                             },
                           ),
                         ],
@@ -320,7 +321,7 @@ class _SortAndFilterAudioDialogWidgetState
 
                               // now clicking on Enter works since the
                               // Checkbox is not focused anymore
-                              _audioTitleSubStringFocusNode.requestFocus();
+                              _audioTitleSearchSentenceFocusNode.requestFocus();
                             },
                           ),
                         ],
@@ -338,7 +339,7 @@ class _SortAndFilterAudioDialogWidgetState
 
                               // now clicking on Enter works since the
                               // Checkbox is not focused anymore
-                              _audioTitleSubStringFocusNode.requestFocus();
+                              _audioTitleSearchSentenceFocusNode.requestFocus();
                             },
                           ),
                         ],
@@ -372,7 +373,7 @@ class _SortAndFilterAudioDialogWidgetState
 
                               // now clicking on Enter works since the
                               // Checkbox is not focused anymore
-                              _audioTitleSubStringFocusNode.requestFocus();
+                              _audioTitleSearchSentenceFocusNode.requestFocus();
                             },
                           ),
                           SizedBox(
@@ -417,7 +418,7 @@ class _SortAndFilterAudioDialogWidgetState
 
                               // now clicking on Enter works since the
                               // Checkbox is not focused anymore
-                              _audioTitleSubStringFocusNode.requestFocus();
+                              _audioTitleSearchSentenceFocusNode.requestFocus();
                             },
                           ),
                           SizedBox(
@@ -462,7 +463,7 @@ class _SortAndFilterAudioDialogWidgetState
 
                               // now clicking on Enter works since the
                               // Checkbox is not focused anymore
-                              _audioTitleSubStringFocusNode.requestFocus();
+                              _audioTitleSearchSentenceFocusNode.requestFocus();
                             },
                           ),
                           SizedBox(
@@ -507,7 +508,7 @@ class _SortAndFilterAudioDialogWidgetState
 
                               // now clicking on Enter works since the
                               // Checkbox is not focused anymore
-                              _audioTitleSubStringFocusNode.requestFocus();
+                              _audioTitleSearchSentenceFocusNode.requestFocus();
                             },
                           ),
                           SizedBox(
@@ -618,7 +619,7 @@ class _SortAndFilterAudioDialogWidgetState
 
                   // now clicking on Enter works since the
                   // Checkbox is not focused anymore
-                  _audioTitleSubStringFocusNode.requestFocus();
+                  _audioTitleSearchSentenceFocusNode.requestFocus();
                 },
               ),
             ),
@@ -633,7 +634,7 @@ class _SortAndFilterAudioDialogWidgetState
 
                   // now clicking on Enter works since the
                   // Checkbox is not focused anymore
-                  _audioTitleSubStringFocusNode.requestFocus();
+                  _audioTitleSearchSentenceFocusNode.requestFocus();
                 },
               ),
             ),
@@ -705,7 +706,7 @@ class _SortAndFilterAudioDialogWidgetState
 
                 // now clicking on Enter works since the
                 // IconButton is not focused anymore
-                _audioTitleSubStringFocusNode.requestFocus();
+                _audioTitleSearchSentenceFocusNode.requestFocus();
               },
             ),
           );
@@ -723,13 +724,15 @@ class _SortAndFilterAudioDialogWidgetState
             width: 200,
             child: TextField(
               key: const Key('audioTitleSearchSentenceTextField'),
-              focusNode: _audioTitleSubStringFocusNode,
+              focusNode: _audioTitleSearchSentenceFocusNode,
               style: kDialogTextFieldStyle,
               decoration: _dialogTextFieldDecoration,
               controller: _audioTitleSearchSentenceController,
               keyboardType: TextInputType.text,
               onChanged: (value) {
                 _audioTitleSearchSentence = value;
+                    _audioTitleSearchSentencePlusButtonIconColor = _audioTitleSearchSentence.isNotEmpty ? kDarkAndLightIconColor : Colors.grey.shade600;
+
                 setState(() {}); // necessary to update Plus button color
               },
             ),
@@ -748,14 +751,7 @@ class _SortAndFilterAudioDialogWidgetState
               // is not grey, we need to set it manually. Additionally,
               // the sentence TextField onChanged callback must execute
               // setState() to update the IconButton color
-              color: MaterialStateColor.resolveWith(
-                (Set<MaterialState> states) {
-                  if (_audioTitleSearchSentence == '') {
-                    return Colors.grey.shade600;
-                  }
-                  return kDarkAndLightIconColor;
-                },
-              ),
+              color: _audioTitleSearchSentencePlusButtonIconColor,
             ),
           ),
         ],
@@ -769,12 +765,13 @@ class _SortAndFilterAudioDialogWidgetState
         _audioTitleFilterSentencesLst.add(_audioTitleSearchSentence);
         _audioTitleSearchSentence = '';
         _audioTitleSearchSentenceController.clear();
+        _audioTitleSearchSentencePlusButtonIconColor = Colors.grey.shade600;
       }
     });
 
     // now clicking on Enter works since the
     // IconButton is not focused anymore
-    _audioTitleSubStringFocusNode.requestFocus();
+    _audioTitleSearchSentenceFocusNode.requestFocus();
   }
 
   SizedBox _buildSelectedSortingList() {
