@@ -321,7 +321,9 @@ class _SortAndFilterAudioDialogWidgetState
                             onChanged:
                                 (_audioTitleFilterSentencesLst.isNotEmpty)
                                     ? (bool? newValue) {
-                                        modifyIgnoreCaseCheckBox(newValue);
+                                        modifyIgnoreCaseCheckBox(
+                                          newValue,
+                                        );
                                       }
                                     : null,
                           ),
@@ -333,16 +335,23 @@ class _SortAndFilterAudioDialogWidgetState
                               .searchInVideoCompactDescription),
                           Checkbox(
                             key: const Key('searchInVideoCompactDescription'),
+                            fillColor: MaterialStateColor.resolveWith(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.disabled)) {
+                                  return kDarkAndLightDisabledIconColorOnDialog;
+                                }
+                                return kDarkAndLightIconColor;
+                              },
+                            ),
                             value: _searchInVideoCompactDescription,
-                            onChanged: (bool? newValue) {
-                              setState(() {
-                                _searchInVideoCompactDescription = newValue!;
-                              });
-
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              _audioTitleSearchSentenceFocusNode.requestFocus();
-                            },
+                            onChanged:
+                                (_audioTitleFilterSentencesLst.isNotEmpty)
+                                    ? (bool? newValue) {
+                                        modifySearchInVideoCompactDescriptionCheckbox(
+                                          newValue,
+                                        );
+                                      }
+                                    : null,
                           ),
                         ],
                       ),
@@ -705,6 +714,16 @@ class _SortAndFilterAudioDialogWidgetState
         ),
       ),
     );
+  }
+
+  void modifySearchInVideoCompactDescriptionCheckbox(bool? newValue) {
+    setState(() {
+      _searchInVideoCompactDescription = newValue!;
+    });
+
+    // now clicking on Enter works since the
+    // Checkbox is not focused anymore
+    _audioTitleSearchSentenceFocusNode.requestFocus();
   }
 
   void modifyIgnoreCaseCheckBox(bool? newValue) {
