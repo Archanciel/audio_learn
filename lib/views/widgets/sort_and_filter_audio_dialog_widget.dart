@@ -92,7 +92,8 @@ class _SortAndFilterAudioDialogWidgetState
 
   final _audioTitleSearchSentenceFocusNode = FocusNode();
 
-  Color _audioTitleSearchSentencePlusButtonIconColor = kDarkAndLightDisabledIconColor;
+  Color _audioTitleSearchSentencePlusButtonIconColor =
+      kDarkAndLightDisabledIconColorOnDialog;
   bool _isAnd = true;
   bool _isOr = false;
 
@@ -273,7 +274,7 @@ class _SortAndFilterAudioDialogWidgetState
                             fillColor: MaterialStateColor.resolveWith(
                               (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.disabled)) {
-                                  return kDarkAndLightDisabledIconColor;
+                                  return kDarkAndLightDisabledIconColorOnDialog;
                                 }
                                 return kDarkAndLightIconColor;
                               },
@@ -290,7 +291,7 @@ class _SortAndFilterAudioDialogWidgetState
                             fillColor: MaterialStateColor.resolveWith(
                               (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.disabled)) {
-                                  return kDarkAndLightDisabledIconColor;
+                                  return kDarkAndLightDisabledIconColorOnDialog;
                                 }
                                 return kDarkAndLightIconColor;
                               },
@@ -308,15 +309,19 @@ class _SortAndFilterAudioDialogWidgetState
                           Text(AppLocalizations.of(context)!.ignoreCase),
                           Checkbox(
                             key: const Key('ignoreCaseCheckbox'),
+                            fillColor: MaterialStateColor.resolveWith(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.disabled)) {
+                                  return kDarkAndLightDisabledIconColorOnDialog;
+                                }
+                                return kDarkAndLightIconColor;
+                              },
+                            ),
                             value: _ignoreCase,
                             onChanged: (bool? newValue) {
-                              setState(() {
-                                _ignoreCase = newValue!;
-                              });
-
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              _audioTitleSearchSentenceFocusNode.requestFocus();
+                              (_audioTitleFilterSentencesLst.isNotEmpty)
+                                  ? modifyIgnoreCaseCheckBox(newValue)
+                                  : null;
                             },
                           ),
                         ],
@@ -701,6 +706,16 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
+  void modifyIgnoreCaseCheckBox(bool? newValue) {
+    setState(() {
+      _ignoreCase = newValue!;
+    });
+
+    // now clicking on Enter works since the
+    // Checkbox is not focused anymore
+    _audioTitleSearchSentenceFocusNode.requestFocus();
+  }
+
   SizedBox _buildAudioFilterSentencesLst() {
     return SizedBox(
       width: double.maxFinite,
@@ -748,7 +763,7 @@ class _SortAndFilterAudioDialogWidgetState
                 _audioTitleSearchSentencePlusButtonIconColor =
                     _audioTitleSearchSentence.isNotEmpty
                         ? kDarkAndLightIconColor
-                        : kDarkAndLightDisabledIconColor;
+                        : kDarkAndLightDisabledIconColorOnDialog;
 
                 setState(() {}); // necessary to update Plus button color
               },
@@ -785,7 +800,8 @@ class _SortAndFilterAudioDialogWidgetState
 
         // reset the Plus button color to disabled color
         // since the TextField is now empty
-        _audioTitleSearchSentencePlusButtonIconColor = kDarkAndLightDisabledIconColor;
+        _audioTitleSearchSentencePlusButtonIconColor =
+            kDarkAndLightDisabledIconColorOnDialog;
       }
     });
 
