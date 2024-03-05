@@ -403,6 +403,7 @@ class AudioSortFilterService {
 
     if (searchSentencesLst.isNotEmpty) {
       if (!searchInVideoCompactDescription) {
+        // here, we filter by video title only
         if (searchSentencesAnd) {
           for (String searchSentence in searchSentencesLst) {
             audioLstCopy = _filterAudioLstByVideoTitleOnly(
@@ -431,6 +432,7 @@ class AudioSortFilterService {
               .toList();
         }
       } else {
+        // here, we filter by video title and by video description
         if (searchSentencesAnd) {
           for (String searchSentence in searchSentencesLst) {
             audioLstCopy = _filterAudioLstByVideoTitleOrDescription(

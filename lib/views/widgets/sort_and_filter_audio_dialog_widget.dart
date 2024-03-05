@@ -321,7 +321,7 @@ class _SortAndFilterAudioDialogWidgetState
                             onChanged:
                                 (_audioTitleFilterSentencesLst.isNotEmpty)
                                     ? (bool? newValue) {
-                                        modifyIgnoreCaseCheckBox(
+                                        _modifyIgnoreCaseCheckBox(
                                           newValue,
                                         );
                                       }
@@ -347,7 +347,7 @@ class _SortAndFilterAudioDialogWidgetState
                             onChanged:
                                 (_audioTitleFilterSentencesLst.isNotEmpty)
                                     ? (bool? newValue) {
-                                        modifySearchInVideoCompactDescriptionCheckbox(
+                                        _modifySearchInVideoCompactDescriptionCheckbox(
                                           newValue,
                                         );
                                       }
@@ -716,7 +716,7 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  void modifySearchInVideoCompactDescriptionCheckbox(bool? newValue) {
+  void _modifySearchInVideoCompactDescriptionCheckbox(bool? newValue) {
     setState(() {
       _searchInVideoCompactDescription = newValue!;
     });
@@ -726,7 +726,7 @@ class _SortAndFilterAudioDialogWidgetState
     _audioTitleSearchSentenceFocusNode.requestFocus();
   }
 
-  void modifyIgnoreCaseCheckBox(bool? newValue) {
+  void _modifyIgnoreCaseCheckBox(bool? newValue) {
     setState(() {
       _ignoreCase = newValue!;
     });
