@@ -675,4 +675,12 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get clickToSetAscendingOrDescendingTooltip =>
       'Click to set ascending or descending';
+
+  @override
+  String get and =>
+      'And';
+
+  @override
+  String get or =>
+      'Or';
 }
