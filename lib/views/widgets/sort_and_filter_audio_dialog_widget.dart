@@ -318,11 +318,12 @@ class _SortAndFilterAudioDialogWidgetState
                               },
                             ),
                             value: _ignoreCase,
-                            onChanged: (bool? newValue) {
-                              (_audioTitleFilterSentencesLst.isNotEmpty)
-                                  ? modifyIgnoreCaseCheckBox(newValue)
-                                  : null;
-                            },
+                            onChanged:
+                                (_audioTitleFilterSentencesLst.isNotEmpty)
+                                    ? (bool? newValue) {
+                                        modifyIgnoreCaseCheckBox(newValue);
+                                      }
+                                    : null,
                           ),
                         ],
                       ),
