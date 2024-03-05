@@ -92,7 +92,7 @@ class _SortAndFilterAudioDialogWidgetState
 
   final _audioTitleSearchSentenceFocusNode = FocusNode();
 
-  Color _audioTitleSearchSentencePlusButtonIconColor = Colors.grey.shade600;
+  Color _audioTitleSearchSentencePlusButtonIconColor = kDarkAndLightDisabledIconColor;
   bool _isAnd = true;
   bool _isOr = false;
 
@@ -273,7 +273,7 @@ class _SortAndFilterAudioDialogWidgetState
                             fillColor: MaterialStateColor.resolveWith(
                               (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.disabled)) {
-                                  return Colors.grey.shade600;
+                                  return kDarkAndLightDisabledIconColor;
                                 }
                                 return kDarkAndLightIconColor;
                               },
@@ -290,7 +290,7 @@ class _SortAndFilterAudioDialogWidgetState
                             fillColor: MaterialStateColor.resolveWith(
                               (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.disabled)) {
-                                  return Colors.grey.shade600;
+                                  return kDarkAndLightDisabledIconColor;
                                 }
                                 return kDarkAndLightIconColor;
                               },
@@ -748,7 +748,7 @@ class _SortAndFilterAudioDialogWidgetState
                 _audioTitleSearchSentencePlusButtonIconColor =
                     _audioTitleSearchSentence.isNotEmpty
                         ? kDarkAndLightIconColor
-                        : Colors.grey.shade600;
+                        : kDarkAndLightDisabledIconColor;
 
                 setState(() {}); // necessary to update Plus button color
               },
@@ -782,7 +782,7 @@ class _SortAndFilterAudioDialogWidgetState
         _audioTitleFilterSentencesLst.add(_audioTitleSearchSentence);
         _audioTitleSearchSentence = '';
         _audioTitleSearchSentenceController.clear();
-        _audioTitleSearchSentencePlusButtonIconColor = Colors.grey.shade600;
+        _audioTitleSearchSentencePlusButtonIconColor = kDarkAndLightDisabledIconColor;
       }
     });
 
