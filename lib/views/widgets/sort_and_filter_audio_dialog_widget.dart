@@ -377,7 +377,7 @@ class _SortAndFilterAudioDialogWidgetState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 120,
+                            width: 104,
                             child: Text(AppLocalizations.of(context)!
                                 .startDownloadDate),
                           ),
@@ -406,7 +406,7 @@ class _SortAndFilterAudioDialogWidgetState
                             },
                           ),
                           SizedBox(
-                            width: 90,
+                            width: 80,
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               key: const Key('startDownloadDateTextField'),
@@ -422,7 +422,7 @@ class _SortAndFilterAudioDialogWidgetState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 120,
+                            width: 104,
                             child: Text(
                                 AppLocalizations.of(context)!.endDownloadDate),
                           ),
@@ -451,7 +451,7 @@ class _SortAndFilterAudioDialogWidgetState
                             },
                           ),
                           SizedBox(
-                            width: 90,
+                            width: 80,
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               key: const Key('endDownloadDateTextField'),
@@ -467,7 +467,7 @@ class _SortAndFilterAudioDialogWidgetState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 120,
+                            width: 104,
                             child: Text(
                                 AppLocalizations.of(context)!.startUploadDate),
                           ),
@@ -496,7 +496,7 @@ class _SortAndFilterAudioDialogWidgetState
                             },
                           ),
                           SizedBox(
-                            width: 90,
+                            width: 80,
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               key: const Key('startUploadDateTextField'),
@@ -512,7 +512,7 @@ class _SortAndFilterAudioDialogWidgetState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 120,
+                            width: 104,
                             child: Text(
                                 AppLocalizations.of(context)!.endUploadDate),
                           ),
@@ -542,7 +542,7 @@ class _SortAndFilterAudioDialogWidgetState
                           ),
                           SizedBox(
                             key: const Key('endUploadDateTextField'),
-                            width: 90,
+                            width: 80,
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               style: kDialogTextFieldStyle,
@@ -566,7 +566,7 @@ class _SortAndFilterAudioDialogWidgetState
                         children: [
                           Text(AppLocalizations.of(context)!.start),
                           SizedBox(
-                            width: 85,
+                            width: 80,
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               key: const Key('startFileSizeTextField'),
@@ -579,7 +579,7 @@ class _SortAndFilterAudioDialogWidgetState
                           const SizedBox(width: 10),
                           Text(AppLocalizations.of(context)!.end),
                           SizedBox(
-                            width: 85,
+                            width: 80,
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               key: const Key('endFileSizeTextField'),
@@ -604,7 +604,7 @@ class _SortAndFilterAudioDialogWidgetState
                         children: [
                           Text(AppLocalizations.of(context)!.start),
                           SizedBox(
-                            width: 85,
+                            width: 80,
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               key:
@@ -618,7 +618,7 @@ class _SortAndFilterAudioDialogWidgetState
                           const SizedBox(width: 10),
                           Text(AppLocalizations.of(context)!.end),
                           SizedBox(
-                            width: 85,
+                            width: 80,
                             height: kDialogTextFieldHeight,
                             child: TextField(
                               key: const Key('audioDurationRangeEndTextField'),
