@@ -744,10 +744,14 @@ class _SortAndFilterAudioDialogWidgetState
             padding: const EdgeInsets.all(0),
             icon: Icon(
               Icons.add,
+              // since in the Dialog the disabled IconButton color
+              // is not grey, we need to set it manually. Additionally,
+              // the sentence TextField onChanged callback must execute
+              // setState() to update the IconButton color
               color: MaterialStateColor.resolveWith(
                 (Set<MaterialState> states) {
                   if (_audioTitleSearchSentence == '') {
-                    return Colors.grey.shade800;
+                    return Colors.grey.shade600;
                   }
                   return kDarkAndLightIconColor;
                 },
