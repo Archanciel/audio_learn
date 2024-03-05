@@ -269,6 +269,14 @@ class _SortAndFilterAudioDialogWidgetState
                           Text(AppLocalizations.of(context)!.and),
                           Checkbox(
                             key: const Key('andCheckbox'),
+                            fillColor: MaterialStateColor.resolveWith(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.disabled)) {
+                                  return Colors.grey.shade800;
+                                }
+                                return kDarkAndLightIconColor;
+                              },
+                            ),
                             value: _isAnd,
                             onChanged: _toggleCheckboxAnd,
                           ),
@@ -722,30 +730,47 @@ class _SortAndFilterAudioDialogWidgetState
               keyboardType: TextInputType.text,
               onChanged: (value) {
                 _audioTitleSearchSentence = value;
+                setState(() {}); // necessary to update Plus button color
               },
             ),
           ),
           IconButton(
             key: const Key('addSentenceIconButton'),
-            icon: const Icon(Icons.add),
             onPressed: () async {
-              setState(() {
-                if (!_audioTitleFilterSentencesLst
-                    .contains(_audioTitleSearchSentence)) {
-                  _audioTitleFilterSentencesLst.add(_audioTitleSearchSentence);
-                  _audioTitleSearchSentence = '';
-                  _audioTitleSearchSentenceController.clear();
-                }
-              });
-
-              // now clicking on Enter works since the
-              // IconButton is not focused anymore
-              _audioTitleSubStringFocusNode.requestFocus();
+              (_audioTitleSearchSentence != '')
+                  ? addSentenceToFilterSentencesLst()
+                  : null;
             },
+            padding: const EdgeInsets.all(0),
+            icon: Icon(
+              Icons.add,
+              color: MaterialStateColor.resolveWith(
+                (Set<MaterialState> states) {
+                  if (_audioTitleSearchSentence == '') {
+                    return Colors.grey.shade800;
+                  }
+                  return kDarkAndLightIconColor;
+                },
+              ),
+            ),
           ),
         ],
       ),
     );
+  }
+
+  void addSentenceToFilterSentencesLst() {
+    setState(() {
+      if (!_audioTitleFilterSentencesLst.contains(_audioTitleSearchSentence)) {
+        _audioTitleFilterSentencesLst.add(_audioTitleSearchSentence);
+        _audioTitleSearchSentence = '';
+        _audioTitleSearchSentenceController.clear();
+      }
+    });
+
+    // now clicking on Enter works since the
+    // IconButton is not focused anymore
+    _audioTitleSubStringFocusNode.requestFocus();
   }
 
   SizedBox _buildSelectedSortingList() {
