@@ -1602,6 +1602,7 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst: selectedSortOptionsLstAsc,
         searchSentencesLst: ['Julien'],
+        searchInVideoCompactDescription: false,
       );
 
       expect(
@@ -1624,6 +1625,7 @@ void main() {
         audioLst: List<Audio>.from(audioList), // copy list
         selectedSortOptionsLst: selectedSortOptionsLstDesc,
         searchSentencesLst: ['Julien'],
+        searchInVideoCompactDescription: false,
       );
 
       expect(
@@ -1786,7 +1788,7 @@ void main() {
       );
     });
     test(
-        'filter by multiple words in audio or in audio description only and sort by download date descending and duration ascending',
+        'filter by multiple words in audio title or in audio compact description and sort by download date descending and duration ascending',
         () {
       List<Audio> audioList =
           playlistListVM.getSelectedPlaylistPlayableAudios();
@@ -1869,7 +1871,7 @@ void main() {
       );
     });
     test(
-        'filter by one word in audio description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending',
+        'filter by one sentence present in audio compact description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending. Result list will be empty',
         () {
       List<Audio> audioList =
           playlistListVM.getSelectedPlaylistPlayableAudios();
@@ -1938,7 +1940,7 @@ void main() {
       );
     });
     test(
-        "filter by multiple words in 'and' mode in audio description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending",
+        "filter in 'and' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending",
         () {
       List<Audio> audioList =
           playlistListVM.getSelectedPlaylistPlayableAudios();
@@ -2012,7 +2014,7 @@ void main() {
       );
     });
     test(
-        "filter by multiple words in 'and' mode in audio description with searchInVideoCompactDescription = true and sort by download date descending and duration ascending",
+        "filter in 'and' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = true and sort by download date descending and duration ascending",
         () {
       List<Audio> audioList =
           playlistListVM.getSelectedPlaylistPlayableAudios();
@@ -2092,7 +2094,7 @@ void main() {
       );
     });
     test(
-        "filter by multiple words in 'or' mode in audio description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending",
+        "filter in 'or' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending",
         () {
       List<Audio> audioList =
           playlistListVM.getSelectedPlaylistPlayableAudios();
@@ -2179,7 +2181,7 @@ void main() {
       );
     });
     test(
-        "filter by multiple words in 'or' mode in audio description with searchInVideoCompactDescription = true and sort by download date descending and duration ascending",
+        "filter in 'or' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = true and sort by download date descending and duration ascending",
         () {
       List<Audio> audioList =
           playlistListVM.getSelectedPlaylistPlayableAudios();
