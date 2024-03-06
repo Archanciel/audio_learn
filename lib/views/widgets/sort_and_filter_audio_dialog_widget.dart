@@ -671,22 +671,6 @@ class _SortAndFilterAudioDialogWidgetState
               key: const Key('applySortFilterButton'),
               onPressed: () {
                 // Apply sorting and filtering options
-                print(
-                    'Sorting option: $_selectedSortOptionsLst[0].sortingOption');
-                print('Filter by music quality: $_filterMusicQuality');
-                print('Audio title substring: $_audioTitleSearchSentence');
-                print(
-                    'Start download date: ${(_startDownloadDateTime != null) ? _startDownloadDateTime!.toIso8601String() : ''}');
-                print(
-                    'End download date: ${(_endDownloadDateTime != null) ? _endDownloadDateTime!.toIso8601String() : ''}');
-                print(
-                    'Start upload date: ${(_startUploadDateTime != null) ? _startUploadDateTime!.toIso8601String() : ''}');
-                print(
-                    'End upload date: ${(_endUploadDateTime != null) ? _endUploadDateTime!.toIso8601String() : ''}');
-                print(
-                    'File size range: ${_startFileSizeController.text} - ${_endFileSizeController.text}');
-                print(
-                    'Audio duration range: ${_startAudioDurationController.text} - ${_endAudioDurationController.text}');
                 List<Audio> sortedAudioLstBySortingOption =
                     _filterAndSortAudioLst();
                 Navigator.of(context).pop(sortedAudioLstBySortingOption);
