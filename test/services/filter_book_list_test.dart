@@ -27,11 +27,11 @@ class Audio {
 void main() {
   Audio bookOne = Audio(
     'Sur quelle tendance crypto investir en 2024 ?',
-    'Éthique et tac vous propose de découvrir les tendances crypto en progression en 2024. Découvrez lesquelles sont les plus prometteuses et lesquelles sont à éviter.',
+    'On vous propose de découvrir les tendances crypto en progression en 2024. Découvrez lesquelles sont les plus prometteuses et lesquelles sont à éviter.',
   );
   Audio bookTwo = Audio(
-    'Tendance crypto en progression en 2024',
-    'On vous propose de découvrir les tendances crypto en progression en 2024. Découvrez lesquelles sont les plus prometteuses et lesquelles sont à éviter.',
+    'Tendance crypto en accélération en 2024',
+    'Éthique et tac vous propose de découvrir les tendances crypto en progression en 2024. Découvrez lesquelles sont les plus prometteuses et lesquelles sont à éviter.',
   );
   Audio bookThree = Audio(
     'Intelligence Artificielle: quelle menace ou opportunité en 2024 ?',
@@ -218,7 +218,8 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
   });
-  group('not ignoring case, filter audio list on validVideoTitle only test', () {
+  group('not ignoring case, filter audio list on validVideoTitle only test',
+      () {
     test('filter by <tendance crypto> AND <en 2024>', () {
       List<Audio> expectedFilteredBooks = [
         bookOne,
@@ -385,8 +386,42 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
   });
-  group('ignoring case, filter audio list on validVideoTitle or compactVideoDescription test', () {
-    test('filter by <tendance crypto> AND <en 2024>', () {
+  group(
+      'ignoring case, filter audio list on validVideoTitle or compactVideoDescription test',
+      () {
+    test('filter by <investir en 2024> AND <éthique et tac>', () {
+      List<Audio> expectedFilteredBooks = [];
+
+      List<Audio> filteredBooks = filter(
+          audiosLst: books,
+          filterSentences: [
+            'investir en 2024',
+            'éthique et tac',
+          ],
+          filterType: FilterType.AND,
+          ignoreCase: true,
+          searchInVideoCompactDescription: true);
+
+      expect(filteredBooks, expectedFilteredBooks);
+    });
+    test('filter by <accélération> AND <éthique et tac>', () {
+      List<Audio> expectedFilteredBooks = [
+        bookTwo,
+      ];
+
+      List<Audio> filteredBooks = filter(
+          audiosLst: books,
+          filterSentences: [
+            'accélération',
+            'éthique et tac',
+          ],
+          filterType: FilterType.AND,
+          ignoreCase: true,
+          searchInVideoCompactDescription: true);
+
+      expect(filteredBooks, expectedFilteredBooks);
+    });
+    test('filter by <investir en 2024> OR <éthique et tac>', () {
       List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
@@ -395,12 +430,12 @@ void main() {
       List<Audio> filteredBooks = filter(
           audiosLst: books,
           filterSentences: [
-            'tendance crypto',
-            'en 2024',
+            'investir en 2024',
+            'éthique et tac',
           ],
-          filterType: FilterType.AND,
+          filterType: FilterType.OR,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          searchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
