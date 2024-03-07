@@ -2,37 +2,37 @@ import 'package:flutter_test/flutter_test.dart';
 
 enum FilterType { AND, OR }
 
-class Book {
-  String title;
-  String summary;
+class Audio {
+  String validVideoTitle;
+  String compactVideoDescription;
 
-  Book(
-    this.title,
-    this.summary,
+  Audio(
+    this.validVideoTitle,
+    this.compactVideoDescription,
   );
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Book && other.title == title;
+    return other is Audio && other.validVideoTitle == validVideoTitle;
   }
 
   @override
   String toString() {
     // TODO: implement toString
-    return title;
+    return validVideoTitle;
   }
 }
 
 void main() {
-  Book bookOne = Book('Sur quelle tendance crypto investir en 2024 ?', '');
-  Book bookTwo = Book('Tendance crypto en progression en 2024', '');
-  Book bookThree = Book(
+  Audio bookOne = Audio('Sur quelle tendance crypto investir en 2024 ?', '');
+  Audio bookTwo = Audio('Tendance crypto en progression en 2024', '');
+  Audio bookThree = Audio(
       'Intelligence Artificielle: quelle menace ou opportunité en 2024 ?', '');
-  Book bookFour =
-      Book('Intelligence humaine ou artificielle, quelles différences ?', '');
-  List<Book> books = [
+  Audio bookFour =
+      Audio('Intelligence humaine ou artificielle, quelles différences ?', '');
+  List<Audio> books = [
     bookOne,
     bookTwo,
     bookThree,
@@ -41,12 +41,12 @@ void main() {
 
   group('ignoring case, filter book list on title test', () {
     test('filter by <tendance crypto> AND <en 2024>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'tendance crypto',
@@ -58,13 +58,13 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <tendance crypto> OR <en 2024>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
         bookThree,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'tendance crypto',
@@ -76,12 +76,12 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <en 2024> AND <tendance crypto>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'en 2024',
@@ -93,13 +93,13 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <en 2024> OR <tendance crypto>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
         bookThree,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'en 2024',
@@ -111,12 +111,12 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <quelle> AND <2024>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookThree,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'quelle',
@@ -128,14 +128,14 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <quelle> OR <2024>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
         bookThree,
         bookFour,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'quelle',
@@ -147,12 +147,12 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <2024> AND <quelle>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookThree,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             '2024',
@@ -164,14 +164,14 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <2024> OR <quelle>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
         bookThree,
         bookFour,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             '2024',
@@ -183,12 +183,12 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
       test('filter by <intelligence> OR <artificielle>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookThree,
         bookFour,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'intelligence',
@@ -202,11 +202,11 @@ void main() {
   });
   group('not ignoring case, filter book list on title test', () {
     test('filter by <tendance crypto> AND <en 2024>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'tendance crypto',
@@ -218,13 +218,13 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <tendance crypto> OR <en 2024>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
         bookThree,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'tendance crypto',
@@ -236,11 +236,11 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <en 2024> AND <tendance crypto>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'en 2024',
@@ -252,13 +252,13 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <en 2024> OR <tendance crypto>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
         bookThree,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'en 2024',
@@ -270,12 +270,12 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <quelle> AND <2024>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookThree,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'quelle',
@@ -287,14 +287,14 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <quelle> OR <2024>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
         bookThree,
         bookFour,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'quelle',
@@ -306,12 +306,12 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <2024> AND <quelle>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookThree,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             '2024',
@@ -323,11 +323,11 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <intelligence> OR <artificielle>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookFour,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             'intelligence',
@@ -339,14 +339,14 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <2024> OR <quelle>', () {
-      List<Book> expectedFilteredBooks = [
+      List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
         bookThree,
         bookFour,
       ];
 
-      List<Book> filteredBooks = filter(
+      List<Audio> filteredBooks = filter(
           booksLst: books,
           filterSentences: [
             '2024',
@@ -360,19 +360,19 @@ void main() {
   });
 }
 
-List<Book> filter({
-  required List<Book> booksLst,
+List<Audio> filter({
+  required List<Audio> booksLst,
   required List<String> filterSentences,
   required FilterType filterType,
   required bool ignoreCase,
 }) {
-  List<Book> filteredBooks = [];
-  for (Book book in booksLst) {
+  List<Audio> filteredBooks = [];
+  for (Audio book in booksLst) {
     bool isBookFiltered = false;
     for (String filterSentence in filterSentences) {
       if (ignoreCase
-          ? book.title.toLowerCase().contains(filterSentence.toLowerCase())
-          : book.title.contains(filterSentence)) {
+          ? book.validVideoTitle.toLowerCase().contains(filterSentence.toLowerCase())
+          : book.validVideoTitle.contains(filterSentence)) {
         isBookFiltered = true;
         if (filterType == FilterType.OR) {
           break;
