@@ -439,153 +439,109 @@ void main() {
 
       expect(filteredBooks, expectedFilteredBooks);
     });
-    test('filter by <tendance crypto> OR <en 2024>', () {
+    test('filter by <on vous propose> OR <en accélération>', () {
       List<Audio> expectedFilteredBooks = [
         bookOne,
         bookTwo,
-        bookThree,
       ];
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
           filterSentences: [
-            'tendance crypto',
-            'en 2024',
+            'on vous propose',
+            'en accélération',
           ],
           filterType: FilterType.OR,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          searchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
-    test('filter by <en 2024> AND <tendance crypto>', () {
-      List<Audio> expectedFilteredBooks = [
-        bookOne,
-        bookTwo,
-      ];
+  });
+  group(
+      'not ignoring case, filter audio list on validVideoTitle or compactVideoDescription test',
+      () {
+    test('filter by <investir en 2024> AND <éthique et tac>', () {
+      List<Audio> expectedFilteredBooks = [];
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
           filterSentences: [
-            'en 2024',
-            'tendance crypto',
+            'investir en 2024',
+            'éthique et tac',
           ],
           filterType: FilterType.AND,
-          ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          ignoreCase: false,
+          searchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
-    test('filter by <en 2024> OR <tendance crypto>', () {
+    test('filter by <accélération> AND <Éthique et tac>', () {
       List<Audio> expectedFilteredBooks = [
-        bookOne,
         bookTwo,
-        bookThree,
       ];
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
           filterSentences: [
-            'en 2024',
-            'tendance crypto',
-          ],
-          filterType: FilterType.OR,
-          ignoreCase: true,
-          searchInVideoCompactDescription: false);
-
-      expect(filteredBooks, expectedFilteredBooks);
-    });
-    test('filter by <quelle> AND <2024>', () {
-      List<Audio> expectedFilteredBooks = [
-        bookOne,
-        bookThree,
-      ];
-
-      List<Audio> filteredBooks = filter(
-          audiosLst: books,
-          filterSentences: [
-            'quelle',
-            '2024',
+            'accélération',
+            'Éthique et tac',
           ],
           filterType: FilterType.AND,
-          ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          ignoreCase: false,
+          searchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
-    test('filter by <quelle> OR <2024>', () {
+    test('filter by <investir en 2024> OR <Éthique et tac>', () {
       List<Audio> expectedFilteredBooks = [
         bookOne,
+        bookTwo
+      ];
+
+      List<Audio> filteredBooks = filter(
+          audiosLst: books,
+          filterSentences: [
+            'investir en 2024',
+            'Éthique et tac',
+          ],
+          filterType: FilterType.OR,
+          ignoreCase: false,
+          searchInVideoCompactDescription: true);
+
+      expect(filteredBooks, expectedFilteredBooks);
+    });
+    test('filter by <investir en 2024> OR <éthique et tac>', () {
+      List<Audio> expectedFilteredBooks = [
+        bookOne,
+      ];
+
+      List<Audio> filteredBooks = filter(
+          audiosLst: books,
+          filterSentences: [
+            'investir en 2024',
+            'éthique et tac',
+          ],
+          filterType: FilterType.OR,
+          ignoreCase: false,
+          searchInVideoCompactDescription: true);
+
+      expect(filteredBooks, expectedFilteredBooks);
+    });
+    test('filter by <on vous propose> OR <en accélération>', () {
+      List<Audio> expectedFilteredBooks = [
         bookTwo,
-        bookThree,
-        bookFour,
       ];
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
           filterSentences: [
-            'quelle',
-            '2024',
+            'on vous propose',
+            'en accélération',
           ],
           filterType: FilterType.OR,
-          ignoreCase: true,
-          searchInVideoCompactDescription: false);
-
-      expect(filteredBooks, expectedFilteredBooks);
-    });
-    test('filter by <2024> AND <quelle>', () {
-      List<Audio> expectedFilteredBooks = [
-        bookOne,
-        bookThree,
-      ];
-
-      List<Audio> filteredBooks = filter(
-          audiosLst: books,
-          filterSentences: [
-            '2024',
-            'quelle',
-          ],
-          filterType: FilterType.AND,
-          ignoreCase: true,
-          searchInVideoCompactDescription: false);
-
-      expect(filteredBooks, expectedFilteredBooks);
-    });
-    test('filter by <2024> OR <quelle>', () {
-      List<Audio> expectedFilteredBooks = [
-        bookOne,
-        bookTwo,
-        bookThree,
-        bookFour,
-      ];
-
-      List<Audio> filteredBooks = filter(
-          audiosLst: books,
-          filterSentences: [
-            '2024',
-            'quelle',
-          ],
-          filterType: FilterType.OR,
-          ignoreCase: true,
-          searchInVideoCompactDescription: false);
-
-      expect(filteredBooks, expectedFilteredBooks);
-    });
-    test('filter by <intelligence> OR <artificielle>', () {
-      List<Audio> expectedFilteredBooks = [
-        bookThree,
-        bookFour,
-      ];
-
-      List<Audio> filteredBooks = filter(
-          audiosLst: books,
-          filterSentences: [
-            'intelligence',
-            'artificielle',
-          ],
-          filterType: FilterType.OR,
-          ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          ignoreCase: false,
+          searchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
