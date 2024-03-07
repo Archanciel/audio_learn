@@ -494,10 +494,7 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <investir en 2024> OR <Éthique et tac>', () {
-      List<Audio> expectedFilteredBooks = [
-        bookOne,
-        bookTwo
-      ];
+      List<Audio> expectedFilteredBooks = [bookOne, bookTwo];
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
@@ -560,10 +557,18 @@ List<Audio> filter({
     bool isAudioFiltered = false;
     for (String filterSentence in filterSentences) {
       if (searchInVideoCompactDescription) {
-        String lowerCase = filterSentence.toLowerCase();
+        // we need to search in the valid video title as well as in the
+        // compact video description
+        String? filterSentenceInLowerCase;
+        if (ignoreCase) {
+          // computing the filter sentence in lower case makes
+          // sense when we are analysing the two fields in order
+          // to avoid computing twice the same thing
+          filterSentenceInLowerCase = filterSentence.toLowerCase();
+        }
         if (ignoreCase
-            ? audio.validVideoTitle.toLowerCase().contains(lowerCase) ||
-                audio.compactVideoDescription.toLowerCase().contains(lowerCase)
+            ? audio.validVideoTitle.toLowerCase().contains(filterSentenceInLowerCase!) ||
+                audio.compactVideoDescription.toLowerCase().contains(filterSentenceInLowerCase)
             : audio.validVideoTitle.contains(filterSentence) ||
                 audio.compactVideoDescription.contains(filterSentence)) {
           isAudioFiltered = true;
@@ -577,6 +582,7 @@ List<Audio> filter({
           }
         }
       } else {
+        // we need to search in the valid video title only
         if (ignoreCase
             ? audio.validVideoTitle
                 .toLowerCase()
