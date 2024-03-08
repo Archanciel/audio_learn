@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-enum FilterType { AND, OR }
+enum SentencesCombination { AND, OR }
 
 class Audio {
   String validVideoTitle;
@@ -57,13 +57,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'tendance crypto',
             'en 2024',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -76,13 +76,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'tendance crypto',
             'en 2024',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -94,13 +94,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'en 2024',
             'tendance crypto',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -113,13 +113,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'en 2024',
             'tendance crypto',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -131,13 +131,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'quelle',
             '2024',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -151,13 +151,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'quelle',
             '2024',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -169,13 +169,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             '2024',
             'quelle',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -189,13 +189,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             '2024',
             'quelle',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -207,13 +207,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'intelligence',
             'artificielle',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: true,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -227,13 +227,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'tendance crypto',
             'en 2024',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: false,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -246,13 +246,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'tendance crypto',
             'en 2024',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: false,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -263,13 +263,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'en 2024',
             'tendance crypto',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: false,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -282,13 +282,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'en 2024',
             'tendance crypto',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: false,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -300,13 +300,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'quelle',
             '2024',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: false,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -320,13 +320,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'quelle',
             '2024',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: false,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -338,13 +338,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             '2024',
             'quelle',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: false,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -355,13 +355,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'intelligence',
             'artificielle',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: false,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -375,13 +375,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             '2024',
             'quelle',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: false,
-          searchInVideoCompactDescription: false);
+          addSearchInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -394,13 +394,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'investir en 2024',
             'éthique et tac',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: true,
-          searchInVideoCompactDescription: true);
+          addSearchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -411,13 +411,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'accélération',
             'éthique et tac',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: true,
-          searchInVideoCompactDescription: true);
+          addSearchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -429,13 +429,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'investir en 2024',
             'éthique et tac',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: true,
-          searchInVideoCompactDescription: true);
+          addSearchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -447,13 +447,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'on vous propose',
             'en accélération',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: true,
-          searchInVideoCompactDescription: true);
+          addSearchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -466,13 +466,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'investir en 2024',
             'éthique et tac',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: false,
-          searchInVideoCompactDescription: true);
+          addSearchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -483,13 +483,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'accélération',
             'Éthique et tac',
           ],
-          filterType: FilterType.AND,
+          sentencesCombination: SentencesCombination.AND,
           ignoreCase: false,
-          searchInVideoCompactDescription: true);
+          addSearchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -498,13 +498,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'investir en 2024',
             'Éthique et tac',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: false,
-          searchInVideoCompactDescription: true);
+          addSearchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -515,13 +515,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'investir en 2024',
             'éthique et tac',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: false,
-          searchInVideoCompactDescription: true);
+          addSearchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -532,13 +532,13 @@ void main() {
 
       List<Audio> filteredBooks = filter(
           audiosLst: books,
-          filterSentences: [
+          filterSentencesLst: [
             'on vous propose',
             'en accélération',
           ],
-          filterType: FilterType.OR,
+          sentencesCombination: SentencesCombination.OR,
           ignoreCase: false,
-          searchInVideoCompactDescription: true);
+          addSearchInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -547,16 +547,16 @@ void main() {
 
 List<Audio> filter({
   required List<Audio> audiosLst,
-  required List<String> filterSentences,
-  required FilterType filterType,
+  required List<String> filterSentencesLst,
+  required SentencesCombination sentencesCombination,
   required bool ignoreCase,
-  required bool searchInVideoCompactDescription,
+  required bool addSearchInVideoCompactDescription,
 }) {
   List<Audio> filteredAudios = [];
   for (Audio audio in audiosLst) {
     bool isAudioFiltered = false;
-    for (String filterSentence in filterSentences) {
-      if (searchInVideoCompactDescription) {
+    for (String filterSentence in filterSentencesLst) {
+      if (addSearchInVideoCompactDescription) {
         // we need to search in the valid video title as well as in the
         // compact video description
         String? filterSentenceInLowerCase;
@@ -572,11 +572,11 @@ List<Audio> filter({
             : audio.validVideoTitle.contains(filterSentence) ||
                 audio.compactVideoDescription.contains(filterSentence)) {
           isAudioFiltered = true;
-          if (filterType == FilterType.OR) {
+          if (sentencesCombination == SentencesCombination.OR) {
             break;
           }
         } else {
-          if (filterType == FilterType.AND) {
+          if (sentencesCombination == SentencesCombination.AND) {
             isAudioFiltered = false;
             break;
           }
@@ -589,11 +589,11 @@ List<Audio> filter({
                 .contains(filterSentence.toLowerCase())
             : audio.validVideoTitle.contains(filterSentence)) {
           isAudioFiltered = true;
-          if (filterType == FilterType.OR) {
+          if (sentencesCombination == SentencesCombination.OR) {
             break;
           }
         } else {
-          if (filterType == FilterType.AND) {
+          if (sentencesCombination == SentencesCombination.AND) {
             isAudioFiltered = false;
             break;
           }
