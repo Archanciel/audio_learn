@@ -924,11 +924,12 @@ class _SortAndFilterAudioDialogWidgetState
     List<Audio> sortedAudioLstBySortingOption =
         AudioSortFilterService().filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
-      selectedSortOptionsLst: _selectedSortOptionsLst,
-      searchSentencesLst: _audioTitleFilterSentencesLst,
-      searchSentencesAnd: _isAnd,
+      selectedSortOptionLst: _selectedSortOptionsLst,
+      filterSentenceLst: _audioTitleFilterSentencesLst,
+      sentencesCombination:
+          (_isAnd) ? SentencesCombination.AND : SentencesCombination.OR,
       ignoreCase: _ignoreCase,
-      searchInVideoCompactDescription: _searchInVideoCompactDescription,
+      searchAsWellInVideoCompactDescription: _searchInVideoCompactDescription,
     );
 
     return sortedAudioLstBySortingOption;

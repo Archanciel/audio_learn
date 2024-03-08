@@ -818,7 +818,7 @@ void main() {
       audioSortFilterService = AudioSortFilterService();
     });
 
-    test('with search word in title only', () {
+    test('with search word present in in title only', () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
@@ -1022,8 +1022,10 @@ void main() {
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstAsc,
-        searchSentencesLst: ['Zeb'],
+        selectedSortOptionLst: selectedSortOptionsLstAsc,
+        filterSentenceLst: ['Zeb'],
+        sentencesCombination: SentencesCombination.AND,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(
@@ -1037,8 +1039,10 @@ void main() {
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDesc,
-        searchSentencesLst: ['Zeb'],
+        selectedSortOptionLst: selectedSortOptionsLstDesc,
+        filterSentenceLst: ['Zeb'],
+        sentencesCombination: SentencesCombination.AND,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(
@@ -1049,7 +1053,7 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
     });
-    test('with search word in compact description only', () {
+    test('with search word present in compact description only', () {
       final Audio zebra1 = Audio.fullConstructor(
         enclosingPlaylist: null,
         movedFromPlaylistTitle: null,
@@ -1206,9 +1210,10 @@ void main() {
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstAsc,
-        searchSentencesLst: ['Julien'],
-        searchInVideoCompactDescription: true,
+        selectedSortOptionLst: selectedSortOptionsLstAsc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(
@@ -1229,9 +1234,10 @@ void main() {
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDesc,
-        searchInVideoCompactDescription: true,
-        searchSentencesLst: ['Julien'],
+        selectedSortOptionLst: selectedSortOptionsLstDesc,
+        sentencesCombination: SentencesCombination.AND,
+        filterSentenceLst: ['Julien'],
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(
@@ -1401,9 +1407,10 @@ void main() {
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstAsc,
-        searchSentencesLst: ['Julien'],
-        searchInVideoCompactDescription: true,
+        selectedSortOptionLst: selectedSortOptionsLstAsc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(
@@ -1424,9 +1431,10 @@ void main() {
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDesc,
-        searchSentencesLst: ['Julien'],
-        searchInVideoCompactDescription: true,
+        selectedSortOptionLst: selectedSortOptionsLstDesc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(
@@ -1600,9 +1608,10 @@ void main() {
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstAsc,
-        searchSentencesLst: ['Julien'],
-        searchInVideoCompactDescription: false,
+        selectedSortOptionLst: selectedSortOptionsLstAsc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        searchAsWellInVideoCompactDescription: false,
       );
 
       expect(
@@ -1623,9 +1632,10 @@ void main() {
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDesc,
-        searchSentencesLst: ['Julien'],
-        searchInVideoCompactDescription: false,
+        selectedSortOptionLst: selectedSortOptionsLstDesc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        searchAsWellInVideoCompactDescription: false,
       );
 
       expect(
@@ -1731,11 +1741,12 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchSentencesLst: ['Jancovici'],
+        filterSentenceLst: ['Jancovici'],
+        sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
-        searchInVideoCompactDescription: true,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(
@@ -1759,11 +1770,12 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchSentencesLst: ['Janco'],
+        filterSentenceLst: ['Janco'],
+        sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
-        searchInVideoCompactDescription: true,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       List<String>
@@ -1814,13 +1826,13 @@ void main() {
 
       List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
           audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
-            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchSentencesLst: ['Éthique et tac', 'Jancovici'],
-        ignoreCase: true,
-        searchInVideoCompactDescription: true,
-      );
+              audioLst: List<Audio>.from(audioList), // copy list
+              selectedSortOptionLst:
+                  selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+              filterSentenceLst: ['Éthique et tac', 'Jancovici'],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: true);
 
       expect(
           filteredByWordAndSortedByDownloadDateDescAndDurationAsc
@@ -1842,13 +1854,13 @@ void main() {
 
       List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
           audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
-            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchSentencesLst: ['Éthique et tac', 'Jancovici'],
-        ignoreCase: true,
-        searchInVideoCompactDescription: true,
-      );
+              audioLst: List<Audio>.from(audioList), // copy list
+              selectedSortOptionLst:
+                  selectedSortOptionsLstDownloadDateAscAndDurationDesc,
+              filterSentenceLst: ['Éthique et tac', 'Jancovici'],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: true);
 
       List<String>
           expectedResultForFilterByWordAndSortByDownloadDateAscAndDurationDesc =
@@ -1891,11 +1903,11 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchSentencesLst: ['Éthique et tac'],
+        filterSentenceLst: ['Éthique et tac'],
         ignoreCase: true,
-        searchInVideoCompactDescription: false,
+        sentencesCombination: SentencesCombination.OR,
       );
 
       expect(
@@ -1919,11 +1931,11 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchSentencesLst: ['Éthique et tac'],
+        filterSentenceLst: ['Éthique et tac'],
         ignoreCase: true,
-        searchInVideoCompactDescription: false,
+        sentencesCombination: SentencesCombination.OR,
       );
 
       expect(
@@ -1960,15 +1972,15 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchSentencesLst: [
+        filterSentenceLst: [
           'Janco',
           'Éthique et tac',
         ],
-        searchSentencesAnd: true,
+        sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
-        searchInVideoCompactDescription: false,
+        searchAsWellInVideoCompactDescription: false,
       );
 
       expect(
@@ -1992,12 +2004,12 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchSentencesLst: ['Éthique et tac'],
-        searchSentencesAnd: true,
+        filterSentenceLst: ['Éthique et tac'],
+        sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
-        searchInVideoCompactDescription: false,
+        searchAsWellInVideoCompactDescription: false,
       );
 
       expect(
@@ -2034,15 +2046,15 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchSentencesLst: [
+        filterSentenceLst: [
           'Janco',
           'Éthique et tac',
         ],
-        searchSentencesAnd: true,
+        sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
-        searchInVideoCompactDescription: true,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(
@@ -2069,12 +2081,12 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchSentencesLst: ['Éthique et tac', 'Janco'],
-        searchSentencesAnd: true,
+        filterSentenceLst: ['Éthique et tac', 'Janco'],
+        sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
-        searchInVideoCompactDescription: true,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(
@@ -2114,15 +2126,15 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchSentencesLst: [
+        filterSentenceLst: [
           'Janco',
           'Roche',
         ],
-        searchSentencesAnd: false, // 'or' mode
+        sentencesCombination: SentencesCombination.OR,
         ignoreCase: true,
-        searchInVideoCompactDescription: false,
+        searchAsWellInVideoCompactDescription: false,
       );
 
       expect(
@@ -2151,15 +2163,15 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchSentencesLst: [
+        filterSentenceLst: [
           'Janco',
           'Roche',
         ],
-        searchSentencesAnd: false, // 'or' mode
+        sentencesCombination: SentencesCombination.OR,
         ignoreCase: true,
-        searchInVideoCompactDescription: false,
+        searchAsWellInVideoCompactDescription: false,
       );
 
       expect(
@@ -2201,15 +2213,15 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        searchSentencesLst: [
+        filterSentenceLst: [
           'Janco',
           'Éthique et tac',
         ],
-        searchSentencesAnd: false, // 'or' mode
+        sentencesCombination: SentencesCombination.OR,
         ignoreCase: true,
-        searchInVideoCompactDescription: true,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(
@@ -2240,12 +2252,12 @@ void main() {
       List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst:
+        selectedSortOptionLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        searchSentencesLst: ['Éthique et tac', 'Janco'],
-        searchSentencesAnd: false, // 'or' mode
+        filterSentenceLst: ['Éthique et tac', 'Janco'],
+        sentencesCombination: SentencesCombination.OR,
         ignoreCase: true,
-        searchInVideoCompactDescription: true,
+        searchAsWellInVideoCompactDescription: true,
       );
 
       expect(

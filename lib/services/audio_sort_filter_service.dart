@@ -15,6 +15,8 @@ enum SortingOption {
   videoUrl, // useful to detect audio duplicates
 }
 
+enum SentencesCombination { AND, OR }
+
 class SortingItem {
   final SortingOption sortingOption;
   bool isAscending;
@@ -393,20 +395,22 @@ class AudioSortFilterService {
 
   List<Audio> filterAndSortAudioLst({
     required List<Audio> audioLst,
-    required List<SortingItem> selectedSortOptionsLst,
-    List<String> searchSentencesLst = const [],
-    bool searchSentencesAnd = true, // if false, searchSentencesOr !
+    required List<SortingItem> selectedSortOptionLst,
+    List<String> filterSentenceLst = const [],
+    required SentencesCombination sentencesCombination,
+    // bool searchSentencesAnd = true, // if false, searchSentencesOr !
     bool ignoreCase = false,
-    bool searchInVideoCompactDescription = false,
+    bool searchAsWellInVideoCompactDescription = false,
   }) {
     List<Audio> audioLstCopy = List<Audio>.from(audioLst);
 
-    if (searchSentencesLst.isNotEmpty) {
-      if (!searchInVideoCompactDescription) {
+    if (filterSentenceLst.isNotEmpty) {
+      if (!searchAsWellInVideoCompactDescription) {
         // here, we filter by video title only
-        if (searchSentencesAnd) {
-          // handling searchSentencesAnd
-          for (String searchSentence in searchSentencesLst) {
+        if (sentencesCombination == SentencesCombination.AND) {
+          // the audio valid video title must contain all the
+          // search sentences
+          for (String searchSentence in filterSentenceLst) {
             audioLstCopy = _filterAudioLstByVideoTitleOnly(
               audioLst: audioLstCopy,
               searchWords: searchSentence,
@@ -414,10 +418,13 @@ class AudioSortFilterService {
             );
           }
         } else {
-          // handling searchSentencesOr
+          // the audio valid video title must contain
+          // at least one of the search sentences
           List<List<Audio>> lstOfSentenceAudioLst = [];
 
-          for (String searchSentence in searchSentencesLst) {
+          // NOT PERFORMANT !!!
+
+          for (String searchSentence in filterSentenceLst) {
             lstOfSentenceAudioLst.add(
               _filterAudioLstByVideoTitleOnly(
                 audioLst: audioLstCopy,
@@ -434,9 +441,11 @@ class AudioSortFilterService {
         }
       } else {
         // here, we filter by video title and by video description
-        if (searchSentencesAnd) {
-          // handling searchSentencesAnd
-          for (String searchSentence in searchSentencesLst) {
+        if (sentencesCombination == SentencesCombination.AND) {
+          // the audio valid video title or the audio
+          // compact video description must contain all
+          // the search sentences
+          for (String searchSentence in filterSentenceLst) {
             audioLstCopy = _filterAudioLstByVideoTitleOrDescription(
               audioLst: audioLstCopy,
               searchWords: searchSentence,
@@ -444,10 +453,14 @@ class AudioSortFilterService {
             );
           }
         } else {
-          // handling searchSentencesOr
+          // the audio valid video title or the audio
+          // compact video description must contain at
+          // least one of the search sentences
           List<List<Audio>> lstOfSentenceAudioLst = [];
 
-          for (String searchSentence in searchSentencesLst) {
+          // NOT PERFORMANT !!!
+
+          for (String searchSentence in filterSentenceLst) {
             lstOfSentenceAudioLst.add(
               _filterAudioLstByVideoTitleOrDescription(
                 audioLst: audioLstCopy,
@@ -467,7 +480,7 @@ class AudioSortFilterService {
 
     return sortAudioLstBySortingOptions(
       audioLst: audioLstCopy,
-      selectedSortOptionsLst: selectedSortOptionsLst,
+      selectedSortOptionsLst: selectedSortOptionLst,
     );
   }
 
