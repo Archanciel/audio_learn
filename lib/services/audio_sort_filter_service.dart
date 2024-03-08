@@ -404,85 +404,156 @@ class AudioSortFilterService {
   }) {
     List<Audio> audioLstCopy = List<Audio>.from(audioLst);
 
-    if (filterSentenceLst.isNotEmpty) {
-      if (!searchAsWellInVideoCompactDescription) {
-        // here, we filter by video title only
-        if (sentencesCombination == SentencesCombination.AND) {
-          // the audio valid video title must contain all the
-          // search sentences
-          for (String searchSentence in filterSentenceLst) {
-            audioLstCopy = _filterAudioLstByVideoTitleOnly(
-              audioLst: audioLstCopy,
-              searchWords: searchSentence,
-              ignoreCase: ignoreCase,
-            );
-          }
-        } else {
-          // the audio valid video title must contain
-          // at least one of the search sentences
-          List<List<Audio>> lstOfSentenceAudioLst = [];
+    audioLstCopy = filter(
+      audioLst: audioLstCopy,
+      filterSentenceLst: filterSentenceLst,
+      sentencesCombination: sentencesCombination,
+      ignoreCase: ignoreCase,
+      searchAsWellInVideoCompactDescription: searchAsWellInVideoCompactDescription,
+    );
+    
+    // if (filterSentenceLst.isNotEmpty) {
+    //   if (!searchAsWellInVideoCompactDescription) {
+    //     // here, we filter by video title only
+    //     if (sentencesCombination == SentencesCombination.AND) {
+    //       // the audio valid video title must contain all the
+    //       // search sentences
+    //       for (String searchSentence in filterSentenceLst) {
+    //         audioLstCopy = _filterAudioLstByVideoTitleOnly(
+    //           audioLst: audioLstCopy,
+    //           searchWords: searchSentence,
+    //           ignoreCase: ignoreCase,
+    //         );
+    //       }
+    //     } else {
+    //       // the audio valid video title must contain
+    //       // at least one of the search sentences
+    //       List<List<Audio>> lstOfSentenceAudioLst = [];
 
-          // NOT PERFORMANT !!!
+    //       // NOT PERFORMANT !!!
 
-          for (String searchSentence in filterSentenceLst) {
-            lstOfSentenceAudioLst.add(
-              _filterAudioLstByVideoTitleOnly(
-                audioLst: audioLstCopy,
-                searchWords: searchSentence,
-                ignoreCase: ignoreCase,
-              ),
-            );
-          }
+    //       for (String searchSentence in filterSentenceLst) {
+    //         lstOfSentenceAudioLst.add(
+    //           _filterAudioLstByVideoTitleOnly(
+    //             audioLst: audioLstCopy,
+    //             searchWords: searchSentence,
+    //             ignoreCase: ignoreCase,
+    //           ),
+    //         );
+    //       }
 
-          audioLstCopy = lstOfSentenceAudioLst
-              .expand((element) => element)
-              .toSet()
-              .toList();
-        }
-      } else {
-        // here, we filter by video title and by video description
-        if (sentencesCombination == SentencesCombination.AND) {
-          // the audio valid video title or the audio
-          // compact video description must contain all
-          // the search sentences
-          for (String searchSentence in filterSentenceLst) {
-            audioLstCopy = _filterAudioLstByVideoTitleOrDescription(
-              audioLst: audioLstCopy,
-              searchWords: searchSentence,
-              ignoreCase: ignoreCase,
-            );
-          }
-        } else {
-          // the audio valid video title or the audio
-          // compact video description must contain at
-          // least one of the search sentences
-          List<List<Audio>> lstOfSentenceAudioLst = [];
+    //       audioLstCopy = lstOfSentenceAudioLst
+    //           .expand((element) => element)
+    //           .toSet()
+    //           .toList();
+    //     }
+    //   } else {
+    //     // here, we filter by video title and by video description
+    //     if (sentencesCombination == SentencesCombination.AND) {
+    //       // the audio valid video title or the audio
+    //       // compact video description must contain all
+    //       // the search sentences
+    //       for (String searchSentence in filterSentenceLst) {
+    //         audioLstCopy = _filterAudioLstByVideoTitleOrDescription(
+    //           audioLst: audioLstCopy,
+    //           searchWords: searchSentence,
+    //           ignoreCase: ignoreCase,
+    //         );
+    //       }
+    //     } else {
+    //       // the audio valid video title or the audio
+    //       // compact video description must contain at
+    //       // least one of the search sentences
+    //       List<List<Audio>> lstOfSentenceAudioLst = [];
 
-          // NOT PERFORMANT !!!
+    //       // NOT PERFORMANT !!!
 
-          for (String searchSentence in filterSentenceLst) {
-            lstOfSentenceAudioLst.add(
-              _filterAudioLstByVideoTitleOrDescription(
-                audioLst: audioLstCopy,
-                searchWords: searchSentence,
-                ignoreCase: ignoreCase,
-              ),
-            );
-          }
+    //       for (String searchSentence in filterSentenceLst) {
+    //         lstOfSentenceAudioLst.add(
+    //           _filterAudioLstByVideoTitleOrDescription(
+    //             audioLst: audioLstCopy,
+    //             searchWords: searchSentence,
+    //             ignoreCase: ignoreCase,
+    //           ),
+    //         );
+    //       }
 
-          audioLstCopy = lstOfSentenceAudioLst
-              .expand((element) => element)
-              .toSet()
-              .toList();
-        }
-      }
-    }
+    //       audioLstCopy = lstOfSentenceAudioLst
+    //           .expand((element) => element)
+    //           .toSet()
+    //           .toList();
+    //     }
+    //   }
+    // }
 
     return sortAudioLstBySortingOptions(
       audioLst: audioLstCopy,
       selectedSortOptionsLst: selectedSortOptionLst,
     );
   }
+
+List<Audio> filter({
+  required List<Audio> audioLst,
+  required List<String> filterSentenceLst,
+  required SentencesCombination sentencesCombination,
+  required bool ignoreCase,
+  required bool searchAsWellInVideoCompactDescription,
+}) {
+  List<Audio> filteredAudios = [];
+  for (Audio audio in audioLst) {
+    bool isAudioFiltered = false;
+    for (String filterSentence in filterSentenceLst) {
+      if (searchAsWellInVideoCompactDescription) {
+        // we need to search in the valid video title as well as in the
+        // compact video description
+        String? filterSentenceInLowerCase;
+        if (ignoreCase) {
+          // computing the filter sentence in lower case makes
+          // sense when we are analysing the two fields in order
+          // to avoid computing twice the same thing
+          filterSentenceInLowerCase = filterSentence.toLowerCase();
+        }
+        if (ignoreCase
+            ? audio.validVideoTitle.toLowerCase().contains(filterSentenceInLowerCase!) ||
+                audio.compactVideoDescription.toLowerCase().contains(filterSentenceInLowerCase)
+            : audio.validVideoTitle.contains(filterSentence) ||
+                audio.compactVideoDescription.contains(filterSentence)) {
+          isAudioFiltered = true;
+          if (sentencesCombination == SentencesCombination.OR) {
+            break;
+          }
+        } else {
+          if (sentencesCombination == SentencesCombination.AND) {
+            isAudioFiltered = false;
+            break;
+          }
+        }
+      } else {
+        // we need to search in the valid video title only
+        if (ignoreCase
+            ? audio.validVideoTitle
+                .toLowerCase()
+                .contains(filterSentence.toLowerCase())
+            : audio.validVideoTitle.contains(filterSentence)) {
+          isAudioFiltered = true;
+          if (sentencesCombination == SentencesCombination.OR) {
+            break;
+          }
+        } else {
+          if (sentencesCombination == SentencesCombination.AND) {
+            isAudioFiltered = false;
+            break;
+          }
+        }
+      }
+    }
+    if (isAudioFiltered) {
+      filteredAudios.add(audio);
+    }
+  }
+
+  return filteredAudios;
+}
 
   List<Audio> _filterAudioLstByVideoTitleOnly({
     required List<Audio> audioLst,
