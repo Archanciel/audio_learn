@@ -268,7 +268,11 @@ class _SortAndFilterAudioDialogWidgetState
                       _buildAudioFilterSentencesLst(),
                       Row(
                         children: <Widget>[
-                          Text(AppLocalizations.of(context)!.and),
+                          Tooltip(
+                            message: AppLocalizations.of(context)!
+                                .andSentencesTooltip,
+                            child: Text(AppLocalizations.of(context)!.and),
+                          ),
                           Checkbox(
                             key: const Key('andCheckbox'),
                             fillColor: MaterialStateColor.resolveWith(
@@ -285,7 +289,11 @@ class _SortAndFilterAudioDialogWidgetState
                                     ? _toggleCheckboxAnd
                                     : null,
                           ),
-                          Text(AppLocalizations.of(context)!.or),
+                          Tooltip(
+                            message: AppLocalizations.of(context)!
+                                .orSentencesTooltip,
+                            child: Text(AppLocalizations.of(context)!.or),
+                          ),
                           Checkbox(
                             key: const Key('orCheckbox'),
                             fillColor: MaterialStateColor.resolveWith(
@@ -329,31 +337,35 @@ class _SortAndFilterAudioDialogWidgetState
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Text(AppLocalizations.of(context)!
-                              .searchInVideoCompactDescription),
-                          Checkbox(
-                            key: const Key('searchInVideoCompactDescription'),
-                            fillColor: MaterialStateColor.resolveWith(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.disabled)) {
-                                  return kDarkAndLightDisabledIconColorOnDialog;
-                                }
-                                return kDarkAndLightIconColor;
-                              },
+                      Tooltip(
+                        message: AppLocalizations.of(context)!
+                            .searchInVideoCompactDescriptionTooltip,
+                        child: Row(
+                          children: [
+                            Text(AppLocalizations.of(context)!
+                                .searchInVideoCompactDescription),
+                            Checkbox(
+                              key: const Key('searchInVideoCompactDescription'),
+                              fillColor: MaterialStateColor.resolveWith(
+                                (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.disabled)) {
+                                    return kDarkAndLightDisabledIconColorOnDialog;
+                                  }
+                                  return kDarkAndLightIconColor;
+                                },
+                              ),
+                              value: _searchInVideoCompactDescription,
+                              onChanged:
+                                  (_audioTitleFilterSentencesLst.isNotEmpty)
+                                      ? (bool? newValue) {
+                                          _modifySearchInVideoCompactDescriptionCheckbox(
+                                            newValue,
+                                          );
+                                        }
+                                      : null,
                             ),
-                            value: _searchInVideoCompactDescription,
-                            onChanged:
-                                (_audioTitleFilterSentencesLst.isNotEmpty)
-                                    ? (bool? newValue) {
-                                        _modifySearchInVideoCompactDescriptionCheckbox(
-                                          newValue,
-                                        );
-                                      }
-                                    : null,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       Row(
                         children: [
@@ -755,22 +767,26 @@ class _SortAndFilterAudioDialogWidgetState
         children: [
           SizedBox(
             width: 200,
-            child: TextField(
-              key: const Key('audioTitleSearchSentenceTextField'),
-              focusNode: _audioTitleSearchSentenceFocusNode,
-              style: kDialogTextFieldStyle,
-              decoration: _dialogTextFieldDecoration,
-              controller: _audioTitleSearchSentenceController,
-              keyboardType: TextInputType.text,
-              onChanged: (value) {
-                _audioTitleSearchSentence = value;
-                _audioTitleSearchSentencePlusButtonIconColor =
-                    _audioTitleSearchSentence.isNotEmpty
-                        ? kDarkAndLightIconColor
-                        : kDarkAndLightDisabledIconColorOnDialog;
+            child: Tooltip(
+              message: AppLocalizations.of(context)!
+                  .audioTitleSearchSentenceTextFieldTooltip,
+              child: TextField(
+                key: const Key('audioTitleSearchSentenceTextField'),
+                focusNode: _audioTitleSearchSentenceFocusNode,
+                style: kDialogTextFieldStyle,
+                decoration: _dialogTextFieldDecoration,
+                controller: _audioTitleSearchSentenceController,
+                keyboardType: TextInputType.text,
+                onChanged: (value) {
+                  _audioTitleSearchSentence = value;
+                  _audioTitleSearchSentencePlusButtonIconColor =
+                      _audioTitleSearchSentence.isNotEmpty
+                          ? kDarkAndLightIconColor
+                          : kDarkAndLightDisabledIconColorOnDialog;
 
-                setState(() {}); // necessary to update Plus button color
-              },
+                  setState(() {}); // necessary to update Plus button color
+                },
+              ),
             ),
           ),
           IconButton(

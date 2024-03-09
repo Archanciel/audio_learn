@@ -411,7 +411,7 @@ class AudioSortFilterService {
       ignoreCase: ignoreCase,
       searchAsWellInVideoCompactDescription: searchAsWellInVideoCompactDescription,
     );
-    
+
     // if (filterSentenceLst.isNotEmpty) {
     //   if (!searchAsWellInVideoCompactDescription) {
     //     // here, we filter by video title only
@@ -492,6 +492,7 @@ class AudioSortFilterService {
     );
   }
 
+/// Not private in order to be tested
 List<Audio> filter({
   required List<Audio> audioLst,
   required List<String> filterSentenceLst,
@@ -555,30 +556,30 @@ List<Audio> filter({
   return filteredAudios;
 }
 
-  List<Audio> _filterAudioLstByVideoTitleOnly({
-    required List<Audio> audioLst,
-    required String searchWords,
-    required bool ignoreCase,
-  }) {
-    RegExp searchWordsPattern = RegExp(searchWords, caseSensitive: !ignoreCase);
+  // List<Audio> _filterAudioLstByVideoTitleOnly({
+  //   required List<Audio> audioLst,
+  //   required String searchWords,
+  //   required bool ignoreCase,
+  // }) {
+  //   RegExp searchWordsPattern = RegExp(searchWords, caseSensitive: !ignoreCase);
 
-    return audioLst.where((audio) {
-      return searchWordsPattern.hasMatch(audio.validVideoTitle);
-    }).toList();
-  }
+  //   return audioLst.where((audio) {
+  //     return searchWordsPattern.hasMatch(audio.validVideoTitle);
+  //   }).toList();
+  // }
 
-  List<Audio> _filterAudioLstByVideoTitleOrDescription({
-    required List<Audio> audioLst,
-    required String searchWords,
-    required bool ignoreCase,
-  }) {
-    RegExp searchWordsPattern = RegExp(searchWords, caseSensitive: !ignoreCase);
+  // List<Audio> _filterAudioLstByVideoTitleOrDescription({
+  //   required List<Audio> audioLst,
+  //   required String searchWords,
+  //   required bool ignoreCase,
+  // }) {
+  //   RegExp searchWordsPattern = RegExp(searchWords, caseSensitive: !ignoreCase);
 
-    return audioLst.where((audio) {
-      return searchWordsPattern.hasMatch(
-          '${audio.validVideoTitle} ${audio.compactVideoDescription}');
-    }).toList();
-  }
+  //   return audioLst.where((audio) {
+  //     return searchWordsPattern.hasMatch(
+  //         '${audio.validVideoTitle} ${audio.compactVideoDescription}');
+  //   }).toList();
+  // }
 
   List<Audio> _filterAudioLstByAudioDownloadDateTime({
     required List<Audio> audioLst,

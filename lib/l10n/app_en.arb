@@ -246,5 +246,9 @@
   "setPlaylistSortFilterOptionsTooltip": "Set sort and filter options stored in playlist",
   "clickToSetAscendingOrDescendingTooltip": "Click to set ascending or descending sort order",
   "and": "And",
-  "or": "Or"
+  "or": "Or",
+  "audioTitleSearchSentenceTextFieldTooltip": "Contains a word or a sentence searched on video title and on video description if checkbox 'Include description' is set",
+  "andSentencesTooltip": "If set, only audio containing all the listed words or sentences are selected",
+  "orSentencesTooltip": "If set, audio containing one of the listed words or sentences are selected",
+  "searchInVideoCompactDescriptionTooltip": "If set, search words or sentences are searched on video description as well"
 }

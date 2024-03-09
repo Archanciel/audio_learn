@@ -247,5 +247,9 @@
   "setPlaylistSortFilterOptionsTooltip": "Définir les options de tri et de filtre stockés dans la playlist",
   "clickToSetAscendingOrDescendingTooltip": "Cliquez pour définir l'ordre de tri croissant ou décroissant",
   "and": "Et",
-  "or": "Ou"
+  "or": "Ou",
+  "audioTitleSearchSentenceTextFieldTooltip": "Contient un mot ou une phrase recherchée dans le titre de la vidéo et dans la description de la vidéo si la case 'Inclure la description' est cochée",
+  "andSentencesTooltip": "Si défini, seuls les audios contenant tous les mots ou phrases listés sont sélectionnés",
+  "orSentencesTooltip": "Si défini, les audios contenant l'un des mots ou phrases listés sont sélectionnés",
+  "searchInVideoCompactDescriptionTooltip": "Si défini, les mots ou phrases recherchés sont également cherchés dans la description de la vidéo"
 }

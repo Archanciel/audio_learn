@@ -677,10 +677,24 @@ class MockAppLocalizations extends AppLocalizations {
       'Click to set ascending or descending';
 
   @override
-  String get and =>
-      'And';
+  String get and => 'And';
 
   @override
-  String get or =>
-      'Or';
+  String get or => 'Or';
+
+  @override
+  String get audioTitleSearchSentenceTextFieldTooltip =>
+      "Contains a word or a sentence searched on video title and on video description if checkbox 'Include description' is set";
+
+  @override
+  String get andSentencesTooltip =>
+      "If set, only audio containing all the listed words or sentences are selected";
+
+  @override
+  String get orSentencesTooltip =>
+      "If set, audio containing one of the listed words or sentences are selected";
+
+  @override
+  String get searchInVideoCompactDescriptionTooltip =>
+      "If set, search words or sentences are searched on video description as well";
 }
