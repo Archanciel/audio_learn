@@ -40,26 +40,22 @@ class _SortAndFilterAudioDialogWidgetState
 
   final SortingItem _initialSortingItem = SortingItem(
     sortingOption: SortingOption.audioDownloadDateTime,
-    isAscending: AudioSortFilterService
-            .sortCriteriaForSortingOptionMap[
-                SortingOption.audioDownloadDateTime]!
-            .sortOrder ==
-        sortAscending,
+    isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
+      sortingOption: SortingOption.audioDownloadDateTime,
+    ),
   );
 
   final List<String> _audioTitleFilterSentencesLst = [];
 
   // must be initialized with a value included in the list of
   // sorting options, otherwise the dropdown button will not
-  // display any value and he app will crash
-  final List<SortingItem> _selectedSortOptionsLst = [
+  // display any value and the app will crash
+  final List<SortingItem> _selectedSortingItemLst = [
     SortingItem(
       sortingOption: SortingOption.audioDownloadDateTime,
-      isAscending: AudioSortFilterService
-              .sortCriteriaForSortingOptionMap[
-                  SortingOption.audioDownloadDateTime]!
-              .sortOrder ==
-          sortAscending,
+      isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
+        sortingOption: SortingOption.audioDownloadDateTime,
+      ),
     ),
   ];
 
@@ -132,7 +128,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _resetSortFilterOptions() {
-    _selectedSortOptionsLst[0] = _initialSortingItem;
+    _selectedSortingItemLst[0] = _initialSortingItem;
     _filterMusicQuality = false;
     _ignoreCase = true;
     _searchInVideoCompactDescription = true;
@@ -153,7 +149,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _setPlaylistSortFilterOptions() {
-    _selectedSortOptionsLst[0] = _initialSortingItem;
+    _selectedSortingItemLst[0] = _initialSortingItem;
     _filterMusicQuality = false;
     _ignoreCase = true;
     _searchInVideoCompactDescription = true;
@@ -842,12 +838,12 @@ class _SortAndFilterAudioDialogWidgetState
       width: double.maxFinite,
       child: ListView.builder(
         // controller: _scrollController,
-        itemCount: _selectedSortOptionsLst.length,
+        itemCount: _selectedSortingItemLst.length,
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             title: Text(_sortingOptionToString(
-              _selectedSortOptionsLst[index].sortingOption,
+              _selectedSortingItemLst[index].sortingOption,
               context,
             )),
             trailing: Row(
@@ -861,14 +857,14 @@ class _SortAndFilterAudioDialogWidgetState
                     onPressed: () {
                       setState(() {
                         bool isAscending =
-                            _selectedSortOptionsLst[index].isAscending;
-                        _selectedSortOptionsLst[index].isAscending =
+                            _selectedSortingItemLst[index].isAscending;
+                        _selectedSortingItemLst[index].isAscending =
                             !isAscending; // Toggle the sorting state
                       });
                     },
                     padding: const EdgeInsets.all(0),
                     icon: Icon(
-                      _selectedSortOptionsLst[index].isAscending
+                      _selectedSortingItemLst[index].isAscending
                           ? Icons.arrow_drop_up
                           : Icons.arrow_drop_down, // Conditional icon
                       size: kUpDownButtonSize,
@@ -880,8 +876,8 @@ class _SortAndFilterAudioDialogWidgetState
                   icon: const Icon(Icons.clear),
                   onPressed: () {
                     setState(() {
-                      if (_selectedSortOptionsLst.length > 1) {
-                        _selectedSortOptionsLst.removeAt(index);
+                      if (_selectedSortingItemLst.length > 1) {
+                        _selectedSortingItemLst.removeAt(index);
                       }
                     });
                   },
@@ -900,11 +896,11 @@ class _SortAndFilterAudioDialogWidgetState
       value: SortingOption.audioDownloadDateTime,
       onChanged: (SortingOption? newValue) {
         setState(() {
-          if (!_selectedSortOptionsLst
+          if (!_selectedSortingItemLst
               .any((sortingItem) => sortingItem.sortingOption == newValue)) {
-            _selectedSortOptionsLst.add(SortingItem(
+            _selectedSortingItemLst.add(SortingItem(
               sortingOption: newValue!,
-              isAscending: _audioSortFilterService.getDefaultSortOptionOrder(
+              isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
                 sortingOption: newValue,
               ),
             ));
@@ -945,7 +941,7 @@ class _SortAndFilterAudioDialogWidgetState
   List<Audio> _filterAndSortAudioLst() {
     return _audioSortFilterService.filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
-      selectedSortOptionLst: _selectedSortOptionsLst,
+      selectedSortOptionLst: _selectedSortingItemLst,
       filterSentenceLst: _audioTitleFilterSentencesLst,
       sentencesCombination:
           (_isAnd) ? SentencesCombination.AND : SentencesCombination.OR,

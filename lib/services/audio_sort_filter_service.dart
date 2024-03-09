@@ -370,7 +370,7 @@ class AudioSortFilterService {
     return audioLst;
   }
 
-  bool getDefaultSortOptionOrder({
+  static bool getDefaultSortOptionOrder({
     required SortingOption sortingOption,
   }) {
     return sortCriteriaForSortingOptionMap[sortingOption]!.sortOrder ==
