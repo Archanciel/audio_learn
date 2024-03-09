@@ -746,7 +746,7 @@ void main() {
         apple,
       ];
 
-      final List<SortingItem> selectedSortOptionsLstAsc = [
+      final List<SortingItem> selectedSortItemLstAsc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: true,
@@ -756,7 +756,7 @@ void main() {
       List<Audio> sortedByTitleAsc =
           audioSortFilterService.sortAudioLstBySortingOptions(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstAsc,
+        selectedSortItemLst: selectedSortItemLstAsc,
       );
 
       expect(
@@ -765,7 +765,7 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
-      final List<SortingItem> selectedSortOptionsLstDesc = [
+      final List<SortingItem> selectedSortItemLstDesc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: false,
@@ -775,7 +775,7 @@ void main() {
       List<Audio> sortedByTitleDesc =
           audioSortFilterService.sortAudioLstBySortingOptions(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDesc,
+        selectedSortItemLst: selectedSortItemLstDesc,
       );
 
       expect(
@@ -1230,7 +1230,7 @@ void main() {
         amenTitle,
       ];
 
-      final List<SortingItem> selectedSortOptionsLstAsc = [
+      final List<SortingItem> selectedSortItemLstAsc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: true,
@@ -1240,7 +1240,7 @@ void main() {
       List<Audio> sortedByTitleAsc =
           audioSortFilterService.sortAudioLstBySortingOptions(
         audioLst: List<Audio>.from(audioLst), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstAsc,
+        selectedSortItemLst: selectedSortItemLstAsc,
       );
 
       expect(
@@ -1249,7 +1249,7 @@ void main() {
               .map((audio) => audio!.validVideoTitle)
               .toList()));
 
-      final List<SortingItem> selectedSortOptionsLstDesc = [
+      final List<SortingItem> selectedSortItemLstDesc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: false,
@@ -1259,7 +1259,7 @@ void main() {
       List<Audio> sortedByTitleDesc =
           audioSortFilterService.sortAudioLstBySortingOptions(
         audioLst: List<Audio>.from(audioLst), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDesc,
+        selectedSortItemLst: selectedSortItemLstDesc,
       );
 
       expect(
@@ -1398,7 +1398,7 @@ void main() {
         apple,
       ];
 
-      final List<SortingItem> selectedSortOptionsLstDurationAscAndTitleAsc = [
+      final List<SortingItem> selectedSortItemLstDurationAscAndTitleAsc = [
         SortingItem(
           sortingOption: SortingOption.audioDuration,
           isAscending: true,
@@ -1412,7 +1412,7 @@ void main() {
       List<Audio> sortedByTitleAsc =
           audioSortFilterService.sortAudioLstBySortingOptions(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDurationAscAndTitleAsc,
+        selectedSortItemLst: selectedSortItemLstDurationAscAndTitleAsc,
       );
 
       expect(
@@ -1421,7 +1421,7 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
-      final List<SortingItem> selectedSortOptionsLstDurationDescAndTitleDesc = [
+      final List<SortingItem> selectedSortItemLstDurationDescAndTitleDesc = [
         SortingItem(
           sortingOption: SortingOption.audioDuration,
           isAscending: false,
@@ -1435,7 +1435,7 @@ void main() {
       List<Audio> sortedByTitleDesc =
           audioSortFilterService.sortAudioLstBySortingOptions(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDurationDescAndTitleDesc,
+        selectedSortItemLst: selectedSortItemLstDurationDescAndTitleDesc,
       );
 
       expect(
@@ -1603,7 +1603,7 @@ void main() {
         apple,
       ];
 
-      final List<SortingItem> selectedSortOptionsLstAsc = [
+      final List<SortingItem> selectedSortItemLstAsc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: true,
@@ -1613,7 +1613,7 @@ void main() {
       List<Audio> sortedByTitleAsc =
           audioSortFilterService.sortAudioLstBySortingOptions(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstAsc,
+        selectedSortItemLst: selectedSortItemLstAsc,
       );
 
       expect(
@@ -1622,7 +1622,7 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
-      final List<SortingItem> selectedSortOptionsLstDesc = [
+      final List<SortingItem> selectedSortItemLstDesc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: false,
@@ -1632,7 +1632,7 @@ void main() {
       List<Audio> sortedByTitleDesc =
           audioSortFilterService.sortAudioLstBySortingOptions(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionsLst: selectedSortOptionsLstDesc,
+        selectedSortItemLst: selectedSortItemLstDesc,
       );
 
       expect(
@@ -1653,13 +1653,19 @@ void main() {
         zebra1,
       ];
 
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstAsc,
+        filterSentenceLst: ['Zeb'],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+      );
+
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst: selectedSortOptionsLstAsc,
-        filterSentenceLst: ['Zeb'],
-        sentencesCombination: SentencesCombination.AND,
-        searchAsWellInVideoCompactDescription: true,
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -1670,13 +1676,18 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDesc,
+        filterSentenceLst: ['Zeb'],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+      );
+
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst: selectedSortOptionsLstDesc,
-        filterSentenceLst: ['Zeb'],
-        sentencesCombination: SentencesCombination.AND,
-        searchAsWellInVideoCompactDescription: true,
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -1834,20 +1845,26 @@ void main() {
         zebra1,
       ];
 
-      final List<SortingItem> selectedSortOptionsLstAsc = [
+      final List<SortingItem> selectedSortItemLstAsc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: true,
         ),
       ];
 
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstAsc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+      );
+
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst: selectedSortOptionsLstAsc,
-        filterSentenceLst: ['Julien'],
-        sentencesCombination: SentencesCombination.AND,
-        searchAsWellInVideoCompactDescription: true,
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -1858,20 +1875,25 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
-      final List<SortingItem> selectedSortOptionsLstDesc = [
+      final List<SortingItem> selectedSortItemLstDesc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: false,
         ),
       ];
 
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDesc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+      );
+
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst: selectedSortOptionsLstDesc,
-        sentencesCombination: SentencesCombination.AND,
-        filterSentenceLst: ['Julien'],
-        searchAsWellInVideoCompactDescription: true,
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2031,20 +2053,26 @@ void main() {
         apple,
       ];
 
-      final List<SortingItem> selectedSortOptionsLstAsc = [
+      final List<SortingItem> selectedSortItemLstAsc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: true,
         ),
       ];
 
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstAsc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+      );
+
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst: selectedSortOptionsLstAsc,
-        filterSentenceLst: ['Julien'],
-        sentencesCombination: SentencesCombination.AND,
-        searchAsWellInVideoCompactDescription: true,
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2055,20 +2083,25 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
-      final List<SortingItem> selectedSortOptionsLstDesc = [
+      final List<SortingItem> selectedSortItemLstDesc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: false,
         ),
       ];
 
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDesc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+      );
+
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst: selectedSortOptionsLstDesc,
-        filterSentenceLst: ['Julien'],
-        sentencesCombination: SentencesCombination.AND,
-        searchAsWellInVideoCompactDescription: true,
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2232,20 +2265,26 @@ void main() {
         apple,
       ];
 
-      final List<SortingItem> selectedSortOptionsLstAsc = [
+      final List<SortingItem> selectedSortItemLstAsc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: true,
         ),
       ];
 
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstAsc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: false,
+      );
+
       List<Audio> filteredAndSortedByTitleAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst: selectedSortOptionsLstAsc,
-        filterSentenceLst: ['Julien'],
-        sentencesCombination: SentencesCombination.AND,
-        searchAsWellInVideoCompactDescription: false,
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2256,20 +2295,25 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList()));
 
-      final List<SortingItem> selectedSortOptionsLstDesc = [
+      final List<SortingItem> selectedSortItemLstDesc = [
         SortingItem(
           sortingOption: SortingOption.validAudioTitle,
           isAscending: false,
         ),
       ];
 
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDesc,
+        filterSentenceLst: ['Julien'],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: false,
+      );
+
       List<Audio> filteredAndSortedByTitleDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst: selectedSortOptionsLstDesc,
-        filterSentenceLst: ['Julien'],
-        sentencesCombination: SentencesCombination.AND,
-        searchAsWellInVideoCompactDescription: false,
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2361,7 +2405,7 @@ void main() {
       ];
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+          selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: false,
@@ -2372,15 +2416,21 @@ void main() {
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        filterSentenceLst: ['Jancovici'],
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateDescAndDurationAsc,
+        filterSentenceLst: [
+          'Jancovici',
+        ],
         sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: true,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2390,7 +2440,7 @@ void main() {
           expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc);
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+          selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: true,
@@ -2401,15 +2451,20 @@ void main() {
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        filterSentenceLst: ['Janco'],
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateAscAndDurationDesc,
+        filterSentenceLst: [
+          'Janco',
+        ],
         sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: true,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       List<String>
@@ -2447,7 +2502,7 @@ void main() {
       ];
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+          selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: false,
@@ -2458,15 +2513,22 @@ void main() {
         ),
       ];
 
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateDescAndDurationAsc,
+        filterSentenceLst: [
+          'Éthique et tac',
+          'Jancovici',
+        ],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+      );
+
       List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
           audioSortFilterService.filterAndSortAudioLst(
               audioLst: List<Audio>.from(audioList), // copy list
-              selectedSortOptionLst:
-                  selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-              filterSentenceLst: ['Éthique et tac', 'Jancovici'],
-              sentencesCombination: SentencesCombination.AND,
-              ignoreCase: true,
-              searchAsWellInVideoCompactDescription: true);
+              audioSortFilterParameters: audioSortFilterParameters);
 
       expect(
           filteredByWordAndSortedByDownloadDateDescAndDurationAsc
@@ -2475,7 +2537,7 @@ void main() {
           expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc);
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+          selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: true,
@@ -2486,15 +2548,21 @@ void main() {
         ),
       ];
 
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateAscAndDurationDesc,
+        filterSentenceLst: [
+          'Éthique et tac',
+          'Jancovici',
+        ],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+      );
+
       List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
           audioSortFilterService.filterAndSortAudioLst(
               audioLst: List<Audio>.from(audioList), // copy list
-              selectedSortOptionLst:
-                  selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-              filterSentenceLst: ['Éthique et tac', 'Jancovici'],
-              sentencesCombination: SentencesCombination.AND,
-              ignoreCase: true,
-              searchAsWellInVideoCompactDescription: true);
+              audioSortFilterParameters: audioSortFilterParameters);
 
       List<String>
           expectedResultForFilterByWordAndSortByDownloadDateAscAndDurationDesc =
@@ -2523,7 +2591,7 @@ void main() {
           playlistListVM.getSelectedPlaylistPlayableAudios();
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+          selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: false,
@@ -2534,14 +2602,19 @@ void main() {
         ),
       ];
 
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateDescAndDurationAsc,
+        filterSentenceLst: ['Éthique et tac'],
+        sentencesCombination: SentencesCombination.OR,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: false,
+      );
+
       List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
-        filterSentenceLst: ['Éthique et tac'],
-        ignoreCase: true,
-        sentencesCombination: SentencesCombination.OR,
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2551,7 +2624,7 @@ void main() {
           []);
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+          selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: true,
@@ -2562,14 +2635,17 @@ void main() {
         ),
       ];
 
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateAscAndDurationDesc,
+        filterSentenceLst: ['Éthique et tac'],
+        sentencesCombination: SentencesCombination.OR,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: false,
+      );
       List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
           audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        filterSentenceLst: ['Éthique et tac'],
-        ignoreCase: true,
-        sentencesCombination: SentencesCombination.OR,
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2592,7 +2668,7 @@ void main() {
           playlistListVM.getSelectedPlaylistPlayableAudios();
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+          selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: false,
@@ -2603,11 +2679,9 @@ void main() {
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateDescAndDurationAsc,
         filterSentenceLst: [
           'Janco',
           'Éthique et tac',
@@ -2617,6 +2691,12 @@ void main() {
         searchAsWellInVideoCompactDescription: false,
       );
 
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
+      );
+
       expect(
           filteredByWordAndSortedByDownloadDateDescAndDurationAsc
               .map((audio) => audio.validVideoTitle)
@@ -2624,7 +2704,7 @@ void main() {
           []);
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+          selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: true,
@@ -2635,15 +2715,20 @@ void main() {
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        filterSentenceLst: ['Éthique et tac'],
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateAscAndDurationDesc,
+        filterSentenceLst: [
+          'Éthique et tac',
+        ],
         sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: false,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2666,7 +2751,7 @@ void main() {
           playlistListVM.getSelectedPlaylistPlayableAudios();
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+          selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: false,
@@ -2677,11 +2762,9 @@ void main() {
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateDescAndDurationAsc,
         filterSentenceLst: [
           'Janco',
           'Éthique et tac',
@@ -2689,6 +2772,12 @@ void main() {
         sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: true,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2701,7 +2790,7 @@ void main() {
           ]);
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+          selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: true,
@@ -2712,15 +2801,21 @@ void main() {
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        filterSentenceLst: ['Éthique et tac', 'Janco'],
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateAscAndDurationDesc,
+        filterSentenceLst: [
+          'Éthique et tac',
+          'Janco',
+        ],
         sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: true,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2746,7 +2841,7 @@ void main() {
           playlistListVM.getSelectedPlaylistPlayableAudios();
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+          selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: false,
@@ -2757,11 +2852,9 @@ void main() {
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateDescAndDurationAsc,
         filterSentenceLst: [
           'Janco',
           'Roche',
@@ -2769,6 +2862,12 @@ void main() {
         sentencesCombination: SentencesCombination.OR,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: false,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2783,7 +2882,7 @@ void main() {
           ]);
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+          selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: true,
@@ -2794,11 +2893,8 @@ void main() {
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateAscAndDurationDesc,
         filterSentenceLst: [
           'Janco',
           'Roche',
@@ -2806,6 +2902,12 @@ void main() {
         sentencesCombination: SentencesCombination.OR,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: false,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2833,7 +2935,7 @@ void main() {
           playlistListVM.getSelectedPlaylistPlayableAudios();
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+          selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: false,
@@ -2844,11 +2946,9 @@ void main() {
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateDescAndDurationAsc,
         filterSentenceLst: [
           'Janco',
           'Éthique et tac',
@@ -2856,6 +2956,12 @@ void main() {
         sentencesCombination: SentencesCombination.OR,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: true,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2872,7 +2978,7 @@ void main() {
           ]);
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+          selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: true,
@@ -2883,15 +2989,21 @@ void main() {
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
-        filterSentenceLst: ['Éthique et tac', 'Janco'],
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateAscAndDurationDesc,
+        filterSentenceLst: [
+          'Janco',
+          'Éthique et tac',
+        ],
         sentencesCombination: SentencesCombination.OR,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: true,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -2998,22 +3110,26 @@ void main() {
       ];
 
       final List<SortingItem>
-          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+          selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDateTime,
           isAscending: false,
         ),
       ];
 
-      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
-            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDownloadDateDescAndDurationAsc,
         filterSentenceLst: [],
         sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: true,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
@@ -3021,6 +3137,18 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList(),
           expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc);
+
+      final List<SortingItem>
+          selectedSortItemLstDownloadDateAscAndDurationDesc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: true,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: false,
+        ),
+      ];
 
       final List<SortingItem>
           selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
@@ -3033,16 +3161,19 @@ void main() {
           isAscending: false,
         ),
       ];
-
-      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
-          audioSortFilterService.filterAndSortAudioLst(
-        audioLst: List<Audio>.from(audioList), // copy list
-        selectedSortOptionLst:
+      audioSortFilterParameters = AudioSortFilterParameters(
+        selectedSortItemLst:
             selectedSortOptionsLstDownloadDateAscAndDurationDesc,
         filterSentenceLst: ['Janco'],
         sentencesCombination: SentencesCombination.AND,
         ignoreCase: true,
         searchAsWellInVideoCompactDescription: true,
+      );
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
       );
 
       List<String>
