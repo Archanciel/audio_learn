@@ -26,7 +26,8 @@ const int sortAscending = 1;
 const int sortDescending = -1;
 
 /// This class represent a 'Sort by:' list item added by the user in
-/// the sort and filter audio dialog.
+/// the sort and filter audio dialog. IT associates a SortingOption
+/// with a boolean indicating if the sorting is ascending or descending.
 class SortingItem {
   final SortingOption sortingOption;
   bool isAscending;
