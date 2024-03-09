@@ -911,6 +911,9 @@ class _SortAndFilterAudioDialogWidgetState
       items: SortingOption.values
           .map<DropdownMenuItem<SortingOption>>((SortingOption value) {
         return DropdownMenuItem<SortingOption>(
+          // this function is applied to every SortingOption value
+          // and returns a DropdownMenuItem widget added to the list
+          // passed to the items parameter
           value: value,
           child: Text(_sortingOptionToString(value, context)),
         );
