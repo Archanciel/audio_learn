@@ -1,7 +1,41 @@
 import '../models/audio.dart';
 
+/// This enum is used to specify how to sort the audio list.
+/// It is used in the sort and filter audio dialog.
+enum SortingOption {
+  audioDownloadDateTime,
+  videoUploadDate,
+  validAudioTitle,
+  audioEnclosingPlaylistTitle,
+  audioDuration,
+  audioFileSize,
+  audioMusicQuality,
+  audioDownloadSpeed,
+  audioDownloadDuration,
+  videoUrl, // useful to detect audio duplicates
+}
+
+/// This enum is used to specify how to combine the filter sentences
+/// specified by the user in the sort and filter audio dialog.
+enum SentencesCombination {
+  AND, // all sentences must be found
+  OR,  // at least one sentence must be found
+}
+
 const int sortAscending = 1;
 const int sortDescending = -1;
+
+/// This class represent a 'Sort by:' list item added by the user in
+/// the sort and filter audio dialog.
+class SortingItem {
+  final SortingOption sortingOption;
+  bool isAscending;
+
+  SortingItem({
+    required this.sortingOption,
+    required this.isAscending,
+  });
+}
 
 class SortCriteria<T> {
   final Comparable Function(T) selectorFunction;
@@ -13,7 +47,7 @@ class SortCriteria<T> {
   });
 }
 
-class AudioSortFilterParameters {
+class AudioSortFilterParametersFull {
   final List<SortCriteria<Audio>> sortCriteriaLst;
   final String videoTitleAndDescription;
   final bool ignoreCase;
@@ -28,7 +62,7 @@ class AudioSortFilterParameters {
   final int? durationStartRange;
   final int? durationEndRange;
 
-  AudioSortFilterParameters({
+  AudioSortFilterParametersFull({
     required this.sortCriteriaLst,
     this.videoTitleAndDescription = '',
     this.ignoreCase = true,
@@ -42,5 +76,21 @@ class AudioSortFilterParameters {
     this.fileSizeEndRange = 0, // 1 GB
     this.durationStartRange = 0,
     this.durationEndRange = 0,
+  });
+}
+
+class AudioSortFilterParameters {
+  final List<SortingItem> selectedSortOptionLst;
+  final List<String> filterSentenceLst;
+  final SentencesCombination sentencesCombination;
+  final bool ignoreCase;
+  final bool searchAsWellInVideoCompactDescription;
+
+  AudioSortFilterParameters({
+    required this.selectedSortOptionLst,
+    this.filterSentenceLst = const [],
+    required this.sentencesCombination,
+    this.ignoreCase = false,
+    this.searchAsWellInVideoCompactDescription = false,
   });
 }

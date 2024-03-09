@@ -2,31 +2,6 @@ import '../models/audio.dart';
 import '../utils/date_time_parser.dart';
 import 'sort_filter_parameters.dart';
 
-enum SortingOption {
-  audioDownloadDateTime,
-  videoUploadDate,
-  validAudioTitle,
-  audioEnclosingPlaylistTitle,
-  audioDuration,
-  audioFileSize,
-  audioMusicQuality,
-  audioDownloadSpeed,
-  audioDownloadDuration,
-  videoUrl, // useful to detect audio duplicates
-}
-
-enum SentencesCombination { AND, OR }
-
-class SortingItem {
-  final SortingOption sortingOption;
-  bool isAscending;
-
-  SortingItem({
-    required this.sortingOption,
-    required this.isAscending,
-  });
-}
-
 class AudioSortFilterService {
   static Map<SortingOption, SortCriteria<Audio>>
       sortCriteriaForSortingOptionMap = {
@@ -93,8 +68,10 @@ class AudioSortFilterService {
     ),
   };
 
-  /// This method is used to sort the audio list by the given sorting
-  /// option. It is public only in order to be tested.
+  /// Method called by filterAndSortAudioLst(). This method is used
+  /// to sort the audio list by the given sorting option.
+  /// 
+  /// Not private in order to be tested.
   List<Audio> sortAudioLstBySortingOptions({
     required List<Audio> audioLst,
     required List<SortingItem> selectedSortOptionsLst,
@@ -495,6 +472,8 @@ class AudioSortFilterService {
     );
   }
 
+  /// Method called by filterAndSortAudioLst().
+  /// 
   /// Not private in order to be tested
   List<Audio> filter({
     required List<Audio> audioLst,
