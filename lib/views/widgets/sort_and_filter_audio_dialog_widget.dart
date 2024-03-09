@@ -97,6 +97,9 @@ class _SortAndFilterAudioDialogWidgetState
   bool _isAnd = true;
   bool _isOr = false;
 
+  final AudioSortFilterService _audioSortFilterService =
+      AudioSortFilterService();
+
   @override
   void initState() {
     super.initState();
@@ -901,9 +904,9 @@ class _SortAndFilterAudioDialogWidgetState
               .any((sortingItem) => sortingItem.sortingOption == newValue)) {
             _selectedSortOptionsLst.add(SortingItem(
               sortingOption: newValue!,
-              isAscending: (AudioSortFilterService
-                      .sortCriteriaForSortingOptionMap[newValue]!.sortOrder) ==
-                  sortAscending,
+              isAscending: _audioSortFilterService.getDefaultSortOptionOrder(
+                sortingOption: newValue,
+              ),
             ));
           }
         });
@@ -940,8 +943,7 @@ class _SortAndFilterAudioDialogWidgetState
   // Method called when the user clicks on the 'Apply' button or
   // presses the Enter key on Windows
   List<Audio> _filterAndSortAudioLst() {
-    List<Audio> sortedAudioLstBySortingOption =
-        AudioSortFilterService().filterAndSortAudioLst(
+    return _audioSortFilterService.filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
       selectedSortOptionLst: _selectedSortOptionsLst,
       filterSentenceLst: _audioTitleFilterSentencesLst,
@@ -950,8 +952,6 @@ class _SortAndFilterAudioDialogWidgetState
       ignoreCase: _ignoreCase,
       searchAsWellInVideoCompactDescription: _searchInVideoCompactDescription,
     );
-
-    return sortedAudioLstBySortingOption;
   }
 }
 

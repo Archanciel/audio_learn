@@ -70,7 +70,7 @@ class AudioSortFilterService {
 
   /// Method called by filterAndSortAudioLst(). This method is used
   /// to sort the audio list by the given sorting option.
-  /// 
+  ///
   /// Not private in order to be tested.
   List<Audio> sortAudioLstBySortingOptions({
     required List<Audio> audioLst,
@@ -370,6 +370,13 @@ class AudioSortFilterService {
     return audioLst;
   }
 
+  bool getDefaultSortOptionOrder({
+    required SortingOption sortingOption,
+  }) {
+    return sortCriteriaForSortingOptionMap[sortingOption]!.sortOrder ==
+        sortAscending;
+  }
+
   List<Audio> filterAndSortAudioLst({
     required List<Audio> audioLst,
     required List<SortingItem> selectedSortOptionLst,
@@ -473,7 +480,7 @@ class AudioSortFilterService {
   }
 
   /// Method called by filterAndSortAudioLst().
-  /// 
+  ///
   /// Not private in order to be tested
   List<Audio> filter({
     required List<Audio> audioLst,
