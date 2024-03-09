@@ -477,6 +477,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               final FocusNode focusNode = FocusNode();
               showDialog(
                 context: context,
+                barrierDismissible:
+                    false, // This line prevents the dialog from closing when tapping outside
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylist:

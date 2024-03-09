@@ -280,6 +280,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               final FocusNode focusNode = FocusNode();
               showDialog(
                 context: context,
+                barrierDismissible:
+                    false, // This line prevents the dialog from closing when tapping outside
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylist:
@@ -339,15 +341,19 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         itemBuilder: (BuildContext context) {
           return [
             PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('define_sort_and_filter_audio_settings_dialog_item'),
+              key: const Key(
+                  'define_sort_and_filter_audio_settings_dialog_item'),
               value: PlaylistPopupMenuButton.defineSortFilterAudiosSettings,
-              child: Text(AppLocalizations.of(context)!.defineSortFilterAudiosSettings),
+              child: Text(
+                  AppLocalizations.of(context)!.defineSortFilterAudiosSettings),
             ),
             PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('save_sort_and_filter_audio_settings_in_playlist_item'),
+              key: const Key(
+                  'save_sort_and_filter_audio_settings_in_playlist_item'),
               value: PlaylistPopupMenuButton
                   .saveSortFilterAudiosSettingsToPlaylist,
-              child: Text(AppLocalizations.of(context)!.saveSortFilterAudiosSettingsToPlaylist),
+              child: Text(AppLocalizations.of(context)!
+                  .saveSortFilterAudiosSettingsToPlaylist),
             ),
             PopupMenuItem<PlaylistPopupMenuButton>(
               key: const Key('update_playlist_json_dialog_item'),
