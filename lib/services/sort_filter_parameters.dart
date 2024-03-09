@@ -26,7 +26,7 @@ const int sortAscending = 1;
 const int sortDescending = -1;
 
 /// This class represent a 'Sort by:' list item added by the user in
-/// the sort and filter audio dialog. IT associates a SortingOption
+/// the sort and filter audio dialog. It associates a SortingOption
 /// with a boolean indicating if the sorting is ascending or descending.
 class SortingItem {
   final SortingOption sortingOption;
@@ -81,14 +81,14 @@ class AudioSortFilterParametersFull {
 }
 
 class AudioSortFilterParameters {
-  final List<SortingItem> selectedSortOptionLst;
+  final List<SortingItem> selectedSortItemLst;
   final List<String> filterSentenceLst;
   final SentencesCombination sentencesCombination;
   final bool ignoreCase;
   final bool searchAsWellInVideoCompactDescription;
 
   AudioSortFilterParameters({
-    required this.selectedSortOptionLst,
+    required this.selectedSortItemLst,
     this.filterSentenceLst = const [],
     required this.sentencesCombination,
     this.ignoreCase = false,

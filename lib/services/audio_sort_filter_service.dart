@@ -74,12 +74,12 @@ class AudioSortFilterService {
   /// Not private in order to be tested.
   List<Audio> sortAudioLstBySortingOptions({
     required List<Audio> audioLst,
-    required List<SortingItem> selectedSortOptionsLst,
+    required List<SortingItem> selectedSortItemLst,
   }) {
     // Create a list of SortCriteria corresponding to the list of
     // selected sorting options coming from the UI.
     List<SortCriteria<Audio>> sortCriteriaLst =
-        selectedSortOptionsLst.map((sortingItem) {
+        selectedSortItemLst.map((sortingItem) {
       SortCriteria<Audio> sortCriteria =
           sortCriteriaForSortingOptionMap[sortingItem.sortingOption]!;
       sortCriteria.sortOrder =
@@ -379,23 +379,20 @@ class AudioSortFilterService {
 
   List<Audio> filterAndSortAudioLst({
     required List<Audio> audioLst,
-    required List<SortingItem> selectedSortOptionLst,
-    List<String> filterSentenceLst = const [],
-    required SentencesCombination sentencesCombination,
-    // bool searchSentencesAnd = true, // if false, searchSentencesOr !
-    bool ignoreCase = false,
-    bool searchAsWellInVideoCompactDescription = false,
+    required AudioSortFilterParameters audioSortFilterParameters,
   }) {
     List<Audio> audioLstCopy = List<Audio>.from(audioLst);
+    List<String> filterSentenceLst =
+        audioSortFilterParameters.filterSentenceLst;
 
     if (filterSentenceLst.isNotEmpty) {
       audioLstCopy = filter(
         audioLst: audioLstCopy,
         filterSentenceLst: filterSentenceLst,
-        sentencesCombination: sentencesCombination,
-        ignoreCase: ignoreCase,
+        sentencesCombination: audioSortFilterParameters.sentencesCombination,
+        ignoreCase: audioSortFilterParameters.ignoreCase,
         searchAsWellInVideoCompactDescription:
-            searchAsWellInVideoCompactDescription,
+            audioSortFilterParameters.searchAsWellInVideoCompactDescription,
       );
     }
 
@@ -475,7 +472,7 @@ class AudioSortFilterService {
 
     return sortAudioLstBySortingOptions(
       audioLst: audioLstCopy,
-      selectedSortOptionsLst: selectedSortOptionLst,
+      selectedSortItemLst: audioSortFilterParameters.selectedSortItemLst,
     );
   }
 

@@ -939,15 +939,19 @@ class _SortAndFilterAudioDialogWidgetState
   // Method called when the user clicks on the 'Apply' button or
   // presses the Enter key on Windows
   List<Audio> _filterAndSortAudioLst() {
-    return _audioSortFilterService.filterAndSortAudioLst(
-      audioLst: widget.selectedPlaylistAudioLst,
-      selectedSortOptionLst: _selectedSortingItemLst,
+    AudioSortFilterParameters audioSortFilterParameters =
+        AudioSortFilterParameters(
+      selectedSortItemLst: _selectedSortingItemLst,
       filterSentenceLst: _audioTitleFilterSentencesLst,
       sentencesCombination:
           (_isAnd) ? SentencesCombination.AND : SentencesCombination.OR,
       ignoreCase: _ignoreCase,
       searchAsWellInVideoCompactDescription: _searchInVideoCompactDescription,
     );
+
+    return _audioSortFilterService.filterAndSortAudioLst(
+      audioLst: widget.selectedPlaylistAudioLst,
+      audioSortFilterParameters: audioSortFilterParameters,);
   }
 }
 
