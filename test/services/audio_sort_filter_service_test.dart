@@ -126,7 +126,9 @@ void main() {
     audioFour,
   ];
 
-  group('filter test: ignoring case, filter audio list on validVideoTitle only test', () {
+  group(
+      'filter test: ignoring case, filter audio list on validVideoTitle only test',
+      () {
     late AudioSortFilterService audioSortFilterService;
 
     setUp(() {
@@ -301,7 +303,8 @@ void main() {
       expect(filteredBooks, expectedFilteredBooks);
     });
   });
-  group('filter test: not ignoring case, filter audio list on validVideoTitle only test',
+  group(
+      'filter test: not ignoring case, filter audio list on validVideoTitle only test',
       () {
     late AudioSortFilterService audioSortFilterService;
 
@@ -2902,6 +2905,158 @@ void main() {
             'La surpopulation mondiale par Jancovici et Barrau',
             "Jancovici m\'explique l’importance des ordres de grandeur face au changement climatique",
           ]);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+    });
+  });
+  group('bug fix', () {
+    late AudioSortFilterService audioSortFilterService;
+    late PlaylistListVM playlistListVM;
+
+    setUp(() {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_sort_filter_service_test_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      // Since we have to use a mock AudioDownloadVM to add the
+      // youtube playlist, we can not use app.main() to start the
+      // app because app.main() uses the real AudioDownloadVM
+      // and we don't want to make the main.dart file dependent
+      // of a mock class. So we have to start the app by hand.
+
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      // MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
+      //   warningMessageVM: warningMessageVM,
+      //   isTest: true,
+      // );
+      // mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
+
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+
+      // audioDownloadVM.youtubeExplode = mockYoutubeExplode;
+
+      playlistListVM = PlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      playlistListVM.getUpToDateSelectablePlaylists();
+
+      audioSortFilterService = AudioSortFilterService();
+    });
+    test(
+        'filter by no word in audio title or video compact description and sort by download date descending',
+        () {
+      List<Audio> audioList =
+          playlistListVM.getSelectedPlaylistPlayableAudios();
+
+      List<String>
+          expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc =
+          [
+        "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
+        'La surpopulation mondiale par Jancovici et Barrau',
+        'La résilience insulaire par Fiona Roche',
+        'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik',
+        'Les besoins artificiels par R.Keucheyan',
+        'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau',
+        '3 fois où un économiste m\'a ouvert les yeux (Giraud, Lefournier, Porcher)',
+      ];
+
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateDescAndDurationAsc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: false,
+        ),
+      ];
+
+      List<Audio> filteredByWordAndSortedByDownloadDateDescAndDurationAsc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionLst:
+            selectedSortOptionsLstDownloadDateDescAndDurationAsc,
+        filterSentenceLst: [],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+      );
+
+      expect(
+          filteredByWordAndSortedByDownloadDateDescAndDurationAsc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc);
+
+      final List<SortingItem>
+          selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDateTime,
+          isAscending: true,
+        ),
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: false,
+        ),
+      ];
+
+      List<Audio> filteredByWordAndSortedByDownloadDateAscAndDurationDesc =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        selectedSortOptionLst:
+            selectedSortOptionsLstDownloadDateAscAndDurationDesc,
+        filterSentenceLst: ['Janco'],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+      );
+
+      List<String>
+          expectedResultForFilterByWordAndSortByDownloadDateAscAndDurationDesc =
+          [
+        "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau",
+        "La surpopulation mondiale par Jancovici et Barrau",
+        "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
+      ];
+
+      expect(
+          filteredByWordAndSortedByDownloadDateAscAndDurationDesc
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          expectedResultForFilterByWordAndSortByDownloadDateAscAndDurationDesc);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub

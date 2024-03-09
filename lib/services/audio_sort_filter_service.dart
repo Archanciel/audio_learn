@@ -404,13 +404,16 @@ class AudioSortFilterService {
   }) {
     List<Audio> audioLstCopy = List<Audio>.from(audioLst);
 
-    audioLstCopy = filter(
-      audioLst: audioLstCopy,
-      filterSentenceLst: filterSentenceLst,
-      sentencesCombination: sentencesCombination,
-      ignoreCase: ignoreCase,
-      searchAsWellInVideoCompactDescription: searchAsWellInVideoCompactDescription,
-    );
+    if (filterSentenceLst.isNotEmpty) {
+      audioLstCopy = filter(
+        audioLst: audioLstCopy,
+        filterSentenceLst: filterSentenceLst,
+        sentencesCombination: sentencesCombination,
+        ignoreCase: ignoreCase,
+        searchAsWellInVideoCompactDescription:
+            searchAsWellInVideoCompactDescription,
+      );
+    }
 
     // if (filterSentenceLst.isNotEmpty) {
     //   if (!searchAsWellInVideoCompactDescription) {
@@ -492,69 +495,73 @@ class AudioSortFilterService {
     );
   }
 
-/// Not private in order to be tested
-List<Audio> filter({
-  required List<Audio> audioLst,
-  required List<String> filterSentenceLst,
-  required SentencesCombination sentencesCombination,
-  required bool ignoreCase,
-  required bool searchAsWellInVideoCompactDescription,
-}) {
-  List<Audio> filteredAudios = [];
-  for (Audio audio in audioLst) {
-    bool isAudioFiltered = false;
-    for (String filterSentence in filterSentenceLst) {
-      if (searchAsWellInVideoCompactDescription) {
-        // we need to search in the valid video title as well as in the
-        // compact video description
-        String? filterSentenceInLowerCase;
-        if (ignoreCase) {
-          // computing the filter sentence in lower case makes
-          // sense when we are analysing the two fields in order
-          // to avoid computing twice the same thing
-          filterSentenceInLowerCase = filterSentence.toLowerCase();
-        }
-        if (ignoreCase
-            ? audio.validVideoTitle.toLowerCase().contains(filterSentenceInLowerCase!) ||
-                audio.compactVideoDescription.toLowerCase().contains(filterSentenceInLowerCase)
-            : audio.validVideoTitle.contains(filterSentence) ||
-                audio.compactVideoDescription.contains(filterSentence)) {
-          isAudioFiltered = true;
-          if (sentencesCombination == SentencesCombination.OR) {
-            break;
+  /// Not private in order to be tested
+  List<Audio> filter({
+    required List<Audio> audioLst,
+    required List<String> filterSentenceLst,
+    required SentencesCombination sentencesCombination,
+    required bool ignoreCase,
+    required bool searchAsWellInVideoCompactDescription,
+  }) {
+    List<Audio> filteredAudios = [];
+    for (Audio audio in audioLst) {
+      bool isAudioFiltered = false;
+      for (String filterSentence in filterSentenceLst) {
+        if (searchAsWellInVideoCompactDescription) {
+          // we need to search in the valid video title as well as in the
+          // compact video description
+          String? filterSentenceInLowerCase;
+          if (ignoreCase) {
+            // computing the filter sentence in lower case makes
+            // sense when we are analysing the two fields in order
+            // to avoid computing twice the same thing
+            filterSentenceInLowerCase = filterSentence.toLowerCase();
+          }
+          if (ignoreCase
+              ? audio.validVideoTitle
+                      .toLowerCase()
+                      .contains(filterSentenceInLowerCase!) ||
+                  audio.compactVideoDescription
+                      .toLowerCase()
+                      .contains(filterSentenceInLowerCase)
+              : audio.validVideoTitle.contains(filterSentence) ||
+                  audio.compactVideoDescription.contains(filterSentence)) {
+            isAudioFiltered = true;
+            if (sentencesCombination == SentencesCombination.OR) {
+              break;
+            }
+          } else {
+            if (sentencesCombination == SentencesCombination.AND) {
+              isAudioFiltered = false;
+              break;
+            }
           }
         } else {
-          if (sentencesCombination == SentencesCombination.AND) {
-            isAudioFiltered = false;
-            break;
-          }
-        }
-      } else {
-        // we need to search in the valid video title only
-        if (ignoreCase
-            ? audio.validVideoTitle
-                .toLowerCase()
-                .contains(filterSentence.toLowerCase())
-            : audio.validVideoTitle.contains(filterSentence)) {
-          isAudioFiltered = true;
-          if (sentencesCombination == SentencesCombination.OR) {
-            break;
-          }
-        } else {
-          if (sentencesCombination == SentencesCombination.AND) {
-            isAudioFiltered = false;
-            break;
+          // we need to search in the valid video title only
+          if (ignoreCase
+              ? audio.validVideoTitle
+                  .toLowerCase()
+                  .contains(filterSentence.toLowerCase())
+              : audio.validVideoTitle.contains(filterSentence)) {
+            isAudioFiltered = true;
+            if (sentencesCombination == SentencesCombination.OR) {
+              break;
+            }
+          } else {
+            if (sentencesCombination == SentencesCombination.AND) {
+              isAudioFiltered = false;
+              break;
+            }
           }
         }
       }
+      if (isAudioFiltered) {
+        filteredAudios.add(audio);
+      }
     }
-    if (isAudioFiltered) {
-      filteredAudios.add(audio);
-    }
-  }
 
-  return filteredAudios;
-}
+    return filteredAudios;
+  }
 
   // List<Audio> _filterAudioLstByVideoTitleOnly({
   //   required List<Audio> audioLst,
