@@ -45,8 +45,6 @@ class _SortAndFilterAudioDialogWidgetState
 
   late bool _isAnd;
   late bool _isOr;
-  late bool _ignoreCase;
-  late bool _searchInVideoCompactDescription;
   late bool _filterMusicQuality;
 
   final TextEditingController _startFileSizeController =
@@ -102,9 +100,6 @@ class _SortAndFilterAudioDialogWidgetState
         widget.audioSortFilterParameters.selectedSortItemLst;
     _audioTitleFilterSentencesLst
         .addAll(widget.audioSortFilterParameters.filterSentenceLst);
-    _ignoreCase = widget.audioSortFilterParameters.ignoreCase;
-    _searchInVideoCompactDescription =
-        widget.audioSortFilterParameters.searchAsWellInVideoCompactDescription;
     _isAnd = (widget.audioSortFilterParameters.sentencesCombination ==
         SentencesCombination.AND);
     _isOr = !_isAnd;
@@ -131,8 +126,6 @@ class _SortAndFilterAudioDialogWidgetState
   void _resetSortFilterOptions() {
     _selectedSortingItemLst[0] = _initialSortingItem;
     _filterMusicQuality = false;
-    _ignoreCase = true;
-    _searchInVideoCompactDescription = true;
     _startFileSizeController.clear();
     _endFileSizeController.clear();
     _audioTitleSearchSentenceController.clear();
@@ -152,8 +145,6 @@ class _SortAndFilterAudioDialogWidgetState
   void _setPlaylistSortFilterOptions() {
     _selectedSortingItemLst[0] = _initialSortingItem;
     _filterMusicQuality = false;
-    _ignoreCase = true;
-    _searchInVideoCompactDescription = true;
     _startFileSizeController.clear();
     _endFileSizeController.clear();
     _audioTitleSearchSentenceController.clear();
@@ -325,7 +316,9 @@ class _SortAndFilterAudioDialogWidgetState
                                 return kDarkAndLightIconColor;
                               },
                             ),
-                            // value: widget.audioSortFilterParameters.ignoreCase,
+                            // fixes the ununderstandable error of checkbox
+                            // not being set to the value of the corresponding
+                            // parameter when the dialog is opened.
                             value: widget.audioSortFilterParameters.ignoreCase,
                             onChanged:
                                 (_audioTitleFilterSentencesLst.isNotEmpty)
@@ -355,8 +348,11 @@ class _SortAndFilterAudioDialogWidgetState
                                   return kDarkAndLightIconColor;
                                 },
                               ),
-                              value: widget.audioSortFilterParameters.searchAsWellInVideoCompactDescription,
-                              // value: _searchInVideoCompactDescription,
+                              // fixes the ununderstandable error of checkbox
+                              // not being set to the value of the corresponding
+                              // parameter when the dialog is opened.
+                              value: widget.audioSortFilterParameters
+                                  .searchAsWellInVideoCompactDescription,
                               onChanged:
                                   (_audioTitleFilterSentencesLst.isNotEmpty)
                                       ? (bool? newValue) {
@@ -950,7 +946,8 @@ class _SortAndFilterAudioDialogWidgetState
       sentencesCombination:
           (_isAnd) ? SentencesCombination.AND : SentencesCombination.OR,
       ignoreCase: widget.audioSortFilterParameters.ignoreCase,
-      searchAsWellInVideoCompactDescription: widget.audioSortFilterParameters.searchAsWellInVideoCompactDescription,
+      searchAsWellInVideoCompactDescription: widget
+          .audioSortFilterParameters.searchAsWellInVideoCompactDescription,
     );
 
     List<Audio> filteredAndSortedAudioLst =
