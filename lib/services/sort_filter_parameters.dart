@@ -84,8 +84,9 @@ class AudioSortFilterParameters {
   final List<SortingItem> selectedSortItemLst;
   final List<String> filterSentenceLst;
   final SentencesCombination sentencesCombination;
-  bool ignoreCase;
-  bool searchAsWellInVideoCompactDescription;
+  final bool ignoreCase;
+  final bool searchAsWellInVideoCompactDescription;
+  final bool filterMusicQuality;
 
   AudioSortFilterParameters({
     required this.selectedSortItemLst,
@@ -96,5 +97,8 @@ class AudioSortFilterParameters {
     this.searchAsWellInVideoCompactDescription = true, // when opening
     //                         the sort and filter dialog, the
     //                         corresponding checkbox is checked
+    this.filterMusicQuality = false, // when opening the sort and
+    //                         filter dialog, the corresponding
+    //                         checkbox is not checked
   });
 }
