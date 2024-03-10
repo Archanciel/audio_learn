@@ -108,8 +108,10 @@ class _SortAndFilterAudioDialogWidgetState
     _isAnd = (widget.audioSortFilterParameters.sentencesCombination ==
         SentencesCombination.AND);
     _isOr = !_isAnd;
+    _filterMusicQuality = widget.audioSortFilterParameters.filterMusicQuality;
 
-    _setPlaylistSortFilterOptions();
+    // _setPlaylistSortFilterOptions(); currently causes problem since
+    // not using playlist audioSortFilterParameters
   }
 
   @override
