@@ -8,20 +8,19 @@ import '../../constants.dart';
 import '../../services/sort_filter_parameters.dart';
 import '../screen_mixin.dart';
 import '../../models/audio.dart';
-import '../../models/playlist.dart';
 import '../../services/audio_sort_filter_service.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 
 class SortAndFilterAudioDialogWidget extends StatefulWidget {
-  final Playlist selectedPlaylist;
   final List<Audio> selectedPlaylistAudioLst;
+  AudioSortFilterParameters audioSortFilterParameters;
   final FocusNode focusNode;
 
-  const SortAndFilterAudioDialogWidget({
+  SortAndFilterAudioDialogWidget({
     super.key,
-    required this.selectedPlaylist,
     required this.selectedPlaylistAudioLst,
+    required this.audioSortFilterParameters,
     required this.focusNode,
   });
 
@@ -38,30 +37,17 @@ class _SortAndFilterAudioDialogWidgetState
     border: OutlineInputBorder(),
   );
 
-  final SortingItem _initialSortingItem = SortingItem(
-    sortingOption: SortingOption.audioDownloadDateTime,
-    isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
-      sortingOption: SortingOption.audioDownloadDateTime,
-    ),
-  );
+  late SortingItem _initialSortingItem;
 
   final List<String> _audioTitleFilterSentencesLst = [];
 
-  // must be initialized with a value included in the list of
-  // sorting options, otherwise the dropdown button will not
-  // display any value and the app will crash
-  final List<SortingItem> _selectedSortingItemLst = [
-    SortingItem(
-      sortingOption: SortingOption.audioDownloadDateTime,
-      isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
-        sortingOption: SortingOption.audioDownloadDateTime,
-      ),
-    ),
-  ];
+  late List<SortingItem> _selectedSortingItemLst;
 
-  late bool _filterMusicQuality;
+  late bool _isAnd;
+  late bool _isOr;
   late bool _ignoreCase;
   late bool _searchInVideoCompactDescription;
+  late bool _filterMusicQuality;
 
   final TextEditingController _startFileSizeController =
       TextEditingController();
@@ -90,8 +76,6 @@ class _SortAndFilterAudioDialogWidgetState
 
   Color _audioTitleSearchSentencePlusButtonIconColor =
       kDarkAndLightDisabledIconColorOnDialog;
-  bool _isAnd = true;
-  bool _isOr = false;
 
   final AudioSortFilterService _audioSortFilterService =
       AudioSortFilterService();
@@ -107,6 +91,23 @@ class _SortAndFilterAudioDialogWidgetState
         _audioTitleSearchSentenceFocusNode,
       );
     });
+
+    _initialSortingItem = SortingItem(
+      sortingOption: SortingOption.audioDownloadDateTime,
+      isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
+        sortingOption: SortingOption.audioDownloadDateTime,
+      ),
+    );
+    _selectedSortingItemLst =
+        widget.audioSortFilterParameters.selectedSortItemLst;
+    _audioTitleFilterSentencesLst
+        .addAll(widget.audioSortFilterParameters.filterSentenceLst);
+    _ignoreCase = widget.audioSortFilterParameters.ignoreCase;
+    _searchInVideoCompactDescription =
+        widget.audioSortFilterParameters.searchAsWellInVideoCompactDescription;
+    _isAnd = (widget.audioSortFilterParameters.sentencesCombination ==
+        SentencesCombination.AND);
+    _isOr = !_isAnd;
 
     _setPlaylistSortFilterOptions();
   }
@@ -215,9 +216,9 @@ class _SortAndFilterAudioDialogWidgetState
                 event.logicalKey == LogicalKeyboardKey.numpadEnter) {
               // executing the same code as in the 'Apply'
               // TextButton onPressed callback
-              List<Audio> sortedAudioLstBySortingOption =
+              List<dynamic> filterSortAudioAndParmLst =
                   _filterAndSortAudioLst();
-              Navigator.of(context).pop(sortedAudioLstBySortingOption);
+              Navigator.of(context).pop(filterSortAudioAndParmLst);
             }
           }
         },
@@ -682,9 +683,9 @@ class _SortAndFilterAudioDialogWidgetState
               key: const Key('applySortFilterButton'),
               onPressed: () {
                 // Apply sorting and filtering options
-                List<Audio> sortedAudioLstBySortingOption =
+                List<dynamic> filterSortAudioAndParmLst =
                     _filterAndSortAudioLst();
-                Navigator.of(context).pop(sortedAudioLstBySortingOption);
+                Navigator.of(context).pop(filterSortAudioAndParmLst);
               },
               child: Text(
                 AppLocalizations.of(context)!.apply,
@@ -938,9 +939,8 @@ class _SortAndFilterAudioDialogWidgetState
 
   // Method called when the user clicks on the 'Apply' button or
   // presses the Enter key on Windows
-  List<Audio> _filterAndSortAudioLst() {
-    AudioSortFilterParameters audioSortFilterParameters =
-        AudioSortFilterParameters(
+  List<dynamic> _filterAndSortAudioLst() {
+    widget.audioSortFilterParameters = AudioSortFilterParameters(
       selectedSortItemLst: _selectedSortingItemLst,
       filterSentenceLst: _audioTitleFilterSentencesLst,
       sentencesCombination:
@@ -949,9 +949,16 @@ class _SortAndFilterAudioDialogWidgetState
       searchAsWellInVideoCompactDescription: _searchInVideoCompactDescription,
     );
 
-    return _audioSortFilterService.filterAndSortAudioLst(
+    List<Audio> filteredAndSortedAudioLst =
+        _audioSortFilterService.filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
-      audioSortFilterParameters: audioSortFilterParameters,);
+      audioSortFilterParameters: widget.audioSortFilterParameters,
+    );
+
+    return [
+      filteredAndSortedAudioLst,
+      widget.audioSortFilterParameters,
+    ];
   }
 }
 

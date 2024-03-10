@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../models/audio.dart';
 import '../models/playlist.dart';
+import '../services/audio_sort_filter_service.dart';
 import '../services/json_data_service.dart';
 import '../services/settings_data_service.dart';
+import '../services/sort_filter_parameters.dart';
 import 'audio_download_vm.dart';
 import 'warning_message_vm.dart';
 
@@ -50,6 +52,7 @@ class PlaylistListVM extends ChangeNotifier {
   bool _isOnePlaylistSelected = true;
   List<Playlist> _listOfSelectablePlaylists = [];
   List<Audio>? _sortedFilteredSelectedPlaylistsPlayableAudios;
+  AudioSortFilterParameters? _audioSortFilterParameters;
 
   Playlist? _uniqueSelectedPlaylist;
   Playlist? get uniqueSelectedPlaylist => _uniqueSelectedPlaylist;
@@ -486,6 +489,36 @@ class PlaylistListVM extends ChangeNotifier {
         sortedFilteredSelectedPlaylistsPlayableAudios;
 
     notifyListeners();
+  }
+
+  /// Method called after the user clicked on the
+  /// SortAndFilterAudioDialogWidget Apply button.
+  ///
+  /// {audioSortFilterParameters} is the sort and filter
+  /// parameters selected by the user in the
+  /// SortAndFilterAudioDialogWidget.
+  void setAudioSortFilterParameters(
+      AudioSortFilterParameters audioSortFilterParameters) {
+    _audioSortFilterParameters = audioSortFilterParameters;
+  }
+
+  AudioSortFilterParameters getAudioSortFilterParameters() {
+    _audioSortFilterParameters ??= AudioSortFilterParameters(
+        selectedSortItemLst: [
+          SortingItem(
+            sortingOption: SortingOption.audioDownloadDateTime,
+            isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
+              sortingOption: SortingOption.audioDownloadDateTime,
+            ),
+          )
+        ],
+        filterSentenceLst: const [],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: false,
+        searchAsWellInVideoCompactDescription: false,
+      );
+
+    return _audioSortFilterParameters!;
   }
 
   void moveAudioToPlaylist({

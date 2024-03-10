@@ -9,6 +9,7 @@ import '../models/audio.dart';
 import '../models/playlist.dart';
 import '../services/permission_requester_service.dart';
 import '../services/settings_data_service.dart';
+import '../services/sort_filter_parameters.dart';
 import '../utils/ui_util.dart';
 import '../viewmodels/audio_download_vm.dart';
 import '../viewmodels/playlist_list_vm.dart';
@@ -481,21 +482,26 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     false, // This line prevents the dialog from closing when tapping outside
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylist:
-                        playlistListVMlistenFalse.uniqueSelectedPlaylist!,
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
                     ),
+                    audioSortFilterParameters: playlistListVMlistenFalse
+                        .getAudioSortFilterParameters(),
                     focusNode: focusNode,
                   );
                 },
-              ).then((result) {
-                if (result != null) {
-                  List<Audio> returnedAudioList = result;
+              ).then((filterSortAudioAndParmLst) {
+                if (filterSortAudioAndParmLst != null) {
+                  List<Audio> returnedAudioList = filterSortAudioAndParmLst[0];
+                  AudioSortFilterParameters audioSortFilterParameters =
+                      filterSortAudioAndParmLst[1];
                   playlistListVMlistenFalse
                       .setSortedFilteredSelectedPlaylistsPlayableAudios(
                           returnedAudioList);
+                  playlistListVMlistenFalse.setAudioSortFilterParameters(
+                    audioSortFilterParameters,
+                  );
                 }
               });
               focusNode.requestFocus();
@@ -508,12 +514,12 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylist:
-                        playlistListVMlistenFalse.uniqueSelectedPlaylist!,
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudios(
-                      subFilterAndSort: true,
+                      subFilterAndSort: false,
                     ),
+                    audioSortFilterParameters: playlistListVMlistenFalse
+                        .getAudioSortFilterParameters(),
                     focusNode: focusNode,
                   );
                 },

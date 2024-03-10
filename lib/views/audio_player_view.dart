@@ -284,12 +284,12 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     false, // This line prevents the dialog from closing when tapping outside
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylist:
-                        playlistListVMlistenFalse.uniqueSelectedPlaylist!,
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
                     ),
+                    audioSortFilterParameters: playlistListVMlistenFalse
+                        .getAudioSortFilterParameters(),
                     focusNode: focusNode,
                   );
                 },
@@ -311,12 +311,12 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 context: context,
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
-                    selectedPlaylist:
-                        playlistListVMlistenFalse.uniqueSelectedPlaylist!,
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudios(
-                      subFilterAndSort: true,
+                      subFilterAndSort: false,
                     ),
+                    audioSortFilterParameters: playlistListVMlistenFalse
+                        .getAudioSortFilterParameters(),
                     focusNode: focusNode,
                   );
                 },
