@@ -325,7 +325,8 @@ class _SortAndFilterAudioDialogWidgetState
                                 return kDarkAndLightIconColor;
                               },
                             ),
-                            value: _ignoreCase,
+                            // value: widget.audioSortFilterParameters.ignoreCase,
+                            value: widget.audioSortFilterParameters.ignoreCase,
                             onChanged:
                                 (_audioTitleFilterSentencesLst.isNotEmpty)
                                     ? (bool? newValue) {
@@ -354,7 +355,8 @@ class _SortAndFilterAudioDialogWidgetState
                                   return kDarkAndLightIconColor;
                                 },
                               ),
-                              value: _searchInVideoCompactDescription,
+                              value: widget.audioSortFilterParameters.searchAsWellInVideoCompactDescription,
+                              // value: _searchInVideoCompactDescription,
                               onChanged:
                                   (_audioTitleFilterSentencesLst.isNotEmpty)
                                       ? (bool? newValue) {
@@ -714,7 +716,9 @@ class _SortAndFilterAudioDialogWidgetState
 
   void _modifySearchInVideoCompactDescriptionCheckbox(bool? newValue) {
     setState(() {
-      _searchInVideoCompactDescription = newValue!;
+      // _searchInVideoCompactDescription = newValue!;
+      widget.audioSortFilterParameters.searchAsWellInVideoCompactDescription =
+          newValue!;
     });
 
     // now clicking on Enter works since the
@@ -724,7 +728,7 @@ class _SortAndFilterAudioDialogWidgetState
 
   void _modifyIgnoreCaseCheckBox(bool? newValue) {
     setState(() {
-      _ignoreCase = newValue!;
+      widget.audioSortFilterParameters.ignoreCase = newValue!;
     });
 
     // now clicking on Enter works since the
@@ -945,8 +949,8 @@ class _SortAndFilterAudioDialogWidgetState
       filterSentenceLst: _audioTitleFilterSentencesLst,
       sentencesCombination:
           (_isAnd) ? SentencesCombination.AND : SentencesCombination.OR,
-      ignoreCase: _ignoreCase,
-      searchAsWellInVideoCompactDescription: _searchInVideoCompactDescription,
+      ignoreCase: widget.audioSortFilterParameters.ignoreCase,
+      searchAsWellInVideoCompactDescription: widget.audioSortFilterParameters.searchAsWellInVideoCompactDescription,
     );
 
     List<Audio> filteredAndSortedAudioLst =

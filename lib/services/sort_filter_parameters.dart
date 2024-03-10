@@ -19,7 +19,7 @@ enum SortingOption {
 /// specified by the user in the sort and filter audio dialog.
 enum SentencesCombination {
   AND, // all sentences must be found
-  OR,  // at least one sentence must be found
+  OR, // at least one sentence must be found
 }
 
 const int sortAscending = 1;
@@ -84,14 +84,14 @@ class AudioSortFilterParameters {
   final List<SortingItem> selectedSortItemLst;
   final List<String> filterSentenceLst;
   final SentencesCombination sentencesCombination;
-  final bool ignoreCase;
-  final bool searchAsWellInVideoCompactDescription;
+  bool ignoreCase;
+  bool searchAsWellInVideoCompactDescription;
 
   AudioSortFilterParameters({
     required this.selectedSortItemLst,
     this.filterSentenceLst = const [],
     required this.sentencesCombination,
-    this.ignoreCase = false,
-    this.searchAsWellInVideoCompactDescription = false,
+    this.ignoreCase = true,
+    this.searchAsWellInVideoCompactDescription = true,
   });
 }

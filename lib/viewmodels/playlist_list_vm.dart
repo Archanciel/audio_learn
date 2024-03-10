@@ -514,8 +514,6 @@ class PlaylistListVM extends ChangeNotifier {
         ],
         filterSentenceLst: const [],
         sentencesCombination: SentencesCombination.AND,
-        ignoreCase: false,
-        searchAsWellInVideoCompactDescription: false,
       );
 
     return _audioSortFilterParameters!;
