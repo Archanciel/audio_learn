@@ -92,13 +92,9 @@ class AudioSortFilterParameters {
     required this.selectedSortItemLst,
     this.filterSentenceLst = const [],
     required this.sentencesCombination,
-    this.ignoreCase = true, // when opening the sort and filter dialog,
-    //                         the corresponding checkbox is checked
-    this.searchAsWellInVideoCompactDescription = true, // when opening
-    //                         the sort and filter dialog, the
-    //                         corresponding checkbox is checked
-    this.filterMusicQuality = false, // when opening the sort and
-    //                         filter dialog, the corresponding
-    //                         checkbox is not checked
+    this.ignoreCase = true, //                            when opening the sort
+    this.searchAsWellInVideoCompactDescription = true, // and filter dialog, the
+    this.filterMusicQuality = false, //                   corresponding checkbox
+    //                                                    are not checked
   });
 }
