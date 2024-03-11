@@ -128,7 +128,7 @@ void main() {
   ];
 
   group(
-      'filter test: ignoring case, filter audio list on validVideoTitle only test',
+      'filter test: ignoring case, filter audio list on validVideoTitle only',
       () {
     late AudioSortFilterService audioSortFilterService;
 
@@ -305,7 +305,7 @@ void main() {
     });
   });
   group(
-      'filter test: not ignoring case, filter audio list on validVideoTitle only test',
+      'filter test: not ignoring case, filter audio list on validVideoTitle only',
       () {
     late AudioSortFilterService audioSortFilterService;
 
@@ -556,7 +556,7 @@ void main() {
     });
   });
   group(
-      'filter test: not ignoring case, filter audio list on validVideoTitle or compactVideoDescription test',
+      'filter test: not ignoring case, filter audio list on validVideoTitle or compactVideoDescription',
       () {
     late AudioSortFilterService audioSortFilterService;
 
