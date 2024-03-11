@@ -92,6 +92,8 @@ class _SortAndFilterAudioDialogWidgetState
       );
     });
 
+    // Set the initial sort and filter fields
+
     _initialSortingItem = SortingItem(
       sortingOption: SortingOption.audioDownloadDateTime,
       isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
@@ -949,6 +951,7 @@ class _SortAndFilterAudioDialogWidgetState
           (_isAnd) ? SentencesCombination.AND : SentencesCombination.OR,
       ignoreCase: _ignoreCase,
       searchAsWellInVideoCompactDescription: _searchInVideoCompactDescription,
+      filterMusicQuality: _filterMusicQuality,
     );
 
     List<Audio> filteredAndSortedAudioLst =

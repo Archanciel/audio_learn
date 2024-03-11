@@ -386,7 +386,7 @@ class AudioSortFilterService {
         audioSortFilterParameters.filterSentenceLst;
 
     if (filterSentenceLst.isNotEmpty) {
-      audioLstCopy = filter(
+      audioLstCopy = filterOnVideoTitleAndDescriptionOptions(
         audioLst: audioLstCopy,
         filterSentenceLst: filterSentenceLst,
         sentencesCombination: audioSortFilterParameters.sentencesCombination,
@@ -396,80 +396,6 @@ class AudioSortFilterService {
       );
     }
 
-    // if (filterSentenceLst.isNotEmpty) {
-    //   if (!searchAsWellInVideoCompactDescription) {
-    //     // here, we filter by video title only
-    //     if (sentencesCombination == SentencesCombination.AND) {
-    //       // the audio valid video title must contain all the
-    //       // search sentences
-    //       for (String searchSentence in filterSentenceLst) {
-    //         audioLstCopy = _filterAudioLstByVideoTitleOnly(
-    //           audioLst: audioLstCopy,
-    //           searchWords: searchSentence,
-    //           ignoreCase: ignoreCase,
-    //         );
-    //       }
-    //     } else {
-    //       // the audio valid video title must contain
-    //       // at least one of the search sentences
-    //       List<List<Audio>> lstOfSentenceAudioLst = [];
-
-    //       // NOT PERFORMANT !!!
-
-    //       for (String searchSentence in filterSentenceLst) {
-    //         lstOfSentenceAudioLst.add(
-    //           _filterAudioLstByVideoTitleOnly(
-    //             audioLst: audioLstCopy,
-    //             searchWords: searchSentence,
-    //             ignoreCase: ignoreCase,
-    //           ),
-    //         );
-    //       }
-
-    //       audioLstCopy = lstOfSentenceAudioLst
-    //           .expand((element) => element)
-    //           .toSet()
-    //           .toList();
-    //     }
-    //   } else {
-    //     // here, we filter by video title and by video description
-    //     if (sentencesCombination == SentencesCombination.AND) {
-    //       // the audio valid video title or the audio
-    //       // compact video description must contain all
-    //       // the search sentences
-    //       for (String searchSentence in filterSentenceLst) {
-    //         audioLstCopy = _filterAudioLstByVideoTitleOrDescription(
-    //           audioLst: audioLstCopy,
-    //           searchWords: searchSentence,
-    //           ignoreCase: ignoreCase,
-    //         );
-    //       }
-    //     } else {
-    //       // the audio valid video title or the audio
-    //       // compact video description must contain at
-    //       // least one of the search sentences
-    //       List<List<Audio>> lstOfSentenceAudioLst = [];
-
-    //       // NOT PERFORMANT !!!
-
-    //       for (String searchSentence in filterSentenceLst) {
-    //         lstOfSentenceAudioLst.add(
-    //           _filterAudioLstByVideoTitleOrDescription(
-    //             audioLst: audioLstCopy,
-    //             searchWords: searchSentence,
-    //             ignoreCase: ignoreCase,
-    //           ),
-    //         );
-    //       }
-
-    //       audioLstCopy = lstOfSentenceAudioLst
-    //           .expand((element) => element)
-    //           .toSet()
-    //           .toList();
-    //     }
-    //   }
-    // }
-
     return sortAudioLstBySortingOptions(
       audioLst: audioLstCopy,
       selectedSortItemLst: audioSortFilterParameters.selectedSortItemLst,
@@ -478,8 +404,12 @@ class AudioSortFilterService {
 
   /// Method called by filterAndSortAudioLst().
   ///
+  /// This method filters the audio list by the given filter
+  /// sentences applied on the video title and the video
+  /// description if required.
+  ///
   /// Not private in order to be tested
-  List<Audio> filter({
+  List<Audio> filterOnVideoTitleAndDescriptionOptions({
     required List<Audio> audioLst,
     required List<String> filterSentenceLst,
     required SentencesCombination sentencesCombination,

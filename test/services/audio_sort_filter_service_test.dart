@@ -127,8 +127,7 @@ void main() {
     audioFour,
   ];
 
-  group(
-      'filter test: ignoring case, filter audio list on validVideoTitle only',
+  group('filter test: ignoring case, filter audio list on validVideoTitle only',
       () {
     late AudioSortFilterService audioSortFilterService;
 
@@ -141,15 +140,16 @@ void main() {
         audioTwo,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'tendance crypto',
-            'en 2024',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'tendance crypto',
+                'en 2024',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -160,15 +160,16 @@ void main() {
         audioThree,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'tendance crypto',
-            'en 2024',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'tendance crypto',
+                'en 2024',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -178,15 +179,16 @@ void main() {
         audioTwo,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'en 2024',
-            'tendance crypto',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'en 2024',
+                'tendance crypto',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -197,15 +199,16 @@ void main() {
         audioThree,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'en 2024',
-            'tendance crypto',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'en 2024',
+                'tendance crypto',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -215,15 +218,16 @@ void main() {
         audioThree,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'quelle',
-            '2024',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'quelle',
+                '2024',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -235,15 +239,16 @@ void main() {
         audioFour,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'quelle',
-            '2024',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'quelle',
+                '2024',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -253,15 +258,16 @@ void main() {
         audioThree,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            '2024',
-            'quelle',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                '2024',
+                'quelle',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -273,15 +279,16 @@ void main() {
         audioFour,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            '2024',
-            'quelle',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                '2024',
+                'quelle',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -291,15 +298,16 @@ void main() {
         audioFour,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'intelligence',
-            'artificielle',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'intelligence',
+                'artificielle',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -317,15 +325,16 @@ void main() {
         audioOne,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'tendance crypto',
-            'en 2024',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'tendance crypto',
+                'en 2024',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -336,15 +345,16 @@ void main() {
         audioThree,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'tendance crypto',
-            'en 2024',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'tendance crypto',
+                'en 2024',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -353,15 +363,16 @@ void main() {
         audioOne,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'en 2024',
-            'tendance crypto',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'en 2024',
+                'tendance crypto',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -372,15 +383,16 @@ void main() {
         audioThree,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'en 2024',
-            'tendance crypto',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'en 2024',
+                'tendance crypto',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -390,15 +402,16 @@ void main() {
         audioThree,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'quelle',
-            '2024',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'quelle',
+                '2024',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -410,15 +423,16 @@ void main() {
         audioFour,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'quelle',
-            '2024',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'quelle',
+                '2024',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -428,15 +442,16 @@ void main() {
         audioThree,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            '2024',
-            'quelle',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                '2024',
+                'quelle',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -445,15 +460,16 @@ void main() {
         audioFour,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'intelligence',
-            'artificielle',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'intelligence',
+                'artificielle',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -465,15 +481,16 @@ void main() {
         audioFour,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            '2024',
-            'quelle',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: false);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                '2024',
+                'quelle',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: false);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -489,15 +506,16 @@ void main() {
     test('filter by <investir en 2024> AND <éthique et tac>', () {
       List<Audio> expectedFilteredBooks = [];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'investir en 2024',
-            'éthique et tac',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: true);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'investir en 2024',
+                'éthique et tac',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -506,15 +524,16 @@ void main() {
         audioTwo,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'accélération',
-            'éthique et tac',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: true);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'accélération',
+                'éthique et tac',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -524,15 +543,16 @@ void main() {
         audioTwo,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'investir en 2024',
-            'éthique et tac',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: true);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'investir en 2024',
+                'éthique et tac',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -542,15 +562,16 @@ void main() {
         audioTwo,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'on vous propose',
-            'en accélération',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: true,
-          searchAsWellInVideoCompactDescription: true);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'on vous propose',
+                'en accélération',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: true,
+              searchAsWellInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -566,15 +587,16 @@ void main() {
     test('filter by <investir en 2024> AND <éthique et tac>', () {
       List<Audio> expectedFilteredBooks = [];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'investir en 2024',
-            'éthique et tac',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: true);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'investir en 2024',
+                'éthique et tac',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -583,30 +605,32 @@ void main() {
         audioTwo,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'accélération',
-            'Éthique et tac',
-          ],
-          sentencesCombination: SentencesCombination.AND,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: true);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'accélération',
+                'Éthique et tac',
+              ],
+              sentencesCombination: SentencesCombination.AND,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
     test('filter by <investir en 2024> OR <Éthique et tac>', () {
       List<Audio> expectedFilteredBooks = [audioOne, audioTwo];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'investir en 2024',
-            'Éthique et tac',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: true);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'investir en 2024',
+                'Éthique et tac',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -615,15 +639,16 @@ void main() {
         audioOne,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'investir en 2024',
-            'éthique et tac',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: true);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'investir en 2024',
+                'éthique et tac',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
@@ -632,15 +657,16 @@ void main() {
         audioTwo,
       ];
 
-      List<Audio> filteredBooks = audioSortFilterService.filter(
-          audioLst: audioLst,
-          filterSentenceLst: [
-            'on vous propose',
-            'en accélération',
-          ],
-          sentencesCombination: SentencesCombination.OR,
-          ignoreCase: false,
-          searchAsWellInVideoCompactDescription: true);
+      List<Audio> filteredBooks =
+          audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
+              audioLst: audioLst,
+              filterSentenceLst: [
+                'on vous propose',
+                'en accélération',
+              ],
+              sentencesCombination: SentencesCombination.OR,
+              ignoreCase: false,
+              searchAsWellInVideoCompactDescription: true);
 
       expect(filteredBooks, expectedFilteredBooks);
     });
