@@ -706,4 +706,13 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get audios => "audios";
+
+  @override
+  String get fullyListened => "Fully listened";
+
+  @override
+  String get partiallyListened => "Partially listened";
+
+  @override
+  String get notListened => "Not listened";
 }

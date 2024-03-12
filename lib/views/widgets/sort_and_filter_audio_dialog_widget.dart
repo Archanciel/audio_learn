@@ -42,12 +42,14 @@ class _SortAndFilterAudioDialogWidgetState
   final List<String> _audioTitleFilterSentencesLst = [];
 
   late List<SortingItem> _selectedSortingItemLst;
-
   late bool _isAnd;
   late bool _isOr;
   late bool _ignoreCase;
   late bool _searchInVideoCompactDescription;
   late bool _filterMusicQuality;
+  late bool _filterFullyListened;
+  late bool _filterPartiallyListened;
+  late bool _filterNotListened;
 
   final TextEditingController _startFileSizeController =
       TextEditingController();
@@ -111,7 +113,9 @@ class _SortAndFilterAudioDialogWidgetState
         SentencesCombination.AND);
     _isOr = !_isAnd;
     _filterMusicQuality = widget.audioSortFilterParameters.filterMusicQuality;
-
+    _filterFullyListened = true;
+    _filterPartiallyListened = true;
+    _filterNotListened = true;
     // _setPlaylistSortFilterOptions(); currently causes problem since
     // not using playlist audioSortFilterParameters
   }
@@ -371,204 +375,8 @@ class _SortAndFilterAudioDialogWidgetState
                           ],
                         ),
                       ),
-                      Row(
-                        children: [
-                          Text(AppLocalizations.of(context)!.audioMusicQuality),
-                          Checkbox(
-                            key: const Key('filterMusicQualityCheckbox'),
-                            value: _filterMusicQuality,
-                            onChanged: (bool? newValue) {
-                              setState(() {
-                                _filterMusicQuality = newValue!;
-                              });
-
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              _audioTitleSearchSentenceFocusNode.requestFocus();
-                            },
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 104,
-                            child: Text(AppLocalizations.of(context)!
-                                .startDownloadDate),
-                          ),
-                          IconButton(
-                            key: const Key('startDownloadDateIconButton'),
-                            icon: const Icon(Icons.calendar_month_rounded),
-                            onPressed: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: now,
-                                firstDate: DateTime(2000),
-                                lastDate: now,
-                              );
-
-                              if (pickedDate != null) {
-                                // Add this check
-                                _startDownloadDateTime = pickedDate;
-                                _startDownloadDateTimeController.text =
-                                    DateFormat('dd-MM-yyyy')
-                                        .format(_startDownloadDateTime!);
-                              }
-
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              _audioTitleSearchSentenceFocusNode.requestFocus();
-                            },
-                          ),
-                          SizedBox(
-                            width: 80,
-                            height: kDialogTextFieldHeight,
-                            child: TextField(
-                              key: const Key('startDownloadDateTextField'),
-                              style: kDialogTextFieldStyle,
-                              decoration: _dialogTextFieldDecoration,
-                              controller: _startDownloadDateTimeController,
-                              keyboardType: TextInputType.number,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 104,
-                            child: Text(
-                                AppLocalizations.of(context)!.endDownloadDate),
-                          ),
-                          IconButton(
-                            key: const Key('endDownloadDateIconButton'),
-                            icon: const Icon(Icons.calendar_month_rounded),
-                            onPressed: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: now,
-                                firstDate: DateTime(2000),
-                                lastDate: now,
-                              );
-
-                              if (pickedDate != null) {
-                                // Add this check
-                                _endDownloadDateTime = pickedDate;
-                                _endDownloadDateTimeController.text =
-                                    DateFormat('dd-MM-yyyy')
-                                        .format(_endDownloadDateTime!);
-                              }
-
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              _audioTitleSearchSentenceFocusNode.requestFocus();
-                            },
-                          ),
-                          SizedBox(
-                            width: 80,
-                            height: kDialogTextFieldHeight,
-                            child: TextField(
-                              key: const Key('endDownloadDateTextField'),
-                              style: kDialogTextFieldStyle,
-                              decoration: _dialogTextFieldDecoration,
-                              controller: _endDownloadDateTimeController,
-                              keyboardType: TextInputType.number,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 104,
-                            child: Text(
-                                AppLocalizations.of(context)!.startUploadDate),
-                          ),
-                          IconButton(
-                            key: const Key('startUploadDateIconButton'),
-                            icon: const Icon(Icons.calendar_month_rounded),
-                            onPressed: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: now,
-                                firstDate: DateTime(2000),
-                                lastDate: now,
-                              );
-
-                              if (pickedDate != null) {
-                                // Add this check
-                                _startUploadDateTime = pickedDate;
-                                _startUploadDateTimeController.text =
-                                    DateFormat('dd-MM-yyyy')
-                                        .format(_startUploadDateTime!);
-                              }
-
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              _audioTitleSearchSentenceFocusNode.requestFocus();
-                            },
-                          ),
-                          SizedBox(
-                            width: 80,
-                            height: kDialogTextFieldHeight,
-                            child: TextField(
-                              key: const Key('startUploadDateTextField'),
-                              style: kDialogTextFieldStyle,
-                              decoration: _dialogTextFieldDecoration,
-                              controller: _startUploadDateTimeController,
-                              keyboardType: TextInputType.number,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 104,
-                            child: Text(
-                                AppLocalizations.of(context)!.endUploadDate),
-                          ),
-                          IconButton(
-                            key: const Key('endUploadDateIconButton'),
-                            icon: const Icon(Icons.calendar_month_rounded),
-                            onPressed: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: now,
-                                firstDate: DateTime(2000),
-                                lastDate: now,
-                              );
-
-                              if (pickedDate != null) {
-                                // Add this check
-                                _endUploadDateTime = pickedDate;
-                                _endUploadDateTimeController.text =
-                                    DateFormat('dd-MM-yyyy')
-                                        .format(_endUploadDateTime!);
-                              }
-
-                              // now clicking on Enter works since the
-                              // Checkbox is not focused anymore
-                              _audioTitleSearchSentenceFocusNode.requestFocus();
-                            },
-                          ),
-                          SizedBox(
-                            key: const Key('endUploadDateTextField'),
-                            width: 80,
-                            height: kDialogTextFieldHeight,
-                            child: TextField(
-                              style: kDialogTextFieldStyle,
-                              decoration: _dialogTextFieldDecoration,
-                              controller: _endUploadDateTimeController,
-                              keyboardType: TextInputType.number,
-                            ),
-                          ),
-                        ],
-                      ),
+                      _buildAudioStateCheckboxes(context),
+                      _buildAudioDateFields(context, now),
                       const SizedBox(
                         height: 10,
                       ),
@@ -713,6 +521,264 @@ class _SortAndFilterAudioDialogWidgetState
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildAudioDateFields(BuildContext context, DateTime now) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 104,
+              child: Text(AppLocalizations.of(context)!.startDownloadDate),
+            ),
+            IconButton(
+              key: const Key('startDownloadDateIconButton'),
+              icon: const Icon(Icons.calendar_month_rounded),
+              onPressed: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: now,
+                  firstDate: DateTime(2000),
+                  lastDate: now,
+                );
+
+                if (pickedDate != null) {
+                  // Add this check
+                  _startDownloadDateTime = pickedDate;
+                  _startDownloadDateTimeController.text =
+                      DateFormat('dd-MM-yyyy').format(_startDownloadDateTime!);
+                }
+
+                // now clicking on Enter works since the
+                // Checkbox is not focused anymore
+                _audioTitleSearchSentenceFocusNode.requestFocus();
+              },
+            ),
+            SizedBox(
+              width: 80,
+              height: kDialogTextFieldHeight,
+              child: TextField(
+                key: const Key('startDownloadDateTextField'),
+                style: kDialogTextFieldStyle,
+                decoration: _dialogTextFieldDecoration,
+                controller: _startDownloadDateTimeController,
+                keyboardType: TextInputType.number,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 104,
+              child: Text(AppLocalizations.of(context)!.endDownloadDate),
+            ),
+            IconButton(
+              key: const Key('endDownloadDateIconButton'),
+              icon: const Icon(Icons.calendar_month_rounded),
+              onPressed: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: now,
+                  firstDate: DateTime(2000),
+                  lastDate: now,
+                );
+
+                if (pickedDate != null) {
+                  // Add this check
+                  _endDownloadDateTime = pickedDate;
+                  _endDownloadDateTimeController.text =
+                      DateFormat('dd-MM-yyyy').format(_endDownloadDateTime!);
+                }
+
+                // now clicking on Enter works since the
+                // Checkbox is not focused anymore
+                _audioTitleSearchSentenceFocusNode.requestFocus();
+              },
+            ),
+            SizedBox(
+              width: 80,
+              height: kDialogTextFieldHeight,
+              child: TextField(
+                key: const Key('endDownloadDateTextField'),
+                style: kDialogTextFieldStyle,
+                decoration: _dialogTextFieldDecoration,
+                controller: _endDownloadDateTimeController,
+                keyboardType: TextInputType.number,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 104,
+              child: Text(AppLocalizations.of(context)!.startUploadDate),
+            ),
+            IconButton(
+              key: const Key('startUploadDateIconButton'),
+              icon: const Icon(Icons.calendar_month_rounded),
+              onPressed: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: now,
+                  firstDate: DateTime(2000),
+                  lastDate: now,
+                );
+
+                if (pickedDate != null) {
+                  // Add this check
+                  _startUploadDateTime = pickedDate;
+                  _startUploadDateTimeController.text =
+                      DateFormat('dd-MM-yyyy').format(_startUploadDateTime!);
+                }
+
+                // now clicking on Enter works since the
+                // Checkbox is not focused anymore
+                _audioTitleSearchSentenceFocusNode.requestFocus();
+              },
+            ),
+            SizedBox(
+              width: 80,
+              height: kDialogTextFieldHeight,
+              child: TextField(
+                key: const Key('startUploadDateTextField'),
+                style: kDialogTextFieldStyle,
+                decoration: _dialogTextFieldDecoration,
+                controller: _startUploadDateTimeController,
+                keyboardType: TextInputType.number,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 104,
+              child: Text(AppLocalizations.of(context)!.endUploadDate),
+            ),
+            IconButton(
+              key: const Key('endUploadDateIconButton'),
+              icon: const Icon(Icons.calendar_month_rounded),
+              onPressed: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: now,
+                  firstDate: DateTime(2000),
+                  lastDate: now,
+                );
+
+                if (pickedDate != null) {
+                  // Add this check
+                  _endUploadDateTime = pickedDate;
+                  _endUploadDateTimeController.text =
+                      DateFormat('dd-MM-yyyy').format(_endUploadDateTime!);
+                }
+
+                // now clicking on Enter works since the
+                // Checkbox is not focused anymore
+                _audioTitleSearchSentenceFocusNode.requestFocus();
+              },
+            ),
+            SizedBox(
+              key: const Key('endUploadDateTextField'),
+              width: 80,
+              height: kDialogTextFieldHeight,
+              child: TextField(
+                style: kDialogTextFieldStyle,
+                decoration: _dialogTextFieldDecoration,
+                controller: _endUploadDateTimeController,
+                keyboardType: TextInputType.number,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAudioStateCheckboxes(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(AppLocalizations.of(context)!.audioMusicQuality),
+            Checkbox(
+              key: const Key('filterMusicQualityCheckbox'),
+              value: _filterMusicQuality,
+              onChanged: (bool? newValue) {
+                setState(() {
+                  _filterMusicQuality = newValue!;
+                });
+
+                // now clicking on Enter works since the
+                // Checkbox is not focused anymore
+                _audioTitleSearchSentenceFocusNode.requestFocus();
+              },
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Text(AppLocalizations.of(context)!.fullyListened),
+            Checkbox(
+              key: const Key('filterFullyListenedCheckbox'),
+              value: _filterFullyListened,
+              onChanged: (bool? newValue) {
+                setState(() {
+                  _filterFullyListened = newValue!;
+                });
+
+                // now clicking on Enter works since the
+                // Checkbox is not focused anymore
+                _audioTitleSearchSentenceFocusNode.requestFocus();
+              },
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Text(AppLocalizations.of(context)!.partiallyListened),
+            Checkbox(
+              key: const Key('filterPartiallyListenedCheckbox'),
+              value: _filterPartiallyListened,
+              onChanged: (bool? newValue) {
+                setState(() {
+                  _filterPartiallyListened = newValue!;
+                });
+
+                // now clicking on Enter works since the
+                // Checkbox is not focused anymore
+                _audioTitleSearchSentenceFocusNode.requestFocus();
+              },
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Text(AppLocalizations.of(context)!.notListened),
+            Checkbox(
+              key: const Key('filterNotListenedCheckbox'),
+              value: _filterNotListened,
+              onChanged: (bool? newValue) {
+                setState(() {
+                  _filterNotListened = newValue!;
+                });
+
+                // now clicking on Enter works since the
+                // Checkbox is not focused anymore
+                _audioTitleSearchSentenceFocusNode.requestFocus();
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 
