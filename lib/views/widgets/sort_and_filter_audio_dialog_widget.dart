@@ -113,9 +113,9 @@ class _SortAndFilterAudioDialogWidgetState
         SentencesCombination.AND);
     _isOr = !_isAnd;
     _filterMusicQuality = widget.audioSortFilterParameters.filterMusicQuality;
-    _filterFullyListened = true;
-    _filterPartiallyListened = true;
-    _filterNotListened = true;
+    _filterFullyListened = widget.audioSortFilterParameters.filterFullyListened;
+    _filterPartiallyListened = widget.audioSortFilterParameters.filterPartiallyListened;
+    _filterNotListened = widget.audioSortFilterParameters.filterNotListened;
     // _setPlaylistSortFilterOptions(); currently causes problem since
     // not using playlist audioSortFilterParameters
   }
@@ -1018,6 +1018,9 @@ class _SortAndFilterAudioDialogWidgetState
       ignoreCase: _ignoreCase,
       searchAsWellInVideoCompactDescription: _searchInVideoCompactDescription,
       filterMusicQuality: _filterMusicQuality,
+      filterFullyListened: _filterFullyListened,
+      filterPartiallyListened: _filterPartiallyListened,
+      filterNotListened: _filterNotListened,
     );
 
     List<Audio> filteredAndSortedAudioLst =

@@ -55,6 +55,10 @@ class AudioSortFilterParameters {
   final bool ignoreCase;
   final bool searchAsWellInVideoCompactDescription;
   final bool filterMusicQuality;
+final bool filterFullyListened;
+    final bool filterPartiallyListened;
+    final bool filterNotListened;
+
   final DateTime? downloadDateStartRange;
   final DateTime? downloadDateEndRange;
   final DateTime? uploadDateStartRange;
@@ -71,6 +75,9 @@ class AudioSortFilterParameters {
     this.ignoreCase = true, //                  when opening the sort and filter
     this.searchAsWellInVideoCompactDescription = true, // dialog, corresponding
     this.filterMusicQuality = false, //         checkbox's are not checked
+    this.filterFullyListened = true,
+    this.filterPartiallyListened = true,
+    this.filterNotListened = true,
     this.downloadDateStartRange,
     this.downloadDateEndRange,
     this.uploadDateStartRange,
