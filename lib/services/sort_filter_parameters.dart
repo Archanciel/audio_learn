@@ -48,38 +48,6 @@ class SortCriteria<T> {
   });
 }
 
-class AudioSortFilterParametersFull {
-  final List<SortCriteria<Audio>> sortCriteriaLst;
-  final String videoTitleAndDescription;
-  final bool ignoreCase;
-  final bool includeDescription;
-  final bool audioMusicQuality;
-  final DateTime? downloadDateStartRange;
-  final DateTime? downloadDateEndRange;
-  final DateTime? uploadDateStartRange;
-  final DateTime? uploadDateEndRange;
-  final int fileSizeStartRange;
-  final int? fileSizeEndRange;
-  final int? durationStartRange;
-  final int? durationEndRange;
-
-  AudioSortFilterParametersFull({
-    required this.sortCriteriaLst,
-    this.videoTitleAndDescription = '',
-    this.ignoreCase = true,
-    this.includeDescription = true,
-    this.audioMusicQuality = false,
-    this.downloadDateStartRange,
-    this.downloadDateEndRange,
-    this.uploadDateStartRange,
-    this.uploadDateEndRange,
-    this.fileSizeStartRange = 0,
-    this.fileSizeEndRange = 0, // 1 GB
-    this.durationStartRange = 0,
-    this.durationEndRange = 0,
-  });
-}
-
 class AudioSortFilterParameters {
   final List<SortingItem> selectedSortItemLst;
   final List<String> filterSentenceLst;
@@ -87,14 +55,29 @@ class AudioSortFilterParameters {
   final bool ignoreCase;
   final bool searchAsWellInVideoCompactDescription;
   final bool filterMusicQuality;
+  final DateTime? downloadDateStartRange;
+  final DateTime? downloadDateEndRange;
+  final DateTime? uploadDateStartRange;
+  final DateTime? uploadDateEndRange;
+  final int fileSizeStartRangeSec;
+  final int fileSizeEndRangeSec;
+  final int durationStartRangeSec;
+  final int durationEndRangeSec;
 
   AudioSortFilterParameters({
     required this.selectedSortItemLst,
     this.filterSentenceLst = const [],
     required this.sentencesCombination,
-    this.ignoreCase = true, //                            when opening the sort
-    this.searchAsWellInVideoCompactDescription = true, // and filter dialog, the
-    this.filterMusicQuality = false, //                   corresponding checkbox
-    //                                                    are not checked
+    this.ignoreCase = true, //                  when opening the sort and filter
+    this.searchAsWellInVideoCompactDescription = true, // dialog, corresponding
+    this.filterMusicQuality = false, //         checkbox's are not checked
+    this.downloadDateStartRange,
+    this.downloadDateEndRange,
+    this.uploadDateStartRange,
+    this.uploadDateEndRange,
+    this.fileSizeStartRangeSec = 0,
+    this.fileSizeEndRangeSec = 0,
+    this.durationStartRangeSec = 0,
+    this.durationEndRangeSec = 0,
   });
 }

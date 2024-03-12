@@ -13,7 +13,7 @@ import '../../viewmodels/theme_provider_vm.dart';
 /// This dialog is used in the AudioPlayerView to display the list
 /// of playable audios of the selected playlist and to enable the
 /// user to select another audio to listen.
-/// 
+///
 /// The listed audios are displayed with different colors according
 /// to their status (not yet listened, currently listened, fully or partially
 /// listened).
@@ -93,15 +93,16 @@ class _ListPlayableAudiosDialogWidgetState
 
     return KeyboardListener(
       focusNode: _focusNode,
-        onKeyEvent: (event) async {
-          if (event is KeyDownEvent) {
-            if (event.logicalKey == LogicalKeyboardKey.enter ||
-                event.logicalKey == LogicalKeyboardKey.numpadEnter) {
-          // executing the same code as in the 'Confirm' TextButton
-          // onPressed callback
-          // await audioGlobalPlayerVM.setCurrentAudio(_selectedAudio!);
-          Navigator.of(context).pop(_selectedAudio);
-        }}
+      onKeyEvent: (event) async {
+        if (event is KeyDownEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.enter ||
+              event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+            // executing the same code as in the 'Confirm' TextButton
+            // onPressed callback
+            // await audioGlobalPlayerVM.setCurrentAudio(_selectedAudio!);
+            Navigator.of(context).pop(_selectedAudio);
+          }
+        }
       },
       child: AlertDialog(
         title: Text(AppLocalizations.of(context)!.audioOneSelectedDialogTitle),
@@ -175,10 +176,26 @@ class _ListPlayableAudiosDialogWidgetState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: Text(
-                AppLocalizations.of(context)!.excludeFullyPlayedAudios,
-                style: TextStyle(
-                  color: isDarkTheme ? Colors.white : Colors.black,
+              child: RichText(
+                text: TextSpan(
+                  // Default text style for the entire block
+                  style: TextStyle(
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(text: AppLocalizations.of(context)!.exclude),
+                    // TextSpan for the first word with a different color.
+                    // Useful for the user to understand color meaning
+                    TextSpan(
+                      text: AppLocalizations.of(context)!.fullyPlayed,
+                      style: TextStyle(
+                        color: (isDarkTheme)
+                            ? kSliderThumbColorInDarkMode
+                            : kSliderThumbColorInLightMode,
+                      ),
+                    ),
+                    TextSpan(text: AppLocalizations.of(context)!.audios),
+                  ],
                 ),
               ),
             ),
