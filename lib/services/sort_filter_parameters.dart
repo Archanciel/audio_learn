@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../models/audio.dart';
 
 /// This enum is used to specify how to sort the audio list.
@@ -36,6 +38,20 @@ class SortingItem {
     required this.sortingOption,
     required this.isAscending,
   });
+
+  factory SortingItem.fromJson(Map<String, dynamic> json) {
+    return SortingItem(
+      sortingOption: SortingOption.values[json['sortingOption']],
+      isAscending: json['isAscending'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'sortingOption': sortingOption.index,
+      'isAscending': isAscending,
+    };
+  }
 }
 
 class SortCriteria<T> {
@@ -55,9 +71,9 @@ class AudioSortFilterParameters {
   final bool ignoreCase;
   final bool searchAsWellInVideoCompactDescription;
   final bool filterMusicQuality;
-final bool filterFullyListened;
-    final bool filterPartiallyListened;
-    final bool filterNotListened;
+  final bool filterFullyListened;
+  final bool filterPartiallyListened;
+  final bool filterNotListened;
 
   final DateTime? downloadDateStartRange;
   final DateTime? downloadDateEndRange;
@@ -87,4 +103,61 @@ final bool filterFullyListened;
     this.durationStartRangeSec = 0,
     this.durationEndRangeSec = 0,
   });
+
+  factory AudioSortFilterParameters.fromJson(Map<String, dynamic> json) {
+    return AudioSortFilterParameters(
+      selectedSortItemLst: (json['selectedSortItemLst'] as List)
+          .map((e) => SortingItem.fromJson(e))
+          .toList(),
+      filterSentenceLst: (json['filterSentenceLst'] as List).cast<String>(),
+      sentencesCombination:
+          SentencesCombination.values[json['sentencesCombination']],
+      ignoreCase: json['ignoreCase'],
+      searchAsWellInVideoCompactDescription:
+          json['searchAsWellInVideoCompactDescription'],
+      filterMusicQuality: json['filterMusicQuality'],
+      filterFullyListened: json['filterFullyListened'],
+      filterPartiallyListened: json['filterPartiallyListened'],
+      filterNotListened: json['filterNotListened'],
+      downloadDateStartRange: json['downloadDateStartRange'] == null
+          ? null
+          : DateTime.parse(json['downloadDateStartRange']),
+      downloadDateEndRange: json['downloadDateEndRange'] == null
+          ? null
+          : DateTime.parse(json['downloadDateEndRange']),
+      uploadDateStartRange: json['uploadDateStartRange'] == null
+          ? null
+          : DateTime.parse(json['uploadDateStartRange']),
+      uploadDateEndRange: json['uploadDateEndRange'] == null
+          ? null
+          : DateTime.parse(json['uploadDateEndRange']),
+      fileSizeStartRangeSec: json['fileSizeStartRangeSec'],
+      fileSizeEndRangeSec: json['fileSizeEndRangeSec'],
+      durationStartRangeSec: json['durationStartRangeSec'],
+      durationEndRangeSec: json['durationEndRangeSec'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'selectedSortItemLst': selectedSortItemLst,
+      'filterSentenceLst': filterSentenceLst,
+      'sentencesCombination': sentencesCombination.index,
+      'ignoreCase': ignoreCase,
+      'searchAsWellInVideoCompactDescription':
+          searchAsWellInVideoCompactDescription,
+      'filterMusicQuality': filterMusicQuality,
+      'filterFullyListened': filterFullyListened,
+      'filterPartiallyListened': filterPartiallyListened,
+      'filterNotListened': filterNotListened,
+      'downloadDateStartRange': downloadDateStartRange?.toIso8601String(),
+      'downloadDateEndRange': downloadDateEndRange?.toIso8601String(),
+      'uploadDateStartRange': uploadDateStartRange?.toIso8601String(),
+      'uploadDateEndRange': uploadDateEndRange?.toIso8601String(),
+      'fileSizeStartRangeSec': fileSizeStartRangeSec,
+      'fileSizeEndRangeSec': fileSizeEndRangeSec,
+      'durationStartRangeSec': durationStartRangeSec,
+      'durationEndRangeSec': durationEndRangeSec,
+    };
+  }
 }

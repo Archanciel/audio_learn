@@ -1,3 +1,4 @@
+import 'package:audio_learn/services/sort_filter_parameters.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -292,6 +293,47 @@ void main() {
       await tempDir.delete(recursive: true);
     });
     test('loadFromFile one Playlist instance file not exist', () async {
+      // Create a temporary directory to store the serialized Audio object
+      Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
+      String filePath = path.join(tempDir.path, 'audio.json');
+      // Load the Audio instance from the file
+      dynamic deserializedPlaylist = JsonDataService.loadFromFile(
+          jsonPathFileName: filePath, type: Playlist);
+
+      // Compare the deserialized Audio instance with the original Audio instance
+      expect(deserializedPlaylist, null);
+
+      // Cleanup the temporary directory
+      await tempDir.delete(recursive: true);
+    });
+    test('saveToFile and loadFromFile for one SortingItem instance', () async {
+      // Create a temporary directory to store the serialized Audio object
+      Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
+      String filePath = path.join(tempDir.path, 'sorting_item.json');
+
+      // Create a Playlist with 2 Audio instances
+      SortingItem testSortingItem = SortingItem(
+        sortingOption: SortingOption.audioDownloadDateTime,
+        isAscending: true,
+      );
+
+      // Save SortingItem to a file
+      JsonDataService.saveToFile(model: testSortingItem, path: filePath);
+
+      // Load SortingItem from the file
+      SortingItem loadedSortingItem = JsonDataService.loadFromFile(
+          jsonPathFileName: filePath, type: SortingItem);
+
+      // Compare original and loaded SortingItem
+      compareDeserializedWithOriginalSortingItem(
+        deserializedSortingItem: loadedSortingItem,
+        originalSortingItem: testSortingItem,
+      );
+
+      // Cleanup the temporary directory
+      await tempDir.delete(recursive: true);
+    });
+    test('loadFromFile one SortingItem instance file not exist', () async {
       // Create a temporary directory to store the serialized Audio object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'audio.json');
@@ -752,3 +794,12 @@ void compareDeserializedWithOriginalAudio({
   expect(deserializedAudio.audioFileName, originalAudio.audioFileName);
   expect(deserializedAudio.audioFileSize, originalAudio.audioFileSize);
 }
+
+void compareDeserializedWithOriginalSortingItem({
+  required SortingItem deserializedSortingItem,
+  required SortingItem originalSortingItem,
+}) {
+  expect(deserializedSortingItem.sortingOption, originalSortingItem.sortingOption);
+  expect(deserializedSortingItem.isAscending, originalSortingItem.isAscending);
+}
+

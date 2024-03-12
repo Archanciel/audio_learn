@@ -3,6 +3,7 @@ import 'dart:io';
 
 import '../models/audio.dart';
 import '../models/playlist.dart';
+import 'sort_filter_parameters.dart';
 
 typedef FromJsonFunction<T> = T Function(Map<String, dynamic> jsonDataMap);
 typedef ToJsonFunction<T> = Map<String, dynamic> Function(T model);
@@ -63,12 +64,16 @@ class JsonDataService {
   static final Map<Type, FromJsonFunction> _fromJsonFunctionsMap = {
     Audio: (jsonDataMap) => Audio.fromJson(jsonDataMap),
     Playlist: (jsonDataMap) => Playlist.fromJson(jsonDataMap),
+    SortingItem: (jsonDataMap) => SortingItem.fromJson(jsonDataMap),
+    AudioSortFilterParameters: (jsonDataMap) => AudioSortFilterParameters.fromJson(jsonDataMap),
   };
 
   // typedef ToJsonFunction<T> = Map<String, dynamic> Function(T model);
   static final Map<Type, ToJsonFunction> _toJsonFunctionsMap = {
     Audio: (model) => model.toJson(),
     Playlist: (model) => model.toJson(),
+    SortingItem: (sortingItem) => sortingItem.toJson(),
+    AudioSortFilterParameters: (audioSortFilterParameters) => audioSortFilterParameters.toJson(),
   };
 
   static void saveToFile({
