@@ -13,6 +13,10 @@ import '../../viewmodels/theme_provider_vm.dart';
 /// This dialog is used in the AudioPlayerView to display the list
 /// of playable audios of the selected playlist and to enable the
 /// user to select another audio to listen.
+/// 
+/// The listed audios are displayed with different colors according
+/// to their status (not yet listened, currently listened, fully or partially
+/// listened).
 class ListPlayableAudiosDialogWidget extends StatefulWidget {
   const ListPlayableAudiosDialogWidget({
     super.key,
