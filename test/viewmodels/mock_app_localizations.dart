@@ -697,4 +697,13 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get searchInVideoCompactDescriptionTooltip =>
       "If set, search words or sentences are searched on video description as well";
+
+  @override
+  String get exclude => "Exclude ";
+
+  @override
+  String get fullyPlayed => "fully played ";
+
+  @override
+  String get audios => "audios";
 }
