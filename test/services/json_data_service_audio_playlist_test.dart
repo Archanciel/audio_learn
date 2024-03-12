@@ -336,13 +336,13 @@ void main() {
     test('loadFromFile one SortingItem instance file not exist', () async {
       // Create a temporary directory to store the serialized Audio object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
-      String filePath = path.join(tempDir.path, 'audio.json');
+      String filePath = path.join(tempDir.path, 'sorting_item.json');
       // Load the Audio instance from the file
-      dynamic deserializedPlaylist = JsonDataService.loadFromFile(
-          jsonPathFileName: filePath, type: Playlist);
+      dynamic deserializedSortingItem = JsonDataService.loadFromFile(
+          jsonPathFileName: filePath, type: SortingItem);
 
       // Compare the deserialized Audio instance with the original Audio instance
-      expect(deserializedPlaylist, null);
+      expect(deserializedSortingItem, null);
 
       // Cleanup the temporary directory
       await tempDir.delete(recursive: true);
