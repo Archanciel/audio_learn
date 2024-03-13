@@ -2,19 +2,30 @@ import '../models/audio.dart';
 import '../utils/date_time_parser.dart';
 import 'sort_filter_parameters.dart';
 
+
+class SortCriteria<T> {
+  final Comparable Function(T) selectorFunction;
+  int sortOrder;
+
+  SortCriteria({
+    required this.selectorFunction,
+    required this.sortOrder,
+  });
+}
+
 class AudioSortFilterService {
   static Map<SortingOption, SortCriteria<Audio>>
       sortCriteriaForSortingOptionMap = {
     SortingOption.audioDownloadDateTime: SortCriteria<Audio>(
       selectorFunction: (Audio audio) {
-        return DateTimeParser.truncateDateTimeToDay(
+        return DateTimeParser.truncateDateTimeToDateOnly(
             audio.audioDownloadDateTime);
       },
       sortOrder: sortDescending,
     ),
     SortingOption.videoUploadDate: SortCriteria<Audio>(
       selectorFunction: (Audio audio) {
-        return DateTimeParser.truncateDateTimeToDay(audio.videoUploadDate);
+        return DateTimeParser.truncateDateTimeToDateOnly(audio.videoUploadDate);
       },
       sortOrder: sortDescending,
     ),

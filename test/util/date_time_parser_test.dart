@@ -877,7 +877,7 @@ void main() {
         () {
           final DateTime dateTime = DateTime(2021, 1, 1, 0, 25, 30);
           final DateTime truncatedDateTime =
-              DateTimeParser.truncateDateTimeToDay(dateTime);
+              DateTimeParser.truncateDateTimeToDateOnly(dateTime);
           expect(truncatedDateTime, DateTime(2021, 1, 1));
         },
       );
@@ -886,7 +886,7 @@ void main() {
         () {
           final DateTime dateTime = DateTime(2021, 1, 1, 0, 0, 30);
           final DateTime truncatedDateTime =
-              DateTimeParser.truncateDateTimeToDay(dateTime);
+              DateTimeParser.truncateDateTimeToDateOnly(dateTime);
           expect(truncatedDateTime, DateTime(2021, 1, 1));
         },
       );
@@ -895,7 +895,7 @@ void main() {
         () {
           final DateTime dateTime = DateTime(2021, 1, 1, 0, 0, 0, 10);
           final DateTime truncatedDateTime =
-              DateTimeParser.truncateDateTimeToDay(dateTime);
+              DateTimeParser.truncateDateTimeToDateOnly(dateTime);
           expect(truncatedDateTime, DateTime(2021, 1, 1));
         },
       );

@@ -54,16 +54,6 @@ class SortingItem {
   }
 }
 
-class SortCriteria<T> {
-  final Comparable Function(T) selectorFunction;
-  int sortOrder;
-
-  SortCriteria({
-    required this.selectorFunction,
-    required this.sortOrder,
-  });
-}
-
 class AudioSortFilterParameters {
   final List<SortingItem> selectedSortItemLst;
   final List<String> filterSentenceLst;

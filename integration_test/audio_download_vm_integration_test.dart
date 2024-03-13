@@ -780,7 +780,8 @@ void checkPlaylistAudioOne({
   expect(downloadedAudioOne.compactVideoDescription,
       "Jean-Pierre Schnyder\n\nCette vidéo me sert à tester AudioLearn, l'app Android que je développe et dont le code est disponible sur GitHub. ...");
   expect(
-      DateTimeParser.truncateDateTimeToDay(downloadedAudioOne.videoUploadDate),
+      DateTimeParser.truncateDateTimeToDateOnly(
+          downloadedAudioOne.videoUploadDate),
       DateTime.parse("2023-06-10"));
   expect(downloadedAudioOne.audioDuration, const Duration(milliseconds: 24000));
   expect(downloadedAudioOne.isMusicQuality, false);
@@ -809,7 +810,8 @@ void checkPlaylistAudioTwo({
   expect(downloadedAudioTwo.videoUrl,
       "https://www.youtube.com/watch?v=uv3VQoWSjBE");
   expect(
-      DateTimeParser.truncateDateTimeToDay(downloadedAudioTwo.videoUploadDate),
+      DateTimeParser.truncateDateTimeToDateOnly(
+          downloadedAudioTwo.videoUploadDate),
       DateTime.parse("2023-06-10"));
   expect(downloadedAudioTwo.audioDuration, const Duration(milliseconds: 10000));
   expect(downloadedAudioTwo.isMusicQuality, false);
@@ -859,7 +861,8 @@ void checkPlaylistNewAudioOne({
 
   expect(downloadedAudioOne.audioFileSize, 61425);
   expect(
-      DateTimeParser.truncateDateTimeToDay(downloadedAudioOne.videoUploadDate),
+      DateTimeParser.truncateDateTimeToDateOnly(
+          downloadedAudioOne.videoUploadDate),
       DateTime.parse("2023-07-01"));
 }
 
@@ -885,7 +888,8 @@ void checkPlaylistNewAudioTwo({
 
   expect(downloadedAudioTwo.audioFileSize, 360849);
   expect(
-      DateTimeParser.truncateDateTimeToDay(downloadedAudioTwo.videoUploadDate),
+      DateTimeParser.truncateDateTimeToDateOnly(
+          downloadedAudioTwo.videoUploadDate),
       DateTime.parse("2023-07-01"));
   // DateTime.parse("2023-07-01 18:48:13.000Z")); this
   // uncomprehensible error happened several times when

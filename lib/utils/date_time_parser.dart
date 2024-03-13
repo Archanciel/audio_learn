@@ -345,7 +345,7 @@ class DateTimeParser {
     return englishDateTimeFormat.parse(englishDateTimeFormat.format(dateTime));
   }
 
-  static DateTime truncateDateTimeToDay(DateTime dateTime) {
+  static DateTime truncateDateTimeToDateOnly(DateTime dateTime) {
     return DateTime(dateTime.year, dateTime.month, dateTime.day);
   }
 }
