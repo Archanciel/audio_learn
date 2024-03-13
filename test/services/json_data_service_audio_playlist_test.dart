@@ -1,4 +1,3 @@
-import 'package:audio_learn/services/sort_filter_parameters.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -8,6 +7,7 @@ import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/models/playlist.dart';
 import 'package:audio_learn/services/json_data_service.dart';
+import 'package:audio_learn/services/sort_filter_parameters.dart';
 
 class UnsupportedClass {}
 
@@ -39,7 +39,8 @@ void main() {
     test(
         'saveToFile and loadFromFile for one Audio instance, audioPausedDateTime == null',
         () async {
-      // Create a temporary directory to store the serialized Audio object
+      // Create a temporary directory to store the serialized Audio
+      // object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'audio.json');
 
@@ -77,7 +78,8 @@ void main() {
       Audio deserializedAudio =
           JsonDataService.loadFromFile(jsonPathFileName: filePath, type: Audio);
 
-      // Compare the deserialized Audio instance with the original Audio instance
+      // Compare the deserialized Audio instance with the original
+      // Audio instance
       compareDeserializedWithOriginalAudio(
         deserializedAudio: deserializedAudio,
         originalAudio: originalAudio,
@@ -89,7 +91,8 @@ void main() {
     test(
         'saveToFile and loadFromFile for one Audio instance, audioPausedDateTime not null',
         () async {
-      // Create a temporary directory to store the serialized Audio object
+      // Create a temporary directory to store the serialized Audio
+      // object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'audio.json');
 
@@ -127,7 +130,8 @@ void main() {
       Audio deserializedAudio =
           JsonDataService.loadFromFile(jsonPathFileName: filePath, type: Audio);
 
-      // Compare the deserialized Audio instance with the original Audio instance
+      // Compare the deserialized Audio instance with the original
+      // Audio instance
       compareDeserializedWithOriginalAudio(
         deserializedAudio: deserializedAudio,
         originalAudio: originalAudio,
@@ -145,7 +149,6 @@ void main() {
       dynamic deserializedAudio =
           JsonDataService.loadFromFile(jsonPathFileName: filePath, type: Audio);
 
-      // Compare the deserialized Audio instance with the original Audio instance
       expect(deserializedAudio, null);
 
       // Cleanup the temporary directory
@@ -192,7 +195,8 @@ void main() {
       Audio deserializedAudio =
           JsonDataService.loadFromFile(jsonPathFileName: filePath, type: Audio);
 
-      // Compare the deserialized Audio instance with the original Audio instance
+      // Compare the deserialized Audio instance with the original
+      // Audio instance
       compareDeserializedWithOriginalAudio(
         deserializedAudio: deserializedAudio,
         originalAudio: originalAudio,
@@ -204,7 +208,7 @@ void main() {
     test('saveToFile and loadFromFile for one Playlist instance', () async {
       // Create a temporary directory to store the serialized Audio object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
-      String filePath = path.join(tempDir.path, 'audio.json');
+      String filePath = path.join(tempDir.path, 'playlist.json');
 
       const String testFromPlaylistTitle = 'testFromPlaylist1ID';
       const String testToPlaylistTitle = 'testToPlaylist1ID';
@@ -293,25 +297,25 @@ void main() {
       await tempDir.delete(recursive: true);
     });
     test('loadFromFile one Playlist instance file not exist', () async {
-      // Create a temporary directory to store the serialized Audio object
+      // Create a temporary directory to store the serialized Playlist
+      // object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
-      String filePath = path.join(tempDir.path, 'audio.json');
-      // Load the Audio instance from the file
+      String filePath = path.join(tempDir.path, 'playlist.json');
+      // Load the Playlist instance from the file
       dynamic deserializedPlaylist = JsonDataService.loadFromFile(
           jsonPathFileName: filePath, type: Playlist);
 
-      // Compare the deserialized Audio instance with the original Audio instance
       expect(deserializedPlaylist, null);
 
       // Cleanup the temporary directory
       await tempDir.delete(recursive: true);
     });
     test('saveToFile and loadFromFile for one SortingItem instance', () async {
-      // Create a temporary directory to store the serialized Audio object
+      // Create a temporary directory to store the serialized SortingItem
+      // object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'sorting_item.json');
 
-      // Create a Playlist with 2 Audio instances
       SortingItem testSortingItem = SortingItem(
         sortingOption: SortingOption.audioDownloadDateTime,
         isAscending: true,
@@ -334,14 +338,86 @@ void main() {
       await tempDir.delete(recursive: true);
     });
     test('loadFromFile one SortingItem instance file not exist', () async {
-      // Create a temporary directory to store the serialized Audio object
+      // Create a temporary directory to store the serialized
+      // SortingItem object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'sorting_item.json');
-      // Load the Audio instance from the file
+      // Load the SortingItem instance from the file
       dynamic deserializedSortingItem = JsonDataService.loadFromFile(
           jsonPathFileName: filePath, type: SortingItem);
 
-      // Compare the deserialized Audio instance with the original Audio instance
+      expect(deserializedSortingItem, null);
+
+      // Cleanup the temporary directory
+      await tempDir.delete(recursive: true);
+    });
+    test(
+        'saveToFile and loadFromFile for one AudioSortFilterParameters instance',
+        () async {
+      // Create a temporary directory to store the serialized
+      // AudioSortFilterParameters object
+      Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
+      String filePath =
+          path.join(tempDir.path, 'audio_sort_filter_parameters.json');
+
+      SortingItem sortingItem1 = SortingItem(
+        sortingOption: SortingOption.audioDownloadDateTime,
+        isAscending: true,
+      );
+      SortingItem sortingItem2 = SortingItem(
+        sortingOption: SortingOption.audioDuration,
+        isAscending: true,
+      );
+      AudioSortFilterParameters testAudioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: [sortingItem1, sortingItem2],
+        filterSentenceLst: ['Janco', 'Hello world'],
+        sentencesCombination: SentencesCombination.AND,
+        ignoreCase: true,
+        searchAsWellInVideoCompactDescription: true,
+        filterMusicQuality: false,
+        filterFullyListened: false,
+        filterPartiallyListened: false,
+        filterNotListened: false,
+        downloadDateStartRange: DateTime(2023, 2, 24, 20, 5, 32),
+        downloadDateEndRange: DateTime(2023, 3, 24, 20, 5, 32),
+        uploadDateStartRange: DateTime(2023, 2, 4, 20, 5, 32),
+        uploadDateEndRange: DateTime(2023, 3, 4, 20, 5, 32),
+        fileSizeStartRangeByte: 100000,
+        fileSizeEndRangeByte: 200000,
+        durationStartRangeSec: 1000,
+        durationEndRangeSec: 2000,
+      );
+
+      // Save AudioSortFilterParameters to a file
+      JsonDataService.saveToFile(
+          model: testAudioSortFilterParameters, path: filePath);
+
+      // Load AudioSortFilterParameters from the file
+      AudioSortFilterParameters loadedAudioSortFilterParameters =
+          JsonDataService.loadFromFile(
+              jsonPathFileName: filePath, type: AudioSortFilterParameters);
+
+      // Compare original and loaded AudioSortFilterParameters
+      compareDeserializedWithOriginalAudioSortFilterParameters(
+        deserializedAudioSortFilterParameters: loadedAudioSortFilterParameters,
+        originalAudioSortFilterParameters: testAudioSortFilterParameters,
+      );
+
+      // Cleanup the temporary directory
+      await tempDir.delete(recursive: true);
+    });
+    test('loadFromFile one AudioSortFilterParameters instance file not exist',
+        () async {
+      // Create a temporary directory to store the serialized
+      // AudioSortFilterParameters object
+      Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
+      String filePath =
+          path.join(tempDir.path, 'audio_sort_filter_parameters.json');
+      // Load the AudioSortFilterParameters instance from the file
+      dynamic deserializedSortingItem = JsonDataService.loadFromFile(
+          jsonPathFileName: filePath, type: SortingItem);
+
       expect(deserializedSortingItem, null);
 
       // Cleanup the temporary directory
@@ -799,7 +875,117 @@ void compareDeserializedWithOriginalSortingItem({
   required SortingItem deserializedSortingItem,
   required SortingItem originalSortingItem,
 }) {
-  expect(deserializedSortingItem.sortingOption, originalSortingItem.sortingOption);
+  expect(
+      deserializedSortingItem.sortingOption, originalSortingItem.sortingOption);
   expect(deserializedSortingItem.isAscending, originalSortingItem.isAscending);
 }
 
+void compareDeserializedWithOriginalAudioSortFilterParameters({
+  required AudioSortFilterParameters deserializedAudioSortFilterParameters,
+  required AudioSortFilterParameters originalAudioSortFilterParameters,
+}) {
+  int length = deserializedAudioSortFilterParameters.selectedSortItemLst.length;
+
+  expect(
+    length == originalAudioSortFilterParameters.selectedSortItemLst.length,
+    true,
+  );
+
+  for (int i = 0; i < length; i++) {
+    compareDeserializedWithOriginalSortingItem(
+      deserializedSortingItem:
+          deserializedAudioSortFilterParameters.selectedSortItemLst[i],
+      originalSortingItem:
+          originalAudioSortFilterParameters.selectedSortItemLst[i],
+    );
+  }
+
+  length = deserializedAudioSortFilterParameters.filterSentenceLst.length;
+
+  expect(
+    length == originalAudioSortFilterParameters.filterSentenceLst.length,
+    true,
+  );
+
+  for (int i = 0; i < length; i++) {
+    expect(
+      deserializedAudioSortFilterParameters.filterSentenceLst[i] ==
+          originalAudioSortFilterParameters.filterSentenceLst[i],
+      true,
+    );
+  }
+
+  expect(
+    deserializedAudioSortFilterParameters.sentencesCombination,
+    originalAudioSortFilterParameters.sentencesCombination,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.ignoreCase,
+    originalAudioSortFilterParameters.ignoreCase,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.searchAsWellInVideoCompactDescription,
+    originalAudioSortFilterParameters.searchAsWellInVideoCompactDescription,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.filterMusicQuality,
+    originalAudioSortFilterParameters.filterMusicQuality,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.filterFullyListened,
+    originalAudioSortFilterParameters.filterFullyListened,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.filterPartiallyListened,
+    originalAudioSortFilterParameters.filterPartiallyListened,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.filterNotListened,
+    originalAudioSortFilterParameters.filterNotListened,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.downloadDateStartRange,
+    originalAudioSortFilterParameters.downloadDateStartRange,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.downloadDateEndRange,
+    originalAudioSortFilterParameters.downloadDateEndRange,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.uploadDateStartRange,
+    originalAudioSortFilterParameters.uploadDateStartRange,
+  );
+  expect(
+    deserializedAudioSortFilterParameters.uploadDateEndRange,
+    originalAudioSortFilterParameters.uploadDateEndRange,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.fileSizeStartRangeByte,
+    originalAudioSortFilterParameters.fileSizeStartRangeByte,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.fileSizeEndRangeByte,
+    originalAudioSortFilterParameters.fileSizeEndRangeByte,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.durationStartRangeSec,
+    originalAudioSortFilterParameters.durationStartRangeSec,
+  );
+
+  expect(
+    deserializedAudioSortFilterParameters.durationEndRangeSec,
+    originalAudioSortFilterParameters.durationEndRangeSec,
+  );
+}
