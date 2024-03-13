@@ -280,6 +280,143 @@ void main() {
       testPlaylist.downloadedAudioLst = [audio1, audio2];
       testPlaylist.playableAudioLst = [audio2];
 
+      testPlaylist.audioSortFilterParamPlaylistDownloadView =
+          createAudioSortFilterParameters();
+      testPlaylist.audioSortFilterParamAudioPlayerView =
+          createAudioSortFilterParameters();
+
+      // Save Playlist to a file
+      JsonDataService.saveToFile(model: testPlaylist, path: filePath);
+
+      // Load Playlist from the file
+      Playlist loadedPlaylist = JsonDataService.loadFromFile(
+          jsonPathFileName: filePath, type: Playlist);
+
+      // Compare original and loaded Playlist
+      compareDeserializedWithOriginalPlaylist(
+        deserializedPlaylist: loadedPlaylist,
+        originalPlaylist: testPlaylist,
+      );
+
+      // Cleanup the temporary directory
+      await tempDir.delete(recursive: true);
+    });
+    test('saveToFile and loadFromFile for one Playlist instance without Audio', () async {
+      // Create a temporary directory to store the serialized Audio object
+      Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
+      String filePath = path.join(tempDir.path, 'playlist.json');
+
+      const String testFromPlaylistTitle = 'testFromPlaylist1ID';
+      const String testToPlaylistTitle = 'testToPlaylist1ID';
+
+      // Create a Playlist with 2 Audio instances
+      Playlist testPlaylist = Playlist(
+        id: 'testPlaylist1ID',
+        title: 'Test Playlist',
+        url: 'https://www.example.com/playlist-url',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.voice,
+        isSelected: true,
+      );
+
+      testPlaylist.downloadPath = 'path/to/downloads';
+
+      testPlaylist.audioSortFilterParamPlaylistDownloadView =
+          createAudioSortFilterParameters();
+      testPlaylist.audioSortFilterParamAudioPlayerView =
+          createAudioSortFilterParameters();
+
+      // Save Playlist to a file
+      JsonDataService.saveToFile(model: testPlaylist, path: filePath);
+
+      // Load Playlist from the file
+      Playlist loadedPlaylist = JsonDataService.loadFromFile(
+          jsonPathFileName: filePath, type: Playlist);
+
+      // Compare original and loaded Playlist
+      compareDeserializedWithOriginalPlaylist(
+        deserializedPlaylist: loadedPlaylist,
+        originalPlaylist: testPlaylist,
+      );
+
+      // Cleanup the temporary directory
+      await tempDir.delete(recursive: true);
+    });
+    test('saveToFile and loadFromFile for one Playlist instance without AudioSortFilterParameters', () async {
+      // Create a temporary directory to store the serialized Audio object
+      Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
+      String filePath = path.join(tempDir.path, 'playlist.json');
+
+      const String testFromPlaylistTitle = 'testFromPlaylist1ID';
+      const String testToPlaylistTitle = 'testToPlaylist1ID';
+
+      // Create a Playlist with 2 Audio instances
+      Playlist testPlaylist = Playlist(
+        id: 'testPlaylist1ID',
+        title: 'Test Playlist',
+        url: 'https://www.example.com/playlist-url',
+        playlistType: PlaylistType.youtube,
+        playlistQuality: PlaylistQuality.voice,
+        isSelected: true,
+      );
+
+      testPlaylist.downloadPath = 'path/to/downloads';
+
+      Audio audio1 = Audio.fullConstructor(
+        enclosingPlaylist: testPlaylist,
+        movedFromPlaylistTitle: testFromPlaylistTitle,
+        movedToPlaylistTitle: null,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: null,
+        originalVideoTitle: 'Test Video 1',
+        compactVideoDescription: 'Test Video 1 Description',
+        validVideoTitle: 'Test Video Title',
+        videoUrl: 'https://www.example.com/video-url-1',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 30),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime.now().subtract(const Duration(days: 10)),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
+        audioPlayVolume: kAudioDefaultPlayVolume,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
+        isPaused: true,
+        audioPausedDateTime: null,
+        audioPositionSeconds: 0,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+
+      Audio audio2 = Audio.fullConstructor(
+        enclosingPlaylist: testPlaylist,
+        movedFromPlaylistTitle: null,
+        movedToPlaylistTitle: testToPlaylistTitle,
+        copiedFromPlaylistTitle: null,
+        copiedToPlaylistTitle: testToPlaylistTitle,
+        originalVideoTitle: 'Test Video 2',
+        compactVideoDescription: 'Test Video 2 Description',
+        validVideoTitle: 'Test Video Title',
+        videoUrl: 'https://www.example.com/video-url-2',
+        audioDownloadDateTime: DateTime.now(),
+        audioDownloadDuration: const Duration(minutes: 0, seconds: 38),
+        audioDownloadSpeed: 1000000,
+        videoUploadDate: DateTime.now().subtract(const Duration(days: 5)),
+        audioDuration: const Duration(minutes: 5, seconds: 30),
+        isAudioMusicQuality: false,
+        audioPlaySpeed: kAudioDefaultPlaySpeed,
+        audioPlayVolume: kAudioDefaultPlayVolume,
+        isPlayingOrPausedWithPositionBetweenAudioStartAndEnd: false,
+        isPaused: true,
+        audioPausedDateTime: null,
+        audioPositionSeconds: 0,
+        audioFileName: 'Test Video Title.mp3',
+        audioFileSize: 330000000,
+      );
+
+      testPlaylist.downloadedAudioLst = [audio1, audio2];
+      testPlaylist.playableAudioLst = [audio2];
+
       // Save Playlist to a file
       JsonDataService.saveToFile(model: testPlaylist, path: filePath);
 
@@ -360,34 +497,8 @@ void main() {
       String filePath =
           path.join(tempDir.path, 'audio_sort_filter_parameters.json');
 
-      SortingItem sortingItem1 = SortingItem(
-        sortingOption: SortingOption.audioDownloadDateTime,
-        isAscending: true,
-      );
-      SortingItem sortingItem2 = SortingItem(
-        sortingOption: SortingOption.audioDuration,
-        isAscending: true,
-      );
       AudioSortFilterParameters testAudioSortFilterParameters =
-          AudioSortFilterParameters(
-        selectedSortItemLst: [sortingItem1, sortingItem2],
-        filterSentenceLst: ['Janco', 'Hello world'],
-        sentencesCombination: SentencesCombination.AND,
-        ignoreCase: true,
-        searchAsWellInVideoCompactDescription: true,
-        filterMusicQuality: false,
-        filterFullyListened: false,
-        filterPartiallyListened: false,
-        filterNotListened: false,
-        downloadDateStartRange: DateTime(2023, 2, 24, 20, 5, 32),
-        downloadDateEndRange: DateTime(2023, 3, 24, 20, 5, 32),
-        uploadDateStartRange: DateTime(2023, 2, 4, 20, 5, 32),
-        uploadDateEndRange: DateTime(2023, 3, 4, 20, 5, 32),
-        fileSizeStartRangeByte: 100000,
-        fileSizeEndRangeByte: 200000,
-        durationStartRangeSec: 1000,
-        durationEndRangeSec: 2000,
-      );
+          createAudioSortFilterParameters();
 
       // Save AudioSortFilterParameters to a file
       JsonDataService.saveToFile(
@@ -765,6 +876,37 @@ void main() {
       expect(loadedList.length, 0);
     });
   });
+}
+
+AudioSortFilterParameters createAudioSortFilterParameters() {
+  SortingItem sortingItem1 = SortingItem(
+    sortingOption: SortingOption.audioDownloadDateTime,
+    isAscending: true,
+  );
+  SortingItem sortingItem2 = SortingItem(
+    sortingOption: SortingOption.audioDuration,
+    isAscending: true,
+  );
+
+  return AudioSortFilterParameters(
+    selectedSortItemLst: [sortingItem1, sortingItem2],
+    filterSentenceLst: ['Janco', 'Hello world'],
+    sentencesCombination: SentencesCombination.AND,
+    ignoreCase: true,
+    searchAsWellInVideoCompactDescription: true,
+    filterMusicQuality: false,
+    filterFullyListened: false,
+    filterPartiallyListened: false,
+    filterNotListened: false,
+    downloadDateStartRange: DateTime(2023, 2, 24, 20, 5, 32),
+    downloadDateEndRange: DateTime(2023, 3, 24, 20, 5, 32),
+    uploadDateStartRange: DateTime(2023, 2, 4, 20, 5, 32),
+    uploadDateEndRange: DateTime(2023, 3, 4, 20, 5, 32),
+    fileSizeStartRangeByte: 100000,
+    fileSizeEndRangeByte: 200000,
+    durationStartRangeSec: 1000,
+    durationEndRangeSec: 2000,
+  );
 }
 
 void compareDeserializedWithOriginalPlaylist({

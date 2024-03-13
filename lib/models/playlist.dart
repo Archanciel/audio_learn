@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:audio_learn/services/settings_data_service.dart';
 
+import '../services/sort_filter_parameters.dart';
 import 'audio.dart';
 
 enum PlaylistType { youtube, local }
@@ -42,6 +43,9 @@ class Playlist {
   // playlist audio has been played.
   int currentOrPastPlayableAudioIndex = -1;
 
+  AudioSortFilterParameters? audioSortFilterParamPlaylistDownloadView;
+  AudioSortFilterParameters? audioSortFilterParamAudioPlayerView;
+
   Playlist({
     this.url = '',
     this.id = '',
@@ -61,6 +65,8 @@ class Playlist {
     required this.downloadPath,
     required this.isSelected,
     required this.currentOrPastPlayableAudioIndex,
+    required this.audioSortFilterParamPlaylistDownloadView,
+    required this.audioSortFilterParamAudioPlayerView,
   });
 
   /// Factory constructor: creates an instance of Playlist from a
@@ -82,6 +88,16 @@ class Playlist {
       isSelected: json['isSelected'],
       currentOrPastPlayableAudioIndex:
           json['currentOrPastPlayableAudioIndex'] ?? -1,
+      audioSortFilterParamPlaylistDownloadView:
+          (json['audioSortFilterParamPlaylistDownloadView'] != null)
+              ? AudioSortFilterParameters.fromJson(
+                  json['audioSortFilterParamPlaylistDownloadView'])
+              : null,
+      audioSortFilterParamAudioPlayerView:
+          (json['audioSortFilterParamAudioPlayerView'] != null)
+              ? AudioSortFilterParameters.fromJson(
+                  json['audioSortFilterParamAudioPlayerView'])
+              : null,
     );
 
     // Deserialize the Audio instances in the
@@ -122,6 +138,10 @@ class Playlist {
           playableAudioLst.map((audio) => audio.toJson()).toList(),
       'isSelected': isSelected,
       'currentOrPastPlayableAudioIndex': currentOrPastPlayableAudioIndex,
+      'audioSortFilterParamPlaylistDownloadView':
+          audioSortFilterParamPlaylistDownloadView?.toJson(),
+      'audioSortFilterParamAudioPlayerView':
+          audioSortFilterParamAudioPlayerView?.toJson(),
     };
   }
 
@@ -151,7 +171,7 @@ class Playlist {
     // Creating a copy of the audio to be copied so that the
     // original audio will not be modified by this method.
     Audio copiedAudioCopy = copiedAudio.copy();
-    
+
     Audio? existingPlayableAudio;
 
     try {
