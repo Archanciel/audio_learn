@@ -2901,7 +2901,7 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList(),
           [
-            "Jancovici m\'explique l’importance des ordres de grandeur face au changement climatique",
+            "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
             'La surpopulation mondiale par Jancovici et Barrau',
             'La résilience insulaire par Fiona Roche',
             'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau'
@@ -2944,7 +2944,7 @@ void main() {
             'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau',
             'La résilience insulaire par Fiona Roche',
             'La surpopulation mondiale par Jancovici et Barrau',
-            "Jancovici m\'explique l’importance des ordres de grandeur face au changement climatique",
+            "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
           ]);
 
       // Purge the test playlist directory so that the created test
@@ -2995,7 +2995,7 @@ void main() {
               .map((audio) => audio.validVideoTitle)
               .toList(),
           [
-            "Jancovici m\'explique l’importance des ordres de grandeur face au changement climatique",
+            "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
             'La surpopulation mondiale par Jancovici et Barrau',
             'La résilience insulaire par Fiona Roche',
             'Les besoins artificiels par R.Keucheyan',
@@ -3042,7 +3042,7 @@ void main() {
             'Les besoins artificiels par R.Keucheyan',
             'La résilience insulaire par Fiona Roche',
             'La surpopulation mondiale par Jancovici et Barrau',
-            "Jancovici m\'explique l’importance des ordres de grandeur face au changement climatique",
+            "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
           ]);
 
       // Purge the test playlist directory so that the created test
