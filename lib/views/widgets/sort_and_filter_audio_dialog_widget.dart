@@ -132,30 +132,37 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _resetSortFilterOptions() {
-    _selectedSortingItemLst.clear();
-    _selectedSortingItemLst[0] = _initialSortingItem;
-    _audioTitleSearchSentenceController.clear();
-    _audioTitleFilterSentencesLst.clear();
-    _ignoreCase = true;
-    _searchInVideoCompactDescription = true;
-    _isAnd = true;
-    _isOr = false;
-    _filterMusicQuality = false;
-    _filterFullyListened = true;
-    _filterPartiallyListened = true;
-    _filterNotListened = true;
-    _startDownloadDateTimeController.clear();
-    _endDownloadDateTimeController.clear();
-    _startUploadDateTimeController.clear();
-    _endUploadDateTimeController.clear();
-    _startAudioDurationController.clear();
-    _endAudioDurationController.clear();
-    _startFileSizeController.clear();
-    _endFileSizeController.clear();
+    setState(() {
+      _selectedSortingItemLst.clear();
+      _selectedSortingItemLst.add(_initialSortingItem);
+      _audioTitleSearchSentenceController.clear();
+      _audioTitleFilterSentencesLst.clear();
+      _ignoreCase = true;
+      _searchInVideoCompactDescription = true;
+      _isAnd = true;
+      _isOr = false;
+      _filterMusicQuality = false;
+      _filterFullyListened = true;
+      _filterPartiallyListened = true;
+      _filterNotListened = true;
+      _startDownloadDateTimeController.clear();
+      _endDownloadDateTimeController.clear();
+      _startUploadDateTimeController.clear();
+      _endUploadDateTimeController.clear();
+      _startAudioDurationController.clear();
+      _endAudioDurationController.clear();
+      _startFileSizeController.clear();
+      _endFileSizeController.clear();
+    });
+
+    // now clicking on Enter works since the
+    // Checkbox is not focused anymore
+    _audioTitleSearchSentenceFocusNode.requestFocus();
   }
 
   void _setPlaylistSortFilterOptions() {
-    _selectedSortingItemLst[0] = _initialSortingItem;
+      _selectedSortingItemLst.clear();
+      _selectedSortingItemLst.add(_initialSortingItem);
     _filterMusicQuality = false;
     _ignoreCase = true;
     _searchInVideoCompactDescription = true;
@@ -477,15 +484,7 @@ class _SortAndFilterAudioDialogWidgetState
               child: IconButton(
                 key: const Key('resetSortFilterOptionsIconButton'),
                 icon: const Icon(Icons.clear),
-                onPressed: () async {
-                  setState(() {
-                    _resetSortFilterOptions();
-                  });
-
-                  // now clicking on Enter works since the
-                  // Checkbox is not focused anymore
-                  _audioTitleSearchSentenceFocusNode.requestFocus();
-                },
+                onPressed: _resetSortFilterOptions,
               ),
             ),
             Tooltip(
