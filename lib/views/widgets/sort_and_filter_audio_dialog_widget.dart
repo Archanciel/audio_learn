@@ -96,12 +96,8 @@ class _SortAndFilterAudioDialogWidgetState
 
     // Set the initial sort and filter fields
 
-    _initialSortingItem = SortingItem(
-      sortingOption: SortingOption.audioDownloadDateTime,
-      isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
-        sortingOption: SortingOption.audioDownloadDateTime,
-      ),
-    );
+    _setInitialSortingItem();
+
     _selectedSortingItemLst =
         widget.audioSortFilterParameters.selectedSortItemLst;
     _audioTitleFilterSentencesLst
@@ -114,10 +110,9 @@ class _SortAndFilterAudioDialogWidgetState
     _isOr = !_isAnd;
     _filterMusicQuality = widget.audioSortFilterParameters.filterMusicQuality;
     _filterFullyListened = widget.audioSortFilterParameters.filterFullyListened;
-    _filterPartiallyListened = widget.audioSortFilterParameters.filterPartiallyListened;
+    _filterPartiallyListened =
+        widget.audioSortFilterParameters.filterPartiallyListened;
     _filterNotListened = widget.audioSortFilterParameters.filterNotListened;
-    // _setPlaylistSortFilterOptions(); currently causes problem since
-    // not using playlist audioSortFilterParameters
   }
 
   @override
@@ -137,24 +132,26 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _resetSortFilterOptions() {
+    _selectedSortingItemLst.clear();
     _selectedSortingItemLst[0] = _initialSortingItem;
-    _filterMusicQuality = false;
+    _audioTitleSearchSentenceController.clear();
+    _audioTitleFilterSentencesLst.clear();
     _ignoreCase = true;
     _searchInVideoCompactDescription = true;
-    _startFileSizeController.clear();
-    _endFileSizeController.clear();
-    _audioTitleSearchSentenceController.clear();
+    _isAnd = true;
+    _isOr = false;
+    _filterMusicQuality = false;
+    _filterFullyListened = true;
+    _filterPartiallyListened = true;
+    _filterNotListened = true;
     _startDownloadDateTimeController.clear();
     _endDownloadDateTimeController.clear();
     _startUploadDateTimeController.clear();
     _endUploadDateTimeController.clear();
     _startAudioDurationController.clear();
     _endAudioDurationController.clear();
-    _audioTitleSearchSentence = '';
-    _startDownloadDateTime = null;
-    _endDownloadDateTime = null;
-    _startUploadDateTime = null;
-    _endUploadDateTime = null;
+    _startFileSizeController.clear();
+    _endFileSizeController.clear();
   }
 
   void _setPlaylistSortFilterOptions() {
@@ -176,6 +173,15 @@ class _SortAndFilterAudioDialogWidgetState
     _endDownloadDateTime = null;
     _startUploadDateTime = null;
     _endUploadDateTime = null;
+  }
+
+  void _setInitialSortingItem() {
+    _initialSortingItem = SortingItem(
+      sortingOption: SortingOption.audioDownloadDateTime,
+      isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
+        sortingOption: SortingOption.audioDownloadDateTime,
+      ),
+    );
   }
 
   String _sortingOptionToString(
@@ -337,9 +343,11 @@ class _SortAndFilterAudioDialogWidgetState
                             onChanged:
                                 (_audioTitleFilterSentencesLst.isNotEmpty)
                                     ? (bool? newValue) {
-                                        _modifyIgnoreCaseCheckBox(
-                                          newValue,
-                                        );
+                                        setState(() {
+                                          _modifyIgnoreCaseCheckBox(
+                                            newValue,
+                                          );
+                                        });
                                       }
                                     : null,
                           ),
@@ -366,9 +374,11 @@ class _SortAndFilterAudioDialogWidgetState
                               onChanged:
                                   (_audioTitleFilterSentencesLst.isNotEmpty)
                                       ? (bool? newValue) {
-                                          _modifySearchInVideoCompactDescriptionCheckbox(
-                                            newValue,
-                                          );
+                                          setState(() {
+                                            _modifySearchInVideoCompactDescriptionCheckbox(
+                                              newValue,
+                                            );
+                                          });
                                         }
                                       : null,
                             ),
@@ -468,7 +478,9 @@ class _SortAndFilterAudioDialogWidgetState
                 key: const Key('resetSortFilterOptionsIconButton'),
                 icon: const Icon(Icons.clear),
                 onPressed: () async {
-                  _resetSortFilterOptions();
+                  setState(() {
+                    _resetSortFilterOptions();
+                  });
 
                   // now clicking on Enter works since the
                   // Checkbox is not focused anymore
@@ -783,9 +795,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _modifySearchInVideoCompactDescriptionCheckbox(bool? newValue) {
-    setState(() {
-      _searchInVideoCompactDescription = newValue!;
-    });
+    _searchInVideoCompactDescription = newValue!;
 
     // now clicking on Enter works since the
     // Checkbox is not focused anymore
@@ -793,9 +803,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _modifyIgnoreCaseCheckBox(bool? newValue) {
-    setState(() {
-      _ignoreCase = newValue!;
-    });
+    _ignoreCase = newValue!;
 
     // now clicking on Enter works since the
     // Checkbox is not focused anymore
@@ -863,7 +871,9 @@ class _SortAndFilterAudioDialogWidgetState
             key: const Key('addSentenceIconButton'),
             onPressed: () async {
               (_audioTitleSearchSentence != '')
-                  ? addSentenceToFilterSentencesLst()
+                  ? setState(() {
+                      addSentenceToFilterSentencesLst();
+                    })
                   : null;
             },
             padding: const EdgeInsets.all(0),
@@ -882,18 +892,16 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void addSentenceToFilterSentencesLst() {
-    setState(() {
-      if (!_audioTitleFilterSentencesLst.contains(_audioTitleSearchSentence)) {
-        _audioTitleFilterSentencesLst.add(_audioTitleSearchSentence);
-        _audioTitleSearchSentence = '';
-        _audioTitleSearchSentenceController.clear();
+    if (!_audioTitleFilterSentencesLst.contains(_audioTitleSearchSentence)) {
+      _audioTitleFilterSentencesLst.add(_audioTitleSearchSentence);
+      _audioTitleSearchSentence = '';
+      _audioTitleSearchSentenceController.clear();
 
-        // reset the Plus button color to disabled color
-        // since the TextField is now empty
-        _audioTitleSearchSentencePlusButtonIconColor =
-            kDarkAndLightDisabledIconColorOnDialog;
-      }
-    });
+      // reset the Plus button color to disabled color
+      // since the TextField is now empty
+      _audioTitleSearchSentencePlusButtonIconColor =
+          kDarkAndLightDisabledIconColorOnDialog;
+    }
 
     // now clicking on Enter works since the
     // IconButton is not focused anymore
