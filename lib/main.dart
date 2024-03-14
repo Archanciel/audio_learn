@@ -63,7 +63,14 @@ Future<void> main(List<String> args) async {
         '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
   );
 
-  // await setWindowsAppVersionSize();
+  // Commented out since when restarting the app the app is moved
+  // again to the center of the screen
+  //
+  // WidgetsFlutterBinding.ensureInitialized();
+
+  // if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+  //   await setWindowsAppVersionSize();
+  // }
 
   runApp(MainApp(
     settingsDataService: settingsDataService,
@@ -76,7 +83,7 @@ Future<void> setWindowsAppVersionSize() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(500, 715),
+    size: Size(600, 715),
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
