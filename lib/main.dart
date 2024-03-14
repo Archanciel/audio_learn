@@ -64,6 +64,9 @@ Future<void> main(List<String> args) async {
         '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
   );
 
+  // If app runs on Windows, Linux or MacOS, set the app size
+  // and position
+  
   WidgetsFlutterBinding.ensureInitialized();
 
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
