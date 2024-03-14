@@ -522,6 +522,7 @@ class _SortAndFilterAudioDialogWidgetState
             TextButton(
               key: const Key('cancelSortFilterButton'),
               onPressed: () {
+                _resetSortFilterOptions();
                 Navigator.of(context).pop();
               },
               child: Text(
