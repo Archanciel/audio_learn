@@ -76,8 +76,8 @@ Future<void> main(List<String> args) async {
       final Rect screenRect = screen.visibleFrame;
 
       // Définissez la largeur et la hauteur de votre fenêtre
-      final double windowWidth = 900;
-      final double windowHeight = 1300;
+      const double windowWidth = 900;
+      const double windowHeight = 1300;
 
       // Calculez la position X pour placer la fenêtre sur le côté droit de l'écran
       final double posX = screenRect.right - windowWidth;
