@@ -253,9 +253,9 @@ class _SortAndFilterAudioDialogWidgetState
               builder:
                   (BuildContext context, ScrollController scrollController) {
                 return SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: ListBody(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         AppLocalizations.of(context)!.sortBy,
@@ -522,7 +522,6 @@ class _SortAndFilterAudioDialogWidgetState
             TextButton(
               key: const Key('cancelSortFilterButton'),
               onPressed: () {
-                _resetSortFilterOptions();
                 Navigator.of(context).pop();
               },
               child: Text(
