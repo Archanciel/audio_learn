@@ -66,7 +66,18 @@ Future<void> main(List<String> args) async {
 
   // If app runs on Windows, Linux or MacOS, set the app size
   // and position
-  
+
+  await setWindowsAppSizeAndPosition();
+
+  runApp(MainApp(
+    settingsDataService: settingsDataService,
+    isTest: isTest,
+  ));
+}
+
+/// If app runs on Windows, Linux or MacOS, set the app size
+/// and position.
+Future<void> setWindowsAppSizeAndPosition() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
@@ -89,11 +100,6 @@ Future<void> main(List<String> args) async {
       setWindowFrame(windowRect);
     });
   }
-
-  runApp(MainApp(
-    settingsDataService: settingsDataService,
-    isTest: isTest,
-  ));
 }
 
 Future<void> setWindowsAppVersionSize() async {
