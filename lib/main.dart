@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:window_size/window_size.dart';
 
 import 'constants.dart';
 import 'viewmodels/playlist_list_vm.dart';
@@ -63,14 +64,28 @@ Future<void> main(List<String> args) async {
         '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
   );
 
-  // Commented out since when restarting the app the app is moved
-  // again to the center of the screen
-  //
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-  //   await setWindowsAppVersionSize();
-  // }
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    await getScreenList().then((List<Screen> screens) {
+      // Assumez que vous voulez utiliser le premier écran (principal)
+      final Screen screen = screens.first;
+      final Rect screenRect = screen.visibleFrame;
+
+      // Définissez la largeur et la hauteur de votre fenêtre
+      final double windowWidth = 900;
+      final double windowHeight = 1300;
+
+      // Calculez la position X pour placer la fenêtre sur le côté droit de l'écran
+      final double posX = screenRect.right - windowWidth;
+      // Optionnellement, ajustez la position Y selon vos préférences
+      final double posY = (screenRect.height - windowHeight) / 2;
+
+      final Rect windowRect =
+          Rect.fromLTWH(posX, posY, windowWidth, windowHeight);
+      setWindowFrame(windowRect);
+    });
+  }
 
   runApp(MainApp(
     settingsDataService: settingsDataService,
