@@ -503,18 +503,22 @@ class PlaylistListVM extends ChangeNotifier {
   }
 
   AudioSortFilterParameters getAudioSortFilterParameters() {
+    // if the user has not yet selected sort and filter parameters,
+    // then the default sort and filter parameters which don't
+    // filter and only sort by audio download date descending
+    // are returned.
     _audioSortFilterParameters ??= AudioSortFilterParameters(
-        selectedSortItemLst: [
-          SortingItem(
-            sortingOption: SortingOption.audioDownloadDateTime,
-            isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
-              sortingOption: SortingOption.audioDownloadDateTime,
-            ),
-          )
-        ],
-        filterSentenceLst: const [],
-        sentencesCombination: SentencesCombination.AND,
-      );
+      selectedSortItemLst: [
+        SortingItem(
+          sortingOption: SortingOption.audioDownloadDate,
+          isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
+            sortingOption: SortingOption.audioDownloadDate,
+          ),
+        )
+      ],
+      filterSentenceLst: const [],
+      sentencesCombination: SentencesCombination.AND,
+    );
 
     return _audioSortFilterParameters!;
   }

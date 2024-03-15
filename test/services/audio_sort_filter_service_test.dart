@@ -2433,7 +2433,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: false,
         ),
         SortingItem(
@@ -2468,7 +2468,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: true,
         ),
         SortingItem(
@@ -2530,7 +2530,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: false,
         ),
         SortingItem(
@@ -2565,7 +2565,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: true,
         ),
         SortingItem(
@@ -2619,7 +2619,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: false,
         ),
         SortingItem(
@@ -2652,7 +2652,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: true,
         ),
         SortingItem(
@@ -2696,7 +2696,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: false,
         ),
         SortingItem(
@@ -2732,7 +2732,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: true,
         ),
         SortingItem(
@@ -2779,7 +2779,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: false,
         ),
         SortingItem(
@@ -2818,7 +2818,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: true,
         ),
         SortingItem(
@@ -2869,7 +2869,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: false,
         ),
         SortingItem(
@@ -2910,7 +2910,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: true,
         ),
         SortingItem(
@@ -2963,7 +2963,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: false,
         ),
         SortingItem(
@@ -3006,7 +3006,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: true,
         ),
         SortingItem(
@@ -3138,7 +3138,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: false,
         ),
       ];
@@ -3167,7 +3167,7 @@ void main() {
       final List<SortingItem>
           selectedSortItemLstDownloadDateAscAndDurationDesc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: true,
         ),
         SortingItem(
@@ -3179,7 +3179,7 @@ void main() {
       final List<SortingItem>
           selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
         SortingItem(
-          sortingOption: SortingOption.audioDownloadDateTime,
+          sortingOption: SortingOption.audioDownloadDate,
           isAscending: true,
         ),
         SortingItem(

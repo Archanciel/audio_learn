@@ -1,9 +1,7 @@
-
-
 /// This enum is used to specify how to sort the audio list.
 /// It is used in the sort and filter audio dialog.
 enum SortingOption {
-  audioDownloadDateTime,
+  audioDownloadDate,
   videoUploadDate,
   validAudioTitle,
   audioEnclosingPlaylistTitle,

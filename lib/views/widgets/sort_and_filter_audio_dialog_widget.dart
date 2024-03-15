@@ -178,9 +178,9 @@ class _SortAndFilterAudioDialogWidgetState
 
   void _setInitialSortingItem() {
     _initialSortingItem = SortingItem(
-      sortingOption: SortingOption.audioDownloadDateTime,
+      sortingOption: SortingOption.audioDownloadDate,
       isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
-        sortingOption: SortingOption.audioDownloadDateTime,
+        sortingOption: SortingOption.audioDownloadDate,
       ),
     );
   }
@@ -190,7 +190,7 @@ class _SortAndFilterAudioDialogWidgetState
     BuildContext context,
   ) {
     switch (option) {
-      case SortingOption.audioDownloadDateTime:
+      case SortingOption.audioDownloadDate:
         return AppLocalizations.of(context)!.audioDownloadDate;
       case SortingOption.videoUploadDate:
         return AppLocalizations.of(context)!.videoUploadDate;
@@ -562,7 +562,7 @@ class _SortAndFilterAudioDialogWidgetState
                 _startDownloadDateTime = pickedDate;
                 _startDownloadDateTimeController.text =
                     DateFormat('dd-MM-yyyy').format(_startDownloadDateTime!);
-              
+
                 // now clicking on Enter works since the
                 // Checkbox is not focused anymore
                 _audioTitleSearchSentenceFocusNode.requestFocus();
@@ -603,7 +603,7 @@ class _SortAndFilterAudioDialogWidgetState
                 _endDownloadDateTime = pickedDate;
                 _endDownloadDateTimeController.text =
                     DateFormat('dd-MM-yyyy').format(_endDownloadDateTime!);
-              
+
                 // now clicking on Enter works since the
                 // Checkbox is not focused anymore
                 _audioTitleSearchSentenceFocusNode.requestFocus();
@@ -644,7 +644,7 @@ class _SortAndFilterAudioDialogWidgetState
                 _startUploadDateTime = pickedDate;
                 _startUploadDateTimeController.text =
                     DateFormat('dd-MM-yyyy').format(_startUploadDateTime!);
-              
+
                 // now clicking on Enter works since the
                 // Checkbox is not focused anymore
                 _audioTitleSearchSentenceFocusNode.requestFocus();
@@ -685,7 +685,7 @@ class _SortAndFilterAudioDialogWidgetState
                 _endUploadDateTime = pickedDate;
                 _endUploadDateTimeController.text =
                     DateFormat('dd-MM-yyyy').format(_endUploadDateTime!);
-              
+
                 // now clicking on Enter works since the
                 // Checkbox is not focused anymore
                 _audioTitleSearchSentenceFocusNode.requestFocus();
@@ -965,7 +965,7 @@ class _SortAndFilterAudioDialogWidgetState
   DropdownButton<SortingOption> _buildSortingChoiceList(BuildContext context) {
     return DropdownButton<SortingOption>(
       key: const Key('sortingOptionDropdownButton'),
-      value: SortingOption.audioDownloadDateTime,
+      value: SortingOption.audioDownloadDate,
       onChanged: (SortingOption? newValue) {
         setState(() {
           if (!_selectedSortingItemLst

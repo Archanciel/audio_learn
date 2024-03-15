@@ -301,7 +301,8 @@ void main() {
       // Cleanup the temporary directory
       await tempDir.delete(recursive: true);
     });
-    test('saveToFile and loadFromFile for one Playlist instance without Audio', () async {
+    test('saveToFile and loadFromFile for one Playlist instance without Audio',
+        () async {
       // Create a temporary directory to store the serialized Audio object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'playlist.json');
@@ -342,7 +343,9 @@ void main() {
       // Cleanup the temporary directory
       await tempDir.delete(recursive: true);
     });
-    test('saveToFile and loadFromFile for one Playlist instance without AudioSortFilterParameters', () async {
+    test(
+        'saveToFile and loadFromFile for one Playlist instance without AudioSortFilterParameters',
+        () async {
       // Create a temporary directory to store the serialized Audio object
       Directory tempDir = await Directory.systemTemp.createTemp('AudioTest');
       String filePath = path.join(tempDir.path, 'playlist.json');
@@ -454,7 +457,7 @@ void main() {
       String filePath = path.join(tempDir.path, 'sorting_item.json');
 
       SortingItem testSortingItem = SortingItem(
-        sortingOption: SortingOption.audioDownloadDateTime,
+        sortingOption: SortingOption.audioDownloadDate,
         isAscending: true,
       );
 
@@ -880,7 +883,7 @@ void main() {
 
 AudioSortFilterParameters createAudioSortFilterParameters() {
   SortingItem sortingItem1 = SortingItem(
-    sortingOption: SortingOption.audioDownloadDateTime,
+    sortingOption: SortingOption.audioDownloadDate,
     isAscending: true,
   );
   SortingItem sortingItem2 = SortingItem(

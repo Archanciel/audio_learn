@@ -2,7 +2,6 @@ import '../models/audio.dart';
 import '../utils/date_time_parser.dart';
 import 'sort_filter_parameters.dart';
 
-
 class SortCriteria<T> {
   final Comparable Function(T) selectorFunction;
   int sortOrder;
@@ -16,7 +15,7 @@ class SortCriteria<T> {
 class AudioSortFilterService {
   static Map<SortingOption, SortCriteria<Audio>>
       sortCriteriaForSortingOptionMap = {
-    SortingOption.audioDownloadDateTime: SortCriteria<Audio>(
+    SortingOption.audioDownloadDate: SortCriteria<Audio>(
       selectorFunction: (Audio audio) {
         return DateTimeParser.truncateDateTimeToDateOnly(
             audio.audioDownloadDateTime);
