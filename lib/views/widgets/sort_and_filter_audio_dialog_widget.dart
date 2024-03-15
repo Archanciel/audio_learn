@@ -558,13 +558,11 @@ class _SortAndFilterAudioDialogWidgetState
                   lastDate: now,
                 );
 
-                if (pickedDate != null) {
-                  // Add this check
-                  _startDownloadDateTime = pickedDate;
-                  _startDownloadDateTimeController.text =
-                      DateFormat('dd-MM-yyyy').format(_startDownloadDateTime!);
-                }
-
+                // Add this check
+                _startDownloadDateTime = pickedDate;
+                _startDownloadDateTimeController.text =
+                    DateFormat('dd-MM-yyyy').format(_startDownloadDateTime!);
+              
                 // now clicking on Enter works since the
                 // Checkbox is not focused anymore
                 _audioTitleSearchSentenceFocusNode.requestFocus();
@@ -601,13 +599,11 @@ class _SortAndFilterAudioDialogWidgetState
                   lastDate: now,
                 );
 
-                if (pickedDate != null) {
-                  // Add this check
-                  _endDownloadDateTime = pickedDate;
-                  _endDownloadDateTimeController.text =
-                      DateFormat('dd-MM-yyyy').format(_endDownloadDateTime!);
-                }
-
+                // Add this check
+                _endDownloadDateTime = pickedDate;
+                _endDownloadDateTimeController.text =
+                    DateFormat('dd-MM-yyyy').format(_endDownloadDateTime!);
+              
                 // now clicking on Enter works since the
                 // Checkbox is not focused anymore
                 _audioTitleSearchSentenceFocusNode.requestFocus();
@@ -644,13 +640,11 @@ class _SortAndFilterAudioDialogWidgetState
                   lastDate: now,
                 );
 
-                if (pickedDate != null) {
-                  // Add this check
-                  _startUploadDateTime = pickedDate;
-                  _startUploadDateTimeController.text =
-                      DateFormat('dd-MM-yyyy').format(_startUploadDateTime!);
-                }
-
+                // Add this check
+                _startUploadDateTime = pickedDate;
+                _startUploadDateTimeController.text =
+                    DateFormat('dd-MM-yyyy').format(_startUploadDateTime!);
+              
                 // now clicking on Enter works since the
                 // Checkbox is not focused anymore
                 _audioTitleSearchSentenceFocusNode.requestFocus();
@@ -687,13 +681,11 @@ class _SortAndFilterAudioDialogWidgetState
                   lastDate: now,
                 );
 
-                if (pickedDate != null) {
-                  // Add this check
-                  _endUploadDateTime = pickedDate;
-                  _endUploadDateTimeController.text =
-                      DateFormat('dd-MM-yyyy').format(_endUploadDateTime!);
-                }
-
+                // Add this check
+                _endUploadDateTime = pickedDate;
+                _endUploadDateTimeController.text =
+                    DateFormat('dd-MM-yyyy').format(_endUploadDateTime!);
+              
                 // now clicking on Enter works since the
                 // Checkbox is not focused anymore
                 _audioTitleSearchSentenceFocusNode.requestFocus();

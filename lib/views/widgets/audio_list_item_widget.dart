@@ -337,13 +337,9 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
       )}/sec';
     }
 
-    if (audioDuration == null) {
-      subTitle = '?';
-    } else {
-      subTitle =
-          '${audioDuration.HHmmss()}. $audioFileSizeStr ${AppLocalizations.of(context)!.atPreposition} $audioDownloadSpeedStr ${AppLocalizations.of(context)!.on} ${frenchDateTimeFormat.format(audio.audioDownloadDateTime)}';
-    }
-    return subTitle;
+    subTitle =
+        '${audioDuration!.HHmmss()}. $audioFileSizeStr ${AppLocalizations.of(context)!.atPreposition} $audioDownloadSpeedStr ${AppLocalizations.of(context)!.on} ${frenchDateTimeFormat.format(audio.audioDownloadDateTime)}';
+      return subTitle;
   }
 
   Widget _buildPlayButton() {

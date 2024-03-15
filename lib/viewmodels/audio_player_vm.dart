@@ -16,7 +16,7 @@ abstract class Command {
   void undo();
 }
 
-/// Command class used when the user clicks on 
+/// Command class used when the user clicks on
 /// '>>' 10 seconds or 1 minute buttons OR
 /// '<<' 10 seconds or 1 minute buttons
 /// or when the user clicks the first time on
@@ -761,8 +761,8 @@ class AudioPlayerVM extends ChangeNotifier {
 
     Playlist? currentAudioPlaylist = _currentAudio!.enclosingPlaylist;
     JsonDataService.saveToFile(
-      model: currentAudioPlaylist!,
-      path: currentAudioPlaylist.getPlaylistDownloadFilePathName(),
+      model: currentAudioPlaylist,
+      path: currentAudioPlaylist!.getPlaylistDownloadFilePathName(),
     );
 
     _currentAudioLastSaveDateTime = now;

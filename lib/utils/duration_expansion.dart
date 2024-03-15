@@ -87,7 +87,8 @@ extension DurationExpansion on Duration {
     // HHmmssZeroHH ensuring durations are correctly rounded
     // (test not performed in DateTimeParser test)'
 
-    String twoDigitSeconds = twoDigits((inMilliseconds.remainder(60000).abs() / 1000).round());
+    String twoDigitSeconds =
+        twoDigits((inMilliseconds.remainder(60000).abs() / 1000).round());
 
     String minusStr = '';
 

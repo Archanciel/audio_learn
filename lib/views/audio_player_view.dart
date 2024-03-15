@@ -274,7 +274,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         onSelected: (PlaylistPopupMenuButton value) {
           // Handle menu item selection
           switch (value) {
-            case PlaylistPopupMenuButton.defineSortFilterAudiosSettings:
+            case PlaylistPopupMenuButton.openSortFilterAudioSettingsDialog:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
@@ -343,7 +343,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             PopupMenuItem<PlaylistPopupMenuButton>(
               key: const Key(
                   'define_sort_and_filter_audio_settings_dialog_item'),
-              value: PlaylistPopupMenuButton.defineSortFilterAudiosSettings,
+              value: PlaylistPopupMenuButton.openSortFilterAudioSettingsDialog,
               child: Text(
                   AppLocalizations.of(context)!.defineSortFilterAudiosSettings),
             ),
