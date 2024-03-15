@@ -502,11 +502,45 @@ class PlaylistListVM extends ChangeNotifier {
     _audioSortFilterParameters = audioSortFilterParameters;
   }
 
-  AudioSortFilterParameters getAudioSortFilterParameters() {
+  /// Method called when the user clicks on the playlist menu
+  /// item "Sort and filter playlist audios" in the
+  /// PlaylistDownloadView screen.
+  AudioSortFilterParameters getAudioSortFilterParamPlaylistDownloadView() {
+    Playlist selectedPlaylist = getSelectedPlaylists()[0];
+    AudioSortFilterParameters? playlistAudioSortFilterParameters =
+        selectedPlaylist.audioSortFilterParamPlaylistDownloadView;
+
+    if (playlistAudioSortFilterParameters != null) {
+      return playlistAudioSortFilterParameters;
+    }
+
     // if the user has not yet selected sort and filter parameters,
     // then the default sort and filter parameters which don't
     // filter and only sort by audio download date descending
     // are returned.
+    return createDefaultAudioSortFilterParameters();
+  }
+
+  /// Method called when the user clicks on the playlist menu
+  /// item "Sort and filter playlist audios" in the
+  /// AudioPlayerView screen.
+  AudioSortFilterParameters getAudioSortFilterParamAudioPlayerView() {
+    Playlist selectedPlaylist = getSelectedPlaylists()[0];
+    AudioSortFilterParameters? playlistAudioSortFilterParameters =
+        selectedPlaylist.audioSortFilterParamAudioPlayerView;
+
+    if (playlistAudioSortFilterParameters != null) {
+      return playlistAudioSortFilterParameters;
+    }
+
+    // if the user has not yet selected sort and filter parameters,
+    // then the default sort and filter parameters which don't
+    // filter and only sort by audio download date descending
+    // are returned.
+    return createDefaultAudioSortFilterParameters();
+  }
+
+  AudioSortFilterParameters createDefaultAudioSortFilterParameters() {
     _audioSortFilterParameters ??= AudioSortFilterParameters(
       selectedSortItemLst: [
         SortingItem(

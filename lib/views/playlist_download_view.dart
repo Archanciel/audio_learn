@@ -487,7 +487,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                       subFilterAndSort: false,
                     ),
                     audioSortFilterParameters: playlistListVMlistenFalse
-                        .getAudioSortFilterParameters(),
+                        .getAudioSortFilterParamPlaylistDownloadView(),
                     focusNode: focusNode,
                   );
                 },
@@ -519,7 +519,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                       subFilterAndSort: false,
                     ),
                     audioSortFilterParameters: playlistListVMlistenFalse
-                        .getAudioSortFilterParameters(),
+                        .getAudioSortFilterParamPlaylistDownloadView(),
                     focusNode: focusNode,
                   );
                 },
