@@ -37,8 +37,6 @@ class _SortAndFilterAudioDialogWidgetState
     border: OutlineInputBorder(),
   );
 
-  late SortingItem _initialSortingItem;
-
   final List<String> _audioTitleFilterSentencesLst = [];
 
   late List<SortingItem> _selectedSortingItemLst;
@@ -96,8 +94,6 @@ class _SortAndFilterAudioDialogWidgetState
 
     // Set the initial sort and filter fields
 
-    _setInitialSortingItem();
-
     _selectedSortingItemLst =
         widget.audioSortFilterParameters.selectedSortItemLst;
     _audioTitleFilterSentencesLst
@@ -133,7 +129,7 @@ class _SortAndFilterAudioDialogWidgetState
 
   void _resetSortFilterOptions() {
     _selectedSortingItemLst.clear();
-    _selectedSortingItemLst.add(_initialSortingItem);
+    _selectedSortingItemLst.add(_getInitialSortingItem());
     _audioTitleSearchSentenceController.clear();
     _audioTitleFilterSentencesLst.clear();
     _ignoreCase = true;
@@ -156,7 +152,7 @@ class _SortAndFilterAudioDialogWidgetState
 
   void _setPlaylistSortFilterOptions() {
     _selectedSortingItemLst.clear();
-    _selectedSortingItemLst.add(_initialSortingItem);
+    _selectedSortingItemLst.add(_getInitialSortingItem());
     _filterMusicQuality = false;
     _ignoreCase = true;
     _searchInVideoCompactDescription = true;
@@ -176,13 +172,8 @@ class _SortAndFilterAudioDialogWidgetState
     _endUploadDateTime = null;
   }
 
-  void _setInitialSortingItem() {
-    _initialSortingItem = SortingItem(
-      sortingOption: SortingOption.audioDownloadDate,
-      isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
-        sortingOption: SortingOption.audioDownloadDate,
-      ),
-    );
+  SortingItem _getInitialSortingItem() {
+    return _audioSortFilterService.getDefaultSortingItem();
   }
 
   String _sortingOptionToString(

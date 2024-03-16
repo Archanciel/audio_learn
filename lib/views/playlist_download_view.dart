@@ -124,7 +124,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       child: Consumer<PlaylistListVM>(
         builder: (context, expandablePlaylistListVM, child) {
           _selectedPlaylistsPlayableAudios =
-              expandablePlaylistListVM.getSelectedPlaylistPlayableAudios();
+              expandablePlaylistListVM.getSelectedPlaylistPlayableAudios( );
           if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
             // Scroll the sublist to the top when the audio
             // list is filtered and/or sorted
@@ -507,31 +507,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               focusNode.requestFocus();
               break;
             case PlaylistPopupMenuButton.saveSortFilterAudiosSettingsToPlaylist:
-              // Using FocusNode to enable clicking on Enter to close
-              // the dialog
-              final FocusNode focusNode = FocusNode();
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return SortAndFilterAudioDialogWidget(
-                    selectedPlaylistAudioLst: playlistListVMlistenFalse
-                        .getSelectedPlaylistPlayableAudios(
-                      subFilterAndSort: false,
-                    ),
-                    audioSortFilterParameters: playlistListVMlistenFalse
-                        .getAudioSortFilterParamPlaylistDownloadView(),
-                    focusNode: focusNode,
-                  );
-                },
-              ).then((result) {
-                if (result != null) {
-                  List<Audio> returnedAudioList = result;
-                  playlistListVMlistenFalse
-                      .setSortedFilteredSelectedPlaylistsPlayableAudios(
-                          returnedAudioList);
-                }
-              });
-              focusNode.requestFocus();
+              playlistListVMlistenFalse
+                  .savePlaylistAudioSortFilterParameters();
               break;
             case PlaylistPopupMenuButton.updatePlaylistJson:
               playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();

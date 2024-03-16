@@ -57,6 +57,9 @@ class PlaylistListVM extends ChangeNotifier {
   Playlist? _uniqueSelectedPlaylist;
   Playlist? get uniqueSelectedPlaylist => _uniqueSelectedPlaylist;
 
+  final AudioSortFilterService _audioSortFilterService =
+      AudioSortFilterService();
+
   PlaylistListVM({
     required WarningMessageVM warningMessageVM,
     required AudioDownloadVM audioDownloadVM,
@@ -461,18 +464,29 @@ class PlaylistListVM extends ChangeNotifier {
         _sortedFilteredSelectedPlaylistsPlayableAudios != null) {
       // the case if the user clicked on the Apply button in the
       // SortAndFilterAudioDialogWidget
-      return _sortedFilteredSelectedPlaylistsPlayableAudios!;
     } else {
-      List<Audio> selectedPlaylistsAudios = [];
+      Playlist selectedPlaylist = getSelectedPlaylists()[
+          0]; // only one playlist can be selected at a time
+      List<Audio> selectedPlaylistsAudios = selectedPlaylist.playableAudioLst;
 
-      for (Playlist playlist in _listOfSelectablePlaylists) {
-        if (playlist.isSelected) {
-          selectedPlaylistsAudios.addAll(playlist.playableAudioLst);
-        }
-      }
+      _sortedFilteredSelectedPlaylistsPlayableAudios =
+          _audioSortFilterService.filterAndSortAudioLst(
+        audioLst: selectedPlaylistsAudios,
+        audioSortFilterParameters: _audioSortFilterParameters ??
+            createDefaultAudioSortFilterParameters(),
+      );
 
-      return selectedPlaylistsAudios;
+      // currently, only one playlist can be selected at a time !
+      // so, the following code is not useful
+      //
+      // for (Playlist playlist in _listOfSelectablePlaylists) {
+      //   if (playlist.isSelected) {
+      //     selectedPlaylistsAudios.addAll(playlist.playableAudioLst);
+      //   }
+      // }
     }
+
+    return _sortedFilteredSelectedPlaylistsPlayableAudios!;
   }
 
   /// Used to display the audio list of the selected playlist
@@ -542,14 +556,7 @@ class PlaylistListVM extends ChangeNotifier {
 
   AudioSortFilterParameters createDefaultAudioSortFilterParameters() {
     _audioSortFilterParameters ??= AudioSortFilterParameters(
-      selectedSortItemLst: [
-        SortingItem(
-          sortingOption: SortingOption.audioDownloadDate,
-          isAscending: AudioSortFilterService.getDefaultSortOptionOrder(
-            sortingOption: SortingOption.audioDownloadDate,
-          ),
-        )
-      ],
+      selectedSortItemLst: [_audioSortFilterService.getDefaultSortingItem()],
       filterSentenceLst: const [],
       sentencesCombination: SentencesCombination.AND,
     );
@@ -632,6 +639,17 @@ class PlaylistListVM extends ChangeNotifier {
     }
 
     return removedPlayableAudioNumber;
+  }
+
+  void savePlaylistAudioSortFilterParameters() {
+    Playlist playlist = getSelectedPlaylists()[0];
+    playlist.audioSortFilterParamPlaylistDownloadView =
+        _audioSortFilterParameters;
+
+    JsonDataService.saveToFile(
+      model: playlist,
+      path: playlist.getPlaylistDownloadFilePathName(),
+    );
   }
 
   /// playableAudioLst order: [available audio last downloaded, ...,

@@ -387,6 +387,14 @@ class AudioSortFilterService {
         sortAscending;
   }
 
+  SortingItem getDefaultSortingItem() {
+    return SortingItem(
+      sortingOption: SortingOption.audioDownloadDate,
+      isAscending: AudioSortFilterService.sortCriteriaForSortingOptionMap[SortingOption.audioDownloadDate]!.sortOrder ==
+        sortAscending,
+    );
+  }
+
   List<Audio> filterAndSortAudioLst({
     required List<Audio> audioLst,
     required AudioSortFilterParameters audioSortFilterParameters,
