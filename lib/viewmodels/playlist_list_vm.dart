@@ -514,6 +514,8 @@ class PlaylistListVM extends ChangeNotifier {
   void setAudioSortFilterParameters(
       AudioSortFilterParameters audioSortFilterParameters) {
     _audioSortFilterParameters = audioSortFilterParameters;
+
+    // notifyListeners();
   }
 
   /// Method called when the user clicks on the playlist menu

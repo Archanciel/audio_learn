@@ -134,7 +134,8 @@ class _SortAndFilterAudioDialogWidgetState
 
   void _resetSortFilterOptions() {
     _selectedSortingItemLst.clear();
-    _selectedSortingItemLst.add(_getInitialSortingItem());
+    _selectedSortingItemLst
+        .addAll(widget.audioSortDefaultFilterParameters.selectedSortItemLst);
     _audioTitleSearchSentenceController.clear();
     _audioTitleFilterSentencesLst.clear();
     _ignoreCase = true;
@@ -159,11 +160,13 @@ class _SortAndFilterAudioDialogWidgetState
     AudioSortFilterParameters audioSortPlaylistFilterParameters =
         widget.audioSortPlaylistFilterParameters;
 
-    _selectedSortingItemLst =
-        audioSortPlaylistFilterParameters.selectedSortItemLst;
+    _selectedSortingItemLst.clear();
+    _selectedSortingItemLst
+        .addAll(audioSortPlaylistFilterParameters.selectedSortItemLst);
     _audioTitleSearchSentenceController.clear();
-    _audioTitleFilterSentencesLst =
-        audioSortPlaylistFilterParameters.filterSentenceLst;
+    _audioTitleFilterSentencesLst.clear();
+    _audioTitleFilterSentencesLst
+        .addAll(audioSortPlaylistFilterParameters.filterSentenceLst);
     _ignoreCase = audioSortPlaylistFilterParameters.ignoreCase;
     _searchInVideoCompactDescription =
         audioSortPlaylistFilterParameters.searchAsWellInVideoCompactDescription;
@@ -178,7 +181,8 @@ class _SortAndFilterAudioDialogWidgetState
     _filterNotListened = audioSortPlaylistFilterParameters.filterNotListened;
     _startDownloadDateTimeController.text =
         (audioSortPlaylistFilterParameters.downloadDateStartRange != null)
-            ? audioSortPlaylistFilterParameters.downloadDateStartRange.toString()
+            ? audioSortPlaylistFilterParameters.downloadDateStartRange
+                .toString()
             : '';
     _endDownloadDateTimeController.text =
         (audioSortPlaylistFilterParameters.downloadDateEndRange != null)
@@ -202,7 +206,8 @@ class _SortAndFilterAudioDialogWidgetState
             : '';
     _startFileSizeController.text =
         (audioSortPlaylistFilterParameters.fileSizeStartRangeByte != null)
-            ? audioSortPlaylistFilterParameters.fileSizeStartRangeByte.toString()
+            ? audioSortPlaylistFilterParameters.fileSizeStartRangeByte
+                .toString()
             : '';
     _endFileSizeController.text =
         (audioSortPlaylistFilterParameters.fileSizeEndRangeByte != null)
