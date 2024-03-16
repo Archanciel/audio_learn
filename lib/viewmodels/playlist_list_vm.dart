@@ -519,10 +519,11 @@ class PlaylistListVM extends ChangeNotifier {
   /// Method called when the user clicks on the playlist menu
   /// item "Sort and filter playlist audios" in the
   /// PlaylistDownloadView screen.
-  AudioSortFilterParameters getAudioSortFilterParamPlaylistDownloadView() {
+  AudioSortFilterParameters
+      getSelectedPlaylistAudioSortFilterParamForPlaylistDownloadView() {
     Playlist selectedPlaylist = getSelectedPlaylists()[0];
     AudioSortFilterParameters? playlistAudioSortFilterParameters =
-        selectedPlaylist.audioSortFilterParamPlaylistDownloadView;
+        selectedPlaylist.audioSortFilterParamForPlaylistDownloadView;
 
     if (playlistAudioSortFilterParameters != null) {
       return playlistAudioSortFilterParameters;
@@ -538,10 +539,11 @@ class PlaylistListVM extends ChangeNotifier {
   /// Method called when the user clicks on the playlist menu
   /// item "Sort and filter playlist audios" in the
   /// AudioPlayerView screen.
-  AudioSortFilterParameters getAudioSortFilterParamAudioPlayerView() {
+  AudioSortFilterParameters
+      getSelectedPlaylistAudioSortFilterParamForAudioPlayerView() {
     Playlist selectedPlaylist = getSelectedPlaylists()[0];
     AudioSortFilterParameters? playlistAudioSortFilterParameters =
-        selectedPlaylist.audioSortFilterParamAudioPlayerView;
+        selectedPlaylist.audioSortFilterParamForAudioPlayerView;
 
     if (playlistAudioSortFilterParameters != null) {
       return playlistAudioSortFilterParameters;
@@ -613,10 +615,9 @@ class PlaylistListVM extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  /// Method called when the user selected a playlist item
-  /// PlaylistPopupMenuAction.updatePlaylistPlayableAudios menu
-  /// item. This method updates the playlist playable audio list
+  /// Method called when the user selected the Update playable
+  /// audio list menu displayed by the playlist item menu button.
+  /// This method updates the playlist playable audio list
   /// by removing the audios that are no longer present in the
   /// audio playlist directory.
   ///
@@ -643,7 +644,7 @@ class PlaylistListVM extends ChangeNotifier {
 
   void savePlaylistAudioSortFilterParameters() {
     Playlist playlist = getSelectedPlaylists()[0];
-    playlist.audioSortFilterParamPlaylistDownloadView =
+    playlist.audioSortFilterParamForPlaylistDownloadView =
         _audioSortFilterParameters;
 
     JsonDataService.saveToFile(

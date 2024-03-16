@@ -288,8 +288,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
                     ),
-                    audioSortFilterParameters: playlistListVMlistenFalse
-                        .getAudioSortFilterParamAudioPlayerView(),
+                    audioSortDefaultFilterParameters: playlistListVMlistenFalse
+                        .createDefaultAudioSortFilterParameters(),
+                    audioSortPlaylistFilterParameters: playlistListVMlistenFalse
+                        .getSelectedPlaylistAudioSortFilterParamForAudioPlayerView(),
                     focusNode: focusNode,
                   );
                 },
@@ -315,8 +317,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
                     ),
-                    audioSortFilterParameters: playlistListVMlistenFalse
-                        .getAudioSortFilterParamPlaylistDownloadView(),
+                    audioSortDefaultFilterParameters: playlistListVMlistenFalse
+                        .createDefaultAudioSortFilterParameters(),
+                    audioSortPlaylistFilterParameters: playlistListVMlistenFalse
+                        .getSelectedPlaylistAudioSortFilterParamForAudioPlayerView(),
                     focusNode: focusNode,
                   );
                 },

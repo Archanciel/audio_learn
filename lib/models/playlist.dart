@@ -43,8 +43,8 @@ class Playlist {
   // playlist audio has been played.
   int currentOrPastPlayableAudioIndex = -1;
 
-  AudioSortFilterParameters? audioSortFilterParamPlaylistDownloadView;
-  AudioSortFilterParameters? audioSortFilterParamAudioPlayerView;
+  AudioSortFilterParameters? audioSortFilterParamForPlaylistDownloadView;
+  AudioSortFilterParameters? audioSortFilterParamForAudioPlayerView;
 
   Playlist({
     this.url = '',
@@ -65,8 +65,8 @@ class Playlist {
     required this.downloadPath,
     required this.isSelected,
     required this.currentOrPastPlayableAudioIndex,
-    required this.audioSortFilterParamPlaylistDownloadView,
-    required this.audioSortFilterParamAudioPlayerView,
+    required this.audioSortFilterParamForPlaylistDownloadView,
+    required this.audioSortFilterParamForAudioPlayerView,
   });
 
   /// Factory constructor: creates an instance of Playlist from a
@@ -88,12 +88,12 @@ class Playlist {
       isSelected: json['isSelected'],
       currentOrPastPlayableAudioIndex:
           json['currentOrPastPlayableAudioIndex'] ?? -1,
-      audioSortFilterParamPlaylistDownloadView:
+      audioSortFilterParamForPlaylistDownloadView:
           (json['audioSortFilterParamPlaylistDownloadView'] != null)
               ? AudioSortFilterParameters.fromJson(
                   json['audioSortFilterParamPlaylistDownloadView'])
               : null,
-      audioSortFilterParamAudioPlayerView:
+      audioSortFilterParamForAudioPlayerView:
           (json['audioSortFilterParamAudioPlayerView'] != null)
               ? AudioSortFilterParameters.fromJson(
                   json['audioSortFilterParamAudioPlayerView'])
@@ -139,9 +139,9 @@ class Playlist {
       'isSelected': isSelected,
       'currentOrPastPlayableAudioIndex': currentOrPastPlayableAudioIndex,
       'audioSortFilterParamPlaylistDownloadView':
-          audioSortFilterParamPlaylistDownloadView?.toJson(),
+          audioSortFilterParamForPlaylistDownloadView?.toJson(),
       'audioSortFilterParamAudioPlayerView':
-          audioSortFilterParamAudioPlayerView?.toJson(),
+          audioSortFilterParamForAudioPlayerView?.toJson(),
     };
   }
 

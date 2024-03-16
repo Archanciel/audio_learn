@@ -280,9 +280,9 @@ void main() {
       testPlaylist.downloadedAudioLst = [audio1, audio2];
       testPlaylist.playableAudioLst = [audio2];
 
-      testPlaylist.audioSortFilterParamPlaylistDownloadView =
+      testPlaylist.audioSortFilterParamForPlaylistDownloadView =
           createAudioSortFilterParameters();
-      testPlaylist.audioSortFilterParamAudioPlayerView =
+      testPlaylist.audioSortFilterParamForAudioPlayerView =
           createAudioSortFilterParameters();
 
       // Save Playlist to a file
@@ -322,9 +322,9 @@ void main() {
 
       testPlaylist.downloadPath = 'path/to/downloads';
 
-      testPlaylist.audioSortFilterParamPlaylistDownloadView =
+      testPlaylist.audioSortFilterParamForPlaylistDownloadView =
           createAudioSortFilterParameters();
-      testPlaylist.audioSortFilterParamAudioPlayerView =
+      testPlaylist.audioSortFilterParamForAudioPlayerView =
           createAudioSortFilterParameters();
 
       // Save Playlist to a file

@@ -14,13 +14,15 @@ import '../../viewmodels/theme_provider_vm.dart';
 
 class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final List<Audio> selectedPlaylistAudioLst;
-  AudioSortFilterParameters audioSortFilterParameters;
+  AudioSortFilterParameters audioSortDefaultFilterParameters;
+  AudioSortFilterParameters audioSortPlaylistFilterParameters;
   final FocusNode focusNode;
 
   SortAndFilterAudioDialogWidget({
     super.key,
     required this.selectedPlaylistAudioLst,
-    required this.audioSortFilterParameters,
+    required this.audioSortDefaultFilterParameters,
+    required this.audioSortPlaylistFilterParameters,
     required this.focusNode,
   });
 
@@ -37,7 +39,7 @@ class _SortAndFilterAudioDialogWidgetState
     border: OutlineInputBorder(),
   );
 
-  final List<String> _audioTitleFilterSentencesLst = [];
+  late List<String> _audioTitleFilterSentencesLst = [];
 
   late List<SortingItem> _selectedSortingItemLst;
   late bool _isAnd;
@@ -95,20 +97,23 @@ class _SortAndFilterAudioDialogWidgetState
     // Set the initial sort and filter fields
 
     _selectedSortingItemLst =
-        widget.audioSortFilterParameters.selectedSortItemLst;
+        widget.audioSortDefaultFilterParameters.selectedSortItemLst;
     _audioTitleFilterSentencesLst
-        .addAll(widget.audioSortFilterParameters.filterSentenceLst);
-    _ignoreCase = widget.audioSortFilterParameters.ignoreCase;
-    _searchInVideoCompactDescription =
-        widget.audioSortFilterParameters.searchAsWellInVideoCompactDescription;
-    _isAnd = (widget.audioSortFilterParameters.sentencesCombination ==
+        .addAll(widget.audioSortDefaultFilterParameters.filterSentenceLst);
+    _ignoreCase = widget.audioSortDefaultFilterParameters.ignoreCase;
+    _searchInVideoCompactDescription = widget
+        .audioSortDefaultFilterParameters.searchAsWellInVideoCompactDescription;
+    _isAnd = (widget.audioSortDefaultFilterParameters.sentencesCombination ==
         SentencesCombination.AND);
     _isOr = !_isAnd;
-    _filterMusicQuality = widget.audioSortFilterParameters.filterMusicQuality;
-    _filterFullyListened = widget.audioSortFilterParameters.filterFullyListened;
+    _filterMusicQuality =
+        widget.audioSortDefaultFilterParameters.filterMusicQuality;
+    _filterFullyListened =
+        widget.audioSortDefaultFilterParameters.filterFullyListened;
     _filterPartiallyListened =
-        widget.audioSortFilterParameters.filterPartiallyListened;
-    _filterNotListened = widget.audioSortFilterParameters.filterNotListened;
+        widget.audioSortDefaultFilterParameters.filterPartiallyListened;
+    _filterNotListened =
+        widget.audioSortDefaultFilterParameters.filterNotListened;
   }
 
   @override
@@ -151,25 +156,58 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _setPlaylistSortFilterOptions() {
-    _selectedSortingItemLst.clear();
-    _selectedSortingItemLst.add(_getInitialSortingItem());
-    _filterMusicQuality = false;
-    _ignoreCase = true;
-    _searchInVideoCompactDescription = true;
-    _startFileSizeController.clear();
-    _endFileSizeController.clear();
+    AudioSortFilterParameters audioSortPlaylistFilterParameters =
+        widget.audioSortPlaylistFilterParameters;
+
+    _selectedSortingItemLst =
+        audioSortPlaylistFilterParameters.selectedSortItemLst;
     _audioTitleSearchSentenceController.clear();
-    _startDownloadDateTimeController.clear();
-    _endDownloadDateTimeController.clear();
-    _startUploadDateTimeController.clear();
-    _endUploadDateTimeController.clear();
-    _startAudioDurationController.clear();
-    _endAudioDurationController.clear();
-    _audioTitleSearchSentence = '';
-    _startDownloadDateTime = null;
-    _endDownloadDateTime = null;
-    _startUploadDateTime = null;
-    _endUploadDateTime = null;
+    _audioTitleFilterSentencesLst =
+        audioSortPlaylistFilterParameters.filterSentenceLst;
+    _ignoreCase = audioSortPlaylistFilterParameters.ignoreCase;
+    _searchInVideoCompactDescription =
+        audioSortPlaylistFilterParameters.searchAsWellInVideoCompactDescription;
+    _isAnd = (audioSortPlaylistFilterParameters.sentencesCombination ==
+        SentencesCombination.AND);
+    _isOr = !_isAnd;
+    _filterMusicQuality = audioSortPlaylistFilterParameters.filterMusicQuality;
+    _filterFullyListened =
+        audioSortPlaylistFilterParameters.filterFullyListened;
+    _filterPartiallyListened =
+        audioSortPlaylistFilterParameters.filterPartiallyListened;
+    _filterNotListened = audioSortPlaylistFilterParameters.filterNotListened;
+    _startDownloadDateTimeController.text =
+        (audioSortPlaylistFilterParameters.downloadDateStartRange != null)
+            ? audioSortPlaylistFilterParameters.downloadDateStartRange.toString()
+            : '';
+    _endDownloadDateTimeController.text =
+        (audioSortPlaylistFilterParameters.downloadDateEndRange != null)
+            ? audioSortPlaylistFilterParameters.downloadDateEndRange.toString()
+            : '';
+    _startUploadDateTimeController.text =
+        (audioSortPlaylistFilterParameters.uploadDateStartRange != null)
+            ? audioSortPlaylistFilterParameters.uploadDateStartRange.toString()
+            : '';
+    _endUploadDateTimeController.text =
+        (audioSortPlaylistFilterParameters.uploadDateEndRange != null)
+            ? audioSortPlaylistFilterParameters.uploadDateEndRange.toString()
+            : '';
+    _startAudioDurationController.text =
+        (audioSortPlaylistFilterParameters.durationStartRangeSec != null)
+            ? audioSortPlaylistFilterParameters.durationStartRangeSec.toString()
+            : '';
+    _endAudioDurationController.text =
+        (audioSortPlaylistFilterParameters.durationEndRangeSec != null)
+            ? audioSortPlaylistFilterParameters.durationEndRangeSec.toString()
+            : '';
+    _startFileSizeController.text =
+        (audioSortPlaylistFilterParameters.fileSizeStartRangeByte != null)
+            ? audioSortPlaylistFilterParameters.fileSizeStartRangeByte.toString()
+            : '';
+    _endFileSizeController.text =
+        (audioSortPlaylistFilterParameters.fileSizeEndRangeByte != null)
+            ? audioSortPlaylistFilterParameters.fileSizeEndRangeByte.toString()
+            : '';
   }
 
   SortingItem _getInitialSortingItem() {
@@ -487,7 +525,9 @@ class _SortAndFilterAudioDialogWidgetState
                 key: const Key('setPlaylistSortFilterOptionsIconButton'),
                 icon: const Icon(Icons.perm_data_setting),
                 onPressed: () async {
-                  _setPlaylistSortFilterOptions();
+                  setState(() {
+                    _setPlaylistSortFilterOptions();
+                  });
 
                   // now clicking on Enter works since the
                   // Checkbox is not focused anymore
@@ -1002,7 +1042,7 @@ class _SortAndFilterAudioDialogWidgetState
   // Method called when the user clicks on the 'Apply' button or
   // presses the Enter key on Windows
   List<dynamic> _filterAndSortAudioLst() {
-    widget.audioSortFilterParameters = AudioSortFilterParameters(
+    widget.audioSortDefaultFilterParameters = AudioSortFilterParameters(
       selectedSortItemLst: _selectedSortingItemLst,
       filterSentenceLst: _audioTitleFilterSentencesLst,
       sentencesCombination:
@@ -1018,12 +1058,12 @@ class _SortAndFilterAudioDialogWidgetState
     List<Audio> filteredAndSortedAudioLst =
         _audioSortFilterService.filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
-      audioSortFilterParameters: widget.audioSortFilterParameters,
+      audioSortFilterParameters: widget.audioSortDefaultFilterParameters,
     );
 
     return [
       filteredAndSortedAudioLst,
-      widget.audioSortFilterParameters,
+      widget.audioSortDefaultFilterParameters,
     ];
   }
 }

@@ -124,7 +124,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       child: Consumer<PlaylistListVM>(
         builder: (context, expandablePlaylistListVM, child) {
           _selectedPlaylistsPlayableAudios =
-              expandablePlaylistListVM.getSelectedPlaylistPlayableAudios( );
+              expandablePlaylistListVM.getSelectedPlaylistPlayableAudios();
           if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
             // Scroll the sublist to the top when the audio
             // list is filtered and/or sorted
@@ -140,11 +140,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           return ListView.builder(
             key: const Key('audio_list'),
             controller: _scrollController,
-            itemCount: (_selectedPlaylistsPlayableAudios.isEmpty)
-                ? 0
-                : expandablePlaylistListVM
-                    .getSelectedPlaylistPlayableAudios()
-                    .length,
+            itemCount: _selectedPlaylistsPlayableAudios.length,
             itemBuilder: (BuildContext context, int index) {
               final audio = _selectedPlaylistsPlayableAudios[index];
               return AudioListItemWidget(
@@ -486,8 +482,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         .getSelectedPlaylistPlayableAudios(
                       subFilterAndSort: false,
                     ),
-                    audioSortFilterParameters: playlistListVMlistenFalse
-                        .getAudioSortFilterParamPlaylistDownloadView(),
+                    audioSortDefaultFilterParameters: playlistListVMlistenFalse
+                        .createDefaultAudioSortFilterParameters(),
+                    audioSortPlaylistFilterParameters: playlistListVMlistenFalse
+                        .getSelectedPlaylistAudioSortFilterParamForPlaylistDownloadView(),
                     focusNode: focusNode,
                   );
                 },
@@ -507,8 +505,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               focusNode.requestFocus();
               break;
             case PlaylistPopupMenuButton.saveSortFilterAudiosSettingsToPlaylist:
-              playlistListVMlistenFalse
-                  .savePlaylistAudioSortFilterParameters();
+              playlistListVMlistenFalse.savePlaylistAudioSortFilterParameters();
               break;
             case PlaylistPopupMenuButton.updatePlaylistJson:
               playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();
