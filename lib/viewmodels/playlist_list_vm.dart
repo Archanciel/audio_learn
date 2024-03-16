@@ -301,6 +301,11 @@ class PlaylistListVM extends ChangeNotifier {
     // selecting another playlist or unselecting the currently
     // selected playlist nullifies the filtered and sorted audio list
     _sortedFilteredSelectedPlaylistsPlayableAudios = null;
+    _audioSortFilterParameters = null; // required to reset the sort and
+    //                                    filter parameters, otherwise
+    //                                    the previous sort and filter
+    //                                    parameters will be applioed to
+    //                                    the newly selected playlist
 
     Playlist playlistSelectedOrUnselected =
         _listOfSelectablePlaylists[playlistIndex];
@@ -457,34 +462,26 @@ class PlaylistListVM extends ChangeNotifier {
   /// means that the filtered and sorted audio list is
   /// returned if it exists. If false, the full playable
   /// audio list of the selected playlists is returned.
-  List<Audio> getSelectedPlaylistPlayableAudios({
-    bool subFilterAndSort = true,
-  }) {
-    if (subFilterAndSort &&
-        _sortedFilteredSelectedPlaylistsPlayableAudios != null) {
-      // the case if the user clicked on the Apply button in the
-      // SortAndFilterAudioDialogWidget
-    } else {
-      Playlist selectedPlaylist = getSelectedPlaylists()[
-          0]; // only one playlist can be selected at a time
-      List<Audio> selectedPlaylistsAudios = selectedPlaylist.playableAudioLst;
+  List<Audio> getSelectedPlaylistPlayableAudios() {
+    Playlist selectedPlaylist = getSelectedPlaylists()[
+        0]; // only one playlist can be selected at a time
+    List<Audio> selectedPlaylistsAudios = selectedPlaylist.playableAudioLst;
 
-      _sortedFilteredSelectedPlaylistsPlayableAudios =
-          _audioSortFilterService.filterAndSortAudioLst(
-        audioLst: selectedPlaylistsAudios,
-        audioSortFilterParameters: _audioSortFilterParameters ??
-            createDefaultAudioSortFilterParameters(),
-      );
+    _sortedFilteredSelectedPlaylistsPlayableAudios =
+        _audioSortFilterService.filterAndSortAudioLst(
+      audioLst: selectedPlaylistsAudios,
+      audioSortFilterParameters: _audioSortFilterParameters ??
+          createDefaultAudioSortFilterParameters(),
+    );
 
-      // currently, only one playlist can be selected at a time !
-      // so, the following code is not useful
-      //
-      // for (Playlist playlist in _listOfSelectablePlaylists) {
-      //   if (playlist.isSelected) {
-      //     selectedPlaylistsAudios.addAll(playlist.playableAudioLst);
-      //   }
-      // }
-    }
+    // currently, only one playlist can be selected at a time !
+    // so, the following code is not useful
+    //
+    // for (Playlist playlist in _listOfSelectablePlaylists) {
+    //   if (playlist.isSelected) {
+    //     selectedPlaylistsAudios.addAll(playlist.playableAudioLst);
+    //   }
+    // }
 
     return _sortedFilteredSelectedPlaylistsPlayableAudios!;
   }
@@ -559,13 +556,11 @@ class PlaylistListVM extends ChangeNotifier {
   }
 
   AudioSortFilterParameters createDefaultAudioSortFilterParameters() {
-    _audioSortFilterParameters ??= AudioSortFilterParameters(
+    return AudioSortFilterParameters(
       selectedSortItemLst: [_audioSortFilterService.getDefaultSortingItem()],
       filterSentenceLst: const [],
       sentencesCombination: SentencesCombination.AND,
     );
-
-    return _audioSortFilterParameters!;
   }
 
   void moveAudioToPlaylist({
@@ -617,6 +612,7 @@ class PlaylistListVM extends ChangeNotifier {
 
     notifyListeners();
   }
+
   /// Method called when the user selected the Update playable
   /// audio list menu displayed by the playlist item menu button.
   /// This method updates the playlist playable audio list

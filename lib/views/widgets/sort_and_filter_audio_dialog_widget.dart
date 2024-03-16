@@ -96,8 +96,8 @@ class _SortAndFilterAudioDialogWidgetState
 
     // Set the initial sort and filter fields
 
-    _selectedSortingItemLst =
-        widget.audioSortDefaultFilterParameters.selectedSortItemLst;
+    _selectedSortingItemLst = [];
+    _selectedSortingItemLst.addAll(widget.audioSortDefaultFilterParameters.selectedSortItemLst);
     _audioTitleFilterSentencesLst
         .addAll(widget.audioSortDefaultFilterParameters.filterSentenceLst);
     _ignoreCase = widget.audioSortDefaultFilterParameters.ignoreCase;

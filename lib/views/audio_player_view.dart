@@ -285,9 +285,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
-                        .getSelectedPlaylistPlayableAudios(
-                      subFilterAndSort: false,
-                    ),
+                        .getSelectedPlaylistPlayableAudios(),
                     audioSortDefaultFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
@@ -314,9 +312,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
-                        .getSelectedPlaylistPlayableAudios(
-                      subFilterAndSort: false,
-                    ),
+                        .getSelectedPlaylistPlayableAudios(),
                     audioSortDefaultFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse

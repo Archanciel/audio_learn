@@ -479,9 +479,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
-                        .getSelectedPlaylistPlayableAudios(
-                      subFilterAndSort: false,
-                    ),
+                        .getSelectedPlaylistPlayableAudios(),
                     audioSortDefaultFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
