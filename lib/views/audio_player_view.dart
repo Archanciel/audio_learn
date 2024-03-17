@@ -306,29 +306,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             case PlaylistPopupMenuButton.saveSortFilterAudiosSettingsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
-              final FocusNode focusNode = FocusNode();
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return SortAndFilterAudioDialogWidget(
-                    selectedPlaylistAudioLst: playlistListVMlistenFalse
-                        .getSelectedPlaylistPlayableAudios(),
-                    audioSortDefaultFilterParameters: playlistListVMlistenFalse
-                        .createDefaultAudioSortFilterParameters(),
-                    audioSortPlaylistFilterParameters: playlistListVMlistenFalse
-                        .getSelectedPlaylistAudioSortFilterParamForAudioPlayerView(),
-                    focusNode: focusNode,
-                  );
-                },
-              ).then((result) {
-                if (result != null) {
-                  List<Audio> returnedAudioList = result;
-                  playlistListVMlistenFalse
-                      .setSortedFilteredSelectedPlaylistsPlayableAudios(
-                          returnedAudioList);
-                }
-              });
-              focusNode.requestFocus();
+              playlistListVMlistenFalse
+                  .savePlaylistAudioSortFilterParamForAudioPlayerView();
               break;
             case PlaylistPopupMenuButton.updatePlaylistJson:
               playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();

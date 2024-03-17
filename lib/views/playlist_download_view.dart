@@ -503,7 +503,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               focusNode.requestFocus();
               break;
             case PlaylistPopupMenuButton.saveSortFilterAudiosSettingsToPlaylist:
-              playlistListVMlistenFalse.savePlaylistAudioSortFilterParameters();
+              playlistListVMlistenFalse
+                  .savePlaylistAudioSortFilterParamPlaylistDownloadView();
               break;
             case PlaylistPopupMenuButton.updatePlaylistJson:
               playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();

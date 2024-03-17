@@ -640,9 +640,20 @@ class PlaylistListVM extends ChangeNotifier {
     return removedPlayableAudioNumber;
   }
 
-  void savePlaylistAudioSortFilterParameters() {
+  void savePlaylistAudioSortFilterParamPlaylistDownloadView() {
     Playlist playlist = getSelectedPlaylists()[0];
     playlist.audioSortFilterParamForPlaylistDownloadView =
+        _audioSortFilterParameters;
+
+    JsonDataService.saveToFile(
+      model: playlist,
+      path: playlist.getPlaylistDownloadFilePathName(),
+    );
+  }
+
+  void savePlaylistAudioSortFilterParamForAudioPlayerView() {
+    Playlist playlist = getSelectedPlaylists()[0];
+    playlist.audioSortFilterParamForAudioPlayerView =
         _audioSortFilterParameters;
 
     JsonDataService.saveToFile(

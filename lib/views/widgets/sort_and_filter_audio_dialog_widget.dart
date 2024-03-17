@@ -97,7 +97,8 @@ class _SortAndFilterAudioDialogWidgetState
     // Set the initial sort and filter fields
 
     _selectedSortingItemLst = [];
-    _selectedSortingItemLst.addAll(widget.audioSortDefaultFilterParameters.selectedSortItemLst);
+    _selectedSortingItemLst
+        .addAll(widget.audioSortDefaultFilterParameters.selectedSortItemLst);
     _audioTitleFilterSentencesLst
         .addAll(widget.audioSortDefaultFilterParameters.filterSentenceLst);
     _ignoreCase = widget.audioSortDefaultFilterParameters.ignoreCase;
@@ -425,80 +426,11 @@ class _SortAndFilterAudioDialogWidgetState
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(AppLocalizations.of(context)!.fileSizeRange),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(AppLocalizations.of(context)!.start),
-                          SizedBox(
-                            width: 80,
-                            height: kDialogTextFieldHeight,
-                            child: TextField(
-                              key: const Key('startFileSizeTextField'),
-                              style: kDialogTextFieldStyle,
-                              decoration: _dialogTextFieldDecoration,
-                              controller: _startFileSizeController,
-                              keyboardType: TextInputType.number,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(AppLocalizations.of(context)!.end),
-                          SizedBox(
-                            width: 80,
-                            height: kDialogTextFieldHeight,
-                            child: TextField(
-                              key: const Key('endFileSizeTextField'),
-                              style: kDialogTextFieldStyle,
-                              decoration: _dialogTextFieldDecoration,
-                              controller: _endFileSizeController,
-                              keyboardType: TextInputType.number,
-                            ),
-                          ),
-                        ],
-                      ),
+                      _buildAudioFileSizeFields(context),
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(AppLocalizations.of(context)!.audioDurationRange),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(AppLocalizations.of(context)!.start),
-                          SizedBox(
-                            width: 80,
-                            height: kDialogTextFieldHeight,
-                            child: TextField(
-                              key:
-                                  const Key('audioDurationRangeStartTextField'),
-                              style: kDialogTextFieldStyle,
-                              decoration: _dialogTextFieldDecoration,
-                              controller: _startAudioDurationController,
-                              keyboardType: TextInputType.number,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(AppLocalizations.of(context)!.end),
-                          SizedBox(
-                            width: 80,
-                            height: kDialogTextFieldHeight,
-                            child: TextField(
-                              key: const Key('audioDurationRangeEndTextField'),
-                              style: kDialogTextFieldStyle,
-                              decoration: _dialogTextFieldDecoration,
-                              controller: _endAudioDurationController,
-                              keyboardType: TextInputType.number,
-                            ),
-                          ),
-                        ],
-                      ),
+                      _buildAudioDurationFields(context),
                     ],
                   ),
                 );
@@ -570,6 +502,95 @@ class _SortAndFilterAudioDialogWidgetState
           ],
         ),
       ),
+    );
+  }
+
+  Column _buildAudioDurationFields(BuildContext context) {
+    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            AppLocalizations.of(context)!.audioDurationRange),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(AppLocalizations.of(context)!.start),
+                            SizedBox(
+                              width: 80,
+                              height: kDialogTextFieldHeight,
+                              child: TextField(
+                                key: const Key(
+                                    'audioDurationRangeStartTextField'),
+                                style: kDialogTextFieldStyle,
+                                decoration: _dialogTextFieldDecoration,
+                                controller: _startAudioDurationController,
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(AppLocalizations.of(context)!.end),
+                            SizedBox(
+                              width: 80,
+                              height: kDialogTextFieldHeight,
+                              child: TextField(
+                                key: const Key(
+                                    'audioDurationRangeEndTextField'),
+                                style: kDialogTextFieldStyle,
+                                decoration: _dialogTextFieldDecoration,
+                                controller: _endAudioDurationController,
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+  }
+
+  Column _buildAudioFileSizeFields(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(AppLocalizations.of(context)!.fileSizeRange),
+        const SizedBox(
+          height: 5,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(AppLocalizations.of(context)!.start),
+            SizedBox(
+              width: 80,
+              height: kDialogTextFieldHeight,
+              child: TextField(
+                key: const Key('startFileSizeTextField'),
+                style: kDialogTextFieldStyle,
+                decoration: _dialogTextFieldDecoration,
+                controller: _startFileSizeController,
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Text(AppLocalizations.of(context)!.end),
+            SizedBox(
+              width: 80,
+              height: kDialogTextFieldHeight,
+              child: TextField(
+                key: const Key('endFileSizeTextField'),
+                style: kDialogTextFieldStyle,
+                decoration: _dialogTextFieldDecoration,
+                controller: _endFileSizeController,
+                keyboardType: TextInputType.number,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
