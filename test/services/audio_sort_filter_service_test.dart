@@ -2419,8 +2419,8 @@ void main() {
     test(
         'filter by one word in audio title and sort by download date descending and duration ascending',
         () {
-      List<Audio> audioList =
-          playlistListVM.getSelectedPlaylistPlayableAudios();
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
 
       List<String>
           expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc =
@@ -2517,8 +2517,8 @@ void main() {
     test(
         'filter by multiple words in audio title or in audio compact description and sort by download date descending and duration ascending',
         () {
-      List<Audio> audioList =
-          playlistListVM.getSelectedPlaylistPlayableAudios();
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
 
       List<String>
           expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc =
@@ -2613,8 +2613,8 @@ void main() {
     test(
         'filter by one sentence present in audio compact description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending. Result list will be empty',
         () {
-      List<Audio> audioList =
-          playlistListVM.getSelectedPlaylistPlayableAudios();
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
 
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
@@ -2690,8 +2690,8 @@ void main() {
     test(
         "filter in 'and' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending",
         () {
-      List<Audio> audioList =
-          playlistListVM.getSelectedPlaylistPlayableAudios();
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
 
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
@@ -2773,8 +2773,8 @@ void main() {
     test(
         "filter in 'and' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = true and sort by download date descending and duration ascending",
         () {
-      List<Audio> audioList =
-          playlistListVM.getSelectedPlaylistPlayableAudios();
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
 
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
@@ -2863,8 +2863,8 @@ void main() {
     test(
         "filter in 'or' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending",
         () {
-      List<Audio> audioList =
-          playlistListVM.getSelectedPlaylistPlayableAudios();
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
 
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
@@ -2957,8 +2957,8 @@ void main() {
     test(
         "filter in 'or' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = true and sort by download date descending and duration ascending",
         () {
-      List<Audio> audioList =
-          playlistListVM.getSelectedPlaylistPlayableAudios();
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
 
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
@@ -3120,8 +3120,8 @@ void main() {
     test(
         'filter by no word in audio title or video compact description and sort by download date descending',
         () {
-      List<Audio> audioList =
-          playlistListVM.getSelectedPlaylistPlayableAudios();
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
 
       List<String>
           expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc =

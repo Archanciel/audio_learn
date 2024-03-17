@@ -293,10 +293,10 @@ class PlaylistListVM extends ChangeNotifier {
   ///
   /// Since currently only one playlist can be selected at a time,
   /// this method unselects all the other playlists if
-  /// {isPlaylistSelected} is true.
+  /// {isUniquePlaylistSelected} is true.
   void setPlaylistSelection({
     required int playlistIndex,
-    required bool isPlaylistSelected,
+    required bool isUniquePlaylistSelected,
   }) {
     // selecting another playlist or unselecting the currently
     // selected playlist nullifies the filtered and sorted audio list
@@ -311,7 +311,7 @@ class PlaylistListVM extends ChangeNotifier {
         _listOfSelectablePlaylists[playlistIndex];
     String playlistSelectedOrUnselectedId = playlistSelectedOrUnselected.id;
 
-    if (isPlaylistSelected) {
+    if (isUniquePlaylistSelected) {
       // since only one playlist can be selected at a time, we
       // unselect all the other playlists
       for (Playlist playlist in _listOfSelectablePlaylists) {
@@ -334,7 +334,7 @@ class PlaylistListVM extends ChangeNotifier {
     // updatePlaylistSelection method if the following line is not
     // commented out
     // _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
-    _isOnePlaylistSelected = isPlaylistSelected;
+    _isOnePlaylistSelected = isUniquePlaylistSelected;
 
     if (!_isOnePlaylistSelected) {
       _disableAllButtonsIfNoPlaylistIsSelected();
@@ -457,12 +457,7 @@ class PlaylistListVM extends ChangeNotifier {
   /// clicked on the Apply button in the
   /// SortAndFilterAudioDialogWidget, then the filtered and
   /// sorted audio list is returned.
-  ///
-  /// [subFilterAndSort] is true by default. Being true, it
-  /// means that the filtered and sorted audio list is
-  /// returned if it exists. If false, the full playable
-  /// audio list of the selected playlists is returned.
-  List<Audio> getSelectedPlaylistPlayableAudios() {
+  List<Audio> getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters() {
     Playlist selectedPlaylist = getSelectedPlaylists()[
         0]; // only one playlist can be selected at a time
     List<Audio> selectedPlaylistsAudios = selectedPlaylist.playableAudioLst;
@@ -484,6 +479,16 @@ class PlaylistListVM extends ChangeNotifier {
     // }
 
     return _sortedFilteredSelectedPlaylistsPlayableAudios!;
+  }
+
+  List<Audio>
+      getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters() {
+    List<Audio> playlistPlayableAudioLst =
+        getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+
+    return playlistPlayableAudioLst
+        .where((audio) => !audio.wasFullyListened())
+        .toList();
   }
 
   /// Used to display the audio list of the selected playlist
@@ -859,16 +864,6 @@ class PlaylistListVM extends ChangeNotifier {
     }
 
     return null;
-  }
-
-  List<Audio> getNotFullyPlayedAudiosOrderedByDownloadDate({
-    required Playlist playlist,
-  }) {
-    List<Audio> playlistPlayableAudioLst = getSelectedPlaylistPlayableAudios();
-    
-    return playlistPlayableAudioLst
-        .where((audio) => !audio.wasFullyListened())
-        .toList();
   }
 
   /// Returns the audio contained in the playableAudioLst which

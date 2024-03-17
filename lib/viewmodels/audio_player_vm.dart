@@ -799,13 +799,13 @@ class AudioPlayerVM extends ChangeNotifier {
       return [];
     }
 
-    return _playlistListVM.getSelectedPlaylistPlayableAudios();
+    return _playlistListVM
+        .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
   }
 
   List<Audio> getNotFullyPlayedAudiosApplyingSortFilterParameters() {
-    return _playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
-      playlist: _currentAudio!.enclosingPlaylist!,
-    );
+    return _playlistListVM
+        .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters();
   }
 
   String? getCurrentAudioTitleWithDuration() {

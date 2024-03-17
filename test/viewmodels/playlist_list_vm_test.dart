@@ -596,17 +596,14 @@ void main() {
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist = selectablePlaylistLst[0]; // S8 audio
-      List<Audio> playableAudioLst =
-          playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
-        playlist: sourcePlaylist,
-      );
+      List<Audio> playableAudioLst = playlistListVM
+          .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters();
 
       expect(playableAudioLst.length, 2);
       expect(playableAudioLst[0].validVideoTitle,
-          'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
-      expect(playableAudioLst[1].validVideoTitle,
           'La résilience insulaire par Fiona Roche');
+      expect(playableAudioLst[1].validVideoTitle,
+          'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -670,25 +667,25 @@ void main() {
       // playlist json files from the app dir and so enables
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
-      List<Playlist> selectablePlaylistLst =
-          playlistListVM.getUpToDateSelectablePlaylists();
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist =
-          selectablePlaylistLst[1]; // local_several_played_unplayed_audios
-      List<Audio> playableAudioLst =
-          playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
-        playlist: sourcePlaylist,
+      playlistListVM.getUpToDateSelectablePlaylists();
+      playlistListVM.setPlaylistSelection(
+        playlistIndex: 1,
+        isUniquePlaylistSelected: true,
       );
+
+      List<Audio> playableAudioLst = playlistListVM
+          .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters();
 
       expect(playableAudioLst.length, 3);
       expect(playableAudioLst[0].validVideoTitle,
-          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)");
+          "Les besoins artificiels par R.Keucheyan");
       expect(playableAudioLst[1].validVideoTitle,
           "Ce qui va vraiment sauver notre espèce par Jancovici et Barrau");
       expect(playableAudioLst[2].validVideoTitle,
-          "Les besoins artificiels par R.Keucheyan");
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)");
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -748,17 +745,16 @@ void main() {
       // playlist json files from the app dir and so enables
       // expandablePlaylistListVM to know which playlists are
       // selected and which are not
-      List<Playlist> selectablePlaylistLst =
-          playlistListVM.getUpToDateSelectablePlaylists();
+      playlistListVM.getUpToDateSelectablePlaylists();
+      playlistListVM.setPlaylistSelection(
+        playlistIndex: 2,
+        isUniquePlaylistSelected: true,
+      );
 
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist =
-          selectablePlaylistLst[2]; // audio_player_view_2_shorts_test
-      List<Audio> playableAudioLst =
-          playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
-        playlist: sourcePlaylist,
-      );
+      List<Audio> playableAudioLst = playlistListVM
+          .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters();
 
       expect(playableAudioLst.length, 0);
 

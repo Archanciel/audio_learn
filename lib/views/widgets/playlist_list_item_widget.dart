@@ -161,7 +161,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
             onChanged: (value) {
               expandablePlaylistListVM.setPlaylistSelection(
                 playlistIndex: index,
-                isPlaylistSelected: value!,
+                isUniquePlaylistSelected: value!,
               );
             },
           ),

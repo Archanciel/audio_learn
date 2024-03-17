@@ -123,8 +123,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     return Expanded(
       child: Consumer<PlaylistListVM>(
         builder: (context, expandablePlaylistListVM, child) {
-          _selectedPlaylistsPlayableAudios =
-              expandablePlaylistListVM.getSelectedPlaylistPlayableAudios();
+          _selectedPlaylistsPlayableAudios = expandablePlaylistListVM
+              .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
           if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
             // Scroll the sublist to the top when the audio
             // list is filtered and/or sorted
@@ -479,7 +479,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
-                        .getSelectedPlaylistPlayableAudios(),
+                        .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(),
                     audioSortDefaultFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse

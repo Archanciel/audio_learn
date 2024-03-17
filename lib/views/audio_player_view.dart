@@ -286,7 +286,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
-                        .getSelectedPlaylistPlayableAudios(),
+                        .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(),
                     audioSortDefaultFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
