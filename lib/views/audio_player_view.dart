@@ -402,7 +402,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               child: GestureDetector(
                 onTap: () {
                   if (globalAudioPlayerVM
-                      .getPlayableAudiosOrderedByDownloadDate()
+                      .getPlayableAudiosApplyingSortFilterParameters()
                       .isEmpty) {
                     // there is no audio to play
                     return;
@@ -423,7 +423,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             GestureDetector(
               onLongPress: () {
                 if (globalAudioPlayerVM
-                    .getPlayableAudiosOrderedByDownloadDate()
+                    .getPlayableAudiosApplyingSortFilterParameters()
                     .isEmpty) {
                   // there is no audio to play
                   return;

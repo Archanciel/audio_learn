@@ -76,11 +76,11 @@ class _ListPlayableAudiosDialogWidgetState
     List<Audio> playableAudioLst;
 
     if (_excludeFullyPlayedAudios) {
-      playableAudioLst =
-          audioGlobalPlayerVM.getNotFullyPlayedAudiosOrderedByDownloadDate();
+      playableAudioLst = audioGlobalPlayerVM
+          .getNotFullyPlayedAudiosApplyingSortFilterParameters();
     } else {
       playableAudioLst =
-          audioGlobalPlayerVM.getPlayableAudiosOrderedByDownloadDate();
+          audioGlobalPlayerVM.getPlayableAudiosApplyingSortFilterParameters();
     }
 
     // avoid error when the dialog is opened and the current
@@ -229,6 +229,9 @@ class _ListPlayableAudiosDialogWidgetState
     );
   }
 
+  /// Builds the text widget for the audio title. The text color
+  /// is different according to the audio status (not yet listened,
+  /// currently listening, fully or partially listened).
   Widget _buildAudioTitleTextWidget(
     Audio audio,
     int index,

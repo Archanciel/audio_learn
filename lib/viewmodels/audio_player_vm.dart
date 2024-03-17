@@ -789,27 +789,20 @@ class AudioPlayerVM extends ChangeNotifier {
   /// 5 nov
   /// 21 nov
   /// 24 nov
-  List<Audio> getPlayableAudiosOrderedByDownloadDate() {
-    if (_currentAudio == null) {
-      // the case if "No audio selected" audio title is
-      // displayed in the AudioPlayerView screen
+  List<Audio> getPlayableAudiosApplyingSortFilterParameters() {
+    List<Playlist> selectedPlaylists = _playlistListVM.getSelectedPlaylists();
 
-      List<Playlist> selectedPlaylists = _playlistListVM.getSelectedPlaylists();
-
-      if (selectedPlaylists.isEmpty) {
-        // the case if no playlist is selected. Solves
-        // AudioPlayerView integration test no playlist
-        // selected or no playlist exist failure.
-        return [];
-      }
-
-      return selectedPlaylists.first.playableAudioLst.reversed.toList();
+    if (selectedPlaylists.isEmpty) {
+      // the case if no playlist is selected. Solves
+      // AudioPlayerView integration test no playlist
+      // selected or no playlist exist failure.
+      return [];
     }
 
-    return _currentAudio!.enclosingPlaylist!.playableAudioLst.reversed.toList();
+    return _playlistListVM.getSelectedPlaylistPlayableAudios();
   }
 
-  List<Audio> getNotFullyPlayedAudiosOrderedByDownloadDate() {
+  List<Audio> getNotFullyPlayedAudiosApplyingSortFilterParameters() {
     return _playlistListVM.getNotFullyPlayedAudiosOrderedByDownloadDate(
       playlist: _currentAudio!.enclosingPlaylist!,
     );
