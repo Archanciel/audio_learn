@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants.dart';
 import '../models/audio.dart';
+import '../services/sort_filter_parameters.dart';
 import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/playlist_list_vm.dart';
@@ -293,12 +294,17 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     focusNode: focusNode,
                   );
                 },
-              ).then((result) {
-                if (result != null) {
-                  List<Audio> returnedAudioList = result;
+              ).then((filterSortAudioAndParmLst) {
+                if (filterSortAudioAndParmLst != null) {
+                  List<Audio> returnedAudioList = filterSortAudioAndParmLst[0];
+                  AudioSortFilterParameters audioSortFilterParameters =
+                      filterSortAudioAndParmLst[1];
                   playlistListVMlistenFalse
                       .setSortedFilteredSelectedPlaylistsPlayableAudios(
                           returnedAudioList);
+                  playlistListVMlistenFalse.setAudioSortFilterParameters(
+                    audioSortFilterParameters,
+                  );
                 }
               });
               focusNode.requestFocus();
