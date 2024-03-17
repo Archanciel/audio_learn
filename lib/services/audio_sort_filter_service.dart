@@ -10,6 +10,13 @@ class SortCriteria<T> {
     required this.selectorFunction,
     required this.sortOrder,
   });
+
+    SortCriteria<T> copy() {
+    return SortCriteria<T>(
+      selectorFunction: this.selectorFunction,
+      sortOrder: this.sortOrder,
+    );
+  }
 }
 
 class AudioSortFilterService {
@@ -90,8 +97,17 @@ class AudioSortFilterService {
     // selected sorting options coming from the UI.
     List<SortCriteria<Audio>> sortCriteriaLst =
         selectedSortItemLst.map((sortingItem) {
+
+      // it is hyper important to copy the SortCriteria because
+      // the sortCriteriaForSortingOptionMap is a static map and
+      // we don't want to modify its objects, as it is done in the
+      // next instruction. If we don't copy the SortCriteria, the
+      // next instruction will modify the objects in the map and
+      // the next time we will use the map, the objects will have
+      // been modified.
       SortCriteria<Audio> sortCriteria =
-          sortCriteriaForSortingOptionMap[sortingItem.sortingOption]!;
+          sortCriteriaForSortingOptionMap[sortingItem.sortingOption]!.copy();
+
       sortCriteria.sortOrder =
           sortingItem.isAscending ? sortAscending : sortDescending;
 
