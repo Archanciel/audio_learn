@@ -36,7 +36,21 @@ void main() async {
     testWidgets(
         'should render ListView widget, not using MyApp but ListView widget',
         (WidgetTester tester) async {
-      SettingsDataService settingsDataService = SettingsDataService(
+       // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_learn_expandable_7_playlists_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+     SettingsDataService settingsDataService = SettingsDataService(
         isTest: true,
       );
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -44,6 +58,14 @@ void main() async {
         warningMessageVM: warningMessageVM,
         isTest: true,
       );
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
 
       await _createPlaylistDownloadView(
         tester: tester,

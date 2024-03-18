@@ -463,7 +463,13 @@ class PlaylistListVM extends ChangeNotifier {
   /// returned if it exists. If false, the full playable
   /// audio list of the selected playlists is returned.
   List<Audio> getSelectedPlaylistPlayableAudios() {
-    Playlist selectedPlaylist = getSelectedPlaylists()[
+    List<Playlist> selectedPlaylists = getSelectedPlaylists();
+
+    if (selectedPlaylists.isEmpty) {
+      return [];
+    }
+
+    Playlist selectedPlaylist = selectedPlaylists[
         0]; // only one playlist can be selected at a time
     List<Audio> selectedPlaylistsAudios = selectedPlaylist.playableAudioLst;
 
