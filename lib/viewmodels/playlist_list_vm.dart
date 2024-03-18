@@ -458,8 +458,14 @@ class PlaylistListVM extends ChangeNotifier {
   /// SortAndFilterAudioDialogWidget, then the filtered and
   /// sorted audio list is returned.
   List<Audio> getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters() {
-    Playlist selectedPlaylist = getSelectedPlaylists()[
-        0]; // only one playlist can be selected at a time
+    List<Playlist> selectedPlaylists = getSelectedPlaylists();
+
+    if (selectedPlaylists.isEmpty) {
+      return [];
+    }
+
+    Playlist selectedPlaylist =
+        selectedPlaylists[0]; // only one playlist can be selected at a time
     List<Audio> selectedPlaylistsAudios = selectedPlaylist.playableAudioLst;
 
     _sortedFilteredSelectedPlaylistsPlayableAudios =
