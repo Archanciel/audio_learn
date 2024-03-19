@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
+import 'package:audio_learn/services/sort_filter_parameters.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_player_vm.dart';
 import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
@@ -1525,6 +1526,28 @@ Future<AudioPlayerVM> createAudioPlayerVM() async {
   // playlistListVM to know which playlists are
   // selected and which are not
   playlistListVM.getUpToDateSelectablePlaylists();
+
+  // Set the sort filter parameters to ascending download date
+  // and descending duration in order for the tests to pass after
+  // having modified the PlaylistListVM class usage of the
+  // AudioSortFilterParameters
+  AudioSortFilterParameters ascendingDownloadDateDescendingDurationAudioSortFilterParameters =
+      AudioSortFilterParameters(
+    selectedSortItemLst: [
+      SortingItem(
+        sortingOption: SortingOption.audioDownloadDate,
+        isAscending: true,
+      ),
+      SortingItem(
+        sortingOption: SortingOption.audioDuration,
+        isAscending: false,
+      ),
+    ],
+    sentencesCombination: SentencesCombination.AND,
+  );
+
+  playlistListVM.setAudioSortFilterParameters(
+      ascendingDownloadDateDescendingDurationAudioSortFilterParameters);
 
   AudioPlayerVM audioPlayerVM = AudioPlayerVMTestVersion(
     playlistListVM: playlistListVM,
