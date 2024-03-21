@@ -605,7 +605,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  SizedBox _buildDownloadSingleVideoButton({
+  SizedBox  _buildDownloadSingleVideoButton({
     required BuildContext context,
     required AudioDownloadVM audioDownloadViewModel,
     required ThemeProviderVM themeProviderVM,
