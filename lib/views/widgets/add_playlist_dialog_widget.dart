@@ -58,6 +58,8 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
   @override
   Widget build(BuildContext context) {
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
+    PlaylistListVM expandablePlaylistListVM =
+        Provider.of<PlaylistListVM>(context, listen: false);
 
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
@@ -69,7 +71,9 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
               event.logicalKey == LogicalKeyboardKey.numpadEnter) {
             // executing the same code as in the 'Add'
             // TextButton onPressed callback
-            bool isYoutubePlaylistAdded = await _addPlaylist(context);
+            bool isYoutubePlaylistAdded = await _addPlaylist(
+              context: context,
+            );
             Navigator.of(context).pop(isYoutubePlaylistAdded);
           }
         }
@@ -77,19 +81,32 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
       child: AlertDialog(
         title: Text(
           key: const Key('playlistConfirmDialogTitleKey'),
-          AppLocalizations.of(context)!.addPlaylistDialogTitle,
+          (widget.playlistUrl.isNotEmpty)
+              ? AppLocalizations.of(context)!.addYoutubePlaylistDialogTitle
+              : AppLocalizations.of(context)!.addLocalPlaylistDialogTitle,
         ),
         actionsPadding: kDialogActionsPadding,
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              createTitleCommentRowFunction(
-                titleTextWidgetKey:
-                    const Key('playlistTitleCommentConfirmDialogKey'),
-                context: context,
-                commentStr:
-                    AppLocalizations.of(context)!.addPlaylistDialogComment,
-              ),
+              (widget.playlistUrl.isNotEmpty)
+                  ? createInfoRowFunction(
+                      // displaying the playlist URL
+                      valueTextWidgetKey:
+                          const Key('playlistUrlConfirmDialogText'),
+                      context: context,
+                      label:
+                          AppLocalizations.of(context)!.youtubePlaylistUrlLabel,
+                      value: widget.playlistUrl)
+                  : createEditableRowFunction(
+                      // displaying the local playlist title TextField
+                      valueTextFieldWidgetKey:
+                          const Key('playlistLocalTitleConfirmDialogTextField'),
+                      context: context,
+                      label:
+                          AppLocalizations.of(context)!.localPlaylistTitleLabel,
+                      controller: _localPlaylistTitleTextEditingController,
+                      textFieldFocusNode: _localPlaylistTitleFocusNode),
               createCheckboxRowFunction(
                 // displaying music quality checkbox
                 checkBoxWidgetKey:
@@ -103,24 +120,6 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                   });
                 },
               ),
-              (widget.playlistUrl.isNotEmpty)
-                  ? createInfoRowFunction(
-                      // displaying the playlist URL
-                      valueTextWidgetKey:
-                          const Key('playlistUrlConfirmDialogText'),
-                      context: context,
-                      label:
-                          AppLocalizations.of(context)!.youtubePlaylistUrlLabel,
-                      value: widget.playlistUrl)
-                  : Container(),
-              createEditableRowFunction(
-                  // displaying the local playlist title TextField
-                  valueTextFieldWidgetKey:
-                      const Key('playlistLocalTitleConfirmDialogTextField'),
-                  context: context,
-                  label: AppLocalizations.of(context)!.localPlaylistTitleLabel,
-                  controller: _localPlaylistTitleTextEditingController,
-                  textFieldFocusNode: _localPlaylistTitleFocusNode),
             ],
           ),
         ),
@@ -128,7 +127,9 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
           TextButton(
             key: const Key('addPlaylistConfirmDialogAddButton'),
             onPressed: () async {
-              bool isYoutubePlaylistAdded = await _addPlaylist(context);
+              bool isYoutubePlaylistAdded = await _addPlaylist(
+                context: context,
+              );
               Navigator.of(context).pop(isYoutubePlaylistAdded);
             },
             child: Text(
@@ -161,7 +162,9 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
   /// Returns true if the Youtube playlist was added, false
   /// otherwise. This will be used to empty the playlist URL
   /// TextField if a Youtube playlist was added.
-  Future<bool> _addPlaylist(BuildContext context) async {
+  Future<bool> _addPlaylist({
+    required BuildContext context,
+  }) async {
     String localPlaylistTitle = _localPlaylistTitleTextEditingController.text;
     PlaylistListVM expandablePlaylistListVM =
         Provider.of<PlaylistListVM>(context, listen: false);

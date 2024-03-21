@@ -273,6 +273,7 @@ mixin ScreenMixin {
     }
   }
 
+  /// Create a comment displayed under the title of the dialog.
   Widget createTitleCommentRowFunction({
     Key? titleTextWidgetKey, // key set to the Text widget displaying the title
     required BuildContext context,
