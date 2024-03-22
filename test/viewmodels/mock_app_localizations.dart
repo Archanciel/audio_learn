@@ -639,7 +639,7 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String deleteLocalPlaylistDialogTitle(Object title) {
-    return 'Delete local Playlist "$title"';
+    return 'Delete Local Playlist "$title"';
   }
 
   @override
@@ -714,4 +714,22 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get notListened => "Not listened";
+
+  @override
+  String get saveSortFilterOptionsToPlaylistDialogTitle =>
+      "Save Sort/Filter Options";
+
+  @override
+  String saveSortFilterOptionsToPlaylist(Object title) => "To playlist $title";
+
+  @override
+  String saveSortFilterOptionsForView(Object title) => "For $title view";
+
+  @override
+  String get saveSortFilterOptionsAutomaticApplication =>
+      "Sort/filter options automatic application";
+
+  @override
+  String get saveSortFilterOptionsAutomaticApplicationTooltip =>
+      "If the automatic application is selected; the sort/filter options stored in the playlist are automatically applied when the playlist is selected.";
 }

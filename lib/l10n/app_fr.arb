@@ -256,6 +256,10 @@
   "searchInVideoCompactDescriptionTooltip": "Si défini, les mots ou phrases recherchés sont également cherchés dans la description de la vidéo",
   "fullyListened": "Entièrement écouté",
   "partiallyListened": "Partiellement écouté",
-  "notListened": "Non écouté"
-
+  "notListened": "Non écouté",
+  "saveSortFilterOptionsToPlaylistDialogTitle": "Sauvegarder les options de tri et de filtre",
+  "saveSortFilterOptionsToPlaylist": "Dans la playlist \"{title}\"",
+  "saveSortFilterOptionsForView": "Pour la vue \"{title}\"",
+  "saveSortFilterOptionsAutomaticApplication": "Application automatique des options de tri et de filtre",
+  "saveSortFilterOptionsAutomaticApplicationTooltip": "Si défini, les options de tri et de filtre de la playlist sont automatiquement appliquées lors de l'ouverture de la playlist"
 }

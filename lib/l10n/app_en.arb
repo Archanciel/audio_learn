@@ -234,7 +234,7 @@
   "audioPlayerViewNoCurrentAudio": "No audio selected",
   "deletePlaylist": "Delete playlist ...",
   "deleteYoutubePlaylistDialogTitle": "Delete Youtube Playlist \"{title}\"",
-  "deleteLocalPlaylistDialogTitle": "Delete local Playlist \"{title}\"",
+  "deleteLocalPlaylistDialogTitle": "Delete Local Playlist \"{title}\"",
   "deletePlaylistDialogComment": "Deleting the playlist and all its audios as well as its JSON file and its directory.",
   "appBarTitleAudioExtractor": "Extract Audio",
   "setAudioPlaySpeedDialogTitle": "Playback speed",
@@ -255,5 +255,10 @@
   "searchInVideoCompactDescriptionTooltip": "If set, search words or sentences are searched on video description as well",
   "fullyListened": "Fully listened",
   "partiallyListened": "Partially listened",
-  "notListened": "Not listened"
+  "notListened": "Not listened",
+  "saveSortFilterOptionsToPlaylistDialogTitle": "Save Sort/Filter Options",
+  "saveSortFilterOptionsToPlaylist": "To playlist \"{title}\"",
+  "saveSortFilterOptionsForView": "For \"{title}\" view",
+  "saveSortFilterOptionsAutomaticApplication": "Sort/filter options automatic application",
+  "saveSortFilterOptionsAutomaticApplicationTooltip": "If the automatic application is selected, the sort/filter options stored in the playlist are automatically applied when the playlist is selected."
 }

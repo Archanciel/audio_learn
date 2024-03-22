@@ -858,7 +858,7 @@ void main() {
           find.byKey(const Key('playlistDeleteConfirmDialogTitleKey')));
 
       expect(deletePlaylistDialogTitleWidget.data,
-          'Delete local Playlist "$localPlaylistTitle"');
+          'Delete Local Playlist "$localPlaylistTitle"');
 
       // Now find the delete button of the delete playlist confirm
       // dialog and tap on it
@@ -5765,7 +5765,7 @@ void main() {
           find.byKey(const Key('playlistDeleteConfirmDialogTitleKey')));
 
       expect(deletePlaylistDialogTitleWidget.data,
-          'Delete local Playlist "$localPlaylistTitle"');
+          'Delete Local Playlist "$localPlaylistTitle"');
 
       // Now find the delete button of the delete playlist confirm
       // dialog and tap on it

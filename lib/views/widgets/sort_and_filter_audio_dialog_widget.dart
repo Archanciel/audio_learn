@@ -922,7 +922,7 @@ class _SortAndFilterAudioDialogWidgetState
             onPressed: () async {
               (_audioTitleSearchSentence != '')
                   ? setState(() {
-                      addSentenceToFilterSentencesLst();
+                      _addSentenceToFilterSentencesLst();
                     })
                   : null;
             },
@@ -941,7 +941,7 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  void addSentenceToFilterSentencesLst() {
+  void _addSentenceToFilterSentencesLst() {
     if (!_audioTitleFilterSentencesLst.contains(_audioTitleSearchSentence)) {
       _audioTitleFilterSentencesLst.add(_audioTitleSearchSentence);
       _audioTitleSearchSentence = '';

@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:audio_learn/views/widgets/save_sort_filter_options_to_playlist_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -503,9 +504,41 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               focusNode.requestFocus();
               break;
             case PlaylistPopupMenuButton.saveSortFilterAudiosSettingsToPlaylist:
-              playlistListVMlistenFalse
-                  .savePlaylistAudioSortFilterParamPlaylistDownloadView();
+              // Using FocusNode to enable clicking on Enter to close
+              // the dialog
+              final FocusNode focusNode = FocusNode();
+              showDialog(
+                context: context,
+                barrierDismissible:
+                    false, // This line prevents the dialog from closing when tapping outside
+                builder: (BuildContext context) {
+                  return SaveSortFilterOptionsToPlaylistDialogWidget(
+                    playlistTitle: playlistListVMlistenFalse
+                        .uniqueSelectedPlaylist!.title,
+                    applicationViewName: 'PlaylistDownloadView',
+                    focusNode: focusNode,
+                  );
+                },
+              ).then((filterSortAudioAndParmLst) {
+                if (filterSortAudioAndParmLst != null) {
+                  List<Audio> returnedAudioList = filterSortAudioAndParmLst[0];
+                  AudioSortFilterParameters audioSortFilterParameters =
+                      filterSortAudioAndParmLst[1];
+                  playlistListVMlistenFalse
+                      .setSortedFilteredSelectedPlaylistsPlayableAudios(
+                          returnedAudioList);
+                  playlistListVMlistenFalse.setAudioSortFilterParameters(
+                    audioSortFilterParameters,
+                  );
+                }
+              });
+              focusNode.requestFocus();
               break;
+
+
+              // playlistListVMlistenFalse
+              //     .savePlaylistAudioSortFilterParamPlaylistDownloadView();
+              // break;
             case PlaylistPopupMenuButton.updatePlaylistJson:
               playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();
               break;
