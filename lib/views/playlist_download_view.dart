@@ -857,7 +857,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               },
             ).then((value) {
               // not null value is boolean
-              if (value != null && value) {
+              if (value != null && value) { // if value not null and value true
                 // value is null if
                 //                             clicking on Cancel
                 //                             or if the dialog is

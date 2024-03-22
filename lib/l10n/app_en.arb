@@ -169,7 +169,6 @@
   "updatedPlayableAudioLst": "Playable audio list for playlist \"{title}\" was updated. {number} audio(s) were removed.",
   "addYoutubePlaylistDialogTitle": "Add Youtube Playlist",
   "addLocalPlaylistDialogTitle": "Add Local Playlist",
-  "addPlaylistDialogComment": "Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.",
   "renameAudioFileDialogTitle": "Rename Audio File",
   "renameAudioFileDialogComment": "Renaming audio file in order to improve their playing order.",
   "youtubePlaylistUrlLabel": "Youtube playlist URL",

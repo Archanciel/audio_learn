@@ -382,11 +382,10 @@ class MockAppLocalizations extends AppLocalizations {
   }
 
   @override
-  String get addPlaylistDialogTitle => 'Add Playlist';
+  String get addYoutubePlaylistDialogTitle => 'Add Playlist';
 
   @override
-  String get addPlaylistDialogComment =>
-      'Adding Youtube playlist referenced by the URL or adding a local playlist whose title must be defined.';
+  String get addLocalPlaylistDialogTitle => 'Add Playlist';
 
   @override
   String get renameAudioFileDialogTitle => 'Rename Audio File';
