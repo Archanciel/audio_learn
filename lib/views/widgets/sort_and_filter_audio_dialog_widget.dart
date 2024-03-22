@@ -39,7 +39,7 @@ class _SortAndFilterAudioDialogWidgetState
     border: OutlineInputBorder(),
   );
 
-  late List<String> _audioTitleFilterSentencesLst = [];
+  late final List<String> _audioTitleFilterSentencesLst = [];
 
   late List<SortingItem> _selectedSortingItemLst;
   late bool _isAnd;
