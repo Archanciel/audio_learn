@@ -9,7 +9,17 @@ import '../utils/dir_util.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/theme_provider_vm.dart';
 
-enum MultipleIconType { iconOne, iconTwo, iconThree }
+enum MultipleIconType {
+  iconOne,
+  iconTwo,
+  iconThree,
+}
+
+enum AudioLearnAppView {
+  playlistDownloadView,
+  audioPlayerView,
+  audioExtractorView,
+}
 
 // This global variable is initialized when instanciating the
 // unique AudioGlobalPlayerVM instance. The reason why this
@@ -334,6 +344,42 @@ mixin ScreenMixin {
               onTap: () {
                 Clipboard.setData(
                   ClipboardData(text: value),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Create a row with a label which can be a translated screen to which
+  /// a value is passed as argument. Example:
+  /// label: AppLocalizations.of(context)!
+  ///                  .saveSortFilterOptionsToPlaylist(widget.playlistTitle),
+  /// "saveSortFilterOptionsToPlaylist": "To playlist \"{title}\"",
+  Widget createLabelRowFunction({
+    Key? valueTextWidgetKey, // key set to the Text widget displaying the value
+    required BuildContext context,
+    required String label,
+    bool isTextBold = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: InkWell(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontWeight: isTextBold ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+              onTap: () {
+                Clipboard.setData(
+                  ClipboardData(text: label),
                 );
               },
             ),

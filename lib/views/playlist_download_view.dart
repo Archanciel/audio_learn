@@ -515,6 +515,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   return SaveSortFilterOptionsToPlaylistDialogWidget(
                     playlistTitle: playlistListVMlistenFalse
                         .uniqueSelectedPlaylist!.title,
+                    applicationViewType: AudioLearnAppView.playlistDownloadView,
                     applicationViewName: 'PlaylistDownloadView',
                     focusNode: focusNode,
                   );

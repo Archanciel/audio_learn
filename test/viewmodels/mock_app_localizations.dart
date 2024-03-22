@@ -732,4 +732,8 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get saveSortFilterOptionsAutomaticApplicationTooltip =>
       "If the automatic application is selected; the sort/filter options stored in the playlist are automatically applied when the playlist is selected.";
+
+  @override
+  String get saveButton =>
+      "Save";
 }

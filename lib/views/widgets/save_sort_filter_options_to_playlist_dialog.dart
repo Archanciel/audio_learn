@@ -14,11 +14,13 @@ import '../../viewmodels/theme_provider_vm.dart';
 
 class SaveSortFilterOptionsToPlaylistDialogWidget extends StatefulWidget {
   final String playlistTitle;
+  final AudioLearnAppView applicationViewType;
   final String applicationViewName;
   final FocusNode focusNode;
 
   const SaveSortFilterOptionsToPlaylistDialogWidget({
     required this.playlistTitle,
+    required this.applicationViewType,
     required this.applicationViewName,
     required this.focusNode,
     super.key,
@@ -82,31 +84,46 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              createInfoRowFunction(
-                  // displaying the playlist URL
-                  valueTextWidgetKey: const Key('saveSortFilterOptionsToPlaylistKey'),
-                  context: context,
-                  label: AppLocalizations.of(context)!.saveSortFilterOptionsToPlaylist(widget.playlistTitle),
-                  value: ''),
-              createCheckboxRowFunction(
-                // displaying music quality checkbox
-                checkBoxWidgetKey:
-                    const Key('playlistQualityConfirmDialogCheckBox'),
+              createLabelRowFunction(
+                // displaying the playlist URL
+                valueTextWidgetKey:
+                    const Key('saveSortFilterOptionsToPlaylistKey'),
                 context: context,
-                label: AppLocalizations.of(context)!.isMusicQualityLabel,
-                value: _isAutomaticApplicationChecked,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _isAutomaticApplicationChecked = value ?? false;
-                  });
-                },
+                label: AppLocalizations.of(context)!
+                    .saveSortFilterOptionsToPlaylist(widget.playlistTitle),
+              ),
+              createLabelRowFunction(
+                // displaying the playlist URL
+                valueTextWidgetKey:
+                    const Key('saveSortFilterOptionsToPlaylistKey'),
+                context: context,
+                label: AppLocalizations.of(context)!
+                    .saveSortFilterOptionsForView(widget.applicationViewName),
+              ),
+              Tooltip(
+                message: AppLocalizations.of(context)!
+                    .saveSortFilterOptionsAutomaticApplicationTooltip,
+                child: createCheckboxRowFunction(
+                  // displaying music quality checkbox
+                  checkBoxWidgetKey:
+                      const Key('saveSortFilterOptionsAutomaticApplicationKey'),
+                  context: context,
+                  label: AppLocalizations.of(context)!
+                      .saveSortFilterOptionsAutomaticApplication,
+                  value: _isAutomaticApplicationChecked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _isAutomaticApplicationChecked = value ?? false;
+                    });
+                  },
+                ),
               ),
             ],
           ),
         ),
         actions: [
           TextButton(
-            key: const Key('addPlaylistConfirmDialogAddButton'),
+            key: const Key('sortFilterOptionsToPlaylistSaveButton'),
             onPressed: () async {
               bool isYoutubePlaylistAdded = await _addPlaylist(
                 context: context,
@@ -114,14 +131,14 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
               Navigator.of(context).pop(isYoutubePlaylistAdded);
             },
             child: Text(
-              AppLocalizations.of(context)!.add,
+              AppLocalizations.of(context)!.saveButton,
               style: (themeProviderVM.currentTheme == AppTheme.dark)
                   ? kTextButtonStyleDarkMode
                   : kTextButtonStyleLightMode,
             ),
           ),
           TextButton(
-            key: const Key('addPlaylistConfirmDialogCancelButton'),
+            key: const Key('sortFilterOptionsToPlaylistCancelButton'),
             onPressed: () {
               Navigator.of(context).pop();
             },
