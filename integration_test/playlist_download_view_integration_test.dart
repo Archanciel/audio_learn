@@ -646,6 +646,9 @@ void main() {
           .tap(find.byKey(const Key('addPlaylistConfirmDialogCancelButton')));
       await tester.pumpAndSettle();
 
+      // Ensure the warning dialog is not shown
+      expect(find.text('WARNING'), findsNothing);
+
       // Ensure the URL TextField was not emptied
       urlTextField =
           tester.widget(find.byKey(const Key('playlistUrlTextField')));
@@ -884,6 +887,89 @@ void main() {
 
       // Check that the deleted playlist directory no longer exist
       expect(Directory(newPlaylistPath).existsSync(), false);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Open the add playlist dialog to add a local playlist and then click on Cancel button',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      const String localPlaylistTitle = 'audio_learn_local_playlist_test';
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to show the list. If the list
+      // is not opened, checking that a ListTile with the title of
+      // the playlist was added to the list will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // The playlist list and audio list should exist now but be
+      // empty (no ListTile widgets)
+      expect(find.byType(ListView), findsNWidgets(2));
+      expect(find.byType(ListTile), findsNothing);
+
+      // Open the add playlist dialog by tapping the add playlist
+      // button
+      await tester.tap(find.byKey(const Key('addPlaylistButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the dialog is shown
+      expect(find.byType(AlertDialog), findsOneWidget);
+
+      // Check the value of the AlertDialog dialog title
+      Text alertDialogTitle =
+          tester.widget(find.byKey(const Key('playlistConfirmDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Add Local Playlist');
+
+      // Check that the AlertDialog url Text is not displayed since
+      // a local playlist is added with the playlist URL text field
+      // empty
+      expect(
+        find.byKey(const Key('playlistUrlConfirmDialogText')),
+        findsNothing,
+      );
+
+      // Enter the title of the local playlist
+      await tester.enterText(
+        find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')),
+        localPlaylistTitle,
+      );
+
+      // Check the value of the AlertDialog local playlist title
+      // TextField
+      TextField localPlaylistTitleTextField = tester.widget(
+          find.byKey(const Key('playlistLocalTitleConfirmDialogTextField')));
+      expect(
+        localPlaylistTitleTextField.controller!.text,
+        localPlaylistTitle,
+      );
+
+      // Set the quality to music
+      await tester
+          .tap(find.byKey(const Key('playlistQualityConfirmDialogCheckBox')));
+      await tester.pumpAndSettle();
+
+      // Cancel the addition by tapping the Cancel button in the
+      // AlertDialog
+      await tester
+          .tap(find.byKey(const Key('addPlaylistConfirmDialogCancelButton')));
+      await tester.pumpAndSettle();
+
+      // Ensure the warning dialog is not shown
+      expect(find.text('WARNING'), findsNothing);
+
+      // The list of Playlist's should have 0 item
+      expect(find.byType(ListTile), findsNothing);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
