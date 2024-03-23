@@ -43,8 +43,10 @@ class Playlist {
   // playlist audio has been played.
   int currentOrPastPlayableAudioIndex = -1;
 
-  AudioSortFilterParameters? audioSortFilterParamForPlaylistDownloadView;
-  AudioSortFilterParameters? audioSortFilterParamForAudioPlayerView;
+  AudioSortFilterParameters? audioSortFilterParmsForPlaylistDownloadView;
+  bool applySortFilterParmsForPlaylistDownloadView = false;
+  AudioSortFilterParameters? audioSortFilterParmsForAudioPlayerView;
+  bool applySortFilterParmsForAudioPlayerView = false;
 
   Playlist({
     this.url = '',
@@ -65,8 +67,10 @@ class Playlist {
     required this.downloadPath,
     required this.isSelected,
     required this.currentOrPastPlayableAudioIndex,
-    required this.audioSortFilterParamForPlaylistDownloadView,
-    required this.audioSortFilterParamForAudioPlayerView,
+    required this.audioSortFilterParmsForPlaylistDownloadView,
+    required this.applySortFilterParmsForPlaylistDownloadView,
+    required this.audioSortFilterParmsForAudioPlayerView,
+    required this.applySortFilterParmsForAudioPlayerView,
   });
 
   /// Factory constructor: creates an instance of Playlist from a
@@ -88,16 +92,20 @@ class Playlist {
       isSelected: json['isSelected'],
       currentOrPastPlayableAudioIndex:
           json['currentOrPastPlayableAudioIndex'] ?? -1,
-      audioSortFilterParamForPlaylistDownloadView:
-          (json['audioSortFilterParamPlaylistDownloadView'] != null)
+      audioSortFilterParmsForPlaylistDownloadView:
+          (json['audioSortFilterParmsPlaylistDownloadView'] != null)
               ? AudioSortFilterParameters.fromJson(
-                  json['audioSortFilterParamPlaylistDownloadView'])
+                  json['audioSortFilterParmsPlaylistDownloadView'])
               : null,
-      audioSortFilterParamForAudioPlayerView:
+      applySortFilterParmsForPlaylistDownloadView:
+          json['applySortFilterParmsForPlaylistDownloadView'] ?? false,
+      audioSortFilterParmsForAudioPlayerView:
           (json['audioSortFilterParamAudioPlayerView'] != null)
               ? AudioSortFilterParameters.fromJson(
                   json['audioSortFilterParamAudioPlayerView'])
               : null,
+      applySortFilterParmsForAudioPlayerView:
+          json['applySortFilterParmsForAudioPlayerView'] ?? false,
     );
 
     // Deserialize the Audio instances in the
@@ -110,6 +118,9 @@ class Playlist {
       }
     }
 
+    playlist.applySortFilterParmsForPlaylistDownloadView =
+        json['applySortFilterParmsForPlaylistDownloadView'] ?? false;
+
     // Deserialize the Audio instances in the
     // playableAudioLst
     if (json['playableAudioLst'] != null) {
@@ -119,6 +130,9 @@ class Playlist {
         playlist.playableAudioLst.add(audio);
       }
     }
+
+    playlist.applySortFilterParmsForAudioPlayerView =
+        json['applySortFilterParmsForAudioPlayerView'] ?? false;
 
     return playlist;
   }
@@ -138,10 +152,14 @@ class Playlist {
           playableAudioLst.map((audio) => audio.toJson()).toList(),
       'isSelected': isSelected,
       'currentOrPastPlayableAudioIndex': currentOrPastPlayableAudioIndex,
-      'audioSortFilterParamPlaylistDownloadView':
-          audioSortFilterParamForPlaylistDownloadView?.toJson(),
+      'audioSortFilterParmsPlaylistDownloadView':
+          audioSortFilterParmsForPlaylistDownloadView?.toJson(),
+      'applySortFilterParmsForPlaylistDownloadView':
+          applySortFilterParmsForPlaylistDownloadView,
       'audioSortFilterParamAudioPlayerView':
-          audioSortFilterParamForAudioPlayerView?.toJson(),
+          audioSortFilterParmsForAudioPlayerView?.toJson(),
+      'applySortFilterParmsForAudioPlayerView':
+          applySortFilterParmsForAudioPlayerView,
     };
   }
 

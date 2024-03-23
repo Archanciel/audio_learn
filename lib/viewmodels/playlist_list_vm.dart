@@ -534,7 +534,7 @@ class PlaylistListVM extends ChangeNotifier {
       getSelectedPlaylistAudioSortFilterParamForPlaylistDownloadView() {
     Playlist selectedPlaylist = getSelectedPlaylists()[0];
     AudioSortFilterParameters? playlistAudioSortFilterParameters =
-        selectedPlaylist.audioSortFilterParamForPlaylistDownloadView;
+        selectedPlaylist.audioSortFilterParmsForPlaylistDownloadView;
 
     if (playlistAudioSortFilterParameters != null) {
       return playlistAudioSortFilterParameters;
@@ -554,7 +554,7 @@ class PlaylistListVM extends ChangeNotifier {
       getSelectedPlaylistAudioSortFilterParamForAudioPlayerView() {
     Playlist selectedPlaylist = getSelectedPlaylists()[0];
     AudioSortFilterParameters? playlistAudioSortFilterParameters =
-        selectedPlaylist.audioSortFilterParamForAudioPlayerView;
+        selectedPlaylist.audioSortFilterParmsForAudioPlayerView;
 
     if (playlistAudioSortFilterParameters != null) {
       return playlistAudioSortFilterParameters;
@@ -659,10 +659,10 @@ class PlaylistListVM extends ChangeNotifier {
     Playlist playlist = getSelectedPlaylists()[0];
 
     if (audioLearnAppView == AudioLearnAppView.playlistDownloadView) {
-      playlist.audioSortFilterParamForPlaylistDownloadView =
+      playlist.audioSortFilterParmsForPlaylistDownloadView =
           _audioSortFilterParameters;
     } else {
-      playlist.audioSortFilterParamForAudioPlayerView =
+      playlist.audioSortFilterParmsForAudioPlayerView =
           _audioSortFilterParameters;
     }
 
