@@ -8,6 +8,12 @@ enum PlaylistPopupMenuButton {
   updateAppPlaylistsList,
 }
 
+enum AudioLearnAppView {
+  playlistDownloadView,
+  audioPlayerView,
+  audioExtractorView,
+}
+
 const String kApplicationName = "Audio Learn";
 const String kApplicationVersion = '0.9.42';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';

@@ -12,6 +12,7 @@ import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/playlist_list_vm.dart';
 import 'screen_mixin.dart';
 import 'widgets/list_playable_audios_dialog_widget.dart';
+import 'widgets/save_sort_filter_options_to_playlist_dialog.dart';
 import 'widgets/set_audio_speed_dialog_widget.dart';
 import 'widgets/sort_and_filter_audio_dialog_widget.dart';
 
@@ -312,8 +313,29 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             case PlaylistPopupMenuButton.saveSortFilterAudiosSettingsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
-              playlistListVMlistenFalse
-                  .savePlaylistAudioSortFilterParamForAudioPlayerView();
+              final FocusNode focusNode = FocusNode();
+              showDialog(
+                context: context,
+                barrierDismissible:
+                    false, // This line prevents the dialog from closing when tapping outside
+                builder: (BuildContext context) {
+                  return SaveSortFilterOptionsToPlaylistDialogWidget(
+                    playlistTitle:
+                        playlistListVMlistenFalse.uniqueSelectedPlaylist!.title,
+                    applicationViewType: AudioLearnAppView.audioPlayerView,
+                    focusNode: focusNode,
+                  );
+                },
+              ).then((isSortFilterParmsApplicationAutomatic) {
+                if (isSortFilterParmsApplicationAutomatic != null) {
+                  // if the user clicked on Save, not on Cancel button
+                  playlistListVMlistenFalse
+                      .savePlaylistAudioSortFilterParmsForAudioPlayerView(
+                    isSortFilterParmsApplicationAutomatic,
+                  );
+                }
+              });
+              focusNode.requestFocus();
               break;
             case PlaylistPopupMenuButton.updatePlaylistJson:
               playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();

@@ -15,13 +15,11 @@ import '../../viewmodels/theme_provider_vm.dart';
 class SaveSortFilterOptionsToPlaylistDialogWidget extends StatefulWidget {
   final String playlistTitle;
   final AudioLearnAppView applicationViewType;
-  final String applicationViewName;
   final FocusNode focusNode;
 
   const SaveSortFilterOptionsToPlaylistDialogWidget({
     required this.playlistTitle,
     required this.applicationViewType,
-    required this.applicationViewName,
     required this.focusNode,
     super.key,
   });
@@ -54,8 +52,27 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
   @override
   Widget build(BuildContext context) {
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
-    PlaylistListVM expandablePlaylistListVM =
-        Provider.of<PlaylistListVM>(context, listen: false);
+    String saveSortFilterOptionsForView = '';
+
+    switch (widget.applicationViewType) {
+      case AudioLearnAppView.playlistDownloadView:
+        saveSortFilterOptionsForView = AppLocalizations.of(context)!
+            .saveSortFilterOptionsForView(
+                AppLocalizations.of(context)!.appBarTitleDownloadAudio);
+        break;
+      case AudioLearnAppView.audioPlayerView:
+        saveSortFilterOptionsForView = AppLocalizations.of(context)!
+            .saveSortFilterOptionsForView(
+                AppLocalizations.of(context)!.appBarTitleAudioPlayer);
+        break;
+      case AudioLearnAppView.audioExtractorView:
+        saveSortFilterOptionsForView = AppLocalizations.of(context)!
+            .saveSortFilterOptionsForView(
+                AppLocalizations.of(context)!.appBarTitleAudioExtractor);
+        break;
+      default:
+        break;
+    }
 
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
@@ -97,8 +114,7 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
                 valueTextWidgetKey:
                     const Key('saveSortFilterOptionsToPlaylistKey'),
                 context: context,
-                label: AppLocalizations.of(context)!
-                    .saveSortFilterOptionsForView(widget.applicationViewName),
+                label: saveSortFilterOptionsForView,
               ),
               Tooltip(
                 message: AppLocalizations.of(context)!

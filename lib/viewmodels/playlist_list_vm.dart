@@ -651,7 +651,9 @@ class PlaylistListVM extends ChangeNotifier {
     return removedPlayableAudioNumber;
   }
 
-  void savePlaylistAudioSortFilterParamPlaylistDownloadView() {
+  void savePlaylistAudioSortFilterParmsPlaylistDownloadView(
+    bool isSortFilterParmsApplicationAutomatic,
+  ) {
     Playlist playlist = getSelectedPlaylists()[0];
     playlist.audioSortFilterParamForPlaylistDownloadView =
         _audioSortFilterParameters;
@@ -662,7 +664,9 @@ class PlaylistListVM extends ChangeNotifier {
     );
   }
 
-  void savePlaylistAudioSortFilterParamForAudioPlayerView() {
+  void savePlaylistAudioSortFilterParmsForAudioPlayerView(
+    bool isSortFilterParmsApplicationAutomatic,
+  ) {
     Playlist playlist = getSelectedPlaylists()[0];
     playlist.audioSortFilterParamForAudioPlayerView =
         _audioSortFilterParameters;

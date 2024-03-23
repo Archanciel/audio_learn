@@ -513,33 +513,23 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     false, // This line prevents the dialog from closing when tapping outside
                 builder: (BuildContext context) {
                   return SaveSortFilterOptionsToPlaylistDialogWidget(
-                    playlistTitle: playlistListVMlistenFalse
-                        .uniqueSelectedPlaylist!.title,
+                    playlistTitle:
+                        playlistListVMlistenFalse.uniqueSelectedPlaylist!.title,
                     applicationViewType: AudioLearnAppView.playlistDownloadView,
-                    applicationViewName: 'PlaylistDownloadView',
                     focusNode: focusNode,
                   );
                 },
-              ).then((filterSortAudioAndParmLst) {
-                if (filterSortAudioAndParmLst != null) {
-                  List<Audio> returnedAudioList = filterSortAudioAndParmLst[0];
-                  AudioSortFilterParameters audioSortFilterParameters =
-                      filterSortAudioAndParmLst[1];
+              ).then((isSortFilterParmsApplicationAutomatic) {
+                if (isSortFilterParmsApplicationAutomatic != null) {
+                  // if the user clicked on Save, not on Cancel button
                   playlistListVMlistenFalse
-                      .setSortedFilteredSelectedPlaylistsPlayableAudios(
-                          returnedAudioList);
-                  playlistListVMlistenFalse.setAudioSortFilterParameters(
-                    audioSortFilterParameters,
+                      .savePlaylistAudioSortFilterParmsPlaylistDownloadView(
+                    isSortFilterParmsApplicationAutomatic,
                   );
                 }
               });
               focusNode.requestFocus();
               break;
-
-
-              // playlistListVMlistenFalse
-              //     .savePlaylistAudioSortFilterParamPlaylistDownloadView();
-              // break;
             case PlaylistPopupMenuButton.updatePlaylistJson:
               playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();
               break;
@@ -639,7 +629,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  SizedBox  _buildDownloadSingleVideoButton({
+  SizedBox _buildDownloadSingleVideoButton({
     required BuildContext context,
     required AudioDownloadVM audioDownloadViewModel,
     required ThemeProviderVM themeProviderVM,
@@ -891,7 +881,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               },
             ).then((value) {
               // not null value is boolean
-              if (value ?? false) { // if value is null, value is false
+              if (value ?? false) {
+                // if value is null, value is false
                 // value is null if
                 //                             clicking on Cancel
                 //                             or if the dialog is

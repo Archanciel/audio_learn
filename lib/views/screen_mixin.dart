@@ -15,12 +15,6 @@ enum MultipleIconType {
   iconThree,
 }
 
-enum AudioLearnAppView {
-  playlistDownloadView,
-  audioPlayerView,
-  audioExtractorView,
-}
-
 // This global variable is initialized when instanciating the
 // unique AudioGlobalPlayerVM instance. The reason why this
 // variable is global is that it is used in the
