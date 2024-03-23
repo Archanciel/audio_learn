@@ -52,21 +52,21 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
   @override
   Widget build(BuildContext context) {
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
-    String saveSortFilterOptionsForView = '';
+    String viewNameTranslatedLabelStr = '';
 
     switch (widget.applicationViewType) {
       case AudioLearnAppView.playlistDownloadView:
-        saveSortFilterOptionsForView = AppLocalizations.of(context)!
+        viewNameTranslatedLabelStr = AppLocalizations.of(context)!
             .saveSortFilterOptionsForView(
                 AppLocalizations.of(context)!.appBarTitleDownloadAudio);
         break;
       case AudioLearnAppView.audioPlayerView:
-        saveSortFilterOptionsForView = AppLocalizations.of(context)!
+        viewNameTranslatedLabelStr = AppLocalizations.of(context)!
             .saveSortFilterOptionsForView(
                 AppLocalizations.of(context)!.appBarTitleAudioPlayer);
         break;
       case AudioLearnAppView.audioExtractorView:
-        saveSortFilterOptionsForView = AppLocalizations.of(context)!
+        viewNameTranslatedLabelStr = AppLocalizations.of(context)!
             .saveSortFilterOptionsForView(
                 AppLocalizations.of(context)!.appBarTitleAudioExtractor);
         break;
@@ -84,10 +84,7 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
               event.logicalKey == LogicalKeyboardKey.numpadEnter) {
             // executing the same code as in the 'Add'
             // TextButton onPressed callback
-            bool isYoutubePlaylistAdded = await _addPlaylist(
-              context: context,
-            );
-            Navigator.of(context).pop(isYoutubePlaylistAdded);
+            Navigator.of(context).pop(_isAutomaticApplicationChecked);
           }
         }
       },
@@ -102,25 +99,28 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
           child: ListBody(
             children: <Widget>[
               createLabelRowFunction(
-                // displaying the playlist URL
+                // displaying the playlist title in which to save the
+                // sort and filter options
                 valueTextWidgetKey:
-                    const Key('saveSortFilterOptionsToPlaylistKey'),
+                    const Key('saveSortFilterOptionsToPlaylistTitleKey'),
                 context: context,
                 label: AppLocalizations.of(context)!
                     .saveSortFilterOptionsToPlaylist(widget.playlistTitle),
               ),
               createLabelRowFunction(
-                // displaying the playlist URL
+                // displaying the view for which the sort and filter
+                // options are saved
                 valueTextWidgetKey:
-                    const Key('saveSortFilterOptionsToPlaylistKey'),
+                    const Key('saveSortFilterOptionsForViewNameKey'),
                 context: context,
-                label: saveSortFilterOptionsForView,
+                label: viewNameTranslatedLabelStr,
               ),
               Tooltip(
                 message: AppLocalizations.of(context)!
                     .saveSortFilterOptionsAutomaticApplicationTooltip,
                 child: createCheckboxRowFunction(
-                  // displaying music quality checkbox
+                  // displaying the checkbox to automatically apply the
+                  // sort and filter options when the playlist is opened
                   checkBoxWidgetKey:
                       const Key('saveSortFilterOptionsAutomaticApplicationKey'),
                   context: context,
@@ -139,12 +139,9 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
         ),
         actions: [
           TextButton(
-            key: const Key('sortFilterOptionsToPlaylistSaveButton'),
+            key: const Key('saveSortFilterOptionsToPlaylistSaveButton'),
             onPressed: () async {
-              bool isYoutubePlaylistAdded = await _addPlaylist(
-                context: context,
-              );
-              Navigator.of(context).pop(isYoutubePlaylistAdded);
+              Navigator.of(context).pop(_isAutomaticApplicationChecked);
             },
             child: Text(
               AppLocalizations.of(context)!.saveButton,
@@ -168,70 +165,5 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
         ],
       ),
     );
-  }
-
-  /// Calls the [PlaylistListVM.addPlaylist] method to add the
-  /// Youtube or local playlist.
-  ///
-  /// Returns true if the Youtube playlist was added, false
-  /// otherwise. This will be used to empty the playlist URL
-  /// TextField if a Youtube playlist was added.
-  Future<bool> _addPlaylist({
-    required BuildContext context,
-  }) async {
-    String localPlaylistTitle = '';
-    PlaylistListVM expandablePlaylistListVM =
-        Provider.of<PlaylistListVM>(context, listen: false);
-
-    if (localPlaylistTitle.isNotEmpty) {
-      // if the local playlist title is not empty, then add the local
-      // playlist
-      await expandablePlaylistListVM.addPlaylist(
-        localPlaylistTitle: localPlaylistTitle,
-        playlistQuality: _isAutomaticApplicationChecked
-            ? PlaylistQuality.music
-            : PlaylistQuality.voice,
-      );
-
-      return false; // the playlist URL TextField will not be cleared
-    } else {
-      // if the local playlist title is empty, then add the Youtube
-      // playlist if the Youtube playlist URL is not empty
-      if (widget.playlistTitle.isNotEmpty) {
-        bool isYoutubePlaylistAdded =
-            await expandablePlaylistListVM.addPlaylist(
-          playlistUrl: widget.playlistTitle,
-          playlistQuality: _isAutomaticApplicationChecked
-              ? PlaylistQuality.music
-              : PlaylistQuality.voice,
-        );
-
-        if (isYoutubePlaylistAdded) {
-          return true; // this will clear the playlist URL TextField
-        } else {
-          return false; // the playlist URL TextField will not be cleared
-        }
-      }
-    }
-
-    return false; // the playlist URL TextField will not be cleared
-  }
-
-  String formatDownloadSpeed({
-    required BuildContext context,
-    required Audio audio,
-  }) {
-    int audioDownloadSpeed = audio.audioDownloadSpeed;
-    String audioDownloadSpeedStr;
-
-    if (audioDownloadSpeed.isInfinite) {
-      audioDownloadSpeedStr =
-          AppLocalizations.of(context)!.infiniteBytesPerSecond;
-    } else {
-      audioDownloadSpeedStr =
-          '${UiUtil.formatLargeIntValue(context: context, value: audioDownloadSpeed)}/sec';
-    }
-
-    return audioDownloadSpeedStr;
   }
 }

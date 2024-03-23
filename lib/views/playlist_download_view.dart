@@ -523,7 +523,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 if (isSortFilterParmsApplicationAutomatic != null) {
                   // if the user clicked on Save, not on Cancel button
                   playlistListVMlistenFalse
-                      .savePlaylistAudioSortFilterParmsPlaylistDownloadView(
+                      .savePlaylistAudioSortFilterParmsToPlaylist(
+                    AudioLearnAppView.playlistDownloadView,
                     isSortFilterParmsApplicationAutomatic,
                   );
                 }

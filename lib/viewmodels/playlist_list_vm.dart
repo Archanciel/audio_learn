@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
 import '../services/audio_sort_filter_service.dart';
@@ -651,25 +652,19 @@ class PlaylistListVM extends ChangeNotifier {
     return removedPlayableAudioNumber;
   }
 
-  void savePlaylistAudioSortFilterParmsPlaylistDownloadView(
+  void savePlaylistAudioSortFilterParmsToPlaylist(
+    AudioLearnAppView audioLearnAppView,
     bool isSortFilterParmsApplicationAutomatic,
   ) {
     Playlist playlist = getSelectedPlaylists()[0];
-    playlist.audioSortFilterParamForPlaylistDownloadView =
-        _audioSortFilterParameters;
 
-    JsonDataService.saveToFile(
-      model: playlist,
-      path: playlist.getPlaylistDownloadFilePathName(),
-    );
-  }
-
-  void savePlaylistAudioSortFilterParmsForAudioPlayerView(
-    bool isSortFilterParmsApplicationAutomatic,
-  ) {
-    Playlist playlist = getSelectedPlaylists()[0];
-    playlist.audioSortFilterParamForAudioPlayerView =
-        _audioSortFilterParameters;
+    if (audioLearnAppView == AudioLearnAppView.playlistDownloadView) {
+      playlist.audioSortFilterParamForPlaylistDownloadView =
+          _audioSortFilterParameters;
+    } else {
+      playlist.audioSortFilterParamForAudioPlayerView =
+          _audioSortFilterParameters;
+    }
 
     JsonDataService.saveToFile(
       model: playlist,

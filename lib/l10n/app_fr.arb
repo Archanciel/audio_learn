@@ -260,11 +260,6 @@
   "saveSortFilterOptionsToPlaylistDialogTitle": "Sauvegarder les options de tri et de filtre",
   "saveSortFilterOptionsToPlaylist": "Dans la playlist \"{title}\"",
   "saveSortFilterOptionsForView": "Pour la vue \"{title}\"",
-  "@saveSortFilterOptionsForView": {
-    "placeholders": {
-      "title": {}
-    }
-  },
   "saveSortFilterOptionsAutomaticApplication": "Application automatique",
   "saveSortFilterOptionsAutomaticApplicationTooltip": "Si ce paramètre est sélectionné, les options de tri et de filtre de la playlist sont automatiquement appliquées lors de l'ouverture de la playlist",
   "saveButton": "Sauver"
