@@ -37,14 +37,15 @@ class SortingItem {
 
   factory SortingItem.fromJson(Map<String, dynamic> json) {
     return SortingItem(
-      sortingOption: SortingOption.values[json['sortingOption']],
+      sortingOption: SortingOption.values
+          .firstWhere((e) => e.toString().split('.').last == json['sortingOption']),
       isAscending: json['isAscending'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'sortingOption': sortingOption.index,
+      'sortingOption': sortingOption.toString().split('.').last,
       'isAscending': isAscending,
     };
   }
