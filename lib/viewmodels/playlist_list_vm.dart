@@ -364,6 +364,26 @@ class PlaylistListVM extends ChangeNotifier {
       // 'selectedPlaylistTextField' below
       // the playlist URL TextField is updated
       _uniqueSelectedPlaylist = playlistSelectedOrUnselected;
+
+      if (_uniqueSelectedPlaylist!
+          .applySortFilterParmsForPlaylistDownloadView) {
+        _audioSortFilterParameters = _uniqueSelectedPlaylist!
+            .audioSortFilterParmsForPlaylistDownloadView;
+
+        // TODO temporary !
+        _sortedFilteredSelectedPlaylistsPlayableAudios =
+            _audioSortFilterService.filterAndSortAudioLst(
+          audioLst: _uniqueSelectedPlaylist!.playableAudioLst,
+          audioSortFilterParameters: _audioSortFilterParameters ??
+              createDefaultAudioSortFilterParameters(),
+        );
+      }
+
+      // TODO fix handling the right app view !!!
+      // if (_uniqueSelectedPlaylist!.applySortFilterParmsForAudioPlayerView) {
+      //   _audioSortFilterParameters =
+      //       _uniqueSelectedPlaylist!.audioSortFilterParmsForAudioPlayerView;
+      // }
     }
 
     notifyListeners();
@@ -661,9 +681,13 @@ class PlaylistListVM extends ChangeNotifier {
     if (audioLearnAppView == AudioLearnAppView.playlistDownloadView) {
       playlist.audioSortFilterParmsForPlaylistDownloadView =
           _audioSortFilterParameters;
+      playlist.applySortFilterParmsForPlaylistDownloadView =
+          isSortFilterParmsApplicationAutomatic;
     } else {
       playlist.audioSortFilterParmsForAudioPlayerView =
           _audioSortFilterParameters;
+      playlist.applySortFilterParmsForAudioPlayerView =
+          isSortFilterParmsApplicationAutomatic;
     }
 
     JsonDataService.saveToFile(
