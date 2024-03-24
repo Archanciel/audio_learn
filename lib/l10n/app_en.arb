@@ -259,7 +259,7 @@
   "saveSortFilterOptionsToPlaylistDialogTitle": "Save Sort/Filter Options",
   "saveSortFilterOptionsToPlaylist": "To playlist \"{title}\"",
   "saveSortFilterOptionsForView": "For \"{title}\" view",
-  "saveSortFilterOptionsAutomaticApplication": "Automatic application",
+  "saveSortFilterOptionsAutomaticApplication": "Apply options automatically",
   "saveSortFilterOptionsAutomaticApplicationTooltip": "If 'Automatic application' is selected, the sort/filter options stored in the playlist are automatically applied when the playlist is selected.",
   "saveButton": "Save"
 }
