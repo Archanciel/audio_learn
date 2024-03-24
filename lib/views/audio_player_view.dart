@@ -287,7 +287,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
-                        .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(),
+                        .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+                      AudioLearnAppViewType.audioPlayerView,
+                    ),
                     audioSortDefaultFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
@@ -322,7 +324,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   return SaveSortFilterOptionsToPlaylistDialogWidget(
                     playlistTitle:
                         playlistListVMlistenFalse.uniqueSelectedPlaylist!.title,
-                    applicationViewType: AudioLearnAppView.audioPlayerView,
+                    applicationViewType: AudioLearnAppViewType.audioPlayerView,
                     focusNode: focusNode,
                   );
                 },
@@ -331,7 +333,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   // if the user clicked on Save, not on Cancel button
                   playlistListVMlistenFalse
                       .savePlaylistAudioSortFilterParmsToPlaylist(
-                    AudioLearnAppView.audioPlayerView,
+                    AudioLearnAppViewType.audioPlayerView,
                     isSortFilterParmsApplicationAutomatic,
                   );
                 }
@@ -425,7 +427,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               child: GestureDetector(
                 onTap: () {
                   if (globalAudioPlayerVM
-                      .getPlayableAudiosApplyingSortFilterParameters()
+                      .getPlayableAudiosApplyingSortFilterParameters(
+                        AudioLearnAppViewType.audioPlayerView,
+                      )
                       .isEmpty) {
                     // there is no audio to play
                     return;
@@ -446,7 +450,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             GestureDetector(
               onLongPress: () {
                 if (globalAudioPlayerVM
-                    .getPlayableAudiosApplyingSortFilterParameters()
+                    .getPlayableAudiosApplyingSortFilterParameters(
+                      AudioLearnAppViewType.audioPlayerView,
+                    )
                     .isEmpty) {
                   // there is no audio to play
                   return;

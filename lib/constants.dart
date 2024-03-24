@@ -8,7 +8,7 @@ enum PlaylistPopupMenuButton {
   updateAppPlaylistsList,
 }
 
-enum AudioLearnAppView {
+enum AudioLearnAppViewType {
   playlistDownloadView,
   audioPlayerView,
   audioExtractorView,

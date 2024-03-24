@@ -77,10 +77,14 @@ class _ListPlayableAudiosDialogWidgetState
 
     if (_excludeFullyPlayedAudios) {
       playableAudioLst = audioGlobalPlayerVM
-          .getNotFullyPlayedAudiosApplyingSortFilterParameters();
+          .getNotFullyPlayedAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
     } else {
       playableAudioLst =
-          audioGlobalPlayerVM.getPlayableAudiosApplyingSortFilterParameters();
+          audioGlobalPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
     }
 
     // avoid error when the dialog is opened and the current

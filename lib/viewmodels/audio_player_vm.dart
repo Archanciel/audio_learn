@@ -789,7 +789,9 @@ class AudioPlayerVM extends ChangeNotifier {
   /// 5 nov
   /// 21 nov
   /// 24 nov
-  List<Audio> getPlayableAudiosApplyingSortFilterParameters() {
+  List<Audio> getPlayableAudiosApplyingSortFilterParameters(
+    AudioLearnAppViewType audioLearnAppViewType,
+  ) {
     List<Playlist> selectedPlaylists = _playlistListVM.getSelectedPlaylists();
 
     if (selectedPlaylists.isEmpty) {
@@ -800,12 +802,18 @@ class AudioPlayerVM extends ChangeNotifier {
     }
 
     return _playlistListVM
-        .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+        .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+      audioLearnAppViewType,
+    );
   }
 
-  List<Audio> getNotFullyPlayedAudiosApplyingSortFilterParameters() {
+  List<Audio> getNotFullyPlayedAudiosApplyingSortFilterParameters(
+    AudioLearnAppViewType audioLearnAppViewType,
+  ) {
     return _playlistListVM
-        .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters();
+        .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters(
+      audioLearnAppViewType,
+    );
   }
 
   String? getCurrentAudioTitleWithDuration() {

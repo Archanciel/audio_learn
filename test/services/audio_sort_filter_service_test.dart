@@ -2420,7 +2420,9 @@ void main() {
         'filter by one word in audio title and sort by download date descending and duration ascending',
         () {
       List<Audio> audioList = playlistListVM
-          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
 
       List<String>
           expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc =
@@ -2518,7 +2520,9 @@ void main() {
         'filter by multiple words in audio title or in audio compact description and sort by download date descending and duration ascending',
         () {
       List<Audio> audioList = playlistListVM
-          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
 
       List<String>
           expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc =
@@ -2614,7 +2618,9 @@ void main() {
         'filter by one sentence present in audio compact description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending. Result list will be empty',
         () {
       List<Audio> audioList = playlistListVM
-          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
 
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
@@ -2691,7 +2697,9 @@ void main() {
         "filter in 'and' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending",
         () {
       List<Audio> audioList = playlistListVM
-          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
 
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
@@ -2774,7 +2782,9 @@ void main() {
         "filter in 'and' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = true and sort by download date descending and duration ascending",
         () {
       List<Audio> audioList = playlistListVM
-          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
 
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
@@ -2864,7 +2874,9 @@ void main() {
         "filter in 'or' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = false and sort by download date descending and duration ascending",
         () {
       List<Audio> audioList = playlistListVM
-          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
 
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
@@ -2958,7 +2970,9 @@ void main() {
         "filter in 'or' mode by multiple sentences present in audio title and compact description only with searchInVideoCompactDescription = true and sort by download date descending and duration ascending",
         () {
       List<Audio> audioList = playlistListVM
-          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
 
       final List<SortingItem>
           selectedSortItemLstDownloadDateDescAndDurationAsc = [
@@ -3121,7 +3135,9 @@ void main() {
         'filter by no word in audio title or video compact description and sort by download date descending',
         () {
       List<Audio> audioList = playlistListVM
-          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
 
       List<String>
           expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc =

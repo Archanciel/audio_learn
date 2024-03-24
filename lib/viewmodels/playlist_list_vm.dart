@@ -464,7 +464,9 @@ class PlaylistListVM extends ChangeNotifier {
   /// clicked on the Apply button in the
   /// SortAndFilterAudioDialogWidget, then the filtered and
   /// sorted audio list is returned.
-  List<Audio> getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters() {
+  List<Audio> getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+    AudioLearnAppViewType audioLearnAppViewType,
+  ) {
     List<Playlist> selectedPlaylists = getSelectedPlaylists();
 
     if (selectedPlaylists.isEmpty) {
@@ -500,9 +502,13 @@ class PlaylistListVM extends ChangeNotifier {
   }
 
   List<Audio>
-      getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters() {
+      getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters(
+    AudioLearnAppViewType audioLearnAppViewType,
+  ) {
     List<Audio> playlistPlayableAudioLst =
-        getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+        getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+      audioLearnAppViewType,
+    );
 
     return playlistPlayableAudioLst
         .where((audio) => !audio.wasFullyListened())
@@ -664,12 +670,12 @@ class PlaylistListVM extends ChangeNotifier {
   }
 
   void savePlaylistAudioSortFilterParmsToPlaylist(
-    AudioLearnAppView audioLearnAppView,
+    AudioLearnAppViewType audioLearnAppView,
     bool isSortFilterParmsApplicationAutomatic,
   ) {
     Playlist playlist = getSelectedPlaylists()[0];
 
-    if (audioLearnAppView == AudioLearnAppView.playlistDownloadView) {
+    if (audioLearnAppView == AudioLearnAppViewType.playlistDownloadView) {
       playlist.audioSortFilterParmsForPlaylistDownloadView =
           _audioSortFilterParameters;
       playlist.applySortFilterParmsForPlaylistDownloadView =

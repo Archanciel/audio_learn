@@ -597,7 +597,9 @@ void main() {
       // Obtaining the audio from which to obtain the next playable
       // audio
       List<Audio> playableAudioLst = playlistListVM
-          .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       expect(playableAudioLst.length, 2);
       expect(playableAudioLst[0].validVideoTitle,
@@ -677,7 +679,9 @@ void main() {
       );
 
       List<Audio> playableAudioLst = playlistListVM
-          .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       expect(playableAudioLst.length, 3);
       expect(playableAudioLst[0].validVideoTitle,
@@ -754,7 +758,9 @@ void main() {
       // Obtaining the audio from which to obtain the next playable
       // audio
       List<Audio> playableAudioLst = playlistListVM
-          .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters();
+          .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       expect(playableAudioLst.length, 0);
 

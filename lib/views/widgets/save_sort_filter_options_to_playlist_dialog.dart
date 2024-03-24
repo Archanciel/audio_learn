@@ -14,7 +14,7 @@ import '../../viewmodels/theme_provider_vm.dart';
 
 class SaveSortFilterOptionsToPlaylistDialogWidget extends StatefulWidget {
   final String playlistTitle;
-  final AudioLearnAppView applicationViewType;
+  final AudioLearnAppViewType applicationViewType;
   final FocusNode focusNode;
 
   const SaveSortFilterOptionsToPlaylistDialogWidget({
@@ -55,17 +55,17 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
     String viewNameTranslatedLabelStr = '';
 
     switch (widget.applicationViewType) {
-      case AudioLearnAppView.playlistDownloadView:
+      case AudioLearnAppViewType.playlistDownloadView:
         viewNameTranslatedLabelStr = AppLocalizations.of(context)!
             .saveSortFilterOptionsForView(
                 AppLocalizations.of(context)!.appBarTitleDownloadAudio);
         break;
-      case AudioLearnAppView.audioPlayerView:
+      case AudioLearnAppViewType.audioPlayerView:
         viewNameTranslatedLabelStr = AppLocalizations.of(context)!
             .saveSortFilterOptionsForView(
                 AppLocalizations.of(context)!.appBarTitleAudioPlayer);
         break;
-      case AudioLearnAppView.audioExtractorView:
+      case AudioLearnAppViewType.audioExtractorView:
         viewNameTranslatedLabelStr = AppLocalizations.of(context)!
             .saveSortFilterOptionsForView(
                 AppLocalizations.of(context)!.appBarTitleAudioExtractor);

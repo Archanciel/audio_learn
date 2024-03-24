@@ -125,7 +125,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       child: Consumer<PlaylistListVM>(
         builder: (context, expandablePlaylistListVM, child) {
           _selectedPlaylistsPlayableAudios = expandablePlaylistListVM
-              .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters();
+              .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+            AudioLearnAppViewType.playlistDownloadView,
+          );
           if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
             // Scroll the sublist to the top when the audio
             // list is filtered and/or sorted
@@ -480,7 +482,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 builder: (BuildContext context) {
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
-                        .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(),
+                        .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+                      AudioLearnAppViewType.audioPlayerView,
+                    ),
                     audioSortDefaultFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
@@ -515,7 +519,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   return SaveSortFilterOptionsToPlaylistDialogWidget(
                     playlistTitle:
                         playlistListVMlistenFalse.uniqueSelectedPlaylist!.title,
-                    applicationViewType: AudioLearnAppView.playlistDownloadView,
+                    applicationViewType:
+                        AudioLearnAppViewType.playlistDownloadView,
                     focusNode: focusNode,
                   );
                 },
@@ -524,7 +529,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   // if the user clicked on Save, not on Cancel button
                   playlistListVMlistenFalse
                       .savePlaylistAudioSortFilterParmsToPlaylist(
-                    AudioLearnAppView.playlistDownloadView,
+                    AudioLearnAppViewType.playlistDownloadView,
                     isSortFilterParmsApplicationAutomatic,
                   );
                 }
