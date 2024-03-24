@@ -398,21 +398,24 @@ mixin ScreenMixin {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Text(label),
           ),
           Expanded(
-            child: TextField(
-              key: valueTextFieldWidgetKey,
-              controller: controller,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                isDense: true,
-                contentPadding: EdgeInsets.all(8),
+            child: SizedBox(
+              height: 36,
+              child: TextField(
+                key: valueTextFieldWidgetKey,
+                controller: controller,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(8),
+                ),
+                focusNode: textFieldFocusNode,
               ),
-              focusNode: textFieldFocusNode,
             ),
           ),
         ],
