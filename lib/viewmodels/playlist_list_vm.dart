@@ -365,12 +365,6 @@ class PlaylistListVM extends ChangeNotifier {
       // the playlist URL TextField is updated
       _uniqueSelectedPlaylist = playlistSelectedOrUnselected;
 
-      if (_uniqueSelectedPlaylist!
-          .applySortFilterParmsForPlaylistDownloadView) {
-        _audioSortFilterParameters = _uniqueSelectedPlaylist!
-            .audioSortFilterParmsForPlaylistDownloadView;
-      }
-
       // TODO fix handling the right app view !!!
       // if (_uniqueSelectedPlaylist!.applySortFilterParmsForAudioPlayerView) {
       //   _audioSortFilterParameters =
@@ -480,6 +474,11 @@ class PlaylistListVM extends ChangeNotifier {
     Playlist selectedPlaylist =
         selectedPlaylists[0]; // currently, only one playlist can be selected
     List<Audio> selectedPlaylistsAudios = selectedPlaylist.playableAudioLst;
+
+    if (selectedPlaylist.applySortFilterParmsForPlaylistDownloadView) {
+      _audioSortFilterParameters =
+          selectedPlaylist.audioSortFilterParmsForPlaylistDownloadView;
+    }
 
     _sortedFilteredSelectedPlaylistsPlayableAudios =
         _audioSortFilterService.filterAndSortAudioLst(
