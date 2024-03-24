@@ -478,7 +478,7 @@ class PlaylistListVM extends ChangeNotifier {
     List<Audio> selectedPlaylistsAudios = selectedPlaylist.playableAudioLst;
 
     _audioSortFilterParameters = null;
-    
+
     switch (audioLearnAppViewType) {
       case AudioLearnAppViewType.playlistDownloadView:
         if (selectedPlaylist.applySortFilterParmsForPlaylistDownloadView) {
@@ -560,32 +560,26 @@ class PlaylistListVM extends ChangeNotifier {
 
   /// Method called when the user clicks on the playlist menu
   /// item "Sort and filter playlist audios" in the
-  /// PlaylistDownloadView screen.
-  AudioSortFilterParameters
-      getSelectedPlaylistAudioSortFilterParamForPlaylistDownloadView() {
+  /// PlaylistDownloadView screen or in the AudioPlayerView
+  /// screen.
+  AudioSortFilterParameters getSelectedPlaylistAudioSortFilterParamForView(
+    AudioLearnAppViewType audioLearnAppViewType,
+  ) {
     Playlist selectedPlaylist = getSelectedPlaylists()[0];
-    AudioSortFilterParameters? playlistAudioSortFilterParameters =
-        selectedPlaylist.audioSortFilterParmsForPlaylistDownloadView;
+    AudioSortFilterParameters? playlistAudioSortFilterParameters;
 
-    if (playlistAudioSortFilterParameters != null) {
-      return playlistAudioSortFilterParameters;
+    switch (audioLearnAppViewType) {
+      case AudioLearnAppViewType.playlistDownloadView:
+        playlistAudioSortFilterParameters =
+            selectedPlaylist.audioSortFilterParmsForPlaylistDownloadView;
+        break;
+      case AudioLearnAppViewType.audioPlayerView:
+        playlistAudioSortFilterParameters =
+            selectedPlaylist.audioSortFilterParmsForAudioPlayerView;
+        break;
+      default:
+        break;
     }
-
-    // if the user has not yet selected sort and filter parameters,
-    // then the default sort and filter parameters which don't
-    // filter and only sort by audio download date descending
-    // are returned.
-    return createDefaultAudioSortFilterParameters();
-  }
-
-  /// Method called when the user clicks on the playlist menu
-  /// item "Sort and filter playlist audios" in the
-  /// AudioPlayerView screen.
-  AudioSortFilterParameters
-      getSelectedPlaylistAudioSortFilterParamForAudioPlayerView() {
-    Playlist selectedPlaylist = getSelectedPlaylists()[0];
-    AudioSortFilterParameters? playlistAudioSortFilterParameters =
-        selectedPlaylist.audioSortFilterParmsForAudioPlayerView;
 
     if (playlistAudioSortFilterParameters != null) {
       return playlistAudioSortFilterParameters;

@@ -488,7 +488,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     audioSortDefaultFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
-                        .getSelectedPlaylistAudioSortFilterParamForPlaylistDownloadView(),
+                        .getSelectedPlaylistAudioSortFilterParamForView(
+                      AudioLearnAppViewType.playlistDownloadView,
+                    ),
                     focusNode: focusNode,
                   );
                 },
