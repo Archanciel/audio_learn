@@ -369,14 +369,6 @@ class PlaylistListVM extends ChangeNotifier {
           .applySortFilterParmsForPlaylistDownloadView) {
         _audioSortFilterParameters = _uniqueSelectedPlaylist!
             .audioSortFilterParmsForPlaylistDownloadView;
-
-        // TODO temporary !
-        _sortedFilteredSelectedPlaylistsPlayableAudios =
-            _audioSortFilterService.filterAndSortAudioLst(
-          audioLst: _uniqueSelectedPlaylist!.playableAudioLst,
-          audioSortFilterParameters: _audioSortFilterParameters ??
-              createDefaultAudioSortFilterParameters(),
-        );
       }
 
       // TODO fix handling the right app view !!!
@@ -486,7 +478,7 @@ class PlaylistListVM extends ChangeNotifier {
     }
 
     Playlist selectedPlaylist =
-        selectedPlaylists[0]; // only one playlist can be selected at a time
+        selectedPlaylists[0]; // currently, only one playlist can be selected
     List<Audio> selectedPlaylistsAudios = selectedPlaylist.playableAudioLst;
 
     _sortedFilteredSelectedPlaylistsPlayableAudios =
