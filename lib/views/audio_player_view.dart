@@ -32,6 +32,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   final double _audioIconSizeLarge = 80;
   late double _audioPlaySpeed;
 
+  bool _wasSortFilterAudioSettingsApplied = false;
+
   @override
   initState() {
     super.initState();
@@ -293,7 +295,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     audioSortDefaultFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
-                        .getSelectedPlaylistAudioSortFilterParamForAudioPlayerView(),
+                        .getSelectedPlaylistAudioSortFilterParamForView(
+                      AudioLearnAppViewType.audioPlayerView,
+                    ),
                     focusNode: focusNode,
                   );
                 },
@@ -303,9 +307,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   AudioSortFilterParameters audioSortFilterParameters =
                       filterSortAudioAndParmLst[1];
                   playlistListVMlistenFalse
-                      .setSortedFilteredSelectedPlaylistsPlayableAudios(
-                          returnedAudioList);
-                  playlistListVMlistenFalse.setAudioSortFilterParameters(
+                      .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+                    returnedAudioList,
                     audioSortFilterParameters,
                   );
                 }
@@ -707,6 +710,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       context: context,
       builder: (context) => const ListPlayableAudiosDialogWidget(),
     ).then((selectedAudio) {
+      // TODO: why nothing is done there ?
       print(selectedAudio);
     });
   }

@@ -95,26 +95,28 @@ class _SortAndFilterAudioDialogWidgetState
     });
 
     // Set the initial sort and filter fields
+    AudioSortFilterParameters audioSortDefaultFilterParameters =
+        widget.audioSortPlaylistFilterParameters;
 
     _selectedSortingItemLst = [];
     _selectedSortingItemLst
-        .addAll(widget.audioSortDefaultFilterParameters.selectedSortItemLst);
+        .addAll(audioSortDefaultFilterParameters.selectedSortItemLst);
     _audioTitleFilterSentencesLst
-        .addAll(widget.audioSortDefaultFilterParameters.filterSentenceLst);
-    _ignoreCase = widget.audioSortDefaultFilterParameters.ignoreCase;
+        .addAll(audioSortDefaultFilterParameters.filterSentenceLst);
+    _ignoreCase = audioSortDefaultFilterParameters.ignoreCase;
     _searchInVideoCompactDescription = widget
         .audioSortDefaultFilterParameters.searchAsWellInVideoCompactDescription;
-    _isAnd = (widget.audioSortDefaultFilterParameters.sentencesCombination ==
+    _isAnd = (audioSortDefaultFilterParameters.sentencesCombination ==
         SentencesCombination.AND);
     _isOr = !_isAnd;
     _filterMusicQuality =
-        widget.audioSortDefaultFilterParameters.filterMusicQuality;
+        audioSortDefaultFilterParameters.filterMusicQuality;
     _filterFullyListened =
-        widget.audioSortDefaultFilterParameters.filterFullyListened;
+        audioSortDefaultFilterParameters.filterFullyListened;
     _filterPartiallyListened =
-        widget.audioSortDefaultFilterParameters.filterPartiallyListened;
+        audioSortDefaultFilterParameters.filterPartiallyListened;
     _filterNotListened =
-        widget.audioSortDefaultFilterParameters.filterNotListened;
+        audioSortDefaultFilterParameters.filterNotListened;
   }
 
   @override

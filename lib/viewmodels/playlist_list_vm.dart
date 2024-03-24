@@ -53,6 +53,8 @@ class PlaylistListVM extends ChangeNotifier {
   bool _isOnePlaylistSelected = true;
   List<Playlist> _listOfSelectablePlaylists = [];
   List<Audio>? _sortedFilteredSelectedPlaylistsPlayableAudios;
+  List<Audio>? get sortedFilteredSelectedPlaylistsPlayableAudios =>
+      _sortedFilteredSelectedPlaylistsPlayableAudios;
   AudioSortFilterParameters? _audioSortFilterParameters;
 
   Playlist? _uniqueSelectedPlaylist;
@@ -537,25 +539,18 @@ class PlaylistListVM extends ChangeNotifier {
 
   /// Called after the user clicked on the Apply button
   /// contained in the SortAndFilterAudioDialogWidget.
-  void setSortedFilteredSelectedPlaylistsPlayableAudios(
-      List<Audio> sortedFilteredSelectedPlaylistsPlayableAudios) {
-    _sortedFilteredSelectedPlaylistsPlayableAudios =
-        sortedFilteredSelectedPlaylistsPlayableAudios;
-
-    notifyListeners();
-  }
-
-  /// Method called after the user clicked on the
-  /// SortAndFilterAudioDialogWidget Apply button.
   ///
   /// {audioSortFilterParameters} is the sort and filter
   /// parameters selected by the user in the
   /// SortAndFilterAudioDialogWidget.
-  void setAudioSortFilterParameters(
+  void setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+      List<Audio> sortedFilteredSelectedPlaylistsPlayableAudios,
       AudioSortFilterParameters audioSortFilterParameters) {
+    _sortedFilteredSelectedPlaylistsPlayableAudios =
+        sortedFilteredSelectedPlaylistsPlayableAudios;
     _audioSortFilterParameters = audioSortFilterParameters;
 
-    // notifyListeners();
+    notifyListeners();
   }
 
   /// Method called when the user clicks on the playlist menu

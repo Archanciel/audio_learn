@@ -49,6 +49,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   List<Audio> _selectedPlaylistsPlayableAudios = [];
 
+  bool _wasSortFilterAudioSettingsApplied = false;
+
   //request permission from initStateMethod
   @override
   void initState() {
@@ -124,10 +126,22 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     return Expanded(
       child: Consumer<PlaylistListVM>(
         builder: (context, expandablePlaylistListVM, child) {
-          _selectedPlaylistsPlayableAudios = expandablePlaylistListVM
-              .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-            AudioLearnAppViewType.playlistDownloadView,
-          );
+          if (_wasSortFilterAudioSettingsApplied) {
+            // if the sort and filter audio settings have been applied
+            // then the sortedFilteredSelectedPlaylistsPlayableAudios
+            // list is used to display the audio list. Otherwise, even
+            // if the sort and filter audio settings have been applied,
+            // the possibly saved sorted and filtered options of the
+            // selected playlist are used to display the audio list !
+            _selectedPlaylistsPlayableAudios = expandablePlaylistListVM
+                .sortedFilteredSelectedPlaylistsPlayableAudios!;
+            _wasSortFilterAudioSettingsApplied = false;
+          } else {
+            _selectedPlaylistsPlayableAudios = expandablePlaylistListVM
+                .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+              AudioLearnAppViewType.playlistDownloadView,
+            );
+          }
           if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
             // Scroll the sublist to the top when the audio
             // list is filtered and/or sorted
@@ -500,11 +514,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   AudioSortFilterParameters audioSortFilterParameters =
                       filterSortAudioAndParmLst[1];
                   playlistListVMlistenFalse
-                      .setSortedFilteredSelectedPlaylistsPlayableAudios(
-                          returnedAudioList);
-                  playlistListVMlistenFalse.setAudioSortFilterParameters(
+                      .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+                    returnedAudioList,
                     audioSortFilterParameters,
                   );
+                  _wasSortFilterAudioSettingsApplied = true;
                 }
               });
               focusNode.requestFocus();
