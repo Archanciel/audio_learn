@@ -477,9 +477,23 @@ class PlaylistListVM extends ChangeNotifier {
         selectedPlaylists[0]; // currently, only one playlist can be selected
     List<Audio> selectedPlaylistsAudios = selectedPlaylist.playableAudioLst;
 
-    if (selectedPlaylist.applySortFilterParmsForPlaylistDownloadView) {
-      _audioSortFilterParameters =
-          selectedPlaylist.audioSortFilterParmsForPlaylistDownloadView;
+    _audioSortFilterParameters = null;
+    
+    switch (audioLearnAppViewType) {
+      case AudioLearnAppViewType.playlistDownloadView:
+        if (selectedPlaylist.applySortFilterParmsForPlaylistDownloadView) {
+          _audioSortFilterParameters =
+              selectedPlaylist.audioSortFilterParmsForPlaylistDownloadView;
+        }
+        break;
+      case AudioLearnAppViewType.audioPlayerView:
+        if (selectedPlaylist.applySortFilterParmsForAudioPlayerView) {
+          _audioSortFilterParameters =
+              selectedPlaylist.audioSortFilterParmsForAudioPlayerView;
+        }
+        break;
+      default:
+        break;
     }
 
     _sortedFilteredSelectedPlaylistsPlayableAudios =
