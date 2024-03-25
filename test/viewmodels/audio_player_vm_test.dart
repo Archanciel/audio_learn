@@ -1593,7 +1593,6 @@ Future<AudioPlayerVM> createAudioPlayerVM() async {
 
   List<Audio> selectedPlaylistAudioList = [];
 
-  ;
   playlistListVM.setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
       selectedPlaylistAudioList,
       ascendingDownloadDateDescendingDurationAudioSortFilterParameters);
