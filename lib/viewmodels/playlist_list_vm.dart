@@ -483,13 +483,15 @@ class PlaylistListVM extends ChangeNotifier {
 
     switch (audioLearnAppViewType) {
       case AudioLearnAppViewType.playlistDownloadView:
-        if (selectedPlaylist.applySortFilterParmsForPlaylistDownloadView) {
+        if (selectedPlaylist
+            .applyAutomaticallySortFilterParmsForPlaylistDownloadView) {
           _audioSortFilterParameters =
               selectedPlaylist.audioSortFilterParmsForPlaylistDownloadView;
         }
         break;
       case AudioLearnAppViewType.audioPlayerView:
-        if (selectedPlaylist.applySortFilterParmsForAudioPlayerView) {
+        if (selectedPlaylist
+            .applyAutomaticallySortFilterParmsForAudioPlayerView) {
           _audioSortFilterParameters =
               selectedPlaylist.audioSortFilterParmsForAudioPlayerView;
         }
@@ -681,12 +683,12 @@ class PlaylistListVM extends ChangeNotifier {
     if (audioLearnAppView == AudioLearnAppViewType.playlistDownloadView) {
       playlist.audioSortFilterParmsForPlaylistDownloadView =
           _audioSortFilterParameters;
-      playlist.applySortFilterParmsForPlaylistDownloadView =
+      playlist.applyAutomaticallySortFilterParmsForPlaylistDownloadView =
           isSortFilterParmsApplicationAutomatic;
     } else {
       playlist.audioSortFilterParmsForAudioPlayerView =
           _audioSortFilterParameters;
-      playlist.applySortFilterParmsForAudioPlayerView =
+      playlist.applyAutomaticallySortFilterParmsForAudioPlayerView =
           isSortFilterParmsApplicationAutomatic;
     }
 

@@ -1571,32 +1571,6 @@ Future<AudioPlayerVM> createAudioPlayerVM() async {
   // selected and which are not
   playlistListVM.getUpToDateSelectablePlaylists();
 
-  // Set the sort filter parameters to ascending download date
-  // and descending duration in order for the tests to pass after
-  // having modified the PlaylistListVM class usage of the
-  // AudioSortFilterParameters
-  AudioSortFilterParameters
-      ascendingDownloadDateDescendingDurationAudioSortFilterParameters =
-      AudioSortFilterParameters(
-    selectedSortItemLst: [
-      SortingItem(
-        sortingOption: SortingOption.audioDownloadDate,
-        isAscending: true,
-      ),
-      SortingItem(
-        sortingOption: SortingOption.audioDuration,
-        isAscending: false,
-      ),
-    ],
-    sentencesCombination: SentencesCombination.AND,
-  );
-
-  List<Audio> selectedPlaylistAudioList = [];
-
-  playlistListVM.setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
-      selectedPlaylistAudioList,
-      ascendingDownloadDateDescendingDurationAudioSortFilterParameters);
-
   AudioPlayerVM audioPlayerVM = AudioPlayerVMTestVersion(
     playlistListVM: playlistListVM,
   );
