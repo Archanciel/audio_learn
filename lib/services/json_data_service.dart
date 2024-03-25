@@ -59,13 +59,27 @@ class ClassNotSupportedByFromJsonDataServiceException implements Exception {
   }
 }
 
+class ProblemInJsonFileException implements Exception {
+  final String _jsonPathFileName;
+
+  ProblemInJsonFileException({
+    required String jsonPathFileName,
+  })  : _jsonPathFileName = jsonPathFileName;
+
+  @override
+  String toString() {
+    return (_jsonPathFileName);
+  }
+}
+
 class JsonDataService {
   // typedef FromJsonFunction<T> = T Function(Map<String, dynamic> jsonDataMap);
   static final Map<Type, FromJsonFunction> _fromJsonFunctionsMap = {
     Audio: (jsonDataMap) => Audio.fromJson(jsonDataMap),
     Playlist: (jsonDataMap) => Playlist.fromJson(jsonDataMap),
     SortingItem: (jsonDataMap) => SortingItem.fromJson(jsonDataMap),
-    AudioSortFilterParameters: (jsonDataMap) => AudioSortFilterParameters.fromJson(jsonDataMap),
+    AudioSortFilterParameters: (jsonDataMap) =>
+        AudioSortFilterParameters.fromJson(jsonDataMap),
   };
 
   // typedef ToJsonFunction<T> = Map<String, dynamic> Function(T model);
@@ -73,7 +87,8 @@ class JsonDataService {
     Audio: (model) => model.toJson(),
     Playlist: (model) => model.toJson(),
     SortingItem: (sortingItem) => sortingItem.toJson(),
-    AudioSortFilterParameters: (audioSortFilterParameters) => audioSortFilterParameters.toJson(),
+    AudioSortFilterParameters: (audioSortFilterParameters) =>
+        audioSortFilterParameters.toJson(),
   };
 
   static void saveToFile({
@@ -93,6 +108,10 @@ class JsonDataService {
 
       try {
         return decodeJson(jsonStr, type);
+      } on StateError catch (_) {
+        throw ProblemInJsonFileException(
+          jsonPathFileName: jsonPathFileName,
+        );
       } catch (e) {
         throw ClassNotContainedInJsonFileException(
           className: type.toString(),

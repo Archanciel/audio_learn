@@ -262,5 +262,6 @@
   "saveSortFilterOptionsForView": "Pour la vue \"{title}\"",
   "saveSortFilterOptionsAutomaticApplication": "Appliquer les options automatiquement",
   "saveSortFilterOptionsAutomaticApplicationTooltip": "Si ce paramètre est sélectionné, les options de tri et de filtre de la playlist sont automatiquement appliquées lors de l'ouverture de la playlist",
-  "saveButton": "Sauver"
+  "saveButton": "Sauver",
+  "errorInPlaylistJsonFile": "Le fichier \"{filePathName}\" une donnée de définition invalide. Essayez de trouver le probléme afin de le corriger avant de réexéuter l'opération."
 }

@@ -261,5 +261,6 @@
   "saveSortFilterOptionsForView": "For \"{title}\" view",
   "saveSortFilterOptionsAutomaticApplication": "Apply options automatically",
   "saveSortFilterOptionsAutomaticApplicationTooltip": "If 'Automatic application' is selected, the sort/filter options stored in the playlist are automatically applied when the playlist is selected.",
-  "saveButton": "Save"
+  "saveButton": "Save",
+  "errorInPlaylistJsonFile": "File \"{filePathName}\" contains an invalid data definition. Try finding the problem in order to correct it before executing again the operation."
 }

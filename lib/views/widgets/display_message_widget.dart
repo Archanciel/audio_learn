@@ -106,6 +106,16 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
             });
 
             return const SizedBox.shrink();
+          case ErrorType.errorInPlaylistJsonFile:
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _displayWarningDialog(
+                  context: _context,
+                  message: AppLocalizations.of(context)!.errorInPlaylistJsonFile(_warningMessageVM.errorArgOne,),
+                  warningMessageVM: _warningMessageVM,
+                  themeProviderVM: themeProviderVM);
+            });
+
+            return const SizedBox.shrink();
           default:
             return const SizedBox.shrink();
         }

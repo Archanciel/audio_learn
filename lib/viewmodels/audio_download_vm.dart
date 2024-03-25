@@ -94,19 +94,31 @@ class AudioDownloadVM extends ChangeNotifier {
       extension: 'json',
     );
 
-    for (String playlistPathFileName in playlistPathFileNameLst) {
-      Playlist currentPlaylist = JsonDataService.loadFromFile(
-        jsonPathFileName: playlistPathFileName,
-        type: Playlist,
-      );
-      _listOfPlaylist.add(currentPlaylist);
+    try {
+      for (String playlistPathFileName in playlistPathFileNameLst) {
+        Playlist currentPlaylist = JsonDataService.loadFromFile(
+          jsonPathFileName: playlistPathFileName,
+          type: Playlist,
+        );
+        _listOfPlaylist.add(currentPlaylist);
 
-      // if the playlist is selected, the audio quality checkbox will be
-      // checked or not according to the selected playlist quality
-      if (currentPlaylist.isSelected) {
-        _isHighQuality =
-            currentPlaylist.playlistQuality == PlaylistQuality.music;
+        // if the playlist is selected, the audio quality checkbox will be
+        // checked or not according to the selected playlist quality
+        if (currentPlaylist.isSelected) {
+          _isHighQuality =
+              currentPlaylist.playlistQuality == PlaylistQuality.music;
+        }
       }
+    } catch (e) {
+      warningMessageVM.setError(
+        errorType: ErrorType.errorInPlaylistJsonFile,
+        errorArgOne: e.toString(),
+      );
+
+      notifyListeners();
+
+      print(
+          '+++++++++++++++++++Error in AudioDownloadVM.loadExistingPlaylists(): $e');
     }
 
 //    notifyListeners(); not necessary since the unique
@@ -393,8 +405,8 @@ class AudioDownloadVM extends ChangeNotifier {
 
       String youtubeVideoTitle = youtubeVideo.title;
 
-      final bool alreadyDownloaded = downloadedAudioOriginalVideoTitleLst.any(
-          (originalVideoTitle) => originalVideoTitle == youtubeVideoTitle);
+      final bool alreadyDownloaded = downloadedAudioOriginalVideoTitleLst
+          .any((originalVideoTitle) => originalVideoTitle == youtubeVideoTitle);
 
       if (alreadyDownloaded) {
         // avoids that the last downloaded audio download
@@ -930,8 +942,8 @@ class AudioDownloadVM extends ChangeNotifier {
     }
   }
 
-  /// Method called by ExpandablePlaylistVM when the user selects the update playlist
-  /// JSON files menu item.
+  /// Method called by ExpandablePlaylistVM when the user selects the update
+  /// playlist JSON files menu item.
   void updatePlaylistJsonFiles() {
     List<Playlist> copyOfList = List<Playlist>.from(_listOfPlaylist);
 

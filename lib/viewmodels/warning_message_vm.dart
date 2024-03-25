@@ -88,6 +88,8 @@ enum ErrorType {
   noInternet, // device not connected. Happens when trying to
   // download a playlist or a single video or to add a new playlist
   // or update an existing playlist.
+
+  errorInPlaylistJsonFile, // Error in the playlist json file.
 }
 
 /// This VM (View Model) class is part of the MVVM architecture.

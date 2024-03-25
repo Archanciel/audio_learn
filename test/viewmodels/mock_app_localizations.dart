@@ -734,6 +734,9 @@ class MockAppLocalizations extends AppLocalizations {
       "If the automatic application is selected; the sort/filter options stored in the playlist are automatically applied when the playlist is selected.";
 
   @override
-  String get saveButton =>
-      "Save";
+  String get saveButton => "Save";
+
+  @override
+  String errorInPlaylistJsonFile(Object filePathName) =>
+      "File $filePathName contains an invalid data definition. Try finding the problem in order to correct it before executing again the operation.";
 }

@@ -651,7 +651,8 @@ class PlaylistListVM extends ChangeNotifier {
   /// audio list menu displayed by the playlist item menu button.
   /// This method updates the playlist playable audio list
   /// by removing the audios that are no longer present in the
-  /// audio playlist directory.
+  /// audio playlist directory. Those audio were manually deleted
+  /// from the playlist directory by the user.
   ///
   /// The method is useful when the user has deleted some audio
   /// mp3 files from the audio playlist directory.
