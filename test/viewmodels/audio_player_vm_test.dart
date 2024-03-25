@@ -22,7 +22,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -76,7 +78,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -133,7 +137,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -207,7 +213,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -291,7 +299,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -385,7 +395,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -437,7 +449,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -494,7 +508,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -559,7 +575,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -637,7 +655,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -725,7 +745,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -784,7 +806,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -849,7 +873,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -908,7 +934,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -967,7 +995,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -1020,7 +1050,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -1073,7 +1105,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -1122,7 +1156,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -1210,7 +1246,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -1261,7 +1299,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -1360,7 +1400,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -1411,7 +1453,9 @@ void main() {
       // obtain the list of playable audios of the selected
       // playlist ordered by download date
       List<Audio> selectedPlaylistAudioList =
-          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(AudioLearnAppViewType.playlistDownloadView,);
+          audioPlayerVM.getPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.playlistDownloadView,
+      );
 
       // set the current audio to the first audio in the list
       await audioPlayerVM.setCurrentAudio(selectedPlaylistAudioList[0]);
@@ -1531,7 +1575,8 @@ Future<AudioPlayerVM> createAudioPlayerVM() async {
   // and descending duration in order for the tests to pass after
   // having modified the PlaylistListVM class usage of the
   // AudioSortFilterParameters
-  AudioSortFilterParameters ascendingDownloadDateDescendingDurationAudioSortFilterParameters =
+  AudioSortFilterParameters
+      ascendingDownloadDateDescendingDurationAudioSortFilterParameters =
       AudioSortFilterParameters(
     selectedSortItemLst: [
       SortingItem(
@@ -1547,8 +1592,8 @@ Future<AudioPlayerVM> createAudioPlayerVM() async {
   );
 
   List<Audio> selectedPlaylistAudioList = [];
-  
-;
+
+  ;
   playlistListVM.setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
       selectedPlaylistAudioList,
       ascendingDownloadDateDescendingDurationAudioSortFilterParameters);
