@@ -949,6 +949,8 @@ class AudioDownloadVM extends ChangeNotifier {
 
     for (Playlist playlist in copyOfList) {
       bool isPlaylistDownloadPathUpdated = false;
+      Playlist correspondingOriginalPlaylist = _listOfPlaylist
+          .firstWhere((element) => element.title == playlist.title);
 
       if (!Directory(playlist.downloadPath).existsSync()) {
         // the case if the playlist dir has been deleted by the user
@@ -964,20 +966,20 @@ class AudioDownloadVM extends ChangeNotifier {
         // the case if the playlist dir obtained from another audio
         // dir was copied on the app audio dir. Then, it must be
         // updated to the app audio dir
-        playlist.downloadPath =
+        correspondingOriginalPlaylist.downloadPath =
             _playlistsHomePath + path.separator + playlist.title;
         isPlaylistDownloadPathUpdated = true;
       }
 
       // remove the audios from the playlable audio list which are no
       // longer in the playlist directory
-      int removedPlayableAudioNumber = playlist.updatePlayableAudioLst();
+      int removedPlayableAudioNumber = correspondingOriginalPlaylist.updatePlayableAudioLst();
 
       // update validVideoTitle of the playlists audios. This is useful
       // when the method computing the validVideoTitle has been improved
       bool isAnAudioValidVideoTitleChanged = false;
 
-      for (Audio audio in playlist.downloadedAudioLst) {
+      for (Audio audio in correspondingOriginalPlaylist.downloadedAudioLst) {
         String reCreatedValidVideoTitle =
             Audio.createValidVideoTitle(audio.originalVideoTitle);
 

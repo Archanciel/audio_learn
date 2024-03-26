@@ -113,6 +113,23 @@ class PlaylistListVM extends ChangeNotifier {
       }
     }
 
+    // Updatinge the selected playlist playable audio list with the audio
+    // list of the AudioDownloadVM list of playlist. This causes the
+    // displayed audios of the selected playlist to be updated in case
+    // audios were manually deleted in the directory of the selected
+    // playlist. Without this code, the audio list is updated only after
+    // the Playlists button is pressed !
+
+    Playlist playlistListVmselectedPlaylist = _listOfSelectablePlaylists.firstWhere(
+      (element) => element.isSelected,
+    );
+
+    Playlist audioDownloadVMcorrespondingPlaylist = _audioDownloadVM.listOfPlaylist.firstWhere(
+      (element) => element.title == playlistListVmselectedPlaylist.title,
+    );
+
+    playlistListVmselectedPlaylist.playableAudioLst = audioDownloadVMcorrespondingPlaylist.playableAudioLst;
+
     _updateAndSavePlaylistOrder();
 
     notifyListeners();
