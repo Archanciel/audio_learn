@@ -80,8 +80,11 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                   PopupMenuItem<PlaylistPopupMenuAction>(
                     key: const Key('popup_menu_update_playable_audio_list'),
                     value: PlaylistPopupMenuAction.updatePlaylistPlayableAudios,
-                    child: Text(AppLocalizations.of(context)!
-                        .updatePlaylistPlayableAudioList),
+                    child: Tooltip(
+                      message: AppLocalizations.of(context)!.updatePlaylistPlayableAudioListTooltip,
+                      child: Text(AppLocalizations.of(context)!
+                          .updatePlaylistPlayableAudioList),
+                    ),
                   ),
                   PopupMenuItem<PlaylistPopupMenuAction>(
                     key: const Key('popup_menu_delete_playlist'),

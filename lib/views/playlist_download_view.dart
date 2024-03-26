@@ -473,6 +473,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
+  /// Builds the audio popup menu button located on the right of the
+  /// screen. This button allows the user to sort and filter the
+  /// displayed audio list, to save the sort and filter settings to
+  /// the selected playlist and to update the playlist json files.
   Widget _buildAudioPopupMenuButton({
     required BuildContext context,
     required PlaylistListVM playlistListVMlistenFalse,
@@ -580,8 +584,12 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             PopupMenuItem<PlaylistPopupMenuButton>(
               key: const Key('update_playlist_json_dialog_item'),
               value: PlaylistPopupMenuButton.updatePlaylistJson,
-              child:
-                  Text(AppLocalizations.of(context)!.updatePlaylistJsonFiles),
+              child: Tooltip(
+                message: AppLocalizations.of(context)!
+                    .updatePlaylistJsonFilesTooltip,
+                child:
+                    Text(AppLocalizations.of(context)!.updatePlaylistJsonFiles),
+              ),
             ),
           ];
         },

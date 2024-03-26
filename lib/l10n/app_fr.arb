@@ -263,5 +263,7 @@
   "saveSortFilterOptionsAutomaticApplication": "Appliquer les options automatiquement",
   "saveSortFilterOptionsAutomaticApplicationTooltip": "Si ce paramètre est sélectionné, les options de tri et de filtre de la playlist sont automatiquement appliquées lors de l'ouverture de la playlist",
   "saveButton": "Sauver",
-  "errorInPlaylistJsonFile": "Le fichier \"{filePathName}\" une donnée de définition invalide. Essayez de trouver le probléme afin de le corriger avant de réexéuter l'opération."
+  "errorInPlaylistJsonFile": "Le fichier \"{filePathName}\" une donnée de définition invalide. Essayez de trouver le probléme afin de le corriger avant de réexéuter l'opération.",
+  "updatePlaylistJsonFilesTooltip": "Si un ou plusieurs répertoires de playlists contenant ou non des audios ont été ajoutés ou supprimés manuellement dans le répertoire racine des données de l'application ou si des audios ont été supprimés manuellement d'un ou de plusieurs répertoires de playlist, cette fonctionnalité met à jour les fichiers JSON des playlists ainsi que celui des paramètres de l'application afin de refléter les changements dans les écrans de l'application.",
+  "updatePlaylistPlayableAudioListTooltip": "Si des audios ont été supprimés manuellement d'un ou de plusieurs répertoires de playlist, cette fonctionnalité met à jour les fichiers JSON des playlists afin de refléter les changements dans les écrans de l'application."
 }

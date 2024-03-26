@@ -739,4 +739,12 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String errorInPlaylistJsonFile(Object filePathName) =>
       "File $filePathName contains an invalid data definition. Try finding the problem in order to correct it before executing again the operation.";
+
+  @override
+  String get updatePlaylistJsonFilesTooltip =>
+      "If one or several playlist directories containing or not audios were manually added to the application data root directory or if audios were manually deleted from one or several playlist directories, this functionality updates the playlist JSON files as well as the application settings JSON file in order to reflect the changes in the application screens.";
+
+  @override
+  String get updatePlaylistPlayableAudioListTooltip =>
+      "If audios were manually deleted from one or several playlist directories, this functionality updates the playlist JSON files to reflect the changes in the application screens.";
 }

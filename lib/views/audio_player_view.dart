@@ -266,6 +266,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     );
   }
 
+  /// Builds the audio popup menu button located on the right of the
+  /// screen. This button allows the user to sort and filter the
+  /// displayed audio list and to save the sort and filter settings to
+  /// the selected playlist.
   Widget _buildAudioPopupMenuButton({
     required BuildContext context,
     required PlaylistListVM playlistListVMlistenFalse,
@@ -343,9 +347,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               });
               focusNode.requestFocus();
               break;
-            case PlaylistPopupMenuButton.updatePlaylistJson:
-              playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();
-              break;
             default:
               break;
           }
@@ -367,12 +368,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   .saveSortFilterAudiosSettingsToPlaylist,
               child: Text(AppLocalizations.of(context)!
                   .saveSortFilterAudiosSettingsToPlaylist),
-            ),
-            PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('update_playlist_json_dialog_item'),
-              value: PlaylistPopupMenuButton.updatePlaylistJson,
-              child:
-                  Text(AppLocalizations.of(context)!.updatePlaylistJsonFiles),
             ),
           ];
         },
