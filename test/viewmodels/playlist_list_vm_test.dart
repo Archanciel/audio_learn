@@ -495,8 +495,6 @@ void main() {
         isTest: true,
       );
 
-      // audioDownloadVM.youtubeExplode = mockYoutubeExplode;
-
       playlistListVM = PlaylistListVM(
         warningMessageVM: warningMessageVM,
         audioDownloadVM: audioDownloadVM,
@@ -509,6 +507,14 @@ void main() {
       // selected and which are not
       List<Playlist> selectablePlaylistLst =
           playlistListVM.getUpToDateSelectablePlaylists();
+
+      // test fix: since the source playlist [4] is not selected,
+      // the test will fail because now playlistListVM.
+      // getSubsequentlyDownloadedNotFullyPlayedAudio uses the
+      // selected playlist to obtain the filtered by default playable
+      // audios list. So we have to select the source playlist [4].
+      selectablePlaylistLst[0].isSelected = false;
+      selectablePlaylistLst[4].isSelected = true;
 
       // Obtaining the audio from which to obtain the next playable
       // audio
