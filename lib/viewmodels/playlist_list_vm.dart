@@ -113,12 +113,13 @@ class PlaylistListVM extends ChangeNotifier {
       }
     }
 
-    // Updatinge the selected playlist playable audio list with the audio
-    // list of the AudioDownloadVM list of playlist. This causes the
+    // Updating the playable audio list of the selected playlist with the
+    // audio list of the AudioDownloadVM list of playlists. This causes the
     // displayed audios of the selected playlist to be updated in case
     // audios were manually deleted in the directory of the selected
-    // playlist. Without this code, the audio list is updated only after
-    // the Playlists button is pressed !
+    // playlist. Without this code, the displayed audio list in the playlist
+    // download view is updated only after having tapped on the Playlists 
+    // button !
 
     Playlist playlistListVmselectedPlaylist = _listOfSelectablePlaylists.firstWhere(
       (element) => element.isSelected,
