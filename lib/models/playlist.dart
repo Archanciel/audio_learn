@@ -553,4 +553,13 @@ class Playlist {
 
     return playableAudioLst[currentOrPastPlayableAudioIndex];
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+
+    return other is Playlist && other.title == title;
+  }
 }

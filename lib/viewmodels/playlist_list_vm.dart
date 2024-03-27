@@ -96,7 +96,7 @@ class PlaylistListVM extends ChangeNotifier {
 
     for (Playlist playlist in listOfPlaylist) {
       if (!_listOfSelectablePlaylists
-          .any((element) => element.title == playlist.title)) {
+          .any((element) => element == playlist)) {
         // the case if the playlist dir was added to the app
         // audio dir
         _listOfSelectablePlaylists.add(playlist);
@@ -106,7 +106,7 @@ class PlaylistListVM extends ChangeNotifier {
     List<Playlist> copyOfList = List<Playlist>.from(_listOfSelectablePlaylists);
 
     for (Playlist playlist in copyOfList) {
-      if (!listOfPlaylist.any((element) => element.title == playlist.title)) {
+      if (!listOfPlaylist.any((element) => element == playlist)) {
         // the case if the playlist dir was removed from the app
         // audio dir
         _listOfSelectablePlaylists.remove(playlist);
@@ -126,7 +126,7 @@ class PlaylistListVM extends ChangeNotifier {
     );
 
     Playlist audioDownloadVMcorrespondingPlaylist = _audioDownloadVM.listOfPlaylist.firstWhere(
-      (element) => element.title == playlistListVmselectedPlaylist.title,
+      (element) => element == playlistListVmselectedPlaylist,
     );
 
     playlistListVmselectedPlaylist.playableAudioLst = audioDownloadVMcorrespondingPlaylist.playableAudioLst;

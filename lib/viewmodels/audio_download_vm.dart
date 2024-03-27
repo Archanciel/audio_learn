@@ -593,7 +593,7 @@ class AudioDownloadVM extends ChangeNotifier {
 
       // checking if current playlist was deleted and recreated
       existingPlaylistIndex = _listOfPlaylist
-          .indexWhere((element) => element.title == addedPlaylist.title);
+          .indexWhere((element) => element == addedPlaylist);
 
       if (existingPlaylistIndex != -1) {
         // current playlist was deleted and recreated since it is referenced
@@ -950,7 +950,7 @@ class AudioDownloadVM extends ChangeNotifier {
     for (Playlist playlist in copyOfList) {
       bool isPlaylistDownloadPathUpdated = false;
       Playlist correspondingOriginalPlaylist = _listOfPlaylist
-          .firstWhere((element) => element.title == playlist.title);
+          .firstWhere((element) => element == playlist);
 
       if (!Directory(playlist.downloadPath).existsSync()) {
         // the case if the playlist dir has been deleted by the user
