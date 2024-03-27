@@ -116,8 +116,12 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
                 label: viewNameTranslatedLabelStr,
               ),
               Tooltip(
-                message: AppLocalizations.of(context)!
-                    .saveSortFilterOptionsAutomaticApplicationTooltip,
+                message: (widget.applicationViewType ==
+                        AudioLearnAppViewType.audioPlayerView)
+                    ? AppLocalizations.of(context)!
+                        .saveSortFilterOptionsAutomaticApplicationAudioPlayerViewTooltip
+                    : AppLocalizations.of(context)!
+                        .saveSortFilterOptionsAutomaticApplicationTooltip,
                 child: createCheckboxRowFunction(
                   // displaying the checkbox to automatically apply the
                   // sort and filter options when the playlist is opened

@@ -72,7 +72,6 @@
       "title": {}
     }
   },
-  
   "addPlaylistTitle": "Nouvelle playlist \"{title}\" de qualité {quality} ajoutée à la fin de la liste des playlists.",
   "@addPlaylistTitle": {
     "description": "Message informant qu'une nouvelle playlist a été ajoutée à la liste des playlists.",
@@ -134,7 +133,7 @@
   "copyAudioToPlaylist": "Copier l'audio vers la playlist ...",
   "audioInfoDialogTitle": "Audio Informations",
   "originalVideoTitleLabel": "Titre vidéo original",
-  "validVideoTitleLabel": "Titre vidéo valide", 
+  "validVideoTitleLabel": "Titre vidéo valide",
   "videoUrlLabel": "URL vidéo",
   "audioDownloadDateTimeLabel": "Date/heure téléch",
   "audioDownloadDurationLabel": "Durée téléch",
@@ -159,7 +158,7 @@
   "playlistTitleLabel": "Titre de la playlist",
   "playlistIdLabel": "ID de la playlist",
   "playlistUrlLabel": "URL de la playlist",
-  "playlistDownloadPathLabel": "Chemin de téléch de la playlist",  
+  "playlistDownloadPathLabel": "Chemin de téléch de la playlist",
   "playlistLastDownloadDateTimeLabel": "Date/heure dernier téléch",
   "playlistIsSelectedLabel": "Playlist sélectionnée",
   "playlistTotalAudioNumberLabel": "Nombre total audios",
@@ -262,6 +261,7 @@
   "saveSortFilterOptionsForView": "Pour la vue \"{title}\"",
   "saveSortFilterOptionsAutomaticApplication": "Appliquer les options automatiquement",
   "saveSortFilterOptionsAutomaticApplicationTooltip": "Si ce paramètre est sélectionné, les options de tri et de filtre de la playlist sont automatiquement appliquées lors de l'ouverture de la playlist",
+  "saveSortFilterOptionsAutomaticApplicationAudioPlayerViewTooltip": "Si ce paramètre est sélectionné, les options de tri et de filtre de la playlist sont automatiquement appliquées lors de l'ouverture de la vue \"Lire Audio\". Cela signifie que le prochain audio joué sera le premier audio non entièrement joué situé après l'audio actuel dans la liste audio triée et filtrée.",
   "saveButton": "Sauver",
   "errorInPlaylistJsonFile": "Le fichier \"{filePathName}\" une donnée de définition invalide. Essayez de trouver le probléme afin de le corriger avant de réexéuter l'opération.",
   "updatePlaylistJsonFilesTooltip": "Si un ou plusieurs répertoires de playlists contenant ou non des audios ont été ajoutés ou supprimés manuellement dans le répertoire racine des données de l'application ou si des audios ont été supprimés manuellement d'un ou de plusieurs répertoires de playlist, cette fonctionnalité met à jour les fichiers JSON des playlists ainsi que celui des paramètres de l'application afin de refléter les changements dans les écrans de l'application.",
