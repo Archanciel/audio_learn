@@ -3851,7 +3851,7 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      const String youtubePlaylistTitle = 'S8 audio';
+      const String s8AudioYoutubePlaylistTitle = 'S8 audio';
 
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
@@ -3867,25 +3867,25 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      String youtubePlaylistPath =
-          '$kDownloadAppTestDirWindows${path.separator}$youtubePlaylistTitle';
+      String s8AudioYoutubePlaylistPath =
+          '$kDownloadAppTestDirWindows${path.separator}$s8AudioYoutubePlaylistTitle';
 
-      List<String> youtubePlaylistMp3Lst = DirUtil.listFileNamesInDir(
-        path: youtubePlaylistPath,
+      List<String> s8AudioYoutubePlaylistMp3Lst = DirUtil.listFileNamesInDir(
+        path: s8AudioYoutubePlaylistPath,
         extension: 'mp3',
       );
 
-      // *** Manually deleting audio files from Youtube
+      // *** Manually deleting audio files from S8 Audio Youtube
       // playlist directory
 
       DirUtil.deleteMp3FilesInDir(
-        youtubePlaylistPath,
+        s8AudioYoutubePlaylistPath,
       );
 
-      // Test that the Youtube playlist is still showing the
+      // Test that the S8 Audio Youtube playlist is still showing the
       // deleted audios
 
-      for (String audioTitle in youtubePlaylistMp3Lst) {
+      for (String audioTitle in s8AudioYoutubePlaylistMp3Lst) {
         audioTitle = audioTitle
             .replaceAll(RegExp(r'[\d\-]'), '')
             .replaceFirst(' .mp', '')
@@ -3896,7 +3896,7 @@ void main() {
         expect(audioListTileTextWidgetFinder, findsOneWidget);
       }
 
-      // *** Now, manually add a Youtube playlist directory
+      // *** Now, manually add the urgent_actus Youtube playlist directory
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
             "$kDownloadAppTestSavedDataDir${path.separator}manually_added_playlist_dir",
@@ -3914,10 +3914,10 @@ void main() {
           .tap(find.byKey(const Key('update_playlist_json_dialog_item')));
       await tester.pumpAndSettle();
 
-      // Test that the youtube playlist is no longer showing the
+      // Test that the S8 Audio Youtube playlist is no longer showing the
       // deleted audios
 
-      for (String audioTitle in youtubePlaylistMp3Lst) {
+      for (String audioTitle in s8AudioYoutubePlaylistMp3Lst) {
         audioTitle = audioTitle
             .replaceAll(RegExp(r'[\d\-]'), '')
             .replaceFirst(' .mp', '')
@@ -3928,19 +3928,23 @@ void main() {
         expect(audioListTileTextWidgetFinder, findsNothing);
       }
 
-      // Now test that the manually added Youtube playlist is showing
+      // Now test that the manually added urgent_actus Youtube playlist is
+      // displayed
 
-      // Tap the 'Toggle List' button to show the list of playlists. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
+      // Tap the 'Toggle List' button to show the list of playlists. If the
+      // list is not opened, checking that a ListTile with the title of
+      // the manually added playlist was added to the ListView will fail
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
       // Find the ListTile Playlist containing the manually added Youtube
+      // playlist
 
-      // First, find the Youtube playlist ListTile Text widget
+      const String urgent_actusYoutubePlaylistTitle = 'urgent_actus';
+
+      // First, find the urgent_actus Youtube playlist ListTile Text widget
       final Finder addedYoutubePlaylistListTileTextWidgetFinder =
-          find.text('urgent_actus');
+          find.text(urgent_actusYoutubePlaylistTitle);
 
       // Then obtain the Youtube source playlist ListTile widget
       // enclosing the Text widget by finding its ancestor
@@ -3957,9 +3961,19 @@ void main() {
         widgetTester: tester,
       );
 
-      // Test that the audios of theadded Youtube playlist are listed
+      // Test that the audios of the added urgent_actus Youtube playlist
+      // are listed
 
-      for (String audioTitle in youtubePlaylistMp3Lst) {
+      String urgent_actusYoutubePlaylistPath =
+          '$kDownloadAppTestDirWindows${path.separator}$urgent_actusYoutubePlaylistTitle';
+
+      List<String> urgent_actusYoutubePlaylistMp3Lst =
+          DirUtil.listFileNamesInDir(
+        path: urgent_actusYoutubePlaylistPath,
+        extension: 'mp3',
+      );
+
+      for (String audioTitle in urgent_actusYoutubePlaylistMp3Lst) {
         audioTitle = audioTitle
             .replaceAll(RegExp(r'[\d\-]'), '')
             .replaceFirst(' .mp', '')
@@ -3973,7 +3987,8 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Manually delete audios in local playlist directory.',
+    testWidgets(
+        'Manually delete Youtube playlist directory after adding it manually.',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -3989,8 +4004,6 @@ void main() {
         destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      const String localPlaylistTitle = 'Local_2_audios';
-
       SettingsDataService settingsDataService =
           SettingsDataService(isTest: true);
 
@@ -4005,41 +4018,46 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      String localPlaylistPath =
-          '$kDownloadAppTestDirWindows${path.separator}$localPlaylistTitle';
-
-      List<String> localPlaylistMp3Lst = DirUtil.listFileNamesInDir(
-        path: localPlaylistPath,
-        extension: 'mp3',
+      // *** Manually add the urgent_actus Youtube playlist directory
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}manually_added_playlist_dir",
+        destinationRootPath: kDownloadAppTestDirWindows,
       );
 
-      // *** Manually deleting audio files from local
-      // playlist directory
+      // *** Execute Updating playlist JSON file menu item
 
-      DirUtil.deleteMp3FilesInDir(
-        localPlaylistPath,
-      );
+      // open the popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
 
-      // *** Updating the local playlist
+      // find the update playlist JSON file menu item and tap on it
+      await tester
+          .tap(find.byKey(const Key('update_playlist_json_dialog_item')));
+      await tester.pumpAndSettle();
 
-      // Tap the 'Toggle List' button to show the list. If the list
-      // is not opened, checking that a ListTile with the title of
-      // the playlist was added to the list will fail
+      // Now test that the manually added urgent_actus Youtube playlist is
+      // displayed
+
+      // Tap the 'Toggle List' button to show the list of playlists. If the
+      // list is not opened, checking that a ListTile with the title of
+      // the manually added playlist was added to the ListView will fail
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
-      // Find the ListTile Playlist containing the audios
-      // which were manually deleted from the local playlist
-      // directory
+      // Find the ListTile Playlist containing the manually added Youtube
+      // playlist
 
-      // First, find the local playlist ListTile Text widget
-      final Finder localPlaylistListTileTextWidgetFinder =
-          find.text(localPlaylistTitle);
+      const String urgent_actusYoutubePlaylistTitle = 'urgent_actus';
 
-      // Then obtain the local source playlist ListTile widget
+      // First, find the urgent_actus Youtube playlist ListTile Text widget
+      final Finder addedYoutubePlaylistListTileTextWidgetFinder =
+          find.text(urgent_actusYoutubePlaylistTitle);
+
+      // Then obtain the Youtube source playlist ListTile widget
       // enclosing the Text widget by finding its ancestor
-      final Finder localPlaylistListTileWidgetFinder = find.ancestor(
-        of: localPlaylistListTileTextWidgetFinder,
+      final Finder addedYoutubePlaylistListTileWidgetFinder = find.ancestor(
+        of: addedYoutubePlaylistListTileTextWidgetFinder,
         matching: find.byType(ListTile),
       );
 
@@ -4047,75 +4065,49 @@ void main() {
       // and tap on it to select the playlist
 
       await tapPlaylistCheckboxIfNotAlreadyChecked(
-        playlistListTileWidgetFinder: localPlaylistListTileWidgetFinder,
+        playlistListTileWidgetFinder: addedYoutubePlaylistListTileWidgetFinder,
         widgetTester: tester,
       );
 
-      // Test that the local playlist is still showing the
-      // deleted audios
+      // Test that the audios of the added urgent_actus Youtube playlist
+      // are listed
 
-      for (String audioTitle in localPlaylistMp3Lst) {
+      String urgent_actusYoutubePlaylistPath =
+          '$kDownloadAppTestDirWindows${path.separator}$urgent_actusYoutubePlaylistTitle';
+
+      List<String> urgent_actusYoutubePlaylistMp3Lst =
+          DirUtil.listFileNamesInDir(
+        path: urgent_actusYoutubePlaylistPath,
+        extension: 'mp3',
+      );
+
+      for (String audioTitle in urgent_actusYoutubePlaylistMp3Lst) {
         audioTitle = audioTitle
             .replaceAll(RegExp(r'[\d\-]'), '')
             .replaceFirst(' .mp', '')
-            .replaceFirst(' fois', '3 fois')
-            .replaceFirst('antinuke', 'anti-nuke');
+            .replaceFirst(' fois', '3 fois');
         final Finder audioListTileTextWidgetFinder = find.text(audioTitle);
 
         expect(audioListTileTextWidgetFinder, findsOneWidget);
       }
 
-      // Now update the playable audio list of the local
-      // playlist
+      // Now manually delete the urgent_actus playlist directory
+      DirUtil.deleteDirIfExist(urgent_actusYoutubePlaylistPath);
 
-      // Now find the leading menu icon button of the Playlist ListTile
-      // and tap on it
-      final Finder localPlaylistListTileLeadingMenuIconButton = find.descendant(
-        of: localPlaylistListTileWidgetFinder,
-        matching: find.byIcon(Icons.menu),
-      );
+      // *** Execute Updating playlist JSON file menu item
 
-      // Tap the leading menu icon button to open the popup menu
-      await tester.tap(localPlaylistListTileLeadingMenuIconButton);
-      await tester.pumpAndSettle(); // Wait for popup menu to appear
-
-      // Now find the update playlist popup menu item and tap on it
-      final Finder popupUpdatePlayableAudioListPlaylistMenuItem =
-          find.byKey(const Key("popup_menu_update_playable_audio_list"));
-
-      await tester.tap(popupUpdatePlayableAudioListPlaylistMenuItem);
-      await tester.pumpAndSettle(); // Wait for tap action to complete
-
-      // Now verifying the warning dialog
-
-      // Check the value of the warning dialog title
-      Text warningDialogTitle =
-          tester.widget(find.byKey(const Key('warningDialogTitle')));
-      expect(warningDialogTitle.data, 'WARNING');
-
-      // Check the value of the warning dialog message
-      Text warningDialogMessage =
-          tester.widget(find.byKey(const Key('warningDialogMessage')));
-      expect(warningDialogMessage.data,
-          'Playable audio list for playlist "$localPlaylistTitle" was updated. 2 audio(s) were removed.');
-
-      // Close the warning dialog by tapping on the Ok button
-      await tester.tap(find.byKey(const Key('warningDialogOkButton')));
+      // open the popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
       await tester.pumpAndSettle();
 
-      // Test that the local playlist is no longer showing the
-      // deleted audios
+      // find the update playlist JSON file menu item and tap on it
+      await tester
+          .tap(find.byKey(const Key('update_playlist_json_dialog_item')));
+      await tester.pumpAndSettle();
 
-      for (String audioTitle in localPlaylistMp3Lst) {
-        audioTitle = audioTitle
-            .replaceAll(RegExp(r'[\d\-]'), '')
-            .replaceFirst(' .mp', '')
-            .replaceFirst(' fois', '3 fois')
-            .replaceFirst('antinuke', 'anti-nuke');
-        final Finder audioListTileTextWidgetFinder = find.text(audioTitle);
-
-        expect(audioListTileTextWidgetFinder, findsNothing);
-      }
+      // Now test that the manually deleted urgent_actus Youtube playlist is
+      // no longer displayed
+      expect(find.text(urgent_actusYoutubePlaylistTitle), findsNothing);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
