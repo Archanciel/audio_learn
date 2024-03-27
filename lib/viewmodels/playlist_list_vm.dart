@@ -95,8 +95,7 @@ class PlaylistListVM extends ChangeNotifier {
     List<Playlist> listOfPlaylist = _audioDownloadVM.listOfPlaylist;
 
     for (Playlist playlist in listOfPlaylist) {
-      if (!_listOfSelectablePlaylists
-          .any((element) => element == playlist)) {
+      if (!_listOfSelectablePlaylists.any((element) => element == playlist)) {
         // the case if the playlist dir was added to the app
         // audio dir
         _listOfSelectablePlaylists.add(playlist);
@@ -118,18 +117,21 @@ class PlaylistListVM extends ChangeNotifier {
     // displayed audios of the selected playlist to be updated in case
     // audios were manually deleted in the directory of the selected
     // playlist. Without this code, the displayed audio list in the playlist
-    // download view is updated only after having tapped on the Playlists 
+    // download view is updated only after having tapped on the Playlists
     // button !
 
-    Playlist playlistListVmselectedPlaylist = _listOfSelectablePlaylists.firstWhere(
+    Playlist playlistListVmselectedPlaylist =
+        _listOfSelectablePlaylists.firstWhere(
       (element) => element.isSelected,
     );
 
-    Playlist audioDownloadVMcorrespondingPlaylist = _audioDownloadVM.listOfPlaylist.firstWhere(
+    Playlist audioDownloadVMcorrespondingPlaylist =
+        _audioDownloadVM.listOfPlaylist.firstWhere(
       (element) => element == playlistListVmselectedPlaylist,
     );
 
-    playlistListVmselectedPlaylist.playableAudioLst = audioDownloadVMcorrespondingPlaylist.playableAudioLst;
+    playlistListVmselectedPlaylist.playableAudioLst =
+        audioDownloadVMcorrespondingPlaylist.playableAudioLst;
 
     _updateAndSavePlaylistOrder();
 
@@ -885,10 +887,15 @@ class PlaylistListVM extends ChangeNotifier {
       return null;
     }
 
-    // playableAudioLst order: [available audio last downloaded, ...,
-    //                          available audio first downloaded]
+    // If sort and filter parameters were saved in the playlist json
+    // file with automatic options application set to true, then the
+    // returned audio list is sorted and filtered. Otherwise, the
+    // returned audio list is the full playable audio list of the
+    // selected playlist sorted by audio download date descending.
     List<Audio> playableAudioLst =
-        currentAudio.enclosingPlaylist!.playableAudioLst;
+        getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+      AudioLearnAppViewType.audioPlayerView,
+    );
 
     int currentAudioIndex = playableAudioLst.indexWhere(
         (audio) => audio == currentAudio); // using Audio == operator
