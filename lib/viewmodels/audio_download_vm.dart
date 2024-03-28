@@ -520,12 +520,9 @@ class AudioDownloadVM extends ChangeNotifier {
   /// selection status is changed, the playlist json file will be
   /// updated.
   void updatePlaylistSelection({
-    required String playlistId,
+    required Playlist playlist,
     required bool isPlaylistSelected,
   }) {
-    Playlist playlist =
-        _listOfPlaylist.firstWhere((element) => element.id == playlistId);
-
     bool isPlaylistSelectionChanged = playlist.isSelected != isPlaylistSelected;
 
     if (isPlaylistSelectionChanged) {

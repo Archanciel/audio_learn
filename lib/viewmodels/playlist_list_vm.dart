@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -85,8 +86,8 @@ class PlaylistListVM extends ChangeNotifier {
     return listOfSelectablePlaylistsCopy;
   }
 
-  /// Method called when the user choose the update playlist
-  /// json file menu item.
+  /// Method called when the user choose the "Update playlist
+  /// JSON files" menu item.
   void updateSettingsAndPlaylistJsonFiles() {
     _audioDownloadVM.loadExistingPlaylists();
 
@@ -120,18 +121,34 @@ class PlaylistListVM extends ChangeNotifier {
     // download view is updated only after having tapped on the Playlists
     // button !
 
-    Playlist playlistListVmselectedPlaylist =
-        _listOfSelectablePlaylists.firstWhere(
+    Playlist? playlistListVMselectedPlaylist =
+        _listOfSelectablePlaylists.firstWhereOrNull(
       (element) => element.isSelected,
     );
 
-    Playlist audioDownloadVMcorrespondingPlaylist =
-        _audioDownloadVM.listOfPlaylist.firstWhere(
-      (element) => element == playlistListVmselectedPlaylist,
-    );
+    if (playlistListVMselectedPlaylist != null) {
+      // playlistListVMselectedPlaylist is null if the selected
+      // playlist was manually deleted from the audio app root dir or
+      // if no playlist is selected.
+      Playlist? audioDownloadVMcorrespondingPlaylist =
+          _audioDownloadVM.listOfPlaylist.firstWhereOrNull(
+        (element) => element == playlistListVMselectedPlaylist,
+      );
 
-    playlistListVmselectedPlaylist.playableAudioLst =
-        audioDownloadVMcorrespondingPlaylist.playableAudioLst;
+      if (audioDownloadVMcorrespondingPlaylist != null) {
+        playlistListVMselectedPlaylist.playableAudioLst =
+            audioDownloadVMcorrespondingPlaylist.playableAudioLst;
+      }
+    } else {
+      // if no playlist is selected, the playable audio list of the
+      // selected playlist is emptied
+      _isOnePlaylistSelected = false;
+
+      // required so that the TextField keyed by
+      // 'selectedPlaylistTextField' below
+      // the playlist URL TextField is updated (emptied)
+      _uniqueSelectedPlaylist = null;
+    }
 
     _updateAndSavePlaylistOrder();
 
@@ -315,11 +332,12 @@ class PlaylistListVM extends ChangeNotifier {
   /// the playlist item checkbox to select or unselect the playlist.
   ///
   /// Since currently only one playlist can be selected at a time,
-  /// this method unselects all the other playlists if
-  /// {isUniquePlaylistSelected} is true.
+  /// this method unselects all the other playlists if the playlist
+  /// whose index is passed is selected, i.e. if {isPlaylistSelected}
+  /// is true.
   void setPlaylistSelection({
     required int playlistIndex,
-    required bool isUniquePlaylistSelected,
+    required bool isPlaylistSelected,
   }) {
     // selecting another playlist or unselecting the currently
     // selected playlist nullifies the filtered and sorted audio list
@@ -332,20 +350,19 @@ class PlaylistListVM extends ChangeNotifier {
 
     Playlist playlistSelectedOrUnselected =
         _listOfSelectablePlaylists[playlistIndex];
-    String playlistSelectedOrUnselectedId = playlistSelectedOrUnselected.id;
 
-    if (isUniquePlaylistSelected) {
+    if (isPlaylistSelected) {
       // since only one playlist can be selected at a time, we
       // unselect all the other playlists
       for (Playlist playlist in _listOfSelectablePlaylists) {
-        if (playlist.id == playlistSelectedOrUnselectedId) {
+        if (playlist == playlistSelectedOrUnselected) {
           _audioDownloadVM.updatePlaylistSelection(
-            playlistId: playlistSelectedOrUnselectedId,
+            playlist: playlistSelectedOrUnselected,
             isPlaylistSelected: true,
           );
         } else {
           _audioDownloadVM.updatePlaylistSelection(
-            playlistId: playlist.id,
+            playlist: playlist,
             isPlaylistSelected: false,
           );
         }
@@ -357,7 +374,7 @@ class PlaylistListVM extends ChangeNotifier {
     // updatePlaylistSelection method if the following line is not
     // commented out
     // _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
-    _isOnePlaylistSelected = isUniquePlaylistSelected;
+    _isOnePlaylistSelected = isPlaylistSelected;
 
     if (!_isOnePlaylistSelected) {
       _disableAllButtonsIfNoPlaylistIsSelected();
@@ -369,7 +386,7 @@ class PlaylistListVM extends ChangeNotifier {
       // BUG FIX: when the user unselects the playlist, the
       // playlist json file must be updated !
       _audioDownloadVM.updatePlaylistSelection(
-        playlistId: playlistSelectedOrUnselected.id,
+        playlist: playlistSelectedOrUnselected,
         isPlaylistSelected: false,
       );
 
@@ -835,23 +852,24 @@ class PlaylistListVM extends ChangeNotifier {
     _isButtonMoveDownPlaylistEnabled = false;
   }
 
-  void _doSelectUniquePlaylist({
-    required int playlistIndex,
-    required String playlistId,
-    required bool isPlaylistSelected,
-  }) {
-    for (Playlist playlist in _listOfSelectablePlaylists) {
-      if (playlist.id != playlistId) {
-        _audioDownloadVM.updatePlaylistSelection(
-          playlistId: playlist.id,
-          isPlaylistSelected: false,
-        );
-      }
-    }
+  // method not used
+  // void _doSelectUniquePlaylist({
+  //   required int playlistIndex,
+  //   required Playlist uniquePlaylist,
+  //   required bool isPlaylistSelected,
+  // }) {
+  //   for (Playlist playlist in _listOfSelectablePlaylists) {
+  //     if (playlist != uniquePlaylist) {
+  //       _audioDownloadVM.updatePlaylistSelection(
+  //         playlist: playlist,
+  //         isPlaylistSelected: false,
+  //       );
+  //     }
+  //   }
 
-    _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
-    _isOnePlaylistSelected = isPlaylistSelected;
-  }
+  //   _listOfSelectablePlaylists[playlistIndex].isSelected = isPlaylistSelected;
+  //   _isOnePlaylistSelected = isPlaylistSelected;
+  // }
 
   void _deleteItem(int index) {
     _listOfSelectablePlaylists.removeAt(index);

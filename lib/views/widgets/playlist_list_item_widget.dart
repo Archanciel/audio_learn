@@ -81,7 +81,8 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                     key: const Key('popup_menu_update_playable_audio_list'),
                     value: PlaylistPopupMenuAction.updatePlaylistPlayableAudios,
                     child: Tooltip(
-                      message: AppLocalizations.of(context)!.updatePlaylistPlayableAudioListTooltip,
+                      message: AppLocalizations.of(context)!
+                          .updatePlaylistPlayableAudioListTooltip,
                       child: Text(AppLocalizations.of(context)!
                           .updatePlaylistPlayableAudioList),
                     ),
@@ -164,7 +165,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
             onChanged: (value) {
               expandablePlaylistListVM.setPlaylistSelection(
                 playlistIndex: index,
-                isUniquePlaylistSelected: value!,
+                isPlaylistSelected: value!,
               );
             },
           ),

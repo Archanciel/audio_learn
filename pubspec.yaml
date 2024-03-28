@@ -31,6 +31,7 @@ dependencies:
   path: ^1.8.3
   permission_handler: ^11.0.1
   window_manager: ^0.3.7
+  collection: ^1.18.0
 
 dev_dependencies:
   flutter_test:

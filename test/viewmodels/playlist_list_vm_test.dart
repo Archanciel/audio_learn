@@ -681,7 +681,7 @@ void main() {
       playlistListVM.getUpToDateSelectablePlaylists();
       playlistListVM.setPlaylistSelection(
         playlistIndex: 1,
-        isUniquePlaylistSelected: true,
+        isPlaylistSelected: true,
       );
 
       List<Audio> playableAudioLst = playlistListVM
@@ -758,7 +758,7 @@ void main() {
       playlistListVM.getUpToDateSelectablePlaylists();
       playlistListVM.setPlaylistSelection(
         playlistIndex: 2,
-        isUniquePlaylistSelected: true,
+        isPlaylistSelected: true,
       );
 
       // Obtaining the audio from which to obtain the next playable
