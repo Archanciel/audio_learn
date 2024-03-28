@@ -560,6 +560,6 @@ class Playlist {
       return true;
     }
 
-    return other is Playlist && other.title == title;
+    return other is Playlist && other.id == id;
   }
 }

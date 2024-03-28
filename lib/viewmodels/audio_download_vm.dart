@@ -588,9 +588,12 @@ class AudioDownloadVM extends ChangeNotifier {
         playlistId: playlistId,
       );
 
-      // checking if current playlist was deleted and recreated
+      // checking if current playlist was deleted and recreated. The
+      // checking must compare the title of the added (recreated)
+      // playlist with the title of the playlist in the _listOfPlaylist
+      // since the added playlist url or id is different.
       existingPlaylistIndex = _listOfPlaylist
-          .indexWhere((element) => element == addedPlaylist);
+          .indexWhere((element) => element.title == addedPlaylist.title);
 
       if (existingPlaylistIndex != -1) {
         // current playlist was deleted and recreated since it is referenced

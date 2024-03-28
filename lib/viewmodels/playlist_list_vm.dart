@@ -130,24 +130,18 @@ class PlaylistListVM extends ChangeNotifier {
       // playlistListVMselectedPlaylist is null if the selected
       // playlist was manually deleted from the audio app root dir or
       // if no playlist is selected.
-      Playlist? audioDownloadVMcorrespondingPlaylist =
-          _audioDownloadVM.listOfPlaylist.firstWhereOrNull(
+      Playlist audioDownloadVMcorrespondingPlaylist =
+          _audioDownloadVM.listOfPlaylist.firstWhere(
         (element) => element == playlistListVMselectedPlaylist,
       );
 
-      if (audioDownloadVMcorrespondingPlaylist != null) {
-        playlistListVMselectedPlaylist.playableAudioLst =
-            audioDownloadVMcorrespondingPlaylist.playableAudioLst;
-      }
+      playlistListVMselectedPlaylist.playableAudioLst =
+          audioDownloadVMcorrespondingPlaylist.playableAudioLst;
     } else {
       // if no playlist is selected, the playable audio list of the
       // selected playlist is emptied
-      _isOnePlaylistSelected = false;
 
-      // required so that the TextField keyed by
-      // 'selectedPlaylistTextField' below
-      // the playlist URL TextField is updated (emptied)
-      _uniqueSelectedPlaylist = null;
+      _setUniqueSelectedPlaylistToFalse();
     }
 
     _updateAndSavePlaylistOrder();
@@ -211,12 +205,7 @@ class PlaylistListVM extends ChangeNotifier {
         selectedPlaylist: _listOfSelectablePlaylists[selectedPlaylistIndex],
       );
     } else {
-      _isOnePlaylistSelected = false;
-
-      // required so that the TextField keyed by
-      // 'selectedPlaylistTextField' below the playlist URL TextField
-      // is initialized (emptied) at app startup
-      _uniqueSelectedPlaylist = null;
+      _setUniqueSelectedPlaylistToFalse();
 
       _disableAllButtonsIfNoPlaylistIsSelected();
     }
@@ -424,12 +413,7 @@ class PlaylistListVM extends ChangeNotifier {
 
     if (playlistToDeleteIndex != -1) {
       if (playlistToDelete.isSelected) {
-        _isOnePlaylistSelected = false;
-
-        // required so that the TextField keyed by
-        // 'selectedPlaylistTextField' below
-        // the playlist URL TextField is updated (emptied)
-        _uniqueSelectedPlaylist = null;
+        _setUniqueSelectedPlaylistToFalse();
       }
 
       _audioDownloadVM.deletePlaylist(
@@ -444,6 +428,15 @@ class PlaylistListVM extends ChangeNotifier {
 
       notifyListeners();
     }
+  }
+
+  void _setUniqueSelectedPlaylistToFalse() {
+    _isOnePlaylistSelected = false;
+
+    // required so that the TextField keyed by
+    // 'selectedPlaylistTextField' below
+    // the playlist URL TextField is updated (emptied)
+    _uniqueSelectedPlaylist = null;
   }
 
   void moveSelectedItemUp() {
