@@ -4113,6 +4113,152 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    testWidgets(
+        'Manually delete Youtube playlist directory with playlist expanded list closed after adding it manually.',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}manually_deleting_audios_and_updating_playlists",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // *** Manually add the urgent_actus Youtube playlist directory
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}manually_added_playlist_dir",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      // *** Execute Updating playlist JSON file menu item
+
+      // open the popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // find the update playlist JSON file menu item and tap on it
+      await tester
+          .tap(find.byKey(const Key('update_playlist_json_dialog_item')));
+      await tester.pumpAndSettle();
+
+      // Now test that the manually added urgent_actus Youtube playlist is
+      // displayed
+
+      // Tap the 'Toggle List' button to show the list of playlists. If the
+      // list is not opened, checking that a ListTile with the title of
+      // the manually added playlist was added to the ListView will fail
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the ListTile Playlist containing the manually added Youtube
+      // playlist
+
+      const String urgent_actusYoutubePlaylistTitle = 'urgent_actus';
+
+      // First, find the urgent_actus Youtube playlist ListTile Text widget
+      final Finder addedYoutubePlaylistListTileTextWidgetFinder =
+          find.text(urgent_actusYoutubePlaylistTitle);
+
+      // Then obtain the Youtube source playlist ListTile widget
+      // enclosing the Text widget by finding its ancestor
+      final Finder addedYoutubePlaylistListTileWidgetFinder = find.ancestor(
+        of: addedYoutubePlaylistListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the playlist ListTile
+      // and tap on it to select the playlist
+
+      await tapPlaylistCheckboxIfNotAlreadyChecked(
+        playlistListTileWidgetFinder: addedYoutubePlaylistListTileWidgetFinder,
+        widgetTester: tester,
+      );
+
+      // Test that the audios of the added urgent_actus Youtube playlist
+      // are listed
+
+      String urgent_actusYoutubePlaylistPath =
+          '$kDownloadAppTestDirWindows${path.separator}$urgent_actusYoutubePlaylistTitle';
+
+      List<String> urgent_actusYoutubePlaylistMp3Lst =
+          DirUtil.listFileNamesInDir(
+        path: urgent_actusYoutubePlaylistPath,
+        extension: 'mp3',
+      );
+
+      for (String audioTitle in urgent_actusYoutubePlaylistMp3Lst) {
+        audioTitle = audioTitle
+            .replaceAll(RegExp(r'[\d\-]'), '')
+            .replaceFirst(' .mp', '')
+            .replaceFirst(' fois', '3 fois');
+        final Finder audioListTileTextWidgetFinder = find.text(audioTitle);
+
+        expect(audioListTileTextWidgetFinder, findsOneWidget);
+      }
+
+      // Tap the 'Toggle List' button to hide the list of playlists.
+      // Since the urgent_actus Youtube playlist is selected, the
+      // urgent_actus playlist audio list is be displayed in the
+      // AudioPlayerView screen and then right popup menu is active.
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Verify that the urgent_actus Youtube playlist audio list is
+      // still displayed in the AudioPlayerView screen.
+      for (String audioTitle in urgent_actusYoutubePlaylistMp3Lst) {
+        audioTitle = audioTitle
+            .replaceAll(RegExp(r'[\d\-]'), '')
+            .replaceFirst(' .mp', '')
+            .replaceFirst(' fois', '3 fois');
+        final Finder audioListTileTextWidgetFinder = find.text(audioTitle);
+
+        expect(audioListTileTextWidgetFinder, findsOneWidget);
+      }
+
+      // Now manually delete the urgent_actus playlist directory
+      DirUtil.deleteDirIfExist(urgent_actusYoutubePlaylistPath);
+
+      // *** Execute Updating playlist JSON file menu item
+
+      // open the popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // find the update playlist JSON file menu item and tap on it
+      await tester
+          .tap(find.byKey(const Key('update_playlist_json_dialog_item')));
+      await tester.pumpAndSettle();
+
+      // Now test that no audio list is displayed in the AudioPlayerView
+      // screen since the selected urgent_actus Youtube playlist directory was
+      // deleted.
+      expect(find.text('Jancovici'), findsNothing);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
   });
   group('Delete unique audio test', () {
     testWidgets(
