@@ -27,6 +27,10 @@ enum WarningMessageType {
   // Add button but the local playlist with this title was already
   // created.
 
+  youtubePlaylistWithTitleAlreadyInListOfPlaylists, // User clicked on
+  // Add button but a Youtube playlist with a title equal to the title
+  // of the new local playlist already exits.
+
   deleteAudioFromPlaylistAswellWarning, // User selected the audio
   // menu item "Delete audio from playlist aswell".
 
@@ -213,11 +217,17 @@ class WarningMessageVM extends ChangeNotifier {
       _localPlaylistAlreadyCreatedTitle;
   void setLocalPlaylistAlreadyCreatedTitle({
     required String playlistTitle,
+    required PlaylistType playlistType,
   }) {
     _localPlaylistAlreadyCreatedTitle = playlistTitle;
 
-    _warningMessageType =
-        WarningMessageType.localPlaylistWithTitleAlreadyInListOfPlaylists;
+    if (playlistType == PlaylistType.local) {
+      _warningMessageType =
+          WarningMessageType.localPlaylistWithTitleAlreadyInListOfPlaylists;
+    } else {
+      _warningMessageType =
+          WarningMessageType.youtubePlaylistWithTitleAlreadyInListOfPlaylists;
+    }
 
     notifyListeners();
   }

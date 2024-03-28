@@ -102,6 +102,7 @@
       "title": {}
     }
   },
+  "youtubePlaylistWithTitleAlreadyInListOfPlaylists": "Youtube playlist \"{title}\" already exists in the list of playlists and so a local playlist with this title won't be created.",
   "downloadAudioYoutubeError": "Error downloading audio from Youtube: \"{exceptionMessage}\"",
   "@downloadAudioYoutubeError": {
     "description": "Warning announcing that downloading the audio from Youtube failed.",

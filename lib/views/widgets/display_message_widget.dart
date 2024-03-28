@@ -205,6 +205,21 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
         });
 
         return const SizedBox.shrink();
+      case WarningMessageType.youtubePlaylistWithTitleAlreadyInListOfPlaylists:
+        String playlistTitle =
+            _warningMessageVM.localPlaylistAlreadyCreatedTitle;
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!
+                .youtubePlaylistWithTitleAlreadyInListOfPlaylists(playlistTitle),
+            warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
+          );
+        });
+
+        return const SizedBox.shrink();
       case WarningMessageType.deleteAudioFromPlaylistAswellWarning:
         String playlistTitle =
             _warningMessageVM.deleteAudioFromPlaylistAswellTitle;

@@ -912,15 +912,12 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             ).then((value) {
               // not null value is boolean
               if (value ?? false) {
-                // if value is null, value is false
-                // value is null if
-                //                             clicking on Cancel
-                //                             or if the dialog is
-                //                             dismissed by clicking
-                //                             outside the dialog.
-
-                // if a Youtube playlist has been added, then
-                // the playlistUrlController is cleared
+                // if value is null, value is false. Value is null if
+                // clicking on Cancel or if the dialog is dismissed
+                // by clicking outside the dialog.
+                //
+                // If a Youtube playlist has been added, then the
+                // playlistUrlController is cleared.
                 _playlistUrlController.clear();
               }
             });

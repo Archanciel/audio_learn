@@ -245,7 +245,8 @@ class PlaylistListVM extends ChangeNotifier {
         // list. Since orElse is not defined, firstWhere throws an error
         // if the playlist with this title is not found.
         _warningMessageVM.setLocalPlaylistAlreadyCreatedTitle(
-            playlistTitle: playlistWithThisTitleAlreadyDownloaded.title);
+            playlistTitle: playlistWithThisTitleAlreadyDownloaded.title,
+            playlistType: playlistWithThisTitleAlreadyDownloaded.playlistType);
         return false;
       } catch (_) {
         // If the playlist with this title is not found, it means that
