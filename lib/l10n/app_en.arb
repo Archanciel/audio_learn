@@ -95,14 +95,14 @@
       "title": {}
     }
   },
-  "localPlaylistWithTitleAlreadyInListOfPlaylists": "Local playlist \"{title}\" already exists in the list of playlists and so won't be recreated.",
+  "localPlaylistWithTitleAlreadyInListOfPlaylists": "Local playlist \"{title}\" already exists in the list of playlists. Therefore, the local playlist with this title won't be created.",
   "@localPlaylistWithTitleAlreadyInListOfPlaylists": {
     "description": "Warning announcing that the local playlist with the title is already in the list of playlists and so will not be created.",
     "placeholders": {
       "title": {}
     }
   },
-  "youtubePlaylistWithTitleAlreadyInListOfPlaylists": "Youtube playlist \"{title}\" already exists in the list of playlists and so a local playlist with this title won't be created.",
+  "youtubePlaylistWithTitleAlreadyInListOfPlaylists": "Youtube playlist \"{title}\" already exists in the list of playlists. Therefore, the local playlist with this title won't be created.",
   "downloadAudioYoutubeError": "Error downloading audio from Youtube: \"{exceptionMessage}\"",
   "@downloadAudioYoutubeError": {
     "description": "Warning announcing that downloading the audio from Youtube failed.",

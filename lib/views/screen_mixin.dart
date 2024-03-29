@@ -405,7 +405,7 @@ mixin ScreenMixin {
           ),
           Expanded(
             child: SizedBox(
-              height: 36,
+              height: 37,
               child: TextField(
                 key: valueTextFieldWidgetKey,
                 controller: controller,
