@@ -260,7 +260,7 @@
   "saveSortFilterOptionsToPlaylistDialogTitle": "Sauvegarder les options de tri et de filtre",
   "saveSortFilterOptionsToPlaylist": "Dans la playlist \"{title}\"",
   "saveSortFilterOptionsForView": "Pour la vue \"{title}\"",
-  "saveSortFilterOptionsAutomaticApplication": "Appliquer les options automatiquement",
+  "saveSortFilterOptionsAutomaticApplication": "Appl. les options automatiqu.",
   "saveSortFilterOptionsAutomaticApplicationTooltip": "Si ce paramètre est sélectionné, les options de tri et de filtre de la playlist sont automatiquement appliquées lors de l'ouverture de la playlist",
   "saveSortFilterOptionsAutomaticApplicationAudioPlayerViewTooltip": "Si ce paramètre est sélectionné, les options de tri et de filtre de la playlist sont automatiquement appliquées lors de l'ouverture de la vue \"Lire Audio\". Cela signifie que le prochain audio joué sera le premier audio non entièrement joué situé après l'audio actuel dans la liste audio triée et filtrée.",
   "saveButton": "Sauver",
