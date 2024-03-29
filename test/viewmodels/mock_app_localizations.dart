@@ -745,6 +745,10 @@ class MockAppLocalizations extends AppLocalizations {
       "File $filePathName contains an invalid data definition. Try finding the problem in order to correct it before executing again the operation.";
 
   @override
+  String youtubePlaylistWithTitleAlreadyInListOfPlaylists(Object title) =>
+      "Youtube playlist \"{title}\" already exists in the list of playlists and so a local playlist with this title won't be created.";
+
+  @override
   String get updatePlaylistJsonFilesTooltip =>
       "If one or several playlist directories containing or not audios were manually added to the application data root directory or if audios were manually deleted from one or several playlist directories, this functionality updates the playlist JSON files as well as the application settings JSON file in order to reflect the changes in the application screens.";
 
