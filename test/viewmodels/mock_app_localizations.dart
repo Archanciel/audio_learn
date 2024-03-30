@@ -755,4 +755,32 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get updatePlaylistPlayableAudioListTooltip =>
       "If audios were manually deleted from one or several playlist directories, this functionality updates the playlist JSON files to reflect the changes in the application screens.";
+
+  @override
+  String get audioPlayedInThisOrderTooltip =>
+      "Les audios sont joués dans cet ordre.";
+
+  @override
+  String get playableAudioDialogSortDescriptionTooltipBottomDownloadBefore =>
+      "Les audios au bas de l'écran ont été téléchargés avant les audios en haut de l'écran.";
+
+  @override
+  String get playableAudioDialogSortDescriptionTooltipBottomDownloadAfter =>
+      "Les audios au bas de l'écran ont été téléchargés après les audios en haut de l'écran.";
+
+  @override
+  String get playableAudioDialogSortDescriptionTooltipBottomUploadBefore =>
+      "Les audios au bas de l'écran ont été téléchargés avant les audios en haut de l'écran.";
+
+  @override
+  String get playableAudioDialogSortDescriptionTooltipBottomUploadAfter =>
+      "Les audios au bas de l'écran ont été téléchargés après les audios en haut de l'écran.";
+
+  @override
+  String get playableAudioDialogSortDescriptionTooltipTopDurationBigger =>
+      "Les audios au bas de l'écran ont été téléchargés avant les audios en haut de l'écran.";
+
+  @override
+  String get playableAudioDialogSortDescriptionTooltipTopDurationSmaller =>
+      "Les audios au bas de l'écran ont été téléchargés après les audios en haut de l'écran.";
 }

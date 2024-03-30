@@ -550,6 +550,38 @@ class PlaylistListVM extends ChangeNotifier {
     return _sortedFilteredSelectedPlaylistsPlayableAudios!;
   }
 
+  List<SortingItem> getSortingItemLstForViewType(
+    AudioLearnAppViewType audioLearnAppViewType,
+  ) {
+    Playlist selectedPlaylist = getSelectedPlaylists()[0];
+    List<SortingItem> playlistSortingItemLst;
+
+    switch (audioLearnAppViewType) {
+      case AudioLearnAppViewType.playlistDownloadView:
+        playlistSortingItemLst = selectedPlaylist
+                .audioSortFilterParmsForPlaylistDownloadView
+                ?.selectedSortItemLst ??
+            // if the user has not yet set and saved sort and filter
+            // parameters for the playlist, then the default sorting
+            // item is returned
+            [_audioSortFilterService.getDefaultSortingItem()];
+        break;
+      case AudioLearnAppViewType.audioPlayerView:
+        playlistSortingItemLst = selectedPlaylist
+                .audioSortFilterParmsForAudioPlayerView?.selectedSortItemLst ??
+            // if the user has not yet set and saved sort and filter
+            // parameters for the playlist, then the default sorting
+            // item is returned
+            [_audioSortFilterService.getDefaultSortingItem()];
+        break;
+      default:
+        playlistSortingItemLst = [];
+        break;
+    }
+
+    return playlistSortingItemLst;
+  }
+
   List<Audio>
       getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters(
     AudioLearnAppViewType audioLearnAppViewType,

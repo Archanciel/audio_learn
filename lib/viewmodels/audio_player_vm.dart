@@ -6,6 +6,7 @@ import 'package:audioplayers/audioplayers.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
 import '../services/json_data_service.dart';
+import '../services/sort_filter_parameters.dart';
 import '../utils/duration_expansion.dart';
 import 'playlist_list_vm.dart';
 
@@ -814,6 +815,11 @@ class AudioPlayerVM extends ChangeNotifier {
         .getSelectedPlaylistNotFullyPlayedAudiosApplyingSortFilterParameters(
       audioLearnAppViewType,
     );
+  }
+
+  List<SortingItem> getSortingItemLstForViewType(
+      AudioLearnAppViewType audioLearnAppViewType) {
+    return _playlistListVM.getSortingItemLstForViewType(audioLearnAppViewType);
   }
 
   String? getCurrentAudioTitleWithDuration() {

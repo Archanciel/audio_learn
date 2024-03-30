@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../services/sort_filter_parameters.dart';
 import '../../views/screen_mixin.dart';
 import '../../constants.dart';
 import '../../models/audio.dart';
@@ -109,7 +111,25 @@ class _ListPlayableAudiosDialogWidgetState
         }
       },
       child: AlertDialog(
-        title: Text(AppLocalizations.of(context)!.audioOneSelectedDialogTitle),
+        title: Row(
+          children: [
+            Tooltip(
+                message: _determineDialogTitleAudioSortTooltip(
+                  context: context,
+                  audioPlayerVM: audioGlobalPlayerVM,
+                ),
+                child: Text(
+                    AppLocalizations.of(context)!.audioOneSelectedDialogTitle)),
+            Tooltip(
+              message:
+                  AppLocalizations.of(context)!.audioPlayedInThisOrderTooltip,
+              child: const Icon(
+                Icons.arrow_drop_up,
+                size: 80.0,
+              ),
+            ),
+          ],
+        ),
         actionsPadding: kDialogActionsPadding,
         content: SizedBox(
           width: double.maxFinite,
@@ -162,6 +182,47 @@ class _ListPlayableAudiosDialogWidgetState
         ],
       ),
     );
+  }
+
+  /// Determines the dialog title tooltip according to the sorting option
+  String _determineDialogTitleAudioSortTooltip({
+    required BuildContext context,
+    required AudioPlayerVM audioPlayerVM,
+  }) {
+    SortingItem sortingItem = audioPlayerVM
+        .getSortingItemLstForViewType(AudioLearnAppViewType.audioPlayerView)
+        .first;
+
+    switch (sortingItem.sortingOption) {
+      case SortingOption.audioDownloadDate:
+        if (sortingItem.isAscending) {
+          return AppLocalizations.of(context)!
+              .playableAudioDialogSortDescriptionTooltipBottomDownloadAfter;
+        } else {
+          return AppLocalizations.of(context)!
+              .playableAudioDialogSortDescriptionTooltipBottomDownloadBefore;
+        }
+      case SortingOption.videoUploadDate:
+        if (sortingItem.isAscending) {
+          return AppLocalizations.of(context)!
+              .playableAudioDialogSortDescriptionTooltipBottomUploadAfter;
+        } else {
+          return AppLocalizations.of(context)!
+              .playableAudioDialogSortDescriptionTooltipBottomUploadBefore;
+        }
+      case SortingOption.audioDuration:
+        if (sortingItem.isAscending) {
+          return AppLocalizations.of(context)!
+              .playableAudioDialogSortDescriptionTooltipTopDurationSmaller;
+        } else {
+          return AppLocalizations.of(context)!
+              .playableAudioDialogSortDescriptionTooltipTopDurationBigger;
+        }
+      default:
+        break;
+    }
+
+    return '';
   }
 
   Widget _buildBottomTextAndCheckbox(
