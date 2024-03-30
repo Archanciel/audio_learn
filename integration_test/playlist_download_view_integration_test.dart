@@ -4173,11 +4173,11 @@ void main() {
       // Find the ListTile Playlist containing the manually added Youtube
       // playlist
 
-      const String urgent_actusYoutubePlaylistTitle = 'urgent_actus';
+      const String urgentActusyoutubeplaylisttitle = 'urgent_actus';
 
       // First, find the urgent_actus Youtube playlist ListTile Text widget
       final Finder addedYoutubePlaylistListTileTextWidgetFinder =
-          find.text(urgent_actusYoutubePlaylistTitle);
+          find.text(urgentActusyoutubeplaylisttitle);
 
       // Then obtain the Youtube source playlist ListTile widget
       // enclosing the Text widget by finding its ancestor
@@ -4197,16 +4197,16 @@ void main() {
       // Test that the audios of the added urgent_actus Youtube playlist
       // are listed
 
-      String urgent_actusYoutubePlaylistPath =
-          '$kDownloadAppTestDirWindows${path.separator}$urgent_actusYoutubePlaylistTitle';
+      String urgentActusyoutubeplaylistpath =
+          '$kDownloadAppTestDirWindows${path.separator}$urgentActusyoutubeplaylisttitle';
 
-      List<String> urgent_actusYoutubePlaylistMp3Lst =
+      List<String> urgentActusyoutubeplaylistmp3lst =
           DirUtil.listFileNamesInDir(
-        path: urgent_actusYoutubePlaylistPath,
+        path: urgentActusyoutubeplaylistpath,
         extension: 'mp3',
       );
 
-      for (String audioTitle in urgent_actusYoutubePlaylistMp3Lst) {
+      for (String audioTitle in urgentActusyoutubeplaylistmp3lst) {
         audioTitle = audioTitle
             .replaceAll(RegExp(r'[\d\-]'), '')
             .replaceFirst(' .mp', '')
@@ -4281,11 +4281,11 @@ void main() {
       // Find the ListTile Playlist containing the manually added Youtube
       // playlist
 
-      const String urgent_actusYoutubePlaylistTitle = 'urgent_actus';
+      const String urgentActusyoutubeplaylisttitle = 'urgent_actus';
 
       // First, find the urgent_actus Youtube playlist ListTile Text widget
       final Finder addedYoutubePlaylistListTileTextWidgetFinder =
-          find.text(urgent_actusYoutubePlaylistTitle);
+          find.text(urgentActusyoutubeplaylisttitle);
 
       // Then obtain the Youtube source playlist ListTile widget
       // enclosing the Text widget by finding its ancestor
@@ -4305,16 +4305,16 @@ void main() {
       // Test that the audios of the added urgent_actus Youtube playlist
       // are listed
 
-      String urgent_actusYoutubePlaylistPath =
-          '$kDownloadAppTestDirWindows${path.separator}$urgent_actusYoutubePlaylistTitle';
+      String urgentActusyoutubeplaylistpath =
+          '$kDownloadAppTestDirWindows${path.separator}$urgentActusyoutubeplaylisttitle';
 
-      List<String> urgent_actusYoutubePlaylistMp3Lst =
+      List<String> urgentActusyoutubeplaylistmp3lst =
           DirUtil.listFileNamesInDir(
-        path: urgent_actusYoutubePlaylistPath,
+        path: urgentActusyoutubeplaylistpath,
         extension: 'mp3',
       );
 
-      for (String audioTitle in urgent_actusYoutubePlaylistMp3Lst) {
+      for (String audioTitle in urgentActusyoutubeplaylistmp3lst) {
         audioTitle = audioTitle
             .replaceAll(RegExp(r'[\d\-]'), '')
             .replaceFirst(' .mp', '')
@@ -4325,7 +4325,7 @@ void main() {
       }
 
       // Now manually delete the urgent_actus playlist directory
-      DirUtil.deleteDirIfExist(urgent_actusYoutubePlaylistPath);
+      DirUtil.deleteDirIfExist(urgentActusyoutubeplaylistpath);
 
       // *** Execute Updating playlist JSON file menu item
 
@@ -4340,7 +4340,7 @@ void main() {
 
       // Now test that the manually deleted urgent_actus Youtube playlist is
       // no longer displayed
-      expect(find.text(urgent_actusYoutubePlaylistTitle), findsNothing);
+      expect(find.text(urgentActusyoutubeplaylisttitle), findsNothing);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -4407,11 +4407,11 @@ void main() {
       // Find the ListTile Playlist containing the manually added Youtube
       // playlist
 
-      const String urgent_actusYoutubePlaylistTitle = 'urgent_actus';
+      const String urgentActusyoutubeplaylisttitle = 'urgent_actus';
 
       // First, find the urgent_actus Youtube playlist ListTile Text widget
       final Finder addedYoutubePlaylistListTileTextWidgetFinder =
-          find.text(urgent_actusYoutubePlaylistTitle);
+          find.text(urgentActusyoutubeplaylisttitle);
 
       // Then obtain the Youtube source playlist ListTile widget
       // enclosing the Text widget by finding its ancestor
@@ -4431,16 +4431,16 @@ void main() {
       // Test that the audios of the added urgent_actus Youtube playlist
       // are listed
 
-      String urgent_actusYoutubePlaylistPath =
-          '$kDownloadAppTestDirWindows${path.separator}$urgent_actusYoutubePlaylistTitle';
+      String urgentActusyoutubeplaylistpath =
+          '$kDownloadAppTestDirWindows${path.separator}$urgentActusyoutubeplaylisttitle';
 
-      List<String> urgent_actusYoutubePlaylistMp3Lst =
+      List<String> urgentActusyoutubeplaylistmp3lst =
           DirUtil.listFileNamesInDir(
-        path: urgent_actusYoutubePlaylistPath,
+        path: urgentActusyoutubeplaylistpath,
         extension: 'mp3',
       );
 
-      for (String audioTitle in urgent_actusYoutubePlaylistMp3Lst) {
+      for (String audioTitle in urgentActusyoutubeplaylistmp3lst) {
         audioTitle = audioTitle
             .replaceAll(RegExp(r'[\d\-]'), '')
             .replaceFirst(' .mp', '')
@@ -4459,7 +4459,7 @@ void main() {
 
       // Verify that the urgent_actus Youtube playlist audio list is
       // still displayed in the AudioPlayerView screen.
-      for (String audioTitle in urgent_actusYoutubePlaylistMp3Lst) {
+      for (String audioTitle in urgentActusyoutubeplaylistmp3lst) {
         audioTitle = audioTitle
             .replaceAll(RegExp(r'[\d\-]'), '')
             .replaceFirst(' .mp', '')
@@ -4470,7 +4470,7 @@ void main() {
       }
 
       // Now manually delete the urgent_actus playlist directory
-      DirUtil.deleteDirIfExist(urgent_actusYoutubePlaylistPath);
+      DirUtil.deleteDirIfExist(urgentActusyoutubeplaylistpath);
 
       // *** Execute Updating playlist JSON file menu item
 

@@ -5,11 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../views/screen_mixin.dart';
-import '../../models/audio.dart';
-import '../../models/playlist.dart';
 import '../../services/settings_data_service.dart';
-import '../../utils/ui_util.dart';
-import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 
 class SaveSortFilterOptionsToPlaylistDialogWidget extends StatefulWidget {

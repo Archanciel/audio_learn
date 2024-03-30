@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:audio_learn/constants.dart';
 import 'package:audio_learn/models/audio.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/services/sort_filter_parameters.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/viewmodels/audio_player_vm.dart';
 import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
