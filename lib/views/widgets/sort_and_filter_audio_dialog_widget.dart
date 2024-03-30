@@ -16,6 +16,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final List<Audio> selectedPlaylistAudioLst;
   AudioSortFilterParameters audioSortDefaultFilterParameters;
   AudioSortFilterParameters audioSortPlaylistFilterParameters;
+  final AudioLearnAppViewType audioLearnAppViewType;
   final FocusNode focusNode;
 
   SortAndFilterAudioDialogWidget({
@@ -23,6 +24,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
     required this.selectedPlaylistAudioLst,
     required this.audioSortDefaultFilterParameters,
     required this.audioSortPlaylistFilterParameters,
+    required this.audioLearnAppViewType,
     required this.focusNode,
   });
 
@@ -109,14 +111,11 @@ class _SortAndFilterAudioDialogWidgetState
     _isAnd = (audioSortDefaultFilterParameters.sentencesCombination ==
         SentencesCombination.AND);
     _isOr = !_isAnd;
-    _filterMusicQuality =
-        audioSortDefaultFilterParameters.filterMusicQuality;
-    _filterFullyListened =
-        audioSortDefaultFilterParameters.filterFullyListened;
+    _filterMusicQuality = audioSortDefaultFilterParameters.filterMusicQuality;
+    _filterFullyListened = audioSortDefaultFilterParameters.filterFullyListened;
     _filterPartiallyListened =
         audioSortDefaultFilterParameters.filterPartiallyListened;
-    _filterNotListened =
-        audioSortDefaultFilterParameters.filterNotListened;
+    _filterNotListened = audioSortDefaultFilterParameters.filterNotListened;
   }
 
   @override
@@ -1035,17 +1034,38 @@ class _SortAndFilterAudioDialogWidgetState
           }
         });
       },
-      items: SortingOption.values
-          .map<DropdownMenuItem<SortingOption>>((SortingOption value) {
-        return DropdownMenuItem<SortingOption>(
-          // this function is applied to every SortingOption value
-          // and returns a DropdownMenuItem widget added to the list
-          // passed to the items parameter
-          value: value,
-          child: Text(_sortingOptionToString(value, context)),
-        );
-      }).toList(),
+      items: _buildListOfSortingOptionDropdownMenuItems(context),
     );
+  }
+
+  /// The returned list of DropdownMenuItem<SortingOption> is based on the
+  /// app view type. Most sorting options are excluded for the Audio Player
+  /// View.
+  /// 
+  /// This code first filters out the SortingOption values that should not
+  /// be included when widget.audioLearnAppViewType is AudioLearnAppViewType.
+  /// audioPlayerView using .where(), and then maps over the filtered list
+  /// to create DropdownMenuItem<SortingOption> widgets. This approach
+  /// ensures that you only include the relevant options in your
+  /// DropdownButton.
+  List<DropdownMenuItem<SortingOption>> _buildListOfSortingOptionDropdownMenuItems(BuildContext context) {
+    return SortingOption.values.where((SortingOption value) {
+      // Exclude certain options based on the app view type
+      return !(widget.audioLearnAppViewType ==
+              AudioLearnAppViewType.audioPlayerView &&
+          (value == SortingOption.audioDownloadSpeed ||
+              value == SortingOption.audioDownloadDuration ||
+              value == SortingOption.audioEnclosingPlaylistTitle ||
+              value == SortingOption.audioFileSize ||
+              value == SortingOption.validAudioTitle ||
+              value == SortingOption.audioMusicQuality ||
+              value == SortingOption.videoUrl));
+    }).map<DropdownMenuItem<SortingOption>>((SortingOption value) {
+      return DropdownMenuItem<SortingOption>(
+        value: value,
+        child: Text(_sortingOptionToString(value, context)),
+      );
+    }).toList();
   }
 
   void _toggleCheckboxAnd(bool? value) {

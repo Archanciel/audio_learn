@@ -32,7 +32,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   final double _audioIconSizeLarge = 80;
   late double _audioPlaySpeed;
 
-  bool _wasSortFilterAudioSettingsApplied = false;
+  final bool _wasSortFilterAudioSettingsApplied = false;
 
   @override
   initState() {
@@ -302,6 +302,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         .getSelectedPlaylistAudioSortFilterParamForView(
                       AudioLearnAppViewType.audioPlayerView,
                     ),
+                    audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
                     focusNode: focusNode,
                   );
                 },

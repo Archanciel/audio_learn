@@ -509,6 +509,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         .getSelectedPlaylistAudioSortFilterParamForView(
                       AudioLearnAppViewType.playlistDownloadView,
                     ),
+                    audioLearnAppViewType: AudioLearnAppViewType.playlistDownloadView,
                     focusNode: focusNode,
                   );
                 },
