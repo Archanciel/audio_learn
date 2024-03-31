@@ -3067,8 +3067,7 @@ void main() {
       );
     });
   });
-  group("filter audio by fully, partially and not listened options",
-      () {
+  group("filter audio by fully, partially and not listened options", () {
     late AudioSortFilterService audioSortFilterService;
     late PlaylistListVM playlistListVM;
 
@@ -3132,17 +3131,13 @@ void main() {
 
       audioSortFilterService = AudioSortFilterService();
     });
-    test(
-        'filter not listened audios only',
-        () {
+    test('filter not listened audios only', () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
         AudioLearnAppViewType.audioPlayerView,
       );
 
-      List<String>
-          expectedFilteredAudioTitles =
-          [
+      List<String> expectedFilteredAudioTitles = [
         "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
         "La surpopulation mondiale par Jancovici et Barrau",
         'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik',
@@ -3164,29 +3159,23 @@ void main() {
       );
 
       expect(
-          actualFilteredAudioLst
-              .map((audio) => audio.validVideoTitle)
-              .toList(),
+          actualFilteredAudioLst.map((audio) => audio.validVideoTitle).toList(),
           expectedFilteredAudioTitles);
 
-      List<String>
-          expectedFilteredAudioTitlesSortedByDurationDesc =
-          [
+      List<String> expectedFilteredAudioTitlesSortedByDurationDesc = [
         'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik',
         "La surpopulation mondiale par Jancovici et Barrau",
         "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
       ];
 
-      final List<SortingItem>
-          selectedSortItemLstDurationDesc = [
+      final List<SortingItem> selectedSortItemLstDurationDesc = [
         SortingItem(
           sortingOption: SortingOption.audioDuration,
           isAscending: false,
         ),
       ];
 
-      audioSortFilterParameters =
-          AudioSortFilterParameters(
+      audioSortFilterParameters = AudioSortFilterParameters(
         selectedSortItemLst: selectedSortItemLstDurationDesc,
         sentencesCombination: SentencesCombination.AND,
         filterFullyListened: false,
@@ -3194,16 +3183,13 @@ void main() {
         filterNotListened: true,
       );
 
-      actualFilteredAudioLst =
-          audioSortFilterService.filterAndSortAudioLst(
+      actualFilteredAudioLst = audioSortFilterService.filterAndSortAudioLst(
         audioLst: List<Audio>.from(audioList), // copy list
         audioSortFilterParameters: audioSortFilterParameters,
       );
 
       expect(
-          actualFilteredAudioLst
-              .map((audio) => audio.validVideoTitle)
-              .toList(),
+          actualFilteredAudioLst.map((audio) => audio.validVideoTitle).toList(),
           expectedFilteredAudioTitlesSortedByDurationDesc);
 
       // Purge the test playlist directory so that the created test
@@ -3213,17 +3199,13 @@ void main() {
         deleteSubDirectoriesAsWell: true,
       );
     });
-    test(
-        'filter audios avoiding fully listened audios',
-        () {
+    test('filter audios avoiding fully listened audios', () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
         AudioLearnAppViewType.audioPlayerView,
       );
 
-      List<String>
-          expectedFilteredAudioTitles =
-          [
+      List<String> expectedFilteredAudioTitles = [
         "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
         'La surpopulation mondiale par Jancovici et Barrau',
         'La résilience insulaire par Fiona Roche',
@@ -3248,9 +3230,43 @@ void main() {
       );
 
       expect(
-          actualFilteredAudioLst
-              .map((audio) => audio.validVideoTitle)
-              .toList(),
+          actualFilteredAudioLst.map((audio) => audio.validVideoTitle).toList(),
+          expectedFilteredAudioTitles);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+    });
+    test('filter audios getting only fully listened audios', () {
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
+
+      List<String> expectedFilteredAudioTitles = [
+        'Les besoins artificiels par R.Keucheyan',
+      ];
+
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: [],
+        sentencesCombination: SentencesCombination.AND,
+        filterFullyListened: true,
+        filterPartiallyListened: false,
+        filterNotListened: false,
+      );
+
+      List<Audio> actualFilteredAudioLst =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
+      );
+
+      expect(
+          actualFilteredAudioLst.map((audio) => audio.validVideoTitle).toList(),
           expectedFilteredAudioTitles);
 
       // Purge the test playlist directory so that the created test
