@@ -4069,7 +4069,7 @@ void main() {
   group(
       'Executing update playlist JSON files after manually adding or deleting playlist directory and deleting audio files in other playlists test',
       () {
-    testWidgets('Manually add Youtube playlist directory.', (tester) async {
+    testWidgets('Manually add Youtube playlist directory and manually delete audio files in other playlist.', (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
