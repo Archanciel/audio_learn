@@ -296,13 +296,14 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
                       AudioLearnAppViewType.audioPlayerView,
                     ),
-                    audioSortDefaultFilterParameters: playlistListVMlistenFalse
+                    audioSortFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
                         .getSelectedPlaylistAudioSortFilterParamForView(
                       AudioLearnAppViewType.audioPlayerView,
                     ),
-                    audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
+                    audioLearnAppViewType:
+                        AudioLearnAppViewType.audioPlayerView,
                     focusNode: focusNode,
                   );
                 },

@@ -135,12 +135,12 @@ void main() {
       audioSortFilterService = AudioSortFilterService();
     });
     test('filter by <tendance crypto> AND <en 2024>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -151,16 +151,16 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <tendance crypto> OR <en 2024>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
         audioThree,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -171,15 +171,15 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <en 2024> AND <tendance crypto>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -190,16 +190,16 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <en 2024> OR <tendance crypto>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
         audioThree,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -210,15 +210,15 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <quelle> AND <2024>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioThree,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -229,17 +229,17 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <quelle> OR <2024>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
         audioThree,
         audioFour,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -250,15 +250,15 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <2024> AND <quelle>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioThree,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -269,17 +269,17 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <2024> OR <quelle>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
         audioThree,
         audioFour,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -290,15 +290,15 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <intelligence> OR <artificielle>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioThree,
         audioFour,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -309,7 +309,7 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
   });
   group(
@@ -321,11 +321,11 @@ void main() {
       audioSortFilterService = AudioSortFilterService();
     });
     test('filter by <tendance crypto> AND <en 2024>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -336,16 +336,16 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <tendance crypto> OR <en 2024>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
         audioThree,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -356,14 +356,14 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <en 2024> AND <tendance crypto>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -374,16 +374,16 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <en 2024> OR <tendance crypto>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
         audioThree,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -394,15 +394,15 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <quelle> AND <2024>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioThree,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -413,17 +413,17 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <quelle> OR <2024>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
         audioThree,
         audioFour,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -434,15 +434,15 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <2024> AND <quelle>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioThree,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -453,14 +453,14 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <intelligence> OR <artificielle>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioFour,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -471,17 +471,17 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <2024> OR <quelle>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
         audioThree,
         audioFour,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -492,7 +492,7 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: false);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
   });
   group(
@@ -504,9 +504,9 @@ void main() {
       audioSortFilterService = AudioSortFilterService();
     });
     test('filter by <investir en 2024> AND <éthique et tac>', () {
-      List<Audio> expectedFilteredBooks = [];
+      List<Audio> expectedFilteredAudios = [];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -517,14 +517,14 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: true);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <accélération> AND <éthique et tac>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioTwo,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -535,15 +535,15 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: true);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <investir en 2024> OR <éthique et tac>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -554,15 +554,15 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: true);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <on vous propose> OR <en accélération>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
         audioTwo,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -573,7 +573,7 @@ void main() {
               ignoreCase: true,
               searchAsWellInVideoCompactDescription: true);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
   });
   group(
@@ -585,9 +585,9 @@ void main() {
       audioSortFilterService = AudioSortFilterService();
     });
     test('filter by <investir en 2024> AND <éthique et tac>', () {
-      List<Audio> expectedFilteredBooks = [];
+      List<Audio> expectedFilteredAudios = [];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -598,14 +598,14 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: true);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <accélération> AND <Éthique et tac>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioTwo,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -616,12 +616,12 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: true);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <investir en 2024> OR <Éthique et tac>', () {
-      List<Audio> expectedFilteredBooks = [audioOne, audioTwo];
+      List<Audio> expectedFilteredAudios = [audioOne, audioTwo];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -632,14 +632,14 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: true);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <investir en 2024> OR <éthique et tac>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioOne,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -650,14 +650,14 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: true);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
     test('filter by <on vous propose> OR <en accélération>', () {
-      List<Audio> expectedFilteredBooks = [
+      List<Audio> expectedFilteredAudios = [
         audioTwo,
       ];
 
-      List<Audio> filteredBooks =
+      List<Audio> filteredAudios =
           audioSortFilterService.filterOnVideoTitleAndDescriptionOptions(
               audioLst: audioLst,
               filterSentenceLst: [
@@ -668,7 +668,7 @@ void main() {
               ignoreCase: false,
               searchAsWellInVideoCompactDescription: true);
 
-      expect(filteredBooks, expectedFilteredBooks);
+      expect(filteredAudios, expectedFilteredAudios);
     });
   });
   group('sort audio lst by one SortingOption', () {
@@ -3058,6 +3058,200 @@ void main() {
             'La surpopulation mondiale par Jancovici et Barrau',
             "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
           ]);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+    });
+  });
+  group("filter audio by fully, partially and not listened options",
+      () {
+    late AudioSortFilterService audioSortFilterService;
+    late PlaylistListVM playlistListVM;
+
+    setUp(() {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}audio_sort_filter_service_test_data",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      // Since we have to use a mock AudioDownloadVM to add the
+      // youtube playlist, we can not use app.main() to start the
+      // app because app.main() uses the real AudioDownloadVM
+      // and we don't want to make the main.dart file dependent
+      // of a mock class. So we have to start the app by hand.
+
+      WarningMessageVM warningMessageVM = WarningMessageVM();
+      // MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
+      //   warningMessageVM: warningMessageVM,
+      //   isTest: true,
+      // );
+      // mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
+
+      AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        warningMessageVM: warningMessageVM,
+        isTest: true,
+      );
+
+      // audioDownloadVM.youtubeExplode = mockYoutubeExplode;
+
+      playlistListVM = PlaylistListVM(
+        warningMessageVM: warningMessageVM,
+        audioDownloadVM: audioDownloadVM,
+        settingsDataService: settingsDataService,
+      );
+
+      // calling getUpToDateSelectablePlaylists() loads all the
+      // playlist json files from the app dir and so enables
+      // expandablePlaylistListVM to know which playlists are
+      // selected and which are not
+      playlistListVM.getUpToDateSelectablePlaylists();
+
+      audioSortFilterService = AudioSortFilterService();
+    });
+    test(
+        'filter not listened audios only',
+        () {
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
+
+      List<String>
+          expectedFilteredAudioTitles =
+          [
+        "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
+        "La surpopulation mondiale par Jancovici et Barrau",
+        'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik',
+      ];
+
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: [],
+        sentencesCombination: SentencesCombination.AND,
+        filterFullyListened: false,
+        filterPartiallyListened: false,
+        filterNotListened: true,
+      );
+
+      List<Audio> actualFilteredAudioLst =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
+      );
+
+      expect(
+          actualFilteredAudioLst
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          expectedFilteredAudioTitles);
+
+      List<String>
+          expectedFilteredAudioTitlesSortedByDurationDesc =
+          [
+        'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik',
+        "La surpopulation mondiale par Jancovici et Barrau",
+        "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
+      ];
+
+      final List<SortingItem>
+          selectedSortItemLstDurationDesc = [
+        SortingItem(
+          sortingOption: SortingOption.audioDuration,
+          isAscending: false,
+        ),
+      ];
+
+      audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: selectedSortItemLstDurationDesc,
+        sentencesCombination: SentencesCombination.AND,
+        filterFullyListened: false,
+        filterPartiallyListened: false,
+        filterNotListened: true,
+      );
+
+      actualFilteredAudioLst =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
+      );
+
+      expect(
+          actualFilteredAudioLst
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          expectedFilteredAudioTitlesSortedByDurationDesc);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+    });
+    test(
+        'filter audios avoiding fully listened audios',
+        () {
+      List<Audio> audioList = playlistListVM
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        AudioLearnAppViewType.audioPlayerView,
+      );
+
+      List<String>
+          expectedFilteredAudioTitles =
+          [
+        "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique",
+        'La surpopulation mondiale par Jancovici et Barrau',
+        'La résilience insulaire par Fiona Roche',
+        'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik',
+        'Ce qui va vraiment sauver notre espèce par Jancovici et Barrau',
+        '3 fois où un économiste m\'a ouvert les yeux (Giraud, Lefournier, Porcher)',
+      ];
+
+      AudioSortFilterParameters audioSortFilterParameters =
+          AudioSortFilterParameters(
+        selectedSortItemLst: [],
+        sentencesCombination: SentencesCombination.AND,
+        filterFullyListened: false,
+        filterPartiallyListened: true,
+        filterNotListened: true,
+      );
+
+      List<Audio> actualFilteredAudioLst =
+          audioSortFilterService.filterAndSortAudioLst(
+        audioLst: List<Audio>.from(audioList), // copy list
+        audioSortFilterParameters: audioSortFilterParameters,
+      );
+
+      expect(
+          actualFilteredAudioLst
+              .map((audio) => audio.validVideoTitle)
+              .toList(),
+          expectedFilteredAudioTitles);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub

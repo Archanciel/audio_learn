@@ -503,13 +503,14 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
                       AudioLearnAppViewType.audioPlayerView,
                     ),
-                    audioSortDefaultFilterParameters: playlistListVMlistenFalse
+                    audioSortFilterParameters: playlistListVMlistenFalse
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
                         .getSelectedPlaylistAudioSortFilterParamForView(
                       AudioLearnAppViewType.playlistDownloadView,
                     ),
-                    audioLearnAppViewType: AudioLearnAppViewType.playlistDownloadView,
+                    audioLearnAppViewType:
+                        AudioLearnAppViewType.playlistDownloadView,
                     focusNode: focusNode,
                   );
                 },

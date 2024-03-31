@@ -14,7 +14,7 @@ import '../../viewmodels/theme_provider_vm.dart';
 
 class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final List<Audio> selectedPlaylistAudioLst;
-  AudioSortFilterParameters audioSortDefaultFilterParameters;
+  AudioSortFilterParameters audioSortFilterParameters;
   AudioSortFilterParameters audioSortPlaylistFilterParameters;
   final AudioLearnAppViewType audioLearnAppViewType;
   final FocusNode focusNode;
@@ -22,7 +22,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
   SortAndFilterAudioDialogWidget({
     super.key,
     required this.selectedPlaylistAudioLst,
-    required this.audioSortDefaultFilterParameters,
+    required this.audioSortFilterParameters,
     required this.audioSortPlaylistFilterParameters,
     required this.audioLearnAppViewType,
     required this.focusNode,
@@ -106,8 +106,8 @@ class _SortAndFilterAudioDialogWidgetState
     _audioTitleFilterSentencesLst
         .addAll(audioSortDefaultFilterParameters.filterSentenceLst);
     _ignoreCase = audioSortDefaultFilterParameters.ignoreCase;
-    _searchInVideoCompactDescription = widget
-        .audioSortDefaultFilterParameters.searchAsWellInVideoCompactDescription;
+    _searchInVideoCompactDescription =
+        widget.audioSortFilterParameters.searchAsWellInVideoCompactDescription;
     _isAnd = (audioSortDefaultFilterParameters.sentencesCombination ==
         SentencesCombination.AND);
     _isOr = !_isAnd;
@@ -137,7 +137,7 @@ class _SortAndFilterAudioDialogWidgetState
   void _resetSortFilterOptions() {
     _selectedSortingItemLst.clear();
     _selectedSortingItemLst
-        .addAll(widget.audioSortDefaultFilterParameters.selectedSortItemLst);
+        .addAll(widget.audioSortFilterParameters.selectedSortItemLst);
     _audioTitleSearchSentenceController.clear();
     _audioTitleFilterSentencesLst.clear();
     _ignoreCase = true;
@@ -1041,14 +1041,15 @@ class _SortAndFilterAudioDialogWidgetState
   /// The returned list of DropdownMenuItem<SortingOption> is based on the
   /// app view type. Most sorting options are excluded for the Audio Player
   /// View.
-  /// 
+  ///
   /// This code first filters out the SortingOption values that should not
   /// be included when widget.audioLearnAppViewType is AudioLearnAppViewType.
   /// audioPlayerView using .where(), and then maps over the filtered list
   /// to create DropdownMenuItem<SortingOption> widgets. This approach
   /// ensures that you only include the relevant options in your
   /// DropdownButton.
-  List<DropdownMenuItem<SortingOption>> _buildListOfSortingOptionDropdownMenuItems(BuildContext context) {
+  List<DropdownMenuItem<SortingOption>>
+      _buildListOfSortingOptionDropdownMenuItems(BuildContext context) {
     return SortingOption.values.where((SortingOption value) {
       // Exclude certain options based on the app view type
       return !(widget.audioLearnAppViewType ==
@@ -1087,7 +1088,7 @@ class _SortAndFilterAudioDialogWidgetState
   // Method called when the user clicks on the 'Apply' button or
   // presses the Enter key on Windows
   List<dynamic> _filterAndSortAudioLst() {
-    widget.audioSortDefaultFilterParameters = AudioSortFilterParameters(
+    widget.audioSortFilterParameters = AudioSortFilterParameters(
       selectedSortItemLst: _selectedSortingItemLst,
       filterSentenceLst: _audioTitleFilterSentencesLst,
       sentencesCombination:
@@ -1103,12 +1104,12 @@ class _SortAndFilterAudioDialogWidgetState
     List<Audio> filteredAndSortedAudioLst =
         _audioSortFilterService.filterAndSortAudioLst(
       audioLst: widget.selectedPlaylistAudioLst,
-      audioSortFilterParameters: widget.audioSortDefaultFilterParameters,
+      audioSortFilterParameters: widget.audioSortFilterParameters,
     );
 
     return [
       filteredAndSortedAudioLst,
-      widget.audioSortDefaultFilterParameters,
+      widget.audioSortFilterParameters,
     ];
   }
 }

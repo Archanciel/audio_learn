@@ -11,7 +11,7 @@ class SortCriteria<T> {
     required this.sortOrder,
   });
 
-    SortCriteria<T> copy() {
+  SortCriteria<T> copy() {
     return SortCriteria<T>(
       selectorFunction: this.selectorFunction,
       sortOrder: this.sortOrder,
@@ -97,7 +97,6 @@ class AudioSortFilterService {
     // selected sorting options coming from the UI.
     List<SortCriteria<Audio>> sortCriteriaLst =
         selectedSortItemLst.map((sortingItem) {
-
       // it is hyper important to copy the SortCriteria because
       // the sortCriteriaForSortingOptionMap is a static map and
       // we don't want to modify its objects, as it is done in the
@@ -406,8 +405,10 @@ class AudioSortFilterService {
   SortingItem getDefaultSortingItem() {
     return SortingItem(
       sortingOption: SortingOption.audioDownloadDate,
-      isAscending: AudioSortFilterService.sortCriteriaForSortingOptionMap[SortingOption.audioDownloadDate]!.sortOrder ==
-        sortAscending,
+      isAscending: AudioSortFilterService
+              .sortCriteriaForSortingOptionMap[SortingOption.audioDownloadDate]!
+              .sortOrder ==
+          sortAscending,
     );
   }
 
@@ -430,6 +431,11 @@ class AudioSortFilterService {
       );
     }
 
+    audioLstCopy = _filterOnOtherOptions(
+      audioLst: audioLstCopy,
+      audioSortFilterParameters: audioSortFilterParameters,
+    );
+
     return sortAudioLstBySortingOptions(
       audioLst: audioLstCopy,
       selectedSortItemLst: audioSortFilterParameters.selectedSortItemLst,
@@ -451,6 +457,7 @@ class AudioSortFilterService {
     required bool searchAsWellInVideoCompactDescription,
   }) {
     List<Audio> filteredAudios = [];
+
     for (Audio audio in audioLst) {
       bool isAudioFiltered = false;
       for (String filterSentence in filterSentenceLst) {
@@ -510,30 +517,94 @@ class AudioSortFilterService {
     return filteredAudios;
   }
 
-  // List<Audio> _filterAudioLstByVideoTitleOnly({
-  //   required List<Audio> audioLst,
-  //   required String searchWords,
-  //   required bool ignoreCase,
-  // }) {
-  //   RegExp searchWordsPattern = RegExp(searchWords, caseSensitive: !ignoreCase);
+  /// Method called by filterAndSortAudioLst().
+  ///
+  /// This method filters the passed audio list by the other filter
+  /// options set by the user in the sort and filter dialog.
+  List<Audio> _filterOnOtherOptions({
+    required List<Audio> audioLst,
+    required AudioSortFilterParameters audioSortFilterParameters,
+  }) {
+    List<Audio> filteredAudios = audioLst;
 
-  //   return audioLst.where((audio) {
-  //     return searchWordsPattern.hasMatch(audio.validVideoTitle);
-  //   }).toList();
-  // }
+    // If the 'Audio music quality' checkbox is set to true, the
+    // returned audio list is contains only music quality audios.
+    // Otherwise, the returned audio list containsboth music and
+    // speech quality audios.
+    if (audioSortFilterParameters.filterMusicQuality) {
+      filteredAudios = audioLst.where((audio) {
+        return audio.isMusicQuality;
+      }).toList();
+    }
 
-  // List<Audio> _filterAudioLstByVideoTitleOrDescription({
-  //   required List<Audio> audioLst,
-  //   required String searchWords,
-  //   required bool ignoreCase,
-  // }) {
-  //   RegExp searchWordsPattern = RegExp(searchWords, caseSensitive: !ignoreCase);
+    // If the 'Fully listened' checkbox was set to false (by
+    // default it is set to true), the returned audio list
+    // does not contain audios that were fully listened.
+    if (!audioSortFilterParameters.filterFullyListened) {
+      filteredAudios = filteredAudios.where((audio) {
+        return !audio.wasFullyListened();
+      }).toList();
+    }
 
-  //   return audioLst.where((audio) {
-  //     return searchWordsPattern.hasMatch(
-  //         '${audio.validVideoTitle} ${audio.compactVideoDescription}');
-  //   }).toList();
-  // }
+    // If the 'Partially listened' checkbox was set to false (by
+    // default it is set to true), the returned audio list
+    // does not contain audios that are partially listened.
+    if (!audioSortFilterParameters.filterPartiallyListened) {
+      filteredAudios = filteredAudios.where((audio) {
+        return !audio.isPartiallyListened();
+      }).toList();
+    }
+
+    // If the 'Not listened' checkbox was set to false (by
+    // default it is set to true), the returned audio list
+    // does not contain audios that are not fully or partially
+    // listened.
+    if (!audioSortFilterParameters.filterNotListened) {
+      filteredAudios = filteredAudios.where((audio) {
+        return audio.wasFullyListened() || audio.isPartiallyListened();
+      }).toList();
+    }
+
+    if (audioSortFilterParameters.downloadDateStartRange != null &&
+        audioSortFilterParameters.downloadDateEndRange != null) {
+      filteredAudios = _filterAudioLstByAudioDownloadDateTime(
+        audioLst: filteredAudios,
+        startDateTime: audioSortFilterParameters.downloadDateStartRange!,
+        endDateTime: audioSortFilterParameters.downloadDateEndRange!,
+      );
+    }
+
+    if (audioSortFilterParameters.uploadDateStartRange != null &&
+        audioSortFilterParameters.uploadDateEndRange != null) {
+      filteredAudios = _filterAudioLstByAudioVideoUploadDateTime(
+        audioLst: filteredAudios,
+        startDateTime: audioSortFilterParameters.uploadDateStartRange!,
+        endDateTime: audioSortFilterParameters.uploadDateEndRange!,
+      );
+    }
+
+    if (audioSortFilterParameters.fileSizeStartRangeByte != 0 &&
+        audioSortFilterParameters.fileSizeEndRangeByte != 0) {
+      filteredAudios = _filterAudioLstByAudioFileSize(
+        audioLst: filteredAudios,
+        startFileSize: audioSortFilterParameters.fileSizeStartRangeByte,
+        endFileSize: audioSortFilterParameters.fileSizeEndRangeByte,
+      );
+    }
+
+    if (audioSortFilterParameters.durationStartRangeSec != 0 &&
+        audioSortFilterParameters.durationEndRangeSec != 0) {
+      filteredAudios = _filterAudioByAudioDuration(
+        audioLst: filteredAudios,
+        startDuration:
+            Duration(seconds: audioSortFilterParameters.durationStartRangeSec),
+        endDuration:
+            Duration(seconds: audioSortFilterParameters.durationEndRangeSec),
+      );
+    }
+
+    return filteredAudios;
+  }
 
   List<Audio> _filterAudioLstByAudioDownloadDateTime({
     required List<Audio> audioLst,
