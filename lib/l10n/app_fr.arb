@@ -214,7 +214,7 @@
   "downloadSelPlaylistsButtonTooltip": "Télécharger les audios de la playlist sélectionnée.",
   "option1": "Option une",
   "option2": "Option deux",
-  "audioOneSelectedDialogTitle": "Sélectionnez un audio",
+  "audioOneSelectedDialogTitle": "Sélectionnez un\naudio",
   "audioPositionLabel": "Position audio",
   "audioStateLabel": "État audio",
   "audioStatePaused": "En pause",
