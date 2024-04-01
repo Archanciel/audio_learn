@@ -437,12 +437,13 @@ class AudioPlayerVM extends ChangeNotifier {
     _audioPlayerPlugin.dispose();
   }
 
+  /// Method called when the user clicks on the audio play icon
   Future<void> playFromCurrentAudioFile() async {
     if (_currentAudio == null) {
       // the case if the AudioPlayerView is opened directly by
       // dragging to it or clicking on the title or sub title
       // of an audio and not after the user has clicked on the
-      // audio play icon button.
+      // Playlist Download View audio play icon button.
       //
       // Getting the first selected playlist makes sense since
       // currently only one playlist can be selected at a time
