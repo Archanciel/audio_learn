@@ -347,18 +347,6 @@ class AudioPlayerVM extends ChangeNotifier {
         }
 
         _audioPlayerPlugin.onPlayerComplete.listen((event) async {
-          // solves the problem of playing the last playable audio
-          // when the current audio which is not before the last
-          // audio is terminated
-          //
-          // this problem no longer occurs ! It is tested in the
-          // AudioPlayerView integration test.
-          // try {
-          //   await _audioPlayer.dispose();
-          // } catch (e) {
-          //   // avoid integration test failure
-          // }
-
           // Play next audio when current audio finishes.
           await playNextAudio();
         });
@@ -713,6 +701,7 @@ class AudioPlayerVM extends ChangeNotifier {
     // set to false since the audio playing position is set to
     // audio end
     _currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
+    
     updateAndSaveCurrentAudio();
 
     if (await _setNextNotPlayedAudio()) {
