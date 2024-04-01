@@ -736,9 +736,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-  group(
-      'skip to next audio ignoring already listened audios tests.',
-      () {
+  group('skip to next audio ignoring already listened audios tests.', () {
     testWidgets(
         'The next unread audio is also the last downloaded audio of the playlist.',
         (WidgetTester tester) async {
@@ -1748,7 +1746,8 @@ void main() {
     });
   });
   group('play sort/filter audios tests', () {
-    testWidgets('forward 1 minute position change',
+    testWidgets(
+        'Playing last sorted audio with filter: "Fully listened" unchecked and "Partially listened" checked.',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
@@ -1757,7 +1756,8 @@ void main() {
 
       await initializeApplicationAndSelectPlaylist(
         tester: tester,
-        savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
+        savedTestDataDirName:
+            'audio_player_view_sort_filter_partially_played_play_test',
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
       );
 
@@ -1773,53 +1773,86 @@ void main() {
 
       // First, get the ListTile Text widget finder of the audio
       // to be selected and tap on it
-      final Finder toSelectAudioListTileTextWidgetFinder =
-          find.text(toSelectAudioTitle);
-
-      await tester.tap(toSelectAudioListTileTextWidgetFinder);
+      await tester.tap(find.text(toSelectAudioTitle));
       await tester.pumpAndSettle();
 
-      // check the current audio's play position
-      expect(find.text('10:00'), findsOneWidget);
-
-      // change the current audio's play position
-
-      await tester.tap(find.byKey(const Key('audioPlayerViewForward1mButton')));
+      // open the popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
       await tester.pumpAndSettle();
 
-      // check the current audio's changed position
-      expect(find.text('11:00'), findsOneWidget);
-
-      // undo the change
-
-      await tester.tap(find.byKey(const Key('audioPlayerViewUndoButton')));
+      // find the sort/filter audios menu item and tap on it
+      await tester.tap(find.byKey(
+          const Key('define_sort_and_filter_audio_settings_dialog_item')));
       await tester.pumpAndSettle();
 
-      // check the current audio's changed position after the undo
-      expect(find.text('10:00'), findsOneWidget);
-
-      // new command: change the current audio's play position to audio start
-
-      await tester
-          .tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
+      // tap on the sort option dropdown button to display the sort
+      // options
+      await tester.tap(find.byKey(const Key('sortingOptionDropdownButton')));
       await tester.pumpAndSettle();
 
-      expect(find.text('0:00'), findsOneWidget);
-
-      // redo the change
-
-      await tester.tap(find.byKey(const Key('audioPlayerViewRedoButton')));
+      // select the Audio duration sort option and tapp on it to add
+      // it to the sort option list
+      await tester.tap(find.text('Audio duration'));
       await tester.pumpAndSettle();
 
-      // check the current audio's changed position
-      expect(find.text('11:00'), findsOneWidget);
+      // Use the custom finder to find the first clear IconButton.
+      // Then tap on it in order to suppress the Audio download
+      // date sort option
+      await tester.tap(findIconButtonWithIcon(Icons.clear).first);
+      await tester.pumpAndSettle();
+
+      // Now tap the Fully listened checkbox in order to exclude
+      // those audios from the sort/filter list
+      await tester.tap(find.byKey(const Key('filterFullyListenedCheckbox')));
+      await tester.pumpAndSettle();
+
+      // Now tap the Fully listened checkbox in order to exclude
+      // those audios from the sort/filter list
+      await tester.tap(find.byKey(const Key('filterNotListenedCheckbox')));
+      await tester.pumpAndSettle();
+
+      // Now tap on the Apply button
+      await tester.tap(find.byKey(const Key('applySortFilterButton')));
+      await tester.pumpAndSettle();
+
+      // Reopen the popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // find the Save sort/filter options to playlist menu item and tap on it
+      await tester.tap(find.byKey(
+          const Key('save_sort_and_filter_audio_settings_in_playlist_item')));
+      await tester.pumpAndSettle();
+
+      // Now tap the Apply options automatically checkbox so that
+      // the sort/filter options are applied when obtaining the
+      // list of audios to play
+      await tester.tap(find.byKey(const Key('saveSortFilterOptionsAutomaticApplicationKey')));
+      await tester.pumpAndSettle();
+
+      // Now tap on the Save button
+      await tester.tap(find.byKey(const Key('saveSortFilterOptionsToPlaylistSaveButton')));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('$toSelectAudioTitle\n20:32'));
+      await tester.pumpAndSettle();
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-}                                                                               
+}
+
+// A custom finder that finds an IconButton with the specified icon data.
+Finder findIconButtonWithIcon(IconData iconData) {
+  return find.byWidgetPredicate(
+    (Widget widget) =>
+        widget is IconButton &&
+        widget.icon is Icon &&
+        (widget.icon as Icon).icon == iconData,
+  );
+}
 
 Future<void> checkAudioTextColor({
   required WidgetTester tester,
