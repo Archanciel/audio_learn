@@ -145,21 +145,6 @@ class AudioPlayerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// {volumeDecreaseValue} must be between 0.0 and 1.0. The
-  /// initial audio volume is 0.5 and will be decreased by this
-  /// value.
-  void decreaseAudioVolume({
-    required double volumeChangedValue,
-  }) {
-    double newAudioPlayVolume =
-        (_currentAudio!.audioPlayVolume - volumeChangedValue).clamp(0.0, 1.0);
-    _currentAudio!.audioPlayVolume =
-        newAudioPlayVolume; // Increase and clamp to max 1.0
-    _audioPlayerPlugin.setVolume(newAudioPlayVolume);
-
-    notifyListeners();
-  }
-
   /// Method called when the user clicks on the audio title or sub
   /// title or when he clicks on a play icon or when he selects an
   /// audio in the AudioOneSelectableDialogWidget displayed by
