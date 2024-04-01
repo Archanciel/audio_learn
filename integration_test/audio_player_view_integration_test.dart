@@ -13,7 +13,7 @@ import 'package:audio_learn/main.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('AudioPlayerView play/pause tests', () {
+  group('play/pause tests', () {
     testWidgets(
         'Opening AudioPlayerView by clicking on audio title. Then check play/pause button conversion only.',
         (
@@ -188,7 +188,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-  group('AudioPlayerView no audio selected tests', () {
+  group('no audio selected tests', () {
     testWidgets(
         'Opening AudioPlayerView by clicking on AudioPlayerView icon button with a playlist recently downloaded with no previously selected audio.',
         (WidgetTester tester) async {
@@ -255,7 +255,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-  group('AudioPlayerView set play speed tests', () {
+  group('set play speed tests', () {
     testWidgets(
         'Reduce play speed. Then go back to PlaylistDownloadView and click on another audio title.',
         (
@@ -737,7 +737,7 @@ void main() {
     });
   });
   group(
-      'AudioPlayerView skip to next audio ignoring already listened audios tests.',
+      'skip to next audio ignoring already listened audios tests.',
       () {
     testWidgets(
         'The next unread audio is also the last downloaded audio of the playlist.',
@@ -789,7 +789,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-  group('AudioPlayerView display audio list.', () {
+  group('display audio list.', () {
     const Color fullyPlayedAudioTitleColor = kSliderThumbColorInDarkMode;
     const Color currentlyPlayingAudioTitleTextColor = Colors.white;
     const Color currentlyPlayingAudioTitleTextBackgroundColor = Colors.blue;
@@ -953,7 +953,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-  group('AudioPlayerView single undo/redo tests', () {
+  group('single undo/redo tests', () {
     testWidgets('forward 1 minute position change',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
@@ -1203,8 +1203,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('skip to start position change',
-        (WidgetTester tester) async {
+    testWidgets('skip to start position change', (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
       const String toSelectAudioTitle =
@@ -1239,7 +1238,8 @@ void main() {
 
       // change the current audio's play position to audio start
 
-      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
+      await tester
+          .tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
       await tester.pumpAndSettle();
 
       // check the current audio's changed position
@@ -1265,8 +1265,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('skip to end position change',
-        (WidgetTester tester) async {
+    testWidgets('skip to end position change', (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
       const String toSelectAudioTitle =
@@ -1328,7 +1327,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-  group('AudioPlayerView undo/redo with new command between tests', () {
+  group('undo/redo with new command between tests', () {
     testWidgets('forward 1 minute position change',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
@@ -1381,7 +1380,8 @@ void main() {
 
       // new command: change the current audio's play position to audio start
 
-      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
+      await tester
+          .tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
       await tester.pumpAndSettle();
 
       expect(find.text('0:00'), findsOneWidget);
@@ -1451,7 +1451,8 @@ void main() {
 
       // new command: change the current audio's play position to audio start
 
-      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
+      await tester
+          .tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
       await tester.pumpAndSettle();
 
       expect(find.text('0:00'), findsOneWidget);
@@ -1606,8 +1607,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('skip to start position change',
-        (WidgetTester tester) async {
+    testWidgets('skip to start position change', (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
       const String toSelectAudioTitle =
@@ -1642,7 +1642,8 @@ void main() {
 
       // change the current audio's play position to audio start
 
-      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
+      await tester
+          .tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
       await tester.pumpAndSettle();
 
       // check the current audio's changed position
@@ -1676,8 +1677,7 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('skip to end position change',
-        (WidgetTester tester) async {
+    testWidgets('skip to end position change', (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
       const String toSelectAudioTitle =
@@ -1747,7 +1747,79 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
-}
+  group('play sort/filter audios tests', () {
+    testWidgets('forward 1 minute position change',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String toSelectAudioTitle =
+          "3 fois où un économiste m'a ouvert les yeux (Giraud, Lefournier, Porcher)";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_vm_play_position_undo_redo_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the ListTile Text widget finder of the audio
+      // to be selected and tap on it
+      final Finder toSelectAudioListTileTextWidgetFinder =
+          find.text(toSelectAudioTitle);
+
+      await tester.tap(toSelectAudioListTileTextWidgetFinder);
+      await tester.pumpAndSettle();
+
+      // check the current audio's play position
+      expect(find.text('10:00'), findsOneWidget);
+
+      // change the current audio's play position
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewForward1mButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('11:00'), findsOneWidget);
+
+      // undo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewUndoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position after the undo
+      expect(find.text('10:00'), findsOneWidget);
+
+      // new command: change the current audio's play position to audio start
+
+      await tester
+          .tap(find.byKey(const Key('audioPlayerViewSkipToStartButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('0:00'), findsOneWidget);
+
+      // redo the change
+
+      await tester.tap(find.byKey(const Key('audioPlayerViewRedoButton')));
+      await tester.pumpAndSettle();
+
+      // check the current audio's changed position
+      expect(find.text('11:00'), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
+}                                                                               
 
 Future<void> checkAudioTextColor({
   required WidgetTester tester,
