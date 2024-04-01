@@ -935,17 +935,25 @@ class PlaylistListVM extends ChangeNotifier {
     // file with automatic options application set to true, then the
     // returned audio list is sorted and filtered. Otherwise, the
     // returned audio list is the full playable audio list of the
-    // selected playlist sorted by audio download date descending.
-    List<Audio> playableAudioLst =
+    // selected playlist sorted by audio download date descending
+    // (the de3fault sorting).
+    List<Audio> sortedAndFilteredPlayableAudioLst =
         getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
       AudioLearnAppViewType.audioPlayerView,
     );
 
-    int currentAudioIndex = playableAudioLst.indexWhere(
+    int currentAudioIndex = sortedAndFilteredPlayableAudioLst.indexWhere(
         (audio) => audio == currentAudio); // using Audio == operator
 
     if (currentAudioIndex == -1) {
-      return null;
+      // the case if the sort and filter parameters contained
+      // "Fully listened" unchecked and "Partially listened" checked.
+      // In this case, the current audio is not in the
+      // sortedAndFilteredPlayableAudioLst since it was fully listened.
+
+      currentAudioIndex = _determineCurrentAudioIndexBeforeItWasFullyPlayed(
+        currentAudio: currentAudio,
+      );
     }
 
     if (currentAudioIndex == 0) {
@@ -956,7 +964,7 @@ class PlaylistListVM extends ChangeNotifier {
     }
 
     for (int i = currentAudioIndex - 1; i >= 0; i--) {
-      Audio audio = playableAudioLst[i];
+      Audio audio = sortedAndFilteredPlayableAudioLst[i];
       if (audio.wasFullyListened()) {
         continue;
       } else {
@@ -965,6 +973,34 @@ class PlaylistListVM extends ChangeNotifier {
     }
 
     return null;
+  }
+
+  /// Since the current audio is not in the previously obtained
+  /// sorted and filtered playable audio list since it was fully
+  /// listened, the current audio must be set to not fully played
+  /// and the sort and filter audio list must be re-obtained.
+  int _determineCurrentAudioIndexBeforeItWasFullyPlayed({
+    required Audio currentAudio,
+  }) {
+    // In order to obtain the current audio index before the audio
+    // was fully listened, we decrement the audio position by 10
+    // seconds and we then research the sorted and filtered audios.
+    currentAudio.audioPositionSeconds = currentAudio.audioPositionSeconds - 10;
+    List<Audio> sortedAndFilteredPlayableAudioLstWithCurrentAudio =
+        getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+      AudioLearnAppViewType.audioPlayerView,
+    );
+
+    // obtaining the current audio index before the audio was fully
+    // listened ...
+    int currentAudioIndex =
+        sortedAndFilteredPlayableAudioLstWithCurrentAudio.indexWhere(
+            (audio) => audio == currentAudio); // using Audio == operator
+
+    // restoring the current audio position to fully listened
+    currentAudio.audioPositionSeconds = currentAudio.audioPositionSeconds + 10;
+
+    return currentAudioIndex;
   }
 
   /// Returns the audio contained in the playableAudioLst which
