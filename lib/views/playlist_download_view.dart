@@ -290,38 +290,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             ),
           ),
         ),
-        SizedBox(
-          width: kSmallButtonWidth,
-          child: IconButton(
-            key: const Key('move_down_playlist_button'),
-            onPressed: playlistListVMlistenFalse.isButtonMoveDownPlaylistEnabled
-                ? () {
-                    playlistListVMlistenFalse.moveSelectedItemDown();
-                  }
-                : null,
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(
-              Icons.arrow_drop_down,
-              size: kUpDownButtonSize,
-            ),
-          ),
-        ),
-        SizedBox(
-          width: kSmallButtonWidth,
-          child: IconButton(
-            key: const Key('move_up_playlist_button'),
-            onPressed: playlistListVMlistenFalse.isButtonMoveUpPlaylistEnabled
-                ? () {
-                    playlistListVMlistenFalse.moveSelectedItemUp();
-                  }
-                : null,
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(
-              Icons.arrow_drop_up,
-              size: kUpDownButtonSize,
-            ),
-          ),
-        ),
+        _buildPlaylistMoveIconButtons(playlistListVMlistenFalse),
         SizedBox(
           // sets the rounded TextButton size improving the distance
           // between the button text and its boarder
@@ -434,6 +403,48 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         ),
       ],
     );
+  }
+
+  Row _buildPlaylistMoveIconButtons(PlaylistListVM playlistListVMlistenFalse) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: kSmallButtonWidth,
+            child: IconButton(
+              key: const Key('move_down_playlist_button'),
+              onPressed:
+                  playlistListVMlistenFalse.isButtonMoveDownPlaylistEnabled
+                      ? () {
+                          playlistListVMlistenFalse.moveSelectedItemDown();
+                        }
+                      : null,
+              padding: const EdgeInsets.all(0),
+              icon: const Icon(
+                Icons.arrow_drop_down,
+                size: kUpDownButtonSize,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: kSmallButtonWidth,
+            child: IconButton(
+              key: const Key('move_up_playlist_button'),
+              onPressed:
+                  playlistListVMlistenFalse.isButtonMoveUpPlaylistEnabled
+                      ? () {
+                          playlistListVMlistenFalse.moveSelectedItemUp();
+                        }
+                      : null,
+              padding: const EdgeInsets.all(0),
+              icon: const Icon(
+                Icons.arrow_drop_up,
+                size: kUpDownButtonSize,
+              ),
+            ),
+          ),
+        ],
+      );
   }
 
   SizedBox _buildFirstLine({
