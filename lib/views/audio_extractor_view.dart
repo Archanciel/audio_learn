@@ -153,12 +153,14 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
         IconButton(
           visualDensity: VisualDensity.compact,
           icon: const Icon(Icons.skip_previous),
-          onPressed: () {/* Rewind action */},
+              iconSize: 20.0,
+         onPressed: () {/* Rewind action */},
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
           icon: const Icon(Icons.fast_rewind),
-          onPressed: () {/* Rewind action */},
+             iconSize: 20.0,
+       onPressed: () {/* Rewind action */},
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
@@ -169,13 +171,13 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
         IconButton(
           visualDensity: VisualDensity.compact,
           icon: const Icon(Icons.arrow_left),
-          iconSize: 31.0,
+          iconSize: 28.0,
           onPressed: () {/* Play action */},
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
           icon: const Icon(Icons.arrow_right),
-          iconSize: 31.0,
+          iconSize: 28.0,
           onPressed: () {/* Play action */},
         ),
         IconButton(
@@ -187,11 +189,13 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
         IconButton(
           visualDensity: VisualDensity.compact,
           icon: const Icon(Icons.fast_forward),
+             iconSize: 20.0,
           onPressed: () {/* Fast forward action */},
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
           icon: const Icon(Icons.skip_next),
+             iconSize: 20.0,
           onPressed: () {/* Rewind action */},
         ),
       ],
@@ -226,47 +230,59 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        TextButton(
-          style: ButtonStyle(
-            shape: getButtonRoundedShape(
-              currentTheme: themeProviderVM.currentTheme,
+        SizedBox(
+          // sets the rounded TextButton size improving the distance
+          // between the button text and its boarder
+          width: kSmallButtonWidth + 2,
+          height: kNormalButtonHeight,
+          child: TextButton(
+            style: ButtonStyle(
+              shape: getButtonRoundedShape(
+                currentTheme: themeProviderVM.currentTheme,
+              ),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(
+                    horizontal: kSmallButtonInsidePadding, vertical: 0),
+              ),
+              overlayColor: textButtonTapModification, // Tap feedback color
             ),
-            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(
-                  horizontal: kSmallButtonInsidePadding, vertical: 0),
+            onPressed: () {/* Play action */},
+            child: Text(
+              'Play',
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
             ),
-            overlayColor: textButtonTapModification, // Tap feedback color
-          ),
-          onPressed: () {/* Play action */},
-          child: Text(
-            'Play',
-            style: (themeProviderVM.currentTheme == AppTheme.dark)
-                ? kTextButtonStyleDarkMode
-                : kTextButtonStyleLightMode,
           ),
         ),
         const SizedBox(
           width: kRowSmallWidthSeparator,
         ),
-        TextButton(
-          style: ButtonStyle(
-            shape: getButtonRoundedShape(
-              currentTheme: themeProviderVM.currentTheme,
-            ),
-            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(
-                horizontal: kSmallButtonInsidePadding,
-                vertical: 0,
+        SizedBox(
+          // sets the rounded TextButton size improving the distance
+          // between the button text and its boarder
+          width: kSmallButtonWidth + 3,
+          height: kNormalButtonHeight,
+          child: TextButton(
+            style: ButtonStyle(
+              shape: getButtonRoundedShape(
+                currentTheme: themeProviderVM.currentTheme,
               ),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(
+                  horizontal: kSmallButtonInsidePadding,
+                  vertical: 0,
+                ),
+              ),
+              overlayColor: textButtonTapModification, // Tap feedback color
             ),
-            overlayColor: textButtonTapModification, // Tap feedback color
-          ),
-          onPressed: () {/* Stop action */},
-          child: Text(
-            'Stop',
-            style: (themeProviderVM.currentTheme == AppTheme.dark)
-                ? kTextButtonStyleDarkMode
-                : kTextButtonStyleLightMode,
+            onPressed: () {/* Stop action */},
+            child: Text(
+              'Stop',
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
+            ),
           ),
         ),
       ],

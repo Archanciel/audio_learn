@@ -45,6 +45,7 @@ mixin ScreenMixin {
                   : kSliderThumbColorInLightMode
               : getTextInactiveColor(context!)),
     ));
+    
     return buttonRoundedShape;
   }
 

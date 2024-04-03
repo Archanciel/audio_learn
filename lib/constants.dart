@@ -15,7 +15,7 @@ enum AudioLearnAppViewType {
 }
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.9.58';
+const String kApplicationVersion = '0.9.59';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
 const String kDownloadAppTestDir =
     '/storage/emulated/0/Download/test/audiolear';
@@ -65,10 +65,11 @@ const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 const double kRowSmallWidthSeparator = 3.0;
 const double kRowButtonGroupWidthSeparator = 30.0;
 const double kUpDownButtonSize = 50.0;
-const double kGreaterButtonWidth = 78.0;
-const double kNormalButtonWidth = 75.0;
-const double kSmallButtonWidth = 48.0;
-const double kSmallestButtonWidth = 40.0;
+const double kGreaterButtonWidth = 65.0;
+const double kNormalButtonWidth = 62.0;
+const double kSmallButtonWidth = 35.0;
+const double kSmallIconButtonWidth = 30.0;
+const double kNormalButtonHeight = 25.0;
 const double kSmallButtonInsidePadding = 3.0;
 const double kDefaultMargin = 5.0;
 const double kRoundedButtonBorderRadius = 11.0;
@@ -116,8 +117,8 @@ const kPositionButtonTextStyle = TextStyle(
 const Color kSliderThumbColorInDarkMode = Color(0xffd0bcff);
 const Color kSliderThumbColorInLightMode = Color(0xff6750a4);
 
-const double kTextButtonFontSize = 18.0;
-const double kTextButtonSmallerFontSize = 16.0;
+const double kTextButtonFontSize = 15.0;
+const double kTextButtonSmallerFontSize = 13.0;
 
 const kTextButtonStyleDarkMode = TextStyle(
   // the color is the one defined in textTheme bodyMedium
@@ -150,13 +151,14 @@ const kTextButtonSmallStyleLightMode = TextStyle(
 const kSliderValueTextStyle = TextStyle(
   // the color is the one defined in textTheme bodyMedium
   // specified in the ScreenMixin theme's
-  fontSize: kTitleFontSize,
+  fontSize: kAudioTitleFontSize,
   color: kButtonColor,
 );
 
 const kSliderThickness = 2.0;
 
-const double kTitleFontSize = 15.0;
+const double kDropdownMenuItemFontSize = 15.0;
+const double kAudioTitleFontSize = 14.0;
 
 const kAudioExtractorExtractPositionStyle = TextStyle(
   fontSize: 14.0,

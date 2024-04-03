@@ -915,23 +915,26 @@ class _SortAndFilterAudioDialogWidgetState
               ),
             ),
           ),
-          IconButton(
-            key: const Key('addSentenceIconButton'),
-            onPressed: () async {
-              (_audioTitleSearchSentence != '')
-                  ? setState(() {
-                      _addSentenceToFilterSentencesLst();
-                    })
-                  : null;
-            },
-            padding: const EdgeInsets.all(0),
-            icon: Icon(
-              Icons.add,
-              // since in the Dialog the disabled IconButton color
-              // is not grey, we need to set it manually. Additionally,
-              // the sentence TextField onChanged callback must execute
-              // setState() to update the IconButton color
-              color: _audioTitleSearchSentencePlusButtonIconColor,
+          SizedBox(
+            width: kSmallIconButtonWidth,
+            child: IconButton(
+              key: const Key('addSentenceIconButton'),
+              onPressed: () async {
+                (_audioTitleSearchSentence != '')
+                    ? setState(() {
+                        _addSentenceToFilterSentencesLst();
+                      })
+                    : null;
+              },
+              padding: const EdgeInsets.all(0),
+              icon: Icon(
+                Icons.add,
+                // since in the Dialog the disabled IconButton color
+                // is not grey, we need to set it manually. Additionally,
+                // the sentence TextField onChanged callback must execute
+                // setState() to update the IconButton color
+                color: _audioTitleSearchSentencePlusButtonIconColor,
+              ),
             ),
           ),
         ],
@@ -969,45 +972,54 @@ class _SortAndFilterAudioDialogWidgetState
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            title: Text(_sortingOptionToString(
-              _selectedSortingItemLst[index].sortingOption,
-              context,
-            )),
+            title: Text(
+              _sortingOptionToString(
+                _selectedSortingItemLst[index].sortingOption,
+                context,
+              ),
+              style: const TextStyle(fontSize: kDropdownMenuItemFontSize),
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Tooltip(
-                  message: AppLocalizations.of(context)!
-                      .clickToSetAscendingOrDescendingTooltip,
-                  child: IconButton(
-                    key: const Key('sort_ascending_or_descending_button'),
-                    onPressed: () {
-                      setState(() {
-                        bool isAscending =
-                            _selectedSortingItemLst[index].isAscending;
-                        _selectedSortingItemLst[index].isAscending =
-                            !isAscending; // Toggle the sorting state
-                      });
-                    },
-                    padding: const EdgeInsets.all(0),
-                    icon: Icon(
-                      _selectedSortingItemLst[index].isAscending
-                          ? Icons.arrow_drop_up
-                          : Icons.arrow_drop_down, // Conditional icon
-                      size: kUpDownButtonSize,
+                SizedBox(
+                  width: kSmallIconButtonWidth,
+                  child: Tooltip(
+                    message: AppLocalizations.of(context)!
+                        .clickToSetAscendingOrDescendingTooltip,
+                    child: IconButton(
+                      key: const Key('sort_ascending_or_descending_button'),
+                      onPressed: () {
+                        setState(() {
+                          bool isAscending =
+                              _selectedSortingItemLst[index].isAscending;
+                          _selectedSortingItemLst[index].isAscending =
+                              !isAscending; // Toggle the sorting state
+                        });
+                      },
+                      padding: const EdgeInsets.all(0),
+                      icon: Icon(
+                        _selectedSortingItemLst[index].isAscending
+                            ? Icons.arrow_drop_up
+                            : Icons.arrow_drop_down, // Conditional icon
+                        size: kUpDownButtonSize,
+                      ),
                     ),
                   ),
                 ),
-                IconButton(
-                  key: const Key('removeSortingOptionIconButton'),
-                  icon: const Icon(Icons.clear),
-                  onPressed: () {
-                    setState(() {
-                      if (_selectedSortingItemLst.length > 1) {
-                        _selectedSortingItemLst.removeAt(index);
-                      }
-                    });
-                  },
+                SizedBox(
+                  width: kSmallIconButtonWidth,
+                  child: IconButton(
+                    key: const Key('removeSortingOptionIconButton'),
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        if (_selectedSortingItemLst.length > 1) {
+                          _selectedSortingItemLst.removeAt(index);
+                        }
+                      });
+                    },
+                  ),
                 ),
               ],
             ),
@@ -1064,7 +1076,10 @@ class _SortAndFilterAudioDialogWidgetState
     }).map<DropdownMenuItem<SortingOption>>((SortingOption value) {
       return DropdownMenuItem<SortingOption>(
         value: value,
-        child: Text(_sortingOptionToString(value, context)),
+        child: Text(
+          _sortingOptionToString(value, context),
+          style: const TextStyle(fontSize: kDropdownMenuItemFontSize),
+        ),
       );
     }).toList();
   }

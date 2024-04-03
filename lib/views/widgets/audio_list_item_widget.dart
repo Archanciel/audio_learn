@@ -248,14 +248,17 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
               audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
         },
         child: Text(audio.validVideoTitle,
-            style: const TextStyle(fontSize: kTitleFontSize)),
+            style: const TextStyle(fontSize: kAudioTitleFontSize)),
       ),
       subtitle: GestureDetector(
         onTap: () async {
           await dragToAudioPlayerView(
               audioGlobalPlayerVM); // dragging to the AudioPlayerView screen
         },
-        child: Text(_buildSubTitle(context)),
+        child: Text(
+          _buildSubTitle(context),
+          style: const TextStyle(fontSize: kAudioTitleFontSize),
+        ),
       ),
       trailing: _buildPlayButton(),
     );
@@ -339,7 +342,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
 
     subTitle =
         '${audioDuration!.HHmmss()}. $audioFileSizeStr ${AppLocalizations.of(context)!.atPreposition} $audioDownloadSpeedStr ${AppLocalizations.of(context)!.on} ${frenchDateTimeFormat.format(audio.audioDownloadDateTime)}';
-      return subTitle;
+    return subTitle;
   }
 
   Widget _buildPlayButton() {

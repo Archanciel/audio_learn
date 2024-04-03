@@ -258,7 +258,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         SizedBox(
+          // sets the rounded TextButton size improving the distance
+          // between the button text and its boarder
           width: kGreaterButtonWidth,
+          height: kNormalButtonHeight,
           child: Tooltip(
             message: AppLocalizations.of(context)!.playlistToggleButtonTooltip,
             child: TextButton(
@@ -320,7 +323,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           ),
         ),
         SizedBox(
+          // sets the rounded TextButton size improving the distance
+          // between the button text and its boarder
           width: kGreaterButtonWidth + 10,
+          height: kNormalButtonHeight,
           child: Tooltip(
             message:
                 AppLocalizations.of(context)!.downloadSelPlaylistsButtonTooltip,
@@ -608,7 +614,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         !audioDownloadViewModel.isDownloadStopping;
 
     return SizedBox(
-      width: kNormalButtonWidth - 30,
+      // sets the rounded TextButton size improving the distance
+      // between the button text and its boarder
+      width: kNormalButtonWidth - 24,
+      height: kNormalButtonHeight,
       child: Tooltip(
         message: AppLocalizations.of(context)!.stopDownloadingButtonTooltip,
         child: TextButton(
@@ -668,7 +677,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     required PlaylistListVM playlistListVMlistenFalse,
   }) {
     return SizedBox(
-      width: kSmallButtonWidth + 10, // necessary to display english text
+      // sets the rounded TextButton size improving the distance
+      // between the button text and its boarder
+      width: kSmallButtonWidth + 18, // necessary to display english text
+      height: kNormalButtonHeight,
       child: Tooltip(
         message: AppLocalizations.of(context)!.downloadSingleVideoButtonTooltip,
         child: TextButton(
@@ -881,7 +893,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     required ThemeProviderVM themeProviderVM,
   }) {
     return SizedBox(
-      width: kNormalButtonWidth - 25,
+      // sets the rounded TextButton size improving the distance
+      // between the button text and its boarder
+      width: kNormalButtonWidth - 18,
+      height: kNormalButtonHeight,
       child: Tooltip(
         message: AppLocalizations.of(context)!.addPlaylistButtonTooltip,
         child: TextButton(
