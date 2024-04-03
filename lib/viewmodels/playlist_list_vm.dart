@@ -36,15 +36,13 @@ import 'warning_message_vm.dart';
 class PlaylistListVM extends ChangeNotifier {
   bool _isListExpanded = false;
   bool _isButtonDownloadSelPlaylistsEnabled = false;
-  bool _isButtonMoveUpPlaylistEnabled = false;
-  bool _isButtonMoveDownPlaylistEnabled = false;
+  bool _isButtonMovePlaylistEnabled = false;
   bool _isButtonAudioPopupMenuEnabled = false;
 
   bool get isListExpanded => _isListExpanded;
   bool get isButtonDownloadSelPlaylistsEnabled =>
       _isButtonDownloadSelPlaylistsEnabled;
-  bool get isButtonMoveUpPlaylistEnabled => _isButtonMoveUpPlaylistEnabled;
-  bool get isButtonMoveDownPlaylistEnabled => _isButtonMoveDownPlaylistEnabled;
+  bool get isButtonMovePlaylistEnabled => _isButtonMovePlaylistEnabled;
   bool get isButtonAudioPopupMenuEnabled => _isButtonAudioPopupMenuEnabled;
 
   final AudioDownloadVM _audioDownloadVM;
@@ -802,7 +800,7 @@ class PlaylistListVM extends ChangeNotifier {
     required Playlist selectedPlaylist,
   }) {
     if (_isListExpanded) {
-      _enableExpandedListButtons();
+      _isButtonMovePlaylistEnabled = true;
     }
 
     if (selectedPlaylist.playlistType == PlaylistType.local) {
@@ -833,11 +831,6 @@ class PlaylistListVM extends ChangeNotifier {
     } else {
       _isButtonAudioPopupMenuEnabled = false;
     }
-  }
-
-  void _enableExpandedListButtons() {
-    _isButtonMoveUpPlaylistEnabled = true;
-    _isButtonMoveDownPlaylistEnabled = true;
   }
 
   void _disableAllButtonsIfNoPlaylistIsSelected() {
@@ -874,8 +867,7 @@ class PlaylistListVM extends ChangeNotifier {
       _isButtonDownloadSelPlaylistsEnabled = false;
     }
 
-    _isButtonMoveUpPlaylistEnabled = false;
-    _isButtonMoveDownPlaylistEnabled = false;
+    _isButtonMovePlaylistEnabled = false;
   }
 
   // method not used
