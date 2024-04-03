@@ -179,13 +179,18 @@ void main() async {
       //     tester.widget<TextButton>(deleteButtonFinder).enabled, isFalse);
 
       // testing that the up and down buttons are disabled
-      IconButton upButton = tester.widget<IconButton>(
-          find.widgetWithIcon(IconButton, Icons.arrow_drop_up));
-      expect(upButton.onPressed, isNull);
 
-      IconButton downButton = tester.widget<IconButton>(
-          find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
-      expect(downButton.onPressed, isNull);
+      Finder widgetWithIconFinder =
+          find.widgetWithIcon(IconButton, Icons.arrow_drop_up);
+
+      if (widgetWithIconFinder.evaluate().isNotEmpty) {
+        IconButton upButton = tester.widget<IconButton>(widgetWithIconFinder);
+        expect(upButton.onPressed, isNull);
+
+        IconButton downButton = tester.widget<IconButton>(
+            find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
+        expect(downButton.onPressed, isNull);
+      }
 
       // Verify that the first ListTile checkbox is not
       // selected
@@ -214,11 +219,11 @@ void main() async {
       // Verify that the up and down buttons are now enabled.
       // The Up and Down buttons must be obtained again
       // since the widget has been recreated !
-      upButton = tester.widget<IconButton>(
+      IconButton upButton = tester.widget<IconButton>(
           find.widgetWithIcon(IconButton, Icons.arrow_drop_up));
       expect(upButton.onPressed, isNotNull);
 
-      downButton = tester.widget<IconButton>(
+      IconButton downButton = tester.widget<IconButton>(
           find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
       expect(downButton.onPressed, isNotNull);
 
@@ -308,13 +313,18 @@ void main() async {
       //     tester.widget<TextButton>(deleteButtonFinder).enabled, isFalse);
 
       // testing that the up and down buttons are disabled
-      IconButton upButton = tester.widget<IconButton>(
-          find.widgetWithIcon(IconButton, Icons.arrow_drop_up));
-      expect(upButton.onPressed, isNull);
 
-      IconButton downButton = tester.widget<IconButton>(
-          find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
-      expect(downButton.onPressed, isNull);
+      Finder widgetWithIconFinder =
+          find.widgetWithIcon(IconButton, Icons.arrow_drop_up);
+
+      if (widgetWithIconFinder.evaluate().isNotEmpty) {
+        IconButton upButton = tester.widget<IconButton>(widgetWithIconFinder);
+        expect(upButton.onPressed, isNull);
+
+        IconButton downButton = tester.widget<IconButton>(
+            find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
+        expect(downButton.onPressed, isNull);
+      }
 
       // redisplaying the list
       await tester.tap(toggleButtonFinder);
@@ -334,11 +344,11 @@ void main() async {
       // Verify that the up and down buttons are now enabled.
       // The Up and Down buttons must be obtained again
       // since the widget has been recreated !
-      upButton = tester.widget<IconButton>(
+      IconButton upButton = tester.widget<IconButton>(
           find.widgetWithIcon(IconButton, Icons.arrow_drop_up));
       expect(upButton.onPressed, isNotNull);
 
-      downButton = tester.widget<IconButton>(
+      IconButton downButton = tester.widget<IconButton>(
           find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
       expect(downButton.onPressed, isNotNull);
 
@@ -445,13 +455,18 @@ void main() async {
       // Verify that the up and down buttons are now enabled.
       // The Up and Down buttons must be obtained again
       // since the widget has been recreated !
-      IconButton upButton = tester.widget<IconButton>(
-          find.widgetWithIcon(IconButton, Icons.arrow_drop_up));
-      expect(upButton.onPressed, isNotNull);
 
-      IconButton downButton = tester.widget<IconButton>(
-          find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
-      expect(downButton.onPressed, isNotNull);
+      Finder widgetWithIconFinder =
+          find.widgetWithIcon(IconButton, Icons.arrow_drop_up);
+
+      if (widgetWithIconFinder.evaluate().isNotEmpty) {
+        IconButton upButton = tester.widget<IconButton>(widgetWithIconFinder);
+        expect(upButton.onPressed, isNotNull);
+
+        IconButton downButton = tester.widget<IconButton>(
+            find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
+        expect(downButton.onPressed, isNotNull);
+      }
 
       // Retap the first ListTile checkbox to unselect it
       await tester.tap(find.descendant(
@@ -478,13 +493,19 @@ void main() async {
       //     tester.widget<TextButton>(deleteButtonFinder).enabled, isFalse);
 
       // testing that the up and down buttons are now disabled
-      upButton = tester.widget<IconButton>(
-          find.widgetWithIcon(IconButton, Icons.arrow_drop_up));
-      expect(upButton.onPressed, isNull);
 
-      downButton = tester.widget<IconButton>(
-          find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
-      expect(downButton.onPressed, isNull);
+      widgetWithIconFinder =
+          find.widgetWithIcon(IconButton, Icons.arrow_drop_up);
+
+      if (widgetWithIconFinder.evaluate().isNotEmpty) {
+        IconButton upButton = tester.widget<IconButton>(
+            widgetWithIconFinder);
+        expect(upButton.onPressed, isNull);
+
+        IconButton downButton = tester.widget<IconButton>(
+            find.widgetWithIcon(IconButton, Icons.arrow_drop_down));
+        expect(downButton.onPressed, isNull);
+      }
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub

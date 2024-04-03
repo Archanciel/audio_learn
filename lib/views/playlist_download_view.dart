@@ -51,6 +51,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   bool _wasSortFilterAudioSettingsApplied = false;
 
+  String? _selectedSortFilterParameters;
+
   //request permission from initStateMethod
   @override
   void initState() {
@@ -290,7 +292,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             ),
           ),
         ),
-        _buildPlaylistMoveIconButtons(playlistListVMlistenFalse),
+        (playlistListVMlistenFalse.isButtonMovePlaylistEnabled)
+            ? _buildPlaylistMoveIconButtons(playlistListVMlistenFalse)
+            : _buildSortFilterParametersDropdownButton(),
         SizedBox(
           // sets the rounded TextButton size improving the distance
           // between the button text and its boarder
@@ -400,6 +404,30 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         _buildAudioPopupMenuButton(
           context: context,
           playlistListVMlistenFalse: playlistListVMlistenFalse,
+        ),
+      ],
+    );
+  }
+
+  Row _buildSortFilterParametersDropdownButton() {
+    List<DropdownMenuItem<String>> dropdownItems = [
+      const DropdownMenuItem(value: "Option 1", child: Text("Option 1")),
+      const DropdownMenuItem(value: "Option 2", child: Text("Option 2")),
+      // Add more items here
+    ];
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        DropdownButton<String>(
+          value: _selectedSortFilterParameters,
+          items: dropdownItems,
+          onChanged: (value) {
+            setState(() {
+              _selectedSortFilterParameters = value;
+            });
+          },
+          hint: const Text('Select an Option'),
         ),
       ],
     );

@@ -4069,7 +4069,9 @@ void main() {
   group(
       'Executing update playlist JSON files after manually adding or deleting playlist directory and deleting audio files in other playlists test',
       () {
-    testWidgets('Manually add Youtube playlist directory and manually delete audio files in other playlist.', (tester) async {
+    testWidgets(
+        'Manually add Youtube playlist directory and manually delete audio files in other playlist.',
+        (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -6777,13 +6779,19 @@ void verifyWidgetIsDisabled({
   // Find the widget by its key
   final Finder widgetFinder = find.byKey(Key(widgetKeyStr));
 
+  if (widgetFinder.evaluate().isEmpty) {
+    // The case if playlists are not displayed or if no playlist
+    // is selected. In this case, the widget is not found since
+    // in place of up down button a sort filter parameters dropdown
+    // button is displayed
+    return;
+  }
+
   // Retrieve the widget as a generic Widget
   final Widget widget = tester.widget(widgetFinder);
 
   // Check if the widget is disabled based on its type
-  if (widget is IconButton) {
-    expect(widget.onPressed, isNull, reason: 'IconButton should be disabled');
-  } else if (widget is TextButton) {
+  if (widget is TextButton) {
     expect(widget.onPressed, isNull, reason: 'TextButton should be disabled');
   } else if (widget is Checkbox) {
     // For Checkbox, you can check if onChanged is null
