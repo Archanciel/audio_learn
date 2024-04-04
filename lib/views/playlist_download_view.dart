@@ -422,8 +422,38 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   /// AND if a playlist is selected.
   Row _buildSortFilterParametersDropdownButton() {
     List<DropdownMenuItem<String>> dropdownItems = [
-      const DropdownMenuItem(value: "Option 1", child: Text("Option 1")),
-      const DropdownMenuItem(value: "Option 2", child: Text("Option 2")),
+      DropdownMenuItem(
+        value: "Option 1",
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            const Text("Option 1"),
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                // Handle the icon button press here
+                print('Icon Button pressed for Option 1');
+              },
+            ),
+          ],
+        ),
+      ),
+      DropdownMenuItem(
+        value: "Option 2",
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            const Text("Option 2"),
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                // Handle the icon button press here
+                print('Icon Button pressed for Option 2');
+              },
+            ),
+          ],
+        ),
+      ),
       // Add more items here
     ];
 
