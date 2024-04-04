@@ -50,6 +50,8 @@ class PlaylistListVM extends ChangeNotifier {
   final SettingsDataService _settingsDataService;
 
   bool _isOnePlaylistSelected = true;
+  bool get isOnePlaylistSelected => _isOnePlaylistSelected;
+  
   List<Playlist> _listOfSelectablePlaylists = [];
   List<Audio>? _sortedFilteredSelectedPlaylistsPlayableAudios;
   List<Audio>? get sortedFilteredSelectedPlaylistsPlayableAudios =>

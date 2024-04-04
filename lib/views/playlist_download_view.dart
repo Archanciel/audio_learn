@@ -88,6 +88,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       context,
       listen: false,
     );
+    final PlaylistListVM playlistListVMlistenTrue = Provider.of<PlaylistListVM>(
+      context,
+      listen: true,
+    );
 
     return Column(
       children: <Widget>[
@@ -109,6 +113,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           audioDownloadViewModel: audioDownloadViewModel,
           themeProviderVM: themeProviderVM,
           playlistListVMlistenFalse: playlistListVMlistenFalse,
+          playlistListVMlistenTrue: playlistListVMlistenTrue,
         ),
         // displaying the currently downloading audiodownload
         // informations.
@@ -117,6 +122,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           context: context,
           themeProviderVM: themeProviderVM,
           playlistListVMlistenFalse: playlistListVMlistenFalse,
+          playlistListVMlistenTrue: playlistListVMlistenTrue,
         ),
         _buildExpandedPlaylistList(),
         _buildExpandedAudioList(),
@@ -246,6 +252,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     required BuildContext context,
     required ThemeProviderVM themeProviderVM,
     required PlaylistListVM playlistListVMlistenFalse,
+    required PlaylistListVM playlistListVMlistenTrue,
   }) {
     final AudioDownloadVM audioDownloadViewModel = Provider.of<AudioDownloadVM>(
       context,
@@ -292,9 +299,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             ),
           ),
         ),
-        (playlistListVMlistenFalse.isButtonMovePlaylistEnabled)
+        (playlistListVMlistenTrue.isListExpanded)
             ? _buildPlaylistMoveIconButtons(playlistListVMlistenFalse)
-            : _buildSortFilterParametersDropdownButton(),
+            : (playlistListVMlistenTrue.isOnePlaylistSelected)
+                ? _buildSortFilterParametersDropdownButton()
+                : _buildPlaylistMoveIconButtons(playlistListVMlistenFalse),
         SizedBox(
           // sets the rounded TextButton size improving the distance
           // between the button text and its boarder
@@ -409,6 +418,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
+  /// Method called only if the list of playlists is NOT expanded
+  /// AND if a playlist is selected.
   Row _buildSortFilterParametersDropdownButton() {
     List<DropdownMenuItem<String>> dropdownItems = [
       const DropdownMenuItem(value: "Option 1", child: Text("Option 1")),
@@ -478,6 +489,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     required AudioDownloadVM audioDownloadViewModel,
     required ThemeProviderVM themeProviderVM,
     required PlaylistListVM playlistListVMlistenFalse,
+    required PlaylistListVM playlistListVMlistenTrue,
   }) {
     return SizedBox(
       height: 40,
@@ -486,6 +498,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         children: [
           _buildPlaylistUrlAndTitle(
             context: context,
+            playlistListVMlistenTrue: playlistListVMlistenTrue,
           ),
           const SizedBox(
             width: kRowSmallWidthSeparator,
@@ -871,12 +884,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   Expanded _buildPlaylistUrlAndTitle({
     required BuildContext context,
+    required PlaylistListVM playlistListVMlistenTrue,
   }) {
-    PlaylistListVM playlistListVMlistenTrue = Provider.of<PlaylistListVM>(
-      context,
-      listen: true,
-    );
-
     return Expanded(
       // necessary to avoid Exception
       child: Column(

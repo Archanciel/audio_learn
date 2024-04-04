@@ -6791,7 +6791,9 @@ void verifyWidgetIsDisabled({
   final Widget widget = tester.widget(widgetFinder);
 
   // Check if the widget is disabled based on its type
-  if (widget is TextButton) {
+  if (widget is IconButton) {
+    expect(widget.onPressed, isNull, reason: 'IconButton should be disabled');
+  } else if (widget is TextButton) {
     expect(widget.onPressed, isNull, reason: 'TextButton should be disabled');
   } else if (widget is Checkbox) {
     // For Checkbox, you can check if onChanged is null
