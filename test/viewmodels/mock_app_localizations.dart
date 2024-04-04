@@ -783,4 +783,7 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get playableAudioDialogSortDescriptionTooltipTopDurationSmaller =>
       "Les audios au bas de l'écran ont été téléchargés après les audios en haut de l'écran.";
+
+  @override
+  String get saveAs => "Save as:";
 }

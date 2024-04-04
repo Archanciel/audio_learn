@@ -294,6 +294,41 @@ class _SortAndFilterAudioDialogWidgetState
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
+                        AppLocalizations.of(context)!.saveAs,
+                        style: kDialogTitlesStyle,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        width: 200,
+                        child: Tooltip(
+                          message: AppLocalizations.of(context)!
+                              .audioTitleSearchSentenceTextFieldTooltip,
+                          child: TextField(
+                            key: const Key('audioTitleSearchSentenceTextField'),
+                            focusNode: _audioTitleSearchSentenceFocusNode,
+                            style: kDialogTextFieldStyle,
+                            decoration: _dialogTextFieldDecoration,
+                            controller: _audioTitleSearchSentenceController,
+                            keyboardType: TextInputType.text,
+                            onChanged: (value) {
+                              _audioTitleSearchSentence = value;
+                              _audioTitleSearchSentencePlusButtonIconColor =
+                                  _audioTitleSearchSentence.isNotEmpty
+                                      ? kDarkAndLightIconColor
+                                      : kDarkAndLightDisabledIconColorOnDialog;
+
+                              setState(
+                                  () {}); // necessary to update Plus button color
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
                         AppLocalizations.of(context)!.sortBy,
                         style: kDialogTitlesStyle,
                       ),

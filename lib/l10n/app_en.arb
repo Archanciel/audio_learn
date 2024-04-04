@@ -273,5 +273,6 @@
   "playableAudioDialogSortDescriptionTooltipBottomUploadBefore": "The videos of the audios at the bottom of the screen were uploaded before the videos of the audios at the top of the screen.",
   "playableAudioDialogSortDescriptionTooltipBottomUploadAfter": "The videos of the audios at the bottom of the screen were uploaded after the videos of the audios at the top of the screen.",
   "playableAudioDialogSortDescriptionTooltipTopDurationBigger": "The duration of the audios at the top of the screen is bigger than the duration of the audios at the bottom of the screen.",
-  "playableAudioDialogSortDescriptionTooltipTopDurationSmaller": "The duration of the audios at the top of the screen is smaller than the duration of the audios at the bottom of the screen."
+  "playableAudioDialogSortDescriptionTooltipTopDurationSmaller": "The duration of the audios at the top of the screen is smaller than the duration of the audios at the bottom of the screen.",
+  "saveAs": "Save as:"
 }

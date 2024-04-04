@@ -271,5 +271,6 @@
   "playableAudioDialogSortDescriptionTooltipBottomDownloadBefore": "Les audios au bas de l'écran ont été téléchargés avant les audios en haut de l'écran.",
   "playableAudioDialogSortDescriptionTooltipBottomDownloadAfter": "Les audios au bas de l'écran ont été téléchargés après les audios en haut de l'écran.",
   "playableAudioDialogSortDescriptionTooltipTopDurationBigger": "La durée des audios en haut de l'écran est supérieure à la durée des audios au bas de l'écran.",
-  "playableAudioDialogSortDescriptionTooltipTopDurationSmaller": "La durée des audios en haut de l'écran est inférieure à la durée des audios au bas de l'écran."
+  "playableAudioDialogSortDescriptionTooltipTopDurationSmaller": "La durée des audios en haut de l'écran est inférieure à la durée des audios au bas de l'écran.",
+  "saveAs": "Enregistrer sous:"
 }
