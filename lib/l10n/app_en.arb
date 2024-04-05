@@ -249,7 +249,6 @@
   "clickToSetAscendingOrDescendingTooltip": "Click to set ascending or descending sort order.",
   "and": "And",
   "or": "Or",
-  "sortFilterSaveAsTextFieldTooltip": "Saving with the same \"Save as\" name updates the existing sort/filter settings to the modified parameters.",
   "audioTitleSearchSentenceTextFieldTooltip": "Contains a word or a sentence searched on video title and on video description if checkbox 'Include description' is set.",
   "andSentencesTooltip": "If set, only audio containing all the listed words or sentences are selected.",
   "orSentencesTooltip": "If set, audio containing one of the listed words or sentences are selected.",
@@ -275,7 +274,9 @@
   "playableAudioDialogSortDescriptionTooltipTopDurationBigger": "The duration of the audios at the top of the screen is bigger than the duration of the audios at the bottom of the screen.",
   "playableAudioDialogSortDescriptionTooltipTopDurationSmaller": "The duration of the audios at the top of the screen is smaller than the duration of the audios at the bottom of the screen.",
   "saveAs": "Save as:",
+  "sortFilterSaveAsTextFieldTooltip": "Saving with the same \"Save as\" name updates the existing sort/filter settings to the modified parameters.",
   "applySortFilterToView": "Apply sort/filter to views:",
+  "applySortFilterToViewTooltip": "Selecting sort/filter application to one or two audio views. This will be applied to the playlists to which this sort/filter is associated.",
   "saveSortFilterOptionsTooltip": "If the name already exists, the existing sort/filter options are updated with the modified parameters.",
   "deleteSortFilterOptionsTooltip": "If those sort/filter options are applied in a view, the Default sort/filter options will be applied instead.",
   "deleteShort": "Delete"

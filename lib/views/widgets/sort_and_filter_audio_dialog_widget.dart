@@ -323,12 +323,6 @@ class _SortAndFilterAudioDialogWidgetState
                       const SizedBox(
                         height: 14,
                       ),
-                      Text(
-                        AppLocalizations.of(context)!.videoTitleOrDescription,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       _buildAudioFilterSentence(),
                       _buildAudioFilterSentencesLst(),
                       Row(
@@ -449,13 +443,6 @@ class _SortAndFilterAudioDialogWidgetState
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        AppLocalizations.of(context)!.applySortFilterToView,
-                        style: kDialogTitlesStyle,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       _buildApplySortFilterView(context, themeProviderVM),
                     ],
                   ),
@@ -471,22 +458,21 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  Column _buildSaveAsFields(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          AppLocalizations.of(context)!.saveAs,
-          style: kDialogTitlesStyle,
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        SizedBox(
-          width: 200,
-          child: Tooltip(
-            message:
-                AppLocalizations.of(context)!.sortFilterSaveAsTextFieldTooltip,
+  Widget _buildSaveAsFields(BuildContext context) {
+    return Tooltip(
+      message: AppLocalizations.of(context)!.sortFilterSaveAsTextFieldTooltip,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.saveAs,
+            style: kDialogTitlesStyle,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          SizedBox(
+            width: 200,
             child: TextField(
               key: const Key('sortFilterSaveAsTextField'),
               style: kDialogTextFieldStyle,
@@ -498,69 +484,79 @@ class _SortAndFilterAudioDialogWidgetState
               },
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Column _buildApplySortFilterView(
+  Widget _buildApplySortFilterView(
       BuildContext context, ThemeProviderVM themeProviderVM) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              AppLocalizations.of(context)!.appBarTitleDownloadAudio,
-            ),
-            Checkbox(
-              key: const Key('audioDownloadViewCheckbox'),
-              fillColor: MaterialStateColor.resolveWith(
-                (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.disabled)) {
-                    return kDarkAndLightDisabledIconColorOnDialog;
-                  }
-                  return kDarkAndLightIconColor;
+    return Tooltip(
+      message: AppLocalizations.of(context)!.applySortFilterToViewTooltip,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.applySortFilterToView,
+            style: kDialogTitlesStyle,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                AppLocalizations.of(context)!.appBarTitleDownloadAudio,
+              ),
+              Checkbox(
+                key: const Key('audioDownloadViewCheckbox'),
+                fillColor: MaterialStateColor.resolveWith(
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.disabled)) {
+                      return kDarkAndLightDisabledIconColorOnDialog;
+                    }
+                    return kDarkAndLightIconColor;
+                  },
+                ),
+                value: _applySortFilterToAudioDownloadView,
+                onChanged: (bool? newValue) {
+                  setState(() {
+                    _applySortFilterToAudioDownloadView = newValue!;
+                  });
                 },
               ),
-              value: _applySortFilterToAudioDownloadView,
-              onChanged: (bool? newValue) {
-                setState(() {
-                  _applySortFilterToAudioDownloadView = newValue!;
-                });
-              },
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.appBarTitleAudioPlayer,
-            ),
-            Checkbox(
-              key: const Key('audioPlayerViewCheckbox'),
-              fillColor: MaterialStateColor.resolveWith(
-                (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.disabled)) {
-                    return kDarkAndLightDisabledIconColorOnDialog;
-                  }
-                  return kDarkAndLightIconColor;
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.appBarTitleAudioPlayer,
+              ),
+              Checkbox(
+                key: const Key('audioPlayerViewCheckbox'),
+                fillColor: MaterialStateColor.resolveWith(
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.disabled)) {
+                      return kDarkAndLightDisabledIconColorOnDialog;
+                    }
+                    return kDarkAndLightIconColor;
+                  },
+                ),
+                value: _applySortFilterToAudioPlayerView,
+                onChanged: (bool? newValue) {
+                  setState(() {
+                    _applySortFilterToAudioPlayerView = newValue!;
+                  });
                 },
               ),
-              value: _applySortFilterToAudioPlayerView,
-              onChanged: (bool? newValue) {
-                setState(() {
-                  _applySortFilterToAudioPlayerView = newValue!;
-                });
-              },
-            ),
-          ],
-        )
-      ],
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -587,7 +583,7 @@ class _SortAndFilterAudioDialogWidgetState
         Tooltip(
           message: AppLocalizations.of(context)!.saveSortFilterOptionsTooltip,
           child: TextButton(
-            key: const Key('saveSortFilterOptionsIconButton'),
+            key: const Key('saveSortFilterOptionsTextButton'),
             onPressed: () async {
               setState(() {
                 _setPlaylistSortFilterOptions();
@@ -608,7 +604,7 @@ class _SortAndFilterAudioDialogWidgetState
         Tooltip(
           message: AppLocalizations.of(context)!.deleteSortFilterOptionsTooltip,
           child: TextButton(
-            key: const Key('deleteSortFilterButton'),
+            key: const Key('deleteSortFilterTextButton'),
             onPressed: () {
               // Apply sorting and filtering options
               List<dynamic> filterSortAudioAndParmLst =
@@ -1019,55 +1015,66 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  SizedBox _buildAudioFilterSentence() {
-    return SizedBox(
-      height: kDialogTextFieldHeight,
-      child: Row(
+  Widget _buildAudioFilterSentence() {
+    return Tooltip(
+      message: AppLocalizations.of(context)!
+          .audioTitleSearchSentenceTextFieldTooltip,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 200,
-            child: Tooltip(
-              message: AppLocalizations.of(context)!
-                  .audioTitleSearchSentenceTextFieldTooltip,
-              child: TextField(
-                key: const Key('audioTitleSearchSentenceTextField'),
-                focusNode: _audioTitleSearchSentenceFocusNode,
-                style: kDialogTextFieldStyle,
-                decoration: _dialogTextFieldDecoration,
-                controller: _audioTitleSearchSentenceController,
-                keyboardType: TextInputType.text,
-                onChanged: (value) {
-                  _audioTitleSearchSentence = value;
-                  _audioTitleSearchSentencePlusButtonIconColor =
-                      _audioTitleSearchSentence.isNotEmpty
-                          ? kDarkAndLightIconColor
-                          : kDarkAndLightDisabledIconColorOnDialog;
-
-                  setState(() {}); // necessary to update Plus button color
-                },
-              ),
-            ),
+          Text(
+            AppLocalizations.of(context)!.videoTitleOrDescription,
+          ),
+          const SizedBox(
+            height: 5,
           ),
           SizedBox(
-            width: kSmallIconButtonWidth,
-            child: IconButton(
-              key: const Key('addSentenceIconButton'),
-              onPressed: () async {
-                (_audioTitleSearchSentence != '')
-                    ? setState(() {
-                        _addSentenceToFilterSentencesLst();
-                      })
-                    : null;
-              },
-              padding: const EdgeInsets.all(0),
-              icon: Icon(
-                Icons.add,
-                // since in the Dialog the disabled IconButton color
-                // is not grey, we need to set it manually. Additionally,
-                // the sentence TextField onChanged callback must execute
-                // setState() to update the IconButton color
-                color: _audioTitleSearchSentencePlusButtonIconColor,
-              ),
+            height: kDialogTextFieldHeight,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 200,
+                  child: TextField(
+                    key: const Key('audioTitleSearchSentenceTextField'),
+                    focusNode: _audioTitleSearchSentenceFocusNode,
+                    style: kDialogTextFieldStyle,
+                    decoration: _dialogTextFieldDecoration,
+                    controller: _audioTitleSearchSentenceController,
+                    keyboardType: TextInputType.text,
+                    onChanged: (value) {
+                      _audioTitleSearchSentence = value;
+                      _audioTitleSearchSentencePlusButtonIconColor =
+                          _audioTitleSearchSentence.isNotEmpty
+                              ? kDarkAndLightIconColor
+                              : kDarkAndLightDisabledIconColorOnDialog;
+
+                      setState(() {}); // necessary to update Plus button color
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: kSmallIconButtonWidth,
+                  child: IconButton(
+                    key: const Key('addSentenceIconButton'),
+                    onPressed: () async {
+                      (_audioTitleSearchSentence != '')
+                          ? setState(() {
+                              _addSentenceToFilterSentencesLst();
+                            })
+                          : null;
+                    },
+                    padding: const EdgeInsets.all(0),
+                    icon: Icon(
+                      Icons.add,
+                      // since in the Dialog the disabled IconButton color
+                      // is not grey, we need to set it manually. Additionally,
+                      // the sentence TextField onChanged callback must execute
+                      // setState() to update the IconButton color
+                      color: _audioTitleSearchSentencePlusButtonIconColor,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

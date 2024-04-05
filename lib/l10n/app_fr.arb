@@ -249,7 +249,6 @@
   "clickToSetAscendingOrDescendingTooltip": "Cliquez pour définir l'ordre de tri croissant ou décroissant.",
   "and": "Et",
   "or": "Ou",
-  "sortFilterSaveAsTextFieldTooltip": "Enregistrer avec le même nom \"Enregistrer sous\" met à jour les paramètres de tri/filtre existants avec les paramètres modifiés.",
   "audioTitleSearchSentenceTextFieldTooltip": "Contient un mot ou une phrase recherchée dans le titre de la vidéo et dans la description de la vidéo si la case 'Inclure la description' est cochée.",
   "andSentencesTooltip": "Si défini, seuls les audios contenant tous les mots ou phrases listés sont sélectionnés.",
   "orSentencesTooltip": "Si défini, les audios contenant l'un des mots ou phrases listés sont sélectionnés.",
@@ -273,7 +272,9 @@
   "playableAudioDialogSortDescriptionTooltipTopDurationBigger": "La durée des audios en haut de l'écran est supérieure à la durée des audios au bas de l'écran.",
   "playableAudioDialogSortDescriptionTooltipTopDurationSmaller": "La durée des audios en haut de l'écran est inférieure à la durée des audios au bas de l'écran.",
   "saveAs": "Enregistrer sous:",
+  "sortFilterSaveAsTextFieldTooltip": "Enregistrer avec le même nom \"Enregistrer sous\" met à jour les paramètres de tri/filtre existants avec les paramètres modifiés.",
   "applySortFilterToView": "Appliquer le tri/filtre aux vues:",
+  "applySortFilterToViewTooltip": "Application du tri/filtrage à une ou deux vues audio. Ceci sera appliqué aux playlists auxquelles ce tri/filtrage est associé.",
   "saveSortFilterOptionsTooltip": "Si le nom existe déjà, les options de tri/filtrage existantes sont mises à jour avec les paramètres modifiés.",
   "deleteSortFilterOptionsTooltip": "Si ces options de tri/filtre sont appliquées dans une vue, les options de tri/filtre par défaut seront appliquées à la place.",
   "deleteShort": "Suppr"
