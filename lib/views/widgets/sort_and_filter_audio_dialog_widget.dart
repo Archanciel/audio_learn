@@ -474,66 +474,71 @@ class _SortAndFilterAudioDialogWidgetState
             ),
           ),
           actions: [
-            Tooltip(
-              message:
-                  AppLocalizations.of(context)!.resetSortFilterOptionsTooltip,
-              child: IconButton(
-                key: const Key('resetSortFilterOptionsIconButton'),
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  setState(() {
-                    _resetSortFilterOptions();
-                  });
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Tooltip(
+                  message: AppLocalizations.of(context)!
+                      .resetSortFilterOptionsTooltip,
+                  child: IconButton(
+                    key: const Key('resetSortFilterOptionsIconButton'),
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        _resetSortFilterOptions();
+                      });
 
-                  // now clicking on Enter works since the
-                  // Checkbox is not focused anymore
-                  _audioTitleSearchSentenceFocusNode.requestFocus();
-                },
-              ),
-            ),
-            Tooltip(
-              message: AppLocalizations.of(context)!
-                  .setPlaylistSortFilterOptionsTooltip,
-              child: IconButton(
-                key: const Key('setPlaylistSortFilterOptionsIconButton'),
-                icon: const Icon(Icons.perm_data_setting),
-                onPressed: () async {
-                  setState(() {
-                    _setPlaylistSortFilterOptions();
-                  });
+                      // now clicking on Enter works since the
+                      // Checkbox is not focused anymore
+                      _audioTitleSearchSentenceFocusNode.requestFocus();
+                    },
+                  ),
+                ),
+                Tooltip(
+                  message: AppLocalizations.of(context)!
+                      .setPlaylistSortFilterOptionsTooltip,
+                  child: IconButton(
+                    key: const Key('setPlaylistSortFilterOptionsIconButton'),
+                    icon: const Icon(Icons.perm_data_setting),
+                    onPressed: () async {
+                      setState(() {
+                        _setPlaylistSortFilterOptions();
+                      });
 
-                  // now clicking on Enter works since the
-                  // Checkbox is not focused anymore
-                  _audioTitleSearchSentenceFocusNode.requestFocus();
-                },
-              ),
-            ),
-            TextButton(
-              key: const Key('applySortFilterButton'),
-              onPressed: () {
-                // Apply sorting and filtering options
-                List<dynamic> filterSortAudioAndParmLst =
-                    _filterAndSortAudioLst();
-                Navigator.of(context).pop(filterSortAudioAndParmLst);
-              },
-              child: Text(
-                AppLocalizations.of(context)!.apply,
-                style: (themeProviderVM.currentTheme == AppTheme.dark)
-                    ? kTextButtonStyleDarkMode
-                    : kTextButtonStyleLightMode,
-              ),
-            ),
-            TextButton(
-              key: const Key('cancelSortFilterButton'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                AppLocalizations.of(context)!.cancel,
-                style: (themeProviderVM.currentTheme == AppTheme.dark)
-                    ? kTextButtonStyleDarkMode
-                    : kTextButtonStyleLightMode,
-              ),
+                      // now clicking on Enter works since the
+                      // Checkbox is not focused anymore
+                      _audioTitleSearchSentenceFocusNode.requestFocus();
+                    },
+                  ),
+                ),
+                TextButton(
+                  key: const Key('applySortFilterButton'),
+                  onPressed: () {
+                    // Apply sorting and filtering options
+                    List<dynamic> filterSortAudioAndParmLst =
+                        _filterAndSortAudioLst();
+                    Navigator.of(context).pop(filterSortAudioAndParmLst);
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.apply,
+                    style: (themeProviderVM.currentTheme == AppTheme.dark)
+                        ? kTextButtonStyleDarkMode
+                        : kTextButtonStyleLightMode,
+                  ),
+                ),
+                TextButton(
+                  key: const Key('cancelSortFilterButton'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.cancel,
+                    style: (themeProviderVM.currentTheme == AppTheme.dark)
+                        ? kTextButtonStyleDarkMode
+                        : kTextButtonStyleLightMode,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
