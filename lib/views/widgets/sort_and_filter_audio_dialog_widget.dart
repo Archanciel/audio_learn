@@ -52,6 +52,8 @@ class _SortAndFilterAudioDialogWidgetState
   late bool _filterFullyListened;
   late bool _filterPartiallyListened;
   late bool _filterNotListened;
+  bool _applySortFilterToAudioDownloadView = false;
+  bool _applySortFilterToAudioPlayerView = false;
 
   final TextEditingController _startFileSizeController =
       TextEditingController();
@@ -161,6 +163,8 @@ class _SortAndFilterAudioDialogWidgetState
     _endAudioDurationController.clear();
     _startFileSizeController.clear();
     _endFileSizeController.clear();
+    _applySortFilterToAudioDownloadView = false;
+    _applySortFilterToAudioPlayerView = false;
   }
 
   void _setPlaylistSortFilterOptions() {
@@ -442,6 +446,17 @@ class _SortAndFilterAudioDialogWidgetState
                         height: 10,
                       ),
                       _buildAudioDurationFields(context),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.applySortFilterToView,
+                        style: kDialogTitlesStyle,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      _buildApplySortFilterView(context, themeProviderVM),
                     ],
                   ),
                 );
@@ -449,7 +464,7 @@ class _SortAndFilterAudioDialogWidgetState
             ),
           ),
           actions: [
-            _buildActionsRowTwo(context, themeProviderVM),
+            _buildActionsLine(context, themeProviderVM),
           ],
         ),
       ),
@@ -470,8 +485,8 @@ class _SortAndFilterAudioDialogWidgetState
         SizedBox(
           width: 200,
           child: Tooltip(
-            message: AppLocalizations.of(context)!
-                .sortFilterSaveAsTextFieldTooltip,
+            message:
+                AppLocalizations.of(context)!.sortFilterSaveAsTextFieldTooltip,
             child: TextField(
               key: const Key('sortFilterSaveAsTextField'),
               style: kDialogTextFieldStyle,
@@ -488,8 +503,68 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  Row _buildActionsRowTwo(
+  Column _buildApplySortFilterView(
       BuildContext context, ThemeProviderVM themeProviderVM) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              AppLocalizations.of(context)!.appBarTitleDownloadAudio,
+            ),
+            Checkbox(
+              key: const Key('audioDownloadViewCheckbox'),
+              fillColor: MaterialStateColor.resolveWith(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return kDarkAndLightDisabledIconColorOnDialog;
+                  }
+                  return kDarkAndLightIconColor;
+                },
+              ),
+              value: _applySortFilterToAudioDownloadView,
+              onChanged: (bool? newValue) {
+                setState(() {
+                  _applySortFilterToAudioDownloadView = newValue!;
+                });
+              },
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.appBarTitleAudioPlayer,
+            ),
+            Checkbox(
+              key: const Key('audioPlayerViewCheckbox'),
+              fillColor: MaterialStateColor.resolveWith(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return kDarkAndLightDisabledIconColorOnDialog;
+                  }
+                  return kDarkAndLightIconColor;
+                },
+              ),
+              value: _applySortFilterToAudioPlayerView,
+              onChanged: (bool? newValue) {
+                setState(() {
+                  _applySortFilterToAudioPlayerView = newValue!;
+                });
+              },
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Row _buildActionsLine(BuildContext context, ThemeProviderVM themeProviderVM) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -510,11 +585,9 @@ class _SortAndFilterAudioDialogWidgetState
           ),
         ),
         Tooltip(
-          message:
-              AppLocalizations.of(context)!.setPlaylistSortFilterOptionsTooltip,
-          child: IconButton(
-            key: const Key('setPlaylistSortFilterOptionsIconButton'),
-            icon: const Icon(Icons.perm_data_setting),
+          message: AppLocalizations.of(context)!.saveSortFilterOptionsTooltip,
+          child: TextButton(
+            key: const Key('saveSortFilterOptionsIconButton'),
             onPressed: () async {
               setState(() {
                 _setPlaylistSortFilterOptions();
@@ -524,20 +597,30 @@ class _SortAndFilterAudioDialogWidgetState
               // Checkbox is not focused anymore
               _audioTitleSearchSentenceFocusNode.requestFocus();
             },
+            child: Text(
+              AppLocalizations.of(context)!.saveButton,
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
+            ),
           ),
         ),
-        TextButton(
-          key: const Key('applySortFilterButton'),
-          onPressed: () {
-            // Apply sorting and filtering options
-            List<dynamic> filterSortAudioAndParmLst = _filterAndSortAudioLst();
-            Navigator.of(context).pop(filterSortAudioAndParmLst);
-          },
-          child: Text(
-            AppLocalizations.of(context)!.apply,
-            style: (themeProviderVM.currentTheme == AppTheme.dark)
-                ? kTextButtonStyleDarkMode
-                : kTextButtonStyleLightMode,
+        Tooltip(
+          message: AppLocalizations.of(context)!.deleteSortFilterOptionsTooltip,
+          child: TextButton(
+            key: const Key('deleteSortFilterButton'),
+            onPressed: () {
+              // Apply sorting and filtering options
+              List<dynamic> filterSortAudioAndParmLst =
+                  _filterAndSortAudioLst();
+              Navigator.of(context).pop(filterSortAudioAndParmLst);
+            },
+            child: Text(
+              AppLocalizations.of(context)!.deleteShort,
+              style: (themeProviderVM.currentTheme == AppTheme.dark)
+                  ? kTextButtonStyleDarkMode
+                  : kTextButtonStyleLightMode,
+            ),
           ),
         ),
         TextButton(

@@ -668,10 +668,6 @@ class MockAppLocalizations extends AppLocalizations {
   String get resetSortFilterOptionsTooltip => 'Reset sort and filter options';
 
   @override
-  String get setPlaylistSortFilterOptionsTooltip =>
-      'Set sort and filter options stored in playlist';
-
-  @override
   String get clickToSetAscendingOrDescendingTooltip =>
       'Click to set ascending or descending';
 
@@ -790,4 +786,18 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get sortFilterSaveAsTextFieldTooltip =>
       "Saving with the same \"Save as\" name updates the existing sort/filter settings to the modified parameters.";
+
+  @override
+  String get applySortFilterToView => "Apply sort/filter to view";
+
+  @override
+  String get saveSortFilterOptionsTooltip =>
+      "If the name already exists, the existing sort/filter options are updated with the modified parameters.";
+
+  @override
+  String get deleteSortFilterOptionsTooltip =>
+      "If those sort/filter options are applied in a view, the Default sort/filter options will be applied instead.";
+
+  @override
+  String get deleteShort => "Delete";
 }

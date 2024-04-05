@@ -53,7 +53,7 @@
   "endDownloadDate": "End downl date",
   "startUploadDate": "Start upl date",
   "endUploadDate": "End upl date",
-  "fileSizeRange": "File Size Range (bytes)",
+  "fileSizeRange": "File size range (bytes)",
   "start": "Start",
   "end": "End",
   "audioDurationRange": "Audio duration range (hh:mm)",
@@ -246,7 +246,6 @@
   "increaseAudioVolumeIconButton": "Increase audio volume",
   "decreaseAudioVolumeIconButton": "Decrease audio volume",
   "resetSortFilterOptionsTooltip": "Reset sort and filter options.",
-  "setPlaylistSortFilterOptionsTooltip": "Set sort and filter options stored in playlist.",
   "clickToSetAscendingOrDescendingTooltip": "Click to set ascending or descending sort order.",
   "and": "And",
   "or": "Or",
@@ -275,5 +274,9 @@
   "playableAudioDialogSortDescriptionTooltipBottomUploadAfter": "The videos of the audios at the bottom of the screen were uploaded after the videos of the audios at the top of the screen.",
   "playableAudioDialogSortDescriptionTooltipTopDurationBigger": "The duration of the audios at the top of the screen is bigger than the duration of the audios at the bottom of the screen.",
   "playableAudioDialogSortDescriptionTooltipTopDurationSmaller": "The duration of the audios at the top of the screen is smaller than the duration of the audios at the bottom of the screen.",
-  "saveAs": "Save as:"
+  "saveAs": "Save as:",
+  "applySortFilterToView": "Apply sort/filter to views:",
+  "saveSortFilterOptionsTooltip": "If the name already exists, the existing sort/filter options are updated with the modified parameters.",
+  "deleteSortFilterOptionsTooltip": "If those sort/filter options are applied in a view, the Default sort/filter options will be applied instead.",
+  "deleteShort": "Delete"
 }

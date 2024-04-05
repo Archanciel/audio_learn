@@ -246,7 +246,6 @@
   "increaseAudioVolumeIconButton": "Augmenter le volume audio",
   "decreaseAudioVolumeIconButton": "Diminuer le volume audio",
   "resetSortFilterOptionsTooltip": "Réinitialiser les options de tri et de filtre.",
-  "setPlaylistSortFilterOptionsTooltip": "Définir les options de tri et de filtre stockés dans la playlist.",
   "clickToSetAscendingOrDescendingTooltip": "Cliquez pour définir l'ordre de tri croissant ou décroissant.",
   "and": "Et",
   "or": "Ou",
@@ -273,5 +272,9 @@
   "playableAudioDialogSortDescriptionTooltipBottomDownloadAfter": "Les audios au bas de l'écran ont été téléchargés après les audios en haut de l'écran.",
   "playableAudioDialogSortDescriptionTooltipTopDurationBigger": "La durée des audios en haut de l'écran est supérieure à la durée des audios au bas de l'écran.",
   "playableAudioDialogSortDescriptionTooltipTopDurationSmaller": "La durée des audios en haut de l'écran est inférieure à la durée des audios au bas de l'écran.",
-  "saveAs": "Enregistrer sous:"
+  "saveAs": "Enregistrer sous:",
+  "applySortFilterToView": "Appliquer le tri/filtre aux vues:",
+  "saveSortFilterOptionsTooltip": "Si le nom existe déjà, les options de tri/filtrage existantes sont mises à jour avec les paramètres modifiés.",
+  "deleteSortFilterOptionsTooltip": "Si ces options de tri/filtre sont appliquées dans une vue, les options de tri/filtre par défaut seront appliquées à la place.",
+  "deleteShort": "Suppr"
 }
