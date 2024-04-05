@@ -250,6 +250,7 @@
   "clickToSetAscendingOrDescendingTooltip": "Click to set ascending or descending sort order.",
   "and": "And",
   "or": "Or",
+  "sortFilterSaveAsTextFieldTooltip": "Saving with the same \"Save as\" name updates the existing sort/filter settings to the modified parameters.",
   "audioTitleSearchSentenceTextFieldTooltip": "Contains a word or a sentence searched on video title and on video description if checkbox 'Include description' is set.",
   "andSentencesTooltip": "If set, only audio containing all the listed words or sentences are selected.",
   "orSentencesTooltip": "If set, audio containing one of the listed words or sentences are selected.",

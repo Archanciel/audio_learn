@@ -56,6 +56,8 @@ class _SortAndFilterAudioDialogWidgetState
   final TextEditingController _startFileSizeController =
       TextEditingController();
   final TextEditingController _endFileSizeController = TextEditingController();
+  final TextEditingController _sortFilterSaveAsUniqueNameController =
+      TextEditingController();
   final TextEditingController _audioTitleSearchSentenceController =
       TextEditingController();
   final TextEditingController _startDownloadDateTimeController =
@@ -71,6 +73,7 @@ class _SortAndFilterAudioDialogWidgetState
   final TextEditingController _endAudioDurationController =
       TextEditingController();
   String _audioTitleSearchSentence = '';
+  String _sortFilterSaveAsUniqueName = '';
   DateTime? _startDownloadDateTime;
   DateTime? _endDownloadDateTime;
   DateTime? _startUploadDateTime;
@@ -122,6 +125,7 @@ class _SortAndFilterAudioDialogWidgetState
   void dispose() {
     _startFileSizeController.dispose();
     _endFileSizeController.dispose();
+    _sortFilterSaveAsUniqueNameController.dispose();
     _audioTitleSearchSentenceController.dispose();
     _startDownloadDateTimeController.dispose();
     _endDownloadDateTimeController.dispose();
@@ -138,6 +142,7 @@ class _SortAndFilterAudioDialogWidgetState
     _selectedSortingItemLst.clear();
     _selectedSortingItemLst
         .addAll(widget.audioSortFilterParameters.selectedSortItemLst);
+    _sortFilterSaveAsUniqueNameController.clear();
     _audioTitleSearchSentenceController.clear();
     _audioTitleFilterSentencesLst.clear();
     _ignoreCase = true;
@@ -165,6 +170,7 @@ class _SortAndFilterAudioDialogWidgetState
     _selectedSortingItemLst.clear();
     _selectedSortingItemLst
         .addAll(audioSortPlaylistFilterParameters.selectedSortItemLst);
+    _sortFilterSaveAsUniqueNameController.clear();
     _audioTitleSearchSentenceController.clear();
     _audioTitleFilterSentencesLst.clear();
     _audioTitleFilterSentencesLst
@@ -293,38 +299,7 @@ class _SortAndFilterAudioDialogWidgetState
                     // mainAxisAlignment: MainAxisAlignment.start,
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        AppLocalizations.of(context)!.saveAs,
-                        style: kDialogTitlesStyle,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                        width: 200,
-                        child: Tooltip(
-                          message: AppLocalizations.of(context)!
-                              .audioTitleSearchSentenceTextFieldTooltip,
-                          child: TextField(
-                            key: const Key('audioTitleSearchSentenceTextField'),
-                            focusNode: _audioTitleSearchSentenceFocusNode,
-                            style: kDialogTextFieldStyle,
-                            decoration: _dialogTextFieldDecoration,
-                            controller: _audioTitleSearchSentenceController,
-                            keyboardType: TextInputType.text,
-                            onChanged: (value) {
-                              _audioTitleSearchSentence = value;
-                              _audioTitleSearchSentencePlusButtonIconColor =
-                                  _audioTitleSearchSentence.isNotEmpty
-                                      ? kDarkAndLightIconColor
-                                      : kDarkAndLightDisabledIconColorOnDialog;
-
-                              setState(
-                                  () {}); // necessary to update Plus button color
-                            },
-                          ),
-                        ),
-                      ),
+                      _buildSaveAsFields(context),
                       const SizedBox(
                         height: 10,
                       ),
@@ -474,75 +449,110 @@ class _SortAndFilterAudioDialogWidgetState
             ),
           ),
           actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Tooltip(
-                  message: AppLocalizations.of(context)!
-                      .resetSortFilterOptionsTooltip,
-                  child: IconButton(
-                    key: const Key('resetSortFilterOptionsIconButton'),
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      setState(() {
-                        _resetSortFilterOptions();
-                      });
-
-                      // now clicking on Enter works since the
-                      // Checkbox is not focused anymore
-                      _audioTitleSearchSentenceFocusNode.requestFocus();
-                    },
-                  ),
-                ),
-                Tooltip(
-                  message: AppLocalizations.of(context)!
-                      .setPlaylistSortFilterOptionsTooltip,
-                  child: IconButton(
-                    key: const Key('setPlaylistSortFilterOptionsIconButton'),
-                    icon: const Icon(Icons.perm_data_setting),
-                    onPressed: () async {
-                      setState(() {
-                        _setPlaylistSortFilterOptions();
-                      });
-
-                      // now clicking on Enter works since the
-                      // Checkbox is not focused anymore
-                      _audioTitleSearchSentenceFocusNode.requestFocus();
-                    },
-                  ),
-                ),
-                TextButton(
-                  key: const Key('applySortFilterButton'),
-                  onPressed: () {
-                    // Apply sorting and filtering options
-                    List<dynamic> filterSortAudioAndParmLst =
-                        _filterAndSortAudioLst();
-                    Navigator.of(context).pop(filterSortAudioAndParmLst);
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.apply,
-                    style: (themeProviderVM.currentTheme == AppTheme.dark)
-                        ? kTextButtonStyleDarkMode
-                        : kTextButtonStyleLightMode,
-                  ),
-                ),
-                TextButton(
-                  key: const Key('cancelSortFilterButton'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.cancel,
-                    style: (themeProviderVM.currentTheme == AppTheme.dark)
-                        ? kTextButtonStyleDarkMode
-                        : kTextButtonStyleLightMode,
-                  ),
-                ),
-              ],
-            ),
+            _buildActionsRowTwo(context, themeProviderVM),
           ],
         ),
       ),
+    );
+  }
+
+  Column _buildSaveAsFields(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.saveAs,
+          style: kDialogTitlesStyle,
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        SizedBox(
+          width: 200,
+          child: Tooltip(
+            message: AppLocalizations.of(context)!
+                .sortFilterSaveAsTextFieldTooltip,
+            child: TextField(
+              key: const Key('sortFilterSaveAsTextField'),
+              style: kDialogTextFieldStyle,
+              decoration: _dialogTextFieldDecoration,
+              controller: _sortFilterSaveAsUniqueNameController,
+              keyboardType: TextInputType.text,
+              onChanged: (value) {
+                _sortFilterSaveAsUniqueName = value;
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _buildActionsRowTwo(
+      BuildContext context, ThemeProviderVM themeProviderVM) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Tooltip(
+          message: AppLocalizations.of(context)!.resetSortFilterOptionsTooltip,
+          child: IconButton(
+            key: const Key('resetSortFilterOptionsIconButton'),
+            icon: const Icon(Icons.clear),
+            onPressed: () {
+              setState(() {
+                _resetSortFilterOptions();
+              });
+
+              // now clicking on Enter works since the
+              // Checkbox is not focused anymore
+              _audioTitleSearchSentenceFocusNode.requestFocus();
+            },
+          ),
+        ),
+        Tooltip(
+          message:
+              AppLocalizations.of(context)!.setPlaylistSortFilterOptionsTooltip,
+          child: IconButton(
+            key: const Key('setPlaylistSortFilterOptionsIconButton'),
+            icon: const Icon(Icons.perm_data_setting),
+            onPressed: () async {
+              setState(() {
+                _setPlaylistSortFilterOptions();
+              });
+
+              // now clicking on Enter works since the
+              // Checkbox is not focused anymore
+              _audioTitleSearchSentenceFocusNode.requestFocus();
+            },
+          ),
+        ),
+        TextButton(
+          key: const Key('applySortFilterButton'),
+          onPressed: () {
+            // Apply sorting and filtering options
+            List<dynamic> filterSortAudioAndParmLst = _filterAndSortAudioLst();
+            Navigator.of(context).pop(filterSortAudioAndParmLst);
+          },
+          child: Text(
+            AppLocalizations.of(context)!.apply,
+            style: (themeProviderVM.currentTheme == AppTheme.dark)
+                ? kTextButtonStyleDarkMode
+                : kTextButtonStyleLightMode,
+          ),
+        ),
+        TextButton(
+          key: const Key('cancelSortFilterButton'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            AppLocalizations.of(context)!.cancel,
+            style: (themeProviderVM.currentTheme == AppTheme.dark)
+                ? kTextButtonStyleDarkMode
+                : kTextButtonStyleLightMode,
+          ),
+        ),
+      ],
     );
   }
 

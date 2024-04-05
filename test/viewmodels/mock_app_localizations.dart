@@ -786,4 +786,8 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get saveAs => "Save as:";
+
+  @override
+  String get sortFilterSaveAsTextFieldTooltip =>
+      "Saving with the same \"Save as\" name updates the existing sort/filter settings to the modified parameters.";
 }
