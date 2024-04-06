@@ -1,6 +1,6 @@
 {
   "appBarTitleDownloadAudio": "Download Audio",
-  "@tiappBarTitleDownloadAudiotle": {
+  "@appBarTitleDownloadAudio": {
     "description": "The page title displayed in the appbar."
   },
   "appBarTitleAudioPlayer": "Play Audio",
