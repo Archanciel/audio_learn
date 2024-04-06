@@ -52,8 +52,8 @@ class _SortAndFilterAudioDialogWidgetState
   late bool _filterFullyListened;
   late bool _filterPartiallyListened;
   late bool _filterNotListened;
-  bool _applySortFilterToAudioDownloadView = false;
-  bool _applySortFilterToAudioPlayerView = false;
+  late bool _applySortFilterToPlaylistDownloadView;
+  late bool _applySortFilterToAudioPlayerView;
 
   final TextEditingController _startFileSizeController =
       TextEditingController();
@@ -121,6 +121,14 @@ class _SortAndFilterAudioDialogWidgetState
     _filterPartiallyListened =
         audioSortDefaultFilterParameters.filterPartiallyListened;
     _filterNotListened = audioSortDefaultFilterParameters.filterNotListened;
+
+    if (widget.audioLearnAppViewType == AudioLearnAppViewType.playlistDownloadView) {
+      _applySortFilterToPlaylistDownloadView = true;
+      _applySortFilterToAudioPlayerView = false;
+    } else {
+      _applySortFilterToPlaylistDownloadView = false;
+      _applySortFilterToAudioPlayerView = true;
+    }
   }
 
   @override
@@ -163,7 +171,7 @@ class _SortAndFilterAudioDialogWidgetState
     _endAudioDurationController.clear();
     _startFileSizeController.clear();
     _endFileSizeController.clear();
-    _applySortFilterToAudioDownloadView = false;
+    _applySortFilterToPlaylistDownloadView = false;
     _applySortFilterToAudioPlayerView = false;
   }
 
@@ -512,7 +520,7 @@ class _SortAndFilterAudioDialogWidgetState
                 AppLocalizations.of(context)!.appBarTitleDownloadAudio,
               ),
               Checkbox(
-                key: const Key('audioDownloadViewCheckbox'),
+                key: const Key('playlistDownloadViewCheckbox'),
                 fillColor: MaterialStateColor.resolveWith(
                   (Set<MaterialState> states) {
                     if (states.contains(MaterialState.disabled)) {
@@ -521,10 +529,10 @@ class _SortAndFilterAudioDialogWidgetState
                     return kDarkAndLightIconColor;
                   },
                 ),
-                value: _applySortFilterToAudioDownloadView,
+                value: _applySortFilterToPlaylistDownloadView,
                 onChanged: (bool? newValue) {
                   setState(() {
-                    _applySortFilterToAudioDownloadView = newValue!;
+                    _applySortFilterToPlaylistDownloadView = newValue!;
                   });
                 },
               ),
