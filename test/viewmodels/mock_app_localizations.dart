@@ -800,4 +800,8 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get deleteShort => "Delete";
+
+  @override
+  String get applySortFilterToViewTooltip =>
+      "Selecting sort/filter application to one or two audio views. This will be applied to the playlists to which this sort/filter is associated.";
 }
