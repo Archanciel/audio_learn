@@ -236,7 +236,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   SortingItem _getInitialSortingItem() {
-    return _audioSortFilterService.getDefaultSortingItem();
+    return AudioSortFilterParameters.getDefaultSortingItem();
   }
 
   String _sortingOptionToString(

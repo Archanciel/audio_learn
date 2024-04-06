@@ -5,6 +5,7 @@ import 'dart:io';
 
 import '../constants.dart';
 import '../utils/dir_util.dart';
+import 'sort_filter_parameters.dart';
 
 enum SettingType {
   appTheme,
@@ -50,7 +51,7 @@ class SettingsDataService {
       Playlists.defaultAudioSort: AudioSortCriterion.audioDownloadDateTime,
     },
   };
-  
+
   Map<SettingType, Map<dynamic, dynamic>> get settings => _settings;
 
   final List<dynamic> _allSettingsKeyLst = [
@@ -62,6 +63,10 @@ class SettingsDataService {
   ];
 
   final bool _isTest;
+
+  final Map<String, AudioSortFilterParameters> _audioSortFilterSettings = {};
+  Map<String, AudioSortFilterParameters> get audioSortFilterSettings =>
+      _audioSortFilterSettings;
 
   SettingsDataService({bool isTest = false}) : _isTest = isTest;
 
@@ -117,10 +122,7 @@ class SettingsDataService {
     _settings[SettingType.playlists]![Playlists.orderedTitleLst] =
         playlistOrder;
 
-    String jsonPathFileName =
-        '${DirUtil.getPlaylistDownloadHomePath(isTest: _isTest)}${Platform.pathSeparator}$kSettingsFileName';
-
-    saveSettingsToFile(jsonPathFileName: jsonPathFileName);
+    _saveSettings();
   }
 
   // Save settings to a JSON file
@@ -135,6 +137,10 @@ class SettingsDataService {
             MapEntry(subKey.toString(), subValue.toString())),
       );
     });
+    final Map<String, dynamic> audioSortFilterSettingsJson =
+        _audioSortFilterSettings
+            .map((key, value) => MapEntry(key, value.toJson()));
+    convertedSettings['audioSortFilterSettings'] = audioSortFilterSettingsJson;
 
     final String jsonString = jsonEncode(convertedSettings);
 
@@ -153,15 +159,23 @@ class SettingsDataService {
         final String jsonString = file.readAsStringSync();
         final Map<String, dynamic> decodedSettings = jsonDecode(jsonString);
         decodedSettings.forEach((key, value) {
-          final settingType = _parseEnumValue(SettingType.values, key);
-          final subSettings =
-              (value as Map<String, dynamic>).map((subKey, subValue) {
-            return MapEntry(
-              _parseEnumValue(_allSettingsKeyLst, subKey),
-              _parseJsonValue(_allSettingsKeyLst, subValue),
-            );
-          });
-          _settings[settingType] = subSettings;
+          if (key == 'audioSortFilterSettings') {
+            Map<String, dynamic> audioSortFilterSettingsJson = value;
+            audioSortFilterSettingsJson.forEach((audioKey, audioValue) {
+              _audioSortFilterSettings[audioKey] =
+                  AudioSortFilterParameters.fromJson(audioValue);
+            });
+          } else {
+            final settingType = _parseEnumValue(SettingType.values, key);
+            final subSettings =
+                (value as Map<String, dynamic>).map((subKey, subValue) {
+              return MapEntry(
+                _parseEnumValue(_allSettingsKeyLst, subKey),
+                _parseJsonValue(_allSettingsKeyLst, subValue),
+              );
+            });
+            _settings[settingType] = subSettings;
+          }
         });
       }
     } on PathAccessException catch (e) {
@@ -171,6 +185,23 @@ class SettingsDataService {
       // and the settings will loaded the next time the app is started.
       print(e.toString());
     }
+  }
+
+  void addOrReplaceAudioSortFilterSettings({
+    required String key,
+    required AudioSortFilterParameters value,
+  }) {
+    _audioSortFilterSettings[key] = value;
+
+    _saveSettings();
+  }
+
+  void _saveSettings() {
+    
+    String jsonPathFileName =
+        '${DirUtil.getPlaylistDownloadHomePath(isTest: _isTest)}${Platform.pathSeparator}$kSettingsFileName';
+    
+    saveSettingsToFile(jsonPathFileName: jsonPathFileName);
   }
 
   T _parseEnumValue<T>(List<T> enumValues, String stringValue) {

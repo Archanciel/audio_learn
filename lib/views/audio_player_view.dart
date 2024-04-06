@@ -303,7 +303,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
                       AudioLearnAppViewType.audioPlayerView,
                     ),
-                    audioSortFilterParameters: playlistListVMlistenFalse
+                    audioSortFilterParameters: AudioSortFilterParameters
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
                         .getSelectedPlaylistAudioSortFilterParamForView(

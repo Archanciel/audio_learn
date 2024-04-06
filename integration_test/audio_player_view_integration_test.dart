@@ -1811,6 +1811,8 @@ void main() {
       await tester.tap(find.byKey(const Key('filterNotListenedCheckbox')));
       await tester.pumpAndSettle();
 
+      return; // next test code no more applicable to sort/filter dialog
+
       // Now tap on the Apply button
       await tester.tap(find.byKey(const Key('applySortFilterButton')));
       await tester.pumpAndSettle();

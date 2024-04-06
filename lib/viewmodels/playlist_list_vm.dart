@@ -51,7 +51,7 @@ class PlaylistListVM extends ChangeNotifier {
 
   bool _isOnePlaylistSelected = true;
   bool get isOnePlaylistSelected => _isOnePlaylistSelected;
-  
+
   List<Playlist> _listOfSelectablePlaylists = [];
   List<Audio>? _sortedFilteredSelectedPlaylistsPlayableAudios;
   List<Audio>? get sortedFilteredSelectedPlaylistsPlayableAudios =>
@@ -535,7 +535,7 @@ class PlaylistListVM extends ChangeNotifier {
         _audioSortFilterService.filterAndSortAudioLst(
       audioLst: selectedPlaylistsAudios,
       audioSortFilterParameters: _audioSortFilterParameters ??
-          createDefaultAudioSortFilterParameters(),
+          AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
     );
 
     // currently, only one playlist can be selected at a time !
@@ -564,7 +564,7 @@ class PlaylistListVM extends ChangeNotifier {
             // if the user has not yet set and saved sort and filter
             // parameters for the playlist, then the default sorting
             // item is returned
-            [_audioSortFilterService.getDefaultSortingItem()];
+            [AudioSortFilterParameters.getDefaultSortingItem()];
         break;
       case AudioLearnAppViewType.audioPlayerView:
         playlistSortingItemLst = selectedPlaylist
@@ -572,7 +572,7 @@ class PlaylistListVM extends ChangeNotifier {
             // if the user has not yet set and saved sort and filter
             // parameters for the playlist, then the default sorting
             // item is returned
-            [_audioSortFilterService.getDefaultSortingItem()];
+            [AudioSortFilterParameters.getDefaultSortingItem()];
         break;
       default:
         playlistSortingItemLst = [];
@@ -649,15 +649,7 @@ class PlaylistListVM extends ChangeNotifier {
     // then the default sort and filter parameters which don't
     // filter and only sort by audio download date descending
     // are returned.
-    return createDefaultAudioSortFilterParameters();
-  }
-
-  AudioSortFilterParameters createDefaultAudioSortFilterParameters() {
-    return AudioSortFilterParameters(
-      selectedSortItemLst: [_audioSortFilterService.getDefaultSortingItem()],
-      filterSentenceLst: const [],
-      sentencesCombination: SentencesCombination.AND,
-    );
+    return AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
   }
 
   void moveAudioToPlaylist({

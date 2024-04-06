@@ -2,89 +2,7 @@ import '../models/audio.dart';
 import '../utils/date_time_parser.dart';
 import 'sort_filter_parameters.dart';
 
-class SortCriteria<T> {
-  final Comparable Function(T) selectorFunction;
-  int sortOrder;
-
-  SortCriteria({
-    required this.selectorFunction,
-    required this.sortOrder,
-  });
-
-  SortCriteria<T> copy() {
-    return SortCriteria<T>(
-      selectorFunction: this.selectorFunction,
-      sortOrder: this.sortOrder,
-    );
-  }
-}
-
 class AudioSortFilterService {
-  static Map<SortingOption, SortCriteria<Audio>>
-      sortCriteriaForSortingOptionMap = {
-    SortingOption.audioDownloadDate: SortCriteria<Audio>(
-      selectorFunction: (Audio audio) {
-        return DateTimeParser.truncateDateTimeToDateOnly(
-            audio.audioDownloadDateTime);
-      },
-      sortOrder: sortDescending,
-    ),
-    SortingOption.videoUploadDate: SortCriteria<Audio>(
-      selectorFunction: (Audio audio) {
-        return DateTimeParser.truncateDateTimeToDateOnly(audio.videoUploadDate);
-      },
-      sortOrder: sortDescending,
-    ),
-    SortingOption.validAudioTitle: SortCriteria<Audio>(
-      selectorFunction: (Audio audio) {
-        return audio.validVideoTitle.toLowerCase();
-      },
-      sortOrder: sortAscending,
-    ),
-    SortingOption.audioEnclosingPlaylistTitle: SortCriteria<Audio>(
-      selectorFunction: (Audio audio) {
-        return audio.enclosingPlaylist!.title;
-      },
-      sortOrder: sortAscending,
-    ),
-    SortingOption.audioDuration: SortCriteria<Audio>(
-      selectorFunction: (Audio audio) {
-        return audio.audioDuration!.inMilliseconds;
-      },
-      sortOrder: sortAscending,
-    ),
-    SortingOption.audioFileSize: SortCriteria<Audio>(
-      selectorFunction: (Audio audio) {
-        return audio.audioFileSize;
-      },
-      sortOrder: sortDescending,
-    ),
-    SortingOption.audioMusicQuality: SortCriteria<Audio>(
-      selectorFunction: (Audio audio) {
-        return audio.isMusicQuality ? 1 : 0;
-      },
-      sortOrder: sortAscending,
-    ),
-    SortingOption.audioDownloadSpeed: SortCriteria<Audio>(
-      selectorFunction: (Audio audio) {
-        return audio.audioDownloadSpeed;
-      },
-      sortOrder: sortDescending,
-    ),
-    SortingOption.audioDownloadDuration: SortCriteria<Audio>(
-      selectorFunction: (Audio audio) {
-        return audio.audioDownloadDuration!.inMilliseconds;
-      },
-      sortOrder: sortDescending,
-    ),
-    SortingOption.videoUrl: SortCriteria<Audio>(
-      selectorFunction: (Audio audio) {
-        return audio.videoUrl;
-      },
-      sortOrder: sortAscending,
-    ),
-  };
-
   /// Method called by filterAndSortAudioLst(). This method is used
   /// to sort the audio list by the given sorting option.
   ///
@@ -104,8 +22,9 @@ class AudioSortFilterService {
       // next instruction will modify the objects in the map and
       // the next time we will use the map, the objects will have
       // been modified.
-      SortCriteria<Audio> sortCriteria =
-          sortCriteriaForSortingOptionMap[sortingItem.sortingOption]!.copy();
+      SortCriteria<Audio> sortCriteria = AudioSortFilterParameters
+          .sortCriteriaForSortingOptionMap[sortingItem.sortingOption]!
+          .copy();
 
       sortCriteria.sortOrder =
           sortingItem.isAscending ? sortAscending : sortDescending;
@@ -398,18 +317,9 @@ class AudioSortFilterService {
   static bool getDefaultSortOptionOrder({
     required SortingOption sortingOption,
   }) {
-    return sortCriteriaForSortingOptionMap[sortingOption]!.sortOrder ==
+    return AudioSortFilterParameters
+            .sortCriteriaForSortingOptionMap[sortingOption]!.sortOrder ==
         sortAscending;
-  }
-
-  SortingItem getDefaultSortingItem() {
-    return SortingItem(
-      sortingOption: SortingOption.audioDownloadDate,
-      isAscending: AudioSortFilterService
-              .sortCriteriaForSortingOptionMap[SortingOption.audioDownloadDate]!
-              .sortOrder ==
-          sortAscending,
-    );
   }
 
   List<Audio> filterAndSortAudioLst({

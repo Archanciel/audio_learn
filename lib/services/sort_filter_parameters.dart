@@ -1,3 +1,6 @@
+import '../models/audio.dart';
+import '../utils/date_time_parser.dart';
+
 /// This enum is used to specify how to sort the audio list.
 /// It is used in the sort and filter audio dialog.
 enum SortingOption {
@@ -23,6 +26,23 @@ enum SentencesCombination {
 const int sortAscending = 1;
 const int sortDescending = -1;
 
+class SortCriteria<T> {
+  final Comparable Function(T) selectorFunction;
+  int sortOrder;
+
+  SortCriteria({
+    required this.selectorFunction,
+    required this.sortOrder,
+  });
+
+  SortCriteria<T> copy() {
+    return SortCriteria<T>(
+      selectorFunction: this.selectorFunction,
+      sortOrder: this.sortOrder,
+    );
+  }
+}
+
 /// This class represent a 'Sort by:' list item added by the user in
 /// the sort and filter audio dialog. It associates a SortingOption
 /// with a boolean indicating if the sorting is ascending or descending.
@@ -37,8 +57,8 @@ class SortingItem {
 
   factory SortingItem.fromJson(Map<String, dynamic> json) {
     return SortingItem(
-      sortingOption: SortingOption.values
-          .firstWhere((e) => e.toString().split('.').last == json['sortingOption']),
+      sortingOption: SortingOption.values.firstWhere(
+          (e) => e.toString().split('.').last == json['sortingOption']),
       isAscending: json['isAscending'],
     );
   }
@@ -52,6 +72,89 @@ class SortingItem {
 }
 
 class AudioSortFilterParameters {
+  static Map<SortingOption, SortCriteria<Audio>>
+      sortCriteriaForSortingOptionMap = {
+    SortingOption.audioDownloadDate: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return DateTimeParser.truncateDateTimeToDateOnly(
+            audio.audioDownloadDateTime);
+      },
+      sortOrder: sortDescending,
+    ),
+    SortingOption.videoUploadDate: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return DateTimeParser.truncateDateTimeToDateOnly(audio.videoUploadDate);
+      },
+      sortOrder: sortDescending,
+    ),
+    SortingOption.validAudioTitle: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.validVideoTitle.toLowerCase();
+      },
+      sortOrder: sortAscending,
+    ),
+    SortingOption.audioEnclosingPlaylistTitle: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.enclosingPlaylist!.title;
+      },
+      sortOrder: sortAscending,
+    ),
+    SortingOption.audioDuration: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.audioDuration!.inMilliseconds;
+      },
+      sortOrder: sortAscending,
+    ),
+    SortingOption.audioFileSize: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.audioFileSize;
+      },
+      sortOrder: sortDescending,
+    ),
+    SortingOption.audioMusicQuality: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.isMusicQuality ? 1 : 0;
+      },
+      sortOrder: sortAscending,
+    ),
+    SortingOption.audioDownloadSpeed: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.audioDownloadSpeed;
+      },
+      sortOrder: sortDescending,
+    ),
+    SortingOption.audioDownloadDuration: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.audioDownloadDuration!.inMilliseconds;
+      },
+      sortOrder: sortDescending,
+    ),
+    SortingOption.videoUrl: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.videoUrl;
+      },
+      sortOrder: sortAscending,
+    ),
+  };
+
+  static SortingItem getDefaultSortingItem() {
+    return SortingItem(
+      sortingOption: SortingOption.audioDownloadDate,
+      isAscending:
+          sortCriteriaForSortingOptionMap[SortingOption.audioDownloadDate]!
+                  .sortOrder ==
+              sortAscending,
+    );
+  }
+
+  static AudioSortFilterParameters createDefaultAudioSortFilterParameters() {
+    return AudioSortFilterParameters(
+      selectedSortItemLst: [AudioSortFilterParameters.getDefaultSortingItem()],
+      filterSentenceLst: const [],
+      sentencesCombination: SentencesCombination.AND,
+    );
+  }
+
   final List<SortingItem> selectedSortItemLst;
   final List<String> filterSentenceLst;
   final SentencesCombination sentencesCombination;

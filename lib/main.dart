@@ -7,6 +7,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:window_size/window_size.dart';
 
 import 'constants.dart';
+import 'services/sort_filter_parameters.dart';
 import 'viewmodels/playlist_list_vm.dart';
 import 'viewmodels/audio_download_vm.dart';
 import 'viewmodels/audio_player_vm.dart';
@@ -62,6 +63,11 @@ Future<void> main(List<String> args) async {
   settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
         '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
+  );
+
+  settingsDataService.addOrReplaceAudioSortFilterSettings(
+    key: 'Default',
+    value: AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
   );
 
   // If app runs on Windows, Linux or MacOS, set the app size
