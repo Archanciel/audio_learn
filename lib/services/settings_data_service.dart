@@ -50,6 +50,7 @@ class SettingsDataService {
       Playlists.defaultAudioSort: AudioSortCriterion.audioDownloadDateTime,
     },
   };
+  
   Map<SettingType, Map<dynamic, dynamic>> get settings => _settings;
 
   final List<dynamic> _allSettingsKeyLst = [
