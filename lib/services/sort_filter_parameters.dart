@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../models/audio.dart';
 import '../utils/date_time_parser.dart';
 
@@ -69,6 +71,17 @@ class SortingItem {
       'isAscending': isAscending,
     };
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is SortingItem &&
+        other.sortingOption == sortingOption &&
+        other.isAscending == isAscending;
+  }
+
+  @override
+  int get hashCode => Object.hash(sortingOption, isAscending);
 }
 
 class AudioSortFilterParameters {
@@ -249,5 +262,53 @@ class AudioSortFilterParameters {
       'durationStartRangeSec': durationStartRangeSec,
       'durationEndRangeSec': durationEndRangeSec,
     };
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AudioSortFilterParameters &&
+        listEquals(other.selectedSortItemLst, selectedSortItemLst) &&
+        listEquals(other.filterSentenceLst, filterSentenceLst) &&
+        other.sentencesCombination == sentencesCombination &&
+        other.ignoreCase == ignoreCase &&
+        other.searchAsWellInVideoCompactDescription ==
+            searchAsWellInVideoCompactDescription &&
+        other.filterMusicQuality == filterMusicQuality &&
+        other.filterFullyListened == filterFullyListened &&
+        other.filterPartiallyListened == filterPartiallyListened &&
+        other.filterNotListened == filterNotListened &&
+        other.downloadDateStartRange == downloadDateStartRange &&
+        other.downloadDateEndRange == downloadDateEndRange &&
+        other.uploadDateStartRange == uploadDateStartRange &&
+        other.uploadDateEndRange == uploadDateEndRange &&
+        other.fileSizeStartRangeByte == fileSizeStartRangeByte &&
+        other.fileSizeEndRangeByte == fileSizeEndRangeByte &&
+        other.durationStartRangeSec == durationStartRangeSec &&
+        other.durationEndRangeSec == durationEndRangeSec;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      selectedSortItemLst,
+      filterSentenceLst,
+      sentencesCombination,
+      ignoreCase,
+      searchAsWellInVideoCompactDescription,
+      filterMusicQuality,
+      filterFullyListened,
+      filterPartiallyListened,
+      filterNotListened,
+      downloadDateStartRange,
+      downloadDateEndRange,
+      uploadDateStartRange,
+      uploadDateEndRange,
+      fileSizeStartRangeByte,
+      fileSizeEndRangeByte,
+      durationStartRangeSec,
+      durationEndRangeSec,
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:audio_learn/services/sort_filter_parameters.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +18,11 @@ void main() {
 
     setUp(() {
       settings = SettingsDataService(isTest: true);
+      settings.addOrReplaceAudioSortFilterSettings(
+        key: 'Default',
+        value:
+            AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
+      );
     });
 
     test('Test initial, modified, saved and loaded values', () async {
@@ -57,6 +63,15 @@ void main() {
               settingType: SettingType.playlists,
               settingSubType: Playlists.defaultAudioSort),
           AudioSortCriterion.audioDownloadDateTime);
+
+      AudioSortFilterParameters defaultAudioSortFilterParameters =
+          settings.audioSortFilterSettings['Default']!;
+
+      expect(
+          defaultAudioSortFilterParameters ==
+              AudioSortFilterParameters
+                  .createDefaultAudioSortFilterParameters(),
+          true);
 
       // Modify values
       settings.set(
@@ -121,6 +136,14 @@ void main() {
               settingType: SettingType.playlists,
               settingSubType: Playlists.defaultAudioSort),
           AudioSortCriterion.validVideoTitle);
+
+      AudioSortFilterParameters loadedDefaultAudioSortFilterParameters =
+          loadedSettings.audioSortFilterSettings['Default']!;
+      expect(
+          loadedDefaultAudioSortFilterParameters ==
+              AudioSortFilterParameters
+                  .createDefaultAudioSortFilterParameters(),
+          true);
 
       // Cleanup the test data directory
       if (directory.existsSync()) {
