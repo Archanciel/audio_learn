@@ -302,7 +302,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         (playlistListVMlistenTrue.isListExpanded)
             ? _buildPlaylistMoveIconButtons(playlistListVMlistenFalse)
             : (playlistListVMlistenTrue.isOnePlaylistSelected)
-                ? _buildSortFilterParametersDropdownButton()
+                ? _buildSortFilterParametersDropdownButton(
+                    playlistListVMlistenFalse)
                 : _buildPlaylistMoveIconButtons(playlistListVMlistenFalse),
         SizedBox(
           // sets the rounded TextButton size improving the distance
@@ -420,42 +421,76 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   /// Method called only if the list of playlists is NOT expanded
   /// AND if a playlist is selected.
-  Row _buildSortFilterParametersDropdownButton() {
-    List<DropdownMenuItem<String>> dropdownItems = [
-      DropdownMenuItem(
-        value: "Option 1",
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            const Text("Option 1"),
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                // Handle the icon button press here
-                print('Icon Button pressed for Option 1');
-              },
-            ),
-          ],
-        ),
-      ),
-      DropdownMenuItem(
-        value: "Option 2",
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            const Text("Option 2"),
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                // Handle the icon button press here
-                print('Icon Button pressed for Option 2');
-              },
-            ),
-          ],
-        ),
-      ),
-      // Add more items here
-    ];
+  Row _buildSortFilterParametersDropdownButton(
+    PlaylistListVM playlistListVMlistenFalse,
+  ) {
+    Map<String, AudioSortFilterParameters> audioSortFilterParametersMap =
+        playlistListVMlistenFalse.getAudioSortFilterParametersMap();
+
+    List<String> audioSortFilterParametersNamesLst =
+        audioSortFilterParametersMap.keys.toList();
+
+    List<DropdownMenuItem<String>> dropdownItems =
+        audioSortFilterParametersNamesLst
+            .map(
+              (String audioSortFilterParametersName) => DropdownMenuItem(
+                value: audioSortFilterParametersName,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(audioSortFilterParametersName),
+                    IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () {
+                        // Using FocusNode to enable clicking on Enter to close
+                        // the dialog
+                        final FocusNode focusNode = FocusNode();
+
+                        showDialog(
+                          context: context,
+                          barrierDismissible:
+                              false, // This line prevents the dialog from closing when tapping outside
+                          builder: (BuildContext context) {
+                            return SortAndFilterAudioDialogWidget(
+                              selectedPlaylistAudioLst: playlistListVMlistenFalse
+                                  .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+                                AudioLearnAppViewType.audioPlayerView,
+                              ),
+                              audioSortFilterParameters:
+                                  audioSortFilterParametersMap[audioSortFilterParametersName]!,
+                              audioSortPlaylistFilterParameters:
+                                  playlistListVMlistenFalse
+                                      .getSelectedPlaylistAudioSortFilterParamForView(
+                                AudioLearnAppViewType.playlistDownloadView,
+                              ),
+                              audioLearnAppViewType:
+                                  AudioLearnAppViewType.playlistDownloadView,
+                              focusNode: focusNode,
+                            );
+                          },
+                        ).then((filterSortAudioAndParmLst) {
+                          if (filterSortAudioAndParmLst != null) {
+                            List<Audio> returnedAudioList =
+                                filterSortAudioAndParmLst[0];
+                            AudioSortFilterParameters
+                                audioSortFilterParameters =
+                                filterSortAudioAndParmLst[1];
+                            playlistListVMlistenFalse
+                                .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+                              returnedAudioList,
+                              audioSortFilterParameters,
+                            );
+                            _wasSortFilterAudioSettingsApplied = true;
+                          }
+                        });
+                        focusNode.requestFocus();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            )
+            .toList();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -468,13 +503,15 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               _selectedSortFilterParameters = value;
             });
           },
-          hint: const Text('Select an Option'),
+          hint: const Text('Select sort/filter'),
         ),
       ],
     );
   }
 
-  Row _buildPlaylistMoveIconButtons(PlaylistListVM playlistListVMlistenFalse) {
+  Row _buildPlaylistMoveIconButtons(
+    PlaylistListVM playlistListVMlistenFalse,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

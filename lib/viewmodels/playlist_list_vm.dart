@@ -457,6 +457,10 @@ class PlaylistListVM extends ChangeNotifier {
     );
   }
 
+  Map<String, AudioSortFilterParameters> getAudioSortFilterParametersMap() {
+    return _settingsDataService.audioSortFilterSettings;
+  }
+
   /// Thanks to this method, when restarting the app, the playlists
   /// are displayed in the same order as when the app was closed. This
   /// is done by saving the playlist order in the settings file.
