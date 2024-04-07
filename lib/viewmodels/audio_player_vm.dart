@@ -701,7 +701,7 @@ class AudioPlayerVM extends ChangeNotifier {
     // set to false since the audio playing position is set to
     // audio end
     _currentAudio!.isPlayingOrPausedWithPositionBetweenAudioStartAndEnd = false;
-    
+
     updateAndSaveCurrentAudio();
 
     if (await _setNextNotPlayedAudio()) {
@@ -779,7 +779,7 @@ class AudioPlayerVM extends ChangeNotifier {
 
     return _playlistListVM
         .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-      audioLearnAppViewType,
+      audioLearnAppViewType: audioLearnAppViewType,
     );
   }
 

@@ -301,7 +301,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-                      AudioLearnAppViewType.audioPlayerView,
+                      audioLearnAppViewType:
+                          AudioLearnAppViewType.audioPlayerView,
                     ),
                     audioSortFilterParameters: AudioSortFilterParameters
                         .createDefaultAudioSortFilterParameters(),

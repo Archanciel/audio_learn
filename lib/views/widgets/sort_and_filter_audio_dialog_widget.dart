@@ -1,3 +1,4 @@
+import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,7 @@ import '../../viewmodels/theme_provider_vm.dart';
 
 class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final List<Audio> selectedPlaylistAudioLst;
+  String audioSortFilterParametersName;
   AudioSortFilterParameters audioSortFilterParameters;
   AudioSortFilterParameters audioSortPlaylistFilterParameters;
   final AudioLearnAppViewType audioLearnAppViewType;
@@ -22,6 +24,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
   SortAndFilterAudioDialogWidget({
     super.key,
     required this.selectedPlaylistAudioLst,
+    this.audioSortFilterParametersName = '',
     required this.audioSortFilterParameters,
     required this.audioSortPlaylistFilterParameters,
     required this.audioLearnAppViewType,
@@ -82,6 +85,7 @@ class _SortAndFilterAudioDialogWidgetState
   DateTime? _endUploadDateTime;
 
   final _audioTitleSearchSentenceFocusNode = FocusNode();
+  final _sortFilterSaveAsUniqueNameFocusNode = FocusNode();
 
   Color _audioTitleSearchSentencePlusButtonIconColor =
       kDarkAndLightDisabledIconColorOnDialog;
@@ -97,9 +101,14 @@ class _SortAndFilterAudioDialogWidgetState
     // method has been called
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(
-        _audioTitleSearchSentenceFocusNode,
+        // when opening the dialog, the focus is on the
+        // sortFilterSaveAsUniqueName TextField
+        _sortFilterSaveAsUniqueNameFocusNode,
       );
     });
+
+    _sortFilterSaveAsUniqueNameController.text =
+        widget.audioSortFilterParametersName;
 
     // Set the initial sort and filter fields
     AudioSortFilterParameters audioSortDefaultFilterParameters =
@@ -145,6 +154,7 @@ class _SortAndFilterAudioDialogWidgetState
     _startAudioDurationController.dispose();
     _endAudioDurationController.dispose();
     _audioTitleSearchSentenceFocusNode.dispose();
+    _sortFilterSaveAsUniqueNameFocusNode.dispose();
 
     super.dispose();
   }
@@ -288,7 +298,10 @@ class _SortAndFilterAudioDialogWidgetState
             initialChildSize: 1,
             minChildSize: 1,
             maxChildSize: 1,
-            builder: (BuildContext context, ScrollController scrollController) {
+            builder: (
+              BuildContext context,
+              ScrollController scrollController,
+            ) {
               return SingleChildScrollView(
                 child: ListBody(
                   // mainAxisAlignment: MainAxisAlignment.start,
@@ -467,7 +480,8 @@ class _SortAndFilterAudioDialogWidgetState
           SizedBox(
             width: 200,
             child: TextField(
-              key: const Key('sortFilterSaveAsTextField'),
+              key: const Key('sortFilterSaveAsUniqueNameTextField'),
+              focusNode: _sortFilterSaveAsUniqueNameFocusNode,
               style: kDialogTextFieldStyle,
               decoration: _dialogTextFieldDecoration,
               controller: _sortFilterSaveAsUniqueNameController,
@@ -559,6 +573,10 @@ class _SortAndFilterAudioDialogWidgetState
     BuildContext context,
     ThemeProviderVM themeProviderVM,
   ) {
+    PlaylistListVM playlistListVM = Provider.of<PlaylistListVM>(
+      context,
+      listen: false,
+    );
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -582,15 +600,15 @@ class _SortAndFilterAudioDialogWidgetState
           message: AppLocalizations.of(context)!.saveSortFilterOptionsTooltip,
           child: TextButton(
             key: const Key('saveSortFilterOptionsTextButton'),
-            onPressed: () async {
-              setState(() {
-                //            _setPlaylistSortFilterOptions();
-                int a = 0;
-              });
+            onPressed: () {
+              List<dynamic> filterSortAudioAndParmLst =
+                  _filterAndSortAudioLst();
+              playlistListVM.saveAudioSortFilterParameters(
+                audioSortFilterParametersName: _sortFilterSaveAsUniqueName,
+                audioSortFilterParameters: filterSortAudioAndParmLst[1],
+              );
 
-              // now clicking on Enter works since the
-              // Checkbox is not focused anymore
-              _audioTitleSearchSentenceFocusNode.requestFocus();
+              Navigator.of(context).pop(filterSortAudioAndParmLst);
             },
             child: Text(
               AppLocalizations.of(context)!.saveButton,
@@ -605,10 +623,16 @@ class _SortAndFilterAudioDialogWidgetState
           child: TextButton(
             key: const Key('deleteSortFilterTextButton'),
             onPressed: () {
-              // Apply sorting and filtering options
-              List<dynamic> filterSortAudioAndParmLst =
-                  _filterAndSortAudioLst();
-              Navigator.of(context).pop(filterSortAudioAndParmLst);
+              Provider.of<PlaylistListVM>(
+                context,
+                listen: false,
+              ).deleteAudioSortFilterParameters(
+                audioSortFilterParametersName: _sortFilterSaveAsUniqueName,
+              );
+
+              setState(() {});
+
+              Navigator.of(context).pop();
             },
             child: Text(
               AppLocalizations.of(context)!.deleteShort,

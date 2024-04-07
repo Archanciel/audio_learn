@@ -64,9 +64,10 @@ class SettingsDataService {
 
   final bool _isTest;
 
-  final Map<String, AudioSortFilterParameters> _audioSortFilterSettings = {};
-  Map<String, AudioSortFilterParameters> get audioSortFilterSettings =>
-      _audioSortFilterSettings;
+  final Map<String, AudioSortFilterParameters> _audioSortFilterParametersMap =
+      {};
+  Map<String, AudioSortFilterParameters> get audioSortFilterParametersMap =>
+      _audioSortFilterParametersMap;
 
   SettingsDataService({bool isTest = false}) : _isTest = isTest;
 
@@ -138,7 +139,7 @@ class SettingsDataService {
       );
     });
     final Map<String, dynamic> audioSortFilterSettingsJson =
-        _audioSortFilterSettings
+        _audioSortFilterParametersMap
             .map((key, value) => MapEntry(key, value.toJson()));
     convertedSettings['audioSortFilterSettings'] = audioSortFilterSettingsJson;
 
@@ -162,7 +163,7 @@ class SettingsDataService {
           if (key == 'audioSortFilterSettings') {
             Map<String, dynamic> audioSortFilterSettingsJson = value;
             audioSortFilterSettingsJson.forEach((audioKey, audioValue) {
-              _audioSortFilterSettings[audioKey] =
+              _audioSortFilterParametersMap[audioKey] =
                   AudioSortFilterParameters.fromJson(audioValue);
             });
           } else {
@@ -188,10 +189,19 @@ class SettingsDataService {
   }
 
   void addOrReplaceAudioSortFilterSettings({
-    required String key,
-    required AudioSortFilterParameters value,
+    required String audioSortFilterParametersName,
+    required AudioSortFilterParameters audioSortFilterParameters,
   }) {
-    _audioSortFilterSettings[key] = value;
+    _audioSortFilterParametersMap[audioSortFilterParametersName] =
+        audioSortFilterParameters;
+
+    _saveSettings();
+  }
+
+  void deleteAudioSortFilterSettings({
+    required String audioSortFilterParametersName,
+  }) {
+    _audioSortFilterParametersMap.remove(audioSortFilterParametersName);
 
     _saveSettings();
   }

@@ -147,7 +147,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           } else {
             _selectedPlaylistsPlayableAudios = expandablePlaylistListVM
                 .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-              AudioLearnAppViewType.playlistDownloadView,
+              audioLearnAppViewType: AudioLearnAppViewType.playlistDownloadView,
             );
           }
           if (expandablePlaylistListVM.isAudioListFilteredAndSorted()) {
@@ -454,15 +454,16 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                             return SortAndFilterAudioDialogWidget(
                               selectedPlaylistAudioLst: playlistListVMlistenFalse
                                   .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-                                AudioLearnAppViewType.audioPlayerView,
+                                audioLearnAppViewType:
+                                    AudioLearnAppViewType.audioPlayerView,
                               ),
+                              audioSortFilterParametersName: audioSortFilterParametersName,
                               audioSortFilterParameters:
-                                  audioSortFilterParametersMap[audioSortFilterParametersName]!,
+                                  audioSortFilterParametersMap[
+                                      audioSortFilterParametersName]!,
                               audioSortPlaylistFilterParameters:
-                                  playlistListVMlistenFalse
-                                      .getSelectedPlaylistAudioSortFilterParamForView(
-                                AudioLearnAppViewType.playlistDownloadView,
-                              ),
+                                  audioSortFilterParametersMap[
+                                      audioSortFilterParametersName]!,
                               audioLearnAppViewType:
                                   AudioLearnAppViewType.playlistDownloadView,
                               focusNode: focusNode,
@@ -499,9 +500,21 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           value: _selectedSortFilterParameters,
           items: dropdownItems,
           onChanged: (value) {
-            setState(() {
-              _selectedSortFilterParameters = value;
-            });
+            _selectedSortFilterParameters = value;
+            AudioSortFilterParameters audioSortFilterParameters =
+                playlistListVMlistenFalse.getAudioSortFilterParametersMap()[
+                    _selectedSortFilterParameters]!;
+            playlistListVMlistenFalse
+                .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+              playlistListVMlistenFalse
+                  .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+                audioLearnAppViewType:
+                    AudioLearnAppViewType.playlistDownloadView,
+                audioSortFilterParameters: audioSortFilterParameters,
+              ),
+              audioSortFilterParameters,
+            );
+            _wasSortFilterAudioSettingsApplied = true;
           },
           hint: const Text('Select sort/filter'),
         ),
@@ -624,7 +637,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   return SortAndFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-                      AudioLearnAppViewType.audioPlayerView,
+                      audioLearnAppViewType:
+                          AudioLearnAppViewType.audioPlayerView,
                     ),
                     audioSortFilterParameters: AudioSortFilterParameters
                         .createDefaultAudioSortFilterParameters(),

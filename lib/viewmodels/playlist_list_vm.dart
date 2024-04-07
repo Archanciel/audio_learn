@@ -458,7 +458,25 @@ class PlaylistListVM extends ChangeNotifier {
   }
 
   Map<String, AudioSortFilterParameters> getAudioSortFilterParametersMap() {
-    return _settingsDataService.audioSortFilterSettings;
+    return _settingsDataService.audioSortFilterParametersMap;
+  }
+
+  void saveAudioSortFilterParameters({
+    required String audioSortFilterParametersName,
+    required AudioSortFilterParameters audioSortFilterParameters,
+  }) {
+    _settingsDataService.addOrReplaceAudioSortFilterSettings(
+      audioSortFilterParametersName: audioSortFilterParametersName,
+      audioSortFilterParameters: audioSortFilterParameters,
+    );
+  }
+
+  void deleteAudioSortFilterParameters({
+    required String audioSortFilterParametersName,
+  }) {
+    _settingsDataService.deleteAudioSortFilterSettings(
+      audioSortFilterParametersName: audioSortFilterParametersName,
+    );
   }
 
   /// Thanks to this method, when restarting the app, the playlists
@@ -501,9 +519,10 @@ class PlaylistListVM extends ChangeNotifier {
   /// clicked on the Apply button in the
   /// SortAndFilterAudioDialogWidget, then the filtered and
   /// sorted audio list is returned.
-  List<Audio> getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-    AudioLearnAppViewType audioLearnAppViewType,
-  ) {
+  List<Audio> getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters({
+    required AudioLearnAppViewType audioLearnAppViewType,
+    AudioSortFilterParameters? audioSortFilterParameters,
+  }) {
     List<Playlist> selectedPlaylists = getSelectedPlaylists();
 
     if (selectedPlaylists.isEmpty) {
@@ -534,6 +553,8 @@ class PlaylistListVM extends ChangeNotifier {
       default:
         break;
     }
+
+    _audioSortFilterParameters ??= audioSortFilterParameters;
 
     _sortedFilteredSelectedPlaylistsPlayableAudios =
         _audioSortFilterService.filterAndSortAudioLst(
@@ -592,7 +613,7 @@ class PlaylistListVM extends ChangeNotifier {
   ) {
     List<Audio> playlistPlayableAudioLst =
         getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-      audioLearnAppViewType,
+      audioLearnAppViewType: audioLearnAppViewType,
     );
 
     return playlistPlayableAudioLst
@@ -929,7 +950,7 @@ class PlaylistListVM extends ChangeNotifier {
     // (the de3fault sorting).
     List<Audio> sortedAndFilteredPlayableAudioLst =
         getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-      AudioLearnAppViewType.audioPlayerView,
+      audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
     );
 
     int currentAudioIndex = sortedAndFilteredPlayableAudioLst.indexWhere(
@@ -978,7 +999,7 @@ class PlaylistListVM extends ChangeNotifier {
     currentAudio.audioPositionSeconds = currentAudio.audioPositionSeconds - 10;
     List<Audio> sortedAndFilteredPlayableAudioLstWithCurrentAudio =
         getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-      AudioLearnAppViewType.audioPlayerView,
+      audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
     );
 
     // obtaining the current audio index before the audio was fully

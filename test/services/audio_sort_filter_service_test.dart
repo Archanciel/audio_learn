@@ -2421,7 +2421,7 @@ void main() {
         () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       List<String>
@@ -2521,7 +2521,7 @@ void main() {
         () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       List<String>
@@ -2619,7 +2619,7 @@ void main() {
         () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       final List<SortingItem>
@@ -2698,7 +2698,7 @@ void main() {
         () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       final List<SortingItem>
@@ -2783,7 +2783,7 @@ void main() {
         () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       final List<SortingItem>
@@ -2875,7 +2875,7 @@ void main() {
         () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       final List<SortingItem>
@@ -2971,7 +2971,7 @@ void main() {
         () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       final List<SortingItem>
@@ -3134,7 +3134,7 @@ void main() {
     test('filter not listened audios only', () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       List<String> expectedFilteredAudioTitles = [
@@ -3202,7 +3202,7 @@ void main() {
     test('filter audios avoiding fully listened audios', () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       List<String> expectedFilteredAudioTitles = [
@@ -3243,7 +3243,7 @@ void main() {
     test('filter audios getting only fully listened audios', () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       List<String> expectedFilteredAudioTitles = [
@@ -3346,7 +3346,7 @@ void main() {
         () {
       List<Audio> audioList = playlistListVM
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-        AudioLearnAppViewType.audioPlayerView,
+        audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
       );
 
       List<String>

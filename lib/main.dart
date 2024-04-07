@@ -66,8 +66,9 @@ Future<void> main(List<String> args) async {
   );
 
   settingsDataService.addOrReplaceAudioSortFilterSettings(
-    key: 'Default',
-    value: AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
+    audioSortFilterParametersName: 'default',
+    audioSortFilterParameters:
+        AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
   );
 
   // If app runs on Windows, Linux or MacOS, set the app size

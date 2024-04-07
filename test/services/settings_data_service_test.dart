@@ -19,8 +19,8 @@ void main() {
     setUp(() {
       settings = SettingsDataService(isTest: true);
       settings.addOrReplaceAudioSortFilterSettings(
-        key: 'Default',
-        value:
+        audioSortFilterParametersName: 'Default',
+        audioSortFilterParameters:
             AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
       );
     });
@@ -65,7 +65,7 @@ void main() {
           AudioSortCriterion.audioDownloadDateTime);
 
       AudioSortFilterParameters defaultAudioSortFilterParameters =
-          settings.audioSortFilterSettings['Default']!;
+          settings.audioSortFilterParametersMap['Default']!;
 
       expect(
           defaultAudioSortFilterParameters ==
@@ -138,7 +138,7 @@ void main() {
           AudioSortCriterion.validVideoTitle);
 
       AudioSortFilterParameters loadedDefaultAudioSortFilterParameters =
-          loadedSettings.audioSortFilterSettings['Default']!;
+          loadedSettings.audioSortFilterParametersMap['Default']!;
       expect(
           loadedDefaultAudioSortFilterParameters ==
               AudioSortFilterParameters
