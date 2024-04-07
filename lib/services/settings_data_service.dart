@@ -197,11 +197,9 @@ class SettingsDataService {
   }
 
   void _saveSettings() {
-    
-    String jsonPathFileName =
-        '${DirUtil.getPlaylistDownloadHomePath(isTest: _isTest)}${Platform.pathSeparator}$kSettingsFileName';
-    
-    saveSettingsToFile(jsonPathFileName: jsonPathFileName);
+    saveSettingsToFile(
+        jsonPathFileName:
+            '${DirUtil.getPlaylistDownloadHomePath(isTest: _isTest)}${Platform.pathSeparator}$kSettingsFileName');
   }
 
   T _parseEnumValue<T>(List<T> enumValues, String stringValue) {
