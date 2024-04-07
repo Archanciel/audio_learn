@@ -227,8 +227,10 @@ class _SortAndFilterAudioDialogWidgetState
     _endAudioDurationController.text =
         audioSortPlaylistFilterParameters.durationEndRangeSec.toString();
 
-    _startFileSizeController.text = audioSortPlaylistFilterParameters.fileSizeStartRangeByte.toString();
-    _endFileSizeController.text = audioSortPlaylistFilterParameters.fileSizeEndRangeByte.toString();
+    _startFileSizeController.text =
+        audioSortPlaylistFilterParameters.fileSizeStartRangeByte.toString();
+    _endFileSizeController.text =
+        audioSortPlaylistFilterParameters.fileSizeEndRangeByte.toString();
   }
 
   SortingItem _getInitialSortingItem() {
@@ -273,113 +275,126 @@ class _SortAndFilterAudioDialogWidgetState
       listen: false,
     );
     return Center(
-      child: KeyboardListener(
-        focusNode: widget.focusNode,
-        onKeyEvent: (event) {
-          if (event is KeyDownEvent) {
-            if (event.logicalKey == LogicalKeyboardKey.enter ||
-                event.logicalKey == LogicalKeyboardKey.numpadEnter) {
-              // executing the same code as in the 'Apply'
-              // TextButton onPressed callback
-              List<dynamic> filterSortAudioAndParmLst =
-                  _filterAndSortAudioLst();
-              Navigator.of(context).pop(filterSortAudioAndParmLst);
-            }
-          }
-        },
-        child: AlertDialog(
-          title: Text(AppLocalizations.of(context)!.sortFilterDialogTitle),
-          actionsPadding:
-              // reduces the top vertical space between the buttons
-              // and the content
-              kDialogActionsPadding,
-          content: SizedBox(
-            width: double.maxFinite,
-            height: 800,
-            child: DraggableScrollableSheet(
-              initialChildSize: 1,
-              minChildSize: 1,
-              maxChildSize: 1,
-              builder:
-                  (BuildContext context, ScrollController scrollController) {
-                return SingleChildScrollView(
-                  child: ListBody(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    // crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildSaveAsFields(context),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.sortBy,
-                        style: kDialogTitlesStyle,
-                      ),
-                      _buildSortingChoiceList(context),
-                      _buildSelectedSortingList(),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.filterOptions,
-                        style: kDialogTitlesStyle,
-                      ),
-                      const SizedBox(
-                        height: 14,
-                      ),
-                      _buildAudioFilterSentence(),
-                      _buildAudioFilterSentencesLst(),
-                      Row(
-                        children: <Widget>[
-                          Tooltip(
-                            message: AppLocalizations.of(context)!
-                                .andSentencesTooltip,
-                            child: Text(AppLocalizations.of(context)!.and),
+      child: AlertDialog(
+        title: Text(AppLocalizations.of(context)!.sortFilterDialogTitle),
+        actionsPadding:
+            // reduces the top vertical space between the buttons
+            // and the content
+            kDialogActionsPadding,
+        content: SizedBox(
+          width: double.maxFinite,
+          height: 800,
+          child: DraggableScrollableSheet(
+            initialChildSize: 1,
+            minChildSize: 1,
+            maxChildSize: 1,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return SingleChildScrollView(
+                child: ListBody(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildSaveAsFields(context),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.sortBy,
+                      style: kDialogTitlesStyle,
+                    ),
+                    _buildSortingChoiceList(context),
+                    _buildSelectedSortingList(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.filterOptions,
+                      style: kDialogTitlesStyle,
+                    ),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    _buildAudioFilterSentence(),
+                    _buildAudioFilterSentencesLst(),
+                    Row(
+                      children: <Widget>[
+                        Tooltip(
+                          message:
+                              AppLocalizations.of(context)!.andSentencesTooltip,
+                          child: Text(AppLocalizations.of(context)!.and),
+                        ),
+                        Checkbox(
+                          key: const Key('andCheckbox'),
+                          fillColor: MaterialStateColor.resolveWith(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return kDarkAndLightDisabledIconColorOnDialog;
+                              }
+                              return kDarkAndLightIconColor;
+                            },
                           ),
-                          Checkbox(
-                            key: const Key('andCheckbox'),
-                            fillColor: MaterialStateColor.resolveWith(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.disabled)) {
-                                  return kDarkAndLightDisabledIconColorOnDialog;
+                          value: _isAnd,
+                          onChanged: (_audioTitleFilterSentencesLst.length > 1)
+                              ? _toggleCheckboxAnd
+                              : null,
+                        ),
+                        Tooltip(
+                          message:
+                              AppLocalizations.of(context)!.orSentencesTooltip,
+                          child: Text(AppLocalizations.of(context)!.or),
+                        ),
+                        Checkbox(
+                          key: const Key('orCheckbox'),
+                          fillColor: MaterialStateColor.resolveWith(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return kDarkAndLightDisabledIconColorOnDialog;
+                              }
+                              return kDarkAndLightIconColor;
+                            },
+                          ),
+                          value: _isOr,
+                          onChanged: (_audioTitleFilterSentencesLst.length > 1)
+                              ? _toggleCheckboxOr
+                              : null,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(AppLocalizations.of(context)!.ignoreCase),
+                        Checkbox(
+                          key: const Key('ignoreCaseCheckbox'),
+                          fillColor: MaterialStateColor.resolveWith(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return kDarkAndLightDisabledIconColorOnDialog;
+                              }
+                              return kDarkAndLightIconColor;
+                            },
+                          ),
+                          value: _ignoreCase,
+                          onChanged: (_audioTitleFilterSentencesLst.isNotEmpty)
+                              ? (bool? newValue) {
+                                  setState(() {
+                                    _modifyIgnoreCaseCheckBox(
+                                      newValue,
+                                    );
+                                  });
                                 }
-                                return kDarkAndLightIconColor;
-                              },
-                            ),
-                            value: _isAnd,
-                            onChanged:
-                                (_audioTitleFilterSentencesLst.length > 1)
-                                    ? _toggleCheckboxAnd
-                                    : null,
-                          ),
-                          Tooltip(
-                            message: AppLocalizations.of(context)!
-                                .orSentencesTooltip,
-                            child: Text(AppLocalizations.of(context)!.or),
-                          ),
-                          Checkbox(
-                            key: const Key('orCheckbox'),
-                            fillColor: MaterialStateColor.resolveWith(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.disabled)) {
-                                  return kDarkAndLightDisabledIconColorOnDialog;
-                                }
-                                return kDarkAndLightIconColor;
-                              },
-                            ),
-                            value: _isOr,
-                            onChanged:
-                                (_audioTitleFilterSentencesLst.length > 1)
-                                    ? _toggleCheckboxOr
-                                    : null,
-                          ),
-                        ],
-                      ),
-                      Row(
+                              : null,
+                        ),
+                      ],
+                    ),
+                    Tooltip(
+                      message: AppLocalizations.of(context)!
+                          .searchInVideoCompactDescriptionTooltip,
+                      child: Row(
                         children: [
-                          Text(AppLocalizations.of(context)!.ignoreCase),
+                          Text(AppLocalizations.of(context)!
+                              .searchInVideoCompactDescription),
                           Checkbox(
-                            key: const Key('ignoreCaseCheckbox'),
+                            key: const Key('searchInVideoCompactDescription'),
                             fillColor: MaterialStateColor.resolveWith(
                               (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.disabled)) {
@@ -388,12 +403,12 @@ class _SortAndFilterAudioDialogWidgetState
                                 return kDarkAndLightIconColor;
                               },
                             ),
-                            value: _ignoreCase,
+                            value: _searchInVideoCompactDescription,
                             onChanged:
                                 (_audioTitleFilterSentencesLst.isNotEmpty)
                                     ? (bool? newValue) {
                                         setState(() {
-                                          _modifyIgnoreCaseCheckBox(
+                                          _modifySearchInVideoCompactDescriptionCheckbox(
                                             newValue,
                                           );
                                         });
@@ -402,62 +417,36 @@ class _SortAndFilterAudioDialogWidgetState
                           ),
                         ],
                       ),
-                      Tooltip(
-                        message: AppLocalizations.of(context)!
-                            .searchInVideoCompactDescriptionTooltip,
-                        child: Row(
-                          children: [
-                            Text(AppLocalizations.of(context)!
-                                .searchInVideoCompactDescription),
-                            Checkbox(
-                              key: const Key('searchInVideoCompactDescription'),
-                              fillColor: MaterialStateColor.resolveWith(
-                                (Set<MaterialState> states) {
-                                  if (states.contains(MaterialState.disabled)) {
-                                    return kDarkAndLightDisabledIconColorOnDialog;
-                                  }
-                                  return kDarkAndLightIconColor;
-                                },
-                              ),
-                              value: _searchInVideoCompactDescription,
-                              onChanged:
-                                  (_audioTitleFilterSentencesLst.isNotEmpty)
-                                      ? (bool? newValue) {
-                                          setState(() {
-                                            _modifySearchInVideoCompactDescriptionCheckbox(
-                                              newValue,
-                                            );
-                                          });
-                                        }
-                                      : null,
-                            ),
-                          ],
-                        ),
-                      ),
-                      _buildAudioStateCheckboxes(context),
-                      _buildAudioDateFields(context, now),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      _buildAudioFileSizeFields(context),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      _buildAudioDurationFields(context),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      _buildApplySortFilterView(context, themeProviderVM),
-                    ],
-                  ),
-                );
-              },
-            ),
+                    ),
+                    _buildAudioStateCheckboxes(context),
+                    _buildAudioDateFields(context, now),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    _buildAudioFileSizeFields(context),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    _buildAudioDurationFields(context),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    _buildApplySortFilterToViewCheckboxes(
+                      context,
+                      themeProviderVM,
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
-          actions: [
-            _buildActionsLine(context, themeProviderVM),
-          ],
         ),
+        actions: [
+          _buildActionButtonsLine(
+            context,
+            themeProviderVM,
+          ),
+        ],
       ),
     );
   }
@@ -493,8 +482,10 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  Widget _buildApplySortFilterView(
-      BuildContext context, ThemeProviderVM themeProviderVM) {
+  Widget _buildApplySortFilterToViewCheckboxes(
+    BuildContext context,
+    ThemeProviderVM themeProviderVM,
+  ) {
     return Tooltip(
       message: AppLocalizations.of(context)!.applySortFilterToViewTooltip,
       child: Column(
@@ -564,7 +555,10 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  Row _buildActionsLine(BuildContext context, ThemeProviderVM themeProviderVM) {
+  Row _buildActionButtonsLine(
+    BuildContext context,
+    ThemeProviderVM themeProviderVM,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -590,7 +584,8 @@ class _SortAndFilterAudioDialogWidgetState
             key: const Key('saveSortFilterOptionsTextButton'),
             onPressed: () async {
               setState(() {
-    //            _setPlaylistSortFilterOptions();
+                //            _setPlaylistSortFilterOptions();
+                int a = 0;
               });
 
               // now clicking on Enter works since the
