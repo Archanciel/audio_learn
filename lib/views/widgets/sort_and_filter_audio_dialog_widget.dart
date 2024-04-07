@@ -78,7 +78,7 @@ class _SortAndFilterAudioDialogWidgetState
   final TextEditingController _endAudioDurationController =
       TextEditingController();
   String _audioTitleSearchSentence = '';
-  String _sortFilterSaveAsUniqueName = '';
+  late String _sortFilterSaveAsUniqueName;
   DateTime? _startDownloadDateTime;
   DateTime? _endDownloadDateTime;
   DateTime? _startUploadDateTime;
@@ -109,6 +109,13 @@ class _SortAndFilterAudioDialogWidgetState
 
     _sortFilterSaveAsUniqueNameController.text =
         widget.audioSortFilterParametersName;
+
+    // Since the _sortFilterSaveAsUniqueNameController is late, it
+    // must be set here otherwise saving the sort filter parameters
+    // will not work since an error is thrown that due to the fact
+    // that the late _sortFilterSaveAsUniqueNameController is not
+    // initialized
+    _sortFilterSaveAsUniqueName = widget.audioSortFilterParametersName;
 
     // Set the initial sort and filter fields
     AudioSortFilterParameters audioSortDefaultFilterParameters =
@@ -601,6 +608,9 @@ class _SortAndFilterAudioDialogWidgetState
           child: TextButton(
             key: const Key('saveSortFilterOptionsTextButton'),
             onPressed: () {
+              if (_sortFilterSaveAsUniqueName.isEmpty) {
+                return;
+              }
               List<dynamic> filterSortAudioAndParmLst =
                   _filterAndSortAudioLst();
               playlistListVM.saveAudioSortFilterParameters(
