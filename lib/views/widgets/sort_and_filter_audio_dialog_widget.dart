@@ -122,7 +122,8 @@ class _SortAndFilterAudioDialogWidgetState
         audioSortDefaultFilterParameters.filterPartiallyListened;
     _filterNotListened = audioSortDefaultFilterParameters.filterNotListened;
 
-    if (widget.audioLearnAppViewType == AudioLearnAppViewType.playlistDownloadView) {
+    if (widget.audioLearnAppViewType ==
+        AudioLearnAppViewType.playlistDownloadView) {
       _applySortFilterToPlaylistDownloadView = true;
       _applySortFilterToAudioPlayerView = false;
     } else {
@@ -182,11 +183,14 @@ class _SortAndFilterAudioDialogWidgetState
     _selectedSortingItemLst.clear();
     _selectedSortingItemLst
         .addAll(audioSortPlaylistFilterParameters.selectedSortItemLst);
+
     _sortFilterSaveAsUniqueNameController.clear();
     _audioTitleSearchSentenceController.clear();
+
     _audioTitleFilterSentencesLst.clear();
     _audioTitleFilterSentencesLst
         .addAll(audioSortPlaylistFilterParameters.filterSentenceLst);
+
     _ignoreCase = audioSortPlaylistFilterParameters.ignoreCase;
     _searchInVideoCompactDescription =
         audioSortPlaylistFilterParameters.searchAsWellInVideoCompactDescription;
@@ -199,6 +203,7 @@ class _SortAndFilterAudioDialogWidgetState
     _filterPartiallyListened =
         audioSortPlaylistFilterParameters.filterPartiallyListened;
     _filterNotListened = audioSortPlaylistFilterParameters.filterNotListened;
+
     _startDownloadDateTimeController.text =
         (audioSortPlaylistFilterParameters.downloadDateStartRange != null)
             ? audioSortPlaylistFilterParameters.downloadDateStartRange
@@ -216,23 +221,14 @@ class _SortAndFilterAudioDialogWidgetState
         (audioSortPlaylistFilterParameters.uploadDateEndRange != null)
             ? audioSortPlaylistFilterParameters.uploadDateEndRange.toString()
             : '';
+
     _startAudioDurationController.text =
-        (audioSortPlaylistFilterParameters.durationStartRangeSec != null)
-            ? audioSortPlaylistFilterParameters.durationStartRangeSec.toString()
-            : '';
+        audioSortPlaylistFilterParameters.durationStartRangeSec.toString();
     _endAudioDurationController.text =
-        (audioSortPlaylistFilterParameters.durationEndRangeSec != null)
-            ? audioSortPlaylistFilterParameters.durationEndRangeSec.toString()
-            : '';
-    _startFileSizeController.text =
-        (audioSortPlaylistFilterParameters.fileSizeStartRangeByte != null)
-            ? audioSortPlaylistFilterParameters.fileSizeStartRangeByte
-                .toString()
-            : '';
-    _endFileSizeController.text =
-        (audioSortPlaylistFilterParameters.fileSizeEndRangeByte != null)
-            ? audioSortPlaylistFilterParameters.fileSizeEndRangeByte.toString()
-            : '';
+        audioSortPlaylistFilterParameters.durationEndRangeSec.toString();
+
+    _startFileSizeController.text = audioSortPlaylistFilterParameters.fileSizeStartRangeByte.toString();
+    _endFileSizeController.text = audioSortPlaylistFilterParameters.fileSizeEndRangeByte.toString();
   }
 
   SortingItem _getInitialSortingItem() {
@@ -594,7 +590,7 @@ class _SortAndFilterAudioDialogWidgetState
             key: const Key('saveSortFilterOptionsTextButton'),
             onPressed: () async {
               setState(() {
-                _setPlaylistSortFilterOptions();
+    //            _setPlaylistSortFilterOptions();
               });
 
               // now clicking on Enter works since the
