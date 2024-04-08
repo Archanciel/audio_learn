@@ -491,6 +491,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                           },
                         ).then((filterSortAudioAndParmLst) {
                           if (filterSortAudioAndParmLst != null) {
+                            // user clicked on Save button on sort and
+                            // filter dialog opened by editing a sort
+                            // and filter dropdown menu item
                             List<Audio> returnedAudioList =
                                 filterSortAudioAndParmLst[0];
                             AudioSortFilterParameters
