@@ -82,6 +82,13 @@ class SortingItem {
 
   @override
   int get hashCode => Object.hash(sortingOption, isAscending);
+
+  SortingItem copy() {
+    return SortingItem(
+      sortingOption: this.sortingOption,
+      isAscending: this.isAscending,
+    );
+  }
 }
 
 class AudioSortFilterParameters {
@@ -309,6 +316,30 @@ class AudioSortFilterParameters {
       fileSizeEndRangeByte,
       durationStartRangeSec,
       durationEndRangeSec,
+    );
+  }
+
+  AudioSortFilterParameters copy() {
+    return AudioSortFilterParameters(
+      selectedSortItemLst: List<SortingItem>.from(
+          selectedSortItemLst.map((item) => item.copy())),
+      filterSentenceLst: List<String>.from(filterSentenceLst),
+      sentencesCombination: this.sentencesCombination,
+      ignoreCase: this.ignoreCase,
+      searchAsWellInVideoCompactDescription:
+          this.searchAsWellInVideoCompactDescription,
+      filterMusicQuality: this.filterMusicQuality,
+      filterFullyListened: this.filterFullyListened,
+      filterPartiallyListened: this.filterPartiallyListened,
+      filterNotListened: this.filterNotListened,
+      downloadDateStartRange: this.downloadDateStartRange,
+      downloadDateEndRange: this.downloadDateEndRange,
+      uploadDateStartRange: this.uploadDateStartRange,
+      uploadDateEndRange: this.uploadDateEndRange,
+      fileSizeStartRangeByte: this.fileSizeStartRangeByte,
+      fileSizeEndRangeByte: this.fileSizeEndRangeByte,
+      durationStartRangeSec: this.durationStartRangeSec,
+      durationEndRangeSec: this.durationEndRangeSec,
     );
   }
 }

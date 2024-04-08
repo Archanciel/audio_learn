@@ -510,7 +510,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               ),
               audioSortFilterParametersName: audioSortFilterParametersName,
               audioSortFilterParameters:
-                  audioSortFilterParametersMap[audioSortFilterParametersName]!,
+                  audioSortFilterParametersMap[audioSortFilterParametersName]!
+                      .copy(), // copy() is necessary to avoid modifying the
+              // original if saving the AudioSortFilterParameters to
+              // a new name
               audioSortPlaylistFilterParameters:
                   audioSortFilterParametersMap[audioSortFilterParametersName]!,
               audioLearnAppViewType: AudioLearnAppViewType.playlistDownloadView,
@@ -676,8 +679,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
                         .getSelectedPlaylistAudioSortFilterParamForView(
-                      AudioLearnAppViewType.playlistDownloadView,
-                    ),
+                          AudioLearnAppViewType.playlistDownloadView,
+                        )
+                        .copy(), // copy() is necessary to avoid modifying the
+                    // original if saving the AudioSortFilterParameters to
+                    // a new name
                     audioLearnAppViewType:
                         AudioLearnAppViewType.playlistDownloadView,
                     focusNode: focusNode,

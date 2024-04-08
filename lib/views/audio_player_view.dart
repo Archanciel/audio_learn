@@ -308,8 +308,11 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         .createDefaultAudioSortFilterParameters(),
                     audioSortPlaylistFilterParameters: playlistListVMlistenFalse
                         .getSelectedPlaylistAudioSortFilterParamForView(
-                      AudioLearnAppViewType.audioPlayerView,
-                    ),
+                          AudioLearnAppViewType.audioPlayerView,
+                        )
+                        .copy(), // copy() is necessary to avoid modifying the
+                        // original if saving the AudioSortFilterParameters to
+                        // a new name
                     audioLearnAppViewType:
                         AudioLearnAppViewType.audioPlayerView,
                     focusNode: focusNode,
