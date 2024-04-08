@@ -435,6 +435,25 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             .map(
               (String audioSortFilterParametersName) => DropdownMenuItem(
                 value: audioSortFilterParametersName,
+                onTap: () {
+                  // here, the user has selected a sort/filter option
+                  _selectedSortFilterParameters = audioSortFilterParametersName;
+                  AudioSortFilterParameters audioSortFilterParameters =
+                      playlistListVMlistenFalse
+                              .getAudioSortFilterParametersMap()[
+                          _selectedSortFilterParameters]!;
+                  playlistListVMlistenFalse
+                      .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+                    playlistListVMlistenFalse
+                        .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+                      audioLearnAppViewType:
+                          AudioLearnAppViewType.playlistDownloadView,
+                      audioSortFilterParameters: audioSortFilterParameters,
+                    ),
+                    audioSortFilterParameters,
+                  );
+                  _wasSortFilterAudioSettingsApplied = true;
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -457,7 +476,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                                 audioLearnAppViewType:
                                     AudioLearnAppViewType.audioPlayerView,
                               ),
-                              audioSortFilterParametersName: audioSortFilterParametersName,
+                              audioSortFilterParametersName:
+                                  audioSortFilterParametersName,
                               audioSortFilterParameters:
                                   audioSortFilterParametersMap[
                                       audioSortFilterParametersName]!,
