@@ -633,16 +633,11 @@ class _SortAndFilterAudioDialogWidgetState
           child: TextButton(
             key: const Key('deleteSortFilterTextButton'),
             onPressed: () {
-              Provider.of<PlaylistListVM>(
-                context,
-                listen: false,
-              ).deleteAudioSortFilterParameters(
+              playlistListVM.deleteAudioSortFilterParameters(
                 audioSortFilterParametersName: _sortFilterSaveAsUniqueName,
               );
 
-              setState(() {});
-
-              Navigator.of(context).pop();
+              Navigator.of(context).pop('delete');
             },
             child: Text(
               AppLocalizations.of(context)!.deleteShort,
@@ -1274,8 +1269,7 @@ class _SortAndFilterAudioDialogWidgetState
     });
   }
 
-  // Method called when the user clicks on the 'Apply' button or
-  // presses the Enter key on Windows
+  // Method called when the user clicks on the 'Save' button
   List<dynamic> _filterAndSortAudioLst() {
     widget.audioSortFilterParameters = AudioSortFilterParameters(
       selectedSortItemLst: _selectedSortingItemLst,
