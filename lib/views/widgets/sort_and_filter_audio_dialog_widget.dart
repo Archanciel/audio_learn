@@ -1207,6 +1207,7 @@ class _SortAndFilterAudioDialogWidgetState
       key: const Key('sortingOptionDropdownButton'),
       value: SortingOption.audioDownloadDate,
       onChanged: (SortingOption? newValue) {
+        // situation when the user selects a sorting option
         setState(() {
           if (!_selectedSortingItemLst
               .any((sortingItem) => sortingItem.sortingOption == newValue)) {
