@@ -435,25 +435,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             .map(
               (String audioSortFilterParametersName) => DropdownMenuItem(
                 value: audioSortFilterParametersName,
-                // onTap: () {
-                //   // here, the user has selected a sort/filter option
-                //   _selectedSortFilterParameters = audioSortFilterParametersName;
-                //   AudioSortFilterParameters audioSortFilterParameters =
-                //       playlistListVMlistenFalse
-                //               .getAudioSortFilterParametersMap()[
-                //           _selectedSortFilterParameters]!;
-                //   playlistListVMlistenFalse
-                //       .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
-                //     playlistListVMlistenFalse
-                //         .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-                //       audioLearnAppViewType:
-                //           AudioLearnAppViewType.playlistDownloadView,
-                //       audioSortFilterParameters: audioSortFilterParameters,
-                //     ),
-                //     audioSortFilterParameters,
-                //   );
-                //   _wasSortFilterAudioSettingsApplied = true;
-                // },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -482,7 +463,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           onChanged: (value) {
             // here, the user has selected a sort/filter option;
             // ontap code was executed before the onChanged code !
-            // The onTap code is now commented out.
+            // The onTap code is now deleted.
             _selectedSortFilterParametersName = value;
             AudioSortFilterParameters audioSortFilterParameters =
                 playlistListVMlistenFalse.getAudioSortFilterParametersMap()[
