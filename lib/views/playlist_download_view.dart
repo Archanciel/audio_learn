@@ -530,11 +530,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               //   audioSortFilterParametersName:
               //       audioSortFilterParametersName,
               // );
+              _selectedSortFilterParametersName = null;
               setState(() {
                 audioSortFilterParametersNamesLst.removeWhere(
                     (element) => element == audioSortFilterParametersName);
               });
-              FocusScope.of(context).requestFocus(FocusNode());
             } else {
               // user clicked on Save button
               List<Audio> returnedAudioList = filterSortAudioAndParmLst[0];
