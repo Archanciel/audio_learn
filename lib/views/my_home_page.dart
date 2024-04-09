@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../services/sort_filter_parameters.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/theme_provider_vm.dart';
 import '../services/settings_data_service.dart';
@@ -39,7 +41,12 @@ const Duration pageTransitionDuration = Duration(milliseconds: 20);
 const Curve pageTransitionCurve = Curves.ease;
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  SettingsDataService settingsDataService;
+
+  MyHomePage({
+    super.key,
+    required this.settingsDataService,
+  });
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -95,6 +102,12 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
+    widget.settingsDataService.addOrReplaceAudioSortFilterSettings(
+      audioSortFilterParametersName:
+          AppLocalizations.of(context)!.sortFilterParametersDefaultName,
+      audioSortFilterParameters:
+          AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
+    );
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(
       context,
       listen: true,

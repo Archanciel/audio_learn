@@ -538,7 +538,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               //   audioSortFilterParametersName:
               //       audioSortFilterParametersName,
               // );
-              _selectedSortFilterParametersName = null;
+              _selectedSortFilterParametersName = AppLocalizations.of(context)!.sortFilterParametersDefaultName;
               setState(() {
                 audioSortFilterParametersNamesLst.removeWhere(
                     (element) => element == audioSortFilterParametersName);

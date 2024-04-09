@@ -279,5 +279,6 @@
   "applySortFilterToViewTooltip": "Selecting sort/filter application to one or two audio views. This will be applied to the playlists to which this sort/filter is associated.",
   "saveSortFilterOptionsTooltip": "If the name already exists, the existing sort/filter options are updated with the modified parameters.",
   "deleteSortFilterOptionsTooltip": "If those sort/filter options are applied in a view, the Default sort/filter options will be applied instead.",
-  "deleteShort": "Delete"
+  "deleteShort": "Delete",
+  "sortFilterParametersDefaultName": "default"
 }

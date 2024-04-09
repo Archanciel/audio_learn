@@ -277,5 +277,6 @@
   "applySortFilterToViewTooltip": "Application du tri/filtrage à une ou deux vues audio. Ceci sera appliqué aux playlists auxquelles ce tri/filtrage est associé.",
   "saveSortFilterOptionsTooltip": "Si le nom existe déjà, les options de tri/filtrage existantes sont mises à jour avec les paramètres modifiés.",
   "deleteSortFilterOptionsTooltip": "Si ces options de tri/filtre sont appliquées dans une vue, les options de tri/filtre par défaut seront appliquées à la place.",
-  "deleteShort": "Suppr"
+  "deleteShort": "Suppr",
+  "sortFilterParametersDefaultName": "défaut"
 }

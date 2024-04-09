@@ -7,7 +7,6 @@ import 'package:window_manager/window_manager.dart';
 import 'package:window_size/window_size.dart';
 
 import 'constants.dart';
-import 'services/sort_filter_parameters.dart';
 import 'viewmodels/playlist_list_vm.dart';
 import 'viewmodels/audio_download_vm.dart';
 import 'viewmodels/audio_player_vm.dart';
@@ -63,12 +62,6 @@ Future<void> main(List<String> args) async {
   settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
         '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
-  );
-
-  settingsDataService.addOrReplaceAudioSortFilterSettings(
-    audioSortFilterParametersName: 'default',
-    audioSortFilterParameters:
-        AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
   );
 
   // If app runs on Windows, Linux or MacOS, set the app size
@@ -198,14 +191,16 @@ class MainApp extends StatelessWidget with ScreenMixin {
         builder: (context, themeProvider, languageProvider, child) {
           return MaterialApp(
             title: 'AudioLearn',
-            locale: languageProvider.currentLocale,
             // title: AppLocalizations.of(context)!.title,
+            locale: languageProvider.currentLocale,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: themeProvider.currentTheme == AppTheme.dark
                 ? ScreenMixin.themeDataDark
                 : ScreenMixin.themeDataLight,
-            home: const MyHomePage(),
+            home: MyHomePage(
+              settingsDataService: _settingsDataService,
+            ),
           );
         },
       ),
