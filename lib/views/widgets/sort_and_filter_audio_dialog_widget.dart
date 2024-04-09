@@ -575,6 +575,7 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
+  /// Create Reset, Save, Delete and Cancel buttons
   Row _buildActionButtonsLine(
     BuildContext context,
     ThemeProviderVM themeProviderVM,
@@ -611,7 +612,7 @@ class _SortAndFilterAudioDialogWidgetState
                 return;
               }
               List<dynamic> filterSortAudioAndParmLst =
-                  _filterAndSortAudioLst();
+                  _filterAndSortAudioLst(_sortFilterSaveAsUniqueName);
               playlistListVM.saveAudioSortFilterParameters(
                 audioSortFilterParametersName: _sortFilterSaveAsUniqueName,
                 audioSortFilterParameters: filterSortAudioAndParmLst[1],
@@ -1268,8 +1269,15 @@ class _SortAndFilterAudioDialogWidgetState
     });
   }
 
-  // Method called when the user clicks on the 'Save' button
-  List<dynamic> _filterAndSortAudioLst() {
+  /// Method called when the user clicks on the 'Save' button.
+  /// 
+  /// The method filters and sorts the audio list based on the selected
+  /// sorting and filtering options. The method returns a list of three
+  /// elements:
+  /// 1/ the filtered and sorted selected playlist audio list
+  /// 2/ the audio sort filter parameters
+  /// 3/ the sort filter parameters save as unique name
+  List<dynamic> _filterAndSortAudioLst(String sortFilterParametersSaveAsUniqueName,) {
     widget.audioSortFilterParameters = AudioSortFilterParameters(
       selectedSortItemLst: _selectedSortingItemLst,
       filterSentenceLst: _audioTitleFilterSentencesLst,
@@ -1292,6 +1300,7 @@ class _SortAndFilterAudioDialogWidgetState
     return [
       filteredAndSortedAudioLst,
       widget.audioSortFilterParameters,
+      sortFilterParametersSaveAsUniqueName,
     ];
   }
 }

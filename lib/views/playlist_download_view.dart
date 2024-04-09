@@ -515,7 +515,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               // original if saving the AudioSortFilterParameters to
               // a new name
               audioSortPlaylistFilterParameters:
-                  audioSortFilterParametersMap[audioSortFilterParametersName]!,
+                  audioSortFilterParametersMap[audioSortFilterParametersName]!
+                      .copy(), // copy() is necessary to avoid modifying the
+              // original if saving the AudioSortFilterParameters to
+              // a new name
               audioLearnAppViewType: AudioLearnAppViewType.playlistDownloadView,
               focusNode: focusNode,
             );
@@ -543,12 +546,17 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               List<Audio> returnedAudioList = filterSortAudioAndParmLst[0];
               AudioSortFilterParameters audioSortFilterParameters =
                   filterSortAudioAndParmLst[1];
+              String sortFilterParametersSaveAsName =
+                  filterSortAudioAndParmLst[2];
+
               playlistListVMlistenFalse
                   .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
                 returnedAudioList,
                 audioSortFilterParameters,
               );
               _wasSortFilterAudioSettingsApplied = true;
+              _selectedSortFilterParametersName =
+                  sortFilterParametersSaveAsName;
             }
           }
         });
