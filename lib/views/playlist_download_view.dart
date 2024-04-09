@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:audio_learn/views/widgets/save_sort_filter_options_to_playlist_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -437,20 +438,27 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             .map(
               (String audioSortFilterParametersName) => DropdownMenuItem(
                 value: audioSortFilterParametersName,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(audioSortFilterParametersName),
-                    (audioSortFilterParametersName ==
-                            _selectedSortFilterParametersName)
-                        ? createEditIconButton(
-                            playlistListVMlistenFalse,
-                            audioSortFilterParametersName,
-                            audioSortFilterParametersMap,
-                            audioSortFilterParametersNamesLst,
-                          )
-                        : const SizedBox.shrink(),
-                  ],
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: kDropdownMenuItemMaxWidth,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(audioSortFilterParametersName),
+                      ),
+                      (audioSortFilterParametersName ==
+                              _selectedSortFilterParametersName)
+                          ? createEditIconButton(
+                              playlistListVMlistenFalse,
+                              audioSortFilterParametersName,
+                              audioSortFilterParametersMap,
+                              audioSortFilterParametersNamesLst,
+                            )
+                          : const SizedBox.shrink(),
+                    ],
+                  ),
                 ),
               ),
             )
@@ -459,30 +467,39 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        DropdownButton<String>(
-          value: _selectedSortFilterParametersName,
-          items: dropdownItems,
-          onChanged: (value) {
-            // here, the user has selected a sort/filter option;
-            // ontap code was executed before the onChanged code !
-            // The onTap code is now deleted.
-            _selectedSortFilterParametersName = value;
-            AudioSortFilterParameters audioSortFilterParameters =
-                playlistListVMlistenFalse.getAudioSortFilterParametersMap()[
-                    _selectedSortFilterParametersName]!;
-            playlistListVMlistenFalse
-                .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+        ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: kDropdownButtonMaxWidth,
+          ),
+          child: DropdownButton<String>(
+            value: _selectedSortFilterParametersName,
+            items: dropdownItems,
+            onChanged: (value) {
+              // here, the user has selected a sort/filter option;
+              // ontap code was executed before the onChanged code !
+              // The onTap code is now deleted.
+              _selectedSortFilterParametersName = value;
+              AudioSortFilterParameters audioSortFilterParameters =
+                  playlistListVMlistenFalse.getAudioSortFilterParametersMap()[
+                      _selectedSortFilterParametersName]!;
               playlistListVMlistenFalse
-                  .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-                audioLearnAppViewType:
-                    AudioLearnAppViewType.playlistDownloadView,
-                audioSortFilterParameters: audioSortFilterParameters,
-              ),
-              audioSortFilterParameters,
-            );
-            _wasSortFilterAudioSettingsApplied = true;
-          },
-          hint: const Text('Select sort/filter'),
+                  .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+                playlistListVMlistenFalse
+                    .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+                  audioLearnAppViewType:
+                      AudioLearnAppViewType.playlistDownloadView,
+                  audioSortFilterParameters: audioSortFilterParameters,
+                ),
+                audioSortFilterParameters,
+              );
+              _wasSortFilterAudioSettingsApplied = true;
+            },
+            hint: Text(
+              AppLocalizations.of(context)!
+                  .sortFilterParametersDownloadButtonHint,
+            ),
+            underline: Container(), // suppresses the underline
+          ),
         ),
       ],
     );
@@ -538,7 +555,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               //   audioSortFilterParametersName:
               //       audioSortFilterParametersName,
               // );
-              _selectedSortFilterParametersName = AppLocalizations.of(context)!.sortFilterParametersDefaultName;
+              _selectedSortFilterParametersName =
+                  AppLocalizations.of(context)!.sortFilterParametersDefaultName;
               setState(() {
                 audioSortFilterParametersNamesLst.removeWhere(
                     (element) => element == audioSortFilterParametersName);

@@ -79,6 +79,8 @@ final Color kDarkAndLightDisabledIconColorOnDialog = Colors.grey.shade600;
 const Color kButtonColor = Color(0xFF3D3EC2);
 const Color kScreenButtonColor = kSliderThumbColorInDarkMode;
 const double kAudioDefaultPlayVolume = 0.5;
+const double kDropdownMenuItemMaxWidth = 90;
+const double kDropdownButtonMaxWidth = 150;
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");

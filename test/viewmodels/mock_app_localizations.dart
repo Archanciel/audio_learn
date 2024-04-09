@@ -807,4 +807,7 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get sortFilterParametersDefaultName => "default";
+
+  @override
+  String get sortFilterParametersDownloadButtonHint => "Select sort/filter";
 }

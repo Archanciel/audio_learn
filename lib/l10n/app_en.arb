@@ -280,5 +280,6 @@
   "saveSortFilterOptionsTooltip": "If the name already exists, the existing sort/filter options are updated with the modified parameters.",
   "deleteSortFilterOptionsTooltip": "If those sort/filter options are applied in a view, the Default sort/filter options will be applied instead.",
   "deleteShort": "Delete",
-  "sortFilterParametersDefaultName": "default"
+  "sortFilterParametersDefaultName": "default",
+  "sortFilterParametersDownloadButtonHint": "Select sort/filter"
 }
