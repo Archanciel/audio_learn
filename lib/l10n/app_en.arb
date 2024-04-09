@@ -281,5 +281,5 @@
   "deleteSortFilterOptionsTooltip": "If those sort/filter options are applied in a view, the Default sort/filter options will be applied instead.",
   "deleteShort": "Delete",
   "sortFilterParametersDefaultName": "default",
-  "sortFilterParametersDownloadButtonHint": "Select sort/filter"
+  "sortFilterParametersDownloadButtonHint": "Sel sort/filter"
 }

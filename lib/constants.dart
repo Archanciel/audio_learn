@@ -15,7 +15,7 @@ enum AudioLearnAppViewType {
 }
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.9.65';
+const String kApplicationVersion = '0.9.66';
 const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
 const String kDownloadAppTestDir =
     '/storage/emulated/0/Download/test/audiolear';
@@ -80,7 +80,8 @@ const Color kButtonColor = Color(0xFF3D3EC2);
 const Color kScreenButtonColor = kSliderThumbColorInDarkMode;
 const double kAudioDefaultPlayVolume = 0.5;
 const double kDropdownMenuItemMaxWidth = 90;
-const double kDropdownButtonMaxWidth = 150;
+const double kDropdownButtonMaxWidth = 140;
+const double kDropdownItemIconButtonWidth = 20.0;
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");

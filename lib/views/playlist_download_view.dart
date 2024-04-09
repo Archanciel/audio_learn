@@ -450,7 +450,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                       ),
                       (audioSortFilterParametersName ==
                               _selectedSortFilterParametersName)
-                          ? createEditIconButton(
+                          ? _buildDropdownItemEditIconButton(
                               playlistListVMlistenFalse,
                               audioSortFilterParametersName,
                               audioSortFilterParametersMap,
@@ -505,83 +505,88 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  IconButton createEditIconButton(
+  Widget _buildDropdownItemEditIconButton(
       PlaylistListVM playlistListVMlistenFalse,
       String audioSortFilterParametersName,
       Map<String, AudioSortFilterParameters> audioSortFilterParametersMap,
       List<String> audioSortFilterParametersNamesLst) {
-    return IconButton(
-      icon: const Icon(Icons.edit),
-      onPressed: () {
-        // Using FocusNode to enable clicking on Enter to close
-        // the dialog
-        final FocusNode focusNode = FocusNode();
+    return SizedBox(
+      width: kDropdownItemIconButtonWidth,
+      child: IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () {
+          // Using FocusNode to enable clicking on Enter to close
+          // the dialog
+          final FocusNode focusNode = FocusNode();
 
-        showDialog(
-          context: context,
-          barrierDismissible:
-              false, // This line prevents the dialog from closing when tapping outside
-          builder: (BuildContext context) {
-            return SortAndFilterAudioDialogWidget(
-              selectedPlaylistAudioLst: playlistListVMlistenFalse
-                  .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-                audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
-              ),
-              audioSortFilterParametersName: audioSortFilterParametersName,
-              audioSortFilterParameters:
-                  audioSortFilterParametersMap[audioSortFilterParametersName]!
-                      .copy(), // copy() is necessary to avoid modifying the
-              // original if saving the AudioSortFilterParameters to
-              // a new name
-              audioSortPlaylistFilterParameters:
-                  audioSortFilterParametersMap[audioSortFilterParametersName]!
-                      .copy(), // copy() is necessary to avoid modifying the
-              // original if saving the AudioSortFilterParameters to
-              // a new name
-              audioLearnAppViewType: AudioLearnAppViewType.playlistDownloadView,
-              focusNode: focusNode,
-            );
-          },
-        ).then((filterSortAudioAndParmLst) {
-          if (filterSortAudioAndParmLst != null) {
-            // user clicked on Save or on Delete button
-            // on sort and filter dialog opened by editing
-            // a sort and filter dropdown menu item
-            if (filterSortAudioAndParmLst == 'delete') {
-              // user clicked on Delete button
-
-              // playlistListVMlistenFalse
-              //     .deleteAudioSortFilterParameters(
-              //   audioSortFilterParametersName:
-              //       audioSortFilterParametersName,
-              // );
-              _selectedSortFilterParametersName =
-                  AppLocalizations.of(context)!.sortFilterParametersDefaultName;
-              setState(() {
-                audioSortFilterParametersNamesLst.removeWhere(
-                    (element) => element == audioSortFilterParametersName);
-              });
-            } else {
-              // user clicked on Save button
-              List<Audio> returnedAudioList = filterSortAudioAndParmLst[0];
-              AudioSortFilterParameters audioSortFilterParameters =
-                  filterSortAudioAndParmLst[1];
-              String sortFilterParametersSaveAsName =
-                  filterSortAudioAndParmLst[2];
-
-              playlistListVMlistenFalse
-                  .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
-                returnedAudioList,
-                audioSortFilterParameters,
+          showDialog(
+            context: context,
+            barrierDismissible:
+                false, // This line prevents the dialog from closing when tapping outside
+            builder: (BuildContext context) {
+              return SortAndFilterAudioDialogWidget(
+                selectedPlaylistAudioLst: playlistListVMlistenFalse
+                    .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+                  audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
+                ),
+                audioSortFilterParametersName: audioSortFilterParametersName,
+                audioSortFilterParameters:
+                    audioSortFilterParametersMap[audioSortFilterParametersName]!
+                        .copy(), // copy() is necessary to avoid modifying the
+                // original if saving the AudioSortFilterParameters to
+                // a new name
+                audioSortPlaylistFilterParameters:
+                    audioSortFilterParametersMap[audioSortFilterParametersName]!
+                        .copy(), // copy() is necessary to avoid modifying the
+                // original if saving the AudioSortFilterParameters to
+                // a new name
+                audioLearnAppViewType:
+                    AudioLearnAppViewType.playlistDownloadView,
+                focusNode: focusNode,
               );
-              _wasSortFilterAudioSettingsApplied = true;
-              _selectedSortFilterParametersName =
-                  sortFilterParametersSaveAsName;
+            },
+          ).then((filterSortAudioAndParmLst) {
+            if (filterSortAudioAndParmLst != null) {
+              // user clicked on Save or on Delete button
+              // on sort and filter dialog opened by editing
+              // a sort and filter dropdown menu item
+              if (filterSortAudioAndParmLst == 'delete') {
+                // user clicked on Delete button
+
+                // playlistListVMlistenFalse
+                //     .deleteAudioSortFilterParameters(
+                //   audioSortFilterParametersName:
+                //       audioSortFilterParametersName,
+                // );
+                _selectedSortFilterParametersName =
+                    AppLocalizations.of(context)!
+                        .sortFilterParametersDefaultName;
+                setState(() {
+                  audioSortFilterParametersNamesLst.removeWhere(
+                      (element) => element == audioSortFilterParametersName);
+                });
+              } else {
+                // user clicked on Save button
+                List<Audio> returnedAudioList = filterSortAudioAndParmLst[0];
+                AudioSortFilterParameters audioSortFilterParameters =
+                    filterSortAudioAndParmLst[1];
+                String sortFilterParametersSaveAsName =
+                    filterSortAudioAndParmLst[2];
+
+                playlistListVMlistenFalse
+                    .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+                  returnedAudioList,
+                  audioSortFilterParameters,
+                );
+                _wasSortFilterAudioSettingsApplied = true;
+                _selectedSortFilterParametersName =
+                    sortFilterParametersSaveAsName;
+              }
             }
-          }
-        });
-        focusNode.requestFocus();
-      },
+          });
+          focusNode.requestFocus();
+        },
+      ),
     );
   }
 
