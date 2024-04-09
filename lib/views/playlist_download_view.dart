@@ -429,6 +429,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
     List<String> audioSortFilterParametersNamesLst =
         audioSortFilterParametersMap.keys.toList();
+    audioSortFilterParametersNamesLst
+        .sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
 
     List<DropdownMenuItem<String>> dropdownItems =
         audioSortFilterParametersNamesLst
