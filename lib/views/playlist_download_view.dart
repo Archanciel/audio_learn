@@ -656,7 +656,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       width: kRowButtonGroupWidthSeparator,
       child: PopupMenuButton<PlaylistPopupMenuButton>(
         key: const Key('audio_popup_menu_button'),
-        enabled: (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
         onSelected: (PlaylistPopupMenuButton value) {
           // Handle menu item selection
           switch (value) {
@@ -749,6 +748,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             PopupMenuItem<PlaylistPopupMenuButton>(
               key: const Key(
                   'define_sort_and_filter_audio_settings_dialog_item'),
+              enabled:
+                  (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
               value: PlaylistPopupMenuButton.openSortFilterAudioSettingsDialog,
               child: Text(
                   AppLocalizations.of(context)!.defineSortFilterAudiosSettings),
@@ -756,6 +757,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             PopupMenuItem<PlaylistPopupMenuButton>(
               key: const Key(
                   'save_sort_and_filter_audio_settings_in_playlist_item'),
+              enabled:
+                  (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
               value: PlaylistPopupMenuButton
                   .saveSortFilterAudiosSettingsToPlaylist,
               child: Text(AppLocalizations.of(context)!

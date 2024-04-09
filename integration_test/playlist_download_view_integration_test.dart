@@ -5278,9 +5278,28 @@ void main() {
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Now open the audio popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+      );
+
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'update_playlist_json_dialog_item',
       );
 
       // Verifying that the selected playlist text field is empty
@@ -5439,9 +5458,28 @@ void main() {
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Now open the audio popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+      );
+
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'update_playlist_json_dialog_item',
       );
 
       // Verifying that the selected playlist text field is empty
@@ -5791,11 +5829,32 @@ void main() {
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      // since the selected local playlist has no audios, the
-      // audio popup menu button is disabled
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Now open the audio popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+      );
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'update_playlist_json_dialog_item',
       );
 
       // Purge the test playlist directory so that the created test
@@ -5836,7 +5895,7 @@ void main() {
 
       // since no playlist is selected, verify that no button is
       // enabled
-      ensureNoButtonIsEnabledSinceNoPlaylistIsSelected(tester);
+      await ensureNoButtonIsEnabledSinceNoPlaylistIsSelected(tester);
 
       // Tap the 'Toggle List' button to show the list of no selected playlist's.
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
@@ -5844,7 +5903,7 @@ void main() {
 
       // since no playlist is selected, verify that no button is
       // enabled
-      ensureNoButtonIsEnabledSinceNoPlaylistIsSelected(tester);
+      await ensureNoButtonIsEnabledSinceNoPlaylistIsSelected(tester);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -5930,11 +5989,32 @@ void main() {
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      // since the playlist has no audios, the audio popup menu
-      // button is disabled
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Now open the audio popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+      );
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'update_playlist_json_dialog_item',
       );
 
       // Purge the test playlist directory so that the created test
@@ -6021,11 +6101,32 @@ void main() {
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      // since the playlist has no audios, the audio popup menu
-      // button is disabled
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Now open the audio popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+      );
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'update_playlist_json_dialog_item',
       );
 
       // Purge the test playlist directory so that the created test
@@ -6332,11 +6433,32 @@ void main() {
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      // since the playlist has audios, the audio popup menu
-      // button is enabled
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Now open the audio popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+      );
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'update_playlist_json_dialog_item',
       );
 
       // Purge the test playlist directory so that the created test
@@ -6459,11 +6581,32 @@ void main() {
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      // since the playlist has audios, the audio popup menu
-      // button is enabled
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Now open the audio popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+      );
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'update_playlist_json_dialog_item',
       );
 
       // Purge the test playlist directory so that the created test
@@ -6583,11 +6726,32 @@ void main() {
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      // since the unique playlist audio was deleted, the audio
-      // popup menu button is disabled
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Now open the audio popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+      );
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'update_playlist_json_dialog_item',
       );
 
       // Purge the test playlist directory so that the created test
@@ -6709,11 +6873,32 @@ void main() {
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      // since the unique playlist audio was deleted, the audio
-      // popup menu button is disabled
-      verifyWidgetIsDisabled(
+      verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
+      );
+
+      // Now open the audio popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+      );
+
+      // since the selected local playlist has no audios, the
+      // audio menu item is disabled
+      verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+      );
+
+      verifyWidgetIsEnabled(
+        tester: tester,
+        widgetKeyStr: 'update_playlist_json_dialog_item',
       );
 
       // Purge the test playlist directory so that the created test
@@ -6723,7 +6908,8 @@ void main() {
   });
 }
 
-void ensureNoButtonIsEnabledSinceNoPlaylistIsSelected(WidgetTester tester) {
+Future<void> ensureNoButtonIsEnabledSinceNoPlaylistIsSelected(
+    WidgetTester tester) async {
   verifyWidgetIsDisabled(
     tester: tester,
     widgetKeyStr: 'move_up_playlist_button',
@@ -6744,9 +6930,32 @@ void ensureNoButtonIsEnabledSinceNoPlaylistIsSelected(WidgetTester tester) {
     widgetKeyStr: 'audio_quality_checkbox',
   );
 
-  verifyWidgetIsDisabled(
+  verifyWidgetIsEnabled(
     tester: tester,
     widgetKeyStr: 'audio_popup_menu_button',
+  );
+
+  // Now open the audio popup menu
+  await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+  await tester.pumpAndSettle();
+
+  // since the selected local playlist has no audios, the
+  // audio menu item is disabled
+  verifyWidgetIsDisabled(
+    tester: tester,
+    widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+  );
+
+  // since the selected local playlist has no audios, the
+  // audio menu item is disabled
+  verifyWidgetIsDisabled(
+    tester: tester,
+    widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+  );
+
+  verifyWidgetIsEnabled(
+    tester: tester,
+    widgetKeyStr: 'update_playlist_json_dialog_item',
   );
 }
 
@@ -6802,6 +7011,9 @@ void verifyWidgetIsDisabled({
     // For PopupMenuButton, check the enabled property
     expect(widget.enabled, isFalse,
         reason: 'PopupMenuButton should be disabled');
+  } else if (widget is PopupMenuItem) {
+    // For PopupMenuButton, check the enabled property
+    expect(widget.enabled, isFalse, reason: 'PopupMenuItem should be disabled');
   } else {
     fail(
         'The widget with key $widgetKeyStr is not a recognized type for this test');
@@ -6820,18 +7032,18 @@ void verifyWidgetIsEnabled({
 
   // Check if the widget is disabled based on its type
   if (widget is IconButton) {
-    expect(widget.onPressed, isNotNull,
-        reason: 'IconButton should be disabled');
+    expect(widget.onPressed, isNotNull, reason: 'IconButton should be enabled');
   } else if (widget is TextButton) {
-    expect(widget.onPressed, isNotNull,
-        reason: 'TextButton should be disabled');
+    expect(widget.onPressed, isNotNull, reason: 'TextButton should be enabled');
   } else if (widget is Checkbox) {
     // For Checkbox, you can check if onChanged is null
-    expect(widget.onChanged, isNotNull, reason: 'Checkbox should be disabled');
+    expect(widget.onChanged, isNotNull, reason: 'Checkbox should be enabled');
   } else if (widget is PopupMenuButton) {
     // For PopupMenuButton, check the enabled property
-    expect(widget.enabled, isTrue,
-        reason: 'PopupMenuButton should be disabled');
+    expect(widget.enabled, isTrue, reason: 'PopupMenuButton should be enabled');
+  } else if (widget is PopupMenuItem) {
+    // For PopupMenuButton, check the enabled property
+    expect(widget.enabled, isTrue, reason: 'PopupMenuItem should be enabled');
   } else {
     fail(
         'The widget with key $widgetKeyStr is not a recognized type for this test');
