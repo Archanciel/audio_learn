@@ -1117,7 +1117,7 @@ void main() {
 
       // skip to the start of the current audio
 
-      audioPlayerVM.skipToStart();
+      await audioPlayerVM.skipToStart();
 
       // obtain the current audio's changed position
       Duration currentAudioChangedPosition = audioPlayerVM.currentAudioPosition;
