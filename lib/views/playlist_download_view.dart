@@ -2,7 +2,6 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:audio_learn/views/widgets/save_sort_filter_options_to_playlist_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -430,6 +429,49 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   Row _buildSortFilterParametersDropdownButton(
     PlaylistListVM playlistListVMlistenFalse,
   ) {
+    String hintDefault =
+        AppLocalizations.of(context)!.sortFilterParametersDefaultName;
+
+    bool wasLanguageChanged = false;
+
+    if (hintDefault == "défaut") {
+      if (playlistListVMlistenFalse.deleteAudioSortFilterParameters(
+              audioSortFilterParametersName: "default") !=
+          null) {
+        wasLanguageChanged = true;
+        if (_selectedSortFilterParametersName == "default") {
+          // avoids UI problem since the currently selected sort and
+          // filter parameters name (default) is no longer available
+          // since it was deleted
+          _selectedSortFilterParametersName = "défaut";
+        }
+      }
+    } else if (hintDefault == "default") {
+      if (playlistListVMlistenFalse.deleteAudioSortFilterParameters(
+              audioSortFilterParametersName: 'défaut') !=
+          null) {
+        wasLanguageChanged = true;
+        if (_selectedSortFilterParametersName == "défaut") {
+          // avoids UI problem since the currently selected sort and
+          // filter parameters name (défaut) is no longer available
+          // since it was deleted
+          _selectedSortFilterParametersName = "default";
+        }
+      }
+    }
+
+    if (wasLanguageChanged &&
+        _selectedSortFilterParametersName != null &&
+        _selectedSortFilterParametersName != hintDefault) {
+      // if the selected sort and filter parameters name is not the
+      // default name, then the sort and filter parameters are applied
+      // to the selected playlist playable audios. Otherwise, when the
+      // user change the language, the default sort and filter parameters
+      // are applied to the selected playlist playable audios instead of
+      // the currently selected sort and filter parameters.
+      _updatePlaylistSortedFilteredAudioList(playlistListVMlistenFalse);
+    }
+
     Map<String, AudioSortFilterParameters> audioSortFilterParametersMap =
         playlistListVMlistenFalse.getAudioSortFilterParametersMap();
 
@@ -460,32 +502,34 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               // ontap code was executed before the onChanged code !
               // The onTap code is now deleted.
               _selectedSortFilterParametersName = value;
-              AudioSortFilterParameters audioSortFilterParameters =
-                  playlistListVMlistenFalse.getAudioSortFilterParameters(
-                audioSortFilterParametersName:
-                    _selectedSortFilterParametersName!,
-              );
-              playlistListVMlistenFalse
-                  .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
-                playlistListVMlistenFalse
-                    .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-                  audioLearnAppViewType:
-                      AudioLearnAppViewType.playlistDownloadView,
-                  audioSortFilterParameters: audioSortFilterParameters,
-                ),
-                audioSortFilterParameters,
-              );
-              _wasSortFilterAudioSettingsApplied = true;
+              _updatePlaylistSortedFilteredAudioList(playlistListVMlistenFalse);
             },
             hint: Text(
-              AppLocalizations.of(context)!
-                  .sortFilterParametersDownloadButtonHint,
+              hintDefault,
             ),
             underline: Container(), // suppresses the underline
           ),
         ),
       ],
     );
+  }
+
+  void _updatePlaylistSortedFilteredAudioList(
+      PlaylistListVM playlistListVMlistenFalse) {
+    AudioSortFilterParameters audioSortFilterParameters =
+        playlistListVMlistenFalse.getAudioSortFilterParameters(
+      audioSortFilterParametersName: _selectedSortFilterParametersName!,
+    );
+    playlistListVMlistenFalse
+        .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+      playlistListVMlistenFalse
+          .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+        audioLearnAppViewType: AudioLearnAppViewType.playlistDownloadView,
+        audioSortFilterParameters: audioSortFilterParameters,
+      ),
+      audioSortFilterParameters,
+    );
+    _wasSortFilterAudioSettingsApplied = true;
   }
 
   List<DropdownMenuItem<String>> _buildDropdownMenuItemsLst(
@@ -576,11 +620,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               if (filterSortAudioAndParmLst == 'delete') {
                 // user clicked on Delete button
 
-                // playlistListVMlistenFalse
-                //     .deleteAudioSortFilterParameters(
-                //   audioSortFilterParametersName:
-                //       audioSortFilterParametersName,
-                // );
+                // selecting the default sort and filter
+                // parameters drop down button item
                 _selectedSortFilterParametersName =
                     AppLocalizations.of(context)!
                         .sortFilterParametersDefaultName;
@@ -602,6 +643,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   audioSortFilterParameters,
                 );
                 _wasSortFilterAudioSettingsApplied = true;
+
+                // selecting the sort and filter parameters drop down
+                // button item corresponding to the saved sort and
+                // filter parameters
                 _selectedSortFilterParametersName =
                     sortFilterParametersSaveAsName;
               }

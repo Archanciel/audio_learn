@@ -198,12 +198,17 @@ class SettingsDataService {
     _saveSettings();
   }
 
-  void deleteAudioSortFilterSettings({
+  AudioSortFilterParameters? deleteAudioSortFilterSettings({
     required String audioSortFilterParametersName,
   }) {
-    _audioSortFilterParametersMap.remove(audioSortFilterParametersName);
+    AudioSortFilterParameters? removedAudioSortFilterParameters =
+        _audioSortFilterParametersMap.remove(audioSortFilterParametersName);
 
-    _saveSettings();
+    if (removedAudioSortFilterParameters != null) {
+      _saveSettings();
+    }
+
+    return removedAudioSortFilterParameters;
   }
 
   void _saveSettings() {

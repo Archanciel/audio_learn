@@ -478,10 +478,10 @@ class PlaylistListVM extends ChangeNotifier {
     );
   }
 
-  void deleteAudioSortFilterParameters({
+  AudioSortFilterParameters? deleteAudioSortFilterParameters({
     required String audioSortFilterParametersName,
   }) {
-    _settingsDataService.deleteAudioSortFilterSettings(
+    return _settingsDataService.deleteAudioSortFilterSettings(
       audioSortFilterParametersName: audioSortFilterParametersName,
     );
   }
