@@ -422,6 +422,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   /// Method called only if the list of playlists is NOT expanded
   /// AND if a playlist is selected.
+  /// 
+  /// This method return a row containing the sort filter
+  /// dropdown button. This button contains the list of sort
+  /// filter parameters dropdown items which were saved by the
+  /// user.
   Row _buildSortFilterParametersDropdownButton(
     PlaylistListVM playlistListVMlistenFalse,
   ) {
@@ -433,31 +438,34 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     audioSortFilterParametersNamesLst
         .sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
 
-    List<DropdownMenuItem<String>> dropdownItems =
+    List<DropdownMenuItem<String>> dropdownMenuItems =
         audioSortFilterParametersNamesLst
             .map(
               (String audioSortFilterParametersName) => DropdownMenuItem(
                 value: audioSortFilterParametersName,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: kDropdownMenuItemMaxWidth,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(audioSortFilterParametersName),
-                      ),
-                      (audioSortFilterParametersName ==
-                              _selectedSortFilterParametersName)
-                          ? _buildDropdownItemEditIconButton(
-                              playlistListVMlistenFalse,
-                              audioSortFilterParametersName,
-                              audioSortFilterParametersMap,
-                              audioSortFilterParametersNamesLst,
-                            )
-                          : const SizedBox.shrink(),
-                    ],
+                child: Tooltip(
+                  message: audioSortFilterParametersName,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: kDropdownMenuItemMaxWidth,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(audioSortFilterParametersName),
+                        ),
+                        (audioSortFilterParametersName ==
+                                _selectedSortFilterParametersName)
+                            ? _buildDropdownItemEditIconButton(
+                                playlistListVMlistenFalse,
+                                audioSortFilterParametersName,
+                                audioSortFilterParametersMap,
+                                audioSortFilterParametersNamesLst,
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -473,7 +481,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           ),
           child: DropdownButton<String>(
             value: _selectedSortFilterParametersName,
-            items: dropdownItems,
+            items: dropdownMenuItems,
             onChanged: (value) {
               // here, the user has selected a sort/filter option;
               // ontap code was executed before the onChanged code !
@@ -511,7 +519,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       Map<String, AudioSortFilterParameters> audioSortFilterParametersMap,
       List<String> audioSortFilterParametersNamesLst) {
     return SizedBox(
-      width: kDropdownItemIconButtonWidth,
+      width: kDropdownItemEditIconButtonWidth,
       child: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () {

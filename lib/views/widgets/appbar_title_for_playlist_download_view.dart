@@ -4,8 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../constants.dart';
 import '../../views/screen_mixin.dart';
 
-/// When the PlaylistView screen is displayed, the
-/// AppBarTitleForPlaylistView is set in the AppBar title:
+/// When the PlaylistDownloadView screen is displayed, the
+/// AppBarTitleForPlaylistDownloadView is set in the AppBar title:
 /// parameter.
 class AppBarTitleForPlaylistDownloadView extends StatelessWidget
     with ScreenMixin {
@@ -36,7 +36,7 @@ class AppBarTitleForPlaylistDownloadView extends StatelessWidget
             );
           },
           child: Image.asset('assets/images/youtube-logo-png-2069.png',
-              height: 38),
+              height: kYoutubeImageAssetHeight),
         ),
       ],
     );

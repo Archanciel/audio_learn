@@ -81,7 +81,8 @@ const Color kScreenButtonColor = kSliderThumbColorInDarkMode;
 const double kAudioDefaultPlayVolume = 0.5;
 const double kDropdownMenuItemMaxWidth = 90;
 const double kDropdownButtonMaxWidth = 140;
-const double kDropdownItemIconButtonWidth = 20.0;
+const double kDropdownItemEditIconButtonWidth = 25.0;
+const double kYoutubeImageAssetHeight = 38.0;
 
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");
