@@ -80,7 +80,13 @@ const Color kButtonColor = Color(0xFF3D3EC2);
 const Color kScreenButtonColor = kSliderThumbColorInDarkMode;
 const double kAudioDefaultPlayVolume = 0.5;
 const double kDropdownMenuItemMaxWidth = 90;
-const double kDropdownButtonMaxWidth = 140;
+
+// the width of the dropdown button in the dropdown menu
+// of the playlist download view can not be declared const
+// because it must be set to a larger width in the
+// playlist download view unit test.
+double kDropdownButtonMaxWidth = 140;
+
 const double kDropdownItemEditIconButtonWidth = 25.0;
 const double kYoutubeImageAssetHeight = 38.0;
 

@@ -439,7 +439,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         .sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
 
     List<DropdownMenuItem<String>> dropdownMenuItems =
-        _buildDropdownMenuItemaLst(
+        _buildDropdownMenuItemsLst(
       audioSortFilterParametersNamesLst,
       playlistListVMlistenFalse,
       audioSortFilterParametersMap,
@@ -449,7 +449,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ConstrainedBox(
-          constraints: const BoxConstraints(
+          constraints: BoxConstraints(
             maxWidth: kDropdownButtonMaxWidth,
           ),
           child: DropdownButton<String>(
@@ -488,7 +488,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownMenuItemaLst(
+  List<DropdownMenuItem<String>> _buildDropdownMenuItemsLst(
       List<String> audioSortFilterParametersNamesLst,
       PlaylistListVM playlistListVMlistenFalse,
       Map<String, AudioSortFilterParameters> audioSortFilterParametersMap) {

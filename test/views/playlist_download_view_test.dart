@@ -110,7 +110,7 @@ void main() async {
 
       // hidding the list
       await tester.tap(toggleButtonFinder);
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(listTileFinder, findsNothing);
 
@@ -498,8 +498,7 @@ void main() async {
           find.widgetWithIcon(IconButton, Icons.arrow_drop_up);
 
       if (widgetWithIconFinder.evaluate().isNotEmpty) {
-        IconButton upButton = tester.widget<IconButton>(
-            widgetWithIconFinder);
+        IconButton upButton = tester.widget<IconButton>(widgetWithIconFinder);
         expect(upButton.onPressed, isNull);
 
         IconButton downButton = tester.widget<IconButton>(
@@ -1184,6 +1183,11 @@ Future<void> _createPlaylistDownloadView({
   required SettingsDataService settingsDataService,
   required WarningMessageVM warningMessageVM,
 }) async {
+  // Setting the max width of the dropdown button to 315,
+  // otherwise the test will fail because the width of
+  // the dropdown button is set to 140 in constants.dart
+  kDropdownButtonMaxWidth = 315;
+
   await tester.pumpWidget(
     MultiProvider(
       providers: [
