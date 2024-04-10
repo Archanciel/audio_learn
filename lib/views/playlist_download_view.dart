@@ -422,7 +422,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
   /// Method called only if the list of playlists is NOT expanded
   /// AND if a playlist is selected.
-  /// 
+  ///
   /// This method return a row containing the sort filter
   /// dropdown button. This button contains the list of sort
   /// filter parameters dropdown items which were saved by the
@@ -438,6 +438,60 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     audioSortFilterParametersNamesLst
         .sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
 
+    List<DropdownMenuItem<String>> dropdownMenuItems =
+        _buildDropdownMenuItemaLst(
+      audioSortFilterParametersNamesLst,
+      playlistListVMlistenFalse,
+      audioSortFilterParametersMap,
+    );
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: kDropdownButtonMaxWidth,
+          ),
+          child: DropdownButton<String>(
+            value: _selectedSortFilterParametersName,
+            items: dropdownMenuItems,
+            onChanged: (value) {
+              // here, the user has selected a sort/filter option;
+              // ontap code was executed before the onChanged code !
+              // The onTap code is now deleted.
+              _selectedSortFilterParametersName = value;
+              AudioSortFilterParameters audioSortFilterParameters =
+                  playlistListVMlistenFalse.getAudioSortFilterParameters(
+                audioSortFilterParametersName:
+                    _selectedSortFilterParametersName!,
+              );
+              playlistListVMlistenFalse
+                  .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
+                playlistListVMlistenFalse
+                    .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
+                  audioLearnAppViewType:
+                      AudioLearnAppViewType.playlistDownloadView,
+                  audioSortFilterParameters: audioSortFilterParameters,
+                ),
+                audioSortFilterParameters,
+              );
+              _wasSortFilterAudioSettingsApplied = true;
+            },
+            hint: Text(
+              AppLocalizations.of(context)!
+                  .sortFilterParametersDownloadButtonHint,
+            ),
+            underline: Container(), // suppresses the underline
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<DropdownMenuItem<String>> _buildDropdownMenuItemaLst(
+      List<String> audioSortFilterParametersNamesLst,
+      PlaylistListVM playlistListVMlistenFalse,
+      Map<String, AudioSortFilterParameters> audioSortFilterParametersMap) {
     List<DropdownMenuItem<String>> dropdownMenuItems =
         audioSortFilterParametersNamesLst
             .map(
@@ -471,46 +525,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               ),
             )
             .toList();
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: kDropdownButtonMaxWidth,
-          ),
-          child: DropdownButton<String>(
-            value: _selectedSortFilterParametersName,
-            items: dropdownMenuItems,
-            onChanged: (value) {
-              // here, the user has selected a sort/filter option;
-              // ontap code was executed before the onChanged code !
-              // The onTap code is now deleted.
-              _selectedSortFilterParametersName = value;
-              AudioSortFilterParameters audioSortFilterParameters =
-                  playlistListVMlistenFalse.getAudioSortFilterParametersMap()[
-                      _selectedSortFilterParametersName]!;
-              playlistListVMlistenFalse
-                  .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
-                playlistListVMlistenFalse
-                    .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
-                  audioLearnAppViewType:
-                      AudioLearnAppViewType.playlistDownloadView,
-                  audioSortFilterParameters: audioSortFilterParameters,
-                ),
-                audioSortFilterParameters,
-              );
-              _wasSortFilterAudioSettingsApplied = true;
-            },
-            hint: Text(
-              AppLocalizations.of(context)!
-                  .sortFilterParametersDownloadButtonHint,
-            ),
-            underline: Container(), // suppresses the underline
-          ),
-        ),
-      ],
-    );
+    return dropdownMenuItems;
   }
 
   Widget _buildDropdownItemEditIconButton(
