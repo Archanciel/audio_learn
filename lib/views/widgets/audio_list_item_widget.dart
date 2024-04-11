@@ -204,8 +204,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                     ),
                   ).then((resultMap) {
                     if (resultMap == null) {
-                      // the case if no playlist was selected and
-                      // Cancel button was pressed
+                      // the case if Cancel button was pressed
                       return;
                     }
 
