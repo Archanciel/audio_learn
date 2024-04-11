@@ -166,9 +166,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
                   ).then((resultMap) {
-                    if (resultMap == null) {
-                      // the case if no playlist was selected and
-                      // Cancel button was pressed
+                    if (resultMap is String && resultMap == 'cancel') {
+                      // the case if the Cancel button was pressed
                       return;
                     }
 
@@ -203,8 +202,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
                   ).then((resultMap) {
-                    if (resultMap == null) {
-                      // the case if Cancel button was pressed
+                    if (resultMap is String && resultMap == 'cancel') {
+                      // the case if the Cancel button was pressed
                       return;
                     }
 
