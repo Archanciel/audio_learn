@@ -198,7 +198,12 @@ class _PlaylistOneSelectableDialogWidgetState
           TextButton(
             key: const Key('cancelButton'),
             onPressed: () {
-              Navigator.of(context).pop();
+              // Fixes bug which happened when downloading a single
+              // video audio and clicking on the cancel button of
+              // the single selection playlist dialog. Without
+              // this fix, the confirm dialog was displayed although
+              // the user clicked on the cancel button.
+              Navigator.of(context).pop("cancel");
             },
             child: Text(AppLocalizations.of(context)!.cancel,
                 style: (themeProvider.currentTheme == AppTheme.dark)

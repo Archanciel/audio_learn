@@ -989,15 +989,20 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 usedFor:
                     PlaylistOneSelectableDialogUsedFor.downloadSingleVideoAudio,
               ),
-            ).then((_) {
+            ).then((value) {
+              if (value is String && value == 'cancel') {
+                // Fixes bug which happened when downloading a single
+                // video audio and clicking on the cancel button of
+                // the single selection playlist dialog. Without
+                // this fix, the confirm dialog was displayed although
+                // the user clicked on the cancel button.
+                return;
+              }
+
               PlaylistListVM expandablePlaylistVM =
                   Provider.of<PlaylistListVM>(context, listen: false);
               selectedTargetPlaylist =
                   expandablePlaylistVM.uniqueSelectedPlaylist;
-
-              if (selectedTargetPlaylist == null) {
-                return;
-              }
 
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
