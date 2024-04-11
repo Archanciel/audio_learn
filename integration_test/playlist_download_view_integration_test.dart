@@ -2504,7 +2504,8 @@ void main() {
 
       const String youtubeAudioSourcePlaylistTitle =
           'audio_learn_test_download_2_small_videos';
-      const String localAudioTargetPlaylistTitle = 'local_audio_playlist_2';
+      const String localAudioTargetPlaylistTitleTwo = 'local_audio_playlist_2';
+      const String localAudioTargetPlaylistTitleThree = 'local_3';
       const String copiedAudioTitle = 'audio learn test short video one';
 
       SettingsDataService settingsDataService =
@@ -2556,8 +2557,7 @@ void main() {
       // "audio learn test short video one"
 
       // First, find the Audio sublist ListTile Text widget
-      Finder sourceAudioListTileTextWidgetFinder =
-          find.text(copiedAudioTitle);
+      Finder sourceAudioListTileTextWidgetFinder = find.text(copiedAudioTitle);
 
       // Then obtain the Audio ListTile widget enclosing the Text widget by
       // finding its ancestor
@@ -2597,7 +2597,7 @@ void main() {
         (Widget widget) =>
             widget is RadioListTile &&
             widget.title is Text &&
-            (widget.title as Text).data == localAudioTargetPlaylistTitle,
+            (widget.title as Text).data == localAudioTargetPlaylistTitleTwo,
       );
 
       // Tap the target playlist RadioListTile to select it
@@ -2652,7 +2652,7 @@ void main() {
       // contains the audio file copied from the source playlist
       List<String> targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
         path:
-            '$kDownloadAppTestDirWindows${path.separator}$localAudioTargetPlaylistTitle',
+            '$kDownloadAppTestDirWindows${path.separator}$localAudioTargetPlaylistTitleTwo',
         extension: 'mp3',
       );
 
@@ -2664,7 +2664,7 @@ void main() {
 
       // First, find the Playlist ListTile Text widget
       final Finder targetPlaylistListTileTextWidgetFinder =
-          find.text(localAudioTargetPlaylistTitle);
+          find.text(localAudioTargetPlaylistTitleTwo);
 
       // Then obtain the Playlist ListTile widget enclosing the Text widget
       // by finding its ancestor
@@ -2724,7 +2724,8 @@ void main() {
       final Text enclosingPlaylistTitleTextWidget = tester
           .widget<Text>(find.byKey(const Key('enclosingPlaylistTitleKey')));
 
-      expect(enclosingPlaylistTitleTextWidget.data, localAudioTargetPlaylistTitle);
+      expect(
+          enclosingPlaylistTitleTextWidget.data, localAudioTargetPlaylistTitleTwo);
 
       // Verify the copied from playlist title of the copied audio
 
@@ -2746,12 +2747,12 @@ void main() {
       await tester.tap(find.byKey(const Key('audioInfoOkButtonKey')));
       await tester.pumpAndSettle();
 
-      // Finally, we try to copy a second time the audio already copied
+      // Then, we try to copy a second time the audio already copied
       // to the target playlist in order to verify that a warning is
       // displayed informing that the audio was not copied because it
       // is already present in the target playlist
 
-            // Find the ListTile Playlist containing the audio to copy to
+      // Find the ListTile Playlist containing the audio to copy to
       // the target local playlist
 
       // First, find the source Playlist ListTile Text widget
@@ -2780,8 +2781,7 @@ void main() {
       // "audio learn test short video one"
 
       // First, find the Audio sublist ListTile Text widget
-      sourceAudioListTileTextWidgetFinder =
-          find.text(copiedAudioTitle);
+      sourceAudioListTileTextWidgetFinder = find.text(copiedAudioTitle);
 
       // Then obtain the Audio ListTile widget enclosing the Text widget by
       // finding its ancestor
@@ -2821,7 +2821,7 @@ void main() {
         (Widget widget) =>
             widget is RadioListTile &&
             widget.title is Text &&
-            (widget.title as Text).data == localAudioTargetPlaylistTitle,
+            (widget.title as Text).data == localAudioTargetPlaylistTitleTwo,
       );
 
       // Tap the target playlist RadioListTile to select it
@@ -2843,12 +2843,75 @@ void main() {
           tester.widget<Text>(find.byKey(const Key('warningDialogMessage')));
 
       expect(warningDialogMessageTextWidget.data,
-          "L'audio \"audio learn test short video one\" n'a pas été copié de la playlist \"audio_learn_test_download_2_small_videos\" vers la playlist \"local_audio_playlist_2\" car il est déjà présent dans cette playlist.");
+          "L'audio \"audio learn test short video one\" n'a pas été copié de la playlist Youtube \"audio_learn_test_download_2_small_videos\" vers la playlist locale \"local_audio_playlist_2\" car il est déjà présent dans cette playlist.");
 
       // Now find the ok button of the warning dialog
       // and tap on it
       await tester.tap(find.byKey(const Key('warningDialogOkButton')));
       await tester.pumpAndSettle();
+
+      // Finally redo copying the audio to the other local (local_3)
+      // playlist, but finally click on Cancel button.
+
+      // Now we want to tap the popup menu of the Audio ListTile
+      // "audio learn test short video one"
+
+      // First, find the Audio sublist ListTile Text widget
+      sourceAudioListTileTextWidgetFinder = find.text(copiedAudioTitle);
+
+      // Then obtain the Audio ListTile widget enclosing the Text widget by
+      // finding its ancestor
+      sourceAudioListTileWidgetFinder = find.ancestor(
+        of: sourceAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the leading menu icon button of the Audio ListTile
+      // and tap on it
+      sourceAudioListTileLeadingMenuIconButton = find.descendant(
+        of: sourceAudioListTileWidgetFinder,
+        matching: find.byIcon(Icons.menu),
+      );
+
+      // Tap the leading menu icon button to open the popup menu
+      await tester.tap(sourceAudioListTileLeadingMenuIconButton);
+      await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+      // Now find the copy audio popup menu item and tap on it
+      popupCopyMenuItem =
+          find.byKey(const Key("popup_menu_copy_audio_to_playlist"));
+
+      await tester.tap(popupCopyMenuItem);
+      await tester.pumpAndSettle(); // Wait for tap action to complete
+
+      // Check the value of the select one playlist AlertDialog
+      // dialog title
+      alertDialogTitle = tester
+          .widget(find.byKey(const Key('playlistOneSelectableDialogTitleKey')));
+      expect(alertDialogTitle.data, 'Sélectionnez une playlist');
+
+      // Find the RadioListTile target playlist to which the audio
+      // will be copied
+
+      targetPlaylistRadioListTile = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is RadioListTile &&
+            widget.title is Text &&
+            (widget.title as Text).data == localAudioTargetPlaylistTitleThree,
+      );
+
+      // Tap the target playlist RadioListTile to select it
+      await tester.tap(targetPlaylistRadioListTile);
+      await tester.pumpAndSettle();
+
+      // Now find the confirm button and tap on it
+      await tester.tap(find.byKey(const Key('cancelButton')));
+      await tester.pumpAndSettle();
+
+
+
+
+
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
