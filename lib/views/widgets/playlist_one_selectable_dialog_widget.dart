@@ -198,11 +198,6 @@ class _PlaylistOneSelectableDialogWidgetState
           TextButton(
             key: const Key('cancelButton'),
             onPressed: () {
-              // Fixes the fact that clicking on the cancel button
-              // did display the confirm dialog !
-              expandablePlaylistVM.setUniqueSelectedPlaylist(
-                selectedPlaylist: null,
-              );
               Navigator.of(context).pop();
             },
             child: Text(AppLocalizations.of(context)!.cancel,
