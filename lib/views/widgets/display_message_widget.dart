@@ -294,30 +294,112 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
         return const SizedBox.shrink();
       case WarningMessageType.audioNotMovedFromToPlaylist:
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          String audioMovedFromToPlaylistMessage;
+
+          if (_warningMessageVM.movedFromPlaylistType == PlaylistType.local) {
+            if (_warningMessageVM.movedToPlaylistType == PlaylistType.local) {
+              audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioNotMovedFromLocalPlaylistToLocalPlaylist(
+                _warningMessageVM.movedAudioValidVideoTitle,
+                _warningMessageVM.movedFromPlaylistTitle,
+                _warningMessageVM.movedToPlaylistTitle,
+              );
+            } else {
+              audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioNotMovedFromLocalPlaylistToYoutubePlaylist(
+                _warningMessageVM.movedAudioValidVideoTitle,
+                _warningMessageVM.movedFromPlaylistTitle,
+                _warningMessageVM.movedToPlaylistTitle,
+              );
+            }
+          } else {
+            if (!_warningMessageVM.keepAudioDataInSourcePlaylist) {
+              if (_warningMessageVM.movedToPlaylistType == PlaylistType.local) {
+                audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                    .audioNotMovedFromYoutubePlaylistToLocalPlaylist(
+                  _warningMessageVM.movedAudioValidVideoTitle,
+                  _warningMessageVM.movedFromPlaylistTitle,
+                  _warningMessageVM.movedToPlaylistTitle,
+                );
+              } else {
+                audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                    .audioNotMovedFromYoutubePlaylistToYoutubePlaylist(
+                  _warningMessageVM.movedAudioValidVideoTitle,
+                  _warningMessageVM.movedFromPlaylistTitle,
+                  _warningMessageVM.movedToPlaylistTitle,
+                );
+              }
+            } else {
+              if (_warningMessageVM.movedToPlaylistType == PlaylistType.local) {
+                audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                    .audioNotMovedFromYoutubePlaylistToLocalPlaylist(
+                  _warningMessageVM.movedAudioValidVideoTitle,
+                  _warningMessageVM.movedFromPlaylistTitle,
+                  _warningMessageVM.movedToPlaylistTitle,
+                );
+              } else {
+                audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
+                    .audioNotMovedFromYoutubePlaylistToYoutubePlaylist(
+                  _warningMessageVM.movedAudioValidVideoTitle,
+                  _warningMessageVM.movedFromPlaylistTitle,
+                  _warningMessageVM.movedToPlaylistTitle,
+                );
+              }
+            }
+          }
           _displayWarningDialog(
             context: _context,
-            message: AppLocalizations.of(context)!.audioNotMovedFromToPlaylist(
-              _warningMessageVM.movedAudioValidVideoTitle,
-              _warningMessageVM.movedFromPlaylistTitle,
-              _warningMessageVM.movedToPlaylistTitle,
-            ),
+            message: audioMovedFromToPlaylistMessage,
             warningMessageVM: _warningMessageVM,
             themeProviderVM: themeProviderVM,
+            warningMode: WarningMode.warning,
           );
         });
 
         return const SizedBox.shrink();
       case WarningMessageType.audioNotCopiedFromToPlaylist:
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          String audioCopiedFromToPlaylistMessage;
+
+          if (_warningMessageVM.copiedFromPlaylistType == PlaylistType.local) {
+            if (_warningMessageVM.copiedToPlaylistType == PlaylistType.local) {
+              audioCopiedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioNotCopiedFromLocalPlaylistToLocalPlaylist(
+                _warningMessageVM.copiedAudioValidVideoTitle,
+                _warningMessageVM.copiedFromPlaylistTitle,
+                _warningMessageVM.copiedToPlaylistTitle,
+              );
+            } else {
+              audioCopiedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioNotCopiedFromLocalPlaylistToYoutubePlaylist(
+                _warningMessageVM.copiedAudioValidVideoTitle,
+                _warningMessageVM.copiedFromPlaylistTitle,
+                _warningMessageVM.copiedToPlaylistTitle,
+              );
+            }
+          } else {
+            if (_warningMessageVM.copiedToPlaylistType == PlaylistType.local) {
+              audioCopiedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioNotCopiedFromYoutubePlaylistToLocalPlaylist(
+                _warningMessageVM.copiedAudioValidVideoTitle,
+                _warningMessageVM.copiedFromPlaylistTitle,
+                _warningMessageVM.copiedToPlaylistTitle,
+              );
+            } else {
+              audioCopiedFromToPlaylistMessage = AppLocalizations.of(context)!
+                  .audioNotCopiedFromYoutubePlaylistToYoutubePlaylist(
+                _warningMessageVM.copiedAudioValidVideoTitle,
+                _warningMessageVM.copiedFromPlaylistTitle,
+                _warningMessageVM.copiedToPlaylistTitle,
+              );
+            }
+          }
           _displayWarningDialog(
             context: _context,
-            message: AppLocalizations.of(context)!.audioNotCopiedFromToPlaylist(
-              _warningMessageVM.copiedAudioValidVideoTitle,
-              _warningMessageVM.copiedFromPlaylistTitle,
-              _warningMessageVM.copiedToPlaylistTitle,
-            ),
+            message: audioCopiedFromToPlaylistMessage,
             warningMessageVM: _warningMessageVM,
             themeProviderVM: themeProviderVM,
+            warningMode: WarningMode.warning,
           );
         });
 
@@ -346,14 +428,14 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
             if (!_warningMessageVM.keepAudioDataInSourcePlaylist) {
               if (_warningMessageVM.movedToPlaylistType == PlaylistType.local) {
                 audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
-                    .audioMovedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(
+                    .audioMovedFromYoutubePlaylistToLocalPlaylist(
                   _warningMessageVM.movedAudioValidVideoTitle,
                   _warningMessageVM.movedFromPlaylistTitle,
                   _warningMessageVM.movedToPlaylistTitle,
                 );
               } else {
                 audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
-                    .audioMovedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning(
+                    .audioMovedFromYoutubePlaylistToYoutubePlaylist(
                   _warningMessageVM.movedAudioValidVideoTitle,
                   _warningMessageVM.movedFromPlaylistTitle,
                   _warningMessageVM.movedToPlaylistTitle,

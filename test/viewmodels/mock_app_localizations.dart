@@ -810,4 +810,68 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get sortFilterParametersDownloadButtonHint => "Select sort/filter";
+
+  @override
+  String audioNotMovedFromLocalPlaylistToLocalPlaylist(
+    Object audioTitle,
+    Object fromPlaylistTitle,
+    Object toPlaylistTitle,
+  ) =>
+      "Audio \"{audioTitle}\" NOT moved from local playlist \"{fromPlaylistTitle}\" to local playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.";
+
+  @override
+  String audioNotMovedFromLocalPlaylistToYoutubePlaylist(
+    Object audioTitle,
+    Object fromPlaylistTitle,
+    Object toPlaylistTitle,
+  ) =>
+      "Audio \"{audioTitle}\" NOT moved from local playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.";
+
+  @override
+  String audioNotMovedFromYoutubePlaylistToLocalPlaylist(
+    Object audioTitle,
+    Object fromPlaylistTitle,
+    Object toPlaylistTitle,
+  ) =>
+      "Audio \"{audioTitle}\" NOT moved from Youtube playlist \"{fromPlaylistTitle}\" to local playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.";
+
+  @override
+  String audioNotMovedFromYoutubePlaylistToYoutubePlaylist(
+    Object audioTitle,
+    Object fromPlaylistTitle,
+    Object toPlaylistTitle,
+  ) =>
+      "Audio \"{audioTitle}\" NOT moved from Youtube playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.";
+
+  @override
+  String audioNotCopiedFromLocalPlaylistToLocalPlaylist(
+    Object audioTitle,
+    Object fromPlaylistTitle,
+    Object toPlaylistTitle,
+  ) =>
+      "Audio \"{audioTitle}\" NOT copied from local playlist \"{fromPlaylistTitle}\" to local playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.";
+
+  @override
+  String audioNotCopiedFromLocalPlaylistToYoutubePlaylist(
+    Object audioTitle,
+    Object fromPlaylistTitle,
+    Object toPlaylistTitle,
+  ) =>
+      "Audio \"{audioTitle}\" NOT copied from local playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.";
+
+  @override
+  String audioNotCopiedFromYoutubePlaylistToLocalPlaylist(
+    Object audioTitle,
+    Object fromPlaylistTitle,
+    Object toPlaylistTitle,
+  ) =>
+      "Audio \"{audioTitle}\" NOT copied from Youtube playlist \"{fromPlaylistTitle}\" to local playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.";
+
+  @override
+  String audioNotCopiedFromYoutubePlaylistToYoutubePlaylist(
+    Object audioTitle,
+    Object fromPlaylistTitle,
+    Object toPlaylistTitle,
+  ) =>
+      "Audio \"{audioTitle}\" NOT copied from Youtube playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.";
 }

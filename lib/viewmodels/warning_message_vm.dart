@@ -297,10 +297,14 @@ class WarningMessageVM extends ChangeNotifier {
   void setAudioNotMovedFromToPlaylistTitles({
     required String movedAudioValidVideoTitle,
     required String movedFromPlaylistTitle,
+    required PlaylistType movedFromPlaylistType,
     required String movedToPlaylistTitle,
+    required PlaylistType movedToPlaylistType,
   }) {
     _movedAudioValidVideoTitle = movedAudioValidVideoTitle;
     _movedFromPlaylistTitle = movedFromPlaylistTitle;
+    _movedFromPlaylistType = movedFromPlaylistType;
+    _movedToPlaylistType = movedToPlaylistType;
     _movedToPlaylistTitle = movedToPlaylistTitle;
 
     _warningMessageType = WarningMessageType.audioNotMovedFromToPlaylist;
@@ -345,11 +349,15 @@ class WarningMessageVM extends ChangeNotifier {
   void setAudioNotCopiedFromToPlaylistTitles({
     required String copiedAudioValidVideoTitle,
     required String copiedFromPlaylistTitle,
+    required PlaylistType copiedFromPlaylistType,
     required String copiedToPlaylistTitle,
+    required PlaylistType copiedToPlaylistType,
   }) {
     _copiedAudioValidVideoTitle = copiedAudioValidVideoTitle;
     _copiedFromPlaylistTitle = copiedFromPlaylistTitle;
+    _copiedFromPlaylistType = copiedFromPlaylistType;
     _copiedToPlaylistTitle = copiedToPlaylistTitle;
+    _copiedToPlaylistType = copiedToPlaylistType;
 
     _warningMessageType = WarningMessageType.audioNotCopiedFromToPlaylist;
 

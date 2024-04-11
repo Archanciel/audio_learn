@@ -791,9 +791,12 @@ class AudioDownloadVM extends ChangeNotifier {
 
     if (!wasFileMoved) {
       warningMessageVM.setAudioNotMovedFromToPlaylistTitles(
-          movedAudioValidVideoTitle: audio.validVideoTitle,
-          movedFromPlaylistTitle: fromPlaylist.title,
-          movedToPlaylistTitle: targetPlaylist.title);
+        movedAudioValidVideoTitle: audio.validVideoTitle,
+        movedFromPlaylistTitle: fromPlaylist.title,
+        movedFromPlaylistType: fromPlaylist.playlistType,
+        movedToPlaylistTitle: targetPlaylist.title,
+        movedToPlaylistType: targetPlaylist.playlistType,
+      );
 
       return;
     }
@@ -858,7 +861,9 @@ class AudioDownloadVM extends ChangeNotifier {
       warningMessageVM.setAudioNotCopiedFromToPlaylistTitles(
           copiedAudioValidVideoTitle: audio.validVideoTitle,
           copiedFromPlaylistTitle: fromPlaylistTitle,
-          copiedToPlaylistTitle: targetPlaylist.title);
+          copiedFromPlaylistType: fromPlaylist.playlistType,
+          copiedToPlaylistTitle: targetPlaylist.title,
+          copiedToPlaylistType: targetPlaylist.playlistType);
 
       return;
     }
@@ -949,8 +954,8 @@ class AudioDownloadVM extends ChangeNotifier {
 
     for (Playlist playlist in copyOfList) {
       bool isPlaylistDownloadPathUpdated = false;
-      Playlist correspondingOriginalPlaylist = _listOfPlaylist
-          .firstWhere((element) => element == playlist);
+      Playlist correspondingOriginalPlaylist =
+          _listOfPlaylist.firstWhere((element) => element == playlist);
 
       if (!Directory(playlist.downloadPath).existsSync()) {
         // the case if the playlist dir has been deleted by the user
@@ -973,7 +978,8 @@ class AudioDownloadVM extends ChangeNotifier {
 
       // remove the audios from the playlable audio list which are no
       // longer in the playlist directory
-      int removedPlayableAudioNumber = correspondingOriginalPlaylist.updatePlayableAudioLst();
+      int removedPlayableAudioNumber =
+          correspondingOriginalPlaylist.updatePlayableAudioLst();
 
       // update validVideoTitle of the playlists audios. This is useful
       // when the method computing the validVideoTitle has been improved
