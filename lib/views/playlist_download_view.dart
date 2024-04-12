@@ -469,7 +469,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       // user change the language, the default sort and filter parameters
       // are applied to the selected playlist playable audios instead of
       // the currently selected sort and filter parameters.
-      _updatePlaylistSortedFilteredAudioList(playlistListVMlistenFalse);
+      _updatePlaylistSortedFilteredAudioList(
+        playlistListVMlistenFalse,
+        notifyListeners: false,
+      );
     }
 
     Map<String, AudioSortFilterParameters> audioSortFilterParametersMap =
@@ -515,7 +518,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   }
 
   void _updatePlaylistSortedFilteredAudioList(
-      PlaylistListVM playlistListVMlistenFalse) {
+    PlaylistListVM playlistListVMlistenFalse, {
+    bool notifyListeners = true,
+  }) {
     AudioSortFilterParameters audioSortFilterParameters =
         playlistListVMlistenFalse.getAudioSortFilterParameters(
       audioSortFilterParametersName: _selectedSortFilterParametersName!,
@@ -528,6 +533,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         audioSortFilterParameters: audioSortFilterParameters,
       ),
       audioSortFilterParameters,
+      doNotifyListeners: notifyListeners,
     );
     _wasSortFilterAudioSettingsApplied = true;
   }
