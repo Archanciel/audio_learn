@@ -640,9 +640,9 @@ class PlaylistListVM extends ChangeNotifier {
   /// {audioSortFilterParameters} is the sort and filter
   /// parameters selected by the user in the
   /// SortAndFilterAudioDialogWidget.
-  void setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
-    List<Audio> sortedFilteredSelectedPlaylistsPlayableAudios,
-    AudioSortFilterParameters audioSortFilterParameters, {
+  void setSortedFilteredSelectedPlaylistPlayableAudiosAndParms({
+    required List<Audio> sortedFilteredSelectedPlaylistsPlayableAudios,
+    required AudioSortFilterParameters audioSortFilterParameters,
     bool doNotifyListeners = true,
   }) {
     _sortedFilteredSelectedPlaylistsPlayableAudios =

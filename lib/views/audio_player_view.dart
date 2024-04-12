@@ -311,8 +311,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                           AudioLearnAppViewType.audioPlayerView,
                         )
                         .copy(), // copy() is necessary to avoid modifying the
-                        // original if saving the AudioSortFilterParameters to
-                        // a new name
+                    // original if saving the AudioSortFilterParameters to
+                    // a new name
                     audioLearnAppViewType:
                         AudioLearnAppViewType.audioPlayerView,
                     focusNode: focusNode,
@@ -325,8 +325,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       filterSortAudioAndParmLst[1];
                   playlistListVMlistenFalse
                       .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
-                    returnedAudioList,
-                    audioSortFilterParameters,
+                    sortedFilteredSelectedPlaylistsPlayableAudios:
+                        returnedAudioList,
+                    audioSortFilterParameters: audioSortFilterParameters,
                   );
                 }
               });

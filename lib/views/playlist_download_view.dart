@@ -527,12 +527,12 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
     playlistListVMlistenFalse
         .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
-      playlistListVMlistenFalse
+      sortedFilteredSelectedPlaylistsPlayableAudios: playlistListVMlistenFalse
           .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
         audioLearnAppViewType: AudioLearnAppViewType.playlistDownloadView,
         audioSortFilterParameters: audioSortFilterParameters,
       ),
-      audioSortFilterParameters,
+      audioSortFilterParameters: audioSortFilterParameters,
       doNotifyListeners: notifyListeners,
     );
     _wasSortFilterAudioSettingsApplied = true;
@@ -645,8 +645,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
                 playlistListVMlistenFalse
                     .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
-                  returnedAudioList,
-                  audioSortFilterParameters,
+                  sortedFilteredSelectedPlaylistsPlayableAudios:
+                      returnedAudioList,
+                  audioSortFilterParameters: audioSortFilterParameters,
                 );
                 _wasSortFilterAudioSettingsApplied = true;
 
@@ -796,7 +797,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   );
                 },
               ).then((filterSortAudioAndParmLst) {
-                int a = 9;
                 if (filterSortAudioAndParmLst != null) {
                   // user clicked on Save button on sort and filter dialog
                   // opened by the popup menu button item
@@ -805,8 +805,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                       filterSortAudioAndParmLst[1];
                   playlistListVMlistenFalse
                       .setSortedFilteredSelectedPlaylistPlayableAudiosAndParms(
-                    returnedAudioList,
-                    audioSortFilterParameters,
+                    sortedFilteredSelectedPlaylistsPlayableAudios:
+                        returnedAudioList,
+                    audioSortFilterParameters: audioSortFilterParameters,
                   );
                   _wasSortFilterAudioSettingsApplied = true;
                 }
