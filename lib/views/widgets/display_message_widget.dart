@@ -426,16 +426,18 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
             }
           } else {
             if (!_warningMessageVM.keepAudioDataInSourcePlaylist) {
+              // Situation in which the user unchecked the checkbox
+              // to keep the audio data in the source playlist
               if (_warningMessageVM.movedToPlaylistType == PlaylistType.local) {
                 audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
-                    .audioMovedFromYoutubePlaylistToLocalPlaylist(
+                    .audioMovedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(
                   _warningMessageVM.movedAudioValidVideoTitle,
                   _warningMessageVM.movedFromPlaylistTitle,
                   _warningMessageVM.movedToPlaylistTitle,
                 );
               } else {
                 audioMovedFromToPlaylistMessage = AppLocalizations.of(context)!
-                    .audioMovedFromYoutubePlaylistToYoutubePlaylist(
+                    .audioMovedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning(
                   _warningMessageVM.movedAudioValidVideoTitle,
                   _warningMessageVM.movedFromPlaylistTitle,
                   _warningMessageVM.movedToPlaylistTitle,

@@ -597,18 +597,6 @@ class MockAppLocalizations extends AppLocalizations {
   }
 
   @override
-  String audioCopiedFromYoutubePlaylistToLocalPlaylistPlaylistWarning(
-      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".\n\nIF THE DELETED AUDIO VIDEO "$audioTitle" REMAINS IN THE "$fromPlaylistTitle" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
-  }
-
-  @override
-  String audioCopiedFromYoutubePlaylistToYoutubePlaylistPlaylistWarning(
-      Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
-    return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to Youtube playlist "$toPlaylistTitle".\n\nIF THE DELETED AUDIO VIDEO "$audioTitle" REMAINS IN THE "$fromPlaylistTitle" YOUTUBE PLAYLIST, IT WILL BE DOWNLOADED AGAIN THE NEXT TIME YOU DOWNLOAD THE PLAYLIST !';
-  }
-
-  @override
   String audioCopiedFromYoutubePlaylistToLocalPlaylist(
       Object audioTitle, Object fromPlaylistTitle, Object toPlaylistTitle) {
     return 'Audio "$audioTitle" copied from Youtube playlist "$fromPlaylistTitle" to local playlist "$toPlaylistTitle".';
@@ -874,4 +862,8 @@ class MockAppLocalizations extends AppLocalizations {
     Object toPlaylistTitle,
   ) =>
       "Audio \"{audioTitle}\" NOT copied from Youtube playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.";
+
+  @override
+  String get keepAudioEntryInSourcePlaylistTooltip =>
+      "Maintains audio data in the original playlist's JSON file, even after the audio file is transferred to another playlist. This prevents re-downloading the audio file if it no longer exists in its original directory.";
 }

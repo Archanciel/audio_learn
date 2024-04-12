@@ -231,10 +231,14 @@ class _PlaylistOneSelectableDialogWidgetState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: Text(
-                AppLocalizations.of(context)!.keepAudioEntryInSourcePlaylist,
-                style: TextStyle(
-                  color: isDarkTheme ? Colors.white : Colors.black,
+              child: Tooltip(
+                message: AppLocalizations.of(context)!
+                    .keepAudioEntryInSourcePlaylistTooltip,
+                child: Text(
+                  AppLocalizations.of(context)!.keepAudioEntryInSourcePlaylist,
+                  style: TextStyle(
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
             ),
@@ -242,6 +246,7 @@ class _PlaylistOneSelectableDialogWidgetState
               width: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
               height: ScreenMixin.CHECKBOX_WIDTH_HEIGHT,
               child: Checkbox(
+                key: const Key('keepAudioDataInSourcePlaylistCheckboxKey'),
                 value: _keepAudioDataInSourcePlaylist,
                 onChanged: (bool? newValue) {
                   setState(() {
