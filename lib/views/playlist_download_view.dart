@@ -1052,9 +1052,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
               selectedTargetPlaylist = value["selectedPlaylist"];
 
-              // required so that clicking on Enter to close the dialog works
-              focusNode.requestFocus();
-
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode newFocusNode = FocusNode();
@@ -1139,9 +1136,15 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   }
                 }
               });
-              // required so that clicking on Enter to close the dialog works
+              // required so that clicking on Enter to close the dialog
+              // works. This intruction must be located after the
+              // .then() method of the showDialog() method !
               newFocusNode.requestFocus();
             });
+            // required so that clicking on Enter to close the dialog
+            // works. This intruction must be located after the
+            // .then() method of the showDialog() method !
+            focusNode.requestFocus();
           },
           child: Row(
             mainAxisSize:
