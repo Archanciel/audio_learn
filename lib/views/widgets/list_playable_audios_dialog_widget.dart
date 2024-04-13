@@ -218,6 +218,14 @@ class _ListPlayableAudiosDialogWidgetState
           return AppLocalizations.of(context)!
               .playableAudioDialogSortDescriptionTooltipTopDurationBigger;
         }
+      case SortingOption.audioRemainingDuration:
+        if (sortingItem.isAscending) {
+          return AppLocalizations.of(context)!
+              .playableAudioDialogSortDescriptionTooltipTopRemainingDurationSmaller;
+        } else {
+          return AppLocalizations.of(context)!
+              .playableAudioDialogSortDescriptionTooltipTopRemainingDurationBigger;
+        }
       default:
         break;
     }

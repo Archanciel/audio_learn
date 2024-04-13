@@ -11,6 +11,7 @@ enum SortingOption {
   validAudioTitle,
   audioEnclosingPlaylistTitle,
   audioDuration,
+  audioRemainingDuration,
   audioFileSize,
   audioMusicQuality,
   audioDownloadSpeed,
@@ -122,6 +123,12 @@ class AudioSortFilterParameters {
     SortingOption.audioDuration: SortCriteria<Audio>(
       selectorFunction: (Audio audio) {
         return audio.audioDuration!.inMilliseconds;
+      },
+      sortOrder: sortAscending,
+    ),
+    SortingOption.audioRemainingDuration: SortCriteria<Audio>(
+      selectorFunction: (Audio audio) {
+        return audio.audioDuration!.inMilliseconds - audio.audioPositionSeconds * 1000;
       },
       sortOrder: sortAscending,
     ),

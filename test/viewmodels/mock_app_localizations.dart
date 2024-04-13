@@ -769,6 +769,14 @@ class MockAppLocalizations extends AppLocalizations {
       "Les audios au bas de l'écran ont été téléchargés après les audios en haut de l'écran.";
 
   @override
+  String get playableAudioDialogSortDescriptionTooltipTopRemainingDurationBigger =>
+      "Les audios au bas de l'écran ont été téléchargés avant les audios en haut de l'écran.";
+
+  @override
+  String get playableAudioDialogSortDescriptionTooltipTopRemainingDurationSmaller =>
+      "Les audios au bas de l'écran ont été téléchargés après les audios en haut de l'écran.";
+
+  @override
   String get saveAs => "Save as:";
 
   @override
@@ -874,4 +882,7 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get noPlaylistSelectedForAudioMove =>
       "No playlist selected for moving audio. Select one playlist and retry ...";
+
+  @override
+  String get audioRemainingDuration => "Audio listenable remaining duration";
 }
