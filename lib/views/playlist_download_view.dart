@@ -1052,8 +1052,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
               PlaylistListVM expandablePlaylistVM =
                   Provider.of<PlaylistListVM>(context, listen: false);
-              selectedTargetPlaylist =
-                  expandablePlaylistVM.uniqueSelectedPlaylist;
+              selectedTargetPlaylist = value["selectedPlaylist"];
 
               // Using FocusNode to enable clicking on Enter to close
               // the dialog

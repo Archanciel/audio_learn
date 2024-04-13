@@ -197,9 +197,6 @@ class _PlaylistOneSelectableDialogWidgetState
               true;
           return;
         }
-        expandablePlaylistVM.setUniqueSelectedPlaylist(
-          selectedPlaylist: _selectedPlaylist,
-        );
         break;
       case PlaylistOneSelectableDialogUsedFor.copyAudioToPlaylist:
         if (_selectedPlaylist == null) {
