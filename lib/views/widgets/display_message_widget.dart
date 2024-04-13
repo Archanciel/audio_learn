@@ -110,7 +110,10 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _displayWarningDialog(
                   context: _context,
-                  message: AppLocalizations.of(context)!.errorInPlaylistJsonFile(_warningMessageVM.errorArgOne,),
+                  message:
+                      AppLocalizations.of(context)!.errorInPlaylistJsonFile(
+                    _warningMessageVM.errorArgOne,
+                  ),
                   warningMessageVM: _warningMessageVM,
                   themeProviderVM: themeProviderVM);
             });
@@ -213,7 +216,8 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
           _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!
-                .youtubePlaylistWithTitleAlreadyInListOfPlaylists(playlistTitle),
+                .youtubePlaylistWithTitleAlreadyInListOfPlaylists(
+                    playlistTitle),
             warningMessageVM: _warningMessageVM,
             themeProviderVM: themeProviderVM,
           );
@@ -274,6 +278,30 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
             context: _context,
             message: AppLocalizations.of(context)!
                 .noPlaylistSelectedForSingleVideoDownload,
+            warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
+          );
+        });
+
+        return const SizedBox.shrink();
+      case WarningMessageType.isNoPlaylistSelectedForAudioCopy:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message:
+                AppLocalizations.of(context)!.noPlaylistSelectedForAudioCopy,
+            warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
+          );
+        });
+
+        return const SizedBox.shrink();
+      case WarningMessageType.isNoPlaylistSelectedForAudioMove:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message:
+                AppLocalizations.of(context)!.noPlaylistSelectedForAudioMove,
             warningMessageVM: _warningMessageVM,
             themeProviderVM: themeProviderVM,
           );

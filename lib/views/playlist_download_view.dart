@@ -92,6 +92,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       context,
       listen: true,
     );
+    final WarningMessageVM warningMessageVMlistenFalse =
+        Provider.of<WarningMessageVM>(
+      context,
+      listen: false,
+    );
 
     return Column(
       children: <Widget>[
@@ -114,23 +119,28 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           themeProviderVM: themeProviderVM,
           playlistListVMlistenFalse: playlistListVMlistenFalse,
           playlistListVMlistenTrue: playlistListVMlistenTrue,
+          warningMessageVMlistenFalse: warningMessageVMlistenFalse,
         ),
         // displaying the currently downloading audiodownload
         // informations.
         _buildDisplayDownloadProgressionInfo(),
         _buildSecondLine(
-          context: context,
-          themeProviderVM: themeProviderVM,
-          playlistListVMlistenFalse: playlistListVMlistenFalse,
-          playlistListVMlistenTrue: playlistListVMlistenTrue,
-        ),
+            context: context,
+            themeProviderVM: themeProviderVM,
+            playlistListVMlistenFalse: playlistListVMlistenFalse,
+            playlistListVMlistenTrue: playlistListVMlistenTrue,
+            warningMessageVMlistenFalse: warningMessageVMlistenFalse),
         _buildExpandedPlaylistList(),
-        _buildExpandedAudioList(),
+        _buildExpandedAudioList(
+          warningMessageVMlistenFalse: warningMessageVMlistenFalse,
+        ),
       ],
     );
   }
 
-  Expanded _buildExpandedAudioList() {
+  Expanded _buildExpandedAudioList({
+    required WarningMessageVM warningMessageVMlistenFalse,
+  }) {
     return Expanded(
       child: Consumer<PlaylistListVM>(
         builder: (context, expandablePlaylistListVM, child) {
@@ -170,6 +180,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               final audio = _selectedPlaylistsPlayableAudios[index];
               return AudioListItemWidget(
                 audio: audio,
+                warningMessageVM: warningMessageVMlistenFalse,
                 onPageChangedFunction: widget.onPageChangedFunction,
               );
             },
@@ -253,6 +264,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     required ThemeProviderVM themeProviderVM,
     required PlaylistListVM playlistListVMlistenFalse,
     required PlaylistListVM playlistListVMlistenTrue,
+    required WarningMessageVM warningMessageVMlistenFalse,
   }) {
     final AudioDownloadVM audioDownloadViewModel = Provider.of<AudioDownloadVM>(
       context,
@@ -300,10 +312,14 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           ),
         ),
         (playlistListVMlistenTrue.isListExpanded)
-            ? _buildPlaylistMoveIconButtons(playlistListVMlistenFalse)
+            ? _buildPlaylistMoveIconButtons(
+                playlistListVMlistenFalse,
+              )
             : (playlistListVMlistenTrue.isOnePlaylistSelected)
                 ? _buildSortFilterParametersDropdownButton(
-                    playlistListVMlistenFalse)
+                    playlistListVMlistenFalse: playlistListVMlistenFalse,
+                    warningMessageVMlistenFalse: warningMessageVMlistenFalse,
+                  )
                 : _buildPlaylistMoveIconButtons(playlistListVMlistenFalse),
         SizedBox(
           // sets the rounded TextButton size improving the distance
@@ -414,6 +430,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         _buildAudioPopupMenuButton(
           context: context,
           playlistListVMlistenFalse: playlistListVMlistenFalse,
+          warningMessageVMlistenFalse: warningMessageVMlistenFalse,
         ),
       ],
     );
@@ -426,9 +443,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   /// dropdown button. This button contains the list of sort
   /// filter parameters dropdown items which were saved by the
   /// user.
-  Row _buildSortFilterParametersDropdownButton(
-    PlaylistListVM playlistListVMlistenFalse,
-  ) {
+  Row _buildSortFilterParametersDropdownButton({
+    required PlaylistListVM playlistListVMlistenFalse,
+    required WarningMessageVM warningMessageVMlistenFalse,
+  }) {
     String hintDefault =
         AppLocalizations.of(context)!.sortFilterParametersDefaultName;
 
@@ -470,7 +488,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       // are applied to the selected playlist playable audios instead of
       // the currently selected sort and filter parameters.
       _updatePlaylistSortedFilteredAudioList(
-        playlistListVMlistenFalse,
+        playlistListVMlistenFalse: playlistListVMlistenFalse,
         notifyListeners: false,
       );
     }
@@ -485,9 +503,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
     List<DropdownMenuItem<String>> dropdownMenuItems =
         _buildDropdownMenuItemsLst(
-      audioSortFilterParametersNamesLst,
-      playlistListVMlistenFalse,
-      audioSortFilterParametersMap,
+      audioSortFilterParametersNamesLst: audioSortFilterParametersNamesLst,
+      playlistListVMlistenFalse: playlistListVMlistenFalse,
+      audioSortFilterParametersMap: audioSortFilterParametersMap,
+      warningMessageVMlistenFalse: warningMessageVMlistenFalse,
     );
 
     return Row(
@@ -505,7 +524,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               // ontap code was executed before the onChanged code !
               // The onTap code is now deleted.
               _selectedSortFilterParametersName = value;
-              _updatePlaylistSortedFilteredAudioList(playlistListVMlistenFalse);
+              _updatePlaylistSortedFilteredAudioList(
+                  playlistListVMlistenFalse: playlistListVMlistenFalse);
             },
             hint: Text(
               hintDefault,
@@ -517,8 +537,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     );
   }
 
-  void _updatePlaylistSortedFilteredAudioList(
-    PlaylistListVM playlistListVMlistenFalse, {
+  void _updatePlaylistSortedFilteredAudioList({
+    required PlaylistListVM playlistListVMlistenFalse,
     bool notifyListeners = true,
   }) {
     AudioSortFilterParameters audioSortFilterParameters =
@@ -538,10 +558,13 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     _wasSortFilterAudioSettingsApplied = true;
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownMenuItemsLst(
-      List<String> audioSortFilterParametersNamesLst,
-      PlaylistListVM playlistListVMlistenFalse,
-      Map<String, AudioSortFilterParameters> audioSortFilterParametersMap) {
+  List<DropdownMenuItem<String>> _buildDropdownMenuItemsLst({
+    required List<String> audioSortFilterParametersNamesLst,
+    required PlaylistListVM playlistListVMlistenFalse,
+    required Map<String, AudioSortFilterParameters>
+        audioSortFilterParametersMap,
+    required WarningMessageVM warningMessageVMlistenFalse,
+  }) {
     List<DropdownMenuItem<String>> dropdownMenuItems =
         audioSortFilterParametersNamesLst
             .map(
@@ -566,6 +589,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                                 audioSortFilterParametersName,
                                 audioSortFilterParametersMap,
                                 audioSortFilterParametersNamesLst,
+                                warningMessageVMlistenFalse,
                               )
                             : const SizedBox.shrink(),
                       ],
@@ -578,11 +602,19 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     return dropdownMenuItems;
   }
 
+  /// Builds the edit icon button located on the right of the
+  /// dropdown menu item. This button allows the user to edit the
+  /// sort and filter parameters referenced by the dropdown menu
+  /// item. Choosing the edit button opens the sort and filter
+  /// dialog. The user can then modify the sort and filter parameters
+  /// and then save them to a the existing name or to new name or
+  /// delete them.
   Widget _buildDropdownItemEditIconButton(
       PlaylistListVM playlistListVMlistenFalse,
       String audioSortFilterParametersName,
       Map<String, AudioSortFilterParameters> audioSortFilterParametersMap,
-      List<String> audioSortFilterParametersNamesLst) {
+      List<String> audioSortFilterParametersNamesLst,
+      WarningMessageVM warningMessageVMlistenFalse) {
     return SizedBox(
       width: kDropdownItemEditIconButtonWidth,
       child: IconButton(
@@ -616,6 +648,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 audioLearnAppViewType:
                     AudioLearnAppViewType.playlistDownloadView,
                 focusNode: focusNode,
+                warningMessageVM: warningMessageVMlistenFalse,
               );
             },
           ).then((filterSortAudioAndParmLst) {
@@ -713,6 +746,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     required ThemeProviderVM themeProviderVM,
     required PlaylistListVM playlistListVMlistenFalse,
     required PlaylistListVM playlistListVMlistenTrue,
+    required WarningMessageVM warningMessageVMlistenFalse,
   }) {
     return SizedBox(
       height: 40,
@@ -738,6 +772,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             audioDownloadViewModel: audioDownloadViewModel,
             themeProviderVM: themeProviderVM,
             playlistListVMlistenFalse: playlistListVMlistenFalse,
+            warningMessageVMlistenFalse: warningMessageVMlistenFalse,
           ),
           const SizedBox(
             width: kRowSmallWidthSeparator,
@@ -759,6 +794,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   Widget _buildAudioPopupMenuButton({
     required BuildContext context,
     required PlaylistListVM playlistListVMlistenFalse,
+    required WarningMessageVM warningMessageVMlistenFalse,
   }) {
     return SizedBox(
       width: kRowButtonGroupWidthSeparator,
@@ -794,6 +830,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     audioLearnAppViewType:
                         AudioLearnAppViewType.playlistDownloadView,
                     focusNode: focusNode,
+                    warningMessageVM: warningMessageVMlistenFalse,
                   );
                 },
               ).then((filterSortAudioAndParmLst) {
@@ -958,6 +995,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     required AudioDownloadVM audioDownloadViewModel,
     required ThemeProviderVM themeProviderVM,
     required PlaylistListVM playlistListVMlistenFalse,
+    required WarningMessageVM warningMessageVMlistenFalse,
   }) {
     return SizedBox(
       // sets the rounded TextButton size improving the distance
@@ -988,13 +1026,19 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             // list.
             playlistListVMlistenFalse.disableSortedFilteredPlayableAudioLst();
 
+              // Using FocusNode to enable clicking on Enter to close
+              // the dialog
+              final FocusNode focusNode = FocusNode();
+
             Playlist? selectedTargetPlaylist;
 
             showDialog(
               context: context,
-              builder: (context) => const PlaylistOneSelectableDialogWidget(
+              builder: (context) => PlaylistOneSelectableDialogWidget(
                 usedFor:
                     PlaylistOneSelectableDialogUsedFor.downloadSingleVideoAudio,
+                warningMessageVM: warningMessageVMlistenFalse,
+                focusNode: focusNode,
               ),
             ).then((value) {
               if (value is String && value == 'cancel') {

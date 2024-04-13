@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../services/sort_filter_parameters.dart';
+import '../../viewmodels/warning_message_vm.dart';
 import '../screen_mixin.dart';
 import '../../models/audio.dart';
 import '../../services/audio_sort_filter_service.dart';
@@ -19,6 +20,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
   AudioSortFilterParameters audioSortPlaylistFilterParameters;
   final AudioLearnAppViewType audioLearnAppViewType;
   final FocusNode focusNode;
+  final WarningMessageVM warningMessageVM;
 
   SortAndFilterAudioDialogWidget({
     super.key,
@@ -28,6 +30,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
     required this.audioSortPlaylistFilterParameters,
     required this.audioLearnAppViewType,
     required this.focusNode,
+    required this.warningMessageVM,
   });
 
   @override
@@ -609,8 +612,10 @@ class _SortAndFilterAudioDialogWidgetState
             key: const Key('saveSortFilterOptionsTextButton'),
             onPressed: () {
               if (_sortFilterSaveAsUniqueName.isEmpty) {
-                return;
+                // this does not close the sort and filter dialog
+                return _handleActionOnEmptySaveAsSortFilterName();
               }
+
               List<dynamic> filterSortAudioAndParmLst =
                   _filterAndSortAudioLst(_sortFilterSaveAsUniqueName);
               playlistListVM.saveAudioSortFilterParameters(
@@ -633,6 +638,11 @@ class _SortAndFilterAudioDialogWidgetState
           child: TextButton(
             key: const Key('deleteSortFilterTextButton'),
             onPressed: () {
+              if (_sortFilterSaveAsUniqueName.isEmpty) {
+                // this does not close the sort and filter dialog
+                return _handleActionOnEmptySaveAsSortFilterName();
+              }
+
               playlistListVM.deleteAudioSortFilterParameters(
                 audioSortFilterParametersName: _sortFilterSaveAsUniqueName,
               );
@@ -661,6 +671,15 @@ class _SortAndFilterAudioDialogWidgetState
         ),
       ],
     );
+  }
+
+  void _handleActionOnEmptySaveAsSortFilterName() {
+    // this does not close the sort and filter dialog
+    //warningMessageVM
+                  widget.warningMessageVM
+                      .isNoPlaylistSelectedForSingleVideoDownload = true;
+                  return;
+    return;
   }
 
   Column _buildAudioDurationFields(BuildContext context) {
@@ -1270,14 +1289,16 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   /// Method called when the user clicks on the 'Save' button.
-  /// 
+  ///
   /// The method filters and sorts the audio list based on the selected
   /// sorting and filtering options. The method returns a list of three
   /// elements:
   /// 1/ the filtered and sorted selected playlist audio list
-  /// 2/ the audio sort filter parameters
+  /// 2/ the audio sort filter parameters (AudioSortFilterParameters)
   /// 3/ the sort filter parameters save as unique name
-  List<dynamic> _filterAndSortAudioLst(String sortFilterParametersSaveAsUniqueName,) {
+  List<dynamic> _filterAndSortAudioLst(
+    String sortFilterParametersSaveAsUniqueName,
+  ) {
     widget.audioSortFilterParameters = AudioSortFilterParameters(
       selectedSortItemLst: _selectedSortingItemLst,
       filterSentenceLst: _audioTitleFilterSentencesLst,

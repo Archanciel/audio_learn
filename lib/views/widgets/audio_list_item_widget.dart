@@ -12,6 +12,7 @@ import '../../viewmodels/audio_player_vm.dart';
 import '../../../viewmodels/playlist_list_vm.dart';
 import '../../utils/duration_expansion.dart';
 import '../../constants.dart';
+import '../../viewmodels/warning_message_vm.dart';
 import '../screen_mixin.dart';
 import 'audio_info_dialog_widget.dart';
 import 'playlist_one_selectable_dialog_widget.dart';
@@ -36,6 +37,8 @@ enum AudioPopupMenuAction {
 class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
 
+  final WarningMessageVM warningMessageVM;
+
   // this instance variable stores the function defined in
   // _MyHomePageState which causes the PageView widget to drag
   // to another screen according to the passed index.
@@ -44,6 +47,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
   AudioListItemWidget({
     super.key,
     required this.audio,
+    required this.warningMessageVM,
     required this.onPageChangedFunction,
   });
 
@@ -158,11 +162,17 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   PlaylistListVM expandablePlaylistVM =
                       getAndInitializeExpandablePlaylistListVM(context);
 
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
+                  final FocusNode focusNode = FocusNode();
+
                   showDialog(
                     context: context,
                     builder: (context) => PlaylistOneSelectableDialogWidget(
                       usedFor: PlaylistOneSelectableDialogUsedFor
                           .moveAudioToPlaylist,
+                      warningMessageVM: warningMessageVM,
+                      focusNode: focusNode,
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
                   ).then((resultMap) {
@@ -194,11 +204,17 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   PlaylistListVM expandablePlaylistVM =
                       getAndInitializeExpandablePlaylistListVM(context);
 
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
+                  final FocusNode focusNode = FocusNode();
+
                   showDialog(
                     context: context,
                     builder: (context) => PlaylistOneSelectableDialogWidget(
                       usedFor: PlaylistOneSelectableDialogUsedFor
                           .copyAudioToPlaylist,
+                      warningMessageVM: warningMessageVM,
+                      focusNode: focusNode,
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
                   ).then((resultMap) {

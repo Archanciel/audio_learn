@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../viewmodels/warning_message_vm.dart';
 import '../../views/screen_mixin.dart';
 import '../../constants.dart';
 import '../../models/playlist.dart';
@@ -35,9 +36,15 @@ class PlaylistOneSelectableDialogWidget extends StatefulWidget {
   // destination playlist.
   final bool isAudioOnlyCheckboxDisplayed;
 
+  final WarningMessageVM warningMessageVM;
+
+    final FocusNode focusNode;
+
   const PlaylistOneSelectableDialogWidget({
     super.key,
     required this.usedFor,
+    required this.warningMessageVM,
+        required this.focusNode,
     this.excludedPlaylist,
     this.isAudioOnlyCheckboxDisplayed = false,
   });
@@ -52,25 +59,13 @@ class _PlaylistOneSelectableDialogWidgetState
   Playlist? _selectedPlaylist;
   bool _keepAudioDataInSourcePlaylist = true;
 
-  // Using FocusNode to enable clicking on Enter to close
-  // the dialog
-  final FocusNode _focusNode = FocusNode();
-
   @override
   void initState() {
     super.initState();
-
-    // Request focus when the widget is initialized
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
-    });
   }
 
   @override
   void dispose() {
-    // Dispose the focus node when the widget is disposed
-    _focusNode.dispose();
-
     super.dispose();
   }
 
@@ -94,27 +89,17 @@ class _PlaylistOneSelectableDialogWidgetState
     }
 
     return KeyboardListener(
-      focusNode: _focusNode,
+      // Using FocusNode to enable clicking on Enter to close
+      // the dialog
+      focusNode: widget.focusNode,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
               event.logicalKey == LogicalKeyboardKey.numpadEnter) {
             // executing the same code as in the 'Confirm' ElevatedButton
             // onPressed callback
-            if (widget.usedFor ==
-                PlaylistOneSelectableDialogUsedFor.downloadSingleVideoAudio) {
-              expandablePlaylistVM.setUniqueSelectedPlaylist(
-                selectedPlaylist: _selectedPlaylist,
-              );
-            }
+            _handleConfirmPressed(expandablePlaylistVM, context);
           }
-
-          Map<String, dynamic> resultMap = {
-            'selectedPlaylist': _selectedPlaylist,
-            'keepAudioDataInSourcePlaylist': _keepAudioDataInSourcePlaylist,
-          };
-
-          Navigator.of(context).pop(resultMap);
         }
       },
       child: AlertDialog(
@@ -176,19 +161,7 @@ class _PlaylistOneSelectableDialogWidgetState
           TextButton(
             key: const Key('confirmButton'),
             onPressed: () {
-              if (widget.usedFor ==
-                  PlaylistOneSelectableDialogUsedFor.downloadSingleVideoAudio) {
-                expandablePlaylistVM.setUniqueSelectedPlaylist(
-                  selectedPlaylist: _selectedPlaylist,
-                );
-              }
-
-              Map<String, dynamic> resultMap = {
-                'selectedPlaylist': _selectedPlaylist,
-                'keepAudioDataInSourcePlaylist': _keepAudioDataInSourcePlaylist,
-              };
-
-              Navigator.of(context).pop(resultMap);
+              _handleConfirmPressed(expandablePlaylistVM, context);
             },
             child: Text(AppLocalizations.of(context)!.confirmButton,
                 style: (themeProvider.currentTheme == AppTheme.dark)
@@ -213,6 +186,44 @@ class _PlaylistOneSelectableDialogWidgetState
         ],
       ),
     );
+  }
+
+  void _handleConfirmPressed(
+      PlaylistListVM expandablePlaylistVM, BuildContext context) {
+    switch (widget.usedFor) {
+      case PlaylistOneSelectableDialogUsedFor.downloadSingleVideoAudio:
+        if (_selectedPlaylist == null) {
+          widget.warningMessageVM.isNoPlaylistSelectedForSingleVideoDownload =
+              true;
+          return;
+        }
+        expandablePlaylistVM.setUniqueSelectedPlaylist(
+          selectedPlaylist: _selectedPlaylist,
+        );
+        break;
+      case PlaylistOneSelectableDialogUsedFor.copyAudioToPlaylist:
+        if (_selectedPlaylist == null) {
+          widget.warningMessageVM.isNoPlaylistSelectedForAudioCopy = true;
+          return;
+        }
+        break;
+      case PlaylistOneSelectableDialogUsedFor.moveAudioToPlaylist:
+        if (_selectedPlaylist == null) {
+          widget.warningMessageVM.isNoPlaylistSelectedForAudioMove = true;
+          return;
+        }
+        break;
+      default:
+        break;
+    }
+
+    Map<String, dynamic> resultMap = {
+      'selectedPlaylist': _selectedPlaylist,
+      'keepAudioDataInSourcePlaylist': _keepAudioDataInSourcePlaylist,
+    };
+
+    Navigator.of(context).pop(resultMap);
+    return;
   }
 
   Widget _buildBottomTextAndCheckbox(

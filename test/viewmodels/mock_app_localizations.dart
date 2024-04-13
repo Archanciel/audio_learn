@@ -866,4 +866,12 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get keepAudioEntryInSourcePlaylistTooltip =>
       "Maintains audio data in the original playlist's JSON file, even after the audio file is transferred to another playlist. This prevents re-downloading the audio file if it no longer exists in its original directory.";
+
+  @override
+  String get noPlaylistSelectedForAudioCopy =>
+      "No playlist selected for copying audio. Select one playlist and retry ...";
+
+  @override
+  String get noPlaylistSelectedForAudioMove =>
+      "No playlist selected for moving audio. Select one playlist and retry ...";
 }

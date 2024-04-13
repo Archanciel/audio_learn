@@ -10,6 +10,7 @@ import '../services/sort_filter_parameters.dart';
 import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/playlist_list_vm.dart';
+import '../viewmodels/warning_message_vm.dart';
 import 'screen_mixin.dart';
 import 'widgets/list_playable_audios_dialog_widget.dart';
 import 'widgets/save_sort_filter_options_to_playlist_dialog.dart';
@@ -124,6 +125,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             _buildAudioPopupMenuButton(
               context: context,
               playlistListVMlistenFalse: Provider.of<PlaylistListVM>(
+                context,
+                listen: false,
+              ),
+              warningMessageVMlistenFalse: Provider.of<WarningMessageVM>(
                 context,
                 listen: false,
               ),
@@ -280,6 +285,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   Widget _buildAudioPopupMenuButton({
     required BuildContext context,
     required PlaylistListVM playlistListVMlistenFalse,
+    required WarningMessageVM warningMessageVMlistenFalse,
   }) {
     return SizedBox(
       width: kRowButtonGroupWidthSeparator,
@@ -316,6 +322,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     audioLearnAppViewType:
                         AudioLearnAppViewType.audioPlayerView,
                     focusNode: focusNode,
+                    warningMessageVM: warningMessageVMlistenFalse,
                   );
                 },
               ).then((filterSortAudioAndParmLst) {

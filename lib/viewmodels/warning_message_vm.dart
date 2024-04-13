@@ -47,6 +47,14 @@ enum WarningMessageType {
   // clicks on the single video download button but no playlist
   // to which the downloaded audio will be added is selected.
 
+  isNoPlaylistSelectedForAudioCopy, // The case if the user
+  // clicks on the single video download button but no playlist
+  // to which the downloaded audio will be copied is selected.
+
+  isNoPlaylistSelectedForAudioMove, // The case if the user
+  // clicks on the single video download button but no playlist
+  // to which the downloaded audio will be moved is selected.
+
   tooManyPlaylistSelectedForSingleVideoDownload, // The case if the
   // user clicks on the single video download button but more than
   // one playlist to which the downloaded audio will be added is
@@ -243,6 +251,34 @@ class WarningMessageVM extends ChangeNotifier {
     if (isNoPlaylistSelectedForSingleVideoDownload) {
       _warningMessageType =
           WarningMessageType.noPlaylistSelectedForSingleVideoDownload;
+
+      notifyListeners();
+    }
+  }
+
+  bool _isNoPlaylistSelectedForAudioCopy = false;
+  bool get isNoPlaylistSelectedForAudioCopy =>
+      _isNoPlaylistSelectedForAudioCopy;
+  set isNoPlaylistSelectedForAudioCopy(bool isNoPlaylistSelectedForAudioCopy) {
+    _isNoPlaylistSelectedForAudioCopy = isNoPlaylistSelectedForAudioCopy;
+
+    if (isNoPlaylistSelectedForAudioCopy) {
+      _warningMessageType =
+          WarningMessageType.isNoPlaylistSelectedForAudioCopy;
+
+      notifyListeners();
+    }
+  }
+
+  bool _isNoPlaylistSelectedForAudioMove = false;
+  bool get isNoPlaylistSelectedForAudioMove =>
+      _isNoPlaylistSelectedForAudioMove;
+  set isNoPlaylistSelectedForAudioMove(bool isNoPlaylistSelectedForAudioMove) {
+    _isNoPlaylistSelectedForAudioMove = isNoPlaylistSelectedForAudioMove;
+
+    if (isNoPlaylistSelectedForAudioMove) {
+      _warningMessageType =
+          WarningMessageType.isNoPlaylistSelectedForAudioMove;
 
       notifyListeners();
     }
