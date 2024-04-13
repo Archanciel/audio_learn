@@ -1026,9 +1026,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             // list.
             playlistListVMlistenFalse.disableSortedFilteredPlayableAudioLst();
 
-              // Using FocusNode to enable clicking on Enter to close
-              // the dialog
-              final FocusNode focusNode = FocusNode();
+            // Using FocusNode to enable clicking on Enter to close
+            // the dialog
+            final FocusNode focusNode = FocusNode();
 
             Playlist? selectedTargetPlaylist;
 
@@ -1050,13 +1050,14 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 return;
               }
 
-              PlaylistListVM expandablePlaylistVM =
-                  Provider.of<PlaylistListVM>(context, listen: false);
               selectedTargetPlaylist = value["selectedPlaylist"];
+
+              // required so that clicking on Enter to close the dialog works
+              focusNode.requestFocus();
 
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
-              final FocusNode focusNode = FocusNode();
+              final FocusNode newFocusNode = FocusNode();
 
               // confirming or not the addition of the single video
               // audio to the selected playlist
@@ -1065,7 +1066,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 builder: (context) => KeyboardListener(
                   // Using FocusNode to enable clicking on Enter to close
                   // the dialog
-                  focusNode: focusNode,
+                  focusNode: newFocusNode,
                   onKeyEvent: (event) {
                     if (event is KeyDownEvent) {
                       if (event.logicalKey == LogicalKeyboardKey.enter ||
@@ -1138,7 +1139,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   }
                 }
               });
-              focusNode.requestFocus();
+              // required so that clicking on Enter to close the dialog works
+              newFocusNode.requestFocus();
             });
           },
           child: Row(
