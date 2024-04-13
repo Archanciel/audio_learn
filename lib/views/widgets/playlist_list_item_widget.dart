@@ -119,6 +119,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                           );
                         },
                       );
+                      // required so that clicking on Enter to close the dialog works
                       focusNode.requestFocus();
                       break;
                     case PlaylistPopupMenuAction.updatePlaylistPlayableAudios:
@@ -150,6 +151,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                           );
                         },
                       );
+                      // required so that clicking on Enter to close the dialog works
                       focusNode.requestFocus();
                       break;
                     default:

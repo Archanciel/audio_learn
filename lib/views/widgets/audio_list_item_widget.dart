@@ -140,6 +140,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       );
                     },
                   );
+                  // required so that clicking on Enter to close the dialog works
                   focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.renameAudioFile:
@@ -156,6 +157,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       );
                     },
                   );
+                  // required so that clicking on Enter to close the dialog works
                   focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.moveAudioToPlaylist:
@@ -199,6 +201,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                           keepAudioDataInSourcePlaylist,
                     );
                   });
+                  // required so that clicking on Enter to close the dialog works
+                  focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.copyAudioToPlaylist:
                   PlaylistListVM expandablePlaylistVM =
@@ -236,6 +240,8 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       targetPlaylist: targetPlaylist,
                     );
                   });
+                  // required so that clicking on Enter to close the dialog works
+                  focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.deleteAudio:
                   Provider.of<PlaylistListVM>(
