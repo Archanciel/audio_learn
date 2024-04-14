@@ -99,7 +99,9 @@ class _SortAndFilterAudioDialogWidgetState
   final _sortFilterSaveAsUniqueNameFocusNode = FocusNode();
 
   Color _audioTitleSearchSentencePlusButtonIconColor =
-      kDarkAndLightDisabledIconColorOnDialog;
+      kDarkAndLightDisabledIconColor;
+
+  Color _audioSortOptionButtonIconColor = kDarkAndLightDisabledIconColor;
 
   final AudioSortFilterService _audioSortFilterService =
       AudioSortFilterService();
@@ -213,7 +215,7 @@ class _SortAndFilterAudioDialogWidgetState
   void _resetSortFilterOptions() {
     _selectedSortingItemLst.clear();
     _selectedSortingItemLst
-        .addAll(widget.audioSortFilterParameters.selectedSortItemLst);
+        .add(AudioSortFilterParameters.getDefaultSortingItem());
     _sortFilterSaveAsUniqueNameController.clear();
     _audioTitleSearchSentenceController.clear();
     _audioTitleFilterSentencesLst.clear();
@@ -235,6 +237,7 @@ class _SortAndFilterAudioDialogWidgetState
     _endFileSizeController.clear();
     _applySortFilterToPlaylistDownloadView = false;
     _applySortFilterToAudioPlayerView = false;
+    _audioSortOptionButtonIconColor = kDarkAndLightDisabledIconColor;
   }
 
   void _setPlaylistSortFilterOptions() {
@@ -369,7 +372,7 @@ class _SortAndFilterAudioDialogWidgetState
                       style: kDialogTitlesStyle,
                     ),
                     _buildSortingChoiceList(context),
-                    _buildSelectedSortingList(),
+                    _buildSelectedSortingOptionsList(),
                     const SizedBox(
                       height: 10,
                     ),
@@ -394,9 +397,9 @@ class _SortAndFilterAudioDialogWidgetState
                           fillColor: MaterialStateColor.resolveWith(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.disabled)) {
-                                return kDarkAndLightDisabledIconColorOnDialog;
+                                return kDarkAndLightDisabledIconColor;
                               }
-                              return kDarkAndLightIconColor;
+                              return kDarkAndLightEnabledIconColor;
                             },
                           ),
                           value: _isAnd,
@@ -414,9 +417,9 @@ class _SortAndFilterAudioDialogWidgetState
                           fillColor: MaterialStateColor.resolveWith(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.disabled)) {
-                                return kDarkAndLightDisabledIconColorOnDialog;
+                                return kDarkAndLightDisabledIconColor;
                               }
-                              return kDarkAndLightIconColor;
+                              return kDarkAndLightEnabledIconColor;
                             },
                           ),
                           value: _isOr,
@@ -434,9 +437,9 @@ class _SortAndFilterAudioDialogWidgetState
                           fillColor: MaterialStateColor.resolveWith(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.disabled)) {
-                                return kDarkAndLightDisabledIconColorOnDialog;
+                                return kDarkAndLightDisabledIconColor;
                               }
-                              return kDarkAndLightIconColor;
+                              return kDarkAndLightEnabledIconColor;
                             },
                           ),
                           value: _ignoreCase,
@@ -464,9 +467,9 @@ class _SortAndFilterAudioDialogWidgetState
                             fillColor: MaterialStateColor.resolveWith(
                               (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.disabled)) {
-                                  return kDarkAndLightDisabledIconColorOnDialog;
+                                  return kDarkAndLightDisabledIconColor;
                                 }
-                                return kDarkAndLightIconColor;
+                                return kDarkAndLightEnabledIconColor;
                               },
                             ),
                             value: _searchInVideoCompactDescription,
@@ -578,9 +581,9 @@ class _SortAndFilterAudioDialogWidgetState
                 fillColor: MaterialStateColor.resolveWith(
                   (Set<MaterialState> states) {
                     if (states.contains(MaterialState.disabled)) {
-                      return kDarkAndLightDisabledIconColorOnDialog;
+                      return kDarkAndLightDisabledIconColor;
                     }
-                    return kDarkAndLightIconColor;
+                    return kDarkAndLightEnabledIconColor;
                   },
                 ),
                 value: _applySortFilterToPlaylistDownloadView,
@@ -603,9 +606,9 @@ class _SortAndFilterAudioDialogWidgetState
                 fillColor: MaterialStateColor.resolveWith(
                   (Set<MaterialState> states) {
                     if (states.contains(MaterialState.disabled)) {
-                      return kDarkAndLightDisabledIconColorOnDialog;
+                      return kDarkAndLightDisabledIconColor;
                     }
-                    return kDarkAndLightIconColor;
+                    return kDarkAndLightEnabledIconColor;
                   },
                 ),
                 value: _applySortFilterToAudioPlayerView,
@@ -1131,10 +1134,12 @@ class _SortAndFilterAudioDialogWidgetState
                     keyboardType: TextInputType.text,
                     onChanged: (value) {
                       _audioTitleSearchSentence = value;
+                      // setting the Plus button color according to the
+                      // TextField content ...
                       _audioTitleSearchSentencePlusButtonIconColor =
                           _audioTitleSearchSentence.isNotEmpty
-                              ? kDarkAndLightIconColor
-                              : kDarkAndLightDisabledIconColorOnDialog;
+                              ? kDarkAndLightEnabledIconColor
+                              : kDarkAndLightDisabledIconColor;
 
                       setState(() {}); // necessary to update Plus button color
                     },
@@ -1179,7 +1184,7 @@ class _SortAndFilterAudioDialogWidgetState
       // reset the Plus button color to disabled color
       // since the TextField is now empty
       _audioTitleSearchSentencePlusButtonIconColor =
-          kDarkAndLightDisabledIconColorOnDialog;
+          kDarkAndLightDisabledIconColor;
     }
 
     // now clicking on Enter works since the
@@ -1187,7 +1192,9 @@ class _SortAndFilterAudioDialogWidgetState
     _audioTitleSearchSentenceFocusNode.requestFocus();
   }
 
-  SizedBox _buildSelectedSortingList() {
+  /// The method builds the list of sorting options
+  /// choosen by the user.
+  SizedBox _buildSelectedSortingOptionsList() {
     return SizedBox(
       // Required to solve the error RenderBox was
       // not laid out: RenderPhysicalShape#ee087
@@ -1231,6 +1238,7 @@ class _SortAndFilterAudioDialogWidgetState
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down, // Conditional icon
                         size: kUpDownButtonSize,
+                        color: kDarkAndLightEnabledIconColor,
                       ),
                     ),
                   ),
@@ -1239,11 +1247,22 @@ class _SortAndFilterAudioDialogWidgetState
                   width: kSmallIconButtonWidth,
                   child: IconButton(
                     key: const Key('removeSortingOptionIconButton'),
-                    icon: const Icon(Icons.clear),
+                    icon: Icon(
+                      Icons.clear,
+                      color: _audioSortOptionButtonIconColor,
+                    ),
                     onPressed: () {
                       setState(() {
                         if (_selectedSortingItemLst.length > 1) {
                           _selectedSortingItemLst.removeAt(index);
+                        }
+
+                        if (_selectedSortingItemLst.length > 1) {
+                          _audioSortOptionButtonIconColor =
+                              kDarkAndLightEnabledIconColor;
+                        } else {
+                          _audioSortOptionButtonIconColor =
+                              kDarkAndLightDisabledIconColor;
                         }
                       });
                     },
@@ -1272,6 +1291,11 @@ class _SortAndFilterAudioDialogWidgetState
                 sortingOption: newValue,
               ),
             ));
+            // since _selectedSortingItemLst must contain at least one
+            // element, now the _selectedSortingItemLst has more than
+            // one element, the delete IconButton color is set to the
+            // enabled color
+            _audioSortOptionButtonIconColor = kDarkAndLightEnabledIconColor;
           }
         });
       },
@@ -1295,6 +1319,8 @@ class _SortAndFilterAudioDialogWidgetState
       // Exclude certain options based on the app view type
       return !(widget.audioLearnAppViewType ==
               AudioLearnAppViewType.audioPlayerView &&
+          // below, SortingOption's excluded when the sort/filter dialog
+          // is opened in the audio play view
           (value == SortingOption.audioDownloadSpeed ||
               value == SortingOption.audioDownloadDuration ||
               value == SortingOption.audioEnclosingPlaylistTitle ||
