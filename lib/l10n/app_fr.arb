@@ -186,6 +186,7 @@
   "audioQualityLowSnackBarMessage": "Téléchargement à qualité audio",
   "add": "Ajouter",
   "noPlaylistSelectedForSingleVideoDownload": "Aucune playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionnez une playlist et rééssayez ...",
+  "noSortFilterSaveAsNameWarning": "Le nom de sauvegarde des options de tri/filtre ne peut pas être vide. Entrez un nom valide et rééssayez ...",
   "noPlaylistSelectedForAudioCopy": "Aucune playlist sélectionnée pour la copie de l'audio. Sélectionnez une playlist et rééssayez ...",
   "noPlaylistSelectedForAudioMove": "Aucune playlist sélectionnée pour le déplacement de l'audio. Sélectionnez une playlist et rééssayez ...",
   "tooManyPlaylistSelectedForSingleVideoDownload": "Plus d'une playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionnez une seule playlist et rééssayez ...",

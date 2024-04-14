@@ -323,6 +323,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         AudioLearnAppViewType.audioPlayerView,
                     focusNode: focusNode,
                     warningMessageVM: warningMessageVMlistenFalse,
+                    calledFrom: CalledFrom.audioPlayerViewAudioMenu,
                   );
                 },
               ).then((filterSortAudioAndParmLst) {

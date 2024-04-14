@@ -13,6 +13,13 @@ import '../../services/audio_sort_filter_service.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 
+enum CalledFrom {
+  playlistDownloadView,
+  playlistDownloadViewAudioMenu,
+  audioPlayerView,
+  audioPlayerViewAudioMenu,
+}
+
 class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final List<Audio> selectedPlaylistAudioLst;
   String audioSortFilterParametersName;
@@ -21,6 +28,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final AudioLearnAppViewType audioLearnAppViewType;
   final FocusNode focusNode;
   final WarningMessageVM warningMessageVM;
+  final CalledFrom calledFrom;
 
   SortAndFilterAudioDialogWidget({
     super.key,
@@ -31,6 +39,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
     required this.audioLearnAppViewType,
     required this.focusNode,
     required this.warningMessageVM,
+    required this.calledFrom,
   });
 
   @override
@@ -102,11 +111,44 @@ class _SortAndFilterAudioDialogWidgetState
     // Add this line to request focus on the TextField after the build
     // method has been called
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(
-        // when opening the dialog, the focus is on the
-        // sortFilterSaveAsUniqueName TextField
-        _sortFilterSaveAsUniqueNameFocusNode,
-      );
+      // When opening the sort/filter dialog, the focus is set
+      // depending from where the dialog was opened.
+
+      switch (widget.calledFrom) {
+        case CalledFrom.playlistDownloadView:
+          FocusScope.of(context).requestFocus(
+            _sortFilterSaveAsUniqueNameFocusNode,
+          );
+          break;
+        case CalledFrom.playlistDownloadViewAudioMenu:
+          FocusScope.of(context).requestFocus(
+            _audioTitleSearchSentenceFocusNode,
+          );
+          break;
+        case CalledFrom.audioPlayerView:
+          FocusScope.of(context).requestFocus(
+            _sortFilterSaveAsUniqueNameFocusNode,
+          );
+          break;
+        case CalledFrom.audioPlayerViewAudioMenu:
+          FocusScope.of(context).requestFocus(
+            _audioTitleSearchSentenceFocusNode,
+          );
+          break;
+        default:
+          FocusScope.of(context).requestFocus(
+            _sortFilterSaveAsUniqueNameFocusNode,
+          );
+          break;
+      }
+    });
+
+    Future.delayed(Duration.zero, () {
+      if (widget.audioSortFilterParametersName ==
+          AppLocalizations.of(context)!.sortFilterParametersDefaultName) {
+        _sortFilterSaveAsUniqueNameController.text = '';
+        _sortFilterSaveAsUniqueName = '';
+      }
     });
 
     _sortFilterSaveAsUniqueNameController.text =
@@ -614,7 +656,7 @@ class _SortAndFilterAudioDialogWidgetState
             key: const Key('saveSortFilterOptionsTextButton'),
             onPressed: () {
               if (_sortFilterSaveAsUniqueName.isEmpty) {
-                // this does not close the sort and filter dialog
+                // does not close the sort and filter dialog
                 return _handleActionOnEmptySaveAsSortFilterName();
               }
 
@@ -641,7 +683,7 @@ class _SortAndFilterAudioDialogWidgetState
             key: const Key('deleteSortFilterTextButton'),
             onPressed: () {
               if (_sortFilterSaveAsUniqueName.isEmpty) {
-                // this does not close the sort and filter dialog
+                // does not close the sort and filter dialog
                 return _handleActionOnEmptySaveAsSortFilterName();
               }
 
@@ -675,12 +717,9 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
+  /// Does not close the sort and filter dialog
   void _handleActionOnEmptySaveAsSortFilterName() {
-    // this does not close the sort and filter dialog
-    //warningMessageVM
-                  widget.warningMessageVM
-                      .isNoPlaylistSelectedForSingleVideoDownload = true;
-                  return;
+    widget.warningMessageVM.sortFilterSaveAsName = '';
     return;
   }
 

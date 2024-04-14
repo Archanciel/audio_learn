@@ -43,6 +43,10 @@ enum WarningMessageType {
   // was updated. This happens when the user clicks on the update
   // playable audio list playlist menu item.
 
+  noSortFilterSaveAsName, // The case if the user clicks on the
+  // save as button after selecting the sort and filter options
+  // but the name of the new sort and filter is empty.
+  
   noPlaylistSelectedForSingleVideoDownload, // The case if the user
   // clicks on the single video download button but no playlist
   // to which the downloaded audio will be added is selected.
@@ -238,6 +242,22 @@ class WarningMessageVM extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  String _sortFilterSaveAsName = '';
+  String get sortFilterSaveAsName =>
+      _sortFilterSaveAsName;
+  set sortFilterSaveAsName(
+      String sortFilterSaveAsName) {
+    _sortFilterSaveAsName =
+        sortFilterSaveAsName;
+
+    if (sortFilterSaveAsName.isEmpty) {
+      _warningMessageType =
+          WarningMessageType.noSortFilterSaveAsName;
+
+      notifyListeners();
+    }
   }
 
   bool _isNoPlaylistSelectedForSingleVideoDownload = false;

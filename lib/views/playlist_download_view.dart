@@ -649,6 +649,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     AudioLearnAppViewType.playlistDownloadView,
                 focusNode: focusNode,
                 warningMessageVM: warningMessageVMlistenFalse,
+                calledFrom: CalledFrom.playlistDownloadView,
               );
             },
           ).then((filterSortAudioAndParmLst) {
@@ -831,6 +832,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         AudioLearnAppViewType.playlistDownloadView,
                     focusNode: focusNode,
                     warningMessageVM: warningMessageVMlistenFalse,
+                    calledFrom: CalledFrom.playlistDownloadViewAudioMenu,
                   );
                 },
               ).then((filterSortAudioAndParmLst) {
