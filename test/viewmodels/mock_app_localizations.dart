@@ -431,11 +431,11 @@ class MockAppLocalizations extends AppLocalizations {
   String get add => 'Add';
 
   @override
-  String get noPlaylistSelectedForSingleVideoDownload =>
+  String get noPlaylistSelectedForSingleVideoDownloadWarning =>
       'No playlist selected for single video download. Select one playlist and retry ...';
 
   @override
-  String get tooManyPlaylistSelectedForSingleVideoDownload =>
+  String get tooManyPlaylistSelectedForSingleVideoDownloadWarning =>
       'More than one playlist selected for single video download. Select only one playlist and retry ...';
 
   @override
@@ -876,13 +876,17 @@ class MockAppLocalizations extends AppLocalizations {
       "Maintains audio data in the original playlist's JSON file, even after the audio file is transferred to another playlist. This prevents re-downloading the audio file if it no longer exists in its original directory.";
 
   @override
-  String get noPlaylistSelectedForAudioCopy =>
+  String get noPlaylistSelectedForAudioCopyWarning =>
       "No playlist selected for copying audio. Select one playlist and retry ...";
 
   @override
-  String get noPlaylistSelectedForAudioMove =>
+  String get noPlaylistSelectedForAudioMoveWarning =>
       "No playlist selected for moving audio. Select one playlist and retry ...";
 
   @override
   String get audioRemainingDuration => "Audio listenable remaining duration";
+
+  @override
+  String get noSortFilterSaveAsNameWarning =>
+      "Le nom de sauvegarde des options de tri/filtre ne peut pas être vide. Entrez un nom valide et rééssayez.";
 }
