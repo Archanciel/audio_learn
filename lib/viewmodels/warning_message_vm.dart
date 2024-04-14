@@ -46,7 +46,7 @@ enum WarningMessageType {
   noSortFilterSaveAsName, // The case if the user clicks on the
   // save as button after selecting the sort and filter options
   // but the name of the new sort and filter is empty.
-  
+
   noPlaylistSelectedForSingleVideoDownload, // The case if the user
   // clicks on the single video download button but no playlist
   // to which the downloaded audio will be added is selected.
@@ -245,16 +245,12 @@ class WarningMessageVM extends ChangeNotifier {
   }
 
   String _sortFilterSaveAsName = '';
-  String get sortFilterSaveAsName =>
-      _sortFilterSaveAsName;
-  set sortFilterSaveAsName(
-      String sortFilterSaveAsName) {
-    _sortFilterSaveAsName =
-        sortFilterSaveAsName;
+  String get sortFilterSaveAsName => _sortFilterSaveAsName;
+  set sortFilterSaveAsName(String sortFilterSaveAsName) {
+    _sortFilterSaveAsName = sortFilterSaveAsName;
 
     if (sortFilterSaveAsName.isEmpty) {
-      _warningMessageType =
-          WarningMessageType.noSortFilterSaveAsName;
+      _warningMessageType = WarningMessageType.noSortFilterSaveAsName;
 
       notifyListeners();
     }
@@ -283,8 +279,7 @@ class WarningMessageVM extends ChangeNotifier {
     _isNoPlaylistSelectedForAudioCopy = isNoPlaylistSelectedForAudioCopy;
 
     if (isNoPlaylistSelectedForAudioCopy) {
-      _warningMessageType =
-          WarningMessageType.isNoPlaylistSelectedForAudioCopy;
+      _warningMessageType = WarningMessageType.isNoPlaylistSelectedForAudioCopy;
 
       notifyListeners();
     }
@@ -297,8 +292,7 @@ class WarningMessageVM extends ChangeNotifier {
     _isNoPlaylistSelectedForAudioMove = isNoPlaylistSelectedForAudioMove;
 
     if (isNoPlaylistSelectedForAudioMove) {
-      _warningMessageType =
-          WarningMessageType.isNoPlaylistSelectedForAudioMove;
+      _warningMessageType = WarningMessageType.isNoPlaylistSelectedForAudioMove;
 
       notifyListeners();
     }

@@ -276,8 +276,8 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(
             context: _context,
-            message: AppLocalizations.of(context)!
-                .noSortFilterSaveAsNameWarning,
+            message:
+                AppLocalizations.of(context)!.noSortFilterSaveAsNameWarning,
             warningMessageVM: _warningMessageVM,
             themeProviderVM: themeProviderVM,
           );
@@ -289,7 +289,7 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
           _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!
-                .noPlaylistSelectedForSingleVideoDownload,
+                .noPlaylistSelectedForSingleVideoDownloadWarning,
             warningMessageVM: _warningMessageVM,
             themeProviderVM: themeProviderVM,
           );
@@ -300,8 +300,8 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(
             context: _context,
-            message:
-                AppLocalizations.of(context)!.noPlaylistSelectedForAudioCopy,
+            message: AppLocalizations.of(context)!
+                .noPlaylistSelectedForAudioCopyWarning,
             warningMessageVM: _warningMessageVM,
             themeProviderVM: themeProviderVM,
           );
@@ -312,8 +312,8 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(
             context: _context,
-            message:
-                AppLocalizations.of(context)!.noPlaylistSelectedForAudioMove,
+            message: AppLocalizations.of(context)!
+                .noPlaylistSelectedForAudioMoveWarning,
             warningMessageVM: _warningMessageVM,
             themeProviderVM: themeProviderVM,
           );
@@ -325,7 +325,7 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
           _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!
-                .tooManyPlaylistSelectedForSingleVideoDownload,
+                .tooManyPlaylistSelectedForSingleVideoDownloadWarning,
             warningMessageVM: _warningMessageVM,
             themeProviderVM: themeProviderVM,
           );
