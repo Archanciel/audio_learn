@@ -100,8 +100,8 @@ class _SortAndFilterAudioDialogWidgetState
 
   Color _audioTitleSearchSentencePlusButtonIconColor =
       kDarkAndLightDisabledIconColor;
-
   Color _audioSortOptionButtonIconColor = kDarkAndLightDisabledIconColor;
+  Color _audioSaveAsNameDeleteIconColor = kDarkAndLightDisabledIconColor;
 
   final AudioSortFilterService _audioSortFilterService =
       AudioSortFilterService();
@@ -150,6 +150,9 @@ class _SortAndFilterAudioDialogWidgetState
           AppLocalizations.of(context)!.sortFilterParametersDefaultName) {
         _sortFilterSaveAsUniqueNameController.text = '';
         _sortFilterSaveAsUniqueName = '';
+        _audioSaveAsNameDeleteIconColor = kDarkAndLightDisabledIconColor;
+      } else if (widget.audioSortFilterParametersName.isNotEmpty) {
+        _audioSaveAsNameDeleteIconColor = kDarkAndLightEnabledIconColor;
       }
     });
 
@@ -158,9 +161,9 @@ class _SortAndFilterAudioDialogWidgetState
 
     // Since the _sortFilterSaveAsUniqueNameController is late, it
     // must be set here otherwise saving the sort filter parameters
-    // will not work since an error is thrown that due to the fact
-    // that the late _sortFilterSaveAsUniqueNameController is not
-    // initialized
+    // will not work since an error is thrown  due to the fact that
+    // the late _sortFilterSaveAsUniqueNameController is not
+    // initialized 
     _sortFilterSaveAsUniqueName = widget.audioSortFilterParametersName;
 
     // Set the initial sort and filter fields
@@ -533,19 +536,52 @@ class _SortAndFilterAudioDialogWidgetState
           const SizedBox(
             height: 5,
           ),
-          SizedBox(
-            width: 200,
-            child: TextField(
-              key: const Key('sortFilterSaveAsUniqueNameTextField'),
-              focusNode: _sortFilterSaveAsUniqueNameFocusNode,
-              style: kDialogTextFieldStyle,
-              decoration: _dialogTextFieldDecoration,
-              controller: _sortFilterSaveAsUniqueNameController,
-              keyboardType: TextInputType.text,
-              onChanged: (value) {
-                _sortFilterSaveAsUniqueName = value;
-              },
-            ),
+          Row(
+            children: [
+              SizedBox(
+                width: 200,
+                child: TextField(
+                  key: const Key('sortFilterSaveAsUniqueNameTextField'),
+                  focusNode: _sortFilterSaveAsUniqueNameFocusNode,
+                  style: kDialogTextFieldStyle,
+                  decoration: _dialogTextFieldDecoration,
+                  controller: _sortFilterSaveAsUniqueNameController,
+                  keyboardType: TextInputType.text,
+                  onChanged: (value) {
+                    _sortFilterSaveAsUniqueName = value;
+                    // setting the Delete button color according to the
+                    // TextField content ...
+                    _audioSaveAsNameDeleteIconColor =
+                        _sortFilterSaveAsUniqueName.isNotEmpty
+                            ? kDarkAndLightEnabledIconColor
+                            : kDarkAndLightDisabledIconColor;
+
+                    setState(() {}); // necessary to update Plus button color
+                  },
+                ),
+              ),
+              SizedBox(
+                width: kSmallIconButtonWidth,
+                child: IconButton(
+                  key: const Key('deleteSaveAsNameIconButton'),
+                  onPressed: () async {
+                    _sortFilterSaveAsUniqueNameController.text = '';
+                    _sortFilterSaveAsUniqueName = '';
+                    _audioSaveAsNameDeleteIconColor = kDarkAndLightDisabledIconColor;
+                    setState(() {}); // necessary to update Delete button color
+                  },
+                  padding: const EdgeInsets.all(0),
+                  icon: Icon(
+                    Icons.clear,
+                    // since in the Dialog the disabled IconButton color
+                    // is not grey, we need to set it manually. Additionally,
+                    // the sentence TextField onChanged callback must execute
+                    // setState() to update the IconButton color
+                    color: _audioSaveAsNameDeleteIconColor,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
