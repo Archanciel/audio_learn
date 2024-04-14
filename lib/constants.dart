@@ -73,9 +73,9 @@ const double kNormalButtonHeight = 25.0;
 const double kSmallButtonInsidePadding = 3.0;
 const double kDefaultMargin = 5.0;
 const double kRoundedButtonBorderRadius = 11.0;
-const Color kDarkAndLightIconColor =
+const Color kDarkAndLightEnabledIconColor =
     Color.fromARGB(246, 44, 61, 255); // rgba(44, 61, 246, 255)
-final Color kDarkAndLightDisabledIconColorOnDialog = Colors.grey.shade600;
+final Color kDarkAndLightDisabledIconColor = Colors.grey.shade600;
 const Color kButtonColor = Color(0xFF3D3EC2);
 const Color kScreenButtonColor = kSliderThumbColorInDarkMode;
 const double kAudioDefaultPlayVolume = 0.5;

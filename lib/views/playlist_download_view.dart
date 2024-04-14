@@ -403,7 +403,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   if (states.contains(MaterialState.disabled)) {
                     return Colors.grey.shade800;
                   }
-                  return kDarkAndLightIconColor;
+                  return kDarkAndLightEnabledIconColor;
                 },
               ),
               value: audioDownloadViewModel.isHighQuality,

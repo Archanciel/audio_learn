@@ -423,7 +423,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
 
       iconContent = CircleAvatar(
         backgroundColor:
-            kDarkAndLightIconColor, // background color of the circle
+            kDarkAndLightEnabledIconColor, // background color of the circle
         radius: 10,
         child: Icon(
           playOrPauseIcon.icon,
@@ -448,7 +448,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
         radius: 12, // you can adjust the size
         child: const Icon(
           Icons.play_arrow,
-          color: kDarkAndLightIconColor, // icon color
+          color: kDarkAndLightEnabledIconColor, // icon color
           size: 24, // icon size
         ),
       );
