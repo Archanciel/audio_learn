@@ -37,7 +37,7 @@ enum AudioSortCriterion { audioDownloadDateTime, validVideoTitle }
 /// json_serializable to simplify the JSON encoding and decoding
 /// process. This will also help you avoid writing manual string
 /// parsing code.
-class SettingsDataService {
+class  SettingsDataService {
   // default settings are set in the constructor, namely default language
   // and default theme
   final Map<SettingType, Map<dynamic, dynamic>> _settings = {

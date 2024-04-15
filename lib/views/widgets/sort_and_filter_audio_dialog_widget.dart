@@ -29,6 +29,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final FocusNode focusNode;
   final WarningMessageVM warningMessageVM;
   final CalledFrom calledFrom;
+  final List<AudioSortFilterParameters> historicalAudioSortFilterParametersLst;
 
   SortAndFilterAudioDialogWidget({
     super.key,
@@ -40,6 +41,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
     required this.focusNode,
     required this.warningMessageVM,
     required this.calledFrom,
+    required this.historicalAudioSortFilterParametersLst,
   });
 
   @override
@@ -98,10 +100,16 @@ class _SortAndFilterAudioDialogWidgetState
   final _audioTitleSearchSentenceFocusNode = FocusNode();
   final _sortFilterSaveAsUniqueNameFocusNode = FocusNode();
 
-  Color _audioTitleSearchSentencePlusButtonIconColor =
+  Color _audioTitleSearchSentenceAddButtonIconColor =
       kDarkAndLightDisabledIconColor;
   Color _audioSortOptionButtonIconColor = kDarkAndLightDisabledIconColor;
   Color _audioSaveAsNameDeleteIconColor = kDarkAndLightDisabledIconColor;
+  Color _historicalAudioSortFilterParamsLeftIconColor =
+      kDarkAndLightDisabledIconColor;
+  Color _historicalAudioSortFilterParamsRightIconColor =
+      kDarkAndLightDisabledIconColor;
+
+  int _historicalAudioSortFilterParametersIndex = -1;
 
   final AudioSortFilterService _audioSortFilterService =
       AudioSortFilterService();
@@ -195,6 +203,8 @@ class _SortAndFilterAudioDialogWidgetState
       _applySortFilterToPlaylistDownloadView = false;
       _applySortFilterToAudioPlayerView = true;
     }
+
+    _initializeHistoricalAudioSortFilterParamsLeftIconColors();
   }
 
   @override
@@ -241,6 +251,26 @@ class _SortAndFilterAudioDialogWidgetState
     _applySortFilterToPlaylistDownloadView = false;
     _applySortFilterToAudioPlayerView = false;
     _audioSortOptionButtonIconColor = kDarkAndLightDisabledIconColor;
+
+    _initializeHistoricalAudioSortFilterParamsLeftIconColors();
+  }
+
+  void _initializeHistoricalAudioSortFilterParamsLeftIconColors() {
+    if (widget.historicalAudioSortFilterParametersLst.isEmpty) {
+      _historicalAudioSortFilterParamsLeftIconColor =
+          kDarkAndLightDisabledIconColor;
+    } else {
+      // it is possible to load a previous sort and filter
+      // parameters
+      _historicalAudioSortFilterParamsLeftIconColor =
+          kDarkAndLightEnabledIconColor;
+    }
+
+    _historicalAudioSortFilterParamsRightIconColor =
+        kDarkAndLightDisabledIconColor;
+
+    _historicalAudioSortFilterParametersIndex =
+        widget.historicalAudioSortFilterParametersLst.length - 1;
   }
 
   void _setPlaylistSortFilterOptions() {
@@ -1152,11 +1182,42 @@ class _SortAndFilterAudioDialogWidgetState
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('search_history_arrow_left_button'),
-            onPressed: () {},
+            onPressed: () {
+              if (_historicalAudioSortFilterParametersIndex >= 1) {
+                AudioSortFilterParameters audioSortFilterParameters =
+                    widget.historicalAudioSortFilterParametersLst[
+                        --_historicalAudioSortFilterParametersIndex];
+              }
+              if (_historicalAudioSortFilterParametersIndex == 0) {
+                _historicalAudioSortFilterParamsLeftIconColor =
+                    kDarkAndLightDisabledIconColor;
+                if (widget.historicalAudioSortFilterParametersLst.length > 1) {
+                  _historicalAudioSortFilterParamsRightIconColor =
+                      kDarkAndLightEnabledIconColor;
+                } else {
+                  _historicalAudioSortFilterParamsRightIconColor =
+                      kDarkAndLightDisabledIconColor;
+                }
+              } else {
+                _historicalAudioSortFilterParamsLeftIconColor =
+                    kDarkAndLightEnabledIconColor;
+                if (_historicalAudioSortFilterParametersIndex ==
+                    widget.historicalAudioSortFilterParametersLst.length - 1) {
+                  _historicalAudioSortFilterParamsRightIconColor =
+                      kDarkAndLightDisabledIconColor;
+                } else {
+                  _historicalAudioSortFilterParamsRightIconColor =
+                      kDarkAndLightEnabledIconColor;
+                }
+              }
+
+              setState(() {});
+            },
             padding: const EdgeInsets.all(0),
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_left,
               size: kUpDownButtonSize,
+              color: _historicalAudioSortFilterParamsLeftIconColor,
             ),
           ),
         ),
@@ -1164,11 +1225,33 @@ class _SortAndFilterAudioDialogWidgetState
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('search_history_arrow_right_button'),
-            onPressed: () {},
+            onPressed: () {
+              if (_historicalAudioSortFilterParametersIndex  <
+                  widget.historicalAudioSortFilterParametersLst.length - 1) {
+                AudioSortFilterParameters audioSortFilterParameters =
+                    widget.historicalAudioSortFilterParametersLst[
+                        ++_historicalAudioSortFilterParametersIndex];
+              }
+              if (_historicalAudioSortFilterParametersIndex <
+                  widget.historicalAudioSortFilterParametersLst.length - 1) {
+                _historicalAudioSortFilterParamsRightIconColor =
+                    kDarkAndLightEnabledIconColor;
+                _historicalAudioSortFilterParamsLeftIconColor =
+                    kDarkAndLightEnabledIconColor;
+              } else {
+                _historicalAudioSortFilterParamsRightIconColor =
+                    kDarkAndLightDisabledIconColor;
+                _historicalAudioSortFilterParamsLeftIconColor =
+                    kDarkAndLightEnabledIconColor;
+              }
+
+              setState(() {});
+            },
             padding: const EdgeInsets.all(0),
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_right,
               size: kUpDownButtonSize,
+              color: _historicalAudioSortFilterParamsRightIconColor,
             ),
           ),
         ),
@@ -1204,14 +1287,14 @@ class _SortAndFilterAudioDialogWidgetState
                     keyboardType: TextInputType.text,
                     onChanged: (value) {
                       _audioTitleSearchSentence = value;
-                      // setting the Plus button color according to the
+                      // setting the Add button color according to the
                       // TextField content ...
-                      _audioTitleSearchSentencePlusButtonIconColor =
+                      _audioTitleSearchSentenceAddButtonIconColor =
                           _audioTitleSearchSentence.isNotEmpty
                               ? kDarkAndLightEnabledIconColor
                               : kDarkAndLightDisabledIconColor;
 
-                      setState(() {}); // necessary to update Plus button color
+                      setState(() {}); // necessary to update Add button color
                     },
                   ),
                 ),
@@ -1233,7 +1316,7 @@ class _SortAndFilterAudioDialogWidgetState
                       // is not grey, we need to set it manually. Additionally,
                       // the sentence TextField onChanged callback must execute
                       // setState() to update the IconButton color
-                      color: _audioTitleSearchSentencePlusButtonIconColor,
+                      color: _audioTitleSearchSentenceAddButtonIconColor,
                     ),
                   ),
                 ),
@@ -1253,7 +1336,7 @@ class _SortAndFilterAudioDialogWidgetState
 
       // reset the Plus button color to disabled color
       // since the TextField is now empty
-      _audioTitleSearchSentencePlusButtonIconColor =
+      _audioTitleSearchSentenceAddButtonIconColor =
           kDarkAndLightDisabledIconColor;
     }
 
@@ -1317,25 +1400,31 @@ class _SortAndFilterAudioDialogWidgetState
                   width: kSmallIconButtonWidth,
                   child: IconButton(
                     key: const Key('removeSortingOptionIconButton'),
+                    onPressed: () {
+                      (_selectedSortingItemLst.length != 1)
+                          ? setState(() {
+                              if (_selectedSortingItemLst.length > 1) {
+                                _selectedSortingItemLst.removeAt(index);
+                              }
+
+                              if (_selectedSortingItemLst.length > 1) {
+                                _audioSortOptionButtonIconColor =
+                                    kDarkAndLightEnabledIconColor;
+                              } else {
+                                _audioSortOptionButtonIconColor =
+                                    kDarkAndLightDisabledIconColor;
+                              }
+                            })
+                          : null;
+                    },
                     icon: Icon(
                       Icons.clear,
+                      // since in the Dialog the disabled IconButton color
+                      // is not grey, we need to set it manually. Additionally,
+                      // the sentence TextField onChanged callback must execute
+                      // setState() to update the IconButton color
                       color: _audioSortOptionButtonIconColor,
                     ),
-                    onPressed: () {
-                      setState(() {
-                        if (_selectedSortingItemLst.length > 1) {
-                          _selectedSortingItemLst.removeAt(index);
-                        }
-
-                        if (_selectedSortingItemLst.length > 1) {
-                          _audioSortOptionButtonIconColor =
-                              kDarkAndLightEnabledIconColor;
-                        } else {
-                          _audioSortOptionButtonIconColor =
-                              kDarkAndLightDisabledIconColor;
-                        }
-                      });
-                    },
                   ),
                 ),
               ],
