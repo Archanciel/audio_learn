@@ -34,7 +34,13 @@ class MockAppLocalizations extends AppLocalizations {
   String get appBarTitleDownloadAudio => 'Download Audio';
 
   @override
+  String get downloadAudioScreen => "Download Audio screen";
+
+  @override
   String get appBarTitleAudioPlayer => 'Audio Player';
+  
+  @override
+  String get audioPlayerScreen => "Play Audio screen";
 
   @override
   String get toggleList => 'Toggle List';

@@ -177,7 +177,7 @@ class AudioSortFilterParameters {
   static AudioSortFilterParameters createDefaultAudioSortFilterParameters() {
     return AudioSortFilterParameters(
       selectedSortItemLst: [AudioSortFilterParameters.getDefaultSortingItem()],
-      filterSentenceLst: const [],
+      filterSentenceLst: [],
       sentencesCombination: SentencesCombination.AND,
     );
   }

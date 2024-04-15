@@ -468,6 +468,10 @@ class PlaylistListVM extends ChangeNotifier {
         .audioSortFilterParametersMap[audioSortFilterParametersName]!;
   }
 
+  List<AudioSortFilterParameters> getSearchHistoryAudioSortFilterParametersLst() {
+    return _settingsDataService.searchHistoryAudioSortFilterParametersLst;
+  }
+
   void saveAudioSortFilterParameters({
     required String audioSortFilterParametersName,
     required AudioSortFilterParameters audioSortFilterParameters,

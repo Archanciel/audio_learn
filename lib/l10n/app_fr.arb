@@ -1,9 +1,11 @@
 {
   "appBarTitleDownloadAudio": "Télécharger Audio",
+  "downloadAudioScreen": "Écran Télécharger Audio",
+  "appBarTitleAudioPlayer": "Lire Audio",
+  "audioPlayerScreen": "Écran Lire Audio",
   "@appBarTitleDownloadAudio": {
     "description": "Le titre de la page affiché dans l'appbar."
   },
-  "appBarTitleAudioPlayer": "Lire Audio",
   "toggleList": "Basculer la liste",
   "delete": "Supprimer",
   "moveItemUp": "Déplacer l'élément vers le haut",

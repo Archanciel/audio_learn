@@ -163,7 +163,7 @@ class _SortAndFilterAudioDialogWidgetState
     // must be set here otherwise saving the sort filter parameters
     // will not work since an error is thrown  due to the fact that
     // the late _sortFilterSaveAsUniqueNameController is not
-    // initialized 
+    // initialized
     _sortFilterSaveAsUniqueName = widget.audioSortFilterParametersName;
 
     // Set the initial sort and filter fields
@@ -379,10 +379,7 @@ class _SortAndFilterAudioDialogWidgetState
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      AppLocalizations.of(context)!.filterOptions,
-                      style: kDialogTitlesStyle,
-                    ),
+                    _buildOptionFilterTitleAndSearchHistoryButtons(),
                     const SizedBox(
                       height: 14,
                     ),
@@ -567,7 +564,8 @@ class _SortAndFilterAudioDialogWidgetState
                   onPressed: () async {
                     _sortFilterSaveAsUniqueNameController.text = '';
                     _sortFilterSaveAsUniqueName = '';
-                    _audioSaveAsNameDeleteIconColor = kDarkAndLightDisabledIconColor;
+                    _audioSaveAsNameDeleteIconColor =
+                        kDarkAndLightDisabledIconColor;
                     setState(() {}); // necessary to update Delete button color
                   },
                   padding: const EdgeInsets.all(0),
@@ -610,7 +608,7 @@ class _SortAndFilterAudioDialogWidgetState
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                AppLocalizations.of(context)!.appBarTitleDownloadAudio,
+                AppLocalizations.of(context)!.downloadAudioScreen,
               ),
               Checkbox(
                 key: const Key('playlistDownloadViewCheckbox'),
@@ -635,7 +633,7 @@ class _SortAndFilterAudioDialogWidgetState
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                AppLocalizations.of(context)!.appBarTitleAudioPlayer,
+                AppLocalizations.of(context)!.audioPlayerScreen,
               ),
               Checkbox(
                 key: const Key('audioPlayerViewCheckbox'),
@@ -1139,6 +1137,42 @@ class _SortAndFilterAudioDialogWidgetState
           );
         },
       ),
+    );
+  }
+
+  Row _buildOptionFilterTitleAndSearchHistoryButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.filterOptions,
+          style: kDialogTitlesStyle,
+        ),
+        SizedBox(
+          width: kSmallButtonWidth,
+          child: IconButton(
+            key: const Key('search_history_arrow_left_button'),
+            onPressed: () {},
+            padding: const EdgeInsets.all(0),
+            icon: const Icon(
+              Icons.arrow_left,
+              size: kUpDownButtonSize,
+            ),
+          ),
+        ),
+        SizedBox(
+          width: kSmallButtonWidth,
+          child: IconButton(
+            key: const Key('search_history_arrow_right_button'),
+            onPressed: () {},
+            padding: const EdgeInsets.all(0),
+            icon: const Icon(
+              Icons.arrow_right,
+              size: kUpDownButtonSize,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

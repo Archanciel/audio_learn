@@ -90,6 +90,8 @@ double kDropdownButtonMaxWidth = 140;
 const double kDropdownItemEditIconButtonWidth = 25.0;
 const double kYoutubeImageAssetHeight = 38.0;
 
+const int kMaxAudioSortFilterSettingsSearchHistory = 20;
+
 DateFormat englishDateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
 DateFormat frenchDateTimeFormat = DateFormat("dd-MM-yyyy HH:mm");
 DateFormat englishDateFormat = DateFormat("yyyy-MM-dd");

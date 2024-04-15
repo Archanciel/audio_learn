@@ -14,16 +14,6 @@ void main() {
       '$kDownloadAppTestDirWindows\\audio_learn_test_settings';
 
   group('Settings', () {
-    late SettingsDataService settings;
-
-    setUp(() {
-      settings = SettingsDataService(isTest: true);
-      settings.addOrReplaceAudioSortFilterSettings(
-        audioSortFilterParametersName: 'Default',
-        audioSortFilterParameters:
-            AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
-      );
-    });
 
     test('Test initial, modified, saved and loaded values', () async {
       final Directory directory = Directory(testSettingsDir);
@@ -31,6 +21,24 @@ void main() {
       if (directory.existsSync()) {
         directory.deleteSync(recursive: true);
       }
+
+      SettingsDataService settings = SettingsDataService(isTest: true);
+      settings.addOrReplaceAudioSortFilterSettings(
+        audioSortFilterParametersName: 'Default',
+        audioSortFilterParameters:
+            AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
+      );
+      AudioSortFilterParameters historicalAudioSortFilterParameters =
+          AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
+      historicalAudioSortFilterParameters.filterSentenceLst.add("Jancovici");
+      historicalAudioSortFilterParameters.selectedSortItemLst.add(SortingItem(
+        sortingOption: SortingOption.audioDuration,
+        isAscending: true,
+      ));
+
+      settings.addAudioSortFilterSettingsToSearchHistory(
+        audioSortFilterParameters: historicalAudioSortFilterParameters,
+      );
 
       // Initial values
       expect(
@@ -71,6 +79,19 @@ void main() {
           defaultAudioSortFilterParameters ==
               AudioSortFilterParameters
                   .createDefaultAudioSortFilterParameters(),
+          true);
+
+      AudioSortFilterParameters firstHistoricalAudioSortFilterParameters =
+          settings.searchHistoryAudioSortFilterParametersLst[0];
+
+      expect(
+          firstHistoricalAudioSortFilterParameters.filterSentenceLst
+                  .contains("Jancovici") &&
+              firstHistoricalAudioSortFilterParameters.selectedSortItemLst
+                  .contains(SortingItem(
+                sortingOption: SortingOption.audioDuration,
+                isAscending: true,
+              )),
           true);
 
       // Modify values
@@ -143,6 +164,150 @@ void main() {
           loadedDefaultAudioSortFilterParameters ==
               AudioSortFilterParameters
                   .createDefaultAudioSortFilterParameters(),
+          true);
+
+      AudioSortFilterParameters loadedFirstHistoricalAudioSortFilterParameters =
+          loadedSettings.searchHistoryAudioSortFilterParametersLst[0];
+
+      expect(loadedFirstHistoricalAudioSortFilterParameters,
+          firstHistoricalAudioSortFilterParameters);
+
+      expect(
+          loadedFirstHistoricalAudioSortFilterParameters.filterSentenceLst
+                  .contains("Jancovici") &&
+              loadedFirstHistoricalAudioSortFilterParameters.selectedSortItemLst
+                  .contains(SortingItem(
+                sortingOption: SortingOption.audioDuration,
+                isAscending: true,
+              )),
+          true);
+
+      // Cleanup the test data directory
+      if (directory.existsSync()) {
+        directory.deleteSync(recursive: true);
+      }
+    });
+    test('Test initial, modified, saved and loaded values with empty AudioSortFilterParameters collections', () async {
+      final Directory directory = Directory(testSettingsDir);
+
+      if (directory.existsSync()) {
+        directory.deleteSync(recursive: true);
+      }
+
+      SettingsDataService settings = SettingsDataService(isTest: true);
+
+      // Initial values
+      expect(
+          settings.get(
+              settingType: SettingType.appTheme,
+              settingSubType: SettingType.appTheme),
+          AppTheme.dark);
+      expect(
+          settings.get(
+              settingType: SettingType.language,
+              settingSubType: SettingType.language),
+          Language.english);
+      expect(
+          settings.get(
+              settingType: SettingType.playlists,
+              settingSubType: Playlists.rootPath),
+          kDownloadAppDir);
+      expect(
+          settings.get(
+              settingType: SettingType.playlists,
+              settingSubType: Playlists.pathLst),
+          ["/EMPTY", "/BOOKS", "/MUSIC"]);
+      expect(
+          settings.get(
+              settingType: SettingType.playlists,
+              settingSubType: Playlists.isMusicQualityByDefault),
+          false);
+      expect(
+          settings.get(
+              settingType: SettingType.playlists,
+              settingSubType: Playlists.defaultAudioSort),
+          AudioSortCriterion.audioDownloadDateTime);
+
+      AudioSortFilterParameters? defaultAudioSortFilterParameters =
+          settings.audioSortFilterParametersMap['Default'];
+
+      expect(
+          defaultAudioSortFilterParameters,null);
+
+      expect(settings.searchHistoryAudioSortFilterParametersLst.isEmpty,
+          true);
+
+      // Modify values
+      settings.set(
+          settingType: SettingType.appTheme,
+          settingSubType: SettingType.appTheme,
+          value: AppTheme.light);
+      settings.set(
+          settingType: SettingType.playlists,
+          settingSubType: Playlists.rootPath,
+          value: kDownloadAppTestDirWindows);
+      settings.set(
+          settingType: SettingType.playlists,
+          settingSubType: Playlists.pathLst,
+          value: ['\\one', '\\two']);
+      settings.set(
+          settingType: SettingType.playlists,
+          settingSubType: Playlists.isMusicQualityByDefault,
+          value: true);
+      settings.set(
+          settingType: SettingType.playlists,
+          settingSubType: Playlists.defaultAudioSort,
+          value: AudioSortCriterion.validVideoTitle);
+
+      // Save to file
+      await DirUtil.createDirIfNotExist(pathStr: testSettingsDir);
+
+      final String testSettingsPathFileName =
+          path.join(testSettingsDir, 'settings.json');
+      settings.saveSettingsToFile(
+        jsonPathFileName: testSettingsPathFileName,
+      );
+
+      // Load from file
+      final SettingsDataService loadedSettings = SettingsDataService();
+      loadedSettings.loadSettingsFromFile(
+        jsonPathFileName: testSettingsPathFileName,
+      );
+
+      // Check loaded values
+      expect(
+          loadedSettings.get(
+              settingType: SettingType.appTheme,
+              settingSubType: SettingType.appTheme),
+          AppTheme.light);
+      expect(
+          loadedSettings.get(
+              settingType: SettingType.playlists,
+              settingSubType: Playlists.rootPath),
+          kDownloadAppTestDirWindows);
+      expect(
+          loadedSettings.get(
+              settingType: SettingType.playlists,
+              settingSubType: Playlists.pathLst),
+          ['\\one', '\\two']);
+      expect(
+          loadedSettings.get(
+              settingType: SettingType.playlists,
+              settingSubType: Playlists.isMusicQualityByDefault),
+          true);
+      expect(
+          loadedSettings.get(
+              settingType: SettingType.playlists,
+              settingSubType: Playlists.defaultAudioSort),
+          AudioSortCriterion.validVideoTitle);
+
+      AudioSortFilterParameters? loadedDefaultAudioSortFilterParameters =
+          loadedSettings.audioSortFilterParametersMap['Default'];
+
+      expect(
+          loadedDefaultAudioSortFilterParameters,null);
+
+      expect(loadedSettings.searchHistoryAudioSortFilterParametersLst.isEmpty,
           true);
 
       // Cleanup the test data directory

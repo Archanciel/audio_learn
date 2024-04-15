@@ -69,6 +69,12 @@ class SettingsDataService {
   Map<String, AudioSortFilterParameters> get audioSortFilterParametersMap =>
       _audioSortFilterParametersMap;
 
+  List<AudioSortFilterParameters> _searchHistoryAudioSortFilterParametersLst =
+      [];
+  List<AudioSortFilterParameters>
+      get searchHistoryAudioSortFilterParametersLst =>
+          _searchHistoryAudioSortFilterParametersLst;
+
   SettingsDataService({bool isTest = false}) : _isTest = isTest;
 
   dynamic get({
@@ -141,7 +147,17 @@ class SettingsDataService {
     final Map<String, dynamic> audioSortFilterSettingsJson =
         _audioSortFilterParametersMap
             .map((key, value) => MapEntry(key, value.toJson()));
+
     convertedSettings['audioSortFilterSettings'] = audioSortFilterSettingsJson;
+
+    final String searchHistoryAudioSortFilterParametersLstJsonString =
+        jsonEncode(_searchHistoryAudioSortFilterParametersLst
+            .map((audioSortFilterParameters) =>
+                audioSortFilterParameters.toJson())
+            .toList());
+
+    convertedSettings['searchHistoryOfAudioSortFilterSettings'] =
+        searchHistoryAudioSortFilterParametersLstJsonString;
 
     final String jsonString = jsonEncode(convertedSettings);
 
@@ -166,6 +182,12 @@ class SettingsDataService {
               _audioSortFilterParametersMap[audioKey] =
                   AudioSortFilterParameters.fromJson(audioValue);
             });
+          } else if (key == 'searchHistoryOfAudioSortFilterSettings') {
+            _searchHistoryAudioSortFilterParametersLst =
+                List<AudioSortFilterParameters>.from(jsonDecode(value).map(
+                    (audioSortFilterParameters) =>
+                        AudioSortFilterParameters.fromJson(
+                            audioSortFilterParameters)));
           } else {
             final settingType = _parseEnumValue(SettingType.values, key);
             final subSettings =
@@ -194,6 +216,21 @@ class SettingsDataService {
   }) {
     _audioSortFilterParametersMap[audioSortFilterParametersName] =
         audioSortFilterParameters;
+
+    _saveSettings();
+  }
+
+  void addAudioSortFilterSettingsToSearchHistory({
+    required AudioSortFilterParameters audioSortFilterParameters,
+  }) {
+    // if the search history list is full, remove the last element
+    if (_searchHistoryAudioSortFilterParametersLst.length >=
+        kMaxAudioSortFilterSettingsSearchHistory) {
+      _searchHistoryAudioSortFilterParametersLst
+          .removeAt(kMaxAudioSortFilterSettingsSearchHistory - 1);
+    }
+
+    _searchHistoryAudioSortFilterParametersLst.add(audioSortFilterParameters);
 
     _saveSettings();
   }
