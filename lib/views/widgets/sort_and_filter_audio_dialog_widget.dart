@@ -272,86 +272,69 @@ class _SortAndFilterAudioDialogWidgetState
     );
 
     _manageButtonsState(buttonStateManager);
-    // List<bool> twoButtonsState =
-    //     buttonStateManager.getTwoButtonsState(_historicalAudioSortFilterParametersIndex.toDouble());
-
-    // if (_historicalAudioSortFilterParametersLst.isEmpty) {
-    //   _historicalAudioSortFilterParamsLeftIconColor =
-    //       kDarkAndLightDisabledIconColor;
-    // } else {
-    //   // it is possible to load a previous sort and filter
-    //   // parameters
-    //   _historicalAudioSortFilterParamsLeftIconColor =
-    //       kDarkAndLightEnabledIconColor;
-    // }
-
-    // _historicalAudioSortFilterParamsRightIconColor =
-    //     kDarkAndLightDisabledIconColor;
-
-    // _historicalAudioSortFilterParametersIndex =
-    //     _historicalAudioSortFilterParametersLst.length - 1;
   }
 
-  void _setPlaylistSortFilterOptions() {
-    AudioSortFilterParameters audioSortPlaylistFilterParameters =
-        widget.audioSortPlaylistFilterParameters;
+  // UNUSED CODE
+  // void _setPlaylistSortFilterOptions() {
+  //   AudioSortFilterParameters audioSortPlaylistFilterParameters =
+  //       widget.audioSortPlaylistFilterParameters;
 
-    _selectedSortingItemLst.clear();
-    _selectedSortingItemLst
-        .addAll(audioSortPlaylistFilterParameters.selectedSortItemLst);
+  //   _selectedSortingItemLst.clear();
+  //   _selectedSortingItemLst
+  //       .addAll(audioSortPlaylistFilterParameters.selectedSortItemLst);
 
-    _sortFilterSaveAsUniqueNameController.clear();
-    _audioTitleSearchSentenceController.clear();
+  //   _sortFilterSaveAsUniqueNameController.clear();
+  //   _audioTitleSearchSentenceController.clear();
 
-    _audioTitleFilterSentencesLst.clear();
-    _audioTitleFilterSentencesLst
-        .addAll(audioSortPlaylistFilterParameters.filterSentenceLst);
+  //   _audioTitleFilterSentencesLst.clear();
+  //   _audioTitleFilterSentencesLst
+  //       .addAll(audioSortPlaylistFilterParameters.filterSentenceLst);
 
-    _ignoreCase = audioSortPlaylistFilterParameters.ignoreCase;
-    _searchInVideoCompactDescription =
-        audioSortPlaylistFilterParameters.searchAsWellInVideoCompactDescription;
-    _isAnd = (audioSortPlaylistFilterParameters.sentencesCombination ==
-        SentencesCombination.AND);
-    _isOr = !_isAnd;
-    _filterMusicQuality = audioSortPlaylistFilterParameters.filterMusicQuality;
-    _filterFullyListened =
-        audioSortPlaylistFilterParameters.filterFullyListened;
-    _filterPartiallyListened =
-        audioSortPlaylistFilterParameters.filterPartiallyListened;
-    _filterNotListened = audioSortPlaylistFilterParameters.filterNotListened;
+  //   _ignoreCase = audioSortPlaylistFilterParameters.ignoreCase;
+  //   _searchInVideoCompactDescription =
+  //       audioSortPlaylistFilterParameters.searchAsWellInVideoCompactDescription;
+  //   _isAnd = (audioSortPlaylistFilterParameters.sentencesCombination ==
+  //       SentencesCombination.AND);
+  //   _isOr = !_isAnd;
+  //   _filterMusicQuality = audioSortPlaylistFilterParameters.filterMusicQuality;
+  //   _filterFullyListened =
+  //       audioSortPlaylistFilterParameters.filterFullyListened;
+  //   _filterPartiallyListened =
+  //       audioSortPlaylistFilterParameters.filterPartiallyListened;
+  //   _filterNotListened = audioSortPlaylistFilterParameters.filterNotListened;
 
-    _startDownloadDateTimeController.text =
-        (audioSortPlaylistFilterParameters.downloadDateStartRange != null)
-            ? audioSortPlaylistFilterParameters.downloadDateStartRange
-                .toString()
-            : '';
-    _endDownloadDateTimeController.text =
-        (audioSortPlaylistFilterParameters.downloadDateEndRange != null)
-            ? audioSortPlaylistFilterParameters.downloadDateEndRange.toString()
-            : '';
-    _startUploadDateTimeController.text =
-        (audioSortPlaylistFilterParameters.uploadDateStartRange != null)
-            ? audioSortPlaylistFilterParameters.uploadDateStartRange.toString()
-            : '';
-    _endUploadDateTimeController.text =
-        (audioSortPlaylistFilterParameters.uploadDateEndRange != null)
-            ? audioSortPlaylistFilterParameters.uploadDateEndRange.toString()
-            : '';
+  //   _startDownloadDateTimeController.text =
+  //       (audioSortPlaylistFilterParameters.downloadDateStartRange != null)
+  //           ? audioSortPlaylistFilterParameters.downloadDateStartRange
+  //               .toString()
+  //           : '';
+  //   _endDownloadDateTimeController.text =
+  //       (audioSortPlaylistFilterParameters.downloadDateEndRange != null)
+  //           ? audioSortPlaylistFilterParameters.downloadDateEndRange.toString()
+  //           : '';
+  //   _startUploadDateTimeController.text =
+  //       (audioSortPlaylistFilterParameters.uploadDateStartRange != null)
+  //           ? audioSortPlaylistFilterParameters.uploadDateStartRange.toString()
+  //           : '';
+  //   _endUploadDateTimeController.text =
+  //       (audioSortPlaylistFilterParameters.uploadDateEndRange != null)
+  //           ? audioSortPlaylistFilterParameters.uploadDateEndRange.toString()
+  //           : '';
 
-    _startAudioDurationController.text =
-        audioSortPlaylistFilterParameters.durationStartRangeSec.toString();
-    _endAudioDurationController.text =
-        audioSortPlaylistFilterParameters.durationEndRangeSec.toString();
+  //   _startAudioDurationController.text =
+  //       audioSortPlaylistFilterParameters.durationStartRangeSec.toString();
+  //   _endAudioDurationController.text =
+  //       audioSortPlaylistFilterParameters.durationEndRangeSec.toString();
 
-    _startFileSizeController.text =
-        audioSortPlaylistFilterParameters.fileSizeStartRangeByte.toString();
-    _endFileSizeController.text =
-        audioSortPlaylistFilterParameters.fileSizeEndRangeByte.toString();
-  }
+  //   _startFileSizeController.text =
+  //       audioSortPlaylistFilterParameters.fileSizeStartRangeByte.toString();
+  //   _endFileSizeController.text =
+  //       audioSortPlaylistFilterParameters.fileSizeEndRangeByte.toString();
+  // }
 
-  SortingItem _getInitialSortingItem() {
-    return AudioSortFilterParameters.getDefaultSortingItem();
-  }
+  // SortingItem _getInitialSortingItem() {
+  //   return AudioSortFilterParameters.getDefaultSortingItem();
+  // }
 
   String _sortingOptionToString(
     SortingOption option,
