@@ -654,7 +654,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             },
           ).then((filterSortAudioAndParmLst) {
             if (filterSortAudioAndParmLst != null) {
-              // user clicked on Save or on Delete button
+              // user clicked on Save or Apply or on Delete button
               // on sort and filter dialog opened by editing
               // a sort and filter dropdown menu item
               if (filterSortAudioAndParmLst == 'delete') {
@@ -837,8 +837,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 },
               ).then((filterSortAudioAndParmLst) {
                 if (filterSortAudioAndParmLst != null) {
-                  // user clicked on Save button on sort and filter dialog
-                  // opened by the popup menu button item
+                  // user clicked on Save or Apply button on sort and filter
+                  // dialog opened by the popup menu button item
                   List<Audio> returnedAudioList = filterSortAudioAndParmLst[0];
                   AudioSortFilterParameters audioSortFilterParameters =
                       filterSortAudioAndParmLst[1];

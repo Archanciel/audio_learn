@@ -38,7 +38,7 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get appBarTitleAudioPlayer => 'Audio Player';
-  
+
   @override
   String get audioPlayerScreen => "Play Audio screen";
 
@@ -653,10 +653,10 @@ class MockAppLocalizations extends AppLocalizations {
   String get excludeFullyPlayedAudios => 'Exclude fully played audios';
 
   @override
-  String get increaseAudioVolumeIconButton => 'Increase audio volume';
+  String get increaseAudioVolumeIconButtonTooltip => 'Increase audio volume';
 
   @override
-  String get decreaseAudioVolumeIconButton => 'Increase audio volume';
+  String get decreaseAudioVolumeIconButtonTooltip => 'Increase audio volume';
 
   @override
   String get resetSortFilterOptionsTooltip => 'Reset sort and filter options';
@@ -895,4 +895,11 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get noSortFilterSaveAsNameWarning =>
       "Le nom de sauvegarde des options de tri/filtre ne peut pas être vide. Entrez un nom valide et rééssayez.";
+
+  @override
+  String get applyButton => "Apply";
+  
+  @override
+  String get applySortFilterOptionsTooltip =>
+      "Since the name is empty, the set sort/filter parameters are applied and then added to the sort filter history.";
 }

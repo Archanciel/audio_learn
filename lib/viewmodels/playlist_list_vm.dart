@@ -472,6 +472,14 @@ class PlaylistListVM extends ChangeNotifier {
     return _settingsDataService.searchHistoryAudioSortFilterParametersLst;
   }
 
+  void addSearchHistoryAudioSortFilterParameters({
+    required AudioSortFilterParameters audioSortFilterParameters,
+  }) {
+    _settingsDataService.addAudioSortFilterSettingsToSearchHistory(
+      audioSortFilterParameters: audioSortFilterParameters,
+    );
+  }
+
   void saveAudioSortFilterParameters({
     required String audioSortFilterParametersName,
     required AudioSortFilterParameters audioSortFilterParameters,

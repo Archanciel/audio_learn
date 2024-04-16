@@ -162,8 +162,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Tooltip(
-              message:
-                  AppLocalizations.of(context)!.decreaseAudioVolumeIconButton,
+              message: AppLocalizations.of(context)!
+                  .decreaseAudioVolumeIconButtonTooltip,
               child: SizedBox(
                 width: kSmallButtonWidth,
                 child: IconButton(
@@ -180,8 +180,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               ),
             ),
             Tooltip(
-              message:
-                  AppLocalizations.of(context)!.increaseAudioVolumeIconButton,
+              message: AppLocalizations.of(context)!
+                  .increaseAudioVolumeIconButtonTooltip,
               child: SizedBox(
                 width: kSmallButtonWidth,
                 child: IconButton(
