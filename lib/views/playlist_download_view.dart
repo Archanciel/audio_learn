@@ -650,9 +650,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 focusNode: focusNode,
                 warningMessageVM: warningMessageVMlistenFalse,
                 calledFrom: CalledFrom.playlistDownloadView,
-                historicalAudioSortFilterParametersLst:
-                    playlistListVMlistenFalse
-                        .getSearchHistoryAudioSortFilterParametersLst(),
               );
             },
           ).then((filterSortAudioAndParmLst) {
@@ -836,9 +833,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     focusNode: focusNode,
                     warningMessageVM: warningMessageVMlistenFalse,
                     calledFrom: CalledFrom.playlistDownloadViewAudioMenu,
-                    historicalAudioSortFilterParametersLst:
-                        playlistListVMlistenFalse
-                            .getSearchHistoryAudioSortFilterParametersLst(),
                   );
                 },
               ).then((filterSortAudioAndParmLst) {

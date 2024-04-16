@@ -235,7 +235,7 @@
   "audioStateNotStarted": "Not started",
   "audioPausedDateTimeLabel": "Date/time paused",
   "audioPlaySpeedLabel": "Play speed",
-  "audioPlayVolumeLabel": "Play volume",
+  "audioPlayVolumeLabel": "Sound volume",
   "audioCopiedFromLocalPlaylistToLocalPlaylist": "Audio \"{audioTitle}\" copied from local playlist \"{fromPlaylistTitle}\" to local playlist \"{toPlaylistTitle}\".",
   "audioCopiedFromLocalPlaylistToYoutubePlaylist": "Audio \"{audioTitle}\" copied from local playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\".",
   "audioCopiedFromYoutubePlaylistToLocalPlaylist": "Audio \"{audioTitle}\" copied from Youtube playlist \"{fromPlaylistTitle}\" to local playlist \"{toPlaylistTitle}\".",

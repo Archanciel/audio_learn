@@ -324,9 +324,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     focusNode: focusNode,
                     warningMessageVM: warningMessageVMlistenFalse,
                     calledFrom: CalledFrom.audioPlayerViewAudioMenu,
-                    historicalAudioSortFilterParametersLst:
-                        playlistListVMlistenFalse
-                            .getSearchHistoryAudioSortFilterParametersLst(),
                   );
                 },
               ).then((filterSortAudioAndParmLst) {

@@ -29,7 +29,6 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final FocusNode focusNode;
   final WarningMessageVM warningMessageVM;
   final CalledFrom calledFrom;
-  final List<AudioSortFilterParameters> historicalAudioSortFilterParametersLst;
 
   SortAndFilterAudioDialogWidget({
     super.key,
@@ -41,7 +40,6 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
     required this.focusNode,
     required this.warningMessageVM,
     required this.calledFrom,
-    required this.historicalAudioSortFilterParametersLst,
   });
 
   @override
@@ -114,6 +112,8 @@ class _SortAndFilterAudioDialogWidgetState
   final AudioSortFilterService _audioSortFilterService =
       AudioSortFilterService();
 
+  List<AudioSortFilterParameters> _historicalAudioSortFilterParametersLst = [];
+
   @override
   void initState() {
     super.initState();
@@ -153,6 +153,7 @@ class _SortAndFilterAudioDialogWidgetState
       }
     });
 
+    /// In this method, the context is available.
     Future.delayed(Duration.zero, () {
       if (widget.audioSortFilterParametersName ==
           AppLocalizations.of(context)!.sortFilterParametersDefaultName) {
@@ -162,6 +163,13 @@ class _SortAndFilterAudioDialogWidgetState
       } else if (widget.audioSortFilterParametersName.isNotEmpty) {
         _audioSaveAsNameDeleteIconColor = kDarkAndLightEnabledIconColor;
       }
+
+      _historicalAudioSortFilterParametersLst = Provider.of<PlaylistListVM>(
+        context,
+        listen: false,
+      ).getSearchHistoryAudioSortFilterParametersLst();
+
+      _initializeHistoricalAudioSortFilterParamsLeftIconColors();
     });
 
     _sortFilterSaveAsUniqueNameController.text =
@@ -203,8 +211,6 @@ class _SortAndFilterAudioDialogWidgetState
       _applySortFilterToPlaylistDownloadView = false;
       _applySortFilterToAudioPlayerView = true;
     }
-
-    _initializeHistoricalAudioSortFilterParamsLeftIconColors();
   }
 
   @override
@@ -256,7 +262,7 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _initializeHistoricalAudioSortFilterParamsLeftIconColors() {
-    if (widget.historicalAudioSortFilterParametersLst.isEmpty) {
+    if (_historicalAudioSortFilterParametersLst.isEmpty) {
       _historicalAudioSortFilterParamsLeftIconColor =
           kDarkAndLightDisabledIconColor;
     } else {
@@ -270,7 +276,7 @@ class _SortAndFilterAudioDialogWidgetState
         kDarkAndLightDisabledIconColor;
 
     _historicalAudioSortFilterParametersIndex =
-        widget.historicalAudioSortFilterParametersLst.length - 1;
+        _historicalAudioSortFilterParametersLst.length - 1;
   }
 
   void _setPlaylistSortFilterOptions() {
@@ -1184,17 +1190,24 @@ class _SortAndFilterAudioDialogWidgetState
             key: const Key('search_history_arrow_left_button'),
             onPressed: () {
               if (_historicalAudioSortFilterParametersIndex >= 1) {
+                // at dialog opening, _historicalAudioSortFilterParametersIndex
+                // was initialized to the list length - 1
                 AudioSortFilterParameters audioSortFilterParameters =
-                    widget.historicalAudioSortFilterParametersLst[
+                    _historicalAudioSortFilterParametersLst[
                         --_historicalAudioSortFilterParametersIndex];
               }
+
               if (_historicalAudioSortFilterParametersIndex == 0) {
                 _historicalAudioSortFilterParamsLeftIconColor =
                     kDarkAndLightDisabledIconColor;
-                if (widget.historicalAudioSortFilterParametersLst.length > 1) {
+                if (_historicalAudioSortFilterParametersLst.length > 1) {
+                  // there is at least 2 elements in the list, so the right
+                  // arrow button is enabled
                   _historicalAudioSortFilterParamsRightIconColor =
                       kDarkAndLightEnabledIconColor;
                 } else {
+                  // there is only 1 element in the list, so the left and the
+                  // right arrow buttons are disabled
                   _historicalAudioSortFilterParamsRightIconColor =
                       kDarkAndLightDisabledIconColor;
                 }
@@ -1202,10 +1215,15 @@ class _SortAndFilterAudioDialogWidgetState
                 _historicalAudioSortFilterParamsLeftIconColor =
                     kDarkAndLightEnabledIconColor;
                 if (_historicalAudioSortFilterParametersIndex ==
-                    widget.historicalAudioSortFilterParametersLst.length - 1) {
+                    _historicalAudioSortFilterParametersLst.length - 1) {
+                  // here, the last element of the list is selected and so
+                  // the right arrow button is disabled
                   _historicalAudioSortFilterParamsRightIconColor =
                       kDarkAndLightDisabledIconColor;
                 } else {
+                  // here, the end of the list is not reached yet and so the
+                  // right arrow button is enabled as well as the left arrow
+                  // button
                   _historicalAudioSortFilterParamsRightIconColor =
                       kDarkAndLightEnabledIconColor;
                 }
@@ -1226,21 +1244,27 @@ class _SortAndFilterAudioDialogWidgetState
           child: IconButton(
             key: const Key('search_history_arrow_right_button'),
             onPressed: () {
-              if (_historicalAudioSortFilterParametersIndex  <
-                  widget.historicalAudioSortFilterParametersLst.length - 1) {
+              if (_historicalAudioSortFilterParametersIndex <
+                  _historicalAudioSortFilterParametersLst.length - 1) {
                 AudioSortFilterParameters audioSortFilterParameters =
-                    widget.historicalAudioSortFilterParametersLst[
+                    _historicalAudioSortFilterParametersLst[
                         ++_historicalAudioSortFilterParametersIndex];
               }
-              if (_historicalAudioSortFilterParametersIndex <
-                  widget.historicalAudioSortFilterParametersLst.length - 1) {
+
+              if (_historicalAudioSortFilterParametersIndex ==
+                  _historicalAudioSortFilterParametersLst.length - 1) {
+                // here, the last element of the list is selected and so
+                // the right arrow button is disabled
                 _historicalAudioSortFilterParamsRightIconColor =
-                    kDarkAndLightEnabledIconColor;
+                    kDarkAndLightDisabledIconColor;
                 _historicalAudioSortFilterParamsLeftIconColor =
                     kDarkAndLightEnabledIconColor;
               } else {
+                // here, the end of the list is not reached yet and so the
+                // right arrow button is enabled as well as the left arrow
+                // button
                 _historicalAudioSortFilterParamsRightIconColor =
-                    kDarkAndLightDisabledIconColor;
+                    kDarkAndLightEnabledIconColor;
                 _historicalAudioSortFilterParamsLeftIconColor =
                     kDarkAndLightEnabledIconColor;
               }
