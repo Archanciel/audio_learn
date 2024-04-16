@@ -1246,6 +1246,8 @@ class _SortAndFilterAudioDialogWidgetState
             onPressed: () {
               if (_historicalAudioSortFilterParametersIndex <
                   _historicalAudioSortFilterParametersLst.length - 1) {
+                // at dialog opening, _historicalAudioSortFilterParametersIndex
+                // was initialized to the list length - 1
                 AudioSortFilterParameters audioSortFilterParameters =
                     _historicalAudioSortFilterParametersLst[
                         ++_historicalAudioSortFilterParametersIndex];
