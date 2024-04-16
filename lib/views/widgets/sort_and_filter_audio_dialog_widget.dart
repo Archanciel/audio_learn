@@ -1,3 +1,4 @@
+import 'package:audio_learn/utils/button_state_manager.dart';
 import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -1177,6 +1178,11 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   Row _buildOptionFilterTitleAndSearchHistoryButtons() {
+    ButtonStateManager buttonStateManager = ButtonStateManager(
+      minValue: 0,
+      maxValue: _historicalAudioSortFilterParametersLst.length - 1,
+    );
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -1197,39 +1203,7 @@ class _SortAndFilterAudioDialogWidgetState
                         --_historicalAudioSortFilterParametersIndex];
               }
 
-              if (_historicalAudioSortFilterParametersIndex == 0) {
-                _historicalAudioSortFilterParamsLeftIconColor =
-                    kDarkAndLightDisabledIconColor;
-                if (_historicalAudioSortFilterParametersLst.length > 1) {
-                  // there is at least 2 elements in the list, so the right
-                  // arrow button is enabled
-                  _historicalAudioSortFilterParamsRightIconColor =
-                      kDarkAndLightEnabledIconColor;
-                } else {
-                  // there is only 1 element in the list, so the left and the
-                  // right arrow buttons are disabled
-                  _historicalAudioSortFilterParamsRightIconColor =
-                      kDarkAndLightDisabledIconColor;
-                }
-              } else {
-                _historicalAudioSortFilterParamsLeftIconColor =
-                    kDarkAndLightEnabledIconColor;
-                if (_historicalAudioSortFilterParametersIndex ==
-                    _historicalAudioSortFilterParametersLst.length - 1) {
-                  // here, the last element of the list is selected and so
-                  // the right arrow button is disabled
-                  _historicalAudioSortFilterParamsRightIconColor =
-                      kDarkAndLightDisabledIconColor;
-                } else {
-                  // here, the end of the list is not reached yet and so the
-                  // right arrow button is enabled as well as the left arrow
-                  // button
-                  _historicalAudioSortFilterParamsRightIconColor =
-                      kDarkAndLightEnabledIconColor;
-                }
-              }
-
-              setState(() {});
+              _manageButtonsState(buttonStateManager);
             },
             padding: const EdgeInsets.all(0),
             icon: Icon(
@@ -1253,25 +1227,7 @@ class _SortAndFilterAudioDialogWidgetState
                         ++_historicalAudioSortFilterParametersIndex];
               }
 
-              if (_historicalAudioSortFilterParametersIndex ==
-                  _historicalAudioSortFilterParametersLst.length - 1) {
-                // here, the last element of the list is selected and so
-                // the right arrow button is disabled
-                _historicalAudioSortFilterParamsRightIconColor =
-                    kDarkAndLightDisabledIconColor;
-                _historicalAudioSortFilterParamsLeftIconColor =
-                    kDarkAndLightEnabledIconColor;
-              } else {
-                // here, the end of the list is not reached yet and so the
-                // right arrow button is enabled as well as the left arrow
-                // button
-                _historicalAudioSortFilterParamsRightIconColor =
-                    kDarkAndLightEnabledIconColor;
-                _historicalAudioSortFilterParamsLeftIconColor =
-                    kDarkAndLightEnabledIconColor;
-              }
-
-              setState(() {});
+              _manageButtonsState(buttonStateManager);
             },
             padding: const EdgeInsets.all(0),
             icon: Icon(
@@ -1283,6 +1239,30 @@ class _SortAndFilterAudioDialogWidgetState
         ),
       ],
     );
+  }
+
+  void _manageButtonsState(ButtonStateManager buttonStateManager) {
+    List<bool> historicalAudioSortFilterButtonsState =
+        buttonStateManager.getTwoButtonsState(
+      _historicalAudioSortFilterParametersIndex.toDouble(),
+    );
+
+    if (historicalAudioSortFilterButtonsState[0]) {
+      _historicalAudioSortFilterParamsLeftIconColor =
+          kDarkAndLightEnabledIconColor;
+    } else {
+      _historicalAudioSortFilterParamsLeftIconColor =
+          kDarkAndLightDisabledIconColor;
+    }
+    if (historicalAudioSortFilterButtonsState[1]) {
+      _historicalAudioSortFilterParamsRightIconColor =
+          kDarkAndLightEnabledIconColor;
+    } else {
+      _historicalAudioSortFilterParamsRightIconColor =
+          kDarkAndLightDisabledIconColor;
+    }
+
+    setState(() {});
   }
 
   Widget _buildAudioFilterSentence() {
