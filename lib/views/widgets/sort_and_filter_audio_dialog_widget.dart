@@ -108,7 +108,7 @@ class _SortAndFilterAudioDialogWidgetState
   Color _historicalAudioSortFilterParamsRightIconColor =
       kDarkAndLightDisabledIconColor;
 
-  int _historicalAudioSortFilterParametersIndex = -1;
+  int _historicalAudioSortFilterParametersIndex = 0;
 
   final AudioSortFilterService _audioSortFilterService =
       AudioSortFilterService();
@@ -263,21 +263,33 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   void _initializeHistoricalAudioSortFilterParamsLeftIconColors() {
-    if (_historicalAudioSortFilterParametersLst.isEmpty) {
-      _historicalAudioSortFilterParamsLeftIconColor =
-          kDarkAndLightDisabledIconColor;
-    } else {
-      // it is possible to load a previous sort and filter
-      // parameters
-      _historicalAudioSortFilterParamsLeftIconColor =
-          kDarkAndLightEnabledIconColor;
-    }
+    int maxValue = _historicalAudioSortFilterParametersLst.length - 1;
+    _historicalAudioSortFilterParametersIndex = maxValue;
 
-    _historicalAudioSortFilterParamsRightIconColor =
-        kDarkAndLightDisabledIconColor;
+    ButtonStateManager buttonStateManager = ButtonStateManager(
+      minValue: 0,
+      maxValue: maxValue.toDouble(),
+    );
 
-    _historicalAudioSortFilterParametersIndex =
-        _historicalAudioSortFilterParametersLst.length - 1;
+    _manageButtonsState(buttonStateManager);
+    // List<bool> twoButtonsState =
+    //     buttonStateManager.getTwoButtonsState(_historicalAudioSortFilterParametersIndex.toDouble());
+
+    // if (_historicalAudioSortFilterParametersLst.isEmpty) {
+    //   _historicalAudioSortFilterParamsLeftIconColor =
+    //       kDarkAndLightDisabledIconColor;
+    // } else {
+    //   // it is possible to load a previous sort and filter
+    //   // parameters
+    //   _historicalAudioSortFilterParamsLeftIconColor =
+    //       kDarkAndLightEnabledIconColor;
+    // }
+
+    // _historicalAudioSortFilterParamsRightIconColor =
+    //     kDarkAndLightDisabledIconColor;
+
+    // _historicalAudioSortFilterParametersIndex =
+    //     _historicalAudioSortFilterParametersLst.length - 1;
   }
 
   void _setPlaylistSortFilterOptions() {
