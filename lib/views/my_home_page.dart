@@ -165,6 +165,9 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
     );
   }
 
+  /// This method builds the row of icon buttons located at the bottom
+  /// of the application. Each icon enables to drag to a specific screen:
+  /// PlaylistDownloadView, AudioPlayerView and AudioExtractorView.
   Row _buildScreenIconButtonRow(
     AudioPlayerVM audioGlobalPlayerVM,
     ThemeProviderVM themeProvider,
