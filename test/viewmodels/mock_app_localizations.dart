@@ -111,10 +111,15 @@ class MockAppLocalizations extends AppLocalizations {
   String get about => 'About ...';
 
   @override
-  String get defineSortFilterAudiosSettings => 'Sort/filter audios';
+  String get defineSortFilterAudiosMenu => 'Sort/filter audios';
 
   @override
-  String get saveSortFilterAudiosSettingsToPlaylist => 'Sub sort/filter audios';
+  String get clearSortFilterAudiosParmsHistoryMenu =>
+      "Clear sort/filter parameters history";
+
+  @override
+  String get saveSortFilterAudiosOptionsToPlaylistMenu =>
+      'Sub sort/filter audios';
 
   @override
   String get sortFilterDialogTitle => 'Sort and Filter Options';
@@ -324,7 +329,7 @@ class MockAppLocalizations extends AppLocalizations {
   String get infiniteBytesPerSecond => 'infinite B/sec';
 
   @override
-  String get updatePlaylistJsonFiles => 'Update playlist JSON files';
+  String get updatePlaylistJsonFilesMenu => 'Update playlist JSON files';
 
   @override
   String get compactVideoDescription => 'Compact video description';
@@ -739,7 +744,7 @@ class MockAppLocalizations extends AppLocalizations {
       "Youtube playlist \"{title}\" already exists in the list of playlists and so a local playlist with this title won't be created.";
 
   @override
-  String get updatePlaylistJsonFilesTooltip =>
+  String get updatePlaylistJsonFilesMenuTooltip =>
       "If one or several playlist directories containing or not audios were manually added to the application data root directory or if audios were manually deleted from one or several playlist directories, this functionality updates the playlist JSON files as well as the application settings JSON file in order to reflect the changes in the application screens.";
 
   @override
@@ -898,7 +903,7 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get applyButton => "Apply";
-  
+
   @override
   String get applySortFilterOptionsTooltip =>
       "Since the name is empty, the set sort/filter parameters are applied and then added to the sort filter history.";
