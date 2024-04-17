@@ -235,6 +235,12 @@ class  SettingsDataService {
     _saveSettings();
   }
 
+  void clearAudioSortFilterSettingsSearchHistory() {
+    _searchHistoryAudioSortFilterParametersLst.clear();
+
+    _saveSettings();
+  }
+
   AudioSortFilterParameters? deleteAudioSortFilterSettings({
     required String audioSortFilterParametersName,
   }) {

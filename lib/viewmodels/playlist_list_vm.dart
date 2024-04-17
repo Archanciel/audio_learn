@@ -480,6 +480,10 @@ class PlaylistListVM extends ChangeNotifier {
     );
   }
 
+  void clearAudioSortFilterSettingsSearchHistory() {
+    _settingsDataService.clearAudioSortFilterSettingsSearchHistory();
+  }
+  
   void saveAudioSortFilterParameters({
     required String audioSortFilterParametersName,
     required AudioSortFilterParameters audioSortFilterParameters,

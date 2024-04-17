@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 enum PlaylistPopupMenuButton {
-  openSortFilterAudioSettingsDialog,
-  saveSortFilterAudiosSettingsToPlaylist,
+  openSortFilterAudioDialog,
+  clearSortFilterAudioParmsHistory,
+  saveSortFilterAudioParmsToPlaylist,
   updatePlaylistJson,
-  updateAppPlaylistsList,
 }
 
 enum AudioLearnAppViewType {
@@ -67,7 +67,7 @@ const double kRowButtonGroupWidthSeparator = 30.0;
 const double kUpDownButtonSize = 50.0;
 const double kGreaterButtonWidth = 65.0;
 const double kNormalButtonWidth = 62.0;
-const double kSmallButtonWidth = 35.0;  // 40.0; fails the app on S20 !
+const double kSmallButtonWidth = 35.0; // 40.0; fails the app on S20 !
 const double kSmallIconButtonWidth = 30.0;
 const double kNormalButtonHeight = 25.0;
 const double kSmallButtonInsidePadding = 3.0;
