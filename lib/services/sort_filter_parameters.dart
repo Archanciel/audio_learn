@@ -86,8 +86,8 @@ class SortingItem {
 
   SortingItem copy() {
     return SortingItem(
-      sortingOption: this.sortingOption,
-      isAscending: this.isAscending,
+      sortingOption: sortingOption,
+      isAscending: isAscending,
     );
   }
 }
@@ -331,22 +331,22 @@ class AudioSortFilterParameters {
       selectedSortItemLst: List<SortingItem>.from(
           selectedSortItemLst.map((item) => item.copy())),
       filterSentenceLst: List<String>.from(filterSentenceLst),
-      sentencesCombination: this.sentencesCombination,
-      ignoreCase: this.ignoreCase,
+      sentencesCombination: sentencesCombination,
+      ignoreCase: ignoreCase,
       searchAsWellInVideoCompactDescription:
-          this.searchAsWellInVideoCompactDescription,
-      filterMusicQuality: this.filterMusicQuality,
-      filterFullyListened: this.filterFullyListened,
-      filterPartiallyListened: this.filterPartiallyListened,
-      filterNotListened: this.filterNotListened,
-      downloadDateStartRange: this.downloadDateStartRange,
-      downloadDateEndRange: this.downloadDateEndRange,
-      uploadDateStartRange: this.uploadDateStartRange,
-      uploadDateEndRange: this.uploadDateEndRange,
-      fileSizeStartRangeByte: this.fileSizeStartRangeByte,
-      fileSizeEndRangeByte: this.fileSizeEndRangeByte,
-      durationStartRangeSec: this.durationStartRangeSec,
-      durationEndRangeSec: this.durationEndRangeSec,
+          searchAsWellInVideoCompactDescription,
+      filterMusicQuality: filterMusicQuality,
+      filterFullyListened: filterFullyListened,
+      filterPartiallyListened: filterPartiallyListened,
+      filterNotListened: filterNotListened,
+      downloadDateStartRange: downloadDateStartRange,
+      downloadDateEndRange: downloadDateEndRange,
+      uploadDateStartRange: uploadDateStartRange,
+      uploadDateEndRange: uploadDateEndRange,
+      fileSizeStartRangeByte: fileSizeStartRangeByte,
+      fileSizeEndRangeByte: fileSizeEndRangeByte,
+      durationStartRangeSec: durationStartRangeSec,
+      durationEndRangeSec: durationEndRangeSec,
     );
   }
 }

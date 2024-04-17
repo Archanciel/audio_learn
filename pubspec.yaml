@@ -19,8 +19,8 @@ dependencies:
   audioplayers: ^5.2.1
   path_provider: ^2.0.14
   provider: ^6.1.2
-  youtube_explode_dart: ^2.0.4
-  just_audio: ^0.9.31
+  youtube_explode_dart: ^2.2.0
+  just_audio: ^0.9.37
   http: ^1.1.0
   googleapis: ^13.0.0
   googleapis_auth: ^1.4.0
@@ -29,7 +29,7 @@ dependencies:
   another_flushbar: ^1.12.29
   url_launcher: ^6.1.10
   path: ^1.8.3
-  permission_handler: ^11.0.1
+  permission_handler: ^11.3.1
   window_manager: ^0.3.7
   collection: ^1.18.0
 
