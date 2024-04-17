@@ -15,7 +15,7 @@ void main() {
 
   group('play/pause tests', () {
     testWidgets(
-        'Opening AudioPlayerView by clicking on audio title. Then check play/pause button conversion only.',
+        'Clicking on audio title to open AudioPlayerView. Then check play/pause button conversion only.',
         (
       WidgetTester tester,
     ) async {
@@ -55,7 +55,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
-        'Opening AudioPlayerView by clicking on audio title. Then play audio during 5 seconds and the pause it',
+        'Clicking on audio title to open AudioPlayerView. Then play audio during 5 seconds and the pause it',
         (
       WidgetTester tester,
     ) async {
@@ -139,7 +139,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
-        'Opening AudioPlayerView by clicking on audio title. Then click on play button to finish playing the first downloaded audio and start playing the last downloaded audio, ignoring the 2 precendent audios already fully played.',
+        'Clicking on audio title to open AudioPlayerView. Then click on play button to finish playing the first downloaded audio and start playing the last downloaded audio, ignoring the 2 precendent audios already fully played.',
         (
       WidgetTester tester,
     ) async {
@@ -182,6 +182,61 @@ void main() {
           find.text(
               '3 fois où Aurélien Barrau tire à balles réelles sur les riches\n8:50'),
           findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Clicking on audio play button to open AudioPlayerView. Then check pause button existence.',
+        (
+      WidgetTester tester,
+    ) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'audio_player_view_2_shorts_test';
+      const String lastDownloadedAudioTitle = 'morning _ cinematic video';
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_player_view_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the lastly downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the currently paused audio
+
+      // First, get the lastly downloaded Audio item ListTile Text
+      // widget finder
+      final Finder lastDownloadedAudioListTileTextWidgetFinder =
+          find.text(lastDownloadedAudioTitle);
+
+      // Then obtain the lastly downloaded Audio item ListTile
+      // widget enclosing the Text widget by finding its ancestor
+      final Finder lastDownloadedAudioListTileWidgetFinder = find.ancestor(
+        of: lastDownloadedAudioListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the InkWell widget located in the downloaded
+      // Audio item ListTile and tap on it to play the audio
+      // and draw to the audio player screen
+      final Finder lastDownloadedAudioListTileInkWellFinder =
+          find.descendant(
+        of: lastDownloadedAudioListTileWidgetFinder,
+        matching: find.byKey(const Key("play_pause_audio_item_inkwell")),
+      );
+
+      await tester.tap(lastDownloadedAudioListTileInkWellFinder);
+      await tester.pumpAndSettle();
+
+      // Without delaying, the playing audio and dragging to the
+      // AudioPlayerView screen will not be successful.
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
+
+      // Verify if the pause button is present
+      expect(find.byIcon(Icons.pause), findsOneWidget);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub

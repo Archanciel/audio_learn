@@ -457,6 +457,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
     // Return the icon wrapped inside a SizedBox to ensure
     // horizontal alignment
     return InkWell(
+      key: const Key('play_pause_audio_item_inkwell'),
       onTap: () async {
         if (audio.isPaused) {
           // if the audio is paused, the displayed icon is
