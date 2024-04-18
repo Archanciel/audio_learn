@@ -2486,7 +2486,8 @@ void main() {
     });
   });
   group('Copy or move audio test', () {
-    testWidgets('Copy audio twice. Second copy is refused with warning. Then 3rd time copy and click on cancel button',
+    testWidgets(
+        'Copy audio twice. Second copy is refused with warning. Then 3rd time copy and click on cancel button',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -2629,7 +2630,7 @@ void main() {
       // Now verifying the selected playlist TextField still
       // contains the title of the source playlist
 
-       TextField selectedPlaylistTextField = tester.widget<TextField>(
+      TextField selectedPlaylistTextField = tester.widget<TextField>(
           find.byKey(const Key('selectedPlaylistTextField')));
 
       expect(selectedPlaylistTextField.controller!.text,
@@ -2724,8 +2725,8 @@ void main() {
       final Text enclosingPlaylistTitleTextWidget = tester
           .widget<Text>(find.byKey(const Key('enclosingPlaylistTitleKey')));
 
-      expect(
-          enclosingPlaylistTitleTextWidget.data, localAudioTargetPlaylistTitleTwo);
+      expect(enclosingPlaylistTitleTextWidget.data,
+          localAudioTargetPlaylistTitleTwo);
 
       // Verify the copied from playlist title of the copied audio
 
@@ -2932,20 +2933,20 @@ void main() {
 
       // And verify that the target playlist directory does not
       // contains the audio file copied from the source playlist
-    targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
+      targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
         path:
             '$kDownloadAppTestDirWindows${path.separator}$localAudioTargetPlaylistTitleThree',
         extension: 'mp3',
       );
 
-      expect(targetPlaylistMp3Lst,
-          []);
+      expect(targetPlaylistMp3Lst, []);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Copy audio and then move it to same target playlist: the move is refused with warning. Then 3rd time move to another playlist and click on cancel button',
+    testWidgets(
+        'Copy audio and then move it to same target playlist: the move is refused with warning. Then 3rd time move to another playlist and click on cancel button',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -3088,7 +3089,7 @@ void main() {
       // Now verifying the selected playlist TextField still
       // contains the title of the source playlist
 
-       TextField selectedPlaylistTextField = tester.widget<TextField>(
+      TextField selectedPlaylistTextField = tester.widget<TextField>(
           find.byKey(const Key('selectedPlaylistTextField')));
 
       expect(selectedPlaylistTextField.controller!.text,
@@ -3183,8 +3184,8 @@ void main() {
       final Text enclosingPlaylistTitleTextWidget = tester
           .widget<Text>(find.byKey(const Key('enclosingPlaylistTitleKey')));
 
-      expect(
-          enclosingPlaylistTitleTextWidget.data, localAudioTargetPlaylistTitleTwo);
+      expect(enclosingPlaylistTitleTextWidget.data,
+          localAudioTargetPlaylistTitleTwo);
 
       // Verify the copied from playlist title of the copied audio
 
@@ -3392,20 +3393,20 @@ void main() {
 
       // And verify that the target playlist directory does not
       // contains the audio file copied from the source playlist
-    targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
+      targetPlaylistMp3Lst = DirUtil.listFileNamesInDir(
         path:
             '$kDownloadAppTestDirWindows${path.separator}$localAudioTargetPlaylistTitleThree',
         extension: 'mp3',
       );
 
-      expect(targetPlaylistMp3Lst,
-          []);
+      expect(targetPlaylistMp3Lst, []);
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Copy audio to target playlist and then delete it from target playlist. Then move it to same target playlist.',
+    testWidgets(
+        'Copy audio to target playlist and then delete it from target playlist. Then move it to same target playlist.',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -3548,7 +3549,7 @@ void main() {
       // Now verifying the selected playlist TextField still
       // contains the title of the source playlist
 
-       TextField selectedPlaylistTextField = tester.widget<TextField>(
+      TextField selectedPlaylistTextField = tester.widget<TextField>(
           find.byKey(const Key('selectedPlaylistTextField')));
 
       expect(selectedPlaylistTextField.controller!.text,
@@ -3643,8 +3644,7 @@ void main() {
         extension: 'mp3',
       );
 
-      expect(targetPlaylistMp3Lst,
-          []);
+      expect(targetPlaylistMp3Lst, []);
 
       // Then, we move the audio already copied and deletedto to the
       // same target playlist in ensure it is moved with no warning
@@ -3729,9 +3729,8 @@ void main() {
       await tester.tap(find.byKey(const Key('confirmButton')));
       await tester.pumpAndSettle();
 
-
       // Check the value of the Confirm dialog title
-       warningDialogTitle =
+      warningDialogTitle =
           tester.widget(find.byKey(const Key('warningDialogTitle')));
       expect(warningDialogTitle.data, 'CONFIRMATION');
 
@@ -3751,7 +3750,7 @@ void main() {
       // Now verifying the selected playlist TextField still
       // contains the title of the source playlist
 
-       selectedPlaylistTextField = tester.widget<TextField>(
+      selectedPlaylistTextField = tester.widget<TextField>(
           find.byKey(const Key('selectedPlaylistTextField')));
 
       expect(selectedPlaylistTextField.controller!.text,
@@ -3761,7 +3760,8 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
-    testWidgets('Copy audio to target playlist and then delete it from target playlist. Then copy it again to same target playlist.',
+    testWidgets(
+        'Copy audio to target playlist and then delete it from target playlist. Then copy it again to same target playlist.',
         (tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -3904,7 +3904,7 @@ void main() {
       // Now verifying the selected playlist TextField still
       // contains the title of the source playlist
 
-       TextField selectedPlaylistTextField = tester.widget<TextField>(
+      TextField selectedPlaylistTextField = tester.widget<TextField>(
           find.byKey(const Key('selectedPlaylistTextField')));
 
       expect(selectedPlaylistTextField.controller!.text,
@@ -3999,8 +3999,7 @@ void main() {
         extension: 'mp3',
       );
 
-      expect(targetPlaylistMp3Lst,
-          []);
+      expect(targetPlaylistMp3Lst, []);
 
       // Then, we move the audio already copied and deletedto to the
       // same target playlist in ensure it is moved with no warning
@@ -4085,9 +4084,8 @@ void main() {
       await tester.tap(find.byKey(const Key('confirmButton')));
       await tester.pumpAndSettle();
 
-
       // Check the value of the Confirm dialog title
-       warningDialogTitle =
+      warningDialogTitle =
           tester.widget(find.byKey(const Key('warningDialogTitle')));
       expect(warningDialogTitle.data, 'CONFIRMATION');
 
@@ -4107,7 +4105,7 @@ void main() {
       // Now verifying the selected playlist TextField still
       // contains the title of the source playlist
 
-       selectedPlaylistTextField = tester.widget<TextField>(
+      selectedPlaylistTextField = tester.widget<TextField>(
           find.byKey(const Key('selectedPlaylistTextField')));
 
       expect(selectedPlaylistTextField.controller!.text,
@@ -4499,7 +4497,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Now uncheck the keep audio in source playlist checkbox
-      await tester.tap(find.byKey(const Key('keepAudioDataInSourcePlaylistCheckboxKey')));
+      await tester.tap(
+          find.byKey(const Key('keepAudioDataInSourcePlaylistCheckboxKey')));
       await tester.pumpAndSettle();
 
       // Now find the confirm button and tap on it
@@ -6013,6 +6012,138 @@ void main() {
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
+    testWidgets(
+        'Execute update playlist json file after deleting all files in app audio dir and verify audio menu state. Do same after re-adding app audio dir files.',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}sort_and_filter_audio_dialog_widget_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      const String s8AudioYoutubePlaylistTitle = 'S8 audio';
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to show the list of playlists.
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the ListTile Playlist containing the S8 audio Youtube
+      // playlist
+
+      // First, find the S8 audio Youtube playlist ListTile Text widget
+      final Finder youtubePlaylistListTileTextWidgetFinder =
+          find.text(s8AudioYoutubePlaylistTitle);
+
+      // Then obtain the Youtube source playlist ListTile widget
+      // enclosing the Text widget by finding its ancestor
+      final Finder youtubePlaylistListTileWidgetFinder = find.ancestor(
+        of: youtubePlaylistListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the playlist ListTile
+      // and tap on it to select the playlist
+      await tapPlaylistCheckboxIfNotAlreadyChecked(
+        playlistListTileWidgetFinder: youtubePlaylistListTileWidgetFinder,
+        widgetTester: tester,
+      );
+
+      // Now tap the 'Toggle List' button to hide the list of playlists so
+      // that only the S8 audio Youtube playlist audio list is displayed
+      // in the AudioPlayerView screen
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Now tap on the audio menu button to open the audio menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // Ensure that the audio menu items are enabled
+      verifyAudioMenuItemsState(
+        tester: tester,
+        areAudioMenuItemsDisabled: false,
+      );
+
+      // Now delete all the files in the app audio directory
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+
+      // Here, the audio menu is still displayed ...
+
+      // *** Execute Updating playlist JSON file menu item
+
+      // find the update playlist JSON file menu item and tap on it
+      await tester
+          .tap(find.byKey(const Key('update_playlist_json_dialog_item')));
+      await tester.pumpAndSettle();
+
+      // After executing the update playlist json file, the audio popup
+      // menu is closed
+
+      // Now tap on the audio menu button to re-open the audio menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // Ensure that the audio menu items are now disabled
+      verifyAudioMenuItemsState(
+        tester: tester,
+        areAudioMenuItemsDisabled: true,
+      );
+
+      // Now restore the app data in the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}sort_and_filter_audio_dialog_widget_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      // *** Execute again Updating playlist JSON file menu item
+
+      // Here, the audio menu is still displayed ...
+
+      // find the update playlist JSON file menu item and tap on it
+      await tester
+          .tap(find.byKey(const Key('update_playlist_json_dialog_item')));
+      await tester.pumpAndSettle();
+
+      // After executing the update playlist json file, the audio popup
+      // menu is closed
+
+      // open the popup menu again
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // Ensure that the audio menu items are now enabled
+      verifyAudioMenuItemsState(
+        tester: tester,
+        areAudioMenuItemsDisabled: false,
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
   });
   group('Delete unique audio test', () {
     testWidgets(
@@ -6806,19 +6937,9 @@ void main() {
       await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
       await tester.pumpAndSettle();
 
-      verifyWidgetIsDisabled(
+      verifyAudioMenuItemsState(
         tester: tester,
-        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
-      );
-
-      verifyWidgetIsDisabled(
-        tester: tester,
-        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
-      );
-
-      verifyWidgetIsEnabled(
-        tester: tester,
-        widgetKeyStr: 'update_playlist_json_dialog_item',
+        areAudioMenuItemsDisabled: true,
       );
 
       // Verifying that the selected playlist text field is empty
@@ -6986,19 +7107,9 @@ void main() {
       await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
       await tester.pumpAndSettle();
 
-      verifyWidgetIsDisabled(
+      verifyAudioMenuItemsState(
         tester: tester,
-        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
-      );
-
-      verifyWidgetIsDisabled(
-        tester: tester,
-        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
-      );
-
-      verifyWidgetIsEnabled(
-        tester: tester,
-        widgetKeyStr: 'update_playlist_json_dialog_item',
+        areAudioMenuItemsDisabled: true,
       );
 
       // Verifying that the selected playlist text field is empty
@@ -7359,21 +7470,9 @@ void main() {
 
       // since the selected local playlist has no audios, the
       // audio menu item is disabled
-      verifyWidgetIsDisabled(
+      verifyAudioMenuItemsState(
         tester: tester,
-        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
-      );
-
-      // since the selected local playlist has no audios, the
-      // audio menu item is disabled
-      verifyWidgetIsDisabled(
-        tester: tester,
-        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
-      );
-
-      verifyWidgetIsEnabled(
-        tester: tester,
-        widgetKeyStr: 'update_playlist_json_dialog_item',
+        areAudioMenuItemsDisabled: true,
       );
 
       // Purge the test playlist directory so that the created test
@@ -7519,21 +7618,9 @@ void main() {
 
       // since the selected local playlist has no audios, the
       // audio menu item is disabled
-      verifyWidgetIsDisabled(
+      verifyAudioMenuItemsState(
         tester: tester,
-        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
-      );
-
-      // since the selected local playlist has no audios, the
-      // audio menu item is disabled
-      verifyWidgetIsDisabled(
-        tester: tester,
-        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
-      );
-
-      verifyWidgetIsEnabled(
-        tester: tester,
-        widgetKeyStr: 'update_playlist_json_dialog_item',
+        areAudioMenuItemsDisabled: true,
       );
 
       // Purge the test playlist directory so that the created test
@@ -7631,21 +7718,9 @@ void main() {
 
       // since the selected local playlist has no audios, the
       // audio menu item is disabled
-      verifyWidgetIsDisabled(
+      verifyAudioMenuItemsState(
         tester: tester,
-        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
-      );
-
-      // since the selected local playlist has no audios, the
-      // audio menu item is disabled
-      verifyWidgetIsDisabled(
-        tester: tester,
-        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
-      );
-
-      verifyWidgetIsEnabled(
-        tester: tester,
-        widgetKeyStr: 'update_playlist_json_dialog_item',
+        areAudioMenuItemsDisabled: true,
       );
 
       // Purge the test playlist directory so that the created test
@@ -7963,21 +8038,9 @@ void main() {
 
       // since the selected local playlist has no audios, the
       // audio menu item is disabled
-      verifyWidgetIsDisabled(
+      verifyAudioMenuItemsState(
         tester: tester,
-        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
-      );
-
-      // since the selected local playlist has no audios, the
-      // audio menu item is disabled
-      verifyWidgetIsDisabled(
-        tester: tester,
-        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
-      );
-
-      verifyWidgetIsEnabled(
-        tester: tester,
-        widgetKeyStr: 'update_playlist_json_dialog_item',
+        areAudioMenuItemsDisabled: true,
       );
 
       // Purge the test playlist directory so that the created test
@@ -8111,21 +8174,9 @@ void main() {
 
       // since the selected local playlist has no audios, the
       // audio menu item is disabled
-      verifyWidgetIsDisabled(
+      verifyAudioMenuItemsState(
         tester: tester,
-        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
-      );
-
-      // since the selected local playlist has no audios, the
-      // audio menu item is disabled
-      verifyWidgetIsDisabled(
-        tester: tester,
-        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
-      );
-
-      verifyWidgetIsEnabled(
-        tester: tester,
-        widgetKeyStr: 'update_playlist_json_dialog_item',
+        areAudioMenuItemsDisabled: true,
       );
 
       // Purge the test playlist directory so that the created test
@@ -8256,21 +8307,9 @@ void main() {
 
       // since the selected local playlist has no audios, the
       // audio menu item is disabled
-      verifyWidgetIsDisabled(
+      verifyAudioMenuItemsState(
         tester: tester,
-        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
-      );
-
-      // since the selected local playlist has no audios, the
-      // audio menu item is disabled
-      verifyWidgetIsDisabled(
-        tester: tester,
-        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
-      );
-
-      verifyWidgetIsEnabled(
-        tester: tester,
-        widgetKeyStr: 'update_playlist_json_dialog_item',
+        areAudioMenuItemsDisabled: true,
       );
 
       // Purge the test playlist directory so that the created test
@@ -8403,21 +8442,9 @@ void main() {
 
       // since the selected local playlist has no audios, the
       // audio menu item is disabled
-      verifyWidgetIsDisabled(
+      verifyAudioMenuItemsState(
         tester: tester,
-        widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
-      );
-
-      // since the selected local playlist has no audios, the
-      // audio menu item is disabled
-      verifyWidgetIsDisabled(
-        tester: tester,
-        widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
-      );
-
-      verifyWidgetIsEnabled(
-        tester: tester,
-        widgetKeyStr: 'update_playlist_json_dialog_item',
+        areAudioMenuItemsDisabled: true,
       );
 
       // Purge the test playlist directory so that the created test
@@ -8425,6 +8452,48 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+}
+
+void verifyAudioMenuItemsState({
+  required WidgetTester tester,
+  required bool areAudioMenuItemsDisabled,
+}) {
+  if (areAudioMenuItemsDisabled) {
+    verifyWidgetIsDisabled(
+      tester: tester,
+      widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+    );
+
+    verifyWidgetIsDisabled(
+      tester: tester,
+      widgetKeyStr: 'clear_sort_and_filter_audio_options_history_menu_item',
+    );
+
+    verifyWidgetIsDisabled(
+      tester: tester,
+      widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+    );
+  } else {
+    verifyWidgetIsEnabled(
+      tester: tester,
+      widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
+    );
+
+    verifyWidgetIsEnabled(
+      tester: tester,
+      widgetKeyStr: 'clear_sort_and_filter_audio_options_history_menu_item',
+    );
+
+    verifyWidgetIsEnabled(
+      tester: tester,
+      widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
+    );
+  }
+
+  verifyWidgetIsEnabled(
+    tester: tester,
+    widgetKeyStr: 'update_playlist_json_dialog_item',
+  );
 }
 
 Future<void> ensureNoButtonIsEnabledSinceNoPlaylistIsSelected(
@@ -8459,22 +8528,10 @@ Future<void> ensureNoButtonIsEnabledSinceNoPlaylistIsSelected(
   await tester.pumpAndSettle();
 
   // since the selected local playlist has no audios, the
-  // audio menu item is disabled
-  verifyWidgetIsDisabled(
+  // audio menu items are disabled
+  verifyAudioMenuItemsState(
     tester: tester,
-    widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
-  );
-
-  // since the selected local playlist has no audios, the
-  // audio menu item is disabled
-  verifyWidgetIsDisabled(
-    tester: tester,
-    widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
-  );
-
-  verifyWidgetIsEnabled(
-    tester: tester,
-    widgetKeyStr: 'update_playlist_json_dialog_item',
+    areAudioMenuItemsDisabled: true,
   );
 }
 
@@ -8546,10 +8603,18 @@ void verifyWidgetIsEnabled({
   // Find the widget by its key
   final Finder widgetFinder = find.byKey(Key(widgetKeyStr));
 
+  if (widgetFinder.evaluate().isEmpty) {
+    // The case if playlists are not displayed or if no playlist
+    // is selected. In this case, the widget is not found since
+    // in place of up down button a sort filter parameters dropdown
+    // button is displayed
+    return;
+  }
+
   // Retrieve the widget as a generic Widget
   final Widget widget = tester.widget(widgetFinder);
 
-  // Check if the widget is disabled based on its type
+  // Check if the widget is enabled based on its type
   if (widget is IconButton) {
     expect(widget.onPressed, isNotNull, reason: 'IconButton should be enabled');
   } else if (widget is TextButton) {
