@@ -6070,11 +6070,137 @@ void main() {
         widgetTester: tester,
       );
 
+      // Now tap on the audio menu button to open the audio menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // Ensure that the audio menu items are enabled
+      verifyAudioMenuItemsState(
+        tester: tester,
+        areAudioMenuItemsDisabled: false,
+      );
+
+      // Now delete all the files in the app audio directory
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+
+      // Here, the audio menu is still displayed ...
+
+      // *** Execute Updating playlist JSON file menu item
+
+      // find the update playlist JSON file menu item and tap on it
+      await tester
+          .tap(find.byKey(const Key('update_playlist_json_dialog_item')));
+      await tester.pumpAndSettle();
+
+      // After executing the update playlist json file, the audio popup
+      // menu is closed
+
+      // Now tap on the audio menu button to re-open the audio menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // Ensure that the audio menu items are now disabled
+      verifyAudioMenuItemsState(
+        tester: tester,
+        areAudioMenuItemsDisabled: true,
+      );
+
+      // Now restore the app data in the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}sort_and_filter_audio_dialog_widget_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      // *** Execute again Updating playlist JSON file menu item
+
+      // Here, the audio menu is still displayed ...
+
+      // find the update playlist JSON file menu item and tap on it
+      await tester
+          .tap(find.byKey(const Key('update_playlist_json_dialog_item')));
+      await tester.pumpAndSettle();
+
+      // After executing the update playlist json file, the audio popup
+      // menu is closed
+
+      // open the popup menu again
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // Ensure that the audio menu items are now enabled
+      verifyAudioMenuItemsState(
+        tester: tester,
+        areAudioMenuItemsDisabled: false,
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'With Playlist list not displayed, execute update playlist json file after deleting all files in app audio dir and verify audio menu state. Do same after re-adding app audio dir files.',
+        (tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}sort_and_filter_audio_dialog_widget_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      const String s8AudioYoutubePlaylistTitle = 'S8 audio';
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to show the list of playlists.
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Find the ListTile Playlist containing the S8 audio Youtube
+      // playlist
+
+      // First, find the S8 audio Youtube playlist ListTile Text widget
+      final Finder youtubePlaylistListTileTextWidgetFinder =
+          find.text(s8AudioYoutubePlaylistTitle);
+
+      // Then obtain the Youtube source playlist ListTile widget
+      // enclosing the Text widget by finding its ancestor
+      final Finder youtubePlaylistListTileWidgetFinder = find.ancestor(
+        of: youtubePlaylistListTileTextWidgetFinder,
+        matching: find.byType(ListTile),
+      );
+
+      // Now find the Checkbox widget located in the playlist ListTile
+      // and tap on it to select the playlist
+      await tapPlaylistCheckboxIfNotAlreadyChecked(
+        playlistListTileWidgetFinder: youtubePlaylistListTileWidgetFinder,
+        widgetTester: tester,
+      );
+
       // Now tap the 'Toggle List' button to hide the list of playlists so
       // that only the S8 audio Youtube playlist audio list is displayed
       // in the AudioPlayerView screen FAILS TEST
-      // await tester.tap(find.byKey(const Key('playlist_toggle_button')));
-      // await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
 
       // Now tap on the audio menu button to open the audio menu
       await tester.tap(find.byKey(const Key('audio_popup_menu_button')));

@@ -93,9 +93,9 @@ class PlaylistListVM extends ChangeNotifier {
 
     _audioDownloadVM.updatePlaylistJsonFiles();
 
-    List<Playlist> listOfPlaylist = _audioDownloadVM.listOfPlaylist;
+    List<Playlist> updatedListOfPlaylist = _audioDownloadVM.listOfPlaylist;
 
-    for (Playlist playlist in listOfPlaylist) {
+    for (Playlist playlist in updatedListOfPlaylist) {
       if (!_listOfSelectablePlaylists.any((element) => element == playlist)) {
         // the case if the playlist dir was added to the app
         // audio dir
@@ -106,7 +106,7 @@ class PlaylistListVM extends ChangeNotifier {
     List<Playlist> copyOfList = List<Playlist>.from(_listOfSelectablePlaylists);
 
     for (Playlist playlist in copyOfList) {
-      if (!listOfPlaylist.any((element) => element == playlist)) {
+      if (!updatedListOfPlaylist.any((element) => element == playlist)) {
         // the case if the playlist dir was removed from the app
         // audio dir
         _listOfSelectablePlaylists.remove(playlist);
@@ -137,11 +137,24 @@ class PlaylistListVM extends ChangeNotifier {
 
       playlistListVMselectedPlaylist.playableAudioLst =
           audioDownloadVMcorrespondingPlaylist.playableAudioLst;
+
+      // audio popup menu items are enabled if audios are available
+      // in the selected playlist
+      _setAudioPopupMenuItemState(
+        audioPopupMenuItemStateIfAudiosAvailable: true,
+        selectedPlaylist: playlistListVMselectedPlaylist,
+      );
     } else {
       // if no playlist is selected, the playable audio list of the
       // selected playlist is emptied
 
       _setUniqueSelectedPlaylistToFalse();
+
+      _setAudioPopupMenuItemState(
+        // since no playlist is selected, no audios are displayed and
+        // the button is disabled
+        audioPopupMenuItemStateIfAudiosAvailable: false,
+      );
     }
 
     _updateAndSavePlaylistOrder();
@@ -468,7 +481,8 @@ class PlaylistListVM extends ChangeNotifier {
         .audioSortFilterParametersMap[audioSortFilterParametersName]!;
   }
 
-  List<AudioSortFilterParameters> getSearchHistoryAudioSortFilterParametersLst() {
+  List<AudioSortFilterParameters>
+      getSearchHistoryAudioSortFilterParametersLst() {
     return _settingsDataService.searchHistoryAudioSortFilterParametersLst;
   }
 
@@ -483,7 +497,7 @@ class PlaylistListVM extends ChangeNotifier {
   void clearAudioSortFilterSettingsSearchHistory() {
     _settingsDataService.clearAudioSortFilterSettingsSearchHistory();
   }
-  
+
   void saveAudioSortFilterParameters({
     required String audioSortFilterParametersName,
     required AudioSortFilterParameters audioSortFilterParameters,
@@ -746,8 +760,8 @@ class PlaylistListVM extends ChangeNotifier {
 
     _removeAudioFromSortedFilteredPlayableAudioList(audio);
 
-    _setButtonAudioPopupMenuState(
-      buttonStateIfAudiosAvailable: true,
+    _setAudioPopupMenuItemState(
+      audioPopupMenuItemStateIfAudiosAvailable: true,
       selectedPlaylist: audio.enclosingPlaylist!,
     );
 
@@ -855,19 +869,19 @@ class PlaylistListVM extends ChangeNotifier {
       _isButtonDownloadSelPlaylistsEnabled = true;
     }
 
-    _setButtonAudioPopupMenuState(
-      buttonStateIfAudiosAvailable: true,
+    _setAudioPopupMenuItemState(
+      audioPopupMenuItemStateIfAudiosAvailable: true,
       selectedPlaylist: selectedPlaylist,
     );
   }
 
   /// If the selected playlist has no audio, then the
   /// button is disabled.
-  void _setButtonAudioPopupMenuState({
-    required bool buttonStateIfAudiosAvailable,
+  void _setAudioPopupMenuItemState({
+    required bool audioPopupMenuItemStateIfAudiosAvailable,
     Playlist? selectedPlaylist,
   }) {
-    if (buttonStateIfAudiosAvailable) {
+    if (audioPopupMenuItemStateIfAudiosAvailable) {
       if (selectedPlaylist != null &&
           selectedPlaylist.playableAudioLst.isNotEmpty) {
         _isButtonAudioPopupMenuEnabled = true;
@@ -881,8 +895,8 @@ class PlaylistListVM extends ChangeNotifier {
 
   void _disableAllButtonsIfNoPlaylistIsSelected() {
     _disableExpandedListButtons();
-    _setButtonAudioPopupMenuState(
-      buttonStateIfAudiosAvailable: false,
+    _setAudioPopupMenuItemState(
+      audioPopupMenuItemStateIfAudiosAvailable: false,
     );
   }
 

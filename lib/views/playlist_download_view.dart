@@ -801,6 +801,47 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       width: kRowButtonGroupWidthSeparator,
       child: PopupMenuButton<PlaylistPopupMenuButton>(
         key: const Key('audio_popup_menu_button'),
+        icon: const Icon(Icons.filter_list),
+        itemBuilder: (BuildContext context) {
+          return [
+            PopupMenuItem<PlaylistPopupMenuButton>(
+              key: const Key('define_sort_and_filter_audio_menu_item'),
+              enabled:
+                  (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
+              value: PlaylistPopupMenuButton.openSortFilterAudioDialog,
+              child: Text(
+                  AppLocalizations.of(context)!.defineSortFilterAudiosMenu),
+            ),
+            PopupMenuItem<PlaylistPopupMenuButton>(
+              key: const Key(
+                  'clear_sort_and_filter_audio_options_history_menu_item'),
+              enabled:
+                  (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
+              value: PlaylistPopupMenuButton.clearSortFilterAudioParmsHistory,
+              child: Text(AppLocalizations.of(context)!
+                  .clearSortFilterAudiosParmsHistoryMenu),
+            ),
+            PopupMenuItem<PlaylistPopupMenuButton>(
+              key: const Key(
+                  'save_sort_and_filter_audio_options_in_playlist_menu_item'),
+              enabled:
+                  (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
+              value: PlaylistPopupMenuButton.saveSortFilterAudioParmsToPlaylist,
+              child: Text(AppLocalizations.of(context)!
+                  .saveSortFilterAudiosOptionsToPlaylistMenu),
+            ),
+            PopupMenuItem<PlaylistPopupMenuButton>(
+              key: const Key('update_playlist_json_dialog_item'),
+              value: PlaylistPopupMenuButton.updatePlaylistJson,
+              child: Tooltip(
+                message: AppLocalizations.of(context)!
+                    .updatePlaylistJsonFilesMenuTooltip,
+                child: Text(
+                    AppLocalizations.of(context)!.updatePlaylistJsonFilesMenu),
+              ),
+            ),
+          ];
+        },
         onSelected: (PlaylistPopupMenuButton value) {
           // Handle menu item selection
           switch (value) {
@@ -854,7 +895,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               focusNode.requestFocus();
               break;
             case PlaylistPopupMenuButton.clearSortFilterAudioParmsHistory:
-              playlistListVMlistenFalse.clearAudioSortFilterSettingsSearchHistory();
+              playlistListVMlistenFalse
+                  .clearAudioSortFilterSettingsSearchHistory();
               break;
             case PlaylistPopupMenuButton.saveSortFilterAudioParmsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close
@@ -891,47 +933,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             default:
               break;
           }
-        },
-        icon: const Icon(Icons.filter_list),
-        itemBuilder: (BuildContext context) {
-          return [
-            PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('define_sort_and_filter_audio_menu_item'),
-              enabled:
-                  (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
-              value: PlaylistPopupMenuButton.openSortFilterAudioDialog,
-              child: Text(
-                  AppLocalizations.of(context)!.defineSortFilterAudiosMenu),
-            ),
-            PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key(
-                  'clear_sort_and_filter_audio_options_history_menu_item'),
-              enabled:
-                  (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
-              value: PlaylistPopupMenuButton.clearSortFilterAudioParmsHistory,
-              child: Text(AppLocalizations.of(context)!
-                  .clearSortFilterAudiosParmsHistoryMenu),
-            ),
-            PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key(
-                  'save_sort_and_filter_audio_options_in_playlist_menu_item'),
-              enabled:
-                  (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
-              value: PlaylistPopupMenuButton.saveSortFilterAudioParmsToPlaylist,
-              child: Text(AppLocalizations.of(context)!
-                  .saveSortFilterAudiosOptionsToPlaylistMenu),
-            ),
-            PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key('update_playlist_json_dialog_item'),
-              value: PlaylistPopupMenuButton.updatePlaylistJson,
-              child: Tooltip(
-                message: AppLocalizations.of(context)!
-                    .updatePlaylistJsonFilesMenuTooltip,
-                child: Text(
-                    AppLocalizations.of(context)!.updatePlaylistJsonFilesMenu),
-              ),
-            ),
-          ];
         },
       ),
     );
