@@ -107,6 +107,8 @@ class _SortAndFilterAudioDialogWidgetState
       kDarkAndLightDisabledIconColor;
   Color _historicalAudioSortFilterParamsRightIconColor =
       kDarkAndLightDisabledIconColor;
+  Color _historicalAudioSortFilterParamsDeleteIconColor =
+      kDarkAndLightDisabledIconColor;
 
   int _historicalAudioSortFilterParametersIndex = 0;
 
@@ -300,8 +302,6 @@ class _SortAndFilterAudioDialogWidgetState
     } else {
       _audioSortOptionButtonIconColor = kDarkAndLightDisabledIconColor;
     }
-
-    // _initializeHistoricalAudioSortFilterParamsLeftIconColors();
   }
 
   void _initializeHistoricalAudioSortFilterParamsLeftIconColors() {
@@ -350,7 +350,9 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     DateTime now = DateTime.now();
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(
       context,
@@ -392,12 +394,12 @@ class _SortAndFilterAudioDialogWidgetState
                     const SizedBox(
                       height: 10,
                     ),
-                    _buildOptionFilterTitleAndSearchHistoryButtons(),
+                    _buildOptionFilterTitleAndSearchHistoryButtons(context),
                     const SizedBox(
                       height: 14,
                     ),
                     _buildAudioFilterSentence(),
-                    _buildAudioFilterSentencesLst(),
+                    _buildAudioFilterSentencesLst(context),
                     Row(
                       children: <Widget>[
                         Tooltip(
@@ -533,7 +535,9 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  Widget _buildSaveAsFields(BuildContext context) {
+  Widget _buildSaveAsFields(
+    BuildContext context,
+  ) {
     return Tooltip(
       message: AppLocalizations.of(context)!.sortFilterSaveAsTextFieldTooltip,
       child: Column(
@@ -801,7 +805,9 @@ class _SortAndFilterAudioDialogWidgetState
     return;
   }
 
-  Column _buildAudioDurationFields(BuildContext context) {
+  Column _buildAudioDurationFields(
+    BuildContext context,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -844,7 +850,9 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  Column _buildAudioFileSizeFields(BuildContext context) {
+  Column _buildAudioFileSizeFields(
+    BuildContext context,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -887,7 +895,10 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  Widget _buildAudioDateFields(BuildContext context, DateTime now) {
+  Widget _buildAudioDateFields(
+    BuildContext context,
+    DateTime now,
+  ) {
     return Column(
       children: [
         Row(
@@ -1058,7 +1069,9 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  Widget _buildAudioStateCheckboxes(BuildContext context) {
+  Widget _buildAudioStateCheckboxes(
+    BuildContext context,
+  ) {
     return Column(
       children: [
         Row(
@@ -1153,7 +1166,9 @@ class _SortAndFilterAudioDialogWidgetState
     _audioTitleSearchSentenceFocusNode.requestFocus();
   }
 
-  SizedBox _buildAudioFilterSentencesLst() {
+  SizedBox _buildAudioFilterSentencesLst(
+    BuildContext context,
+  ) {
     return SizedBox(
       width: double.maxFinite,
       child: ListView.builder(
@@ -1181,7 +1196,9 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  Row _buildOptionFilterTitleAndSearchHistoryButtons() {
+  Row _buildOptionFilterTitleAndSearchHistoryButtons(
+    BuildContext context,
+  ) {
     ButtonStateManager buttonStateManager = ButtonStateManager(
       minValue: 0,
       maxValue: _historicalAudioSortFilterParametersLst.length - 1,
@@ -1228,8 +1245,6 @@ class _SortAndFilterAudioDialogWidgetState
             onPressed: () {
               if (_historicalAudioSortFilterParametersIndex <
                   _historicalAudioSortFilterParametersLst.length - 1) {
-                // at dialog opening, _historicalAudioSortFilterParametersIndex
-                // was initialized to the list length - 1
                 AudioSortFilterParameters audioSortFilterParameters =
                     _historicalAudioSortFilterParametersLst[
                         ++_historicalAudioSortFilterParametersIndex];
@@ -1248,11 +1263,38 @@ class _SortAndFilterAudioDialogWidgetState
             ),
           ),
         ),
+        SizedBox(
+          width: kSmallButtonWidth,
+          child: Tooltip(
+            message: AppLocalizations.of(context)!
+                .clearSortFilterAudiosParmsHistoryMenu,
+            child: IconButton(
+              key: const Key('search_history_delete_button'),
+              onPressed: () {
+                Provider.of<PlaylistListVM>(
+                  context,
+                  listen: false,
+                ).clearAudioSortFilterSettingsSearchHistory();
+                _historicalAudioSortFilterParametersLst.clear();
+                _manageButtonsState(buttonStateManager);
+                setState(() {});
+              },
+              padding: const EdgeInsets.all(0),
+              icon: Icon(
+                Icons.delete,
+                size: kUpDownButtonSize / 2,
+                color: _historicalAudioSortFilterParamsDeleteIconColor,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
 
-  void _manageButtonsState(ButtonStateManager buttonStateManager) {
+  void _manageButtonsState(
+    ButtonStateManager buttonStateManager,
+  ) {
     List<bool> historicalAudioSortFilterButtonsState =
         buttonStateManager.getTwoButtonsState(
       _historicalAudioSortFilterParametersIndex.toDouble(),
@@ -1270,6 +1312,14 @@ class _SortAndFilterAudioDialogWidgetState
           kDarkAndLightEnabledIconColor;
     } else {
       _historicalAudioSortFilterParamsRightIconColor =
+          kDarkAndLightDisabledIconColor;
+    }
+
+    if (_historicalAudioSortFilterParametersLst.isNotEmpty) {
+      _historicalAudioSortFilterParamsDeleteIconColor =
+          kDarkAndLightEnabledIconColor;
+    } else {
+      _historicalAudioSortFilterParamsDeleteIconColor =
           kDarkAndLightDisabledIconColor;
     }
   }
@@ -1373,7 +1423,10 @@ class _SortAndFilterAudioDialogWidgetState
         // controller: _scrollController,
         itemCount: _selectedSortingItemLst.length,
         shrinkWrap: true,
-        itemBuilder: (BuildContext context, int index) {
+        itemBuilder: (
+          BuildContext context,
+          int index,
+        ) {
           return ListTile(
             title: Text(
               _sortingOptionToString(
@@ -1450,7 +1503,9 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  DropdownButton<SortingOption> _buildSortingChoiceList(BuildContext context) {
+  DropdownButton<SortingOption> _buildSortingChoiceList(
+    BuildContext context,
+  ) {
     return DropdownButton<SortingOption>(
       key: const Key('sortingOptionDropdownButton'),
       value: SortingOption.audioDownloadDate,
@@ -1488,7 +1543,9 @@ class _SortAndFilterAudioDialogWidgetState
   /// ensures that you only include the relevant options in your
   /// DropdownButton.
   List<DropdownMenuItem<SortingOption>>
-      _buildListOfSortingOptionDropdownMenuItems(BuildContext context) {
+      _buildListOfSortingOptionDropdownMenuItems(
+    BuildContext context,
+  ) {
     return SortingOption.values.where((SortingOption value) {
       // Exclude certain options based on the app view type
       return !(widget.audioLearnAppViewType ==
