@@ -193,6 +193,9 @@
   "noPlaylistSelectedForAudioCopyWarning": "No playlist selected for copying audio. Select one playlist and retry ...",
   "noPlaylistSelectedForAudioMoveWarning": "No playlist selected for moving audio. Select one playlist and retry ...",
   "tooManyPlaylistSelectedForSingleVideoDownloadWarning": "More than one playlist selected for single video download. Select only one playlist and retry ...",
+  "noSortFilterParameterWasModifiedWarning": "No sort/filter parameter was modified. Please set a sort/filter parameter and retry ...",
+  "deletedSortFilterParameterNotExistWarning": "The sort/filter parameter you try to delete does not exist. Please define an existing sort/filter parameter and retry ...",
+  "historicalSortFilterParameterWasDeletedWarning": "The historical sort/filter parameter was deleted.",
   "confirmDialogTitle": "CONFIRMATION",
   "confirmSingleVideoAudioPlaylistTitle": "Confirm target playlist \"{title}\" for downloading single video audio.",
   "playlistJsonFileSizeLabel": "JSON file size",
@@ -297,5 +300,4 @@
   "deleteShort": "Delete",
   "sortFilterParametersDefaultName": "default",
   "sortFilterParametersDownloadButtonHint": "Sel sort/filter"
-
 }

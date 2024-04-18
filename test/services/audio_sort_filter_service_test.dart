@@ -3391,18 +3391,6 @@ void main() {
           expectedResultForFilterByWordAndSortByDownloadDateDescAndDurationAsc);
 
       final List<SortingItem>
-          selectedSortItemLstDownloadDateAscAndDurationDesc = [
-        SortingItem(
-          sortingOption: SortingOption.audioDownloadDate,
-          isAscending: true,
-        ),
-        SortingItem(
-          sortingOption: SortingOption.audioDuration,
-          isAscending: false,
-        ),
-      ];
-
-      final List<SortingItem>
           selectedSortOptionsLstDownloadDateAscAndDurationDesc = [
         SortingItem(
           sortingOption: SortingOption.audioDownloadDate,

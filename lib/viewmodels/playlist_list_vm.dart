@@ -498,6 +498,17 @@ class PlaylistListVM extends ChangeNotifier {
     _settingsDataService.clearAudioSortFilterSettingsSearchHistory();
   }
 
+  /// Remove the audio sort/filter parameters from the search history list.
+  /// Return true if the audio sort/filter parameters was found and removed,
+  /// false otherwise.
+  bool clearAudioSortFilterSettingsSearchHistoryElement(
+    AudioSortFilterParameters audioSortFilterParameters,
+  ) {
+    return _settingsDataService.clearAudioSortFilterSettingsSearchHistoryElement(
+      audioSortFilterParameters,
+    );
+  }
+
   void saveAudioSortFilterParameters({
     required String audioSortFilterParametersName,
     required AudioSortFilterParameters audioSortFilterParameters,

@@ -47,6 +47,18 @@ enum WarningMessageType {
   // save as button after selecting the sort and filter options
   // but the name of the new sort and filter is empty.
 
+  noSortFilterParameterWasModified, // The case if the user clicks
+  // on the apply button without having set a sort/filter
+  // parameter.
+
+  deletedHistoricalSortFilterParameterNotExist, // The case if the user clicks
+  // on the delete button after having set a sort/filter parameter
+  // which does not exist in the sort/filter parameter history.
+
+  historicalSortFilterParameterWasDeleted, // The case if the user clicks
+  // on the delete button after having selected an historical sort/filter
+  // parameter which does  exist in the sort/filter parameter history.
+
   noPlaylistSelectedForSingleVideoDownload, // The case if the user
   // clicks on the single video download button but no playlist
   // to which the downloaded audio will be added is selected.
@@ -254,6 +266,26 @@ class WarningMessageVM extends ChangeNotifier {
 
       notifyListeners();
     }
+  }
+
+  void noSortFilterParameterWasModified() {
+    _warningMessageType = WarningMessageType.noSortFilterParameterWasModified;
+
+    notifyListeners();
+  }
+
+  void deletedHistoricalSortFilterParameterNotExist() {
+    _warningMessageType =
+        WarningMessageType.deletedHistoricalSortFilterParameterNotExist;
+
+    notifyListeners();
+  }
+
+  void historicalSortFilterParameterWasDeleted() {
+    _warningMessageType =
+        WarningMessageType.historicalSortFilterParameterWasDeleted;
+
+    notifyListeners();
   }
 
   bool _isNoPlaylistSelectedForSingleVideoDownload = false;

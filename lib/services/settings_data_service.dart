@@ -37,7 +37,7 @@ enum AudioSortCriterion { audioDownloadDateTime, validVideoTitle }
 /// json_serializable to simplify the JSON encoding and decoding
 /// process. This will also help you avoid writing manual string
 /// parsing code.
-class  SettingsDataService {
+class SettingsDataService {
   // default settings are set in the constructor, namely default language
   // and default theme
   final Map<SettingType, Map<dynamic, dynamic>> _settings = {
@@ -223,6 +223,19 @@ class  SettingsDataService {
   void addAudioSortFilterSettingsToSearchHistory({
     required AudioSortFilterParameters audioSortFilterParameters,
   }) {
+    if (_searchHistoryAudioSortFilterParametersLst
+        .contains(audioSortFilterParameters)) {
+      // existing sort/filter parms in the search history list is not
+      // added again
+      return;
+    }
+
+    if (audioSortFilterParameters ==
+        AudioSortFilterParameters.createDefaultAudioSortFilterParameters()) {
+      // default sort/filter parms are not added to the search history list
+      return;
+    }
+
     // if the search history list is full, remove the last element
     if (_searchHistoryAudioSortFilterParametersLst.length >=
         kMaxAudioSortFilterSettingsSearchHistory) {
@@ -239,6 +252,21 @@ class  SettingsDataService {
     _searchHistoryAudioSortFilterParametersLst.clear();
 
     _saveSettings();
+  }
+
+  /// Remove the audio sort/filter parameters from the search history list.
+  /// Return true if the audio sort/filter parameters was found and removed,
+  /// false otherwise.
+  bool clearAudioSortFilterSettingsSearchHistoryElement(
+    AudioSortFilterParameters audioSortFilterParameters,
+  ) {
+    bool wasElementRemoved = _searchHistoryAudioSortFilterParametersLst.remove(
+      audioSortFilterParameters,
+    );
+
+    _saveSettings();
+
+    return wasElementRemoved;
   }
 
   AudioSortFilterParameters? deleteAudioSortFilterSettings({

@@ -284,6 +284,42 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
         });
 
         return const SizedBox.shrink();
+      case WarningMessageType.deletedHistoricalSortFilterParameterNotExist:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!
+                .deletedSortFilterParameterNotExistWarning,
+            warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
+          );
+        });
+
+        return const SizedBox.shrink();
+      case WarningMessageType.historicalSortFilterParameterWasDeleted:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!
+                .historicalSortFilterParameterWasDeletedWarning,
+            warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
+          );
+        });
+
+        return const SizedBox.shrink();
+      case WarningMessageType.noSortFilterParameterWasModified:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!
+                .noSortFilterParameterWasModifiedWarning,
+            warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
+          );
+        });
+
+        return const SizedBox.shrink();
       case WarningMessageType.noPlaylistSelectedForSingleVideoDownload:
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(

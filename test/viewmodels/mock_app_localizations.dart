@@ -907,4 +907,16 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get applySortFilterOptionsTooltip =>
       "Since the name is empty, the set sort/filter parameters are applied and then added to the sort filter history.";
+
+  @override
+  String get noSortFilterParameterWasModifiedWarning =>
+      "No sort/filter parameter was modified. Please set a sort/filter parameter and retry ...";
+
+  @override
+  String get deletedSortFilterParameterNotExistWarning =>
+      "The sort/filter parameter you try to delete does not exist. Please select an existing sort/filter parameter and retry ...";
+
+  @override
+  String get historicalSortFilterParameterWasDeletedWarning =>
+      "The historical sort/filter parameter was deleted.";
 }

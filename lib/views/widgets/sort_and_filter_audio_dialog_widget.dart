@@ -264,6 +264,8 @@ class _SortAndFilterAudioDialogWidgetState
     _initializeHistoricalAudioSortFilterParamsLeftIconColors();
   }
 
+  // Method called when the user clicks on the Filter option left or
+  // right sort and filter history parameters buttons
   void _setSortFilterOptions(
     AudioSortFilterParameters audioSortFilterParameters,
   ) {
@@ -302,11 +304,14 @@ class _SortAndFilterAudioDialogWidgetState
     } else {
       _audioSortOptionButtonIconColor = kDarkAndLightDisabledIconColor;
     }
+
+    widget.audioSortFilterParameters = audioSortFilterParameters;
   }
 
   void _initializeHistoricalAudioSortFilterParamsLeftIconColors() {
-    int maxValue = _historicalAudioSortFilterParametersLst.length - 1;
-    _historicalAudioSortFilterParametersIndex = maxValue;
+    _historicalAudioSortFilterParametersIndex =
+        _historicalAudioSortFilterParametersLst.length;
+    int maxValue = _historicalAudioSortFilterParametersLst.length;
 
     ButtonStateManager buttonStateManager = ButtonStateManager(
       minValue: 0,
@@ -713,14 +718,41 @@ class _SortAndFilterAudioDialogWidgetState
           child: TextButton(
             key: const Key('deleteSortFilterTextButton'),
             onPressed: () {
-              if (_sortFilterSaveAsUniqueName.isEmpty) {
-                // does not close the sort and filter dialog
-                return _handleActionOnEmptySaveAsSortFilterName();
-              }
+              _updateWidgerAudioSortFilterParameters();
 
-              playlistListVM.deleteAudioSortFilterParameters(
-                audioSortFilterParametersName: _sortFilterSaveAsUniqueName,
-              );
+              if (widget.audioSortFilterParameters ==
+                  AudioSortFilterParameters
+                      .createDefaultAudioSortFilterParameters()) {
+                widget.warningMessageVM.noSortFilterParameterWasModified();
+                // does not close the sort and filter dialog
+                return;
+              } else if (_sortFilterSaveAsUniqueName.isEmpty) {
+                if (!playlistListVM
+                    .clearAudioSortFilterSettingsSearchHistoryElement(
+                        widget.audioSortFilterParameters)) {
+                  widget.warningMessageVM
+                      .deletedHistoricalSortFilterParameterNotExist();
+                  // does not close the sort and filter dialog
+                  return;
+                } else {
+                  ButtonStateManager buttonStateManager = ButtonStateManager(
+                    minValue: 0,
+                    maxValue: _historicalAudioSortFilterParametersLst.length
+                            .toDouble() -
+                        1.0,
+                  );
+
+                  _manageButtonsState(buttonStateManager);
+                  widget.warningMessageVM
+                      .historicalSortFilterParameterWasDeleted();
+                  // does not close the sort and filter dialog
+                  return;
+                }
+              } else {
+                playlistListVM.deleteAudioSortFilterParameters(
+                  audioSortFilterParametersName: _sortFilterSaveAsUniqueName,
+                );
+              }
 
               Navigator.of(context).pop('delete');
             },
@@ -753,15 +785,30 @@ class _SortAndFilterAudioDialogWidgetState
     required ThemeProviderVM themeProviderVM,
   }) {
     if (_sortFilterSaveAsUniqueName.isEmpty) {
+      // in this situation, the user applies a sort/filter (mainly
+      // a filter only) parameters without saving them. In this case,
+      // the defined sort/filter parameters are added to the search
+      // history list
       return Tooltip(
         message: AppLocalizations.of(context)!.applySortFilterOptionsTooltip,
         child: TextButton(
           key: const Key('applySortFilterOptionsTextButton'),
           onPressed: () {
             List<dynamic> filterSortAudioAndParmLst = _filterAndSortAudioLst();
+
+            if (filterSortAudioAndParmLst[1] ==
+                AudioSortFilterParameters
+                    .createDefaultAudioSortFilterParameters()) {
+              widget.warningMessageVM.noSortFilterParameterWasModified();
+              // does not close the sort and filter dialog
+              return;
+            }
+
             playlistListVM.addSearchHistoryAudioSortFilterParameters(
               audioSortFilterParameters: filterSortAudioAndParmLst[1],
             );
+
+            _historicalAudioSortFilterParametersIndex++;
 
             Navigator.of(context).pop(filterSortAudioAndParmLst);
           },
@@ -800,9 +847,15 @@ class _SortAndFilterAudioDialogWidgetState
   }
 
   /// Does not close the sort and filter dialog
-  void _handleActionOnEmptySaveAsSortFilterName() {
-    widget.warningMessageVM.sortFilterSaveAsName = '';
-    return;
+  void _handleActionOnEmptySaveAsSortFilterName(
+    PlaylistListVM playlistListVM,
+  ) {
+    if (_historicalAudioSortFilterParametersIndex > 0) {
+      playlistListVM.clearAudioSortFilterSettingsSearchHistoryElement(
+          widget.audioSortFilterParameters);
+    } else {
+      widget.warningMessageVM.sortFilterSaveAsName = '';
+    }
   }
 
   Column _buildAudioDurationFields(
@@ -1201,7 +1254,7 @@ class _SortAndFilterAudioDialogWidgetState
   ) {
     ButtonStateManager buttonStateManager = ButtonStateManager(
       minValue: 0,
-      maxValue: _historicalAudioSortFilterParametersLst.length - 1,
+      maxValue: _historicalAudioSortFilterParametersLst.length.toDouble() - 1.0,
     );
 
     return Row(
@@ -1221,13 +1274,15 @@ class _SortAndFilterAudioDialogWidgetState
                 // was initialized to the list length - 1
                 AudioSortFilterParameters audioSortFilterParameters =
                     _historicalAudioSortFilterParametersLst[
-                        _historicalAudioSortFilterParametersIndex];
+                        _historicalAudioSortFilterParametersIndex - 1];
 
                 _setSortFilterOptions(audioSortFilterParameters);
               }
 
-              _manageButtonsState(buttonStateManager);
               _historicalAudioSortFilterParametersIndex--;
+
+              _manageButtonsState(buttonStateManager);
+              _historicalAudioSortFilterParametersIndex;
               setState(() {});
             },
             padding: const EdgeInsets.all(0),
@@ -1597,18 +1652,7 @@ class _SortAndFilterAudioDialogWidgetState
   List<dynamic> _filterAndSortAudioLst({
     String sortFilterParametersSaveAsUniqueName = '',
   }) {
-    widget.audioSortFilterParameters = AudioSortFilterParameters(
-      selectedSortItemLst: _selectedSortingItemLst,
-      filterSentenceLst: _audioTitleFilterSentencesLst,
-      sentencesCombination:
-          (_isAnd) ? SentencesCombination.AND : SentencesCombination.OR,
-      ignoreCase: _ignoreCase,
-      searchAsWellInVideoCompactDescription: _searchInVideoCompactDescription,
-      filterMusicQuality: _filterMusicQuality,
-      filterFullyListened: _filterFullyListened,
-      filterPartiallyListened: _filterPartiallyListened,
-      filterNotListened: _filterNotListened,
-    );
+    _updateWidgerAudioSortFilterParameters();
 
     List<Audio> filteredAndSortedAudioLst =
         _audioSortFilterService.filterAndSortAudioLst(
@@ -1621,6 +1665,21 @@ class _SortAndFilterAudioDialogWidgetState
       widget.audioSortFilterParameters,
       sortFilterParametersSaveAsUniqueName,
     ];
+  }
+
+  void _updateWidgerAudioSortFilterParameters() {
+    widget.audioSortFilterParameters = AudioSortFilterParameters(
+      selectedSortItemLst: _selectedSortingItemLst,
+      filterSentenceLst: _audioTitleFilterSentencesLst,
+      sentencesCombination:
+          (_isAnd) ? SentencesCombination.AND : SentencesCombination.OR,
+      ignoreCase: _ignoreCase,
+      searchAsWellInVideoCompactDescription: _searchInVideoCompactDescription,
+      filterMusicQuality: _filterMusicQuality,
+      filterFullyListened: _filterFullyListened,
+      filterPartiallyListened: _filterPartiallyListened,
+      filterNotListened: _filterNotListened,
+    );
   }
 }
 
