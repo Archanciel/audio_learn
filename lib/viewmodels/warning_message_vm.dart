@@ -59,6 +59,10 @@ enum WarningMessageType {
   // on the delete button after having selected an historical sort/filter
   // parameter which does  exist in the sort/filter parameter history.
 
+  allHistoricalSortFilterParameterWereDeleted, // The case if the user clicks
+  // on the delete all historical sort/filter button located in the sort/filter
+  // dialog at right of the Filter options title
+
   noPlaylistSelectedForSingleVideoDownload, // The case if the user
   // clicks on the single video download button but no playlist
   // to which the downloaded audio will be added is selected.
@@ -284,6 +288,13 @@ class WarningMessageVM extends ChangeNotifier {
   void historicalSortFilterParameterWasDeleted() {
     _warningMessageType =
         WarningMessageType.historicalSortFilterParameterWasDeleted;
+
+    notifyListeners();
+  }
+
+  void allHistoricalSortFilterParametersWereDeleted() {
+    _warningMessageType =
+        WarningMessageType.allHistoricalSortFilterParameterWereDeleted;
 
     notifyListeners();
   }

@@ -194,6 +194,7 @@
   "noPlaylistSelectedForAudioMoveWarning": "Aucune playlist sélectionnée pour le déplacement de l'audio. Sélectionnez une playlist et rééssayez ...",
   "deletedSortFilterParameterNotExistWarning": "Le paramètre de tri/filtre que vous tentez de supprimer n'existe pas. Veuillez définir un paramètre de tri/filtre existant et rééssayer ...",
   "historicalSortFilterParameterWasDeletedWarning": "Le paramètre de tri/filtre historique a été supprimé.",
+  "allHistoricalSortFilterParameterWereDeletedWarning": "Tous les paramètres de tri/filtre historiques ont été supprimés.",
   "tooManyPlaylistSelectedForSingleVideoDownloadWarning": "Plus d'une playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionnez une seule playlist et rééssayez ...",
   "noSortFilterParameterWasModifiedWarning": "Aucun paramètre de tri/filtre n'a été modifié. Définissez un paramètre et rééssayez ...",
   "confirmDialogTitle": "CONFIRMATION",
@@ -293,8 +294,8 @@
   "applySortFilterToViewTooltip": "Application du tri/filtrage à une ou deux vues audio. Ceci sera appliqué aux playlists auxquelles ce tri/filtrage est associé.",
   "saveSortFilterOptionsTooltip": "Si le nom existe déjà, les options de tri/filtrage existantes sont mises à jour avec les paramètres modifiés.",
   "applyButton": "Appliq",
-  "applySortFilterOptionsTooltip": "Étant donné que le nom est vide, les paramètres de tri/filtrage définis sont appliqués puis ajoutés à l'historique de tri/filtre.",
-  "deleteSortFilterOptionsTooltip": "Si ces options de tri/filtre sont appliquées dans une vue, les options de tri/filtre par défaut seront appliquées à la place.",
+  "applySortFilterOptionsTooltip": "Étant donné que le nom est vide, les paramètres de tri/filtrage définis sont appliqués puis ajoutés à l'historique des tri/filtres.",
+  "deleteSortFilterOptionsTooltip": "Si ces options de tri/filtre sont appliquées dans une vue, après leur suppression, les options de tri/filtre par défaut seront appliquées à la place.",
   "deleteShort": "Suppr",
   "sortFilterParametersDefaultName": "défaut",
   "sortFilterParametersDownloadButtonHint": "Sélec tri/filtre"

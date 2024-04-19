@@ -919,4 +919,8 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get historicalSortFilterParameterWasDeletedWarning =>
       "The historical sort/filter parameter was deleted.";
+
+  @override
+  String get allHistoricalSortFilterParameterWereDeletedWarning =>
+      "All historical sort/filter parameters were deleted.";
 }

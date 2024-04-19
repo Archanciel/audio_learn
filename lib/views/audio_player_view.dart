@@ -348,6 +348,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             case PlaylistPopupMenuButton.clearSortFilterAudioParmsHistory:
               playlistListVMlistenFalse
                   .clearAudioSortFilterSettingsSearchHistory();
+              warningMessageVMlistenFalse
+                  .allHistoricalSortFilterParametersWereDeleted();
               break;
             case PlaylistPopupMenuButton.saveSortFilterAudioParmsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close

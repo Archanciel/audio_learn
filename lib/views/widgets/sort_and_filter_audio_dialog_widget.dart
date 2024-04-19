@@ -714,7 +714,7 @@ class _SortAndFilterAudioDialogWidgetState
           themeProviderVM: themeProviderVM,
         ),
         Tooltip(
-          message: AppLocalizations.of(context)!.deleteSortFilterOptionsTooltip,
+          message: (_sortFilterSaveAsUniqueName.isNotEmpty) ? AppLocalizations.of(context)!.deleteSortFilterOptionsTooltip : '',
           child: TextButton(
             key: const Key('deleteSortFilterTextButton'),
             onPressed: () {
@@ -1324,7 +1324,7 @@ class _SortAndFilterAudioDialogWidgetState
             message: AppLocalizations.of(context)!
                 .clearSortFilterAudiosParmsHistoryMenu,
             child: IconButton(
-              key: const Key('search_history_delete_button'),
+              key: const Key('search_history_delete_all_button'),
               onPressed: () {
                 Provider.of<PlaylistListVM>(
                   context,
@@ -1332,6 +1332,8 @@ class _SortAndFilterAudioDialogWidgetState
                 ).clearAudioSortFilterSettingsSearchHistory();
                 _historicalAudioSortFilterParametersLst.clear();
                 _manageButtonsState(buttonStateManager);
+                widget.warningMessageVM
+                    .allHistoricalSortFilterParametersWereDeleted();
                 setState(() {});
               },
               padding: const EdgeInsets.all(0),
@@ -1406,7 +1408,7 @@ class _SortAndFilterAudioDialogWidgetState
                     controller: _audioTitleSearchSentenceController,
                     keyboardType: TextInputType.text,
                     onChanged: (value) {
-                      _audioTitleSearchSentence = value;
+                      _audioTitleSearchSentence = value.trim();
                       // setting the Add button color according to the
                       // TextField content ...
                       _audioTitleSearchSentenceAddButtonIconColor =

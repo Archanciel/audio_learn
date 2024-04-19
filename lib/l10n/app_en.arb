@@ -196,6 +196,7 @@
   "noSortFilterParameterWasModifiedWarning": "No sort/filter parameter was modified. Please set a sort/filter parameter and retry ...",
   "deletedSortFilterParameterNotExistWarning": "The sort/filter parameter you try to delete does not exist. Please define an existing sort/filter parameter and retry ...",
   "historicalSortFilterParameterWasDeletedWarning": "The historical sort/filter parameter was deleted.",
+  "allHistoricalSortFilterParameterWereDeletedWarning": "All historical sort/filter parameters were deleted.",
   "confirmDialogTitle": "CONFIRMATION",
   "confirmSingleVideoAudioPlaylistTitle": "Confirm target playlist \"{title}\" for downloading single video audio.",
   "playlistJsonFileSizeLabel": "JSON file size",
@@ -295,8 +296,8 @@
   "applySortFilterToViewTooltip": "Selecting sort/filter application to one or two audio views. This will be applied to the playlists to which this sort/filter is associated.",
   "saveSortFilterOptionsTooltip": "If the name already exists, the existing sort/filter options are updated with the modified parameters.",
   "applyButton": "Apply",
-  "applySortFilterOptionsTooltip": "Since the name is empty, the set sort/filter parameters are applied and then added to the sort filter history.",
-  "deleteSortFilterOptionsTooltip": "If those sort/filter options are applied in a view, the Default sort/filter options will be applied instead.",
+  "applySortFilterOptionsTooltip": "Since the name is empty, the sort/filter parameters are applied and then added to the sort filter history.",
+  "deleteSortFilterOptionsTooltip": "If those sort/filter options are applied in a view, after their deletion, the Default sort/filter options will be applied instead.",
   "deleteShort": "Delete",
   "sortFilterParametersDefaultName": "default",
   "sortFilterParametersDownloadButtonHint": "Sel sort/filter"

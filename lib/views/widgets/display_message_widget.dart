@@ -308,6 +308,18 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
         });
 
         return const SizedBox.shrink();
+      case WarningMessageType.allHistoricalSortFilterParameterWereDeleted:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _displayWarningDialog(
+            context: _context,
+            message: AppLocalizations.of(context)!
+                .allHistoricalSortFilterParameterWereDeletedWarning,
+            warningMessageVM: _warningMessageVM,
+            themeProviderVM: themeProviderVM,
+          );
+        });
+
+        return const SizedBox.shrink();
       case WarningMessageType.noSortFilterParameterWasModified:
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(
