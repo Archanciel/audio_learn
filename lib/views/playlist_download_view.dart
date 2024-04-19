@@ -100,18 +100,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
     return Column(
       children: <Widget>[
-        Consumer<WarningMessageVM>(
-          builder: (context, warningMessageVM, child) {
-            // displays a warning message each time the
-            // warningMessageVM calls notifyListners(), which
-            // happens when an other view model sets a warning
-            // message on the warningMessageVM
-            return DisplayMessageWidget(
-              warningMessageVM: warningMessageVM,
-              parentContext: context,
-              playlistUrlController: _playlistUrlController,
-            );
-          },
+        buildWarningMessageVMConsumer(
+          context: context,
+          urlController: _playlistUrlController,
         ),
         _buildFirstLine(
           context: context,

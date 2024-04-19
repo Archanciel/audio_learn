@@ -114,6 +114,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        buildWarningMessageVMConsumer(
+          context: context,
+        ),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -342,7 +346,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               focusNode.requestFocus();
               break;
             case PlaylistPopupMenuButton.clearSortFilterAudioParmsHistory:
-              playlistListVMlistenFalse.clearAudioSortFilterSettingsSearchHistory();
+              playlistListVMlistenFalse
+                  .clearAudioSortFilterSettingsSearchHistory();
               break;
             case PlaylistPopupMenuButton.saveSortFilterAudioParmsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close

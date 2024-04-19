@@ -25,16 +25,16 @@ enum WarningMode {
 class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
   final BuildContext _context;
   final WarningMessageVM _warningMessageVM;
-  final TextEditingController _playlistUrlController;
+  final TextEditingController? _playlistUrlController;
 
   DisplayMessageWidget({
     required BuildContext parentContext,
     required WarningMessageVM warningMessageVM,
-    required TextEditingController playlistUrlController,
+    TextEditingController? urlController,
     super.key,
   })  : _context = parentContext,
         _warningMessageVM = warningMessageVM,
-        _playlistUrlController = playlistUrlController;
+        _playlistUrlController = urlController;
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +178,7 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
 
         return const SizedBox.shrink();
       case WarningMessageType.playlistWithUrlAlreadyInListOfPlaylists:
-        String playlistUrl = _playlistUrlController.text;
+        String playlistUrl = _playlistUrlController?.text ?? '';
         String playlistTitle = _warningMessageVM.playlistAlreadyDownloadedTitle;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -245,7 +245,7 @@ class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
 
         return const SizedBox.shrink();
       case WarningMessageType.invalidSingleVideoUrl:
-        String playlistUrl = _playlistUrlController.text;
+        String playlistUrl = _playlistUrlController?.text ?? '';
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(

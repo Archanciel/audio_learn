@@ -39,6 +39,9 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          buildWarningMessageVMConsumer(
+            context: context,
+          ),
           _buildExtractPositionDataLayout(),
           _buildModifyExtractPositionButtonsRow(),
           _buildAudioSlider(),
@@ -153,14 +156,14 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
         IconButton(
           visualDensity: VisualDensity.compact,
           icon: const Icon(Icons.skip_previous),
-              iconSize: 20.0,
-         onPressed: () {/* Rewind action */},
+          iconSize: 20.0,
+          onPressed: () {/* Rewind action */},
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
           icon: const Icon(Icons.fast_rewind),
-             iconSize: 20.0,
-       onPressed: () {/* Rewind action */},
+          iconSize: 20.0,
+          onPressed: () {/* Rewind action */},
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
@@ -189,13 +192,13 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
         IconButton(
           visualDensity: VisualDensity.compact,
           icon: const Icon(Icons.fast_forward),
-             iconSize: 20.0,
+          iconSize: 20.0,
           onPressed: () {/* Fast forward action */},
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
           icon: const Icon(Icons.skip_next),
-             iconSize: 20.0,
+          iconSize: 20.0,
           onPressed: () {/* Rewind action */},
         ),
       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
@@ -8,6 +9,8 @@ import '../services/settings_data_service.dart';
 import '../utils/dir_util.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/theme_provider_vm.dart';
+import '../viewmodels/warning_message_vm.dart';
+import 'widgets/display_message_widget.dart';
 
 enum MultipleIconType {
   iconOne,
@@ -466,5 +469,27 @@ mixin ScreenMixin {
         mode: FileMode.write,
       );
     }
+  }
+
+  /// This consumer<WarningMessageVM> must be installed on every
+  /// view, otherwise the warning message will not be displayed
+  /// on the view in which it was created.
+  Consumer<WarningMessageVM> buildWarningMessageVMConsumer({
+    required BuildContext context,
+    TextEditingController? urlController,
+  }) {
+    return Consumer<WarningMessageVM>(
+      builder: (context, warningMessageVM, child) {
+        // displays a warning message each time the
+        // warningMessageVM calls notifyListners(), which
+        // happens when an other view model sets a warning
+        // message on the warningMessageVM
+        return DisplayMessageWidget(
+          warningMessageVM: warningMessageVM,
+          parentContext: context,
+          urlController: urlController, // required only for 2 warning types ...
+        );
+      },
+    );
   }
 }
