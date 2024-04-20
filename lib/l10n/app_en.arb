@@ -197,6 +197,7 @@
   "deletedSortFilterParameterNotExistWarning": "The sort/filter parameter you try to delete does not exist. Please define an existing sort/filter parameter and retry ...",
   "historicalSortFilterParameterWasDeletedWarning": "The historical sort/filter parameter was deleted.",
   "allHistoricalSortFilterParameterWereDeletedWarning": "All historical sort/filter parameters were deleted.",
+  "allHistoricalSortFilterParametersDeleteConfirmation": "Deleting all historical sort/filter parameters.",
   "confirmDialogTitle": "CONFIRMATION",
   "confirmSingleVideoAudioPlaylistTitle": "Confirm target playlist \"{title}\" for downloading single video audio.",
   "playlistJsonFileSizeLabel": "JSON file size",
