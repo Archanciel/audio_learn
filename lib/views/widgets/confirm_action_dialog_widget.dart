@@ -5,11 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../views/screen_mixin.dart';
-import '../../models/audio.dart';
-import '../../models/playlist.dart';
 import '../../services/settings_data_service.dart';
-import '../../utils/ui_util.dart';
-import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 
 class ConfirmActionDialogWidget extends StatefulWidget {
@@ -61,10 +57,14 @@ class _ConfirmActionDialogWidgetState extends State<ConfirmActionDialogWidget>
         }
       },
       child: AlertDialog(
-        title: Text(widget.dialogTitle),
+        title: Text(
+          widget.dialogTitle,
+          key: const Key('confirmDialogTitleKey'),
+        ),
         content: Text(widget.dialogContent),
         actions: <Widget>[
           TextButton(
+            key: const Key('confirmButtonKey'),
             onPressed: () {
               Function.apply(widget.action,
                   widget.actionArgs); // Execute the action with arguments
@@ -78,6 +78,7 @@ class _ConfirmActionDialogWidgetState extends State<ConfirmActionDialogWidget>
             ),
           ),
           TextButton(
+            key: const Key('cancelButtonKey'),
             onPressed: () => Navigator.of(context).pop(), // Cancel the action
             child: Text(
               AppLocalizations.of(context)!.cancel,
@@ -89,24 +90,5 @@ class _ConfirmActionDialogWidgetState extends State<ConfirmActionDialogWidget>
         ],
       ),
     );
-  }
-
-
-  String formatDownloadSpeed({
-    required BuildContext context,
-    required Audio audio,
-  }) {
-    int audioDownloadSpeed = audio.audioDownloadSpeed;
-    String audioDownloadSpeedStr;
-
-    if (audioDownloadSpeed.isInfinite) {
-      audioDownloadSpeedStr =
-          AppLocalizations.of(context)!.infiniteBytesPerSecond;
-    } else {
-      audioDownloadSpeedStr =
-          '${UiUtil.formatLargeIntValue(context: context, value: audioDownloadSpeed)}/sec';
-    }
-
-    return audioDownloadSpeedStr;
   }
 }
