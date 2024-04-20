@@ -418,7 +418,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             ),
           ),
         ),
-        _buildAudioPopupMenuButton(
+        _buildAudioPopupMenuButtonAndMenuItems(
           context: context,
           playlistListVMlistenFalse: playlistListVMlistenFalse,
           warningMessageVMlistenFalse: warningMessageVMlistenFalse,
@@ -783,47 +783,47 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   /// screen. This button allows the user to sort and filter the
   /// displayed audio list, to save the sort and filter settings to
   /// the selected playlist and to update the playlist json files.
-  Widget _buildAudioPopupMenuButton({
+  Widget _buildAudioPopupMenuButtonAndMenuItems({
     required BuildContext context,
     required PlaylistListVM playlistListVMlistenFalse,
     required WarningMessageVM warningMessageVMlistenFalse,
   }) {
     return SizedBox(
       width: kRowButtonGroupWidthSeparator,
-      child: PopupMenuButton<PlaylistPopupMenuButton>(
+      child: PopupMenuButton<PopupMenuButtonType>(
         key: const Key('audio_popup_menu_button'),
         icon: const Icon(Icons.filter_list),
         itemBuilder: (BuildContext context) {
           return [
-            PopupMenuItem<PlaylistPopupMenuButton>(
+            PopupMenuItem<PopupMenuButtonType>(
               key: const Key('define_sort_and_filter_audio_menu_item'),
               enabled:
                   (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
-              value: PlaylistPopupMenuButton.openSortFilterAudioDialog,
+              value: PopupMenuButtonType.openSortFilterAudioDialog,
               child: Text(
                   AppLocalizations.of(context)!.defineSortFilterAudiosMenu),
             ),
-            PopupMenuItem<PlaylistPopupMenuButton>(
+            PopupMenuItem<PopupMenuButtonType>(
               key: const Key(
                   'clear_sort_and_filter_audio_options_history_menu_item'),
               enabled:
-                  (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
-              value: PlaylistPopupMenuButton.clearSortFilterAudioParmsHistory,
+                  (playlistListVMlistenFalse.getSearchHistoryAudioSortFilterParametersLst().isNotEmpty),
+              value: PopupMenuButtonType.clearSortFilterAudioParmsHistory,
               child: Text(AppLocalizations.of(context)!
                   .clearSortFilterAudiosParmsHistoryMenu),
             ),
-            PopupMenuItem<PlaylistPopupMenuButton>(
+            PopupMenuItem<PopupMenuButtonType>(
               key: const Key(
                   'save_sort_and_filter_audio_options_in_playlist_menu_item'),
               enabled:
                   (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
-              value: PlaylistPopupMenuButton.saveSortFilterAudioParmsToPlaylist,
+              value: PopupMenuButtonType.saveSortFilterAudioParmsToPlaylist,
               child: Text(AppLocalizations.of(context)!
                   .saveSortFilterAudiosOptionsToPlaylistMenu),
             ),
-            PopupMenuItem<PlaylistPopupMenuButton>(
+            PopupMenuItem<PopupMenuButtonType>(
               key: const Key('update_playlist_json_dialog_item'),
-              value: PlaylistPopupMenuButton.updatePlaylistJson,
+              value: PopupMenuButtonType.updatePlaylistJson,
               child: Tooltip(
                 message: AppLocalizations.of(context)!
                     .updatePlaylistJsonFilesMenuTooltip,
@@ -833,10 +833,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             ),
           ];
         },
-        onSelected: (PlaylistPopupMenuButton value) {
+        onSelected: (PopupMenuButtonType value) {
           // Handle menu item selection
           switch (value) {
-            case PlaylistPopupMenuButton.openSortFilterAudioDialog:
+            case PopupMenuButtonType.openSortFilterAudioDialog:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
@@ -885,11 +885,13 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               });
               focusNode.requestFocus();
               break;
-            case PlaylistPopupMenuButton.clearSortFilterAudioParmsHistory:
+            case PopupMenuButtonType.clearSortFilterAudioParmsHistory:
               playlistListVMlistenFalse
                   .clearAudioSortFilterSettingsSearchHistory();
+              warningMessageVMlistenFalse
+                  .allHistoricalSortFilterParametersWereDeleted();
               break;
-            case PlaylistPopupMenuButton.saveSortFilterAudioParmsToPlaylist:
+            case PopupMenuButtonType.saveSortFilterAudioParmsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
@@ -918,7 +920,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               });
               focusNode.requestFocus();
               break;
-            case PlaylistPopupMenuButton.updatePlaylistJson:
+            case PopupMenuButtonType.updatePlaylistJson:
               playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();
               break;
             default:

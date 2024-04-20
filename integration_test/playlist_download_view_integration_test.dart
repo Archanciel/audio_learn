@@ -26,6 +26,7 @@ import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
 import 'package:audio_learn/main.dart' as app;
 
+import '../test/util/test_utility.dart';
 import '../test/viewmodels/custom_mock_youtube_explode.dart';
 import '../test/viewmodels/mock_audio_download_vm.dart';
 
@@ -7297,22 +7298,22 @@ void main() {
       // a selected playlist. So, the selected playlist widgets
       // are disabled. Checking this now:
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -7467,22 +7468,22 @@ void main() {
       // a selected playlist. So, the selected playlist widgets
       // are disabled. Checking this now:
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -7656,22 +7657,22 @@ void main() {
       // Youtube playlist was selected, the selected playlist widgets
       // remain enabled. Checking this now:
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -7826,24 +7827,24 @@ void main() {
       // enabled, except the download selected playlist button.
       // Checking this now:
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
       // since a local playlist is selected, the download
       // audios of selected playlist button is disabled
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -7971,27 +7972,27 @@ void main() {
 
       // since a local playlist is selected, verify that
       // some buttons are enabled and some are disabled
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -8071,27 +8072,27 @@ void main() {
 
       // since a Youtube playlist is selected, verify that all
       // buttons are enabled
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -8171,29 +8172,29 @@ void main() {
 
       // since a local playlist is selected, verify that
       // some buttons are enabled and some are disabled
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
       // since the playlist has audios, the audio popup menu
       // button is enabled
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -8262,29 +8263,29 @@ void main() {
 
       // since a Youtube playlist is selected, verify that all
       // buttons are enabled
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
       // since the playlist has audios, the audio popup menu
       // button is enabled
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -8391,27 +8392,27 @@ void main() {
 
       // since the Youtube playlist was deleted, verify that all
       // buttons are disabled
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -8527,27 +8528,27 @@ void main() {
 
       // since the local playlist was deleted, verify that all
       // buttons are disabled
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -8660,27 +8661,27 @@ void main() {
       await tester.tap(popupCopyMenuItem);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsDisabled(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -8795,27 +8796,27 @@ void main() {
       await tester.tap(popupCopyMenuItem);
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_up_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'move_down_playlist_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'download_sel_playlists_button',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_quality_checkbox',
       );
 
-      verifyWidgetIsEnabled(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: 'audio_popup_menu_button',
       );
@@ -8836,6 +8837,83 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
   });
+  group('Sort/filter test', () {
+    testWidgets(
+        'Clear sort/filter parameters history menu verifying that bthe warning is displayed in the play audio view.',
+        (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}sort_filter_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String toSelectAudioTitle =
+          "Quand Aurélien Barrau va dans une école de management";
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio titles
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Open the popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // Find the clear sort/filter audio history menu item and tap on it
+      await tester.tap(find.byKey(
+          const Key('clear_sort_and_filter_audio_options_history_menu_item')));
+      await tester.pumpAndSettle();
+
+      // Verify that the warning dialog is displayed
+      // with the expected text
+      expect(find.text('WARNING'), findsOneWidget);
+      expect(find.text('All historical sort/filter parameters were deleted.'),
+          findsOneWidget);
+
+      // Click on the Ok button to close the dialog
+      await tester.tap(find.text('Ok'));
+      await tester.pumpAndSettle();
+
+      // Open again the popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // Verify that the clear sort/filter audio history menu item is
+      // now disabled
+      TestUtility.verifyWidgetIsDisabled(
+        tester: tester,
+        widgetKeyStr: "clear_sort_and_filter_audio_options_history_menu_item",
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+  });
 }
 
 void verifyAudioMenuItemsState({
@@ -8843,38 +8921,40 @@ void verifyAudioMenuItemsState({
   required bool areAudioMenuItemsDisabled,
 }) {
   if (areAudioMenuItemsDisabled) {
-    verifyWidgetIsDisabled(
+    TestUtility.verifyWidgetIsEnabled(
       tester: tester,
       widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
     );
 
-    verifyWidgetIsDisabled(
+    TestUtility.verifyWidgetIsDisabled(
+      // no Sort/filter parameters history are available in test data
       tester: tester,
       widgetKeyStr: 'clear_sort_and_filter_audio_options_history_menu_item',
     );
 
-    verifyWidgetIsDisabled(
+    TestUtility.verifyWidgetIsEnabled(
       tester: tester,
       widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
     );
   } else {
-    verifyWidgetIsEnabled(
+    TestUtility.verifyWidgetIsEnabled(
       tester: tester,
       widgetKeyStr: 'define_sort_and_filter_audio_settings_dialog_item',
     );
 
-    verifyWidgetIsEnabled(
+    TestUtility.verifyWidgetIsDisabled(
+      // no Sort/filter parameters history are available in test data
       tester: tester,
       widgetKeyStr: 'clear_sort_and_filter_audio_options_history_menu_item',
     );
 
-    verifyWidgetIsEnabled(
+    TestUtility.verifyWidgetIsEnabled(
       tester: tester,
       widgetKeyStr: 'save_sort_and_filter_audio_settings_in_playlist_item',
     );
   }
 
-  verifyWidgetIsEnabled(
+  TestUtility.verifyWidgetIsEnabled(
     tester: tester,
     widgetKeyStr: 'update_playlist_json_dialog_item',
   );
@@ -8882,27 +8962,29 @@ void verifyAudioMenuItemsState({
 
 Future<void> ensureNoButtonIsEnabledSinceNoPlaylistIsSelected(
     WidgetTester tester) async {
-  verifyWidgetIsDisabled(
+  TestUtility.verifyWidgetIsDisabled(
     tester: tester,
     widgetKeyStr: 'move_up_playlist_button',
   );
 
-  verifyWidgetIsDisabled(
+  TestUtility.verifyWidgetIsDisabled(
     tester: tester,
     widgetKeyStr: 'move_down_playlist_button',
   );
 
-  verifyWidgetIsDisabled(
+  TestUtility.verifyWidgetIsDisabled(
     tester: tester,
     widgetKeyStr: 'download_sel_playlists_button',
   );
 
-  verifyWidgetIsDisabled(
+  TestUtility.verifyWidgetIsDisabled(
     tester: tester,
     widgetKeyStr: 'audio_quality_checkbox',
   );
 
-  verifyWidgetIsEnabled(
+  // This menu button is always enabled since the Update playlist json file
+  // menu item must be always accessible
+  TestUtility.verifyWidgetIsEnabled(
     tester: tester,
     widgetKeyStr: 'audio_popup_menu_button',
   );
@@ -8938,83 +9020,6 @@ Future<void> tapPlaylistCheckboxIfNotAlreadyChecked({
     // so that the playlist audios are listed
     await widgetTester.tap(youtubePlaylistListTileCheckboxWidgetFinder);
     await widgetTester.pumpAndSettle();
-  }
-}
-
-void verifyWidgetIsDisabled({
-  required WidgetTester tester,
-  required String widgetKeyStr,
-}) {
-  // Find the widget by its key
-  final Finder widgetFinder = find.byKey(Key(widgetKeyStr));
-
-  if (widgetFinder.evaluate().isEmpty) {
-    // The case if playlists are not displayed or if no playlist
-    // is selected. In this case, the widget is not found since
-    // in place of up down button a sort filter parameters dropdown
-    // button is displayed
-    return;
-  }
-
-  // Retrieve the widget as a generic Widget
-  final Widget widget = tester.widget(widgetFinder);
-
-  // Check if the widget is disabled based on its type
-  if (widget is IconButton) {
-    expect(widget.onPressed, isNull, reason: 'IconButton should be disabled');
-  } else if (widget is TextButton) {
-    expect(widget.onPressed, isNull, reason: 'TextButton should be disabled');
-  } else if (widget is Checkbox) {
-    // For Checkbox, you can check if onChanged is null
-    expect(widget.onChanged, isNull, reason: 'Checkbox should be disabled');
-  } else if (widget is PopupMenuButton) {
-    // For PopupMenuButton, check the enabled property
-    expect(widget.enabled, isFalse,
-        reason: 'PopupMenuButton should be disabled');
-  } else if (widget is PopupMenuItem) {
-    // For PopupMenuButton, check the enabled property
-    expect(widget.enabled, isFalse, reason: 'PopupMenuItem should be disabled');
-  } else {
-    fail(
-        'The widget with key $widgetKeyStr is not a recognized type for this test');
-  }
-}
-
-void verifyWidgetIsEnabled({
-  required WidgetTester tester,
-  required String widgetKeyStr,
-}) {
-  // Find the widget by its key
-  final Finder widgetFinder = find.byKey(Key(widgetKeyStr));
-
-  if (widgetFinder.evaluate().isEmpty) {
-    // The case if playlists are not displayed or if no playlist
-    // is selected. In this case, the widget is not found since
-    // in place of up down button a sort filter parameters dropdown
-    // button is displayed
-    return;
-  }
-
-  // Retrieve the widget as a generic Widget
-  final Widget widget = tester.widget(widgetFinder);
-
-  // Check if the widget is enabled based on its type
-  if (widget is IconButton) {
-    expect(widget.onPressed, isNotNull, reason: 'IconButton should be enabled');
-  } else if (widget is TextButton) {
-    expect(widget.onPressed, isNotNull, reason: 'TextButton should be enabled');
-  } else if (widget is Checkbox) {
-    // For Checkbox, you can check if onChanged is null
-    expect(widget.onChanged, isNotNull, reason: 'Checkbox should be enabled');
-  } else if (widget is PopupMenuButton) {
-    // For PopupMenuButton, check the enabled property
-    expect(widget.enabled, isTrue, reason: 'PopupMenuButton should be enabled');
-  } else if (widget is PopupMenuItem) {
-    // For PopupMenuButton, check the enabled property
-    expect(widget.enabled, isTrue, reason: 'PopupMenuItem should be enabled');
-  } else {
-    fail(
-        'The widget with key $widgetKeyStr is not a recognized type for this test');
   }
 }
 

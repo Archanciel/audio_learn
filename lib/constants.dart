@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-enum PlaylistPopupMenuButton {
+enum PopupMenuButtonType {
   openSortFilterAudioDialog,
   clearSortFilterAudioParmsHistory,
   saveSortFilterAudioParmsToPlaylist,
