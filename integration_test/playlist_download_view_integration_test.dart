@@ -9196,37 +9196,41 @@ void main() {
       app.main(['test']);
       await tester.pumpAndSettle();
 
-      const String audioPlayerSelectedPlaylistTitle =
-          'S8 audio'; // Youtube playlist
-      const String toSelectAudioTitle =
-          "Quand Aurélien Barrau va dans une école de management";
-
       // Tap the 'Toggle List' button to avoid displaying the list
       // of playlists which may hide the audio titles
       await tester.tap(find.byKey(const Key('playlist_toggle_button')));
       await tester.pumpAndSettle();
 
-      // Open the popup menu
+      // Now open the popup menu
       await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
       await tester.pumpAndSettle();
 
-      // Find the clear sort/filter audio history menu item and tap on it
+      // find the clear sort/filter audio history menu item and tap on it
       await tester.tap(find.byKey(
           const Key('clear_sort_and_filter_audio_options_history_menu_item')));
       await tester.pumpAndSettle();
 
-      // Verify that the warning dialog is displayed
+      // Verify that the confirm action dialog is displayed
       // with the expected text
-      expect(find.text('WARNING'), findsOneWidget);
-      expect(find.text('All historical sort/filter parameters were deleted.'),
+      expect(find.text('Clear sort/filter parameters history'), findsOneWidget);
+      expect(find.text('Deleting all historical sort/filter parameters.'),
           findsOneWidget);
 
-      // Click on the Ok button to close the dialog
-      await tester.tap(find.text('Ok'));
+      // Click on the cancel button to cancel deletion
+      await tester.tap(find.byKey(const Key('cancelButtonKey')));
       await tester.pumpAndSettle();
 
       // Open again the popup menu
       await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // find the clear sort/filter audio history menu item and tap on it
+      await tester.tap(find.byKey(
+          const Key('clear_sort_and_filter_audio_options_history_menu_item')));
+      await tester.pumpAndSettle();
+
+      // Click on the confirm button to cancel deletion
+      await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
 
       // Verify that the clear sort/filter audio history menu item is

@@ -20,6 +20,7 @@ import 'screen_mixin.dart';
 import 'widgets/add_playlist_dialog_widget.dart';
 import 'widgets/audio_learn_snackbar.dart';
 import 'widgets/audio_list_item_widget.dart';
+import 'widgets/confirm_action_dialog_widget.dart';
 import 'widgets/display_message_widget.dart';
 import 'widgets/playlist_list_item_widget.dart';
 import 'widgets/playlist_one_selectable_dialog_widget.dart';
@@ -806,8 +807,9 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             PopupMenuItem<PopupMenuButtonType>(
               key: const Key(
                   'clear_sort_and_filter_audio_options_history_menu_item'),
-              enabled:
-                  (playlistListVMlistenFalse.getSearchHistoryAudioSortFilterParametersLst().isNotEmpty),
+              enabled: (playlistListVMlistenFalse
+                  .getSearchHistoryAudioSortFilterParametersLst()
+                  .isNotEmpty),
               value: PopupMenuButtonType.clearSortFilterAudioParmsHistory,
               child: Text(AppLocalizations.of(context)!
                   .clearSortFilterAudiosParmsHistoryMenu),
@@ -886,10 +888,30 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               focusNode.requestFocus();
               break;
             case PopupMenuButtonType.clearSortFilterAudioParmsHistory:
-              playlistListVMlistenFalse
-                  .clearAudioSortFilterSettingsSearchHistory();
-              warningMessageVMlistenFalse
-                  .allHistoricalSortFilterParametersWereDeleted();
+              // Using FocusNode to enable clicking on Enter to close
+              // the dialog
+              final FocusNode focusNode = FocusNode();
+              showDialog<void>(
+                context: context,
+                barrierDismissible: true,
+                builder: (BuildContext context) {
+                  return ConfirmActionDialogWidget(
+                    actionFunction: playlistListVMlistenFalse
+                        .clearAudioSortFilterSettingsSearchHistory,
+                    actionFunctionArgs: [],
+                    dialogTitle: AppLocalizations.of(context)!
+                        .clearSortFilterAudiosParmsHistoryMenu,
+                    dialogContent: AppLocalizations.of(context)!
+                        .allHistoricalSortFilterParametersDeleteConfirmation,
+                    focusNode: focusNode,
+                    // Displaying a warning message after having cleared
+                    // the sort and filter audio settings search history
+                    // is not necessary
+                    // warningFunction: warningMessageVMlistenFalse
+                    //     .allHistoricalSortFilterParametersWereDeleted,
+                  );
+                },
+              );
               break;
             case PopupMenuButtonType.saveSortFilterAudioParmsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close

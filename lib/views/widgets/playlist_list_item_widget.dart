@@ -148,8 +148,11 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                         barrierDismissible: true,
                         builder: (BuildContext context) {
                           return ConfirmActionDialogWidget(
-                            action: deletePlaylist,
-                            actionArgs: [expandablePlaylistListVM, playlist],
+                            actionFunction: deletePlaylist,
+                            actionFunctionArgs: [
+                              expandablePlaylistListVM,
+                              playlist
+                            ],
                             dialogTitle:
                                 _createDeletePlaylistDialogTitle(context),
                             dialogContent: AppLocalizations.of(context)!

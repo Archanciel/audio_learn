@@ -9,20 +9,24 @@ import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 
 class ConfirmActionDialogWidget extends StatefulWidget {
-  final Function action; // The action to execute on confirmation
-  final List<dynamic> actionArgs; // Arguments for the action function
+  final Function actionFunction; // The action to execute on confirmation
+  final List<dynamic> actionFunctionArgs; // Arguments for the action function
   final String dialogTitle; // Title of the dialog
   final String dialogContent; // Content of the dialog
   final FocusNode focusNode;
+  final Function? warningFunction; // The action to execute on confirmation
+  final List<dynamic> warningFunctionArgs; // Arguments for the action function
 
   const ConfirmActionDialogWidget({
-    required this.action,
-    required this.actionArgs,
+    required this.actionFunction,
+    required this.actionFunctionArgs,
     required this.dialogTitle,
     required this.dialogContent,
     required this.focusNode,
-    Key? key,
-  }) : super(key: key);
+    this.warningFunction,
+    this.warningFunctionArgs = const [],
+    super.key,
+  });
 
   @override
   State<ConfirmActionDialogWidget> createState() =>
@@ -50,8 +54,8 @@ class _ConfirmActionDialogWidgetState extends State<ConfirmActionDialogWidget>
               event.logicalKey == LogicalKeyboardKey.numpadEnter) {
             // executing the same code as in the 'Delete'
             // TextButton onPressed callback
-            Function.apply(widget.action,
-                widget.actionArgs); // Execute the action with arguments
+            Function.apply(widget.actionFunction,
+                widget.actionFunctionArgs); // Execute the action with arguments
             Navigator.of(context).pop();
           }
         }
@@ -66,8 +70,16 @@ class _ConfirmActionDialogWidgetState extends State<ConfirmActionDialogWidget>
           TextButton(
             key: const Key('confirmButtonKey'),
             onPressed: () {
-              Function.apply(widget.action,
-                  widget.actionArgs); // Execute the action with arguments
+               // Execute the action function with arguments
+              Function.apply(widget.actionFunction, widget.actionFunctionArgs);
+
+              if (widget.warningFunction != null) {
+                // If the warning function was passed, execute it with
+                // arguments
+                Function.apply(
+                    widget.warningFunction!, widget.warningFunctionArgs);
+              }
+
               Navigator.of(context).pop();
             },
             child: Text(

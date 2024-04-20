@@ -12,6 +12,7 @@ import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/playlist_list_vm.dart';
 import '../viewmodels/warning_message_vm.dart';
 import 'screen_mixin.dart';
+import 'widgets/confirm_action_dialog_widget.dart';
 import 'widgets/list_playable_audios_dialog_widget.dart';
 import 'widgets/save_sort_filter_options_to_playlist_dialog.dart';
 import 'widgets/set_audio_speed_dialog_widget.dart';
@@ -375,10 +376,30 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               focusNode.requestFocus();
               break;
             case PopupMenuButtonType.clearSortFilterAudioParmsHistory:
-              playlistListVMlistenFalse
-                  .clearAudioSortFilterSettingsSearchHistory();
-              warningMessageVMlistenFalse
-                  .allHistoricalSortFilterParametersWereDeleted();
+              // Using FocusNode to enable clicking on Enter to close
+              // the dialog
+              final FocusNode focusNode = FocusNode();
+              showDialog<void>(
+                context: context,
+                barrierDismissible: true,
+                builder: (BuildContext context) {
+                  return ConfirmActionDialogWidget(
+                    actionFunction: playlistListVMlistenFalse
+                        .clearAudioSortFilterSettingsSearchHistory,
+                    actionFunctionArgs: [],
+                    dialogTitle: AppLocalizations.of(context)!
+                        .clearSortFilterAudiosParmsHistoryMenu,
+                    dialogContent: AppLocalizations.of(context)!
+                        .allHistoricalSortFilterParametersDeleteConfirmation,
+                    focusNode: focusNode,
+                    // Displaying a warning message after having cleared
+                    // the sort and filter audio settings search history
+                    // is not necessary
+                    // warningFunction: warningMessageVMlistenFalse
+                    //     .allHistoricalSortFilterParametersWereDeleted,
+                  );
+                },
+              );
               break;
             case PopupMenuButtonType.saveSortFilterAudioParmsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close
