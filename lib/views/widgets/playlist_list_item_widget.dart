@@ -7,7 +7,7 @@ import '../../models/playlist.dart';
 import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/warning_message_vm.dart';
 import '../screen_mixin.dart';
-import 'delete_playlist_dialog_widget.dart';
+import 'confirm_action_dialog_widget.dart';
 import 'playlist_info_dialog_widget.dart';
 
 enum PlaylistPopupMenuAction {
@@ -147,8 +147,13 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                         context: context,
                         barrierDismissible: true,
                         builder: (BuildContext context) {
-                          return DeletePlaylistDialogWidget(
-                            playlistToDelete: playlist,
+                          return ConfirmActionDialogWidget(
+                            action: deletePlaylist,
+                            actionArgs: [expandablePlaylistListVM, playlist],
+                            dialogTitle:
+                                _createDeletePlaylistDialogTitle(context),
+                            dialogContent: AppLocalizations.of(context)!
+                                .deletePlaylistDialogComment,
                             focusNode: focusNode,
                           );
                         },
@@ -178,5 +183,30 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
         );
       },
     );
+  }
+
+  void deletePlaylist(
+    PlaylistListVM expandablePlaylistListVM,
+    Playlist playlistToDelete,
+  ) {
+    expandablePlaylistListVM.deletePlaylist(
+      playlistToDelete: playlistToDelete,
+    );
+  }
+
+  String _createDeletePlaylistDialogTitle(
+    BuildContext context,
+  ) {
+    String deletePlaylistDialogTitle;
+
+    if (playlist.url.isNotEmpty) {
+      deletePlaylistDialogTitle = AppLocalizations.of(context)!
+          .deleteYoutubePlaylistDialogTitle(playlist.title);
+    } else {
+      deletePlaylistDialogTitle = AppLocalizations.of(context)!
+          .deleteLocalPlaylistDialogTitle(playlist.title);
+    }
+
+    return deletePlaylistDialogTitle;
   }
 }
