@@ -10,6 +10,7 @@ import '../../viewmodels/theme_provider_vm.dart';
 import '../../viewmodels/warning_message_vm.dart';
 import '../screen_mixin.dart';
 
+// Used to determine the title of the warning dialog: 'WARNING' or 'CONFIRM'
 enum WarningMode {
   warning,
   confirm,
