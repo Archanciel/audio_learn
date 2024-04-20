@@ -293,13 +293,42 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   }) {
     return SizedBox(
       width: kRowButtonGroupWidthSeparator,
-      child: PopupMenuButton<PlaylistPopupMenuButton>(
+      child: PopupMenuButton<PopupMenuButtonType>(
         key: const Key('audio_popup_menu_button'),
         enabled: (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
-        onSelected: (PlaylistPopupMenuButton value) {
+        icon: const Icon(Icons.filter_list),
+        itemBuilder: (BuildContext context) {
+          return [
+            PopupMenuItem<PopupMenuButtonType>(
+              key: const Key(
+                  'define_sort_and_filter_audio_settings_dialog_item'),
+              value: PopupMenuButtonType.openSortFilterAudioDialog,
+              child: Text(
+                  AppLocalizations.of(context)!.defineSortFilterAudiosMenu),
+            ),
+            PopupMenuItem<PopupMenuButtonType>(
+              key: const Key(
+                  'clear_sort_and_filter_audio_options_history_menu_item'),
+              enabled: (playlistListVMlistenFalse
+                  .getSearchHistoryAudioSortFilterParametersLst()
+                  .isNotEmpty),
+              value: PopupMenuButtonType.clearSortFilterAudioParmsHistory,
+              child: Text(AppLocalizations.of(context)!
+                  .clearSortFilterAudiosParmsHistoryMenu),
+            ),
+            PopupMenuItem<PopupMenuButtonType>(
+              key: const Key(
+                  'save_sort_and_filter_audio_settings_in_playlist_item'),
+              value: PopupMenuButtonType.saveSortFilterAudioParmsToPlaylist,
+              child: Text(AppLocalizations.of(context)!
+                  .saveSortFilterAudiosOptionsToPlaylistMenu),
+            ),
+          ];
+        },
+        onSelected: (PopupMenuButtonType value) {
           // Handle menu item selection
           switch (value) {
-            case PlaylistPopupMenuButton.openSortFilterAudioDialog:
+            case PopupMenuButtonType.openSortFilterAudioDialog:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
@@ -345,13 +374,13 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               });
               focusNode.requestFocus();
               break;
-            case PlaylistPopupMenuButton.clearSortFilterAudioParmsHistory:
+            case PopupMenuButtonType.clearSortFilterAudioParmsHistory:
               playlistListVMlistenFalse
                   .clearAudioSortFilterSettingsSearchHistory();
               warningMessageVMlistenFalse
                   .allHistoricalSortFilterParametersWereDeleted();
               break;
-            case PlaylistPopupMenuButton.saveSortFilterAudioParmsToPlaylist:
+            case PopupMenuButtonType.saveSortFilterAudioParmsToPlaylist:
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
@@ -382,34 +411,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
             default:
               break;
           }
-        },
-        icon: const Icon(Icons.filter_list),
-        itemBuilder: (BuildContext context) {
-          return [
-            PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key(
-                  'define_sort_and_filter_audio_settings_dialog_item'),
-              value: PlaylistPopupMenuButton.openSortFilterAudioDialog,
-              child: Text(
-                  AppLocalizations.of(context)!.defineSortFilterAudiosMenu),
-            ),
-            PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key(
-                  'clear_sort_and_filter_audio_options_history_menu_item'),
-              enabled:
-                  (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
-              value: PlaylistPopupMenuButton.clearSortFilterAudioParmsHistory,
-              child: Text(AppLocalizations.of(context)!
-                  .clearSortFilterAudiosParmsHistoryMenu),
-            ),
-            PopupMenuItem<PlaylistPopupMenuButton>(
-              key: const Key(
-                  'save_sort_and_filter_audio_settings_in_playlist_item'),
-              value: PlaylistPopupMenuButton.saveSortFilterAudioParmsToPlaylist,
-              child: Text(AppLocalizations.of(context)!
-                  .saveSortFilterAudiosOptionsToPlaylistMenu),
-            ),
-          ];
         },
       ),
     );
