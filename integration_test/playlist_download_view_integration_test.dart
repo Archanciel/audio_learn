@@ -9166,7 +9166,7 @@ void main() {
   });
   group('Sort/filter test', () {
     testWidgets(
-        'Clear sort/filter parameters history menu verifying that bthe warning is displayed in the play audio view.',
+        'Menu Clear sort/filter parameters history execution verifying that the confirm dialog is displayed in the playlist download  view.',
         (WidgetTester tester) async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
@@ -9238,6 +9238,209 @@ void main() {
       TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "clear_sort_and_filter_audio_options_history_menu_item",
+      );
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+    });
+    testWidgets(
+        'Sort filter audio dialog button clear sort/filter parameters history typing verifying that bthe warning is displayed in the play audio view.',
+        (WidgetTester tester) async {
+      // Purge the test playlist directory if it exists so that the
+      // playlist list is empty
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kDownloadAppTestDirWindows,
+        deleteSubDirectoriesAsWell: true,
+      );
+
+      // Copy the test initial audio data to the app dir
+      DirUtil.copyFilesFromDirAndSubDirsToDirectory(
+        sourceRootPath:
+            "$kDownloadAppTestSavedDataDir${path.separator}sort_and_filter_audio_dialog_widget_test",
+        destinationRootPath: kDownloadAppTestDirWindows,
+      );
+
+      SettingsDataService settingsDataService =
+          SettingsDataService(isTest: true);
+
+      // Load the settings from the json file. This is necessary
+      // otherwise the ordered playlist titles will remain empty
+      // and the playlist list will not be filled with the
+      // playlists available in the download app test dir
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName:
+              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+
+      app.main(['test']);
+      await tester.pumpAndSettle();
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio titles
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Now open the popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // find the sort/filter audios menu item and tap on it
+      await tester.tap(find.byKey(
+          const Key('define_sort_and_filter_audio_menu_item')));
+      await tester.pumpAndSettle();
+ 
+      // Verify that the left sort history icon button is disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_arrow_left_button",
+        isIconButtonEnabled: false
+      );
+
+      // Verify that the right sort history icon button is disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_arrow_right_button",
+        isIconButtonEnabled: false,
+      );
+
+      // Verify that the clear sort history icon button is disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_delete_all_button",
+        isIconButtonEnabled: false,
+      );
+
+      // Type "janco" in the audio title search sentence TextField
+      await tester.enterText(find.byKey(const Key('audioTitleSearchSentenceTextField')), 'janco');
+      await tester.pumpAndSettle();
+
+      // Click on the "+" icon button
+      await tester.tap(find.byKey(const Key('addSentenceIconButton')));
+      await tester.pumpAndSettle();
+ 
+      // Verify that the left sort history icon button is still disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_arrow_left_button",
+        isIconButtonEnabled: false
+      );
+
+      // Verify that the right sort history icon button is still disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_arrow_right_button",
+        isIconButtonEnabled: false,
+      );
+
+      // Verify that the clear sort history icon button is still disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_delete_all_button",
+        isIconButtonEnabled: false,
+      );
+
+      // Click on the "apply" button. This closes the sort/filter dialog.
+      await tester.tap(find.byKey(const Key('applySortFilterOptionsTextButton')));
+      await tester.pumpAndSettle();
+
+      // Now re-open the popup menu
+      await tester.tap(find.byKey(const Key('audio_popup_menu_button')));
+      await tester.pumpAndSettle();
+
+      // find the sort/filter audios menu item and tap on it
+      await tester.tap(find.byKey(
+          const Key('define_sort_and_filter_audio_menu_item')));
+      await tester.pumpAndSettle();
+
+      // Verify that the left sort history icon button is now enabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_arrow_left_button",
+        isIconButtonEnabled: true,
+      );
+
+      // Verify that the right sort history icon button is still disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_arrow_right_button",
+        isIconButtonEnabled: false,
+      );
+
+      // Verify that the clear sort history icon button is now enabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_delete_all_button",
+        isIconButtonEnabled: true,
+      );
+
+      // Now click on the clear sort history icon button
+      await tester.tap(find.byKey(const Key('search_history_delete_all_button')));
+      await tester.pumpAndSettle();
+
+      // Verify that the confirm action dialog is displayed
+      // with the expected text
+      expect(find.text('Clear sort/filter parameters history'), findsOneWidget);
+      expect(find.text('Deleting all historical sort/filter parameters.'),
+          findsOneWidget);
+
+      // Click on the cancel button to cancel deletion
+      await tester.tap(find.byKey(const Key('cancelButtonKey')));
+      await tester.pumpAndSettle();
+
+      // Verify that the left sort history icon button is still enabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_arrow_left_button",
+        isIconButtonEnabled: true,
+      );
+
+      // Verify that the right sort history icon button is still disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_arrow_right_button",
+        isIconButtonEnabled: false,
+      );
+
+      // Verify that the clear sort history icon button is still enabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_delete_all_button",
+        isIconButtonEnabled: true,
+      );
+
+      // Click again on the clear sort history icon button
+      await tester.tap(find.byKey(const Key('search_history_delete_all_button')));
+      await tester.pumpAndSettle();
+
+      // Verify that the confirm action dialog is displayed
+      // with the expected text
+      expect(find.text('Clear sort/filter parameters history'), findsOneWidget);
+      expect(find.text('Deleting all historical sort/filter parameters.'),
+          findsOneWidget);
+
+      // Click on the confirm button to execute deletion
+      await tester.tap(find.byKey(const Key('confirmButtonKey')));
+      await tester.pumpAndSettle();
+
+      // Verify that the left sort history icon button is now disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_arrow_left_button",
+        isIconButtonEnabled: false,
+      );
+
+      // Verify that the right sort history icon button is still disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_arrow_right_button",
+        isIconButtonEnabled: false,
+      );
+
+      // Verify that the clear sort history icon button is now disabled
+      TestUtility.verifyIconButtonColor(
+        tester: tester,
+        widgetKeyStr: "search_history_delete_all_button",
+        isIconButtonEnabled: false,
       );
 
       // Purge the test playlist directory so that the created test

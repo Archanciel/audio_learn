@@ -1237,9 +1237,12 @@ class _SortFilterAudioDialogWidgetState
               key: const Key('removeSentenceIconButton'),
               icon: const Icon(Icons.clear),
               onPressed: () {
-                setState(() {
-                  _audioTitleFilterSentencesLst.removeAt(index);
-                });
+                _audioTitleFilterSentencesLst[index].isNotEmpty
+                    ? setState(() {
+                        _audioTitleFilterSentencesLst.removeAt(index);
+                      })
+                    : null; // required in order to be able to test if the
+                //             IconButton is disabled or not
 
                 // now clicking on Enter works since the
                 // IconButton is not focused anymore

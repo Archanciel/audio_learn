@@ -1,3 +1,4 @@
+import 'package:audio_learn/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -84,6 +85,35 @@ class TestUtility {
     } else {
       fail(
           'The widget with key $widgetKeyStr is not a recognized type for this test');
+    }
+  }
+
+  static void verifyIconButtonColor({
+    required WidgetTester tester,
+    required String widgetKeyStr,
+    required bool isIconButtonEnabled,
+  }) {
+    // Find the widget by its key
+    final Finder widgetFinder = find.byKey(Key(widgetKeyStr));
+
+    if (widgetFinder.evaluate().isEmpty) {
+      // The case if playlists are not displayed or if no playlist
+      // is selected. In this case, the widget is not found since
+      // in place of up down button a sort filter parameters dropdown
+      // button is displayed
+      return;
+    }
+
+    // Retrieve the icon of the IconButton
+    final Icon icon = (tester.widget(widgetFinder) as IconButton).icon as Icon;
+
+    // Check if the icon color is correct based on the enabled status
+    if (isIconButtonEnabled) {
+      expect(icon.color, kDarkAndLightEnabledIconColor,
+          reason: 'IconButton color should be enabled color');
+    } else {
+      expect(icon.color, kDarkAndLightDisabledIconColor,
+          reason: 'IconButton color should be disabled color');
     }
   }
 }
