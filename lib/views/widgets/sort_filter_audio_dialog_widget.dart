@@ -13,6 +13,7 @@ import '../../models/audio.dart';
 import '../../services/audio_sort_filter_service.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
+import 'confirm_action_dialog_widget.dart';
 
 enum CalledFrom {
   playlistDownloadView,
@@ -21,7 +22,7 @@ enum CalledFrom {
   audioPlayerViewAudioMenu,
 }
 
-class SortAndFilterAudioDialogWidget extends StatefulWidget {
+class SortFilterAudioDialogWidget extends StatefulWidget {
   final List<Audio> selectedPlaylistAudioLst;
   String audioSortFilterParametersName;
   AudioSortFilterParameters audioSortFilterParameters;
@@ -31,7 +32,7 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
   final WarningMessageVM warningMessageVM;
   final CalledFrom calledFrom;
 
-  SortAndFilterAudioDialogWidget({
+  SortFilterAudioDialogWidget({
     super.key,
     required this.selectedPlaylistAudioLst,
     this.audioSortFilterParametersName = '',
@@ -44,12 +45,12 @@ class SortAndFilterAudioDialogWidget extends StatefulWidget {
   });
 
   @override
-  _SortAndFilterAudioDialogWidgetState createState() =>
-      _SortAndFilterAudioDialogWidgetState();
+  _SortFilterAudioDialogWidgetState createState() =>
+      _SortFilterAudioDialogWidgetState();
 }
 
-class _SortAndFilterAudioDialogWidgetState
-    extends State<SortAndFilterAudioDialogWidget> with ScreenMixin {
+class _SortFilterAudioDialogWidgetState
+    extends State<SortFilterAudioDialogWidget> with ScreenMixin {
   final InputDecoration _dialogTextFieldDecoration = const InputDecoration(
     isDense: true, //  better aligns the text vertically
     contentPadding: EdgeInsets.all(5),
@@ -399,7 +400,7 @@ class _SortAndFilterAudioDialogWidgetState
                     const SizedBox(
                       height: 10,
                     ),
-                    _buildOptionFilterTitleAndSearchHistoryButtons(context),
+                    _buildFilterOptionTitleSearchHistoryButtons(context),
                     const SizedBox(
                       height: 14,
                     ),
@@ -714,7 +715,9 @@ class _SortAndFilterAudioDialogWidgetState
           themeProviderVM: themeProviderVM,
         ),
         Tooltip(
-          message: (_sortFilterSaveAsUniqueName.isNotEmpty) ? AppLocalizations.of(context)!.deleteSortFilterOptionsTooltip : '',
+          message: (_sortFilterSaveAsUniqueName.isNotEmpty)
+              ? AppLocalizations.of(context)!.deleteSortFilterOptionsTooltip
+              : '',
           child: TextButton(
             key: const Key('deleteSortFilterTextButton'),
             onPressed: () {
@@ -1249,7 +1252,7 @@ class _SortAndFilterAudioDialogWidgetState
     );
   }
 
-  Row _buildOptionFilterTitleAndSearchHistoryButtons(
+  Row _buildFilterOptionTitleSearchHistoryButtons(
     BuildContext context,
   ) {
     ButtonStateManager buttonStateManager = ButtonStateManager(
@@ -1326,15 +1329,28 @@ class _SortAndFilterAudioDialogWidgetState
             child: IconButton(
               key: const Key('search_history_delete_all_button'),
               onPressed: () {
-                Provider.of<PlaylistListVM>(
-                  context,
-                  listen: false,
-                ).clearAudioSortFilterSettingsSearchHistory();
-                _historicalAudioSortFilterParametersLst.clear();
-                _manageButtonsState(buttonStateManager);
-                widget.warningMessageVM
-                    .allHistoricalSortFilterParametersWereDeleted();
-                setState(() {});
+                // Using FocusNode to enable clicking on Enter to close
+                // the dialog
+                final FocusNode focusNode = FocusNode();
+                showDialog<void>(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return ConfirmActionDialogWidget(
+                      actionFunction:
+                          _clearAudioSortFilterSettingsSearchHistory,
+                      actionFunctionArgs: [
+                        Provider.of<PlaylistListVM>(context, listen: false),
+                        buttonStateManager,
+                      ],
+                      dialogTitle: AppLocalizations.of(context)!
+                          .clearSortFilterAudiosParmsHistoryMenu,
+                      dialogContent: AppLocalizations.of(context)!
+                          .allHistoricalSortFilterParametersDeleteConfirmation,
+                      focusNode: focusNode,
+                    );
+                  },
+                );
               },
               padding: const EdgeInsets.all(0),
               icon: Icon(
@@ -1347,6 +1363,16 @@ class _SortAndFilterAudioDialogWidgetState
         ),
       ],
     );
+  }
+
+  void _clearAudioSortFilterSettingsSearchHistory(
+    PlaylistListVM playlistListVM,
+    ButtonStateManager buttonStateManager,
+  ) {
+    playlistListVM.clearAudioSortFilterSettingsSearchHistory();
+    _historicalAudioSortFilterParametersLst.clear();
+    _manageButtonsState(buttonStateManager);
+    setState(() {});
   }
 
   void _manageButtonsState(

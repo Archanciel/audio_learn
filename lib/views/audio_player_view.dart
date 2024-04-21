@@ -16,7 +16,7 @@ import 'widgets/confirm_action_dialog_widget.dart';
 import 'widgets/list_playable_audios_dialog_widget.dart';
 import 'widgets/save_sort_filter_options_to_playlist_dialog.dart';
 import 'widgets/set_audio_speed_dialog_widget.dart';
-import 'widgets/sort_and_filter_audio_dialog_widget.dart';
+import 'widgets/sort_filter_audio_dialog_widget.dart';
 
 /// Screen enabling the user to play an audio, change the playing
 /// position or go to a previous, next or selected audio.
@@ -338,7 +338,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 barrierDismissible:
                     false, // This line prevents the dialog from closing when tapping outside
                 builder: (BuildContext context) {
-                  return SortAndFilterAudioDialogWidget(
+                  return SortFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
                       audioLearnAppViewType:

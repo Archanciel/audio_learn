@@ -24,7 +24,7 @@ import 'widgets/confirm_action_dialog_widget.dart';
 import 'widgets/display_message_widget.dart';
 import 'widgets/playlist_list_item_widget.dart';
 import 'widgets/playlist_one_selectable_dialog_widget.dart';
-import 'widgets/sort_and_filter_audio_dialog_widget.dart';
+import 'widgets/sort_filter_audio_dialog_widget.dart';
 
 class PlaylistDownloadView extends StatefulWidget {
   // this instance variable stores the function defined in
@@ -621,7 +621,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             barrierDismissible:
                 false, // This line prevents the dialog from closing when tapping outside
             builder: (BuildContext context) {
-              return SortAndFilterAudioDialogWidget(
+              return SortFilterAudioDialogWidget(
                 selectedPlaylistAudioLst: playlistListVMlistenFalse
                     .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
                   audioLearnAppViewType: AudioLearnAppViewType.audioPlayerView,
@@ -847,7 +847,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 barrierDismissible:
                     false, // This line prevents the dialog from closing when tapping outside
                 builder: (BuildContext context) {
-                  return SortAndFilterAudioDialogWidget(
+                  return SortFilterAudioDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
                       audioLearnAppViewType:
@@ -904,11 +904,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                     dialogContent: AppLocalizations.of(context)!
                         .allHistoricalSortFilterParametersDeleteConfirmation,
                     focusNode: focusNode,
-                    // Displaying a warning message after having cleared
-                    // the sort and filter audio settings search history
-                    // is not necessary
-                    // warningFunction: warningMessageVMlistenFalse
-                    //     .allHistoricalSortFilterParametersWereDeleted,
                   );
                 },
               );

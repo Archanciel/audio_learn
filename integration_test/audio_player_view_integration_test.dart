@@ -2018,7 +2018,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
     });
     testWidgets(
-        'Clear sort/filter parameters history menu verifying that the warning is displayed in the play audio view.',
+        'Menu Clear sort/filter parameters history execution verifying that the confirm dialog is displayed in the play audio view.',
         (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
           'S8 audio'; // Youtube playlist
