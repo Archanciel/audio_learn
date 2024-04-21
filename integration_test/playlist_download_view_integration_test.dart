@@ -270,16 +270,15 @@ void main() {
 
       // Now verifying the confirm dialog message
 
-      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
-          find.byKey(const Key('confirmDialogTitleKey')));
+      final Text deletePlaylistDialogTitleWidget =
+          tester.widget<Text>(find.byKey(const Key('confirmDialogTitleKey')));
 
       expect(deletePlaylistDialogTitleWidget.data,
           'Delete Youtube Playlist "$youtubeNewPlaylistTitle"');
 
       // Now find the delete button of the delete playlist confirm
       // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('confirmButtonKey')));
+      await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
 
       // Check that the ordered playlist titles list in the settings
@@ -855,16 +854,15 @@ void main() {
 
       // Now verifying the confirm dialog message
 
-      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
-          find.byKey(const Key('confirmDialogTitleKey')));
+      final Text deletePlaylistDialogTitleWidget =
+          tester.widget<Text>(find.byKey(const Key('confirmDialogTitleKey')));
 
       expect(deletePlaylistDialogTitleWidget.data,
           'Delete Local Playlist "$localPlaylistTitle"');
 
       // Now find the delete button of the delete playlist confirm
       // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('confirmButtonKey')));
+      await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
 
       // Check that the ordered playlist titles list in the settings
@@ -7256,16 +7254,15 @@ void main() {
 
       // Now verifying the confirm dialog message
 
-      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
-          find.byKey(const Key('confirmDialogTitleKey')));
+      final Text deletePlaylistDialogTitleWidget =
+          tester.widget<Text>(find.byKey(const Key('confirmDialogTitleKey')));
 
       expect(deletePlaylistDialogTitleWidget.data,
           'Supprimer la playlist Youtube "$youtubePlaylistToDeleteTitle"');
 
       // Now find the delete button of the delete playlist confirm
       // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('confirmButtonKey')));
+      await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
 
       // Reload the settings from the json file.
@@ -7427,8 +7424,7 @@ void main() {
 
       // Now find the cancel button of the delete playlist confirm
       // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('cancelButtonKey')));
+      await tester.tap(find.byKey(const Key('cancelButtonKey')));
       await tester.pumpAndSettle();
 
       // Reload the settings from the json file.
@@ -7590,16 +7586,15 @@ void main() {
 
       // Now verifying the confirm dialog message
 
-      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
-          find.byKey(const Key('confirmDialogTitleKey')));
+      final Text deletePlaylistDialogTitleWidget =
+          tester.widget<Text>(find.byKey(const Key('confirmDialogTitleKey')));
 
       expect(deletePlaylistDialogTitleWidget.data,
           'Supprimer la playlist locale "$localPlaylistToDeleteTitle"');
 
       // Now find the delete button of the delete playlist confirm
       // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('confirmButtonKey')));
+      await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
 
       // Reload the settings from the json file.
@@ -7760,8 +7755,7 @@ void main() {
 
       // Now find the cancel button of the delete playlist confirm
       // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('cancelButtonKey')));
+      await tester.tap(find.byKey(const Key('cancelButtonKey')));
       await tester.pumpAndSettle();
 
       // Reload the settings from the json file.
@@ -7942,16 +7936,15 @@ void main() {
 
       // Now verifying the confirm dialog message
 
-      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
-          find.byKey(const Key('confirmDialogTitleKey')));
+      final Text deletePlaylistDialogTitleWidget =
+          tester.widget<Text>(find.byKey(const Key('confirmDialogTitleKey')));
 
       expect(deletePlaylistDialogTitleWidget.data,
           'Supprimer la playlist Youtube "$youtubePlaylistToDeleteTitle"');
 
       // Now find the delete button of the delete playlist confirm
       // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('confirmButtonKey')));
+      await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
 
       // Reload the settings from the json file.
@@ -8111,16 +8104,15 @@ void main() {
 
       // Now verifying the confirm dialog message
 
-      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
-          find.byKey(const Key('confirmDialogTitleKey')));
+      final Text deletePlaylistDialogTitleWidget =
+          tester.widget<Text>(find.byKey(const Key('confirmDialogTitleKey')));
 
       expect(deletePlaylistDialogTitleWidget.data,
           'Supprimer la playlist Youtube "$youtubePlaylistToDeleteTitle"');
 
       // Now find the delete button of the delete playlist confirm
       // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('confirmButtonKey')));
+      await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
 
       // Reload the settings from the json file.
@@ -8705,16 +8697,15 @@ void main() {
 
       // Now verifying the confirm dialog message
 
-      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
-          find.byKey(const Key('confirmDialogTitleKey')));
+      final Text deletePlaylistDialogTitleWidget =
+          tester.widget<Text>(find.byKey(const Key('confirmDialogTitleKey')));
 
       expect(deletePlaylistDialogTitleWidget.data,
           'Delete Youtube Playlist "$youtubePlaylistToSelectTitle"');
 
       // Now find the delete button of the delete playlist confirm
       // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('confirmButtonKey')));
+      await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
 
       // since the Youtube playlist was deleted, verify that all
@@ -8841,16 +8832,15 @@ void main() {
 
       // Now verifying the confirm dialog message
 
-      final Text deletePlaylistDialogTitleWidget = tester.widget<Text>(
-          find.byKey(const Key('confirmDialogTitleKey')));
+      final Text deletePlaylistDialogTitleWidget =
+          tester.widget<Text>(find.byKey(const Key('confirmDialogTitleKey')));
 
       expect(deletePlaylistDialogTitleWidget.data,
           'Delete Local Playlist "$localPlaylistTitle"');
 
       // Now find the delete button of the delete playlist confirm
       // dialog and tap on it
-      await tester.tap(
-          find.byKey(const Key('confirmButtonKey')));
+      await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
 
       // since the local playlist was deleted, verify that all
@@ -9285,62 +9275,58 @@ void main() {
       await tester.pumpAndSettle();
 
       // find the sort/filter audios menu item and tap on it
-      await tester.tap(find.byKey(
-          const Key('define_sort_and_filter_audio_menu_item')));
+      await tester
+          .tap(find.byKey(const Key('define_sort_and_filter_audio_menu_item')));
       await tester.pumpAndSettle();
- 
+
       // Verify that the left sort history icon button is disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_arrow_left_button",
-        isIconButtonEnabled: false
       );
 
       // Verify that the right sort history icon button is disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_arrow_right_button",
-        isIconButtonEnabled: false,
       );
 
       // Verify that the clear sort history icon button is disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_delete_all_button",
-        isIconButtonEnabled: false,
       );
 
       // Type "janco" in the audio title search sentence TextField
-      await tester.enterText(find.byKey(const Key('audioTitleSearchSentenceTextField')), 'janco');
+      await tester.enterText(
+          find.byKey(const Key('audioTitleSearchSentenceTextField')), 'janco');
       await tester.pumpAndSettle();
 
       // Click on the "+" icon button
       await tester.tap(find.byKey(const Key('addSentenceIconButton')));
       await tester.pumpAndSettle();
- 
+
       // Verify that the left sort history icon button is still disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_arrow_left_button",
-        isIconButtonEnabled: false
       );
 
       // Verify that the right sort history icon button is still disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_arrow_right_button",
-        isIconButtonEnabled: false,
       );
 
       // Verify that the clear sort history icon button is still disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_delete_all_button",
-        isIconButtonEnabled: false,
       );
 
       // Click on the "apply" button. This closes the sort/filter dialog.
-      await tester.tap(find.byKey(const Key('applySortFilterOptionsTextButton')));
+      await tester
+          .tap(find.byKey(const Key('applySortFilterOptionsTextButton')));
       await tester.pumpAndSettle();
 
       // Now re-open the popup menu
@@ -9348,33 +9334,31 @@ void main() {
       await tester.pumpAndSettle();
 
       // find the sort/filter audios menu item and tap on it
-      await tester.tap(find.byKey(
-          const Key('define_sort_and_filter_audio_menu_item')));
+      await tester
+          .tap(find.byKey(const Key('define_sort_and_filter_audio_menu_item')));
       await tester.pumpAndSettle();
 
       // Verify that the left sort history icon button is now enabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: "search_history_arrow_left_button",
-        isIconButtonEnabled: true,
       );
 
       // Verify that the right sort history icon button is still disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_arrow_right_button",
-        isIconButtonEnabled: false,
       );
 
       // Verify that the clear sort history icon button is now enabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: "search_history_delete_all_button",
-        isIconButtonEnabled: true,
       );
 
       // Now click on the clear sort history icon button
-      await tester.tap(find.byKey(const Key('search_history_delete_all_button')));
+      await tester
+          .tap(find.byKey(const Key('search_history_delete_all_button')));
       await tester.pumpAndSettle();
 
       // Verify that the confirm action dialog is displayed
@@ -9388,28 +9372,26 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify that the left sort history icon button is still enabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: "search_history_arrow_left_button",
-        isIconButtonEnabled: true,
       );
 
       // Verify that the right sort history icon button is still disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_arrow_right_button",
-        isIconButtonEnabled: false,
       );
 
       // Verify that the clear sort history icon button is still enabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsEnabled(
         tester: tester,
         widgetKeyStr: "search_history_delete_all_button",
-        isIconButtonEnabled: true,
       );
 
       // Click again on the clear sort history icon button
-      await tester.tap(find.byKey(const Key('search_history_delete_all_button')));
+      await tester
+          .tap(find.byKey(const Key('search_history_delete_all_button')));
       await tester.pumpAndSettle();
 
       // Verify that the confirm action dialog is displayed
@@ -9421,26 +9403,23 @@ void main() {
       // Click on the confirm button to execute deletion
       await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
-
+      
       // Verify that the left sort history icon button is now disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_arrow_left_button",
-        isIconButtonEnabled: false,
       );
 
       // Verify that the right sort history icon button is still disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_arrow_right_button",
-        isIconButtonEnabled: false,
       );
 
       // Verify that the clear sort history icon button is now disabled
-      TestUtility.verifyIconButtonColor(
+      TestUtility.verifyWidgetIsDisabled(
         tester: tester,
         widgetKeyStr: "search_history_delete_all_button",
-        isIconButtonEnabled: false,
       );
 
       // Purge the test playlist directory so that the created test

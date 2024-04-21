@@ -1274,12 +1274,10 @@ class _SortFilterAudioDialogWidgetState
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('search_history_arrow_left_button'),
-            onPressed: () {
-              _historicalAudioSortFilterParametersIndex > 0
-                  ? tapSearchHistoryLeftArrowIconButton(buttonStateManager)
-                  : null; // required in order to be able to test if the
-              //             IconButton is disabled or not
-            },
+            onPressed: _historicalAudioSortFilterParametersIndex > 0
+                ? () => tapSearchHistoryLeftArrowIconButton(buttonStateManager)
+                : null, // required in order to be able to test if the
+            //             IconButton is disabled or not
             padding: const EdgeInsets.all(0),
             icon: Icon(
               Icons.arrow_left,
@@ -1292,13 +1290,11 @@ class _SortFilterAudioDialogWidgetState
           width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('search_history_arrow_right_button'),
-            onPressed: () {
-              _historicalAudioSortFilterParametersIndex <
-                      _historicalAudioSortFilterParametersLst.length - 1
-                  ? tapSearchHistoryRightArrowIconButton(buttonStateManager)
-                  : null; // required in order to be able to test if the
-              //             IconButton is disabled or not
-            },
+            onPressed: _historicalAudioSortFilterParametersIndex <
+                    _historicalAudioSortFilterParametersLst.length - 1
+                ? () => tapSearchHistoryRightArrowIconButton(buttonStateManager)
+                : null, // required in order to be able to test if the
+            //             IconButton is disabled or not
             padding: const EdgeInsets.all(0),
             icon: Icon(
               Icons.arrow_right,
@@ -1314,12 +1310,11 @@ class _SortFilterAudioDialogWidgetState
                 .clearSortFilterAudiosParmsHistoryMenu,
             child: IconButton(
               key: const Key('search_history_delete_all_button'),
-              onPressed: () {
-                _historicalAudioSortFilterParametersLst.isNotEmpty
-                    ? tapSearchHistoryDeleteAllIconButton(buttonStateManager)
-                    : null; // required in order to be able to test if the
-                //             IconButton is disabled or not
-              },
+              onPressed: _historicalAudioSortFilterParametersLst.isNotEmpty
+                  ? () =>
+                      tapSearchHistoryDeleteAllIconButton(buttonStateManager)
+                  : null, // required in order to be able to test if the
+              //             IconButton is disabled or not
               padding: const EdgeInsets.all(0),
               icon: Icon(
                 Icons.delete,
@@ -1402,6 +1397,8 @@ class _SortFilterAudioDialogWidgetState
   ) {
     playlistListVM.clearAudioSortFilterSettingsSearchHistory();
     _historicalAudioSortFilterParametersLst.clear();
+    _historicalAudioSortFilterParametersIndex =
+        0; // fixes a bug found during integration testing
     _manageButtonsState(buttonStateManager);
     setState(() {});
   }
@@ -1481,13 +1478,11 @@ class _SortFilterAudioDialogWidgetState
                   width: kSmallIconButtonWidth,
                   child: IconButton(
                     key: const Key('addSentenceIconButton'),
-                    onPressed: () async {
-                      (_audioTitleSearchSentence != '')
-                          ? setState(() {
+                    onPressed: _audioTitleSearchSentence != ''
+                        ? () async => setState(() {
                               _addSentenceToFilterSentencesLst();
                             })
-                          : null;
-                    },
+                        : null,
                     padding: const EdgeInsets.all(0),
                     icon: Icon(
                       Icons.add,
@@ -1582,9 +1577,8 @@ class _SortFilterAudioDialogWidgetState
                   width: kSmallIconButtonWidth,
                   child: IconButton(
                     key: const Key('removeSortingOptionIconButton'),
-                    onPressed: () {
-                      (_selectedSortingItemLst.length != 1)
-                          ? setState(() {
+                    onPressed: _selectedSortingItemLst.length != 1
+                        ? () => setState(() {
                               if (_selectedSortingItemLst.length > 1) {
                                 _selectedSortingItemLst.removeAt(index);
                               }
@@ -1597,8 +1591,7 @@ class _SortFilterAudioDialogWidgetState
                                     kDarkAndLightDisabledIconColor;
                               }
                             })
-                          : null;
-                    },
+                        : null,
                     icon: Icon(
                       Icons.clear,
                       // since in the Dialog the disabled IconButton color
