@@ -1275,21 +1275,10 @@ class _SortFilterAudioDialogWidgetState
           child: IconButton(
             key: const Key('search_history_arrow_left_button'),
             onPressed: () {
-              if (_historicalAudioSortFilterParametersIndex >= 0) {
-                // at dialog opening, _historicalAudioSortFilterParametersIndex
-                // was initialized to the list length - 1
-                AudioSortFilterParameters audioSortFilterParameters =
-                    _historicalAudioSortFilterParametersLst[
-                        _historicalAudioSortFilterParametersIndex - 1];
-
-                _setSortFilterOptions(audioSortFilterParameters);
-              }
-
-              _historicalAudioSortFilterParametersIndex--;
-
-              _manageButtonsState(buttonStateManager);
-              _historicalAudioSortFilterParametersIndex;
-              setState(() {});
+              _historicalAudioSortFilterParametersIndex > 0
+                  ? tapSearchHistoryLeftArrowIconButton(buttonStateManager)
+                  : null; // required in order to be able to test if the
+              //             IconButton is disabled or not
             },
             padding: const EdgeInsets.all(0),
             icon: Icon(
@@ -1304,17 +1293,11 @@ class _SortFilterAudioDialogWidgetState
           child: IconButton(
             key: const Key('search_history_arrow_right_button'),
             onPressed: () {
-              if (_historicalAudioSortFilterParametersIndex <
-                  _historicalAudioSortFilterParametersLst.length - 1) {
-                AudioSortFilterParameters audioSortFilterParameters =
-                    _historicalAudioSortFilterParametersLst[
-                        ++_historicalAudioSortFilterParametersIndex];
-
-                _setSortFilterOptions(audioSortFilterParameters);
-              }
-
-              _manageButtonsState(buttonStateManager);
-              setState(() {});
+              _historicalAudioSortFilterParametersIndex <
+                      _historicalAudioSortFilterParametersLst.length - 1
+                  ? tapSearchHistoryRightArrowIconButton(buttonStateManager)
+                  : null; // required in order to be able to test if the
+              //             IconButton is disabled or not
             },
             padding: const EdgeInsets.all(0),
             icon: Icon(
@@ -1332,28 +1315,10 @@ class _SortFilterAudioDialogWidgetState
             child: IconButton(
               key: const Key('search_history_delete_all_button'),
               onPressed: () {
-                // Using FocusNode to enable clicking on Enter to close
-                // the dialog
-                final FocusNode focusNode = FocusNode();
-                showDialog<void>(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ConfirmActionDialogWidget(
-                      actionFunction:
-                          _clearAudioSortFilterSettingsSearchHistory,
-                      actionFunctionArgs: [
-                        Provider.of<PlaylistListVM>(context, listen: false),
-                        buttonStateManager,
-                      ],
-                      dialogTitle: AppLocalizations.of(context)!
-                          .clearSortFilterAudiosParmsHistoryMenu,
-                      dialogContent: AppLocalizations.of(context)!
-                          .allHistoricalSortFilterParametersDeleteConfirmation,
-                      focusNode: focusNode,
-                    );
-                  },
-                );
+                _historicalAudioSortFilterParametersLst.isNotEmpty
+                    ? tapSearchHistoryDeleteAllIconButton(buttonStateManager)
+                    : null; // required in order to be able to test if the
+                //             IconButton is disabled or not
               },
               padding: const EdgeInsets.all(0),
               icon: Icon(
@@ -1365,6 +1330,69 @@ class _SortFilterAudioDialogWidgetState
           ),
         ),
       ],
+    );
+  }
+
+  void tapSearchHistoryLeftArrowIconButton(
+      ButtonStateManager buttonStateManager) {
+    if (_historicalAudioSortFilterParametersIndex > 0) {
+      // at dialog opening, _historicalAudioSortFilterParametersIndex
+      // was initialized to the list length - 1
+      AudioSortFilterParameters audioSortFilterParameters =
+          _historicalAudioSortFilterParametersLst[
+              _historicalAudioSortFilterParametersIndex - 1];
+
+      _setSortFilterOptions(audioSortFilterParameters);
+    }
+
+    _historicalAudioSortFilterParametersIndex--;
+
+    _manageButtonsState(buttonStateManager);
+    _historicalAudioSortFilterParametersIndex;
+    setState(() {});
+  }
+
+  void tapSearchHistoryRightArrowIconButton(
+    ButtonStateManager buttonStateManager,
+  ) {
+    if (_historicalAudioSortFilterParametersIndex <
+        _historicalAudioSortFilterParametersLst.length - 1) {
+      AudioSortFilterParameters audioSortFilterParameters =
+          _historicalAudioSortFilterParametersLst[
+              _historicalAudioSortFilterParametersIndex + 1];
+
+      _setSortFilterOptions(audioSortFilterParameters);
+    }
+
+    _historicalAudioSortFilterParametersIndex++;
+
+    _manageButtonsState(buttonStateManager);
+    setState(() {});
+  }
+
+  void tapSearchHistoryDeleteAllIconButton(
+    ButtonStateManager buttonStateManager,
+  ) {
+    // Using FocusNode to enable clicking on Enter to close
+    // the dialog
+    final FocusNode focusNode = FocusNode();
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return ConfirmActionDialogWidget(
+          actionFunction: _clearAudioSortFilterSettingsSearchHistory,
+          actionFunctionArgs: [
+            Provider.of<PlaylistListVM>(context, listen: false),
+            buttonStateManager,
+          ],
+          dialogTitle: AppLocalizations.of(context)!
+              .clearSortFilterAudiosParmsHistoryMenu,
+          dialogContent: AppLocalizations.of(context)!
+              .allHistoricalSortFilterParametersDeleteConfirmation,
+          focusNode: focusNode,
+        );
+      },
     );
   }
 
