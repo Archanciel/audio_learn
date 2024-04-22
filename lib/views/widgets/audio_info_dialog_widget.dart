@@ -156,7 +156,7 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
               createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.isMusicQualityLabel,
-                  value: (audio.isMusicQuality)
+                  value: (audio.isAudioMusicQuality)
                       ? AppLocalizations.of(context)!.yes
                       : AppLocalizations.of(context)!.no),
               createInfoRowFunction(

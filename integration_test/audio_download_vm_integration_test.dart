@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:audio_learn/services/json_data_service.dart';
+import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/date_time_parser.dart';
 import 'package:audio_learn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,7 @@ void main() {
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: SettingsDataService(),
         isTest: true,
       );
 
@@ -74,6 +76,7 @@ void main() {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
+            settingsDataService: SettingsDataService(),
             isTest: true,
           );
           return audioDownloadVM;
@@ -175,6 +178,7 @@ void main() {
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: SettingsDataService(),
         isTest: true,
       );
       Playlist downloadedPlaylistBeforeDownload =
@@ -219,6 +223,7 @@ void main() {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
+            settingsDataService: SettingsDataService(),
             isTest: true,
           );
           return audioDownloadVM;
@@ -325,6 +330,7 @@ void main() {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
+            settingsDataService: SettingsDataService(),
             isTest: true,
           );
           return audioDownloadVM;
@@ -444,6 +450,7 @@ void main() {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
+            settingsDataService: SettingsDataService(),
             isTest: true,
           );
           return audioDownloadVM;
@@ -578,6 +585,7 @@ void main() {
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: SettingsDataService(),
         isTest: true,
       );
       Playlist downloadedPlaylistBeforeDownload =
@@ -622,6 +630,7 @@ void main() {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
+            settingsDataService: SettingsDataService(),
             isTest: true,
           );
           return audioDownloadVM;
@@ -784,7 +793,7 @@ void checkPlaylistAudioOne({
           downloadedAudioOne.videoUploadDate),
       DateTime.parse("2023-06-10"));
   expect(downloadedAudioOne.audioDuration, const Duration(milliseconds: 24000));
-  expect(downloadedAudioOne.isMusicQuality, false);
+  expect(downloadedAudioOne.audioPlaySpeed, 1.25);
 
   String firstAudioFileName = downloadedAudioOne.audioFileName;
   expect(
@@ -814,7 +823,7 @@ void checkPlaylistAudioTwo({
           downloadedAudioTwo.videoUploadDate),
       DateTime.parse("2023-06-10"));
   expect(downloadedAudioTwo.audioDuration, const Duration(milliseconds: 10000));
-  expect(downloadedAudioTwo.isMusicQuality, false);
+  expect(downloadedAudioTwo.audioPlaySpeed, 1.25);
 
   String secondAudioFileName = downloadedAudioTwo.audioFileName;
   expect(
@@ -851,7 +860,7 @@ void checkPlaylistNewAudioOne({
   expect(downloadedAudioOne.videoUrl,
       "https://www.youtube.com/watch?v=ADt0BYlh1Yo");
   expect(downloadedAudioOne.audioDuration, const Duration(milliseconds: 10000));
-  expect(downloadedAudioOne.isMusicQuality, false);
+  expect(downloadedAudioOne.audioPlaySpeed, 1.25);
 
   String firstNewAudioFileName = downloadedAudioOne.audioFileName;
   expect(
@@ -877,7 +886,7 @@ void checkPlaylistNewAudioTwo({
   expect(downloadedAudioTwo.compactVideoDescription,
       "Jean-Pierre Schnyder\n\nCette vidéo me sert à tester AudioLearn, l'app Android que je développe. ...");
   expect(downloadedAudioTwo.audioDuration, const Duration(milliseconds: 59000));
-  expect(downloadedAudioTwo.isMusicQuality, false);
+  expect(downloadedAudioTwo.audioPlaySpeed, 1.25);
 
   String secondNewAudioFileName = downloadedAudioTwo.audioFileName;
   expect(
@@ -1031,7 +1040,9 @@ void compareDeserializedWithOriginalAudio({
       originalAudio.videoUploadDate.toIso8601String());
   expect(deserializedAudio.audioDuration,
       originalAudio.audioDuration ?? const Duration(milliseconds: 0));
-  expect(deserializedAudio.isMusicQuality, originalAudio.isMusicQuality);
+  expect(deserializedAudio.isAudioMusicQuality,
+      originalAudio.isAudioMusicQuality);
+  expect(deserializedAudio.audioPlaySpeed, originalAudio.audioPlaySpeed);
   expect(deserializedAudio.audioFileName, originalAudio.audioFileName);
   expect(deserializedAudio.audioFileSize, originalAudio.audioFileSize);
 }

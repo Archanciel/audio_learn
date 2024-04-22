@@ -9,11 +9,14 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt;
 
 import '../models/audio.dart';
 import '../models/playlist.dart';
+import '../services/settings_data_service.dart';
 import '../utils/dir_util.dart';
 import 'warning_message_vm.dart';
 
 class SingleVideoAudioDownloadVM extends ChangeNotifier {
   final yt.YoutubeExplode _youtubeExplode;
+
+  final SettingsDataService settingsDataService;
 
   /// When unit testing SingleVideoAudioDownloadVM,
   /// a CustomMockYoutubeExplode instance is passed
@@ -21,6 +24,7 @@ class SingleVideoAudioDownloadVM extends ChangeNotifier {
   /// instance.
   SingleVideoAudioDownloadVM({
     required yt.YoutubeExplode youtubeExplode,
+    required this.settingsDataService,
   }) : _youtubeExplode = youtubeExplode;
 
   Future<bool> downloadSingleVideoAudio({
@@ -67,7 +71,6 @@ class SingleVideoAudioDownloadVM extends ChangeNotifier {
 
     videoUploadDate ??= DateTime(00, 1, 1);
 
-
     final Audio audio = Audio(
       enclosingPlaylist: singleVideoTargetPlaylist,
       originalVideoTitle: youtubeVideo.title,
@@ -76,6 +79,10 @@ class SingleVideoAudioDownloadVM extends ChangeNotifier {
       audioDownloadDateTime: DateTime.now(),
       videoUploadDate: videoUploadDate,
       audioDuration: audioDuration!,
+      audioPlaySpeed: settingsDataService.get(
+        settingType: SettingType.playlists,
+        settingSubType: Playlists.playSpeed,
+      ),
     );
 
     final List<String> downloadedAudioFileNameLst = DirUtil.listFileNamesInDir(

@@ -611,21 +611,24 @@ void addThreeDownloadedAudios(Playlist playlist) {
       compactVideoDescription: '',
       videoUrl: 'https://example.com/video1',
       audioDownloadDateTime: DateTime(2023, 3, 20),
-      videoUploadDate: DateTime.now()));
+      videoUploadDate: DateTime.now(),
+      audioPlaySpeed: 1.5));
   playlist.addDownloadedAudio(Audio(
       enclosingPlaylist: playlist,
       originalVideoTitle: 'A',
       compactVideoDescription: '',
       videoUrl: 'https://example.com/video2',
       audioDownloadDateTime: DateTime(2023, 3, 25),
-      videoUploadDate: DateTime.now()));
+      videoUploadDate: DateTime.now(),
+      audioPlaySpeed: 1.5));
   playlist.addDownloadedAudio(Audio(
       enclosingPlaylist: playlist,
       compactVideoDescription: '',
       originalVideoTitle: 'B',
       videoUrl: 'https://example.com/video3',
       audioDownloadDateTime: DateTime(2023, 3, 18),
-      videoUploadDate: DateTime.now()));
+      videoUploadDate: DateTime.now(),
+      audioPlaySpeed: 1.5));
 }
 
 void addOneDownloadedAudio(Playlist playlist) {
@@ -635,7 +638,8 @@ void addOneDownloadedAudio(Playlist playlist) {
       compactVideoDescription: '',
       videoUrl: 'https://example.com/video1',
       audioDownloadDateTime: DateTime(2023, 3, 20),
-      videoUploadDate: DateTime.now()));
+      videoUploadDate: DateTime.now(),
+      audioPlaySpeed: 1.5));
 }
 
 void addOneOtherDownloadedAudio(Playlist playlist) {
@@ -645,61 +649,62 @@ void addOneOtherDownloadedAudio(Playlist playlist) {
       compactVideoDescription: '',
       videoUrl: 'https://example.com/video1',
       audioDownloadDateTime: DateTime(2023, 3, 20),
-      videoUploadDate: DateTime.now()));
+      videoUploadDate: DateTime.now(),
+      audioPlaySpeed: 1.5));
 }
 
 void copyOneDownloadedAudio(Playlist playlist) {
   Audio audio = Audio(
-          enclosingPlaylist: playlist,
-          originalVideoTitle: 'A',
-          compactVideoDescription: '',
-          videoUrl: 'https://example.com/video1',
-          audioDownloadDateTime: DateTime(2023, 3, 20),
-          videoUploadDate: DateTime.now());
+      enclosingPlaylist: playlist,
+      originalVideoTitle: 'A',
+      compactVideoDescription: '',
+      videoUrl: 'https://example.com/video1',
+      audioDownloadDateTime: DateTime(2023, 3, 20),
+      videoUploadDate: DateTime.now(),
+      audioPlaySpeed: 1.5);
   audio.audioDownloadSpeed = 1000;
   playlist.addCopiedAudio(
-      copiedAudio: audio,
-      copiedFromPlaylistTitle: 'source playlist title');
+      copiedAudio: audio, copiedFromPlaylistTitle: 'source playlist title');
 }
 
 void copyOneOtherDownloadedAudio(Playlist playlist) {
   Audio audio = Audio(
-          enclosingPlaylist: playlist,
-          originalVideoTitle: 'B',
-          compactVideoDescription: '',
-          videoUrl: 'https://example.com/video1',
-          audioDownloadDateTime: DateTime(2023, 3, 20),
-          videoUploadDate: DateTime.now());
+      enclosingPlaylist: playlist,
+      originalVideoTitle: 'B',
+      compactVideoDescription: '',
+      videoUrl: 'https://example.com/video1',
+      audioDownloadDateTime: DateTime(2023, 3, 20),
+      videoUploadDate: DateTime.now(),
+      audioPlaySpeed: 1.5);
   audio.audioDownloadSpeed = 1000;
   playlist.addCopiedAudio(
-      copiedAudio: audio,
-      copiedFromPlaylistTitle: 'source playlist title');
+      copiedAudio: audio, copiedFromPlaylistTitle: 'source playlist title');
 }
 
 void moveOneDownloadedAudio(Playlist playlist) {
   Audio audio = Audio(
-          enclosingPlaylist: playlist,
-          originalVideoTitle: 'A',
-          compactVideoDescription: '',
-          videoUrl: 'https://example.com/video1',
-          audioDownloadDateTime: DateTime(2023, 3, 20),
-          videoUploadDate: DateTime.now(),);
+      enclosingPlaylist: playlist,
+      originalVideoTitle: 'A',
+      compactVideoDescription: '',
+      videoUrl: 'https://example.com/video1',
+      audioDownloadDateTime: DateTime(2023, 3, 20),
+      videoUploadDate: DateTime.now(),
+      audioPlaySpeed: 1.5);
   audio.audioDownloadSpeed = 1000;
   playlist.addMovedAudio(
-      movedAudio: audio,
-      movedFromPlaylistTitle: 'source playlist title');
+      movedAudio: audio, movedFromPlaylistTitle: 'source playlist title');
 }
 
 void moveOneOtherDownloadedAudio(Playlist playlist) {
   Audio audio = Audio(
-          enclosingPlaylist: playlist,
-          originalVideoTitle: 'B',
-          compactVideoDescription: '',
-          videoUrl: 'https://example.com/video1',
-          audioDownloadDateTime: DateTime(2023, 3, 20),
-          videoUploadDate: DateTime.now());
+      enclosingPlaylist: playlist,
+      originalVideoTitle: 'B',
+      compactVideoDescription: '',
+      videoUrl: 'https://example.com/video1',
+      audioDownloadDateTime: DateTime(2023, 3, 20),
+      videoUploadDate: DateTime.now(),
+      audioPlaySpeed: 1.5);
   audio.audioDownloadSpeed = 1000;
   playlist.addMovedAudio(
-      movedAudio: audio,
-      movedFromPlaylistTitle: 'source playlist title');
+      movedAudio: audio, movedFromPlaylistTitle: 'source playlist title');
 }

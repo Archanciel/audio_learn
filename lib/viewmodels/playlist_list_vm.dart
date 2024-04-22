@@ -471,14 +471,14 @@ class PlaylistListVM extends ChangeNotifier {
   }
 
   Map<String, AudioSortFilterParameters> getAudioSortFilterParametersMap() {
-    return _settingsDataService.audioSortFilterParametersMap;
+    return _settingsDataService.namedAudioSortFilterParametersMap;
   }
 
   AudioSortFilterParameters getAudioSortFilterParameters({
     required String audioSortFilterParametersName,
   }) {
     return _settingsDataService
-        .audioSortFilterParametersMap[audioSortFilterParametersName]!;
+        .namedAudioSortFilterParametersMap[audioSortFilterParametersName]!;
   }
 
   List<AudioSortFilterParameters>
@@ -504,7 +504,8 @@ class PlaylistListVM extends ChangeNotifier {
   bool clearAudioSortFilterSettingsSearchHistoryElement(
     AudioSortFilterParameters audioSortFilterParameters,
   ) {
-    return _settingsDataService.clearAudioSortFilterSettingsSearchHistoryElement(
+    return _settingsDataService
+        .clearAudioSortFilterSettingsSearchHistoryElement(
       audioSortFilterParameters,
     );
   }
@@ -513,7 +514,7 @@ class PlaylistListVM extends ChangeNotifier {
     required String audioSortFilterParametersName,
     required AudioSortFilterParameters audioSortFilterParameters,
   }) {
-    _settingsDataService.addOrReplaceAudioSortFilterSettings(
+    _settingsDataService.addOrReplaceNamedAudioSortFilterSettings(
       audioSortFilterParametersName: audioSortFilterParametersName,
       audioSortFilterParameters: audioSortFilterParameters,
     );
@@ -522,7 +523,7 @@ class PlaylistListVM extends ChangeNotifier {
   AudioSortFilterParameters? deleteAudioSortFilterParameters({
     required String audioSortFilterParametersName,
   }) {
-    return _settingsDataService.deleteAudioSortFilterSettings(
+    return _settingsDataService.deleteNamedAudioSortFilterSettings(
       audioSortFilterParametersName: audioSortFilterParametersName,
     );
   }

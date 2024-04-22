@@ -28,6 +28,7 @@ enum Playlists {
   pathLst,
   orderedTitleLst,
   isMusicQualityByDefault,
+  playSpeed,
   defaultAudioSort,
 }
 
@@ -48,6 +49,7 @@ class SettingsDataService {
       Playlists.pathLst: ["/EMPTY", "/BOOKS", "/MUSIC"],
       Playlists.orderedTitleLst: [],
       Playlists.isMusicQualityByDefault: false,
+      Playlists.playSpeed: kAudioDefaultPlaySpeed,
       Playlists.defaultAudioSort: AudioSortCriterion.audioDownloadDateTime,
     },
   };
@@ -64,10 +66,11 @@ class SettingsDataService {
 
   final bool _isTest;
 
-  final Map<String, AudioSortFilterParameters> _audioSortFilterParametersMap =
-      {};
-  Map<String, AudioSortFilterParameters> get audioSortFilterParametersMap =>
-      _audioSortFilterParametersMap;
+  final Map<String, AudioSortFilterParameters>
+      _namedAudioSortFilterParametersMap = {};
+  Map<String, AudioSortFilterParameters>
+      get namedAudioSortFilterParametersMap =>
+          _namedAudioSortFilterParametersMap;
 
   List<AudioSortFilterParameters> _searchHistoryAudioSortFilterParametersLst =
       [];
@@ -75,7 +78,9 @@ class SettingsDataService {
       get searchHistoryAudioSortFilterParametersLst =>
           _searchHistoryAudioSortFilterParametersLst;
 
-  SettingsDataService({bool isTest = false}) : _isTest = isTest;
+  SettingsDataService({
+    bool isTest = false,
+  }) : _isTest = isTest;
 
   dynamic get({
     required SettingType settingType,
@@ -144,11 +149,12 @@ class SettingsDataService {
             MapEntry(subKey.toString(), subValue.toString())),
       );
     });
-    final Map<String, dynamic> audioSortFilterSettingsJson =
-        _audioSortFilterParametersMap
+    final Map<String, dynamic> namedAudioSortFilterSettingsJson =
+        _namedAudioSortFilterParametersMap
             .map((key, value) => MapEntry(key, value.toJson()));
 
-    convertedSettings['audioSortFilterSettings'] = audioSortFilterSettingsJson;
+    convertedSettings['namedAudioSortFilterSettings'] =
+        namedAudioSortFilterSettingsJson;
 
     final String searchHistoryAudioSortFilterParametersLstJsonString =
         jsonEncode(_searchHistoryAudioSortFilterParametersLst
@@ -176,10 +182,10 @@ class SettingsDataService {
         final String jsonString = file.readAsStringSync();
         final Map<String, dynamic> decodedSettings = jsonDecode(jsonString);
         decodedSettings.forEach((key, value) {
-          if (key == 'audioSortFilterSettings') {
+          if (key == 'namedAudioSortFilterSettings') {
             Map<String, dynamic> audioSortFilterSettingsJson = value;
             audioSortFilterSettingsJson.forEach((audioKey, audioValue) {
-              _audioSortFilterParametersMap[audioKey] =
+              _namedAudioSortFilterParametersMap[audioKey] =
                   AudioSortFilterParameters.fromJson(audioValue);
             });
           } else if (key == 'searchHistoryOfAudioSortFilterSettings') {
@@ -210,11 +216,11 @@ class SettingsDataService {
     }
   }
 
-  void addOrReplaceAudioSortFilterSettings({
+  void addOrReplaceNamedAudioSortFilterSettings({
     required String audioSortFilterParametersName,
     required AudioSortFilterParameters audioSortFilterParameters,
   }) {
-    _audioSortFilterParametersMap[audioSortFilterParametersName] =
+    _namedAudioSortFilterParametersMap[audioSortFilterParametersName] =
         audioSortFilterParameters;
 
     _saveSettings();
@@ -269,11 +275,12 @@ class SettingsDataService {
     return wasElementRemoved;
   }
 
-  AudioSortFilterParameters? deleteAudioSortFilterSettings({
+  AudioSortFilterParameters? deleteNamedAudioSortFilterSettings({
     required String audioSortFilterParametersName,
   }) {
     AudioSortFilterParameters? removedAudioSortFilterParameters =
-        _audioSortFilterParametersMap.remove(audioSortFilterParametersName);
+        _namedAudioSortFilterParametersMap
+            .remove(audioSortFilterParametersName);
 
     if (removedAudioSortFilterParameters != null) {
       _saveSettings();
@@ -337,6 +344,10 @@ class SettingsDataService {
     } else if (_isFilePath(stringValue)) {
       // Handle file paths
       return stringValue;
+    } else if (int.tryParse(stringValue) != null) {
+      return int.parse(stringValue);
+    } else if (double.tryParse(stringValue) != null) {
+      return double.parse(stringValue);
     } else if (_allSettingsKeyLst
         .map((e) => e.toString())
         .contains(stringValue)) {
@@ -374,6 +385,8 @@ void main(List<String> args) {
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
   print(
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playSpeed)}');
+  print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 
   // modify initialSettings values
@@ -410,6 +423,11 @@ void main(List<String> args) {
 
   initialSettings.set(
       settingType: SettingType.playlists,
+      settingSubType: Playlists.playSpeed,
+      value: 1.35);
+
+  initialSettings.set(
+      settingType: SettingType.playlists,
       settingSubType: Playlists.defaultAudioSort,
       value: AudioSortCriterion.validVideoTitle);
 
@@ -429,6 +447,8 @@ void main(List<String> args) {
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.orderedTitleLst)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
+  print(
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playSpeed)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 
@@ -451,6 +471,8 @@ void main(List<String> args) {
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.orderedTitleLst)}');
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
+  print(
+      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playSpeed)}');
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 }

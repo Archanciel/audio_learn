@@ -1,1 +1,16 @@
-{"SettingType.appTheme":{"SettingType.appTheme":"AppTheme.dark"},"SettingType.language":{"SettingType.language":"Language.english"},"SettingType.playlists":{"Playlists.rootPath":"/storage/emulated/0/Download/audiolear","Playlists.pathLst":"[/EMPTY, /BOOKS, /MUSIC]","Playlists.orderedTitleLst":"[S8 audio, local]","Playlists.isMusicQualityByDefault":"false","Playlists.defaultAudioSort":"AudioSortCriterion.audioDownloadDateTime"}}
+{
+    "SettingType.appTheme": {
+        "SettingType.appTheme": "AppTheme.dark"
+    },
+    "SettingType.language": {
+        "SettingType.language": "Language.english"
+    },
+    "SettingType.playlists": {
+        "Playlists.defaultAudioSort": "AudioSortCriterion.audioDownloadDateTime",
+        "Playlists.isMusicQualityByDefault": "false",
+        "Playlists.orderedTitleLst": "[S8 audio, local]",
+        "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",
+		"Playlists.playSpeed": "1.25",
+        "Playlists.rootPath": "/storage/emulated/0/Download/audiolear"
+    }
+}

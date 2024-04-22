@@ -17,6 +17,7 @@ class MockAudioDownloadVM extends AudioDownloadVM {
 
   MockAudioDownloadVM({
     required super.warningMessageVM,
+    required super.settingsDataService,
     super.isTest,
   });
 

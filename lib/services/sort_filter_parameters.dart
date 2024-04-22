@@ -128,7 +128,8 @@ class AudioSortFilterParameters {
     ),
     SortingOption.audioRemainingDuration: SortCriteria<Audio>(
       selectorFunction: (Audio audio) {
-        return audio.audioDuration!.inMilliseconds - audio.audioPositionSeconds * 1000;
+        return audio.audioDuration!.inMilliseconds -
+            audio.audioPositionSeconds * 1000;
       },
       sortOrder: sortAscending,
     ),
@@ -140,7 +141,7 @@ class AudioSortFilterParameters {
     ),
     SortingOption.audioMusicQuality: SortCriteria<Audio>(
       selectorFunction: (Audio audio) {
-        return audio.isMusicQuality ? 1 : 0;
+        return audio.isAudioMusicQuality ? 1 : 0;
       },
       sortOrder: sortAscending,
     ),

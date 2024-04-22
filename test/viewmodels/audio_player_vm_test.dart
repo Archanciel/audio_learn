@@ -1556,7 +1556,8 @@ Future<AudioPlayerVM> createAudioPlayerVM() async {
   final WarningMessageVM warningMessageVM = WarningMessageVM();
   final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
     warningMessageVM: warningMessageVM,
-    isTest: true,
+         settingsDataService: SettingsDataService(isTest: true),
+   isTest: true,
   );
   final PlaylistListVM playlistListVM = PlaylistListVM(
     warningMessageVM: warningMessageVM,

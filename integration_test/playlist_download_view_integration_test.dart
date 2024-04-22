@@ -71,12 +71,14 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
       mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 
@@ -318,12 +320,14 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
       mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 
@@ -562,12 +566,14 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
       mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 
@@ -1010,12 +1016,14 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
       mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 
@@ -1447,11 +1455,13 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
       mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        settingsDataService: settingsDataService,
         warningMessageVM: warningMessageVM,
         isTest: true,
       );
@@ -1613,11 +1623,13 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
       mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
+        settingsDataService: settingsDataService,
         warningMessageVM: warningMessageVM,
         isTest: true,
       );
@@ -1749,12 +1761,14 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
       mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 
@@ -1892,12 +1906,14 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
       mockAudioDownloadVM.youtubePlaylistTitle = youtubeNewPlaylistTitle;
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 
@@ -2030,8 +2046,9 @@ void main() {
 
     setUp(() {
       mockYoutubeExplode = CustomMockYoutubeExplode();
-      singleVideoAudioDownloadVM =
-          SingleVideoAudioDownloadVM(youtubeExplode: mockYoutubeExplode);
+      singleVideoAudioDownloadVM = SingleVideoAudioDownloadVM(
+          youtubeExplode: mockYoutubeExplode,
+          settingsDataService: SettingsDataService(isTest: true));
     });
 
     test('Test download failure when the Youtube service returns an error',
@@ -2093,6 +2110,7 @@ void main() {
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 

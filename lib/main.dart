@@ -137,6 +137,7 @@ class MainApp extends StatelessWidget with ScreenMixin {
     WarningMessageVM warningMessageVM = WarningMessageVM();
     AudioDownloadVM audioDownloadVM = AudioDownloadVM(
       warningMessageVM: warningMessageVM,
+      settingsDataService: _settingsDataService,
       isTest: _isTest,
     );
     PlaylistListVM expandablePlaylistListVM = PlaylistListVM(

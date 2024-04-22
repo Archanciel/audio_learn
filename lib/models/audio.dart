@@ -101,14 +101,14 @@ class Audio {
   // position will be reduced by 30 seconds.
   DateTime? audioPausedDateTime;
 
-  double audioPlaySpeed = kAudioDefaultPlaySpeed;
+  double audioPlaySpeed;
   double audioPlayVolume = kAudioDefaultPlayVolume;
 
   bool isAudioMusicQuality = false;
-  bool get isMusicQuality => isAudioMusicQuality;
-  set isMusicQuality(bool isMusicQuality) {
-    isAudioMusicQuality = isMusicQuality;
-    audioPlaySpeed = (isMusicQuality) ? 1.0 : kAudioDefaultPlaySpeed;
+
+  void setAudioToMusicQuality() {
+    isAudioMusicQuality = true;
+    audioPlaySpeed = 1.0;
   }
 
   Audio({
@@ -120,6 +120,7 @@ class Audio {
     this.audioDownloadDuration,
     required this.videoUploadDate,
     this.audioDuration,
+    required this.audioPlaySpeed,
   })  : validVideoTitle = createValidVideoTitle(originalVideoTitle),
         audioFileName =
             '${buildDownloadDatePrefix(audioDownloadDateTime)}${createValidVideoTitle(originalVideoTitle)} ${buildUploadDateSuffix(videoUploadDate)}.mp3';
@@ -282,7 +283,7 @@ class Audio {
   bool isPartiallyListened() {
     return (audioPositionSeconds > 0) && !wasFullyListened();
   }
-  
+
   static String buildDownloadDatePrefix(DateTime downloadDate) {
     String formattedDateStr = (kAudioFileNamePrefixIncludeTime)
         ? downloadDateTimePrefixFormatter.format(downloadDate)

@@ -2397,6 +2397,7 @@ void main() {
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 
@@ -3112,6 +3113,7 @@ void main() {
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 
@@ -3322,6 +3324,7 @@ void main() {
 
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 

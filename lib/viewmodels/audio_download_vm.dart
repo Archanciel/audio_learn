@@ -1,3 +1,4 @@
+import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -67,6 +68,8 @@ class AudioDownloadVM extends ChangeNotifier {
 
   final WarningMessageVM warningMessageVM;
 
+  final SettingsDataService settingsDataService;
+
   /// Passing true for {isTest} has the effect that the windows
   /// test directory is used as playlist root directory. This
   /// directory is located in the test directory of the project.
@@ -76,6 +79,7 @@ class AudioDownloadVM extends ChangeNotifier {
   /// is used to load the playlist json file.
   AudioDownloadVM({
     required this.warningMessageVM,
+    required this.settingsDataService,
     bool isTest = false,
   }) {
     _playlistsHomePath = DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
@@ -116,9 +120,6 @@ class AudioDownloadVM extends ChangeNotifier {
       );
 
       notifyListeners();
-
-      print(
-          '+++++++++++++++++++Error in AudioDownloadVM.loadExistingPlaylists(): $e');
     }
 
 //    notifyListeners(); not necessary since the unique
@@ -443,6 +444,10 @@ class AudioDownloadVM extends ChangeNotifier {
         audioDownloadDateTime: DateTime.now(),
         videoUploadDate: videoUploadDate,
         audioDuration: audioDuration!,
+        audioPlaySpeed: settingsDataService.get(
+          settingType: SettingType.playlists,
+          settingSubType: Playlists.playSpeed,
+        ),
       );
 
       try {
@@ -692,6 +697,10 @@ class AudioDownloadVM extends ChangeNotifier {
       audioDownloadDateTime: DateTime.now(),
       videoUploadDate: videoUploadDate,
       audioDuration: audioDuration!,
+      audioPlaySpeed: settingsDataService.get(
+        settingType: SettingType.playlists,
+        settingSubType: Playlists.playSpeed,
+      ),
     );
 
     final List<String> downloadedAudioFileNameLst = DirUtil.listFileNamesInDir(
@@ -1153,7 +1162,10 @@ class AudioDownloadVM extends ChangeNotifier {
       audioStreamInfo = streamManifest.audioOnly.first;
     }
 
-    audio.isMusicQuality = _isHighQuality;
+    if (_isHighQuality) {
+      audio.setAudioToMusicQuality;
+    }
+
     final int audioFileSize = audioStreamInfo.size.totalBytes;
     audio.audioFileSize = audioFileSize;
 
@@ -1250,8 +1262,8 @@ class AudioDownloadVM extends ChangeNotifier {
 void main() {
   WarningMessageVM warningMessageVM = WarningMessageVM();
   AudioDownloadVM audioDownloadVM = AudioDownloadVM(
-    warningMessageVM: warningMessageVM,
-  );
+      warningMessageVM: warningMessageVM,
+      settingsDataService: SettingsDataService());
 
   String videoDescription = '''Ma chaîne YouTube principale
   https://www.youtube.com/@LeFuturologue

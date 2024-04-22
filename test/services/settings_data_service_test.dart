@@ -14,7 +14,6 @@ void main() {
       '$kDownloadAppTestDirWindows\\audio_learn_test_settings';
 
   group('Settings', () {
-
     test('Test initial, modified, saved and loaded values', () async {
       final Directory directory = Directory(testSettingsDir);
 
@@ -23,7 +22,7 @@ void main() {
       }
 
       SettingsDataService settings = SettingsDataService(isTest: true);
-      settings.addOrReplaceAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Default',
         audioSortFilterParameters:
             AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
@@ -69,11 +68,16 @@ void main() {
       expect(
           settings.get(
               settingType: SettingType.playlists,
+              settingSubType: Playlists.playSpeed),
+          kAudioDefaultPlaySpeed);
+      expect(
+          settings.get(
+              settingType: SettingType.playlists,
               settingSubType: Playlists.defaultAudioSort),
           AudioSortCriterion.audioDownloadDateTime);
 
       AudioSortFilterParameters defaultAudioSortFilterParameters =
-          settings.audioSortFilterParametersMap['Default']!;
+          settings.namedAudioSortFilterParametersMap['Default']!;
 
       expect(
           defaultAudioSortFilterParameters ==
@@ -111,6 +115,10 @@ void main() {
           settingType: SettingType.playlists,
           settingSubType: Playlists.isMusicQualityByDefault,
           value: true);
+      settings.set(
+          settingType: SettingType.playlists,
+          settingSubType: Playlists.playSpeed,
+          value: 1.1);
       settings.set(
           settingType: SettingType.playlists,
           settingSubType: Playlists.defaultAudioSort,
@@ -155,11 +163,16 @@ void main() {
       expect(
           loadedSettings.get(
               settingType: SettingType.playlists,
+              settingSubType: Playlists.playSpeed),
+          1.1);
+      expect(
+          loadedSettings.get(
+              settingType: SettingType.playlists,
               settingSubType: Playlists.defaultAudioSort),
           AudioSortCriterion.validVideoTitle);
 
       AudioSortFilterParameters loadedDefaultAudioSortFilterParameters =
-          loadedSettings.audioSortFilterParametersMap['Default']!;
+          loadedSettings.namedAudioSortFilterParametersMap['Default']!;
       expect(
           loadedDefaultAudioSortFilterParameters ==
               AudioSortFilterParameters
@@ -187,7 +200,9 @@ void main() {
         directory.deleteSync(recursive: true);
       }
     });
-    test('Test initial, modified, saved and loaded values with 2 AudioSortFilterParameters in collections', () async {
+    test(
+        'Test initial, modified, saved and loaded values with 2 AudioSortFilterParameters in collections',
+        () async {
       final Directory directory = Directory(testSettingsDir);
 
       if (directory.existsSync()) {
@@ -195,17 +210,17 @@ void main() {
       }
 
       SettingsDataService settings = SettingsDataService(isTest: true);
-      settings.addOrReplaceAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Default',
         audioSortFilterParameters:
             AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
       );
-      AudioSortFilterParameters audioSortFilterParametersJancovici = AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
+      AudioSortFilterParameters audioSortFilterParametersJancovici =
+          AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
       audioSortFilterParametersJancovici.filterSentenceLst.add("Jancovici");
-      settings.addOrReplaceAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Jancovici',
-        audioSortFilterParameters:
-            audioSortFilterParametersJancovici,
+        audioSortFilterParameters: audioSortFilterParametersJancovici,
       );
       AudioSortFilterParameters historicalAudioSortFilterParameters =
           AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
@@ -240,7 +255,7 @@ void main() {
       // Check loaded values
 
       AudioSortFilterParameters loadedDefaultAudioSortFilterParameters =
-          loadedSettings.audioSortFilterParametersMap['Default']!;
+          loadedSettings.namedAudioSortFilterParametersMap['Default']!;
       expect(
           loadedDefaultAudioSortFilterParameters ==
               AudioSortFilterParameters
@@ -248,15 +263,17 @@ void main() {
           true);
 
       AudioSortFilterParameters loadedJancoAudioSortFilterParameters =
-          loadedSettings.audioSortFilterParametersMap['Jancovici']!;
+          loadedSettings.namedAudioSortFilterParametersMap['Jancovici']!;
       expect(loadedJancoAudioSortFilterParameters,
           audioSortFilterParametersJancovici);
 
       AudioSortFilterParameters loadedFirstHistoricalAudioSortFilterParameters =
           loadedSettings.searchHistoryAudioSortFilterParametersLst[0];
 
-      expect(loadedFirstHistoricalAudioSortFilterParameters ==
-          historicalAudioSortFilterParameters, true);
+      expect(
+          loadedFirstHistoricalAudioSortFilterParameters ==
+              historicalAudioSortFilterParameters,
+          true);
 
       expect(
           loadedFirstHistoricalAudioSortFilterParameters.filterSentenceLst
@@ -268,7 +285,8 @@ void main() {
               )),
           true);
 
-      AudioSortFilterParameters loadedSecondHistoricalAudioSortFilterParameters =
+      AudioSortFilterParameters
+          loadedSecondHistoricalAudioSortFilterParameters =
           loadedSettings.searchHistoryAudioSortFilterParametersLst[1];
 
       expect(loadedSecondHistoricalAudioSortFilterParameters,
@@ -277,7 +295,8 @@ void main() {
       expect(
           loadedSecondHistoricalAudioSortFilterParameters.filterSentenceLst
                   .contains("Jancovici") &&
-              loadedSecondHistoricalAudioSortFilterParameters.selectedSortItemLst
+              loadedSecondHistoricalAudioSortFilterParameters
+                  .selectedSortItemLst
                   .contains(SortingItem(
                 sortingOption: SortingOption.audioDownloadDate,
                 isAscending: false,
@@ -289,7 +308,9 @@ void main() {
         directory.deleteSync(recursive: true);
       }
     });
-    test('Test initial, modified, saved and loaded values with 3 AudioSortFilterParameters in collections', () async {
+    test(
+        'Test initial, modified, saved and loaded values with 3 AudioSortFilterParameters in collections',
+        () async {
       final Directory directory = Directory(testSettingsDir);
 
       if (directory.existsSync()) {
@@ -297,24 +318,24 @@ void main() {
       }
 
       SettingsDataService settings = SettingsDataService(isTest: true);
-      settings.addOrReplaceAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Default',
         audioSortFilterParameters:
             AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
       );
-      AudioSortFilterParameters audioSortFilterParametersJancovici = AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
+      AudioSortFilterParameters audioSortFilterParametersJancovici =
+          AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
       audioSortFilterParametersJancovici.filterSentenceLst.add("Jancovici");
-      settings.addOrReplaceAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Jancovici',
-        audioSortFilterParameters:
-            audioSortFilterParametersJancovici,
+        audioSortFilterParameters: audioSortFilterParametersJancovici,
       );
-      AudioSortFilterParameters audioSortFilterParametersBarrau = AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
+      AudioSortFilterParameters audioSortFilterParametersBarrau =
+          AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
       audioSortFilterParametersBarrau.filterSentenceLst.add("Barrau");
-      settings.addOrReplaceAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Barrau',
-        audioSortFilterParameters:
-            audioSortFilterParametersBarrau,
+        audioSortFilterParameters: audioSortFilterParametersBarrau,
       );
       AudioSortFilterParameters historicalAudioSortFilterParameters =
           AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
@@ -352,7 +373,7 @@ void main() {
       // Check loaded values
 
       AudioSortFilterParameters loadedDefaultAudioSortFilterParameters =
-          loadedSettings.audioSortFilterParametersMap['Default']!;
+          loadedSettings.namedAudioSortFilterParametersMap['Default']!;
       expect(
           loadedDefaultAudioSortFilterParameters ==
               AudioSortFilterParameters
@@ -360,20 +381,22 @@ void main() {
           true);
 
       AudioSortFilterParameters loadedJancoAudioSortFilterParameters =
-          loadedSettings.audioSortFilterParametersMap['Jancovici']!;
+          loadedSettings.namedAudioSortFilterParametersMap['Jancovici']!;
       expect(loadedJancoAudioSortFilterParameters,
           audioSortFilterParametersJancovici);
 
       loadedJancoAudioSortFilterParameters =
-          loadedSettings.audioSortFilterParametersMap['Barrau']!;
+          loadedSettings.namedAudioSortFilterParametersMap['Barrau']!;
       expect(loadedJancoAudioSortFilterParameters,
           audioSortFilterParametersBarrau);
 
       AudioSortFilterParameters loadedFirstHistoricalAudioSortFilterParameters =
           loadedSettings.searchHistoryAudioSortFilterParametersLst[0];
 
-      expect(loadedFirstHistoricalAudioSortFilterParameters ==
-          historicalAudioSortFilterParameters, true);
+      expect(
+          loadedFirstHistoricalAudioSortFilterParameters ==
+              historicalAudioSortFilterParameters,
+          true);
 
       expect(
           loadedFirstHistoricalAudioSortFilterParameters.filterSentenceLst
@@ -385,7 +408,8 @@ void main() {
               )),
           true);
 
-      AudioSortFilterParameters loadedSecondHistoricalAudioSortFilterParameters =
+      AudioSortFilterParameters
+          loadedSecondHistoricalAudioSortFilterParameters =
           loadedSettings.searchHistoryAudioSortFilterParametersLst[1];
 
       expect(loadedSecondHistoricalAudioSortFilterParameters,
@@ -394,7 +418,8 @@ void main() {
       expect(
           loadedSecondHistoricalAudioSortFilterParameters.filterSentenceLst
                   .contains("Jancovici") &&
-              loadedSecondHistoricalAudioSortFilterParameters.selectedSortItemLst
+              loadedSecondHistoricalAudioSortFilterParameters
+                  .selectedSortItemLst
                   .contains(SortingItem(
                 sortingOption: SortingOption.audioDownloadDate,
                 isAscending: false,
@@ -422,7 +447,9 @@ void main() {
         directory.deleteSync(recursive: true);
       }
     });
-    test('Test initial, modified, saved and loaded values with empty AudioSortFilterParameters collections', () async {
+    test(
+        'Test initial, modified, saved and loaded values with empty AudioSortFilterParameters collections',
+        () async {
       final Directory directory = Directory(testSettingsDir);
 
       if (directory.existsSync()) {
@@ -449,10 +476,9 @@ void main() {
       // Check loaded values
 
       AudioSortFilterParameters? loadedDefaultAudioSortFilterParameters =
-          loadedSettings.audioSortFilterParametersMap['Default'];
+          loadedSettings.namedAudioSortFilterParametersMap['Default'];
 
-      expect(
-          loadedDefaultAudioSortFilterParameters,null);
+      expect(loadedDefaultAudioSortFilterParameters, null);
 
       expect(loadedSettings.searchHistoryAudioSortFilterParametersLst.isEmpty,
           true);

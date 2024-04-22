@@ -1,4 +1,5 @@
 import 'package:audio_learn/models/playlist.dart';
+import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/viewmodels/single_video_audio_download_vm.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -12,7 +13,8 @@ void main() {
     setUp(() {
       mockYoutubeExplode = CustomMockYoutubeExplode();
       singleVideoAudioDownloadVM =
-          SingleVideoAudioDownloadVM(youtubeExplode: mockYoutubeExplode);
+          SingleVideoAudioDownloadVM(youtubeExplode: mockYoutubeExplode,
+          settingsDataService: SettingsDataService(isTest: true));
     });
 
     test('Test download failure when the Youtube service returns an error',

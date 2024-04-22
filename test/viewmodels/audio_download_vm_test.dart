@@ -1,3 +1,4 @@
+import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:audio_learn/viewmodels/audio_download_vm.dart';
@@ -10,6 +11,7 @@ void main() {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
+        settingsDataService: SettingsDataService(isTest: true),
       );
 
       String videoDescription = '''Ma chaîne YouTube principale

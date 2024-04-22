@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
-    widget.settingsDataService.addOrReplaceAudioSortFilterSettings(
+    widget.settingsDataService.addOrReplaceNamedAudioSortFilterSettings(
       audioSortFilterParametersName:
           AppLocalizations.of(context)!.sortFilterParametersDefaultName,
       audioSortFilterParameters:
@@ -137,7 +137,9 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
     return Scaffold(
       appBar: AppBar(
         title: _appBarTitleWidgetLst[_currentIndex],
-        leading: AppBarLeadingPopupMenuWidget(themeProvider: themeProviderVM),
+        leading: AppBarLeadingPopupMenuWidget(
+            themeProvider: themeProviderVM,
+            settingsDataService: widget.settingsDataService),
         actions: appBarApplicationActionLst,
       ),
       body: Column(

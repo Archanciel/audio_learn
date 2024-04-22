@@ -263,7 +263,7 @@ class AudioSortFilterService {
     List<Audio> speechQualityList = [];
 
     for (Audio audio in audioLst) {
-      if (audio.isMusicQuality) {
+      if (audio.isAudioMusicQuality) {
         musicQualityList.add(audio);
       } else {
         speechQualityList.add(audio);
@@ -437,12 +437,12 @@ class AudioSortFilterService {
     List<Audio> filteredAudios = audioLst;
 
     // If the 'Audio music quality' checkbox is set to true, the
-    // returned audio list is contains only music quality audios.
-    // Otherwise, the returned audio list containsboth music and
+    // returned audio list contains only music quality audios.
+    // Otherwise, the returned audio list contains both music and
     // speech quality audios.
     if (audioSortFilterParameters.filterMusicQuality) {
       filteredAudios = audioLst.where((audio) {
-        return audio.isMusicQuality;
+        return audio.isAudioMusicQuality;
       }).toList();
     }
 
@@ -557,7 +557,7 @@ class AudioSortFilterService {
     required bool isMusicQuality,
   }) {
     return audioLst.where((audio) {
-      return audio.isMusicQuality == isMusicQuality;
+      return audio.setAudioToMusicQuality == isMusicQuality;
     }).toList();
   }
 
