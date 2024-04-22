@@ -299,5 +299,6 @@
   "deleteSortFilterOptionsTooltip": "Si ces options de tri/filtre sont appliquées dans une vue, après leur suppression, les options de tri/filtre par défaut seront appliquées à la place.",
   "deleteShort": "Suppr",
   "sortFilterParametersDefaultName": "défaut",
-  "sortFilterParametersDownloadButtonHint": "Sélec tri/filtre"
+  "sortFilterParametersDownloadButtonHint": "Sélec tri/filtre",
+  "appBarMenuOpenSettingsDialog": "Paramètres de l'application ..."
 }

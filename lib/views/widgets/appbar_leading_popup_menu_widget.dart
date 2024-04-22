@@ -28,10 +28,9 @@ class AppBarLeadingPopupMenuWidget extends StatelessWidget {
       itemBuilder: (BuildContext context) {
         return [
           PopupMenuItem<AppBarPopupMenu>(
-            key: const Key('appBarMenuOption1'),
+            key: const Key('appBarMenuOpenSettingsDialog'),
             value: AppBarPopupMenu.openSettingsDialog,
-            child: Text(AppLocalizations.of(context)!
-                .translate(AppLocalizations.of(context)!.option1)),
+            child: Text(AppLocalizations.of(context)!.appBarMenuOpenSettingsDialog),
           ),
         ];
       },
@@ -39,7 +38,7 @@ class AppBarLeadingPopupMenuWidget extends StatelessWidget {
       onSelected: (AppBarPopupMenu value) {
         switch (value) {
           case AppBarPopupMenu.openSettingsDialog:
-            print('option1');
+            print('appBarMenuOpenSettingsDialog');
             break;
           default:
             break;

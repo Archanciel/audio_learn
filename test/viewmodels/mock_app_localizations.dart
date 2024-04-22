@@ -560,12 +560,6 @@ class MockAppLocalizations extends AppLocalizations {
       'Download audios of selected playlist';
 
   @override
-  String get option1 => 'Option one';
-
-  @override
-  String get option2 => 'Option two';
-
-  @override
   String get audioOneSelectedDialogTitle => 'Select an audio';
 
   @override
@@ -927,4 +921,7 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get allHistoricalSortFilterParametersDeleteConfirmation =>
       "Deleting all historical sort/filter parameters.";
+
+  @override
+  String get appBarMenuOpenSettingsDialog => "Application settings ...";
 }

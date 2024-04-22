@@ -230,8 +230,6 @@
   "stopDownloadingButtonTooltip": "Stop downloading.",
   "playlistToggleButtonTooltip": "Show/hide playlists.",
   "downloadSelPlaylistsButtonTooltip": "Download audios of selected playlist.",
-  "option1": "Option one",
-  "option2": "Option two",
   "audioOneSelectedDialogTitle": "Select an audio",
   "audioPositionLabel": "Audio position",
   "audioStateLabel": "Audio state",
@@ -301,5 +299,6 @@
   "deleteSortFilterOptionsTooltip": "If those sort/filter options are applied in a view, after their deletion, the Default sort/filter options will be applied instead.",
   "deleteShort": "Delete",
   "sortFilterParametersDefaultName": "default",
-  "sortFilterParametersDownloadButtonHint": "Sel sort/filter"
+  "sortFilterParametersDownloadButtonHint": "Sel sort/filter",
+  "appBarMenuOpenSettingsDialog": "Application settings ..."
 }
