@@ -721,23 +721,33 @@ class _SortFilterAudioDialogWidgetState
           child: TextButton(
             key: const Key('deleteSortFilterTextButton'),
             onPressed: () {
-              _updateWidgerAudioSortFilterParameters();
+              _updateWidgetAudioSortFilterParameters();
 
               if (widget.audioSortFilterParameters ==
                   AudioSortFilterParameters
                       .createDefaultAudioSortFilterParameters()) {
+                // here, the user clicks on the Delete button without
+                // having modified the sort/filter parameters. In this case,
+                // the Default sort/filter parameters are not deleted.
                 widget.warningMessageVM.noSortFilterParameterWasModified();
+
                 // does not close the sort and filter dialog
                 return;
               } else if (_sortFilterSaveAsUniqueName.isEmpty) {
+                // here, the user deletes an historical sort/filter parameter
                 if (!playlistListVM
                     .clearAudioSortFilterSettingsSearchHistoryElement(
                         widget.audioSortFilterParameters)) {
+                  // here, the sort/filter parameter to delete was not present
+                  // in the historical sort/filter parameters list
                   widget.warningMessageVM
                       .deletedHistoricalSortFilterParameterNotExist();
+
                   // does not close the sort and filter dialog
                   return;
                 } else {
+                  // here, the sort/filter parameter was present in the
+                  // historical sort/filter parameters list and was deleted
                   ButtonStateManager buttonStateManager = ButtonStateManager(
                     minValue: 0,
                     maxValue: _historicalAudioSortFilterParametersLst.length
@@ -748,10 +758,18 @@ class _SortFilterAudioDialogWidgetState
                   _manageButtonsState(buttonStateManager);
                   widget.warningMessageVM
                       .historicalSortFilterParameterWasDeleted();
+
+                  // removing the deleted sort/filter parameters from the
+                  // sort/filter dialog
+                  setState(() {
+                    _resetSortFilterOptions();
+                  });
+
                   // does not close the sort and filter dialog
                   return;
                 }
               } else {
+                // here, the user deletes a saved sort/filter parameter
                 playlistListVM.deleteAudioSortFilterParameters(
                   audioSortFilterParametersName: _sortFilterSaveAsUniqueName,
                 );
@@ -1704,7 +1722,7 @@ class _SortFilterAudioDialogWidgetState
   List<dynamic> _filterAndSortAudioLst({
     String sortFilterParametersSaveAsUniqueName = '',
   }) {
-    _updateWidgerAudioSortFilterParameters();
+    _updateWidgetAudioSortFilterParameters();
 
     List<Audio> filteredAndSortedAudioLst =
         _audioSortFilterService.filterAndSortAudioLst(
@@ -1719,7 +1737,7 @@ class _SortFilterAudioDialogWidgetState
     ];
   }
 
-  void _updateWidgerAudioSortFilterParameters() {
+  void _updateWidgetAudioSortFilterParameters() {
     widget.audioSortFilterParameters = AudioSortFilterParameters(
       selectedSortItemLst: _selectedSortingItemLst,
       filterSentenceLst: _audioTitleFilterSentencesLst,
