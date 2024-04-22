@@ -20,7 +20,7 @@ import 'package:audio_learn/viewmodels/language_provider_vm.dart';
 import 'package:audio_learn/viewmodels/theme_provider_vm.dart';
 import 'package:audio_learn/viewmodels/warning_message_vm.dart';
 import 'package:audio_learn/views/playlist_download_view.dart';
-import 'package:audio_learn/views/widgets/display_message_widget.dart';
+import 'package:audio_learn/views/widgets/display_warning_message_widget.dart';
 import 'package:audio_learn/views/widgets/playlist_list_item_widget.dart';
 import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:audio_learn/utils/dir_util.dart';
@@ -156,7 +156,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       Text warningDialogTitle =
@@ -403,7 +403,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       Text warningDialogTitle =
@@ -510,7 +510,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       warningDialogTitle =
@@ -734,7 +734,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       Text warningDialogTitle =
@@ -967,7 +967,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       Text warningDialogTitle =
@@ -1103,7 +1103,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       Text warningDialogTitle =
@@ -1700,7 +1700,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       Text warningDialogTitle =
@@ -1826,7 +1826,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       Text warningDialogTitle =
@@ -1996,7 +1996,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       Text warningDialogTitle =
@@ -2263,7 +2263,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       Text warningDialogTitle =
@@ -2373,7 +2373,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog message
       Text warningDialogMessage =
@@ -7001,7 +7001,7 @@ void main() {
       await tester.pumpAndSettle(); // Wait for tap action to complete
 
       // Ensure the warning dialog is shown
-      expect(find.byType(DisplayMessageWidget), findsOneWidget);
+      expect(find.byType(DisplayWarningMessageWidget), findsOneWidget);
 
       // Check the value of the warning dialog title
       Text warningDialogTitle =
@@ -9403,7 +9403,7 @@ void main() {
       // Click on the confirm button to execute deletion
       await tester.tap(find.byKey(const Key('confirmButtonKey')));
       await tester.pumpAndSettle();
-      
+
       // Verify that the left sort history icon button is now disabled
       TestUtility.verifyWidgetIsDisabled(
         tester: tester,

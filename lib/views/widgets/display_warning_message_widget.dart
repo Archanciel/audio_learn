@@ -23,12 +23,12 @@ enum WarningMode {
 /// The warning messages are displayed as a dialog whose content
 /// depends on the type of the warning message set to the
 /// WarningMessageVM.
-class DisplayMessageWidget extends StatelessWidget with ScreenMixin {
+class DisplayWarningMessageWidget extends StatelessWidget with ScreenMixin {
   final BuildContext _context;
   final WarningMessageVM _warningMessageVM;
   final TextEditingController? _playlistUrlController;
 
-  DisplayMessageWidget({
+  DisplayWarningMessageWidget({
     required BuildContext parentContext,
     required WarningMessageVM warningMessageVM,
     TextEditingController? urlController,

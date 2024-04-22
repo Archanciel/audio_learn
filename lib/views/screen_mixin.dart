@@ -10,7 +10,7 @@ import '../utils/dir_util.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/theme_provider_vm.dart';
 import '../viewmodels/warning_message_vm.dart';
-import 'widgets/display_message_widget.dart';
+import 'widgets/display_warning_message_widget.dart';
 
 enum MultipleIconType {
   iconOne,
@@ -484,7 +484,7 @@ mixin ScreenMixin {
         // warningMessageVM calls notifyListners(), which
         // happens when an other view model sets a warning
         // message on the warningMessageVM
-        return DisplayMessageWidget(
+        return DisplayWarningMessageWidget(
           warningMessageVM: warningMessageVM,
           parentContext: context,
           urlController: urlController, // required only for 2 warning types ...

@@ -21,7 +21,7 @@ import 'widgets/add_playlist_dialog_widget.dart';
 import 'widgets/audio_learn_snackbar.dart';
 import 'widgets/audio_list_item_widget.dart';
 import 'widgets/confirm_action_dialog_widget.dart';
-import 'widgets/display_message_widget.dart';
+import 'widgets/display_warning_message_widget.dart';
 import 'widgets/playlist_list_item_widget.dart';
 import 'widgets/playlist_one_selectable_dialog_widget.dart';
 import 'widgets/sort_filter_audio_dialog_widget.dart';
