@@ -133,7 +133,7 @@
   },
   "copyYoutubeVideoUrl": "Copy Youtube video URL",
   "displayAudioInfo": "Display audio data",
-  "renameAudioFile": "Rename audio file",
+  "renameAudioFile": "Rename audio file ...",
   "moveAudioToPlaylist": "Move audio to playlist ...",
   "copyAudioToPlaylist": "Copy audio to playlist ...",
   "audioInfoDialogTitle": "Audio Info",
