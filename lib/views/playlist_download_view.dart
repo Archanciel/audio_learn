@@ -21,12 +21,13 @@ import 'widgets/add_playlist_dialog_widget.dart';
 import 'widgets/audio_learn_snackbar.dart';
 import 'widgets/audio_list_item_widget.dart';
 import 'widgets/confirm_action_dialog_widget.dart';
-import 'widgets/display_warning_message_widget.dart';
 import 'widgets/playlist_list_item_widget.dart';
 import 'widgets/playlist_one_selectable_dialog_widget.dart';
 import 'widgets/sort_filter_audio_dialog_widget.dart';
 
 class PlaylistDownloadView extends StatefulWidget {
+  final SettingsDataService settingsDataService;
+
   // this instance variable stores the function defined in
   // _MyHomePageState which causes the PageView widget to drag
   // to another screen according to the passed index.
@@ -36,6 +37,7 @@ class PlaylistDownloadView extends StatefulWidget {
 
   const PlaylistDownloadView({
     super.key,
+    required this.settingsDataService,
     required this.onPageChangedFunction,
   });
 
@@ -197,6 +199,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 return Builder(
                   builder: (listTileContext) {
                     return PlaylistListItemWidget(
+                      settingsDataService: widget.settingsDataService,
                       playlist: playlist,
                       index: index,
                     );

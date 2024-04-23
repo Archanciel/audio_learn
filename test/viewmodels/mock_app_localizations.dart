@@ -587,6 +587,9 @@ class MockAppLocalizations extends AppLocalizations {
   String get audioPlaySpeedLabel => 'Play speed';
 
   @override
+  String get playlistAudioPlaySpeedLabel => "Audio play speed";
+
+  @override
   String get audioPlayVolumeLabel => 'Play volume';
 
   @override
@@ -927,4 +930,10 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get appSettingsDialogTitle => "Application Settings";
+
+  @override
+  String get setAudioPlaySpeed => "Set audio play speed ...";
+
+     @override
+  String get applyToAudioAlreadyDownloaded => "Apply to audio already downloaded";
 }

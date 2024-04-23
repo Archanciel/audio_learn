@@ -1237,8 +1237,9 @@ Future<void> _createPlaylistDownloadView({
         localizationsDelegates: [
           MockAppLocalizationsDelegate(),
         ],
-        home: const Scaffold(
+        home: Scaffold(
           body: PlaylistDownloadView(
+            settingsDataService: settingsDataService,
             onPageChangedFunction: changePage,
           ),
         ),

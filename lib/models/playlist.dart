@@ -16,6 +16,11 @@ class Playlist {
   String url;
   PlaylistType playlistType;
   PlaylistQuality playlistQuality;
+
+  // If the audioPlaySpeed is 0, then the audio is played at the
+  // application settings play speed.
+  double audioPlaySpeed = 0;
+
   String downloadPath = '';
   bool isSelected;
 
@@ -64,6 +69,7 @@ class Playlist {
     required this.url,
     required this.playlistType,
     required this.playlistQuality,
+    required this.audioPlaySpeed,
     required this.downloadPath,
     required this.isSelected,
     required this.currentOrPastPlayableAudioIndex,
@@ -88,6 +94,7 @@ class Playlist {
         (e) => e.toString().split('.').last == json['playlistQuality'],
         orElse: () => PlaylistQuality.voice,
       ),
+      audioPlaySpeed: json['audioPlaySpeed'] ?? 0,
       downloadPath: json['downloadPath'],
       isSelected: json['isSelected'],
       currentOrPastPlayableAudioIndex:
@@ -145,6 +152,7 @@ class Playlist {
       'url': url,
       'playlistType': playlistType.toString().split('.').last,
       'playlistQuality': playlistQuality.toString().split('.').last,
+      'audioPlaySpeed': audioPlaySpeed,
       'downloadPath': downloadPath,
       'downloadedAudioLst':
           downloadedAudioLst.map((audio) => audio.toJson()).toList(),
@@ -561,5 +569,13 @@ class Playlist {
     }
 
     return other is Playlist && other.id == id;
+  }
+
+  void setAudioPlaySpeedToAllAudios({
+    required double audioPlaySpeed,
+  }) {
+    for (Audio audio in playableAudioLst) {
+      audio.audioPlaySpeed = audioPlaySpeed;
+    }
   }
 }

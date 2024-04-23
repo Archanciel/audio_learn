@@ -6,10 +6,7 @@ import 'package:provider/provider.dart';
 import '../../viewmodels/audio_player_vm.dart';
 import '../../views/screen_mixin.dart';
 import '../../constants.dart';
-import '../../models/audio.dart';
 import '../../services/settings_data_service.dart';
-import '../../utils/ui_util.dart';
-import '../../viewmodels/audio_download_vm.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 import 'set_audio_speed_dialog_widget.dart';
 
@@ -198,7 +195,7 @@ class _ApplicationSettingsDialogWidgetState
                         // value is null if clicking on Cancel or if the dialog
                         // is dismissed by clicking outside the dialog.
 
-                        _audioPlaySpeed = value as double;
+                        _audioPlaySpeed = value[0] as double;
 
                         setState(() {}); // required, otherwise the TextButton
                         // text in the application settings dialog is not

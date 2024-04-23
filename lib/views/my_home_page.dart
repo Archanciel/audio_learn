@@ -95,7 +95,10 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
       );
 
     _screenWidgetLst
-      ..add(PlaylistDownloadView(onPageChangedFunction: changePage))
+      ..add(PlaylistDownloadView(
+        settingsDataService: widget.settingsDataService,
+        onPageChangedFunction: changePage,
+      ))
       ..add(const AudioPlayerView())
       ..add(const AudioExtractorView());
   }

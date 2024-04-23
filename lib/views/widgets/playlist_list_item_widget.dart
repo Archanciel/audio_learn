@@ -4,11 +4,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/playlist.dart';
+import '../../services/json_data_service.dart';
+import '../../services/settings_data_service.dart';
 import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/warning_message_vm.dart';
 import '../screen_mixin.dart';
 import 'confirm_action_dialog_widget.dart';
 import 'playlist_info_dialog_widget.dart';
+import 'set_audio_speed_dialog_widget.dart';
 
 enum PlaylistPopupMenuAction {
   openYoutubePlaylist,
@@ -16,6 +19,7 @@ enum PlaylistPopupMenuAction {
   displayPlaylistInfo,
   updatePlaylistPlayableAudios, // useful if playlist audio files were
   //                               deleted from the app dir
+  setPlaylistAudioPlaySpeed,
   deletePlaylist,
 }
 
@@ -25,10 +29,12 @@ enum PlaylistPopupMenuAction {
 /// created by this class. At right of the playlist title, a
 /// checkbox is displayed to select the playlist.
 class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
+  final SettingsDataService settingsDataService;
   final Playlist playlist;
   final int index;
 
   PlaylistListItemWidget({
+    required this.settingsDataService,
     required this.playlist,
     required this.index,
     super.key,
@@ -88,6 +94,16 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                     ),
                   ),
                   PopupMenuItem<PlaylistPopupMenuAction>(
+                    key: const Key('popup_menu_set_audio_play_speed'),
+                    value: PlaylistPopupMenuAction.setPlaylistAudioPlaySpeed,
+                    child: Tooltip(
+                      message: AppLocalizations.of(context)!
+                          .updatePlaylistPlayableAudioListTooltip,
+                      child:
+                          Text(AppLocalizations.of(context)!.setAudioPlaySpeed),
+                    ),
+                  ),
+                  PopupMenuItem<PlaylistPopupMenuAction>(
                     key: const Key('popup_menu_delete_playlist'),
                     value: PlaylistPopupMenuAction.deletePlaylist,
                     child: Text(AppLocalizations.of(context)!.deletePlaylist),
@@ -112,6 +128,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                         barrierDismissible: true,
                         builder: (BuildContext context) {
                           return PlaylistInfoDialogWidget(
+                            settingsDataService: settingsDataService,
                             playlist: playlist,
                             playlistJsonFileSize: expandablePlaylistListVM
                                 .getPlaylistJsonFileSize(playlist: playlist),
@@ -138,6 +155,49 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                                 removedPlayableAudioNumber:
                                     removedPlayableAudioNumber);
                       }
+                      break;
+                    case PlaylistPopupMenuAction.setPlaylistAudioPlaySpeed:
+                      // Using FocusNode to enable clicking on Enter to close
+                      // the dialog
+                      final FocusNode focusNode = FocusNode();
+                      showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return SetAudioSpeedDialogWidget(
+                            audioPlaySpeed: (playlist.audioPlaySpeed != 0)
+                                ? playlist.audioPlaySpeed
+                                : settingsDataService.get(
+                                    settingType: SettingType.playlists,
+                                    settingSubType: Playlists.playSpeed,
+                                  ),
+                            displayApplyToAudioAlreadyDownloaded: true,
+                          );
+                        },
+                      ).then((value) {
+                        // not null value is boolean
+                        if (value != null) {
+                          // value is null if clicking on Cancel or if the dialog
+                          // is dismissed by clicking outside the dialog.
+
+                          if (value[1]) {
+                            playlist.setAudioPlaySpeedToAllAudios(
+                              audioPlaySpeed: value[0] as double,
+                            );
+                          } else {
+                            playlist.audioPlaySpeed = value[0] as double;
+                          }
+
+                          JsonDataService.saveToFile(
+                            model: playlist,
+                            path: playlist.getPlaylistDownloadFilePathName(),
+                          );
+                        }
+                      });
+                      // required so that clicking on Enter to close the dialog
+                      // works. This intruction must be located after the
+                      // .then() method of the showDialog() method !
+                      focusNode.requestFocus();
                       break;
                     case PlaylistPopupMenuAction.deletePlaylist:
                       // Using FocusNode to enable clicking on Enter to close

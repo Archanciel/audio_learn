@@ -256,7 +256,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         // value is null if clicking on Cancel or if the dialog
                         // is dismissed by clicking outside the dialog.
 
-                        _audioPlaySpeed = value as double;
+                        _audioPlaySpeed = value[0] as double;
                       }
                     });
                     focusNode.requestFocus();

@@ -12,11 +12,13 @@ import '../../viewmodels/theme_provider_vm.dart';
 import '../screen_mixin.dart';
 
 class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
+  final SettingsDataService settingsDataService;
   final Playlist playlist;
   final int playlistJsonFileSize;
   final FocusNode focusNode;
 
   PlaylistInfoDialogWidget({
+    required this.settingsDataService,
     required this.playlist,
     required this.playlistJsonFileSize,
     required this.focusNode,
@@ -84,6 +86,16 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   value: (playlist.playlistQuality == PlaylistQuality.music)
                       ? AppLocalizations.of(context)!.playlistQualityMusic
                       : AppLocalizations.of(context)!.playlistQualityAudio),
+              createInfoRowFunction(
+                context: context,
+                label: AppLocalizations.of(context)!.playlistAudioPlaySpeedLabel,
+                value: (playlist.audioPlaySpeed != 0)
+                    ? playlist.audioPlaySpeed.toString()
+                    : settingsDataService.get(
+                        settingType: SettingType.playlists,
+                        settingSubType: Playlists.playSpeed,
+                      ).toString(),
+              ),
               createInfoRowFunction(
                   context: context,
                   label: AppLocalizations.of(context)!.playlistIsSelectedLabel,

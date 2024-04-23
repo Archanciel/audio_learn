@@ -241,6 +241,7 @@
   "audioStateNotStarted": "Non démarré",
   "audioPausedDateTimeLabel": "Date/heure mise en pause",
   "audioPlaySpeedLabel": "Vitesse lecture",
+  "playlistAudioPlaySpeedLabel": "Vitesse de lecture",
   "audioPlayVolumeLabel": "Volume sonore",
   "audioCopiedFromLocalPlaylistToLocalPlaylist": "Audio \"{audioTitle}\" copié de la playlist locale \"{fromPlaylistTitle}\" vers la playlist locale \"{toPlaylistTitle}\".",
   "audioCopiedFromLocalPlaylistToYoutubePlaylist": "Audio \"{audioTitle}\" copié de la playlist locale \"{fromPlaylistTitle}\" vers la playlist Youtube \"{toPlaylistTitle}\".",
@@ -301,5 +302,7 @@
   "sortFilterParametersDefaultName": "défaut",
   "sortFilterParametersDownloadButtonHint": "Sélec tri/filtre",
   "appBarMenuOpenSettingsDialog": "Paramètres de l'application ...",
-  "appSettingsDialogTitle": "Paramètres de l'application"
+  "appSettingsDialogTitle": "Paramètres de l'application",
+  "setAudioPlaySpeed": "Définir la vitesse de lecture ...",
+  "applyToAudioAlreadyDownloaded": "Appliquer aux audios déjà téléchargés"
 }

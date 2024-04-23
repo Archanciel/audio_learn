@@ -8,13 +8,17 @@ import '../../models/audio.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/audio_player_vm.dart';
 import '../../viewmodels/theme_provider_vm.dart';
+import '../../views/screen_mixin.dart';
 
 class SetAudioSpeedDialogWidget extends StatefulWidget {
   double audioPlaySpeed;
 
+  bool displayApplyToAudioAlreadyDownloaded;
+
   SetAudioSpeedDialogWidget({
     super.key,
     required this.audioPlaySpeed,
+    this.displayApplyToAudioAlreadyDownloaded = false,
   });
 
   @override
@@ -22,8 +26,10 @@ class SetAudioSpeedDialogWidget extends StatefulWidget {
       _SetAudioSpeedDialogWidgetState();
 }
 
-class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
+class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
+    with ScreenMixin {
   double _audioPlaySpeed = 1.0;
+  bool _applyToAudioAlreadyDownloaded = false;
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -85,6 +91,9 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
                     : kTextButtonStyleLightMode),
             _buildSlider(audioGlobalPlayerVM),
             _buildSpeedButtons(audioGlobalPlayerVM, themeProviderVM),
+            (widget.displayApplyToAudioAlreadyDownloaded)
+                ? _buildApplyToAudioAlreadyDownloadedRow(context)
+                : Container(),
           ],
         ),
         actions: <Widget>[
@@ -97,7 +106,10 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
                   : kTextButtonStyleLightMode,
             ),
             onPressed: () {
-              Navigator.of(context).pop(_audioPlaySpeed);
+              Navigator.of(context).pop([
+                _audioPlaySpeed,
+                _applyToAudioAlreadyDownloaded,
+              ]);
             },
           ),
           TextButton(
@@ -123,6 +135,26 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildApplyToAudioAlreadyDownloadedRow(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 20,
+        ),
+        createCheckboxRowFunction(
+          context: context,
+          label: AppLocalizations.of(context)!.applyToAudioAlreadyDownloaded,
+          value: _applyToAudioAlreadyDownloaded,
+          onChanged: (bool? value) {
+            setState(() {
+              _applyToAudioAlreadyDownloaded = value ?? false;
+            });
+          },
+        ),
+      ],
     );
   }
 

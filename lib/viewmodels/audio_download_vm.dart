@@ -444,10 +444,7 @@ class AudioDownloadVM extends ChangeNotifier {
         audioDownloadDateTime: DateTime.now(),
         videoUploadDate: videoUploadDate,
         audioDuration: audioDuration!,
-        audioPlaySpeed: settingsDataService.get(
-          settingType: SettingType.playlists,
-          settingSubType: Playlists.playSpeed,
-        ),
+        audioPlaySpeed: _getAudioPlaySpeed(currentPlaylist),
       );
 
       try {
@@ -697,10 +694,7 @@ class AudioDownloadVM extends ChangeNotifier {
       audioDownloadDateTime: DateTime.now(),
       videoUploadDate: videoUploadDate,
       audioDuration: audioDuration!,
-      audioPlaySpeed: settingsDataService.get(
-        settingType: SettingType.playlists,
-        settingSubType: Playlists.playSpeed,
-      ),
+      audioPlaySpeed: _getAudioPlaySpeed(singleVideoTargetPlaylist),
     );
 
     final List<String> downloadedAudioFileNameLst = DirUtil.listFileNamesInDir(
@@ -768,6 +762,15 @@ class AudioDownloadVM extends ChangeNotifier {
     notifyListeners();
 
     return true;
+  }
+
+  double _getAudioPlaySpeed(Playlist currentPlaylist) {
+    return (currentPlaylist.audioPlaySpeed != 0)
+        ? currentPlaylist.audioPlaySpeed
+        : settingsDataService.get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.playSpeed,
+          );
   }
 
   /// This method verifies if the user selected a single playlist

@@ -9582,8 +9582,9 @@ Future<void> _launchExpandablePlaylistListView({
         // forcing dark theme
         theme: ScreenMixin.themeDataDark,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: const Scaffold(
+        home: Scaffold(
           body: PlaylistDownloadView(
+            settingsDataService: settingsDataService,
             onPageChangedFunction: changePage,
           ),
         ),
