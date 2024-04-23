@@ -172,6 +172,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                                         settingSubType: Playlists.playSpeed) ??
                                     1.0,
                             displayApplyToAudioAlreadyDownloaded: true,
+                            updateCurrentPlayAudioSpeed: false,
                           );
                         },
                       ).then((value) {

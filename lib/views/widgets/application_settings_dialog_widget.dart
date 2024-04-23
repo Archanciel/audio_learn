@@ -148,11 +148,8 @@ class _ApplicationSettingsDialogWidgetState
   Widget _buildSetAudioSpeedTextButton(
     BuildContext context,
   ) {
-    return Consumer2<ThemeProviderVM, AudioPlayerVM>(
-      builder: (context, themeProviderVM, globalAudioPlayerVM, child) {
-        _audioPlaySpeed =
-            globalAudioPlayerVM.currentAudio?.audioPlaySpeed ?? _audioPlaySpeed;
-
+    return Consumer<ThemeProviderVM>(
+      builder: (context, themeProviderVM, child) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -186,6 +183,7 @@ class _ApplicationSettingsDialogWidgetState
                       builder: (BuildContext context) {
                         return SetAudioSpeedDialogWidget(
                           audioPlaySpeed: _audioPlaySpeed,
+                          updateCurrentPlayAudioSpeed: false,
                         );
                       },
                     ).then((value) {

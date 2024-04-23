@@ -15,10 +15,13 @@ class SetAudioSpeedDialogWidget extends StatefulWidget {
 
   bool displayApplyToAudioAlreadyDownloaded;
 
+  bool updateCurrentPlayAudioSpeed;
+
   SetAudioSpeedDialogWidget({
     super.key,
     required this.audioPlaySpeed,
     this.displayApplyToAudioAlreadyDownloaded = false,
+    this.updateCurrentPlayAudioSpeed = true,
   });
 
   @override
@@ -60,10 +63,15 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
       context,
       listen: false,
     );
-    Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
 
-    if (currentAudio != null) {
-      _audioPlaySpeed = currentAudio.audioPlaySpeed;
+    if (widget.updateCurrentPlayAudioSpeed) {
+      // Here, using the set audio speed dialog in the audio player
+      // view
+      Audio? currentAudio = audioGlobalPlayerVM.currentAudio;
+
+      if (currentAudio != null) {
+        _audioPlaySpeed = currentAudio.audioPlaySpeed;
+      }
     }
 
     return KeyboardListener(
@@ -246,6 +254,11 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
       _audioPlaySpeed = newValue;
     });
 
-    audioGlobalPlayerVM.changeAudioPlaySpeed(_audioPlaySpeed);
+    if (widget.updateCurrentPlayAudioSpeed) {
+      // Here, using the set audio speed dialog in the audio player
+      // view
+
+      audioGlobalPlayerVM.changeAudioPlaySpeed(_audioPlaySpeed);
+    }
   }
 }
