@@ -304,5 +304,5 @@
   "appBarMenuOpenSettingsDialog": "Application settings ...",
   "appSettingsDialogTitle": "Application Settings",
   "setAudioPlaySpeed": "Set audio play speed ...",
-  "applyToAudioAlreadyDownloaded": "Apply to audio already downloaded"
+  "applyToAudioAlreadyDownloaded": "Apply to audio already\ndownloaded"
 }
