@@ -47,6 +47,7 @@ class AppBarLeadingPopupMenuWidget extends StatelessWidget {
                     barrierDismissible: true,
                     builder: (BuildContext context) {
                       return ApplicationSettingsDialogWidget(
+                        settingsDataService: settingsDataService,
                         focusNode: focusNode,
                       );
                     },

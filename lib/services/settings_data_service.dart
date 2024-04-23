@@ -128,6 +128,10 @@ class SettingsDataService {
     _settings[settingType]![settingSubType] = value;
   }
 
+  void saveSettings() {
+    _saveSettings();
+  }
+
   void savePlaylistOrder({
     required List<String> playlistOrder,
   }) {

@@ -14,10 +14,12 @@ import '../../viewmodels/theme_provider_vm.dart';
 import 'set_audio_speed_dialog_widget.dart';
 
 class ApplicationSettingsDialogWidget extends StatefulWidget {
+  final SettingsDataService settingsDataService;
   final FocusNode focusNode;
 
   const ApplicationSettingsDialogWidget({
     required this.focusNode,
+    required this.settingsDataService,
     super.key,
   });
 
@@ -31,20 +33,23 @@ class _ApplicationSettingsDialogWidgetState
   final TextEditingController _audioFileNameTextEditingController =
       TextEditingController();
   final FocusNode _audioFileNameFocusNode = FocusNode();
-  double _audioPlaySpeed = 1.0;
+  late double _audioPlaySpeed;
 
   @override
   void initState() {
     super.initState();
 
+    _audioPlaySpeed = widget.settingsDataService.get(
+        settingType: SettingType.playlists,
+        settingSubType: Playlists.playSpeed);
     // Add this line to request focus on the TextField after the build
     // method has been called
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(
-        _audioFileNameFocusNode,
-      );
-      _audioFileNameTextEditingController.text = '';
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   FocusScope.of(context).requestFocus(
+    //     _audioFileNameFocusNode,
+    //   );
+    //   _audioFileNameTextEditingController.text = '';
+    // });
   }
 
   @override
@@ -66,9 +71,9 @@ class _ApplicationSettingsDialogWidgetState
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
               event.logicalKey == LogicalKeyboardKey.numpadEnter) {
-            // executing the same code as in the 'Rename'
-            // TextButton onPressed callback
-            _renameAudioFile(context);
+            // executing the same code as in the 'Save' TextButton
+            // onPressed callback
+            _savePlaySpeedInSettings(context);
             Navigator.of(context).pop();
           }
         }
@@ -107,25 +112,25 @@ class _ApplicationSettingsDialogWidgetState
         ),
         actions: [
           TextButton(
-            key: const Key('renameAudioFileButton'),
+            key: const Key('saveButton'),
             onPressed: () {
-              _renameAudioFile(context);
+              _savePlaySpeedInSettings(context);
               Navigator.of(context).pop();
             },
             child: Text(
-              AppLocalizations.of(context)!.renameAudioFileButton,
+              AppLocalizations.of(context)!.saveButton,
               style: (themeProviderVM.currentTheme == AppTheme.dark)
                   ? kTextButtonStyleDarkMode
                   : kTextButtonStyleLightMode,
             ),
           ),
           TextButton(
-            key: const Key('renameAudioFileCancelButton'),
+            key: const Key('cancelButton'),
             onPressed: () {
               Navigator.of(context).pop();
             },
             child: Text(
-              AppLocalizations.of(context)!.cancel,
+              AppLocalizations.of(context)!.cancelButton,
               style: (themeProviderVM.currentTheme == AppTheme.dark)
                   ? kTextButtonStyleDarkMode
                   : kTextButtonStyleLightMode,
@@ -136,28 +141,12 @@ class _ApplicationSettingsDialogWidgetState
     );
   }
 
-  void _renameAudioFile(BuildContext context) {
-    String audioFileName = _audioFileNameTextEditingController.text;
-    AudioDownloadVM audioDownloadVM =
-        Provider.of<AudioDownloadVM>(context, listen: false);
-  }
-
-  String formatDownloadSpeed({
-    required BuildContext context,
-    required Audio audio,
-  }) {
-    int audioDownloadSpeed = audio.audioDownloadSpeed;
-    String audioDownloadSpeedStr;
-
-    if (audioDownloadSpeed.isInfinite) {
-      audioDownloadSpeedStr =
-          AppLocalizations.of(context)!.infiniteBytesPerSecond;
-    } else {
-      audioDownloadSpeedStr =
-          '${UiUtil.formatLargeIntValue(context: context, value: audioDownloadSpeed)}/sec';
-    }
-
-    return audioDownloadSpeedStr;
+  void _savePlaySpeedInSettings(BuildContext context) {
+    widget.settingsDataService.set(
+        settingType: SettingType.playlists,
+        settingSubType: Playlists.playSpeed,
+        value: _audioPlaySpeed);
+    widget.settingsDataService.saveSettings();
   }
 
   Widget _buildSetAudioSpeedTextButton(
@@ -210,6 +199,10 @@ class _ApplicationSettingsDialogWidgetState
                         // is dismissed by clicking outside the dialog.
 
                         _audioPlaySpeed = value as double;
+
+                        setState(() {}); // required, otherwise the TextButton
+                        // text in the application settings dialog is not
+                        // updated
                       }
                     });
                     focusNode.requestFocus();
