@@ -924,4 +924,7 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get appBarMenuOpenSettingsDialog => "Application settings ...";
+
+  @override
+  String get appSettingsDialogTitle => "Application Settings";
 }

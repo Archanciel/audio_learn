@@ -300,5 +300,6 @@
   "deleteShort": "Suppr",
   "sortFilterParametersDefaultName": "défaut",
   "sortFilterParametersDownloadButtonHint": "Sélec tri/filtre",
-  "appBarMenuOpenSettingsDialog": "Paramètres de l'application ..."
+  "appBarMenuOpenSettingsDialog": "Paramètres de l'application ...",
+  "appSettingsDialogTitle": "Paramètres de l'application"
 }

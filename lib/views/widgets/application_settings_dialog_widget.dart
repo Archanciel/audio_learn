@@ -72,24 +72,18 @@ class _ApplicationSettingsDialogWidgetState
       },
       child: AlertDialog(
         title: Text(
-          key: const Key('renameAudioFileDialogTitleKey'),
-          AppLocalizations.of(context)!.renameAudioFileDialogTitle,
+          key: const Key('appSettingsDialogTitleKey'),
+          AppLocalizations.of(context)!.appSettingsDialogTitle,
         ),
         actionsPadding: kDialogActionsPadding,
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              createTitleCommentRowFunction(
-                titleTextWidgetKey: const Key('renameAudioFileDialogKey'),
-                context: context,
-                commentStr:
-                    AppLocalizations.of(context)!.renameAudioFileDialogComment,
-              ),
               createEditableRowFunction(
-                  valueTextFieldWidgetKey:
-                      const Key('renameAudioFileDialogTextField'),
+                  valueTextFieldWidgetKey: const Key('playBackSpeedTextField'),
                   context: context,
-                  label: AppLocalizations.of(context)!.renameAudioFileLabel,
+                  label: AppLocalizations.of(context)!
+                      .setAudioPlaySpeedDialogTitle,
                   controller: _audioFileNameTextEditingController,
                   textFieldFocusNode: _audioFileNameFocusNode),
             ],
