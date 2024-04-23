@@ -29,7 +29,6 @@ class _ApplicationSettingsDialogWidgetState
     extends State<ApplicationSettingsDialogWidget> with ScreenMixin {
   final TextEditingController _audioFileNameTextEditingController =
       TextEditingController();
-  final FocusNode _audioFileNameFocusNode = FocusNode();
   late double _audioPlaySpeed;
 
   @override
@@ -38,7 +37,7 @@ class _ApplicationSettingsDialogWidgetState
 
     _audioPlaySpeed = widget.settingsDataService.get(
         settingType: SettingType.playlists,
-        settingSubType: Playlists.playSpeed);
+        settingSubType: Playlists.playSpeed) ?? 1.0;
     // Add this line to request focus on the TextField after the build
     // method has been called
     // WidgetsBinding.instance.addPostFrameCallback((_) {

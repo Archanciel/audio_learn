@@ -168,9 +168,9 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                             audioPlaySpeed: (playlist.audioPlaySpeed != 0)
                                 ? playlist.audioPlaySpeed
                                 : settingsDataService.get(
-                                    settingType: SettingType.playlists,
-                                    settingSubType: Playlists.playSpeed,
-                                  ),
+                                        settingType: SettingType.playlists,
+                                        settingSubType: Playlists.playSpeed) ??
+                                    1.0,
                             displayApplyToAudioAlreadyDownloaded: true,
                           );
                         },
