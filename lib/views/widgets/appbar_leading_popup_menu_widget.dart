@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../viewmodels/theme_provider_vm.dart';
+import 'application_settings_dialog_widget.dart';
 
 enum AppBarPopupMenu {
   openSettingsDialog,
@@ -38,7 +39,22 @@ class AppBarLeadingPopupMenuWidget extends StatelessWidget {
       onSelected: (AppBarPopupMenu value) {
         switch (value) {
           case AppBarPopupMenu.openSettingsDialog:
-            print('appBarMenuOpenSettingsDialog');
+                  // Using FocusNode to enable clicking on Enter to close
+                  // the dialog
+                  final FocusNode focusNode = FocusNode();
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return ApplicationSettingsDialogWidget(
+                        focusNode: focusNode,
+                      );
+                    },
+                  );
+                  // required so that clicking on Enter to close the dialog
+                  // works. This intruction must be located after the
+                  // .then() method of the showDialog() method !
+                  focusNode.requestFocus();
             break;
           default:
             break;
