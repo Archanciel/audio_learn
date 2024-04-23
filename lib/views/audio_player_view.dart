@@ -1,5 +1,3 @@
-import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/viewmodels/theme_provider_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,10 +5,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../constants.dart';
 import '../models/audio.dart';
 import '../services/sort_filter_parameters.dart';
+import '../services/settings_data_service.dart';
 import '../utils/duration_expansion.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/playlist_list_vm.dart';
 import '../viewmodels/warning_message_vm.dart';
+import '../viewmodels/theme_provider_vm.dart';
 import 'screen_mixin.dart';
 import 'widgets/confirm_action_dialog_widget.dart';
 import 'widgets/list_playable_audios_dialog_widget.dart';
@@ -256,9 +256,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         // value is null if clicking on Cancel or if the dialog
                         // is dismissed by clicking outside the dialog.
 
-                        setState(() {
-                          _audioPlaySpeed = value as double;
-                        });
+                        _audioPlaySpeed = value as double;
                       }
                     });
                     focusNode.requestFocus();
