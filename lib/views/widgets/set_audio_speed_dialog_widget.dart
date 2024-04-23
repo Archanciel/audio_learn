@@ -103,7 +103,7 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget> {
           TextButton(
             key: const Key('cancelButtonKey'),
             child: Text(
-              AppLocalizations.of(context)!.cancel,
+              AppLocalizations.of(context)!.cancelButton,
               style: (themeProviderVM.currentTheme == AppTheme.dark)
                   ? kTextButtonStyleDarkMode
                   : kTextButtonStyleLightMode,

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -173,7 +172,7 @@ class _ListPlayableAudiosDialogWidgetState
               Navigator.of(context).pop();
             },
             child: Text(
-              AppLocalizations.of(context)!.cancel,
+              AppLocalizations.of(context)!.cancelButton,
               style: (themeProviderVM.currentTheme == AppTheme.dark)
                   ? kTextButtonStyleDarkMode
                   : kTextButtonStyleLightMode,

@@ -197,7 +197,7 @@ class MockAppLocalizations extends AppLocalizations {
   String get apply => 'Apply';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancelButton => 'Cancel';
 
   @override
   String get deleteAudio => 'Delete audio';

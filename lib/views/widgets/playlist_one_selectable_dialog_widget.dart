@@ -38,13 +38,13 @@ class PlaylistOneSelectableDialogWidget extends StatefulWidget {
 
   final WarningMessageVM warningMessageVM;
 
-    final FocusNode focusNode;
+  final FocusNode focusNode;
 
   const PlaylistOneSelectableDialogWidget({
     super.key,
     required this.usedFor,
     required this.warningMessageVM,
-        required this.focusNode,
+    required this.focusNode,
     this.excludedPlaylist,
     this.isAudioOnlyCheckboxDisplayed = false,
   });
@@ -178,7 +178,7 @@ class _PlaylistOneSelectableDialogWidgetState
               // the user clicked on the cancel button.
               Navigator.of(context).pop("cancel");
             },
-            child: Text(AppLocalizations.of(context)!.cancel,
+            child: Text(AppLocalizations.of(context)!.cancelButton,
                 style: (themeProvider.currentTheme == AppTheme.dark)
                     ? kTextButtonStyleDarkMode
                     : kTextButtonStyleLightMode),

@@ -1130,7 +1130,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                       ),
                       TextButton(
                         key: const Key('cancelButtonKey'),
-                        child: Text(AppLocalizations.of(context)!.cancel,
+                        child: Text(AppLocalizations.of(context)!.cancelButton,
                             style:
                                 (themeProviderVM.currentTheme == AppTheme.dark)
                                     ? kTextButtonStyleDarkMode

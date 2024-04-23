@@ -70,7 +70,7 @@ class _ConfirmActionDialogWidgetState extends State<ConfirmActionDialogWidget>
           TextButton(
             key: const Key('confirmButtonKey'),
             onPressed: () {
-               // Execute the action function with arguments
+              // Execute the action function with arguments
               Function.apply(widget.actionFunction, widget.actionFunctionArgs);
 
               if (widget.warningFunction != null) {
@@ -93,7 +93,7 @@ class _ConfirmActionDialogWidgetState extends State<ConfirmActionDialogWidget>
             key: const Key('cancelButtonKey'),
             onPressed: () => Navigator.of(context).pop(), // Cancel the action
             child: Text(
-              AppLocalizations.of(context)!.cancel,
+              AppLocalizations.of(context)!.cancelButton,
               style: (themeProviderVM.currentTheme == AppTheme.dark)
                   ? kTextButtonStyleDarkMode
                   : kTextButtonStyleLightMode,

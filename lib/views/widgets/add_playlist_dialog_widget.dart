@@ -145,7 +145,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
               Navigator.of(context).pop();
             },
             child: Text(
-              AppLocalizations.of(context)!.cancel,
+              AppLocalizations.of(context)!.cancelButton,
               style: (themeProviderVM.currentTheme == AppTheme.dark)
                   ? kTextButtonStyleDarkMode
                   : kTextButtonStyleLightMode,

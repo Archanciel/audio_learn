@@ -791,7 +791,7 @@ class _SortFilterAudioDialogWidgetState
             Navigator.of(context).pop();
           },
           child: Text(
-            AppLocalizations.of(context)!.cancel,
+            AppLocalizations.of(context)!.cancelButton,
             style: (themeProviderVM.currentTheme == AppTheme.dark)
                 ? kTextButtonStyleDarkMode
                 : kTextButtonStyleLightMode,
