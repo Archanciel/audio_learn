@@ -16,9 +16,9 @@ enum AudioLearnAppViewType {
 
 const String kApplicationName = "Audio Learn";
 const String kApplicationVersion = '0.9.8';
-const String kDownloadAppDir = '/storage/emulated/0/Download/audiolear';
+const String kDownloadAppDir = '/storage/emulated/0/Download/audiolearn';
 const String kDownloadAppTestDir =
-    '/storage/emulated/0/Download/test/audiolear';
+    '/storage/emulated/0/Download/test/audiolearn';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
 //const String kDownloadAppDir = '/storage/9016-4EF8/Audio';

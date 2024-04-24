@@ -45,7 +45,7 @@ class SettingsDataService {
     SettingType.appTheme: {SettingType.appTheme: AppTheme.dark},
     SettingType.language: {SettingType.language: Language.english},
     SettingType.playlists: {
-      Playlists.rootPath: kDownloadAppDir,
+      Playlists.rootPath: '',
       Playlists.pathLst: ["/EMPTY", "/BOOKS", "/MUSIC"],
       Playlists.orderedTitleLst: [],
       Playlists.isMusicQualityByDefault: false,
@@ -179,6 +179,7 @@ class SettingsDataService {
     required String jsonPathFileName,
   }) {
     final File file = File(jsonPathFileName);
+    
     try {
       if (file.existsSync()) {
         // if settings json file not exist, then the default Settings values
@@ -217,6 +218,19 @@ class SettingsDataService {
       // user changes the settings, the settings file will be created
       // and the settings will loaded the next time the app is started.
       print(e.toString());
+    }
+
+    if (get(
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.rootPath)
+        .isEmpty) {
+      // the case if the application is started for the first time and
+      // if the settings were not saved.
+      set(
+        settingType: SettingType.playlists,
+        settingSubType: Playlists.rootPath,
+        value: DirUtil.getPlaylistDownloadHomePath(isTest: _isTest),
+      );
     }
   }
 
@@ -296,7 +310,7 @@ class SettingsDataService {
   void _saveSettings() {
     saveSettingsToFile(
         jsonPathFileName:
-            '${DirUtil.getPlaylistDownloadHomePath(isTest: _isTest)}${Platform.pathSeparator}$kSettingsFileName');
+            "${get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}${Platform.pathSeparator}$kSettingsFileName");
   }
 
   T _parseEnumValue<T>(List<T> enumValues, String stringValue) {

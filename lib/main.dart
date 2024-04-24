@@ -66,7 +66,6 @@ Future<void> main(List<String> args) async {
 
   // If app runs on Windows, Linux or MacOS, set the app size
   // and position
-
   await setWindowsAppSizeAndPosition();
 
   runApp(MainApp(

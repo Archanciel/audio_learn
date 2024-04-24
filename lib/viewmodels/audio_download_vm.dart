@@ -82,7 +82,8 @@ class AudioDownloadVM extends ChangeNotifier {
     required this.settingsDataService,
     bool isTest = false,
   }) {
-    _playlistsHomePath = DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
+    _playlistsHomePath = settingsDataService.get(
+        settingType: SettingType.playlists, settingSubType: Playlists.rootPath);
 
     loadExistingPlaylists();
   }

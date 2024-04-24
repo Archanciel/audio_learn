@@ -451,26 +451,6 @@ mixin ScreenMixin {
     );
   }
 
-  void writeToLogFile({
-    required String message,
-  }) {
-    String filePathName =
-        '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}audio_learn_app_log.txt';
-    if (File(filePathName).existsSync()) {
-      // Append the new line to the existing content
-      File(filePathName).writeAsStringSync(
-        '${DateTime.now().toString()} $message\n',
-        mode: FileMode.append,
-      );
-    } else {
-      // Create the file
-      File(filePathName).writeAsStringSync(
-        '${DateTime.now().toString()} $message\n',
-        mode: FileMode.write,
-      );
-    }
-  }
-
   /// This consumer<WarningMessageVM> must be installed on every
   /// view, otherwise the warning message will not be displayed
   /// on the view in which it was created.

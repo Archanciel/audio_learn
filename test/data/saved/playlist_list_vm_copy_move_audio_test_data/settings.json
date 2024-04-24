@@ -1,1 +1,15 @@
-{"SettingType.appTheme":{"SettingType.appTheme":"AppTheme.dark"},"SettingType.language":{"SettingType.language":"Language.english"},"SettingType.playlists":{"Playlists.rootPath":"/storage/emulated/0/Download/audiolear","Playlists.pathLst":"[/EMPTY, /BOOKS, /MUSIC]","Playlists.orderedTitleLst":"[local_target, S8 audio]","Playlists.isMusicQualityByDefault":"false","Playlists.defaultAudioSort":"AudioSortCriterion.audioDownloadDateTime"}}
+{
+    "SettingType.appTheme": {
+        "SettingType.appTheme": "AppTheme.dark"
+    },
+    "SettingType.language": {
+        "SettingType.language": "Language.english"
+    },
+    "SettingType.playlists": {
+        "Playlists.defaultAudioSort": "AudioSortCriterion.audioDownloadDateTime",
+        "Playlists.isMusicQualityByDefault": "false",
+        "Playlists.orderedTitleLst": "[local_target, S8 audio]",
+        "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",
+        "Playlists.rootPath": "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio"
+    }
+}

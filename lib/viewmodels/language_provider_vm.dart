@@ -51,10 +51,7 @@ class LanguageProviderVM extends ChangeNotifier {
         settingSubType: SettingType.language,
         value: language);
 
-    _appSettings.saveSettingsToFile(
-      jsonPathFileName:
-          '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName',
-    );
+    _appSettings.saveSettings();
 
     notifyListeners();
   }

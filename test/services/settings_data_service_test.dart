@@ -22,6 +22,11 @@ void main() {
       }
 
       SettingsDataService settings = SettingsDataService(isTest: true);
+
+      // load settings from file which does not exist. This
+      // will ensure that the default playlist root path is set
+      settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
+
       settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Default',
         audioSortFilterParameters:
@@ -54,7 +59,7 @@ void main() {
           settings.get(
               settingType: SettingType.playlists,
               settingSubType: Playlists.rootPath),
-          kDownloadAppDir);
+          kDownloadAppDirWindows);
       expect(
           settings.get(
               settingType: SettingType.playlists,
@@ -210,6 +215,11 @@ void main() {
       }
 
       SettingsDataService settings = SettingsDataService(isTest: true);
+
+      // load settings from file which does not exist. This
+      // will ensure that the default playlist root path is set
+      settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
+
       settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Default',
         audioSortFilterParameters:
@@ -318,6 +328,11 @@ void main() {
       }
 
       SettingsDataService settings = SettingsDataService(isTest: true);
+
+      // load settings from file which does not exist. This
+      // will ensure that the default playlist root path is set
+      settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
+
       settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Default',
         audioSortFilterParameters:

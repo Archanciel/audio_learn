@@ -35,10 +35,7 @@ class ThemeProviderVM extends ChangeNotifier {
         settingSubType: SettingType.appTheme,
         value: _currentTheme);
 
-    _appSettings.saveSettingsToFile(
-      jsonPathFileName:
-          '${DirUtil.getPlaylistDownloadHomePath()}${Platform.pathSeparator}$kSettingsFileName',
-    );
+    _appSettings.saveSettings();
 
     notifyListeners();
   }
