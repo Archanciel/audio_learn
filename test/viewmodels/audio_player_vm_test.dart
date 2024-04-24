@@ -1099,6 +1099,11 @@ void main() {
   });
   group('AudioPlayerVM skipToStart undo/redo', () {
     test('Test single undo/redo of skipToStart position change', () async {
+      DirUtil.replacePlaylistRootPathInSettingsJsonFiles(
+        "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved",
+        '/storage/emulated/0/Download/audios',
+        "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio",
+      );
       AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
 
       // obtain the list of playable audios of the selected
@@ -1556,8 +1561,8 @@ Future<AudioPlayerVM> createAudioPlayerVM() async {
   final WarningMessageVM warningMessageVM = WarningMessageVM();
   final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
     warningMessageVM: warningMessageVM,
-         settingsDataService: settingsDataService,
-   isTest: true,
+    settingsDataService: settingsDataService,
+    isTest: true,
   );
   final PlaylistListVM playlistListVM = PlaylistListVM(
     warningMessageVM: warningMessageVM,
