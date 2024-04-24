@@ -11,6 +11,6 @@
         "Playlists.orderedTitleLst": "[audio_learn_test_download_2_small_videos, local_audio_playlist_2, local_3]",
         "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",
 		"Playlists.playSpeed": "1.25",
-        "Playlists.rootPath": "C:\Users\Jean-Pierre\Development\Flutter\audio_learn\test\data\audio"
+        "Playlists.rootPath": "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio"
     }
 }

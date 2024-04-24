@@ -10,6 +10,6 @@
         "Playlists.isMusicQualityByDefault": "false",
         "Playlists.orderedTitleLst": "[audio_learn_short, local_1]",
         "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",
-        "Playlists.rootPath": "C:\Users\Jean-Pierre\Development\Flutter\audio_learn\test\data\audio"
+        "Playlists.rootPath": "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio"
     }
 }

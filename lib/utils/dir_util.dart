@@ -330,15 +330,19 @@ class DirUtil {
     String oldRootPath,
     String newRootPath,
   ) {
-    var directory = Directory(directoryPath);
+    Directory directory = Directory(directoryPath);
     if (!directory.existsSync()) {
       print('Directory does not exist');
       return;
     }
 
+    if (newRootPath.contains('\\')) {
+      newRootPath = newRootPath.replaceAll('\\', '\\\\');
+    }
+
     // List all files and directories within the current directory
-    var entities = directory.listSync(recursive: true);
-    for (var entity in entities) {
+    List<FileSystemEntity> entities = directory.listSync(recursive: true);
+    for (FileSystemEntity entity in entities) {
       if (entity is File && entity.path.endsWith('settings.json')) {
         replaceInFile(entity, oldRootPath, newRootPath);
       }
@@ -350,14 +354,12 @@ class DirUtil {
     String oldRootPath,
     String newRootPath,
   ) {
-    file.readAsString().then((content) {
-      if (content.contains(oldRootPath)) {
-        final newContent = content.replaceAll(oldRootPath, newRootPath);
-        file.writeAsString(newContent).then((_) {
-          print('Replaced in file: ${file.path}');
-        });
-      }
-    });
+    String content = file.readAsStringSync();
+
+    if (content.contains(oldRootPath)) {
+      final newContent = content.replaceAll(oldRootPath, newRootPath);
+      file.writeAsStringSync(newContent);
+    }
   }
 }
 
