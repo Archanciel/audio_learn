@@ -45,9 +45,17 @@ void main() {
       );
 
       final WarningMessageVM warningMessageVM = WarningMessageVM();
+
+      final SettingsDataService settingsDataService = SettingsDataService();
+
+      // load settings from file which does not exist. This
+      // will ensure that the default playlist root path is set
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName: 'temp\wrong.json');
+
       final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
-        settingsDataService: SettingsDataService(),
+        settingsDataService: settingsDataService,
         isTest: true,
       );
 
@@ -70,13 +78,20 @@ void main() {
       // delete the its playlist dir
       DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
 
+      final SettingsDataService settingsDataService = SettingsDataService();
+
+      // load settings from file which does not exist. This
+      // will ensure that the default playlist root path is set
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName: 'temp\wrong.json');
+
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
-            settingsDataService: SettingsDataService(),
+            settingsDataService: settingsDataService,
             isTest: true,
           );
           return audioDownloadVM;
@@ -175,10 +190,17 @@ void main() {
         targetFileName: '$globalTestPlaylistTitle.json',
       );
 
+      final SettingsDataService settingsDataService = SettingsDataService();
+
+      // load settings from file which does not exist. This
+      // will ensure that the default playlist root path is set
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName: 'temp\wrong.json');
+
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
-        settingsDataService: SettingsDataService(),
+        settingsDataService: settingsDataService,
         isTest: true,
       );
       Playlist downloadedPlaylistBeforeDownload =
@@ -223,7 +245,7 @@ void main() {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
-            settingsDataService: SettingsDataService(),
+            settingsDataService: settingsDataService,
             isTest: true,
           );
           return audioDownloadVM;
@@ -324,13 +346,20 @@ void main() {
         targetDirectoryPath: localTestPlaylistDir,
       );
 
+      final SettingsDataService settingsDataService = SettingsDataService();
+
+      // load settings from file which does not exist. This
+      // will ensure that the default playlist root path is set
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName: 'temp\wrong.json');
+
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
-            settingsDataService: SettingsDataService(),
+            settingsDataService: settingsDataService,
             isTest: true,
           );
           return audioDownloadVM;
@@ -444,13 +473,20 @@ void main() {
         destinationRootPath: localTestPlaylistDir,
       );
 
+      final SettingsDataService settingsDataService = SettingsDataService();
+
+      // load settings from file which does not exist. This
+      // will ensure that the default playlist root path is set
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName: 'temp\wrong.json');
+
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
         create: (BuildContext context) {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
-            settingsDataService: SettingsDataService(),
+            settingsDataService: settingsDataService,
             isTest: true,
           );
           return audioDownloadVM;
@@ -582,10 +618,17 @@ void main() {
         targetDirectoryPath: globalTestPlaylistDir,
       );
 
+      final SettingsDataService settingsDataService = SettingsDataService();
+
+      // load settings from file which does not exist. This
+      // will ensure that the default playlist root path is set
+      settingsDataService.loadSettingsFromFile(
+          jsonPathFileName: 'temp\wrong.json');
+
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
-        settingsDataService: SettingsDataService(),
+        settingsDataService: settingsDataService,
         isTest: true,
       );
       Playlist downloadedPlaylistBeforeDownload =
@@ -630,7 +673,7 @@ void main() {
           final WarningMessageVM warningMessageVM = WarningMessageVM();
           audioDownloadVM = AudioDownloadVM(
             warningMessageVM: warningMessageVM,
-            settingsDataService: SettingsDataService(),
+            settingsDataService: settingsDataService,
             isTest: true,
           );
           return audioDownloadVM;
@@ -1040,8 +1083,8 @@ void compareDeserializedWithOriginalAudio({
       originalAudio.videoUploadDate.toIso8601String());
   expect(deserializedAudio.audioDuration,
       originalAudio.audioDuration ?? const Duration(milliseconds: 0));
-  expect(deserializedAudio.isAudioMusicQuality,
-      originalAudio.isAudioMusicQuality);
+  expect(
+      deserializedAudio.isAudioMusicQuality, originalAudio.isAudioMusicQuality);
   expect(deserializedAudio.audioPlaySpeed, originalAudio.audioPlaySpeed);
   expect(deserializedAudio.audioFileName, originalAudio.audioFileName);
   expect(deserializedAudio.audioFileSize, originalAudio.audioFileSize);
