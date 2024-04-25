@@ -15,7 +15,7 @@ void main() {
         // Purge the test playlist directory if it exists so that the
         // playlist list is empty
         DirUtil.deleteFilesInDirAndSubDirs(
-          rootPath: kDownloadAppTestDirWindows,
+          rootPath: kPlaylistDownloadRootPathWindowsTest,
           deleteSubDirectoriesAsWell: true,
         );
 
@@ -23,7 +23,7 @@ void main() {
         DirUtil.copyFilesFromDirAndSubDirsToDirectory(
           sourceRootPath:
               "$kDownloadAppTestSavedDataDir${path.separator}dir_util_test",
-          destinationRootPath: kDownloadAppTestDirWindows,
+          destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
         );
 
         DirUtil.replacePlaylistRootPathInSettingsJsonFiles(
@@ -32,15 +32,15 @@ void main() {
             "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio");
 
         File expectedFile = File(
-            "$kDownloadAppTestDirWindows${path.separator}test_result.json");
-        File actualFile =
-            File("$kDownloadAppTestDirWindows${path.separator}settings.json");
+            "$kPlaylistDownloadRootPathWindowsTest${path.separator}test_result.json");
+        File actualFile = File(
+            "$kPlaylistDownloadRootPathWindowsTest${path.separator}settings.json");
         String actual = actualFile.readAsStringSync();
         expect(actual, expectedFile.readAsStringSync());
 
         // Cleanup the test data directory
         DirUtil.deleteFilesInDirAndSubDirs(
-          rootPath: kDownloadAppTestDirWindows,
+          rootPath: kPlaylistDownloadRootPathWindowsTest,
           deleteSubDirectoriesAsWell: true,
         );
       },

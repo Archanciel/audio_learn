@@ -54,7 +54,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets(
         'Clicking on audio title to open AudioPlayerView. Then play audio during 5 seconds and then pause it',
@@ -138,7 +139,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets(
         'Clicking on audio title to open AudioPlayerView. Then click on play button to finish playing the first downloaded audio and start playing the last downloaded audio, ignoring the 2 precendent audios already fully played.',
@@ -187,7 +189,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets(
         'Clicking on audio play button to open AudioPlayerView. Then back to playlist download view and click on pause, then on play again. Check the audio item play/pause icon as well as their color',
@@ -334,7 +337,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
   });
   group('no audio selected tests', () {
@@ -374,7 +378,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets(
         'Opening AudioPlayerView by clicking on AudioPlayerView icon button in situation where no playlist is selected.',
@@ -401,7 +406,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
   });
   group('set play speed tests', () {
@@ -499,7 +505,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets(
         'Reduce play speed. Then click twice on >| button to start playing the most recently downloaded audio.',
@@ -579,7 +586,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets(
         'Reduce play speed. Then click on play button to finish playing the first downloaded audio and start playing the next downloaded audio.',
@@ -660,7 +668,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('Reduce play speed. Then click on Cancel.', (
       WidgetTester tester,
@@ -716,7 +725,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets(
         'Reduce play speed. Then click on play button to finish playing the first downloaded audio and start playing the last downloaded audio, ignoring the 2 precendent audios already fully played.',
@@ -799,7 +809,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets(
         'Reduce play speed. Then open the DisplaySelectableAudioListDialogWidget and select the most recently downloaded audio.',
@@ -882,7 +893,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
   });
   group('skip to next audio ignoring already listened audios tests.', () {
@@ -933,7 +945,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
   });
   group('display audio list.', () {
@@ -1020,7 +1033,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('Only no played or partially played audio displayed',
         (WidgetTester tester) async {
@@ -1097,7 +1111,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
   });
   group('single undo/redo tests', () {
@@ -1161,7 +1176,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('forward 10 seconds position change',
         (WidgetTester tester) async {
@@ -1224,7 +1240,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('backward 1 minute position change',
         (WidgetTester tester) async {
@@ -1286,7 +1303,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('backward 10 seconds position change',
         (WidgetTester tester) async {
@@ -1348,7 +1366,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('skip to start position change', (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
@@ -1410,7 +1429,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('skip to end position change', (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
@@ -1471,7 +1491,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
   });
   group('undo/redo with new command between tests', () {
@@ -1543,7 +1564,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('forward 10 seconds position change',
         (WidgetTester tester) async {
@@ -1614,7 +1636,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('backward 1 minute position change',
         (WidgetTester tester) async {
@@ -1683,7 +1706,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('backward 10 seconds position change',
         (WidgetTester tester) async {
@@ -1752,7 +1776,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('skip to start position change', (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
@@ -1822,7 +1847,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets('skip to end position change', (WidgetTester tester) async {
       const String audioPlayerSelectedPlaylistTitle =
@@ -1891,7 +1917,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
   });
   group('Sort/filter audios tests', () {
@@ -2015,7 +2042,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets(
         'Menu Clear sort/filter parameters history execution verifying that the confirm dialog is displayed in the play audio view.',
@@ -2088,7 +2116,8 @@ void main() {
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(rootPath: kDownloadAppTestDirWindows);
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
   });
 }
@@ -2148,7 +2177,7 @@ void verifyAudioPlaySpeedStoredInPlaylistJsonFile(
     int playableAudioLstAudioIndex,
     double expectedAudioPlaySpeed) {
   final String selectedPlaylistPath = path.join(
-    kDownloadAppTestDirWindows,
+    kPlaylistDownloadRootPathWindowsTest,
     audioPlayerSelectedPlaylistTitle,
   );
 
@@ -2179,7 +2208,7 @@ Future<void> initializeApplicationAndSelectPlaylist({
   // Purge the test playlist directory if it exists so that the
   // playlist list is empty
   DirUtil.deleteFilesInDirAndSubDirs(
-    rootPath: kDownloadAppTestDirWindows,
+    rootPath: kPlaylistDownloadRootPathWindowsTest,
     deleteSubDirectoriesAsWell: true,
   );
 
@@ -2188,7 +2217,7 @@ Future<void> initializeApplicationAndSelectPlaylist({
     DirUtil.copyFilesFromDirAndSubDirsToDirectory(
       sourceRootPath:
           "$kDownloadAppTestSavedDataDir${path.separator}$savedTestDataDirName",
-      destinationRootPath: kDownloadAppTestDirWindows,
+      destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
     );
   }
 
@@ -2204,7 +2233,7 @@ Future<void> initializeApplicationAndSelectPlaylist({
   // playlists available in the download app test dir
   settingsDataService.loadSettingsFromFile(
       jsonPathFileName:
-          "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+          "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
   await app.main(['test']);
   await tester.pumpAndSettle();

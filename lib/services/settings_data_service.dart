@@ -179,7 +179,7 @@ class SettingsDataService {
     required String jsonPathFileName,
   }) {
     final File file = File(jsonPathFileName);
-    
+
     try {
       if (file.existsSync()) {
         // if settings json file not exist, then the default Settings values
@@ -229,7 +229,7 @@ class SettingsDataService {
       set(
         settingType: SettingType.playlists,
         settingSubType: Playlists.rootPath,
-        value: DirUtil.getPlaylistDownloadHomePath(isTest: _isTest),
+        value: DirUtil.getPlaylistDownloadRootPath(isTest: _isTest),
       );
     }
   }
@@ -422,7 +422,7 @@ void main(List<String> args) {
   initialSettings.set(
       settingType: SettingType.playlists,
       settingSubType: Playlists.rootPath,
-      value: kDownloadAppTestDirWindows);
+      value: kPlaylistDownloadRootPathWindowsTest);
 
   initialSettings.set(
       settingType: SettingType.playlists,

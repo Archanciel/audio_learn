@@ -11,7 +11,7 @@ enum UnsupportedSettingsEnum { unsupported }
 
 void main() {
   const String testSettingsDir =
-      '$kDownloadAppTestDirWindows\\audio_learn_test_settings';
+      '$kPlaylistDownloadRootPathWindowsTest\\audio_learn_test_settings';
 
   group('Settings', () {
     test('Test initial, modified, saved and loaded values', () async {
@@ -59,7 +59,7 @@ void main() {
           settings.get(
               settingType: SettingType.playlists,
               settingSubType: Playlists.rootPath),
-          kDownloadAppDirWindows);
+          kPlaylistDownloadRootPathWindows);
       expect(
           settings.get(
               settingType: SettingType.playlists,
@@ -111,7 +111,7 @@ void main() {
       settings.set(
           settingType: SettingType.playlists,
           settingSubType: Playlists.rootPath,
-          value: kDownloadAppTestDirWindows);
+          value: kPlaylistDownloadRootPathWindowsTest);
       settings.set(
           settingType: SettingType.playlists,
           settingSubType: Playlists.pathLst,
@@ -154,7 +154,7 @@ void main() {
           loadedSettings.get(
               settingType: SettingType.playlists,
               settingSubType: Playlists.rootPath),
-          kDownloadAppTestDirWindows);
+          kPlaylistDownloadRootPathWindowsTest);
       expect(
           loadedSettings.get(
               settingType: SettingType.playlists,

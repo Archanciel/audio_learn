@@ -4,28 +4,28 @@ import 'package:path/path.dart' as path;
 import '../constants.dart';
 
 class DirUtil {
-  static String getPlaylistDownloadHomePath({
+  static String getPlaylistDownloadRootPath({
     bool isTest = false,
   }) {
     if (Platform.isWindows) {
       if (isTest) {
-        return kDownloadAppTestDirWindows;
+        return kPlaylistDownloadRootPathWindowsTest;
       } else {
-        return kDownloadAppDirWindows;
+        return kPlaylistDownloadRootPathWindows;
       }
     } else {
       // On Android or mobile emulator
       if (isTest) {
-        return kDownloadAppTestDir;
+        return kPlaylistDownloadRootPathTest;
       } else {
-        return kDownloadAppDir;
+        return kPlaylistDownloadRootPath;
       }
     }
   }
 
   static String removeAudioDownloadHomePathFromPathFileName(
       {required String pathFileName}) {
-    String path = getPlaylistDownloadHomePath();
+    String path = getPlaylistDownloadRootPath();
     String pathFileNameWithoutHomePath = pathFileName.replaceFirst(path, '');
 
     return pathFileNameWithoutHomePath;
@@ -34,7 +34,7 @@ class DirUtil {
   static Future<void> createAppDirIfNotExist({
     bool isAppDirToBeDeleted = false,
   }) async {
-    String path = DirUtil.getPlaylistDownloadHomePath();
+    String path = DirUtil.getPlaylistDownloadRootPath();
     final Directory directory = Directory(path);
 
     // using await directory.exists did delete dir only on second

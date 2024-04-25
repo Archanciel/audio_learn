@@ -2360,7 +2360,7 @@ void main() {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
 
@@ -2368,7 +2368,7 @@ void main() {
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
             "$kDownloadAppTestSavedDataDir${path.separator}audio_sort_filter_service_test_data",
-        destinationRootPath: kDownloadAppTestDirWindows,
+        destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
       SettingsDataService settingsDataService =
@@ -2380,7 +2380,7 @@ void main() {
       // playlists available in the download app test dir
       settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
-              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+              "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
       // youtube playlist, we can not use app.main() to start the
@@ -2513,7 +2513,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });
@@ -2611,7 +2611,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });
@@ -2690,7 +2690,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });
@@ -2775,7 +2775,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });
@@ -2867,7 +2867,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });
@@ -2963,7 +2963,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });
@@ -3063,7 +3063,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });
@@ -3076,7 +3076,7 @@ void main() {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
 
@@ -3084,7 +3084,7 @@ void main() {
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
             "$kDownloadAppTestSavedDataDir${path.separator}audio_sort_filter_service_test_data",
-        destinationRootPath: kDownloadAppTestDirWindows,
+        destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
       SettingsDataService settingsDataService =
@@ -3096,7 +3096,7 @@ void main() {
       // playlists available in the download app test dir
       settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
-              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+              "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
       // youtube playlist, we can not use app.main() to start the
@@ -3197,7 +3197,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });
@@ -3238,7 +3238,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });
@@ -3274,7 +3274,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });
@@ -3287,7 +3287,7 @@ void main() {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
 
@@ -3295,7 +3295,7 @@ void main() {
       DirUtil.copyFilesFromDirAndSubDirsToDirectory(
         sourceRootPath:
             "$kDownloadAppTestSavedDataDir${path.separator}audio_sort_filter_service_test_data",
-        destinationRootPath: kDownloadAppTestDirWindows,
+        destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
       SettingsDataService settingsDataService =
@@ -3307,7 +3307,7 @@ void main() {
       // playlists available in the download app test dir
       settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
-              "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
+              "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
       // youtube playlist, we can not use app.main() to start the
@@ -3436,7 +3436,7 @@ void main() {
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
       DirUtil.deleteFilesInDirAndSubDirs(
-        rootPath: kDownloadAppTestDirWindows,
+        rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
       );
     });

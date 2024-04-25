@@ -13,7 +13,7 @@ import 'viewmodels/audio_player_vm.dart';
 import 'viewmodels/language_provider_vm.dart';
 import 'viewmodels/theme_provider_vm.dart';
 import 'viewmodels/warning_message_vm.dart';
-import 'services/settings_data_service.dart'; 
+import 'services/settings_data_service.dart';
 import 'utils/dir_util.dart';
 import 'views/my_home_page.dart';
 import 'views/screen_mixin.dart';
@@ -44,13 +44,13 @@ Future<void> main(List<String> args) async {
 
   if (deleteAppDir) {
     await DirUtil.createAppDirIfNotExist(isAppDirToBeDeleted: true);
-    print('***** $kDownloadAppDir mp3 files deleted *****');
+    print('***** $kPlaylistDownloadRootPath mp3 files deleted *****');
   }
 
   // check if app dir exists and create it if not. This is case the first
   // time the app is run.
   String playlistDownloadHomePath =
-      DirUtil.getPlaylistDownloadHomePath(isTest: isTest);
+      DirUtil.getPlaylistDownloadRootPath(isTest: isTest);
   Directory dir = Directory(playlistDownloadHomePath);
 
   if (!dir.existsSync()) {

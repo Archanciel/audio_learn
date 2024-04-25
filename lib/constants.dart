@@ -16,14 +16,15 @@ enum AudioLearnAppViewType {
 
 const String kApplicationName = "Audio Learn";
 const String kApplicationVersion = '0.9.8';
-const String kDownloadAppDir = '/storage/emulated/0/Download/audiolearn';
-const String kDownloadAppTestDir =
+const String kPlaylistDownloadRootPath =
+    '/storage/emulated/0/Download/audiolearn';
+const String kPlaylistDownloadRootPathTest =
     '/storage/emulated/0/Download/test/audiolearn';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
 //const String kDownloadAppDir = '/storage/9016-4EF8/Audio';
 
-const String kDownloadAppDirWindows =
+const String kPlaylistDownloadRootPathWindows =
     // 'C:\\Users\\Jean-Pierre\\Downloads\\Audio';
     // 'C:\\Users\\Jean-Pierre\\Downloads\\copy_move_audio_integr_test_data';
     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
@@ -35,7 +36,7 @@ const String kDownloadAppTestSavedDataDir =
 
 // files in this local test dir are stored in project test_data dir updated
 // on GitHub
-const String kDownloadAppTestDirWindows =
+const String kPlaylistDownloadRootPathWindowsTest =
     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
 
 const String kTranslationFileDirWindows =
