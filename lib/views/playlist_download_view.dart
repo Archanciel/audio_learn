@@ -1,5 +1,4 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:audio_learn/views/widgets/save_sort_filter_options_to_playlist_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +23,7 @@ import 'widgets/confirm_action_dialog_widget.dart';
 import 'widgets/playlist_list_item_widget.dart';
 import 'widgets/playlist_one_selectable_dialog_widget.dart';
 import 'widgets/sort_filter_audio_dialog_widget.dart';
+import '../views/widgets/save_sort_filter_options_to_playlist_dialog.dart';
 
 class PlaylistDownloadView extends StatefulWidget {
   final SettingsDataService settingsDataService;

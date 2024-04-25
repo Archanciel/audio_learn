@@ -432,7 +432,7 @@ void main(List<String> args) {
   initialSettings.set(
       settingType: SettingType.playlists,
       settingSubType: Playlists.orderedTitleLst,
-      value: ['audio_learn', 'audio_learn2', 'audio_learn3']);
+      value: ['audiolearn', 'audiolearn2', 'audiolearn3']);
 
   initialSettings.set(
       settingType: SettingType.playlists,

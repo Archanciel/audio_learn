@@ -1,4 +1,4 @@
-import 'package:audio_learn/constants.dart';
+import 'package:audiolearn/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

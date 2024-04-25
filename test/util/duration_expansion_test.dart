@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:audio_learn/utils/duration_expansion.dart';
+import 'package:audiolearn/utils/duration_expansion.dart';
 
 void main() {
   group('DurationExpansion HHmmss (test not performed in DateTimeParser test)',

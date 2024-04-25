@@ -13,13 +13,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 /// The relevant error-causing widget was:
 /// Row
 /// Row:file:///C:/Users/Jean-Pierre/Development/Flutter/
-/// audio_learn/lib/views/playlist_download_view.dart:510:28 ...
+/// audiolearn/lib/views/playlist_download_view.dart:510:28 ...
 class MockAppLocalizations extends AppLocalizations {
   MockAppLocalizations() : super('en');
 
   // Getters changed in mock version. All other methods are the same
   // as the original class AppLocalizationsEn located in
-  // audio_learn\.dart_tool\flutter_gen\gen_l10n from which the mock
+  // audiolearn\.dart_tool\flutter_gen\gen_l10n from which the mock
   // code was copied.
 
   @override

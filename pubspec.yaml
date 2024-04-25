@@ -1,5 +1,5 @@
-name: audio_learn
-description: A new Flutter project.
+name: audiolearn
+description: Use Youtube playlists audio to learn.
 publish_to: 'none'
 version: 0.1.0
 

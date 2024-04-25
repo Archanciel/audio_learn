@@ -1,17 +1,17 @@
 import 'dart:io';
-import 'package:audio_learn/services/sort_filter_parameters.dart';
-import 'package:audio_learn/utils/dir_util.dart';
+import 'package:audiolearn/services/sort_filter_parameters.dart';
+import 'package:audiolearn/utils/dir_util.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:audio_learn/constants.dart';
-import 'package:audio_learn/services/settings_data_service.dart';
+import 'package:audiolearn/constants.dart';
+import 'package:audiolearn/services/settings_data_service.dart';
 
 enum UnsupportedSettingsEnum { unsupported }
 
 void main() {
   const String testSettingsDir =
-      '$kPlaylistDownloadRootPathWindowsTest\\audio_learn_test_settings';
+      '$kPlaylistDownloadRootPathWindowsTest\\audiolearn_test_settings';
 
   group('Settings', () {
     test('Test initial, modified, saved and loaded values', () async {

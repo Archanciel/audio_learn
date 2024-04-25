@@ -1,20 +1,20 @@
 import 'dart:io';
-import 'package:audio_learn/services/json_data_service.dart';
-import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/utils/date_time_parser.dart';
-import 'package:audio_learn/views/screen_mixin.dart';
+import 'package:audiolearn/services/json_data_service.dart';
+import 'package:audiolearn/services/settings_data_service.dart';
+import 'package:audiolearn/utils/date_time_parser.dart';
+import 'package:audiolearn/views/screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
 
-import 'package:audio_learn/constants.dart';
-import 'package:audio_learn/models/audio.dart';
-import 'package:audio_learn/models/playlist.dart';
-import 'package:audio_learn/utils/dir_util.dart';
-import 'package:audio_learn/viewmodels/audio_download_vm.dart';
-import 'package:audio_learn/viewmodels/warning_message_vm.dart';
+import 'package:audiolearn/constants.dart';
+import 'package:audiolearn/models/audio.dart';
+import 'package:audiolearn/models/playlist.dart';
+import 'package:audiolearn/utils/dir_util.dart';
+import 'package:audiolearn/viewmodels/audio_download_vm.dart';
+import 'package:audiolearn/viewmodels/warning_message_vm.dart';
 
 const int secondsDelay = 15; // 7 works, but 10 is safer and 15 solves
 //                              the problems of running the integr tests

@@ -1,4 +1,4 @@
-import 'package:audio_learn/viewmodels/audio_player_vm.dart';
+import 'package:audiolearn/viewmodels/audio_player_vm.dart';
 
 /// This is a test version of the AudioPlayerVM. It is used in the
 /// test environment to avoid the use of the audio player plugin

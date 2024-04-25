@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:audio_learn/models/playlist.dart';
-import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/models/audio.dart';
+import 'package:audiolearn/models/playlist.dart';
+import 'package:audiolearn/services/settings_data_service.dart';
+import 'package:audiolearn/models/audio.dart';
 
 void main() {
   group('Testing Playlist add and remove methods', () {

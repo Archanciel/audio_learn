@@ -4,15 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:path/path.dart' as path;
 
-import 'package:audio_learn/constants.dart';
-import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/utils/dir_util.dart';
-import 'package:audio_learn/viewmodels/audio_download_vm.dart';
-import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
-import 'package:audio_learn/viewmodels/language_provider_vm.dart';
-import 'package:audio_learn/viewmodels/theme_provider_vm.dart';
-import 'package:audio_learn/viewmodels/warning_message_vm.dart';
-import 'package:audio_learn/views/playlist_download_view.dart';
+import 'package:audiolearn/constants.dart';
+import 'package:audiolearn/services/settings_data_service.dart';
+import 'package:audiolearn/utils/dir_util.dart';
+import 'package:audiolearn/viewmodels/audio_download_vm.dart';
+import 'package:audiolearn/viewmodels/playlist_list_vm.dart';
+import 'package:audiolearn/viewmodels/language_provider_vm.dart';
+import 'package:audiolearn/viewmodels/theme_provider_vm.dart';
+import 'package:audiolearn/viewmodels/warning_message_vm.dart';
+import 'package:audiolearn/views/playlist_download_view.dart';
 import '../viewmodels/mock_app_localizations.dart';
 
 class MockAppLocalizationsDelegate

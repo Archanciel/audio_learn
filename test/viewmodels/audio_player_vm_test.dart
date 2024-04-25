@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:audio_learn/constants.dart';
-import 'package:audio_learn/models/audio.dart';
-import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/utils/dir_util.dart';
-import 'package:audio_learn/viewmodels/audio_player_vm.dart';
-import 'package:audio_learn/viewmodels/playlist_list_vm.dart';
+import 'package:audiolearn/constants.dart';
+import 'package:audiolearn/models/audio.dart';
+import 'package:audiolearn/services/settings_data_service.dart';
+import 'package:audiolearn/utils/dir_util.dart';
+import 'package:audiolearn/viewmodels/audio_player_vm.dart';
+import 'package:audiolearn/viewmodels/playlist_list_vm.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:audio_learn/viewmodels/audio_download_vm.dart';
-import 'package:audio_learn/viewmodels/warning_message_vm.dart';
+import 'package:audiolearn/viewmodels/audio_download_vm.dart';
+import 'package:audiolearn/viewmodels/warning_message_vm.dart';
 
 import 'audio_player_vm_test_version.dart';
 

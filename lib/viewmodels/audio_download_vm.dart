@@ -1,4 +1,3 @@
-import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -9,6 +8,7 @@ import 'package:path/path.dart' as path;
 // youtube_explode_dart Playlist class name.
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt;
 
+import '../services/settings_data_service.dart';
 import '../services/json_data_service.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';

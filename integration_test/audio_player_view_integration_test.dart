@@ -1,14 +1,14 @@
-import 'package:audio_learn/models/playlist.dart';
-import 'package:audio_learn/services/json_data_service.dart';
-import 'package:audio_learn/utils/date_time_parser.dart';
+import 'package:audiolearn/models/playlist.dart';
+import 'package:audiolearn/services/json_data_service.dart';
+import 'package:audiolearn/utils/date_time_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:path/path.dart' as path;
-import 'package:audio_learn/constants.dart';
-import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/utils/dir_util.dart';
-import 'package:audio_learn/main.dart' as app;
+import 'package:audiolearn/constants.dart';
+import 'package:audiolearn/services/settings_data_service.dart';
+import 'package:audiolearn/utils/dir_util.dart';
+import 'package:audiolearn/main.dart' as app;
 
 import '../test/util/test_utility.dart';
 

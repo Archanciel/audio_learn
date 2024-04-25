@@ -1,8 +1,8 @@
-import 'package:audio_learn/constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 
+import '../constants.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
 import '../services/json_data_service.dart';

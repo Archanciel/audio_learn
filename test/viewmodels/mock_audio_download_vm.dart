@@ -1,7 +1,7 @@
-import 'package:audio_learn/models/audio.dart';
-import 'package:audio_learn/models/playlist.dart';
-import 'package:audio_learn/viewmodels/audio_download_vm.dart';
-import 'package:audio_learn/viewmodels/warning_message_vm.dart';
+import 'package:audiolearn/models/audio.dart';
+import 'package:audiolearn/models/playlist.dart';
+import 'package:audiolearn/viewmodels/audio_download_vm.dart';
+import 'package:audiolearn/viewmodels/warning_message_vm.dart';
 
 /// The MockAudioDownloadVM inherits from AudioDownloadVM.
 /// It exists because when executing integration tests, using

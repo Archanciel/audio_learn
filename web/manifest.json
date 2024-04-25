@@ -1,6 +1,6 @@
 {
-    "name": "audio_learn",
-    "short_name": "audio_learn",
+    "name": "audiolearn",
+    "short_name": "audiolearn",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

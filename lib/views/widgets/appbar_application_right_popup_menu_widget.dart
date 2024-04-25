@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/constants.dart';
+import '../../constants.dart';
+import '../../services/settings_data_service.dart';
 import '../../viewmodels/language_provider_vm.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 

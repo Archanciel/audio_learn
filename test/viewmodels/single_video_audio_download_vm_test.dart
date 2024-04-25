@@ -1,6 +1,6 @@
-import 'package:audio_learn/models/playlist.dart';
-import 'package:audio_learn/services/settings_data_service.dart';
-import 'package:audio_learn/viewmodels/single_video_audio_download_vm.dart';
+import 'package:audiolearn/models/playlist.dart';
+import 'package:audiolearn/services/settings_data_service.dart';
+import 'package:audiolearn/viewmodels/single_video_audio_download_vm.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'custom_mock_youtube_explode.dart';

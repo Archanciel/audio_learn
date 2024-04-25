@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:audio_learn/models/audio.dart';
-import 'package:audio_learn/models/playlist.dart';
+import 'package:audiolearn/models/audio.dart';
+import 'package:audiolearn/models/playlist.dart';
 
 void main() {
   group('Audio.createValidVideoTitle', () {

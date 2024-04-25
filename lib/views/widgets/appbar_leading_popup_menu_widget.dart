@@ -1,7 +1,7 @@
-import 'package:audio_learn/services/settings_data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 import 'application_settings_dialog_widget.dart';
 

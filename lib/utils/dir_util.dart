@@ -325,11 +325,11 @@ class DirUtil {
     return true;
   }
 
-  static void replacePlaylistRootPathInSettingsJsonFiles(
-    String directoryPath,
-    String oldRootPath,
-    String newRootPath,
-  ) {
+  static void replacePlaylistRootPathInSettingsJsonFiles({
+    required String directoryPath,
+    required String oldRootPath,
+    required String newRootPath,
+  }) {
     Directory directory = Directory(directoryPath);
     if (!directory.existsSync()) {
       print('Directory does not exist');

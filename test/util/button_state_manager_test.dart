@@ -1,4 +1,4 @@
-import 'package:audio_learn/utils/button_state_manager.dart';
+import 'package:audiolearn/utils/button_state_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

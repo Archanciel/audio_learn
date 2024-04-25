@@ -1,4 +1,4 @@
-package com.example.audio_learn
+package com.audiolearn
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,4 +1,4 @@
-import 'package:audio_learn/constants.dart';
+import 'package:audiolearn/constants.dart';
 
 import 'mock_youtube.mocks.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart' as yt;

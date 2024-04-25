@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart' as path;
 
-import 'package:audio_learn/constants.dart';
-import 'package:audio_learn/models/audio.dart';
-import 'package:audio_learn/models/playlist.dart';
-import 'package:audio_learn/services/json_data_service.dart';
-import 'package:audio_learn/services/sort_filter_parameters.dart';
+import 'package:audiolearn/constants.dart';
+import 'package:audiolearn/models/audio.dart';
+import 'package:audiolearn/models/playlist.dart';
+import 'package:audiolearn/services/json_data_service.dart';
+import 'package:audiolearn/services/sort_filter_parameters.dart';
 
 class UnsupportedClass {}
 
