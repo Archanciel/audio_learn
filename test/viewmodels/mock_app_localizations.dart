@@ -934,6 +934,10 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get setAudioPlaySpeed => "Set audio play speed ...";
 
-     @override
-  String get applyToAudioAlreadyDownloaded => "Apply to audio already downloaded";
+  @override
+  String get applyToAudioAlreadyDownloaded =>
+      "Apply to audio already downloaded";
+
+  @override
+  String get playlistRootpathLabel => "Playlists root path";
 }

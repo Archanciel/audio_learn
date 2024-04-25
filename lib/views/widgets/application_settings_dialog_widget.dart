@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '../../viewmodels/audio_player_vm.dart';
 import '../../views/screen_mixin.dart';
 import '../../constants.dart';
 import '../../services/settings_data_service.dart';
@@ -27,17 +26,33 @@ class ApplicationSettingsDialogWidget extends StatefulWidget {
 
 class _ApplicationSettingsDialogWidgetState
     extends State<ApplicationSettingsDialogWidget> with ScreenMixin {
-  final TextEditingController _audioFileNameTextEditingController =
+  final TextEditingController _playlistRootpathTextEditingController =
       TextEditingController();
   late double _audioPlaySpeed;
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
 
     _audioPlaySpeed = widget.settingsDataService.get(
-        settingType: SettingType.playlists,
-        settingSubType: Playlists.playSpeed) ?? 1.0;
+            settingType: SettingType.playlists,
+            settingSubType: Playlists.playSpeed) ??
+        1.0;
+
+    // Add this line to request focus on the TextField after the build
+    // method has been called
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(
+        _focusNode,
+      );
+      _playlistRootpathTextEditingController.text = widget.settingsDataService
+              .get(
+                  settingType: SettingType.playlists,
+                  settingSubType: Playlists.rootPath) ??
+          '';
+    });
+
     // Add this line to request focus on the TextField after the build
     // method has been called
     // WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -50,7 +65,7 @@ class _ApplicationSettingsDialogWidgetState
 
   @override
   void dispose() {
-    _audioFileNameTextEditingController.dispose();
+    _playlistRootpathTextEditingController.dispose();
 
     super.dispose();
   }
@@ -69,7 +84,7 @@ class _ApplicationSettingsDialogWidgetState
               event.logicalKey == LogicalKeyboardKey.numpadEnter) {
             // executing the same code as in the 'Save' TextButton
             // onPressed callback
-            _savePlaySpeedInSettings(context);
+            _updateAndSaveSettings(context);
             Navigator.of(context).pop();
           }
         }
@@ -103,6 +118,13 @@ class _ApplicationSettingsDialogWidgetState
                   ],
                 ),
               ),
+              createEditableRowFunction(
+                  valueTextFieldWidgetKey:
+                      const Key('playlistRootpathTextField'),
+                  context: context,
+                  label: AppLocalizations.of(context)!.playlistRootpathLabel,
+                  controller: _playlistRootpathTextEditingController,
+                  textFieldFocusNode: _focusNode),
             ],
           ),
         ),
@@ -110,7 +132,7 @@ class _ApplicationSettingsDialogWidgetState
           TextButton(
             key: const Key('saveButton'),
             onPressed: () {
-              _savePlaySpeedInSettings(context);
+              _updateAndSaveSettings(context);
               Navigator.of(context).pop();
             },
             child: Text(
@@ -137,11 +159,17 @@ class _ApplicationSettingsDialogWidgetState
     );
   }
 
-  void _savePlaySpeedInSettings(BuildContext context) {
+  void _updateAndSaveSettings(BuildContext context) {
     widget.settingsDataService.set(
         settingType: SettingType.playlists,
         settingSubType: Playlists.playSpeed,
         value: _audioPlaySpeed);
+
+    widget.settingsDataService.set(
+        settingType: SettingType.playlists,
+        settingSubType: Playlists.rootPath,
+        value: _playlistRootpathTextEditingController.text);
+
     widget.settingsDataService.saveSettings();
   }
 

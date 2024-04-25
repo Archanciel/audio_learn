@@ -304,5 +304,6 @@
   "appBarMenuOpenSettingsDialog": "Application settings ...",
   "appSettingsDialogTitle": "Application Settings",
   "setAudioPlaySpeed": "Set audio play speed ...",
-  "applyToAudioAlreadyDownloaded": "Apply to audio already\ndownloaded"
+  "applyToAudioAlreadyDownloaded": "Apply to audio already\ndownloaded",
+  "playlistRootpathLabel": "Playlists root path"
 }
