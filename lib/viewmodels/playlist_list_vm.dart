@@ -127,6 +127,11 @@ class PlaylistListVM extends ChangeNotifier {
     );
 
     if (playlistListVMselectedPlaylist != null) {
+
+      // required so that the selected playlist title text field
+      // of the playlist download view is updated 
+      _uniqueSelectedPlaylist = playlistListVMselectedPlaylist;
+
       // playlistListVMselectedPlaylist is null if the selected
       // playlist was manually deleted from the audio app root dir or
       // if no playlist is selected.

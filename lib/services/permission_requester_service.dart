@@ -6,7 +6,7 @@ class PermissionRequesterService {
   ///     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
   ///     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
   ///     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-  static void requestMultiplePermissions() async {
+  static Future<void> requestMultiplePermissions() async {
     Map<Permission, PermissionStatus> statuses = await [
       Permission.storage,
       Permission
