@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.audio_learn">
+    package="com.audiolearn">
    <application
         android:label="Audio Learn"
         android:name="${applicationName}"
