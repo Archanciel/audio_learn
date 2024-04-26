@@ -399,8 +399,11 @@ class SettingsDataService {
 
 void main() {
   String testPath =
-      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved";
-
+      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved\\playlist_list_vm_copy_move_audio_test_data\\settings.json";
+  convertOldJsonFileToNewJsonFile(
+    oldFilePath: testPath,
+  );
+  return;
   List<String> oldFilePathLst = DirUtil.listPathFileNamesInSubDirs(
     path: testPath,
     extension: 'json',
@@ -409,7 +412,7 @@ void main() {
   for (String oldFilePath in oldFilePathLst
       .where((oldFilePath) => oldFilePath.contains('settings.json'))) {
     convertOldJsonFileToNewJsonFile(
-      oldFilePath: testPath,
+      oldFilePath: oldFilePath,
     );
   }
 }
@@ -432,7 +435,8 @@ void convertOldJsonFileToNewJsonFile({
       "Playlists.isMusicQualityByDefault": oldSettings["SettingType.playlists"]
           ["Playlists.isMusicQualityByDefault"],
       "Playlists.playSpeed": oldSettings["SettingType.playlists"]
-          ["Playlists.playSpeed"],
+              ["Playlists.playSpeed"] ??
+          kAudioDefaultPlaySpeed.toString(),
       "Playlists.defaultAudioSort": oldSettings["SettingType.playlists"]
           ["Playlists.defaultAudioSort"]
     },

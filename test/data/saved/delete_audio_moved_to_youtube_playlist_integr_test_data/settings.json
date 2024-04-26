@@ -1,15 +1,1 @@
-{
-    "SettingType.appTheme": {
-        "SettingType.appTheme": "AppTheme.dark"
-    },
-    "SettingType.language": {
-        "SettingType.language": "Language.french"
-    },
-    "SettingType.playlists": {
-        "Playlists.defaultAudioSort": "AudioSortCriterion.audioDownloadDateTime",
-        "Playlists.isMusicQualityByDefault": "false",
-        "Playlists.orderedTitleLst": "[audio_player_view_2_shorts_test, audio_learn_test_download_2_small_videos, local_audio_playlist_2, local_3]",
-        "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",
-        "Playlists.rootPath": "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio"
-    }
-}
+{"SettingType.appTheme":{"SettingType.appTheme":"AppTheme.dark"},"SettingType.language":{"SettingType.language":"Language.french"},"SettingType.playlists":{"Playlists.pathLst":"[/EMPTY, /BOOKS, /MUSIC]","Playlists.orderedTitleLst":"[audio_player_view_2_shorts_test, audio_learn_test_download_2_small_videos, local_audio_playlist_2, local_3]","Playlists.isMusicQualityByDefault":"false","Playlists.playSpeed":null,"Playlists.defaultAudioSort":"AudioSortCriterion.audioDownloadDateTime"},"SettingType.dataLocation":{"DataLocation.appSettingsPath":"","DataLocation.playlistRootPath":"C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio"},"namedAudioSortFilterSettings":{},"searchHistoryOfAudioSortFilterSettings":"[]"}
