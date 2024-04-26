@@ -3,6 +3,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+
 import '../constants.dart';
 import '../utils/dir_util.dart';
 import 'sort_filter_parameters.dart';
@@ -11,7 +13,7 @@ enum SettingType {
   appTheme,
   language,
   playlists,
-  localisation,
+  dataLocation,
 }
 
 enum AppTheme {
@@ -25,7 +27,6 @@ enum Language {
 }
 
 enum Playlists {
-  playlistRootPath,
   pathLst,
   orderedTitleLst,
   isMusicQualityByDefault,
@@ -33,8 +34,9 @@ enum Playlists {
   defaultAudioSort,
 }
 
-enum Localisation {
+enum DataLocation {
   appSettingsPath,
+  playlistRootPath,
 }
 
 enum AudioSortCriterion { audioDownloadDateTime, validVideoTitle }
@@ -50,12 +52,15 @@ class SettingsDataService {
     SettingType.appTheme: {SettingType.appTheme: AppTheme.dark},
     SettingType.language: {SettingType.language: Language.english},
     SettingType.playlists: {
-      Playlists.playlistRootPath: '',
       Playlists.pathLst: ["/EMPTY", "/BOOKS", "/MUSIC"],
       Playlists.orderedTitleLst: [],
       Playlists.isMusicQualityByDefault: false,
       Playlists.playSpeed: kAudioDefaultPlaySpeed,
       Playlists.defaultAudioSort: AudioSortCriterion.audioDownloadDateTime,
+    },
+    SettingType.dataLocation: {
+      DataLocation.appSettingsPath: '',
+      DataLocation.playlistRootPath: '',
     },
   };
 
@@ -66,6 +71,7 @@ class SettingsDataService {
     ...AppTheme.values,
     ...Language.values,
     ...Playlists.values,
+    ...DataLocation.values,
     ...AudioSortCriterion.values,
   ];
 
@@ -226,14 +232,14 @@ class SettingsDataService {
     }
 
     if (get(
-            settingType: SettingType.playlists,
-            settingSubType: Playlists.playlistRootPath)
+            settingType: SettingType.dataLocation,
+            settingSubType: DataLocation.playlistRootPath)
         .isEmpty) {
       // the case if the application is started for the first time and
       // if the settings were not saved.
       set(
-        settingType: SettingType.playlists,
-        settingSubType: Playlists.playlistRootPath,
+        settingType: SettingType.dataLocation,
+        settingSubType: DataLocation.playlistRootPath,
         value: DirUtil.getPlaylistDownloadRootPath(isTest: _isTest),
       );
     }
@@ -314,8 +320,10 @@ class SettingsDataService {
 
   void _saveSettings() {
     saveSettingsToFile(
-        jsonPathFileName:
-            "${get(settingType: SettingType.playlists, settingSubType: Playlists.playlistRootPath)}${Platform.pathSeparator}$kSettingsFileName");
+        jsonPathFileName: "${get(
+      settingType: SettingType.dataLocation,
+      settingSubType: DataLocation.playlistRootPath,
+    )}${Platform.pathSeparator}$kSettingsFileName");
   }
 
   T _parseEnumValue<T>(List<T> enumValues, String stringValue) {
@@ -389,7 +397,60 @@ class SettingsDataService {
   }
 }
 
-void main(List<String> args) {
+void main() {
+  String testPath =
+      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved";
+
+  List<String> oldFilePathLst = DirUtil.listPathFileNamesInSubDirs(
+    path: testPath,
+    extension: 'json',
+  );
+
+  for (String oldFilePath in oldFilePathLst
+      .where((oldFilePath) => oldFilePath.contains('settings.json'))) {
+    convertOldJsonFileToNewJsonFile(
+      oldFilePath: testPath,
+    );
+  }
+}
+
+void convertOldJsonFileToNewJsonFile({
+  required String oldFilePath,
+  String? newFilePath,
+}) {
+  String jsonString = File(oldFilePath).readAsStringSync();
+  Map<String, dynamic> oldSettings = jsonDecode(jsonString);
+
+  Map<String, dynamic> newSettings = {
+    "SettingType.appTheme": oldSettings["SettingType.appTheme"],
+    "SettingType.language": oldSettings["SettingType.language"],
+    "SettingType.playlists": {
+      "Playlists.pathLst": oldSettings["SettingType.playlists"]
+          ["Playlists.pathLst"],
+      "Playlists.orderedTitleLst": oldSettings["SettingType.playlists"]
+          ["Playlists.orderedTitleLst"],
+      "Playlists.isMusicQualityByDefault": oldSettings["SettingType.playlists"]
+          ["Playlists.isMusicQualityByDefault"],
+      "Playlists.playSpeed": oldSettings["SettingType.playlists"]
+          ["Playlists.playSpeed"],
+      "Playlists.defaultAudioSort": oldSettings["SettingType.playlists"]
+          ["Playlists.defaultAudioSort"]
+    },
+    "SettingType.dataLocation": {
+      "DataLocation.appSettingsPath": "",
+      "DataLocation.playlistRootPath": oldSettings["SettingType.playlists"]
+          ["Playlists.rootPath"]
+    },
+    "namedAudioSortFilterSettings":
+        oldSettings["namedAudioSortFilterSettings"] ?? {},
+    "searchHistoryOfAudioSortFilterSettings":
+        oldSettings["searchHistoryOfAudioSortFilterSettings"] ?? "[]",
+  };
+
+  File(newFilePath ?? oldFilePath).writeAsStringSync(jsonEncode(newSettings));
+}
+
+void usageExample() {
   SettingsDataService initialSettings = SettingsDataService();
 
   // print initialSettings created with Settings initial values
@@ -400,7 +461,7 @@ void main(List<String> args) {
   print(
       '${initialSettings.get(settingType: SettingType.language, settingSubType: SettingType.language)}');
   print(
-      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playlistRootPath)}');
+      '${initialSettings.get(settingType: SettingType.dataLocation, settingSubType: DataLocation.playlistRootPath)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
   print(
@@ -425,8 +486,8 @@ void main(List<String> args) {
       value: Language.french);
 
   initialSettings.set(
-      settingType: SettingType.playlists,
-      settingSubType: Playlists.playlistRootPath,
+      settingType: SettingType.dataLocation,
+      settingSubType: DataLocation.playlistRootPath,
       value: kPlaylistDownloadRootPathWindowsTest);
 
   initialSettings.set(
@@ -463,7 +524,7 @@ void main(List<String> args) {
   print(
       '${initialSettings.get(settingType: SettingType.language, settingSubType: SettingType.language)}');
   print(
-      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playlistRootPath)}');
+      '${initialSettings.get(settingType: SettingType.dataLocation, settingSubType: DataLocation.playlistRootPath)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
   print(
@@ -487,7 +548,7 @@ void main(List<String> args) {
   print(
       '${loadedSettings.get(settingType: SettingType.language, settingSubType: SettingType.language)}');
   print(
-      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playlistRootPath)}');
+      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: DataLocation.playlistRootPath)}');
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
   print(

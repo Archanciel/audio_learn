@@ -48,8 +48,8 @@ class _ApplicationSettingsDialogWidgetState
       );
       _playlistRootpathTextEditingController.text = widget.settingsDataService
               .get(
-                  settingType: SettingType.playlists,
-                  settingSubType: Playlists.playlistRootPath) ??
+                  settingType: SettingType.dataLocation,
+                  settingSubType: DataLocation.playlistRootPath) ??
           '';
     });
 
@@ -166,8 +166,8 @@ class _ApplicationSettingsDialogWidgetState
         value: _audioPlaySpeed);
 
     widget.settingsDataService.set(
-        settingType: SettingType.playlists,
-        settingSubType: Playlists.playlistRootPath,
+        settingType: SettingType.dataLocation,
+        settingSubType: DataLocation.playlistRootPath,
         value: _playlistRootpathTextEditingController.text);
 
     widget.settingsDataService.saveSettings();

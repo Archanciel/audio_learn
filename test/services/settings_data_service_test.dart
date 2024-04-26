@@ -57,8 +57,8 @@ void main() {
           Language.english);
       expect(
           settings.get(
-              settingType: SettingType.playlists,
-              settingSubType: Playlists.playlistRootPath),
+              settingType: SettingType.dataLocation,
+              settingSubType: DataLocation.playlistRootPath),
           kPlaylistDownloadRootPathWindows);
       expect(
           settings.get(
@@ -109,8 +109,8 @@ void main() {
           settingSubType: SettingType.appTheme,
           value: AppTheme.light);
       settings.set(
-          settingType: SettingType.playlists,
-          settingSubType: Playlists.playlistRootPath,
+          settingType: SettingType.dataLocation,
+          settingSubType: DataLocation.playlistRootPath,
           value: kPlaylistDownloadRootPathWindowsTest);
       settings.set(
           settingType: SettingType.playlists,
@@ -152,8 +152,8 @@ void main() {
           AppTheme.light);
       expect(
           loadedSettings.get(
-              settingType: SettingType.playlists,
-              settingSubType: Playlists.playlistRootPath),
+              settingType: SettingType.dataLocation,
+              settingSubType: DataLocation.playlistRootPath),
           kPlaylistDownloadRootPathWindowsTest);
       expect(
           loadedSettings.get(
