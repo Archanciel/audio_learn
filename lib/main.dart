@@ -7,6 +7,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:window_size/window_size.dart';
 
 import 'constants.dart';
+import 'services/permission_requester_service.dart';
 import 'viewmodels/playlist_list_vm.dart';
 import 'viewmodels/audio_download_vm.dart';
 import 'viewmodels/audio_player_vm.dart';
@@ -133,6 +134,8 @@ class MainApp extends StatelessWidget with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
+    PermissionRequesterService.requestMultiplePermissions();
+
     WarningMessageVM warningMessageVM = WarningMessageVM();
     AudioDownloadVM audioDownloadVM = AudioDownloadVM(
       warningMessageVM: warningMessageVM,

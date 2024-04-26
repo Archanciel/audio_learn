@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../services/permission_requester_service.dart';
 import '../services/sort_filter_parameters.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/theme_provider_vm.dart';
@@ -106,8 +105,6 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
-    PermissionRequesterService.requestMultiplePermissions();
-
     widget.settingsDataService.addOrReplaceNamedAudioSortFilterSettings(
       audioSortFilterParametersName:
           AppLocalizations.of(context)!.sortFilterParametersDefaultName,
