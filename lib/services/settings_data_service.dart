@@ -399,7 +399,7 @@ class SettingsDataService {
 
 void main() {
   String testPath =
-      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved\\sort_and_filter_audio_dialog_empty_selected_playlist_widget_test\\settings.json";
+      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio\\settings.json";
   convertOldJsonFileToNewJsonFile(
     oldFilePath: testPath,
   );
@@ -446,7 +446,10 @@ void convertOldJsonFileToNewJsonFile({
     "SettingType.dataLocation": {
       "DataLocation.appSettingsPath": "",
       "DataLocation.playlistRootPath": oldSettings["SettingType.playlists"]
-          ["Playlists.rootPath"]
+              ["Playlists.rootPath"] ??
+          // reapplying the convertion to file already converted
+          oldSettings["DataLocation.appSettingsPath"]
+              ["DataLocation.playlistRootPath"]
     },
     "namedAudioSortFilterSettings":
         oldSettings["namedAudioSortFilterSettings"] ?? {},
