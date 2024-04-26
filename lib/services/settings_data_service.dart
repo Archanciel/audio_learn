@@ -399,7 +399,7 @@ class SettingsDataService {
 
 void main() {
   String testPath =
-      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved\\playlist_list_vm_copy_move_audio_test_data\\settings.json";
+      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved\\sort_and_filter_audio_dialog_empty_selected_playlist_widget_test\\settings.json";
   convertOldJsonFileToNewJsonFile(
     oldFilePath: testPath,
   );
@@ -417,6 +417,9 @@ void main() {
   }
 }
 
+/// Method used after introducing the data location settings
+/// enum in order to convert the old settings file to the
+/// new settings file.
 void convertOldJsonFileToNewJsonFile({
   required String oldFilePath,
   String? newFilePath,
