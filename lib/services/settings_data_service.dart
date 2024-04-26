@@ -11,6 +11,7 @@ enum SettingType {
   appTheme,
   language,
   playlists,
+  localisation,
 }
 
 enum AppTheme {
@@ -24,12 +25,16 @@ enum Language {
 }
 
 enum Playlists {
-  rootPath,
+  playlistRootPath,
   pathLst,
   orderedTitleLst,
   isMusicQualityByDefault,
   playSpeed,
   defaultAudioSort,
+}
+
+enum Localisation {
+  appSettingsPath,
 }
 
 enum AudioSortCriterion { audioDownloadDateTime, validVideoTitle }
@@ -45,7 +50,7 @@ class SettingsDataService {
     SettingType.appTheme: {SettingType.appTheme: AppTheme.dark},
     SettingType.language: {SettingType.language: Language.english},
     SettingType.playlists: {
-      Playlists.rootPath: '',
+      Playlists.playlistRootPath: '',
       Playlists.pathLst: ["/EMPTY", "/BOOKS", "/MUSIC"],
       Playlists.orderedTitleLst: [],
       Playlists.isMusicQualityByDefault: false,
@@ -222,13 +227,13 @@ class SettingsDataService {
 
     if (get(
             settingType: SettingType.playlists,
-            settingSubType: Playlists.rootPath)
+            settingSubType: Playlists.playlistRootPath)
         .isEmpty) {
       // the case if the application is started for the first time and
       // if the settings were not saved.
       set(
         settingType: SettingType.playlists,
-        settingSubType: Playlists.rootPath,
+        settingSubType: Playlists.playlistRootPath,
         value: DirUtil.getPlaylistDownloadRootPath(isTest: _isTest),
       );
     }
@@ -310,7 +315,7 @@ class SettingsDataService {
   void _saveSettings() {
     saveSettingsToFile(
         jsonPathFileName:
-            "${get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}${Platform.pathSeparator}$kSettingsFileName");
+            "${get(settingType: SettingType.playlists, settingSubType: Playlists.playlistRootPath)}${Platform.pathSeparator}$kSettingsFileName");
   }
 
   T _parseEnumValue<T>(List<T> enumValues, String stringValue) {
@@ -395,7 +400,7 @@ void main(List<String> args) {
   print(
       '${initialSettings.get(settingType: SettingType.language, settingSubType: SettingType.language)}');
   print(
-      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playlistRootPath)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
   print(
@@ -421,7 +426,7 @@ void main(List<String> args) {
 
   initialSettings.set(
       settingType: SettingType.playlists,
-      settingSubType: Playlists.rootPath,
+      settingSubType: Playlists.playlistRootPath,
       value: kPlaylistDownloadRootPathWindowsTest);
 
   initialSettings.set(
@@ -458,7 +463,7 @@ void main(List<String> args) {
   print(
       '${initialSettings.get(settingType: SettingType.language, settingSubType: SettingType.language)}');
   print(
-      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
+      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playlistRootPath)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
   print(
@@ -482,7 +487,7 @@ void main(List<String> args) {
   print(
       '${loadedSettings.get(settingType: SettingType.language, settingSubType: SettingType.language)}');
   print(
-      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.rootPath)}');
+      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playlistRootPath)}');
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
   print(

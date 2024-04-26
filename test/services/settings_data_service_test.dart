@@ -58,7 +58,7 @@ void main() {
       expect(
           settings.get(
               settingType: SettingType.playlists,
-              settingSubType: Playlists.rootPath),
+              settingSubType: Playlists.playlistRootPath),
           kPlaylistDownloadRootPathWindows);
       expect(
           settings.get(
@@ -110,7 +110,7 @@ void main() {
           value: AppTheme.light);
       settings.set(
           settingType: SettingType.playlists,
-          settingSubType: Playlists.rootPath,
+          settingSubType: Playlists.playlistRootPath,
           value: kPlaylistDownloadRootPathWindowsTest);
       settings.set(
           settingType: SettingType.playlists,
@@ -153,7 +153,7 @@ void main() {
       expect(
           loadedSettings.get(
               settingType: SettingType.playlists,
-              settingSubType: Playlists.rootPath),
+              settingSubType: Playlists.playlistRootPath),
           kPlaylistDownloadRootPathWindowsTest);
       expect(
           loadedSettings.get(

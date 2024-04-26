@@ -49,7 +49,7 @@ class _ApplicationSettingsDialogWidgetState
       _playlistRootpathTextEditingController.text = widget.settingsDataService
               .get(
                   settingType: SettingType.playlists,
-                  settingSubType: Playlists.rootPath) ??
+                  settingSubType: Playlists.playlistRootPath) ??
           '';
     });
 
@@ -167,7 +167,7 @@ class _ApplicationSettingsDialogWidgetState
 
     widget.settingsDataService.set(
         settingType: SettingType.playlists,
-        settingSubType: Playlists.rootPath,
+        settingSubType: Playlists.playlistRootPath,
         value: _playlistRootpathTextEditingController.text);
 
     widget.settingsDataService.saveSettings();
