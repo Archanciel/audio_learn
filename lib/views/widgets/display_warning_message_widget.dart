@@ -309,12 +309,12 @@ class DisplayWarningMessageWidget extends StatelessWidget with ScreenMixin {
         });
 
         return const SizedBox.shrink();
-      case WarningMessageType.allHistoricalSortFilterParameterWereDeleted:
+      case WarningMessageType.playlistRootPathNotExist:
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _displayWarningDialog(
             context: _context,
             message: AppLocalizations.of(context)!
-                .allHistoricalSortFilterParameterWereDeletedWarning,
+                .playlistRootPathNotExistWarning(_warningMessageVM.playlistInexistingRootPath),
             warningMessageVM: _warningMessageVM,
             themeProviderVM: themeProviderVM,
           );

@@ -196,6 +196,7 @@
   "historicalSortFilterParameterWasDeletedWarning": "Le paramètre de tri/filtre historique a été supprimé.",
   "allHistoricalSortFilterParameterWereDeletedWarning": "Tous les paramètres de tri/filtre historiques ont été supprimés.",
   "allHistoricalSortFilterParametersDeleteConfirmation": "Suppression de tous les paramètres de tri/filtre historiques.",
+  "playlistRootPathNotExistWarning": "Le répertoire défini \"{playlistRootPath}\" n'existe pas. Veuillez entrer un répertoire valide et rééssayer ...",
   "tooManyPlaylistSelectedForSingleVideoDownloadWarning": "Plus d'une playlist sélectionnée pour le téléchargement d'une vidéo unique. Sélectionnez une seule playlist et rééssayez ...",
   "noSortFilterParameterWasModifiedWarning": "Aucun paramètre de tri/filtre n'a été modifié. Définissez un paramètre et rééssayez ...",
   "confirmDialogTitle": "CONFIRMATION",
@@ -305,5 +306,5 @@
   "appSettingsDialogTitle": "Paramètres de l'application",
   "setAudioPlaySpeed": "Définir la vitesse de lecture ...",
   "applyToAudioAlreadyDownloaded": "Appliquer aux audios déjà\ntéléchargés",
-  "playlistRootpathLabel": "Répertoire racine des\nplaylists"
+  "playlistRootpathLabel": "Répertoire racine des playlists"
 }

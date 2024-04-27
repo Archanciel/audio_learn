@@ -15,24 +15,39 @@ enum AudioLearnAppViewType {
 }
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '0.9.8';
+const String kApplicationVersion = '0.9.81';
+const String kApplicationPath =
+    '/storage/emulated/0/Download/audiolear';
+const String kApplicationPathTest =
+    '/storage/emulated/0/Download/test/audiolear';
 const String kPlaylistDownloadRootPath =
-    '/storage/emulated/0/Download/audiolearn';
+    '/storage/emulated/0/Download/audiolear';
 const String kPlaylistDownloadRootPathTest =
-    '/storage/emulated/0/Download/test/audiolearn';
+    '/storage/emulated/0/Download/test/audiolear';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
 //const String kDownloadAppDir = '/storage/9016-4EF8/Audio';
-
-const String kPlaylistDownloadRootPathWindows =
-    // 'C:\\Users\\Jean-Pierre\\Downloads\\Audio';
-    // 'C:\\Users\\Jean-Pierre\\Downloads\\copy_move_audio_integr_test_data';
-    "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
 
 // Tests are run on Windows only. Files in this local test dir are stored in project test_data dir updated
 // on GitHub
 const String kDownloadAppTestSavedDataDir =
     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved";
+
+const String kApplicationPathWindows =
+    // 'C:\\Users\\Jean-Pierre\\Downloads\\Audio';
+    // 'C:\\Users\\Jean-Pierre\\Downloads\\copy_move_audio_integr_test_data';
+    "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
+
+// files in this local test dir are stored in project test_data dir updated
+// on GitHub
+const String kApplicationPathWindowsTest =
+    "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
+
+
+const String kPlaylistDownloadRootPathWindows =
+    // 'C:\\Users\\Jean-Pierre\\Downloads\\Audio';
+    // 'C:\\Users\\Jean-Pierre\\Downloads\\copy_move_audio_integr_test_data';
+    "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
 
 // files in this local test dir are stored in project test_data dir updated
 // on GitHub

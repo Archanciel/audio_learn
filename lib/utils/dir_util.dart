@@ -4,6 +4,25 @@ import 'package:path/path.dart' as path;
 import '../constants.dart';
 
 class DirUtil {
+  static String getApplicationPath({
+    bool isTest = false,
+  }) {
+    if (Platform.isWindows) {
+      if (isTest) {
+        return kApplicationPathWindowsTest;
+      } else {
+        return kApplicationPathWindows;
+      }
+    } else {
+      // On Android or mobile emulator
+      if (isTest) {
+        return kApplicationPathTest;
+      } else {
+        return kApplicationPath;
+      }
+    }
+  }
+
   static String getPlaylistDownloadRootPath({
     bool isTest = false,
   }) {

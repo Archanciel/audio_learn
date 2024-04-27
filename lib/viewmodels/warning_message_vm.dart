@@ -60,9 +60,8 @@ enum WarningMessageType {
   // on the delete button after having selected an historical sort/filter
   // parameter which does  exist in the sort/filter parameter history.
 
-  allHistoricalSortFilterParameterWereDeleted, // The case if the user clicks
-  // on the delete all historical sort/filter button located in the sort/filter
-  // dialog at right of the Filter options title
+  playlistRootPathNotExist, // The case if the user enters a playlist
+  // root path which does not exist in the application settings dialog
 
   noPlaylistSelectedForSingleVideoDownload, // The case if the user
   // clicks on the single video download button but no playlist
@@ -303,9 +302,8 @@ class WarningMessageVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  void allHistoricalSortFilterParametersWereDeleted() {
-    _warningMessageType =
-        WarningMessageType.allHistoricalSortFilterParameterWereDeleted;
+  void playlistRootPathNotExist() {
+    _warningMessageType = WarningMessageType.playlistRootPathNotExist;
 
     // Causes the display warning message widget to be displayed.
     notifyListeners();
@@ -515,5 +513,18 @@ class WarningMessageVM extends ChangeNotifier {
       // Causes the display warning message widget to be displayed.
       notifyListeners();
     }
+  }
+
+  String _playlistInexistingRootPath = '';
+  String get playlistInexistingRootPath => _playlistInexistingRootPath;
+  setPlaylistInexistingRootPath({
+    required String playlistInexistingRootPath,
+  }) {
+    _playlistInexistingRootPath = playlistInexistingRootPath;
+
+    _warningMessageType = WarningMessageType.playlistRootPathNotExist;
+
+    // Causes the display warning message widget to be displayed.
+    notifyListeners();
   }
 }

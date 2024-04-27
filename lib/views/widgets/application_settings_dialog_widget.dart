@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:audiolearn/viewmodels/audio_download_vm.dart';
+import 'package:audiolearn/viewmodels/playlist_list_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../viewmodels/warning_message_vm.dart';
 import '../../views/screen_mixin.dart';
 import '../../constants.dart';
 import '../../services/settings_data_service.dart';
@@ -40,19 +45,28 @@ class _ApplicationSettingsDialogWidgetState
             settingSubType: Playlists.playSpeed) ??
         1.0;
 
-    // Add this line to request focus on the TextField after the build
-    // method has been called
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(
-        _focusNode,
-      );
       _playlistRootpathTextEditingController.text = widget.settingsDataService
               .get(
                   settingType: SettingType.dataLocation,
                   settingSubType: DataLocation.playlistRootPath) ??
           '';
+
+      // Setting cursor at the end of the text. Does not work !
+      _playlistRootpathTextEditingController.selection =
+          TextSelection.fromPosition(
+        TextPosition(
+          offset: _playlistRootpathTextEditingController.text.length,
+        ),
+      );
+
+      FocusScope.of(context).requestFocus(
+        _focusNode,
+      );
     });
 
+    // Add this line to request focus on the TextField after the build
+    // method has been called
     // Add this line to request focus on the TextField after the build
     // method has been called
     // WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -165,12 +179,35 @@ class _ApplicationSettingsDialogWidgetState
         settingSubType: Playlists.playSpeed,
         value: _audioPlaySpeed);
 
+    String playlistRootPath = _playlistRootpathTextEditingController.text;
+    final Directory directory = Directory(playlistRootPath);
+
+    if (!directory.existsSync()) {
+      Provider.of<WarningMessageVM>(
+        context,
+        listen: false,
+      ).setPlaylistInexistingRootPath(
+        playlistInexistingRootPath: playlistRootPath,
+      );
+      return;
+    }
+
     widget.settingsDataService.set(
         settingType: SettingType.dataLocation,
         settingSubType: DataLocation.playlistRootPath,
-        value: _playlistRootpathTextEditingController.text);
+        value: playlistRootPath);
 
     widget.settingsDataService.saveSettings();
+
+    Provider.of<AudioDownloadVM>(
+      context,
+      listen: false,
+    ).playlistsRootPath = playlistRootPath;
+
+    Provider.of<PlaylistListVM>(
+      context,
+      listen: false,
+    ).updateSettingsAndPlaylistJsonFiles();
   }
 
   Widget _buildSetAudioSpeedTextButton(

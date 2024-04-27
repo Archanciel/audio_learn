@@ -880,6 +880,10 @@ class MockAppLocalizations extends AppLocalizations {
       "Audio \"{audioTitle}\" NOT copied from Youtube playlist \"{fromPlaylistTitle}\" to Youtube playlist \"{toPlaylistTitle}\" since it is already present in the destination playlist.";
 
   @override
+  String playlistRootPathNotExistWarning(Object playlistRootPath) =>
+      "The playlist root path \"{playlistRootPath}\" does not exist. Please enter a valid playlist root path and retry ...";
+
+  @override
   String get keepAudioEntryInSourcePlaylistTooltip =>
       "Maintains audio data in the original playlist's JSON file, even after the audio file is transferred to another playlist. This prevents re-downloading the audio file if it no longer exists in its original directory.";
 

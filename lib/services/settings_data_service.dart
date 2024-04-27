@@ -233,6 +233,19 @@ class SettingsDataService {
 
     if (get(
             settingType: SettingType.dataLocation,
+            settingSubType: DataLocation.appSettingsPath)
+        .isEmpty) {
+      // the case if the application is started for the first time and
+      // if the settings were not saved.
+      set(
+        settingType: SettingType.dataLocation,
+        settingSubType: DataLocation.appSettingsPath,
+        value: DirUtil.getApplicationPath(isTest: _isTest),
+      );
+    }
+
+    if (get(
+            settingType: SettingType.dataLocation,
             settingSubType: DataLocation.playlistRootPath)
         .isEmpty) {
       // the case if the application is started for the first time and
@@ -319,11 +332,13 @@ class SettingsDataService {
   }
 
   void _saveSettings() {
-    saveSettingsToFile(
-        jsonPathFileName: "${get(
+    String applicationPath = get(
       settingType: SettingType.dataLocation,
-      settingSubType: DataLocation.playlistRootPath,
-    )}${Platform.pathSeparator}$kSettingsFileName");
+      settingSubType: DataLocation.appSettingsPath,
+    );
+    saveSettingsToFile(
+        jsonPathFileName:
+            "$applicationPath${Platform.pathSeparator}$kSettingsFileName");
   }
 
   T _parseEnumValue<T>(List<T> enumValues, String stringValue) {
@@ -399,11 +414,11 @@ class SettingsDataService {
 
 void main() {
   String testPath =
-      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio\\settings.json";
-  convertOldJsonFileToNewJsonFile(
-    oldFilePath: testPath,
-  );
-  return;
+      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\save";
+  // convertOldJsonFileToNewJsonFile(
+  //   oldFilePath: testPath,
+  // );
+  // return;
   List<String> oldFilePathLst = DirUtil.listPathFileNamesInSubDirs(
     path: testPath,
     extension: 'json',
@@ -444,7 +459,11 @@ void convertOldJsonFileToNewJsonFile({
           ["Playlists.defaultAudioSort"]
     },
     "SettingType.dataLocation": {
-      "DataLocation.appSettingsPath": "",
+      "DataLocation.appSettingsPath": oldSettings["SettingType.playlists"]
+              ["Playlists.rootPath"] ??
+          // reapplying the convertion to file already converted
+          oldSettings["DataLocation.appSettingsPath"]
+              ["DataLocation.playlistRootPath"],
       "DataLocation.playlistRootPath": oldSettings["SettingType.playlists"]
               ["Playlists.rootPath"] ??
           // reapplying the convertion to file already converted

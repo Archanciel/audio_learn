@@ -42,7 +42,11 @@ class AudioDownloadVM extends ChangeNotifier {
   set youtubeExplode(yt.YoutubeExplode youtubeExplode) =>
       _youtubeExplode = youtubeExplode;
 
-  late String _playlistsHomePath;
+  late String _playlistsRootPath;
+
+  // used when updating the playlists root path
+  set playlistsRootPath(String playlistsRootPath) =>
+      _playlistsRootPath = playlistsRootPath;
 
   bool _isDownloading = false;
   bool get isDownloading => _isDownloading;
@@ -82,7 +86,7 @@ class AudioDownloadVM extends ChangeNotifier {
     required this.settingsDataService,
     bool isTest = false,
   }) {
-    _playlistsHomePath = settingsDataService.get(
+    _playlistsRootPath = settingsDataService.get(
         settingType: SettingType.dataLocation,
         settingSubType: DataLocation.playlistRootPath);
 
@@ -96,7 +100,7 @@ class AudioDownloadVM extends ChangeNotifier {
     _listOfPlaylist = [];
 
     List<String> playlistPathFileNameLst = DirUtil.listPathFileNamesInSubDirs(
-      path: _playlistsHomePath,
+      path: _playlistsRootPath,
       extension: 'json',
     );
 
@@ -961,7 +965,7 @@ class AudioDownloadVM extends ChangeNotifier {
     }
   }
 
-  /// Method called by ExpandablePlaylistVM when the user selects the update
+  /// Method called by PlaylistListVM when the user selects the update
   /// playlist JSON files menu item.
   void updatePlaylistJsonFiles() {
     List<Playlist> copyOfList = List<Playlist>.from(_listOfPlaylist);
@@ -971,23 +975,23 @@ class AudioDownloadVM extends ChangeNotifier {
       Playlist correspondingOriginalPlaylist =
           _listOfPlaylist.firstWhere((element) => element == playlist);
 
+      String currentPlaylistDownloadHomePath =
+          path.dirname(playlist.downloadPath);
+
+      if (currentPlaylistDownloadHomePath != _playlistsRootPath) {
+        // the case if the playlist dir obtained from another audio
+        // dir was copied on the app audio dir. Then, it must be
+        // updated to the app audio dir
+        correspondingOriginalPlaylist.downloadPath =
+            _playlistsRootPath + path.separator + playlist.title;
+        isPlaylistDownloadPathUpdated = true;
+      }
+
       if (!Directory(playlist.downloadPath).existsSync()) {
         // the case if the playlist dir has been deleted by the user
         // or by another app
         _listOfPlaylist.remove(playlist);
         continue;
-      }
-
-      String currentPlaylistDownloadHomePath =
-          path.dirname(playlist.downloadPath);
-
-      if (currentPlaylistDownloadHomePath != _playlistsHomePath) {
-        // the case if the playlist dir obtained from another audio
-        // dir was copied on the app audio dir. Then, it must be
-        // updated to the app audio dir
-        correspondingOriginalPlaylist.downloadPath =
-            _playlistsHomePath + path.separator + playlist.title;
-        isPlaylistDownloadPathUpdated = true;
       }
 
       // remove the audios from the playlable audio list which are no
@@ -1117,7 +1121,7 @@ class AudioDownloadVM extends ChangeNotifier {
     required Playlist playlist,
   }) async {
     final String playlistDownloadPath =
-        '$_playlistsHomePath${Platform.pathSeparator}$playlistTitle';
+        '$_playlistsRootPath${Platform.pathSeparator}$playlistTitle';
 
     // ensure playlist audio download dir exists
     await DirUtil.createDirIfNotExist(pathStr: playlistDownloadPath);
