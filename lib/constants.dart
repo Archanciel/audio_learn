@@ -17,13 +17,13 @@ enum AudioLearnAppViewType {
 const String kApplicationName = "Audio Learn";
 const String kApplicationVersion = '0.9.81';
 const String kApplicationPath =
-    '/storage/emulated/0/Download/audiolear';
+    '/storage/emulated/0/Download/audiolearn';
 const String kApplicationPathTest =
-    '/storage/emulated/0/Download/test/audiolear';
+    '/storage/emulated/0/Download/test/audiolearn';
 const String kPlaylistDownloadRootPath =
-    '/storage/emulated/0/Download/audiolear';
+    '/storage/emulated/0/Download/audiolearn/playlists';
 const String kPlaylistDownloadRootPathTest =
-    '/storage/emulated/0/Download/test/audiolear';
+    '/storage/emulated/0/Download/test/audiolearn/playlists';
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
 //const String kDownloadAppDir = '/storage/9016-4EF8/Audio';

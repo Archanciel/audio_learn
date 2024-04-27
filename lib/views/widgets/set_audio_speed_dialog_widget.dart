@@ -219,7 +219,7 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
     AudioPlayerVM audioGlobalPlayerVM,
     ThemeProviderVM themeProviderVM,
   ) {
-    final speeds = [0.7, 1.0, 1.25, 1.5]; // [0.7, 1.0, 1.25, 1.5, 2.0] is too
+    final speeds = [0.7, 1.0, 1.25, 1.5, 2.0]; // [0.7, 1.0, 1.25, 1.5, 2.0] is too
     //                                       large for the screen on S20
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -16,8 +16,24 @@ class DirUtil {
     } else {
       // On Android or mobile emulator
       if (isTest) {
+        // avoids that the application can not be run after it was
+        // installed on the smartphone
+        // Directory dir = Directory(kApplicationPathTest);
+
+        // if (!dir.existsSync()) {
+        //   dir.createSync();
+        // }
+
         return kApplicationPathTest;
       } else {
+        // // avoids that the application can not be run after it was
+        // // installed on the smartphone
+        // Directory dir = Directory(kApplicationPath);
+
+        // if (!dir.existsSync()) {
+        //   dir.createSync();
+        // }
+
         return kApplicationPath;
       }
     }
