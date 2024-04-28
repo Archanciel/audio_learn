@@ -18,12 +18,11 @@ class DirUtil {
       if (isTest) {
         // avoids that the application can not be run after it was
         // installed on the smartphone
-        Directory dir = Directory(kApplicationPath);
+        Directory dir = Directory(kApplicationPathWindowsTest);
 
         if (!await dir.exists()) {
           try {
             await dir.create();
-            // Directory is created, you can now work with it
           } catch (e) {
             // Handle the exception, e.g., directory not created
             print('Directory could not be created: $e');
@@ -39,7 +38,6 @@ class DirUtil {
         if (!await dir.exists()) {
           try {
             await dir.create();
-            // Directory is created, you can now work with it
           } catch (e) {
             // Handle the exception, e.g., directory not created
             print('Directory could not be created: $e');
@@ -51,9 +49,9 @@ class DirUtil {
     }
   }
 
-  static String getPlaylistDownloadRootPath({
+  static Future<String> getPlaylistDownloadRootPath({
     bool isTest = false,
-  }) {
+  }) async {
     if (Platform.isWindows) {
       if (isTest) {
         return kPlaylistDownloadRootPathWindowsTest;
@@ -63,42 +61,57 @@ class DirUtil {
     } else {
       // On Android or mobile emulator
       if (isTest) {
+        Directory dir = Directory(kPlaylistDownloadRootPathTest);
+
+        if (!await dir.exists()) {
+          try {
+            // now create the playlist dir
+            await dir.create();
+          } catch (e) {
+            // Handle the exception, e.g., directory not created
+            print('Directory could not be created: $e');
+          }
+        }
+
         return kPlaylistDownloadRootPathTest;
       } else {
+        Directory dir = Directory(kPlaylistDownloadRootPath);
+
+        if (!await dir.exists()) {
+          try {
+            // now create the playlist dir
+            await dir.create();
+          } catch (e) {
+            // Handle the exception, e.g., directory not created
+            print('Directory could not be created: $e');
+          }
+        }
+
         return kPlaylistDownloadRootPath;
       }
     }
   }
 
-  static String removeAudioDownloadHomePathFromPathFileName(
-      {required String pathFileName}) {
-    String path = getPlaylistDownloadRootPath();
+  static Future<String> removeAudioDownloadHomePathFromPathFileName(
+      {required String pathFileName}) async {
+    String path = await getPlaylistDownloadRootPath();
     String pathFileNameWithoutHomePath = pathFileName.replaceFirst(path, '');
 
     return pathFileNameWithoutHomePath;
   }
 
-  static Future<void> createAppDirIfNotExist({
-    bool isAppDirToBeDeleted = false,
-  }) async {
-    String path = DirUtil.getPlaylistDownloadRootPath();
-    final Directory directory = Directory(path);
+  static void deleteAppDirOnemulatorIfExist() {
+    final Directory directory = Directory(kApplicationPathTest);
 
     // using await directory.exists did delete dir only on second
     // app restart. Uncomprehensible !
     bool directoryExists = directory.existsSync();
 
-    if (isAppDirToBeDeleted) {
       if (directoryExists) {
         DirUtil.deleteFilesInDirAndSubDirs(
-          rootPath: path,
+          rootPath: kApplicationPathTest,
         );
       }
-    }
-
-    if (!directoryExists) {
-      await directory.create();
-    }
   }
 
   static Future<void> createDirIfNotExist({

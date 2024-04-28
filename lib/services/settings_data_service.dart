@@ -253,7 +253,7 @@ class SettingsDataService {
       set(
         settingType: SettingType.dataLocation,
         settingSubType: DataLocation.playlistRootPath,
-        value: DirUtil.getPlaylistDownloadRootPath(isTest: _isTest),
+        value: await DirUtil.getPlaylistDownloadRootPath(isTest: _isTest),
       );
     }
   }

@@ -16,8 +16,7 @@ enum AudioLearnAppViewType {
 
 const String kApplicationName = "Audio Learn";
 const String kApplicationVersion = '0.9.81';
-const String kApplicationPath =
-    '/storage/emulated/0/Download/audiolearn';
+const String kApplicationPath = '/storage/emulated/0/Download/audiolearn';
 const String kApplicationPathTest =
     '/storage/emulated/0/Download/test/audiolearn';
 const String kPlaylistDownloadRootPath =
@@ -43,7 +42,6 @@ const String kApplicationPathWindows =
 const String kApplicationPathWindowsTest =
     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\audio";
 
-
 const String kPlaylistDownloadRootPathWindows =
     // 'C:\\Users\\Jean-Pierre\\Downloads\\Audio';
     // 'C:\\Users\\Jean-Pierre\\Downloads\\copy_move_audio_integr_test_data';
@@ -64,7 +62,7 @@ const String kTranslationFileDirWindows =
 //     'https://youtube.com/playlist?list=PLzwWSJNcZTMSOMooR_y9PtJlJLpEKWbAv&si=LJ7w9Ms_ymqwJdT';
 
 // usefull to delete all files in the audio dir of the emulator
-const bool kDeleteAppDir = false;
+const bool kDeleteAppDirOnEmulator = false;
 
 const double kAudioDefaultPlaySpeed = 1.25;
 

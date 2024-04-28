@@ -32,7 +32,7 @@ Future<void> main(List<String> args) async {
   // two methods which could not be declared async !
   //
   // Setting the TransferDataViewModel transfer data Map
-  bool deleteAppDir = kDeleteAppDir;
+  bool deleteAppDir = kDeleteAppDirOnEmulator;
   bool isTest = false;
 
   if (myArgs.isNotEmpty) {
@@ -44,25 +44,17 @@ Future<void> main(List<String> args) async {
   }
 
   if (deleteAppDir) {
-    await DirUtil.createAppDirIfNotExist(isAppDirToBeDeleted: true);
+    DirUtil.deleteAppDirOnemulatorIfExist();
     print('***** $kPlaylistDownloadRootPath mp3 files deleted *****');
-  }
-
-  // check if app dir exists and create it if not. This is case the first
-  // time the app is run.
-  String playlistDownloadHomePath =
-      DirUtil.getPlaylistDownloadRootPath(isTest: isTest);
-  Directory dir = Directory(playlistDownloadHomePath);
-
-  if (!dir.existsSync()) {
-    dir.createSync();
   }
 
   final SettingsDataService settingsDataService =
       SettingsDataService(isTest: isTest);
+
+  // create the app dir if it does not exist
   await settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
-        '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
+        '$kApplicationPath${Platform.pathSeparator}$kSettingsFileName',
   );
 
   // If app runs on Windows, Linux or MacOS, set the app size
@@ -137,11 +129,13 @@ class MainApp extends StatelessWidget with ScreenMixin {
     PermissionRequesterService.requestMultiplePermissions();
 
     WarningMessageVM warningMessageVM = WarningMessageVM();
+
     AudioDownloadVM audioDownloadVM = AudioDownloadVM(
       warningMessageVM: warningMessageVM,
       settingsDataService: _settingsDataService,
       isTest: _isTest,
     );
+
     PlaylistListVM expandablePlaylistListVM = PlaylistListVM(
       warningMessageVM: warningMessageVM,
       audioDownloadVM: audioDownloadVM,
