@@ -60,7 +60,7 @@ Future<void> main(List<String> args) async {
 
   final SettingsDataService settingsDataService =
       SettingsDataService(isTest: isTest);
-  settingsDataService.loadSettingsFromFile(
+  await settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
         '$playlistDownloadHomePath${Platform.pathSeparator}$kSettingsFileName',
   );

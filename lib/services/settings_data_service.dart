@@ -186,9 +186,9 @@ class SettingsDataService {
   }
 
   /// Load settings from a JSON file
-  void loadSettingsFromFile({
+  Future<void> loadSettingsFromFile({
     required String jsonPathFileName,
-  }) {
+  }) async {
     final File file = File(jsonPathFileName);
 
     try {
@@ -240,7 +240,7 @@ class SettingsDataService {
       set(
         settingType: SettingType.dataLocation,
         settingSubType: DataLocation.appSettingsPath,
-        value: DirUtil.getApplicationPath(isTest: _isTest),
+        value: await DirUtil.getApplicationPath(isTest: _isTest),
       );
     }
 
@@ -476,7 +476,7 @@ void convertOldJsonFileToNewJsonFile({
   File(newFilePath ?? oldFilePath).writeAsStringSync(jsonEncode(newSettings));
 }
 
-void usageExample() {
+Future<void> usageExample() async {
   SettingsDataService initialSettings = SettingsDataService();
 
   // print initialSettings created with Settings initial values
@@ -564,7 +564,7 @@ void usageExample() {
 
   initialSettings.saveSettingsToFile(jsonPathFileName: 'settings.json');
 
-  SettingsDataService loadedSettings = SettingsDataService();
+  SettingsDataService loadedSettings = await SettingsDataService();
   loadedSettings.loadSettingsFromFile(jsonPathFileName: 'settings.json');
 
   print('\n**** Reloaded modified initialSettings\n');

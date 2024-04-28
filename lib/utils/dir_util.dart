@@ -4,9 +4,9 @@ import 'package:path/path.dart' as path;
 import '../constants.dart';
 
 class DirUtil {
-  static String getApplicationPath({
+  static Future<String> getApplicationPath({
     bool isTest = false,
-  }) {
+  }) async {
     if (Platform.isWindows) {
       if (isTest) {
         return kApplicationPathWindowsTest;
@@ -18,21 +18,33 @@ class DirUtil {
       if (isTest) {
         // avoids that the application can not be run after it was
         // installed on the smartphone
-        // Directory dir = Directory(kApplicationPathTest);
+        Directory dir = Directory(kApplicationPath);
 
-        // if (!dir.existsSync()) {
-        //   dir.createSync();
-        // }
+        if (!await dir.exists()) {
+          try {
+            await dir.create();
+            // Directory is created, you can now work with it
+          } catch (e) {
+            // Handle the exception, e.g., directory not created
+            print('Directory could not be created: $e');
+          }
+        }
 
         return kApplicationPathTest;
       } else {
-        // // avoids that the application can not be run after it was
-        // // installed on the smartphone
-        // Directory dir = Directory(kApplicationPath);
+        // avoids that the application can not be run after it was
+        // installed on the smartphone
+        Directory dir = Directory(kApplicationPath);
 
-        // if (!dir.existsSync()) {
-        //   dir.createSync();
-        // }
+        if (!await dir.exists()) {
+          try {
+            await dir.create();
+            // Directory is created, you can now work with it
+          } catch (e) {
+            // Handle the exception, e.g., directory not created
+            print('Directory could not be created: $e');
+          }
+        }
 
         return kApplicationPath;
       }

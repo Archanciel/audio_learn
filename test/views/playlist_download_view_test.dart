@@ -79,7 +79,7 @@ void main() async {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -146,7 +146,7 @@ void main() async {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -262,7 +262,7 @@ void main() async {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -397,7 +397,7 @@ void main() async {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -544,7 +544,7 @@ void main() async {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -629,7 +629,7 @@ void main() async {
     //   // otherwise the ordered playlist titles will remain empty
     //   // and the playlist list will not be filled with the
     //   // playlists available in the download app test dir
-    //   settingsDataService.loadSettingsFromFile(
+    //   await settingsDataService.loadSettingsFromFile(
     //       jsonPathFileName:
     //           "$kDownloadAppTestDirWindows${path.separator}$kSettingsFileName");
 
@@ -729,7 +729,7 @@ void main() async {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -826,7 +826,7 @@ void main() async {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -924,7 +924,7 @@ void main() async {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -1022,7 +1022,7 @@ void main() async {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -1119,7 +1119,7 @@ void main() async {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 

@@ -38,7 +38,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Download 1 playlist with short audios', () {
-    test('Check initial values', () {
+    test('Check initial values', () async {
       DirUtil.deleteFilesInDirAndSubDirs(
         rootPath: kPlaylistDownloadRootPathWindowsTest,
         deleteSubDirectoriesAsWell: true,
@@ -50,7 +50,7 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName: 'temp\wrong.json');
 
       final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
@@ -83,7 +83,7 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName: 'temp\wrong.json');
 
       // await tester.pumpWidget(MyApp());
@@ -197,7 +197,7 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName: 'temp\wrong.json');
 
       final WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -355,7 +355,7 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName: 'temp\wrong.json');
 
       // await tester.pumpWidget(MyApp());
@@ -484,7 +484,7 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName: 'temp\wrong.json');
 
       // await tester.pumpWidget(MyApp());
@@ -631,7 +631,7 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName: 'temp\wrong.json');
 
       final WarningMessageVM warningMessageVM = WarningMessageVM();

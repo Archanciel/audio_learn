@@ -15,7 +15,7 @@ void main() {
   group('Copy/move audio to target playlist', () {
     late PlaylistListVM playlistListVM;
 
-    setUp(() {
+    setUp(() async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -37,7 +37,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -217,7 +217,7 @@ void main() {
   group('Obtain next playable audio', () {
     late PlaylistListVM playlistListVM;
 
-    test('Next playable audio is not last downloaded', () {
+    test('Next playable audio is not last downloaded', () async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -239,7 +239,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -297,7 +297,7 @@ void main() {
     });
     test(
         'Next playable audio when current audio is last downloaded audio which is not fully played',
-        () {
+        () async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -319,7 +319,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -380,7 +380,7 @@ void main() {
     });
     test(
         'Next playable audio when current audio is last downloaded audio which is fully played',
-        () {
+        () async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -402,7 +402,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -460,7 +460,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(
           rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
-    test('Next playable audio is last downloaded audio', () {
+    test('Next playable audio is last downloaded audio', () async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -482,7 +482,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -552,7 +552,7 @@ void main() {
 
     test(
         'Playlist has several not fully played audios. Last downloaded audio is not played.',
-        () {
+        () async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -574,7 +574,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -632,7 +632,7 @@ void main() {
     });
     test(
         'Playlist has several not fully played audios. Last downloaded audio is fully played.',
-        () {
+        () async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -654,7 +654,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -716,7 +716,7 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(
           rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
-    test('Playlist has no not fully played audios', () {
+    test('Playlist has no not fully played audios', () async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -738,7 +738,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 

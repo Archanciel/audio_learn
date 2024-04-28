@@ -2356,7 +2356,7 @@ void main() {
     late AudioSortFilterService audioSortFilterService;
     late PlaylistListVM playlistListVM;
 
-    setUp(() {
+    setUp(() async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -2378,7 +2378,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -3072,7 +3072,7 @@ void main() {
     late AudioSortFilterService audioSortFilterService;
     late PlaylistListVM playlistListVM;
 
-    setUp(() {
+    setUp(() async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -3094,7 +3094,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
@@ -3283,7 +3283,7 @@ void main() {
     late AudioSortFilterService audioSortFilterService;
     late PlaylistListVM playlistListVM;
 
-    setUp(() {
+    setUp(() async {
       // Purge the test playlist directory if it exists so that the
       // playlist list is empty
       DirUtil.deleteFilesInDirAndSubDirs(
@@ -3305,7 +3305,7 @@ void main() {
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
-      settingsDataService.loadSettingsFromFile(
+      await settingsDataService.loadSettingsFromFile(
           jsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 

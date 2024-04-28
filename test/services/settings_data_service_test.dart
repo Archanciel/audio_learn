@@ -25,7 +25,7 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
+      await settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
 
       settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Default',
@@ -140,7 +140,7 @@ void main() {
 
       // Load from file
       final SettingsDataService loadedSettings = SettingsDataService();
-      loadedSettings.loadSettingsFromFile(
+      await loadedSettings.loadSettingsFromFile(
         jsonPathFileName: testSettingsPathFileName,
       );
 
@@ -218,7 +218,7 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
+      await settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
 
       settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Default',
@@ -258,7 +258,7 @@ void main() {
 
       // Load from file
       final SettingsDataService loadedSettings = SettingsDataService();
-      loadedSettings.loadSettingsFromFile(
+      await loadedSettings.loadSettingsFromFile(
         jsonPathFileName: testSettingsPathFileName,
       );
 
@@ -331,7 +331,7 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
+      await settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
 
       settings.addOrReplaceNamedAudioSortFilterSettings(
         audioSortFilterParametersName: 'Default',
@@ -381,7 +381,7 @@ void main() {
 
       // Load from file
       final SettingsDataService loadedSettings = SettingsDataService();
-      loadedSettings.loadSettingsFromFile(
+      await loadedSettings.loadSettingsFromFile(
         jsonPathFileName: testSettingsPathFileName,
       );
 
@@ -484,7 +484,7 @@ void main() {
 
       // Load from file
       final SettingsDataService loadedSettings = SettingsDataService();
-      loadedSettings.loadSettingsFromFile(
+      await loadedSettings.loadSettingsFromFile(
         jsonPathFileName: testSettingsPathFileName,
       );
 

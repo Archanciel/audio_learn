@@ -2225,13 +2225,13 @@ Future<void> initializeApplicationAndSelectPlaylist({
 
   // load settings from file which does not exist. This
   // will ensure that the default playlist root path is set
-  settingsDataService.loadSettingsFromFile(jsonPathFileName: 'temp\wrong.json');
+  await settingsDataService.loadSettingsFromFile(jsonPathFileName: 'temp\wrong.json');
 
   // Load the settings from the json file. This is necessary
   // otherwise the ordered playlist titles will remain empty
   // and the playlist list will not be filled with the
   // playlists available in the download app test dir
-  settingsDataService.loadSettingsFromFile(
+  await settingsDataService.loadSettingsFromFile(
       jsonPathFileName:
           "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
