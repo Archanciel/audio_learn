@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
-    widget.settingsDataService.addOrReplaceNamedAudioSortFilterSettings(
+    widget.settingsDataService.addOrReplaceNamedAudioSortFilterParameters(
       audioSortFilterParametersName:
           AppLocalizations.of(context)!.sortFilterParametersDefaultName,
       audioSortFilterParameters:

@@ -258,7 +258,7 @@ class SettingsDataService {
     }
   }
 
-  void addOrReplaceNamedAudioSortFilterSettings({
+  void addOrReplaceNamedAudioSortFilterParameters({
     required String audioSortFilterParametersName,
     required AudioSortFilterParameters audioSortFilterParameters,
   }) {
@@ -268,7 +268,7 @@ class SettingsDataService {
     _saveSettings();
   }
 
-  void addAudioSortFilterSettingsToSearchHistory({
+  void addAudioSortFilterParametersToSearchHistory({
     required AudioSortFilterParameters audioSortFilterParameters,
   }) {
     if (_searchHistoryAudioSortFilterParametersLst
@@ -296,7 +296,7 @@ class SettingsDataService {
     _saveSettings();
   }
 
-  void clearAudioSortFilterSettingsSearchHistory() {
+  void clearAudioSortFilterParametersSearchHistory() {
     _searchHistoryAudioSortFilterParametersLst.clear();
 
     _saveSettings();
@@ -305,7 +305,7 @@ class SettingsDataService {
   /// Remove the audio sort/filter parameters from the search history list.
   /// Return true if the audio sort/filter parameters was found and removed,
   /// false otherwise.
-  bool clearAudioSortFilterSettingsSearchHistoryElement(
+  bool clearAudioSortFilterParametersSearchHistoryElement(
     AudioSortFilterParameters audioSortFilterParameters,
   ) {
     bool wasElementRemoved = _searchHistoryAudioSortFilterParametersLst.remove(
@@ -317,7 +317,7 @@ class SettingsDataService {
     return wasElementRemoved;
   }
 
-  AudioSortFilterParameters? deleteNamedAudioSortFilterSettings({
+  AudioSortFilterParameters? deleteNamedAudioSortFilterParameters({
     required String audioSortFilterParametersName,
   }) {
     AudioSortFilterParameters? removedAudioSortFilterParameters =
@@ -465,7 +465,7 @@ void convertOldJsonFileToNewJsonFile({
           oldSettings["DataLocation.appSettingsPath"]
               ["DataLocation.playlistRootPath"],
       "DataLocation.playlistRootPath": oldSettings["SettingType.dataLocation"]
-              ["DataLocation.playlistRootPath"]
+          ["DataLocation.playlistRootPath"]
     },
     "namedAudioSortFilterSettings":
         oldSettings["namedAudioSortFilterSettings"] ?? {},

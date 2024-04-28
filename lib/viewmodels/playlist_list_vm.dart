@@ -127,9 +127,8 @@ class PlaylistListVM extends ChangeNotifier {
     );
 
     if (playlistListVMselectedPlaylist != null) {
-
       // required so that the selected playlist title text field
-      // of the playlist download view is updated 
+      // of the playlist download view is updated
       _uniqueSelectedPlaylist = playlistListVMselectedPlaylist;
 
       // playlistListVMselectedPlaylist is null if the selected
@@ -494,13 +493,13 @@ class PlaylistListVM extends ChangeNotifier {
   void addSearchHistoryAudioSortFilterParameters({
     required AudioSortFilterParameters audioSortFilterParameters,
   }) {
-    _settingsDataService.addAudioSortFilterSettingsToSearchHistory(
+    _settingsDataService.addAudioSortFilterParametersToSearchHistory(
       audioSortFilterParameters: audioSortFilterParameters,
     );
   }
 
   void clearAudioSortFilterSettingsSearchHistory() {
-    _settingsDataService.clearAudioSortFilterSettingsSearchHistory();
+    _settingsDataService.clearAudioSortFilterParametersSearchHistory();
   }
 
   /// Remove the audio sort/filter parameters from the search history list.
@@ -510,7 +509,7 @@ class PlaylistListVM extends ChangeNotifier {
     AudioSortFilterParameters audioSortFilterParameters,
   ) {
     return _settingsDataService
-        .clearAudioSortFilterSettingsSearchHistoryElement(
+        .clearAudioSortFilterParametersSearchHistoryElement(
       audioSortFilterParameters,
     );
   }
@@ -519,7 +518,7 @@ class PlaylistListVM extends ChangeNotifier {
     required String audioSortFilterParametersName,
     required AudioSortFilterParameters audioSortFilterParameters,
   }) {
-    _settingsDataService.addOrReplaceNamedAudioSortFilterSettings(
+    _settingsDataService.addOrReplaceNamedAudioSortFilterParameters(
       audioSortFilterParametersName: audioSortFilterParametersName,
       audioSortFilterParameters: audioSortFilterParameters,
     );
@@ -528,7 +527,7 @@ class PlaylistListVM extends ChangeNotifier {
   AudioSortFilterParameters? deleteAudioSortFilterParameters({
     required String audioSortFilterParametersName,
   }) {
-    return _settingsDataService.deleteNamedAudioSortFilterSettings(
+    return _settingsDataService.deleteNamedAudioSortFilterParameters(
       audioSortFilterParametersName: audioSortFilterParametersName,
     );
   }
