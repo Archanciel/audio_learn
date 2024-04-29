@@ -15,7 +15,7 @@ enum AudioLearnAppViewType {
 }
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '1.0.3';
+const String kApplicationVersion = '1.0.4';
 const String kApplicationConfigurationPath =
     '/storage/emulated/0/Download/audiolearn';
 const String kApplicationPathTest =

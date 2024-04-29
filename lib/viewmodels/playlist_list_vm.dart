@@ -37,13 +37,14 @@ class PlaylistListVM extends ChangeNotifier {
   bool _isListExpanded = false;
   bool _isButtonDownloadSelPlaylistsEnabled = false;
   bool _isButtonMovePlaylistEnabled = false;
-  bool _isButtonAudioPopupMenuEnabled = false;
+  bool _areButtonsApplicableToAudioEnabled = false;
 
   bool get isListExpanded => _isListExpanded;
   bool get isButtonDownloadSelPlaylistsEnabled =>
       _isButtonDownloadSelPlaylistsEnabled;
   bool get isButtonMovePlaylistEnabled => _isButtonMovePlaylistEnabled;
-  bool get isButtonAudioPopupMenuEnabled => _isButtonAudioPopupMenuEnabled;
+  bool get areButtonsApplicableToAudioEnabled =>
+      _areButtonsApplicableToAudioEnabled;
 
   final AudioDownloadVM _audioDownloadVM;
   final WarningMessageVM _warningMessageVM;
@@ -142,10 +143,9 @@ class PlaylistListVM extends ChangeNotifier {
       playlistListVMselectedPlaylist.playableAudioLst =
           audioDownloadVMcorrespondingPlaylist.playableAudioLst;
 
-      // audio popup menu items are enabled if audios are available
-      // in the selected playlist
-      _setAudioPopupMenuItemState(
-        audioPopupMenuItemStateIfAudiosAvailable: true,
+      // buttons applicable to an audio are enabled if audios are
+      // available in the selected playlist
+      _setStateOfButtonsApplicableToAudio(
         selectedPlaylist: playlistListVMselectedPlaylist,
       );
     } else {
@@ -154,10 +154,10 @@ class PlaylistListVM extends ChangeNotifier {
 
       _setUniqueSelectedPlaylistToFalse();
 
-      _setAudioPopupMenuItemState(
+      _setStateOfButtonsApplicableToAudio(
         // since no playlist is selected, no audios are displayed and
-        // the button is disabled
-        audioPopupMenuItemStateIfAudiosAvailable: false,
+        // the buttons applicable to an audio are disabled
+        selectedPlaylist: null,
       );
     }
 
@@ -776,8 +776,7 @@ class PlaylistListVM extends ChangeNotifier {
 
     _removeAudioFromSortedFilteredPlayableAudioList(audio);
 
-    _setAudioPopupMenuItemState(
-      audioPopupMenuItemStateIfAudiosAvailable: true,
+    _setStateOfButtonsApplicableToAudio(
       selectedPlaylist: audio.enclosingPlaylist!,
     );
 
@@ -885,34 +884,28 @@ class PlaylistListVM extends ChangeNotifier {
       _isButtonDownloadSelPlaylistsEnabled = true;
     }
 
-    _setAudioPopupMenuItemState(
-      audioPopupMenuItemStateIfAudiosAvailable: true,
+    _setStateOfButtonsApplicableToAudio(
       selectedPlaylist: selectedPlaylist,
     );
   }
 
-  /// If the selected playlist has no audio, then the
-  /// button is disabled.
-  void _setAudioPopupMenuItemState({
-    required bool audioPopupMenuItemStateIfAudiosAvailable,
-    Playlist? selectedPlaylist,
+  /// If the selected playlist is null or if it has no audio,
+  /// then the buttons applicable to an audio are disabled.
+  void _setStateOfButtonsApplicableToAudio({
+    required Playlist? selectedPlaylist,
   }) {
-    if (audioPopupMenuItemStateIfAudiosAvailable) {
-      if (selectedPlaylist != null &&
-          selectedPlaylist.playableAudioLst.isNotEmpty) {
-        _isButtonAudioPopupMenuEnabled = true;
-      } else {
-        _isButtonAudioPopupMenuEnabled = false;
-      }
+    if (selectedPlaylist != null &&
+        selectedPlaylist.playableAudioLst.isNotEmpty) {
+      _areButtonsApplicableToAudioEnabled = true;
     } else {
-      _isButtonAudioPopupMenuEnabled = false;
+      _areButtonsApplicableToAudioEnabled = false;
     }
   }
 
   void _disableAllButtonsIfNoPlaylistIsSelected() {
     _disableExpandedListButtons();
-    _setAudioPopupMenuItemState(
-      audioPopupMenuItemStateIfAudiosAvailable: false,
+    _setStateOfButtonsApplicableToAudio(
+      selectedPlaylist: null,
     );
   }
 

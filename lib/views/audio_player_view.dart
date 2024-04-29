@@ -105,12 +105,19 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       listen: false,
     );
 
+    PlaylistListVM playlistListVMlistenFalse = Provider.of<PlaylistListVM>(
+      context,
+      listen: false,
+    );
+
+    bool areAudioButtonsEnabled =
+        playlistListVMlistenFalse.areButtonsApplicableToAudioEnabled;
+
     if (globalAudioPlayerVM.currentAudio == null) {
       _audioPlaySpeed = 1.0;
     } else {
       _audioPlaySpeed = globalAudioPlayerVM.currentAudio!.audioPlaySpeed;
     }
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -122,17 +129,20 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            _buildSetAudioVolumeIconButton(context),
+            _buildSetAudioVolumeIconButton(
+              context: context,
+              areAudioButtonsEnabled: areAudioButtonsEnabled,
+            ),
             const SizedBox(
               width: kRowButtonGroupWidthSeparator,
             ),
-            _buildSetAudioSpeedTextButton(context),
+            _buildSetAudioSpeedTextButton(
+              context: context,
+              areAudioButtonsEnabled: areAudioButtonsEnabled,
+            ),
             _buildAudioPopupMenuButton(
               context: context,
-              playlistListVMlistenFalse: Provider.of<PlaylistListVM>(
-                context,
-                listen: false,
-              ),
+              playlistListVMlistenFalse: playlistListVMlistenFalse,
               warningMessageVMlistenFalse: Provider.of<WarningMessageVM>(
                 context,
                 listen: false,
@@ -154,9 +164,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     );
   }
 
-  Widget _buildSetAudioVolumeIconButton(
-    BuildContext context,
-  ) {
+  Widget _buildSetAudioVolumeIconButton({
+    required BuildContext context,
+    required bool areAudioButtonsEnabled,
+  }) {
     return Consumer2<ThemeProviderVM, AudioPlayerVM>(
       builder: (context, themeProviderVM, globalAudioPlayerVM, child) {
         _audioPlaySpeed =
@@ -174,8 +185,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 child: IconButton(
                   icon: const Icon(Icons.arrow_drop_down),
                   iconSize: kUpDownButtonSize,
-                  onPressed: globalAudioPlayerVM.isCurrentAudioVolumeMin()
-                      ? null // Disable the button if the volume is min
+                  onPressed: (!areAudioButtonsEnabled ||
+                          globalAudioPlayerVM.isCurrentAudioVolumeMin())
+                      ? null // Disable the button if no audio selected or
+                      //        if the volume is min
                       : () {
                           globalAudioPlayerVM.changeAudioVolume(
                             volumeChangedValue: -0.1,
@@ -192,8 +205,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 child: IconButton(
                     icon: const Icon(Icons.arrow_drop_up),
                     iconSize: kUpDownButtonSize,
-                    onPressed: globalAudioPlayerVM.isCurrentAudioVolumeMax()
-                        ? null // Disable the button if the volume is max
+                    onPressed: (!areAudioButtonsEnabled ||
+                            globalAudioPlayerVM.isCurrentAudioVolumeMax())
+                        ? null // Disable the button if no audio selected or
+                        //        if the volume is max
                         : () {
                             globalAudioPlayerVM.changeAudioVolume(
                               volumeChangedValue: 0.1,
@@ -207,9 +222,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
     );
   }
 
-  Widget _buildSetAudioSpeedTextButton(
-    BuildContext context,
-  ) {
+  Widget _buildSetAudioSpeedTextButton({
+    required BuildContext context,
+    required bool areAudioButtonsEnabled,
+  }) {
     return Consumer2<ThemeProviderVM, AudioPlayerVM>(
       builder: (context, themeProviderVM, globalAudioPlayerVM, child) {
         _audioPlaySpeed =
@@ -230,7 +246,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   key: const Key('setAudioSpeedTextButton'),
                   style: ButtonStyle(
                     shape: getButtonRoundedShape(
-                        currentTheme: themeProviderVM.currentTheme),
+                      currentTheme: themeProviderVM.currentTheme,
+                      isButtonEnabled: areAudioButtonsEnabled,
+                      context: context,
+                    ),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                       const EdgeInsets.symmetric(
                           horizontal: kSmallButtonInsidePadding, vertical: 0),
@@ -238,38 +257,45 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     overlayColor:
                         textButtonTapModification, // Tap feedback color
                   ),
-                  onPressed: () {
-                    // Using FocusNode to enable clicking on Enter to close
-                    // the dialog
-                    final FocusNode focusNode = FocusNode();
-                    showDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        return SetAudioSpeedDialogWidget(
-                          audioPlaySpeed: _audioPlaySpeed,
-                        );
-                      },
-                    ).then((value) {
-                      // not null value is boolean
-                      if (value != null) {
-                        // value is null if clicking on Cancel or if the dialog
-                        // is dismissed by clicking outside the dialog.
-
-                        _audioPlaySpeed = value[0] as double;
-                      }
-                    });
-                    focusNode.requestFocus();
-                  },
+                  onPressed: areAudioButtonsEnabled
+                      ? () {
+                          // Using FocusNode to enable clicking on Enter to close
+                          // the dialog
+                          final FocusNode focusNode = FocusNode();
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return SetAudioSpeedDialogWidget(
+                                audioPlaySpeed: _audioPlaySpeed,
+                              );
+                            },
+                          ).then((value) {
+                            // not null value is boolean
+                            if (value != null) {
+                              // value is null if clicking on Cancel or if the dialog
+                              // is dismissed by clicking outside the dialog.
+                              _audioPlaySpeed = value[0] as double;
+                            }
+                          });
+                          focusNode.requestFocus();
+                        }
+                      : null,
                   child: Tooltip(
                     message:
                         AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
                     child: Text(
                       '${_audioPlaySpeed.toStringAsFixed(2)}x',
                       textAlign: TextAlign.center,
-                      style: (themeProviderVM.currentTheme == AppTheme.dark)
-                          ? kTextButtonStyleDarkMode
-                          : kTextButtonStyleLightMode,
+                      style: (areAudioButtonsEnabled)
+                          ? (themeProviderVM.currentTheme == AppTheme.dark)
+                              ? kTextButtonStyleDarkMode
+                              : kTextButtonStyleLightMode
+                          : const TextStyle(
+                              // required to display the button in grey if
+                              // the button is disabled
+                              fontSize: kTextButtonFontSize,
+                            ),
                     ),
                   ),
                 ),
@@ -294,7 +320,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
       width: kRowButtonGroupWidthSeparator,
       child: PopupMenuButton<PopupMenuButtonType>(
         key: const Key('audio_popup_menu_button'),
-        enabled: (playlistListVMlistenFalse.isButtonAudioPopupMenuEnabled),
+        enabled: (playlistListVMlistenFalse.areButtonsApplicableToAudioEnabled),
         icon: const Icon(Icons.filter_list),
         itemBuilder: (BuildContext context) {
           return [
