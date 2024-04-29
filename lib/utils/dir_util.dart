@@ -33,7 +33,7 @@ class DirUtil {
       } else {
         // avoids that the application can not be run after it was
         // installed on the smartphone
-        Directory dir = Directory(kApplicationPath);
+        Directory dir = Directory(kApplicationConfigurationPath);
 
         if (!await dir.exists()) {
           try {
@@ -44,7 +44,7 @@ class DirUtil {
           }
         }
 
-        return kApplicationPath;
+        return kApplicationConfigurationPath;
       }
     }
   }
@@ -107,11 +107,11 @@ class DirUtil {
     // app restart. Uncomprehensible !
     bool directoryExists = directory.existsSync();
 
-      if (directoryExists) {
-        DirUtil.deleteFilesInDirAndSubDirs(
-          rootPath: kApplicationPathTest,
-        );
-      }
+    if (directoryExists) {
+      DirUtil.deleteFilesInDirAndSubDirs(
+        rootPath: kApplicationPathTest,
+      );
+    }
   }
 
   static Future<void> createDirIfNotExist({

@@ -54,7 +54,7 @@ Future<void> main(List<String> args) async {
   // create the app dir if it does not exist
   await settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
-        '$kApplicationPath${Platform.pathSeparator}$kSettingsFileName',
+        '$kApplicationConfigurationPath${Platform.pathSeparator}$kSettingsFileName',
   );
 
   // If app runs on Windows, Linux or MacOS, set the app size
