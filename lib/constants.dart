@@ -16,10 +16,8 @@ enum AudioLearnAppViewType {
 
 const String kApplicationName = "Audio Learn";
 const String kApplicationVersion = '1.0.4';
-const String kApplicationConfigurationPath =
-    '/storage/emulated/0/Download/audiolearn';
-const String kApplicationPathTest =
-    '/storage/emulated/0/Download/audiolearn';
+const String kApplicationPath = '/storage/emulated/0/Download/audiolearn';
+const String kApplicationPathTest = '/storage/emulated/0/Download/audiolearn';
 const String kPlaylistDownloadRootPath =
     '/storage/emulated/0/Download/audiolearn/playlists';
 const String kPlaylistDownloadRootPathTest =
@@ -82,7 +80,8 @@ const double kRowButtonGroupWidthSeparator = 30.0;
 const double kUpDownButtonSize = 50.0;
 const double kGreaterButtonWidth = 65.0;
 const double kNormalButtonWidth = 62.0;
-const double kSmallButtonWidth = 35.0; // 40.0; fails the app on S20 !
+const double kSmallButtonWidth = 45.0; // 40.0; fails the app on S20 !
+const double kSmallestButtonWidth = 35.0; // 40.0; fails the app on S20 !
 const double kSmallIconButtonWidth = 30.0;
 const double kNormalButtonHeight = 25.0;
 const double kSmallButtonInsidePadding = 3.0;

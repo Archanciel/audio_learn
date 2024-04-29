@@ -699,7 +699,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: kSmallButtonWidth + 10,
+          width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_down_playlist_button'),
             onPressed: playlistListVMlistenFalse.isButtonMovePlaylistEnabled
@@ -715,7 +715,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           ),
         ),
         SizedBox(
-          width: kSmallButtonWidth + 10,
+          width: kSmallButtonWidth,
           child: IconButton(
             key: const Key('move_up_playlist_button'),
             onPressed: playlistListVMlistenFalse.isButtonMovePlaylistEnabled
@@ -1024,7 +1024,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     return SizedBox(
       // sets the rounded TextButton size improving the distance
       // between the button text and its boarder
-      width: kSmallButtonWidth + 18, // necessary to display english text
+      width: kSmallButtonWidth + 8, // necessary to display english text
       height: kNormalButtonHeight,
       child: Tooltip(
         message: AppLocalizations.of(context)!.downloadSingleVideoButtonTooltip,

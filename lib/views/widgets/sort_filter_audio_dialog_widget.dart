@@ -1289,7 +1289,7 @@ class _SortFilterAudioDialogWidgetState
           style: kDialogTitlesStyle,
         ),
         SizedBox(
-          width: kSmallButtonWidth,
+          width: kSmallestButtonWidth,
           child: IconButton(
             key: const Key('search_history_arrow_left_button'),
             onPressed: _historicalAudioSortFilterParametersIndex > 0
@@ -1305,7 +1305,7 @@ class _SortFilterAudioDialogWidgetState
           ),
         ),
         SizedBox(
-          width: kSmallButtonWidth,
+          width: kSmallestButtonWidth,
           child: IconButton(
             key: const Key('search_history_arrow_right_button'),
             onPressed: _historicalAudioSortFilterParametersIndex <
@@ -1322,7 +1322,7 @@ class _SortFilterAudioDialogWidgetState
           ),
         ),
         SizedBox(
-          width: kSmallButtonWidth,
+          width: kSmallestButtonWidth,
           child: Tooltip(
             message: AppLocalizations.of(context)!
                 .clearSortFilterAudiosParmsHistoryMenu,
