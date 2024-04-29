@@ -699,7 +699,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: kSmallButtonWidth,
+          width: kSmallButtonWidth + 10,
           child: IconButton(
             key: const Key('move_down_playlist_button'),
             onPressed: playlistListVMlistenFalse.isButtonMovePlaylistEnabled
@@ -715,7 +715,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           ),
         ),
         SizedBox(
-          width: kSmallButtonWidth,
+          width: kSmallButtonWidth + 10,
           child: IconButton(
             key: const Key('move_up_playlist_button'),
             onPressed: playlistListVMlistenFalse.isButtonMovePlaylistEnabled
