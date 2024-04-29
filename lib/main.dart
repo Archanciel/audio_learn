@@ -29,9 +29,6 @@ Future<void> main(List<String> args) async {
     //                            app dir
   }
 
-  // two methods which could not be declared async !
-  //
-  // Setting the TransferDataViewModel transfer data Map
   bool deleteAppDir = kDeleteAppDirOnEmulator;
   bool isTest = false;
 
