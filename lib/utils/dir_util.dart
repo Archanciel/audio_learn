@@ -18,7 +18,7 @@ class DirUtil {
       if (isTest) {
         // avoids that the application can not be run after it was
         // installed on the smartphone
-        Directory dir = Directory(kApplicationPathWindowsTest);
+        Directory dir = Directory(kApplicationPathTest);
 
         if (!await dir.exists()) {
           try {
@@ -33,7 +33,7 @@ class DirUtil {
       } else {
         // avoids that the application can not be run after it was
         // installed on the smartphone
-        Directory dir = Directory(kApplicationConfigurationPath);
+        Directory dir = Directory(kApplicationPath);
 
         if (!await dir.exists()) {
           try {
@@ -44,7 +44,7 @@ class DirUtil {
           }
         }
 
-        return kApplicationConfigurationPath;
+        return kApplicationPath;
       }
     }
   }
@@ -100,7 +100,7 @@ class DirUtil {
     return pathFileNameWithoutHomePath;
   }
 
-  static void deleteAppDirOnemulatorIfExist() {
+  static void deleteAppDirOnEmulatorIfExist() {
     final Directory directory = Directory(kApplicationPathTest);
 
     // using await directory.exists did delete dir only on second

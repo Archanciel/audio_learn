@@ -236,7 +236,7 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
         SizedBox(
           // sets the rounded TextButton size improving the distance
           // between the button text and its boarder
-          width: kSmallButtonWidth + 3,
+          width: kSmallestButtonWidth + 3,
           height: kNormalButtonHeight,
           child: TextButton(
             style: ButtonStyle(
@@ -264,7 +264,7 @@ class _AudioExtractorViewState extends State<AudioExtractorView>
         SizedBox(
           // sets the rounded TextButton size improving the distance
           // between the button text and its boarder
-          width: kSmallButtonWidth + 3,
+          width: kSmallestButtonWidth + 3,
           height: kNormalButtonHeight,
           child: TextButton(
             style: ButtonStyle(

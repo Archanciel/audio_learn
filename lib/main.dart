@@ -44,7 +44,7 @@ Future<void> main(List<String> args) async {
   }
 
   if (deleteAppDir) {
-    DirUtil.deleteAppDirOnemulatorIfExist();
+    DirUtil.deleteAppDirOnEmulatorIfExist();
     print('***** $kPlaylistDownloadRootPath mp3 files deleted *****');
   }
 
@@ -52,9 +52,11 @@ Future<void> main(List<String> args) async {
       SettingsDataService(isTest: isTest);
 
   // create the app dir if it does not exist
+  String applicationPath = await DirUtil.getApplicationPath(isTest: isTest);
+  
   await settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
-        '$kApplicationConfigurationPath${Platform.pathSeparator}$kSettingsFileName',
+        '${applicationPath}${Platform.pathSeparator}$kSettingsFileName',
   );
 
   // If app runs on Windows, Linux or MacOS, set the app size
