@@ -208,6 +208,18 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
                 audioGlobalPlayerVM,
                 newSpeed,
               );
+            } else {
+              if (newSpeed <= 2.001) {
+                // required since _audioPlaySpeed can be
+                // 1.9000000000000008. 1.9 is displayed
+                // and clicking on '+' button could not
+                // change the speed to 2.0 !
+                newSpeed = 2.0;
+                _setPlaybackSpeed(
+                  audioGlobalPlayerVM,
+                  newSpeed,
+                );
+              }
             }
           },
         ),
@@ -219,7 +231,7 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
     AudioPlayerVM audioGlobalPlayerVM,
     ThemeProviderVM themeProviderVM,
   ) {
-    final speeds = [0.7, 1.0, 1.25, 1.5, 2.0]; // [0.7, 1.0, 1.25, 1.5, 2.0] is too
+    final speeds = [0.7, 1.0, 1.25, 1.5]; // [0.7, 1.0, 1.25, 1.5, 2.0] is too
     //                                       large for the screen on S20
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
