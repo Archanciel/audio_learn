@@ -51,7 +51,7 @@
   "audioDownloadDuration": "Durée téléchargement audio",
   "sortAscending": "Asc",
   "sortDescending": "Desc",
-  "filterOptions": "Options de filtre:",
+  "filterOptions": "Options filtre:",
   "videoTitleOrDescription": "Titre (et description) vidéo",
   "startDownloadDate": "Date début téléchargement",
   "endDownloadDate": "Date fin téléchargement",

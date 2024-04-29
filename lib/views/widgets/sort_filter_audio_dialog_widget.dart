@@ -1690,6 +1690,7 @@ class _SortFilterAudioDialogWidgetState
         child: Text(
           _sortingOptionToString(value, context),
           style: const TextStyle(fontSize: kDropdownMenuItemFontSize),
+          maxLines: 2,
         ),
       );
     }).toList();
