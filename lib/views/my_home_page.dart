@@ -105,6 +105,9 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
+    // creating a default sort filter parameters which will be
+    // applied for sorting the playlists audios if no other
+    // sort filter parameters are defined and applied.
     widget.settingsDataService.addOrReplaceNamedAudioSortFilterParameters(
       audioSortFilterParametersName:
           AppLocalizations.of(context)!.sortFilterParametersDefaultName,
