@@ -20,18 +20,14 @@ import 'views/my_home_page.dart';
 import 'views/screen_mixin.dart';
 
 Future<void> main(List<String> args) async {
-  List<String> myArgs = [];
-
-  if (args.isNotEmpty) {
-    myArgs = args;
-  } else {
-    // myArgs = ["delAppDir"]; // used to empty dir on emulator
-    //                            app dir
-  }
+  WidgetsFlutterBinding.ensureInitialized();  // Ensure Flutter bindings are initialized.
+  
+  List<String> myArgs = args.isNotEmpty ? args : [];
 
   bool deleteAppDir = kDeleteAppDirOnEmulator;
   bool isTest = false;
 
+  // Parse command line arguments
   if (myArgs.isNotEmpty) {
     if (myArgs.contains("delAppDir")) {
       deleteAppDir = true;
@@ -40,26 +36,33 @@ Future<void> main(List<String> args) async {
     }
   }
 
+  // Handle deletion of application directory if required
   if (deleteAppDir) {
     DirUtil.deleteAppDirOnEmulatorIfExist();
     print('***** $kPlaylistDownloadRootPath mp3 files deleted *****');
   }
 
-  final SettingsDataService settingsDataService =
-      SettingsDataService(isTest: isTest);
+  String applicationPath = '';
 
-  // create the app dir if it does not exist
-  String applicationPath = await DirUtil.getApplicationPath(isTest: isTest);
-  
+  // Request permissions and then create/get the application directory
+  await PermissionRequesterService.requestMultiplePermissions().then(
+    (_) async => applicationPath = await DirUtil.getApplicationPath(isTest: isTest)
+  );
+
+  // Now proceed with setting up the app window size and position if needed
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    await setWindowsAppSizeAndPosition();
+  }
+
+  // Setup SettingsDataService
+  final SettingsDataService settingsDataService = SettingsDataService(isTest: isTest);
+
   await settingsDataService.loadSettingsFromFile(
     jsonPathFileName:
         '${applicationPath}${Platform.pathSeparator}$kSettingsFileName',
   );
 
-  // If app runs on Windows, Linux or MacOS, set the app size
-  // and position
-  await setWindowsAppSizeAndPosition();
-
+  // Run the app
   runApp(MainApp(
     settingsDataService: settingsDataService,
     isTest: isTest,
@@ -125,8 +128,6 @@ class MainApp extends StatelessWidget with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
-    PermissionRequesterService.requestMultiplePermissions();
-
     WarningMessageVM warningMessageVM = WarningMessageVM();
 
     AudioDownloadVM audioDownloadVM = AudioDownloadVM(
