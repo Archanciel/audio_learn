@@ -274,11 +274,11 @@ class Audio {
   }
 
   /// Returns true if the audio position is greater or equal to
-  /// the audio duration minus 5 seconds.
+  /// the audio duration minus 15 seconds.
   bool wasFullyListened() {
     return (audioDuration == null)
         ? false
-        : (audioPositionSeconds >= audioDuration!.inSeconds - 5);
+        : (audioPositionSeconds >= audioDuration!.inSeconds - 15);
   }
 
   bool isPartiallyListened() {

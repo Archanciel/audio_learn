@@ -130,6 +130,7 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
                   value:
                       Duration(seconds: audio.audioPositionSeconds).HHmmss()),
               createInfoRowFunction(
+                  valueTextWidgetKey: const Key('audioStateKey'),
                   context: context,
                   label: AppLocalizations.of(context)!.audioStateLabel,
                   value: defineAudioStateStr(
@@ -213,8 +214,8 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
   }) {
     if (audio.audioPositionSeconds == 0) {
       return AppLocalizations.of(context)!.audioStateNotStarted;
-    } else if (audio.audioPositionSeconds == audio.audioDuration!.inSeconds) {
-      return AppLocalizations.of(context)!.audioStateStopped;
+    } else if (audio.wasFullyListened()) {
+      return AppLocalizations.of(context)!.audioStateTerminated;
     } else if (audio.isPaused) {
       return AppLocalizations.of(context)!.audioStatePaused;
     } else {
