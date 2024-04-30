@@ -25,9 +25,10 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      await settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
+      await settings.loadSettingsFromFile(
+          jsonPathFileName: 'test/settings.json');
 
-      settings.addOrReplaceNamedAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterParameters(
         audioSortFilterParametersName: 'Default',
         audioSortFilterParameters:
             AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
@@ -40,7 +41,7 @@ void main() {
         isAscending: true,
       ));
 
-      settings.addAudioSortFilterSettingsToSearchHistory(
+      settings.addAudioSortFilterParametersToSearchHistory(
         audioSortFilterParameters: historicalAudioSortFilterParameters,
       );
 
@@ -218,9 +219,10 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      await settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
+      await settings.loadSettingsFromFile(
+          jsonPathFileName: 'test/settings.json');
 
-      settings.addOrReplaceNamedAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterParameters(
         audioSortFilterParametersName: 'Default',
         audioSortFilterParameters:
             AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
@@ -228,7 +230,7 @@ void main() {
       AudioSortFilterParameters audioSortFilterParametersJancovici =
           AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
       audioSortFilterParametersJancovici.filterSentenceLst.add("Jancovici");
-      settings.addOrReplaceNamedAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterParameters(
         audioSortFilterParametersName: 'Jancovici',
         audioSortFilterParameters: audioSortFilterParametersJancovici,
       );
@@ -240,10 +242,10 @@ void main() {
         isAscending: true,
       ));
 
-      settings.addAudioSortFilterSettingsToSearchHistory(
+      settings.addAudioSortFilterParametersToSearchHistory(
         audioSortFilterParameters: historicalAudioSortFilterParameters,
       );
-      settings.addAudioSortFilterSettingsToSearchHistory(
+      settings.addAudioSortFilterParametersToSearchHistory(
         audioSortFilterParameters: audioSortFilterParametersJancovici,
       );
 
@@ -331,9 +333,10 @@ void main() {
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
-      await settings.loadSettingsFromFile(jsonPathFileName: 'test/settings.json');
+      await settings.loadSettingsFromFile(
+          jsonPathFileName: 'test/settings.json');
 
-      settings.addOrReplaceNamedAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterParameters(
         audioSortFilterParametersName: 'Default',
         audioSortFilterParameters:
             AudioSortFilterParameters.createDefaultAudioSortFilterParameters(),
@@ -341,14 +344,14 @@ void main() {
       AudioSortFilterParameters audioSortFilterParametersJancovici =
           AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
       audioSortFilterParametersJancovici.filterSentenceLst.add("Jancovici");
-      settings.addOrReplaceNamedAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterParameters(
         audioSortFilterParametersName: 'Jancovici',
         audioSortFilterParameters: audioSortFilterParametersJancovici,
       );
       AudioSortFilterParameters audioSortFilterParametersBarrau =
           AudioSortFilterParameters.createDefaultAudioSortFilterParameters();
       audioSortFilterParametersBarrau.filterSentenceLst.add("Barrau");
-      settings.addOrReplaceNamedAudioSortFilterSettings(
+      settings.addOrReplaceNamedAudioSortFilterParameters(
         audioSortFilterParametersName: 'Barrau',
         audioSortFilterParameters: audioSortFilterParametersBarrau,
       );
@@ -360,13 +363,13 @@ void main() {
         isAscending: true,
       ));
 
-      settings.addAudioSortFilterSettingsToSearchHistory(
+      settings.addAudioSortFilterParametersToSearchHistory(
         audioSortFilterParameters: historicalAudioSortFilterParameters,
       );
-      settings.addAudioSortFilterSettingsToSearchHistory(
+      settings.addAudioSortFilterParametersToSearchHistory(
         audioSortFilterParameters: audioSortFilterParametersJancovici,
       );
-      settings.addAudioSortFilterSettingsToSearchHistory(
+      settings.addAudioSortFilterParametersToSearchHistory(
         audioSortFilterParameters: audioSortFilterParametersBarrau,
       );
 
