@@ -474,6 +474,12 @@ Future<void> removePlaylistSettingsFromJsonFile({
   // Read the file
   File file = File(filePath);
   String content = await file.readAsString();
+
+  if (content.contains('/storage/emulated/0/Download/audiolear')) {
+    print("*********** $filePath ***********");
+    return;
+  }
+
   Map<String, dynamic> jsonData = jsonDecode(content);
 
   // Remove the specified keys
