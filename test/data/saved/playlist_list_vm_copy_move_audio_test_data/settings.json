@@ -15,7 +15,6 @@
     "SettingType.playlists": {
         "Playlists.isMusicQualityByDefault": "false",
         "Playlists.orderedTitleLst": "[local_target, S8 audio]",
-        "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",
         "Playlists.playSpeed": "1.25"
     }
 }

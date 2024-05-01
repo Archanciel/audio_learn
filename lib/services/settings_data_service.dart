@@ -407,10 +407,10 @@ class SettingsDataService {
 }
 
 Future<void> main() async {
-  // String testPath =
-  //     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved";
   String testPath =
-      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\temp";
+      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved";
+  // String testPath =
+  //     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\temp";
   List<String> oldFilePathLst = DirUtil.listPathFileNamesInSubDirs(
     path: testPath,
     extension: 'json',
