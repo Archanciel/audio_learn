@@ -3,8 +3,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-
 import '../constants.dart';
 import '../utils/dir_util.dart';
 import 'sort_filter_parameters.dart';
@@ -27,11 +25,9 @@ enum Language {
 }
 
 enum Playlists {
-  pathLst,
   orderedTitleLst,
   isMusicQualityByDefault,
   playSpeed,
-  defaultAudioSort,
 }
 
 enum DataLocation {
@@ -52,11 +48,9 @@ class SettingsDataService {
     SettingType.appTheme: {SettingType.appTheme: AppTheme.dark},
     SettingType.language: {SettingType.language: Language.english},
     SettingType.playlists: {
-      Playlists.pathLst: ["/EMPTY", "/BOOKS", "/MUSIC"],
       Playlists.orderedTitleLst: [],
       Playlists.isMusicQualityByDefault: false,
       Playlists.playSpeed: kAudioDefaultPlaySpeed,
-      Playlists.defaultAudioSort: AudioSortCriterion.audioDownloadDateTime,
     },
     SettingType.dataLocation: {
       DataLocation.appSettingsPath: '',
@@ -412,13 +406,11 @@ class SettingsDataService {
   }
 }
 
-void main() {
+Future<void> main() async {
+  // String testPath =
+  //     "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved";
   String testPath =
-      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\saved";
-  // convertOldJsonFileToNewJsonFile(
-  //   oldFilePath: testPath,
-  // );
-  // return;
+      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\data\\temp";
   List<String> oldFilePathLst = DirUtil.listPathFileNamesInSubDirs(
     path: testPath,
     extension: 'json',
@@ -426,8 +418,8 @@ void main() {
 
   for (String oldFilePath in oldFilePathLst
       .where((oldFilePath) => oldFilePath.contains('settings.json'))) {
-    convertOldJsonFileToNewJsonFile(
-      oldFilePath: oldFilePath,
+    await removePlaylistSettingsFromJsonFile(
+      filePath: oldFilePath,
     );
   }
 }
@@ -476,6 +468,27 @@ void convertOldJsonFileToNewJsonFile({
   File(newFilePath ?? oldFilePath).writeAsStringSync(jsonEncode(newSettings));
 }
 
+Future<void> removePlaylistSettingsFromJsonFile({
+  required String filePath,
+}) async {
+  // Read the file
+  File file = File(filePath);
+  String content = await file.readAsString();
+  Map<String, dynamic> jsonData = jsonDecode(content);
+
+  // Remove the specified keys
+  (jsonData['SettingType.playlists'] as Map<String, dynamic>)
+      .remove('Playlists.defaultAudioSort');
+  (jsonData['SettingType.playlists'] as Map<String, dynamic>)
+      .remove('Playlists.pathLst');
+
+  // Convert the modified map back to a JSON string
+  String modifiedContent = jsonEncode(jsonData);
+
+  // Write the modified JSON back to the file
+  await file.writeAsString(modifiedContent);
+}
+
 Future<void> usageExample() async {
   SettingsDataService initialSettings = SettingsDataService();
 
@@ -489,15 +502,11 @@ Future<void> usageExample() async {
   print(
       '${initialSettings.get(settingType: SettingType.dataLocation, settingSubType: DataLocation.playlistRootPath)}');
   print(
-      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
-  print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.orderedTitleLst)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playSpeed)}');
-  print(
-      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 
   // modify initialSettings values
 
@@ -518,16 +527,6 @@ Future<void> usageExample() async {
 
   initialSettings.set(
       settingType: SettingType.playlists,
-      settingSubType: Playlists.pathLst,
-      value: ['\\one', '\\two']);
-
-  initialSettings.set(
-      settingType: SettingType.playlists,
-      settingSubType: Playlists.orderedTitleLst,
-      value: ['audiolearn', 'audiolearn2', 'audiolearn3']);
-
-  initialSettings.set(
-      settingType: SettingType.playlists,
       settingSubType: Playlists.isMusicQualityByDefault,
       value: true);
 
@@ -535,11 +534,6 @@ Future<void> usageExample() async {
       settingType: SettingType.playlists,
       settingSubType: Playlists.playSpeed,
       value: 1.35);
-
-  initialSettings.set(
-      settingType: SettingType.playlists,
-      settingSubType: Playlists.defaultAudioSort,
-      value: AudioSortCriterion.validVideoTitle);
 
   // print initialSettings after modifying its values
 
@@ -552,15 +546,11 @@ Future<void> usageExample() async {
   print(
       '${initialSettings.get(settingType: SettingType.dataLocation, settingSubType: DataLocation.playlistRootPath)}');
   print(
-      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
-  print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.orderedTitleLst)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
   print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playSpeed)}');
-  print(
-      '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 
   initialSettings.saveSettingsToFile(jsonPathFileName: 'settings.json');
 
@@ -576,13 +566,9 @@ Future<void> usageExample() async {
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: DataLocation.playlistRootPath)}');
   print(
-      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.pathLst)}');
-  print(
       '${initialSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.orderedTitleLst)}');
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.isMusicQualityByDefault)}');
   print(
       '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.playSpeed)}');
-  print(
-      '${loadedSettings.get(settingType: SettingType.playlists, settingSubType: Playlists.defaultAudioSort)}');
 }

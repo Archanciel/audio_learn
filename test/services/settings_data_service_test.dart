@@ -64,11 +64,6 @@ void main() {
       expect(
           settings.get(
               settingType: SettingType.playlists,
-              settingSubType: Playlists.pathLst),
-          ["/EMPTY", "/BOOKS", "/MUSIC"]);
-      expect(
-          settings.get(
-              settingType: SettingType.playlists,
               settingSubType: Playlists.isMusicQualityByDefault),
           false);
       expect(
@@ -76,11 +71,6 @@ void main() {
               settingType: SettingType.playlists,
               settingSubType: Playlists.playSpeed),
           kAudioDefaultPlaySpeed);
-      expect(
-          settings.get(
-              settingType: SettingType.playlists,
-              settingSubType: Playlists.defaultAudioSort),
-          AudioSortCriterion.audioDownloadDateTime);
 
       AudioSortFilterParameters defaultAudioSortFilterParameters =
           settings.namedAudioSortFilterParametersMap['Default']!;
@@ -115,20 +105,12 @@ void main() {
           value: kPlaylistDownloadRootPathWindowsTest);
       settings.set(
           settingType: SettingType.playlists,
-          settingSubType: Playlists.pathLst,
-          value: ['\\one', '\\two']);
-      settings.set(
-          settingType: SettingType.playlists,
           settingSubType: Playlists.isMusicQualityByDefault,
           value: true);
       settings.set(
           settingType: SettingType.playlists,
           settingSubType: Playlists.playSpeed,
           value: 1.1);
-      settings.set(
-          settingType: SettingType.playlists,
-          settingSubType: Playlists.defaultAudioSort,
-          value: AudioSortCriterion.validVideoTitle);
 
       // Save to file
       await DirUtil.createDirIfNotExist(pathStr: testSettingsDir);
@@ -159,11 +141,6 @@ void main() {
       expect(
           loadedSettings.get(
               settingType: SettingType.playlists,
-              settingSubType: Playlists.pathLst),
-          ['\\one', '\\two']);
-      expect(
-          loadedSettings.get(
-              settingType: SettingType.playlists,
               settingSubType: Playlists.isMusicQualityByDefault),
           true);
       expect(
@@ -171,11 +148,6 @@ void main() {
               settingType: SettingType.playlists,
               settingSubType: Playlists.playSpeed),
           1.1);
-      expect(
-          loadedSettings.get(
-              settingType: SettingType.playlists,
-              settingSubType: Playlists.defaultAudioSort),
-          AudioSortCriterion.validVideoTitle);
 
       AudioSortFilterParameters loadedDefaultAudioSortFilterParameters =
           loadedSettings.namedAudioSortFilterParametersMap['Default']!;

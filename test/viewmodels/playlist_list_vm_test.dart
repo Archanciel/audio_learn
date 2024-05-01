@@ -518,18 +518,10 @@ void main() {
       List<Playlist> selectablePlaylistLst =
           playlistListVM.getUpToDateSelectablePlaylists();
 
-      // test fix: since the source playlist [4] is not selected,
-      // the test will fail because now playlistListVM.
-      // getSubsequentlyDownloadedNotFullyPlayedAudio uses the
-      // selected playlist to obtain the filtered by default playable
-      // audios list. So we have to select the source playlist [4].
-      selectablePlaylistLst[0].isSelected = false;
-      selectablePlaylistLst[4].isSelected = true;
-
       // Obtaining the audio from which to obtain the next playable
       // audio
-      Playlist sourcePlaylist = selectablePlaylistLst[4]; // local_2
-      Audio firstDownloadedAudio = sourcePlaylist.playableAudioLst[1];
+      Playlist sourcePlaylist = selectablePlaylistLst[0]; // S8 audio
+      Audio firstDownloadedAudio = sourcePlaylist.playableAudioLst[3];
 
       // Obtaining the next playable audio
       Audio? nextaudioIslastdownloaded =
@@ -539,7 +531,7 @@ void main() {
 
       // Since the first downloaded audio is not fully played, it
       // is the next playable audio and so there is no next playableaudio
-      expect(nextaudioIslastdownloaded!.validVideoTitle, 'Really short video');
+      expect(nextaudioIslastdownloaded!.validVideoTitle, 'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub

@@ -13,7 +13,6 @@
         "SettingType.language": "Language.english"
     },
     "SettingType.playlists": {
-        "Playlists.defaultAudioSort": "AudioSortCriterion.audioDownloadDateTime",
         "Playlists.isMusicQualityByDefault": "false",
         "Playlists.orderedTitleLst": "[local_target, S8 audio]",
         "Playlists.pathLst": "[/EMPTY, /BOOKS, /MUSIC]",

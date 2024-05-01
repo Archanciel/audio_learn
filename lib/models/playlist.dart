@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import '../services/settings_data_service.dart';
 import '../services/sort_filter_parameters.dart';
 import 'audio.dart';
 
@@ -460,56 +459,6 @@ class Playlist {
     }
 
     return removedPlayableAudioNumber;
-  }
-
-  void sortDownloadedAudioLst({
-    required AudioSortCriterion audioSortCriteriomn,
-    required bool isSortAscending,
-  }) {
-    _sortAudioLst(
-      lstToSort: downloadedAudioLst,
-      audioSortCriterion: audioSortCriteriomn,
-      isSortAscending: isSortAscending,
-    );
-  }
-
-  void sortPlayableAudioLst({
-    required AudioSortCriterion audioSortCriteriomn,
-    required bool isSortAscending,
-  }) {
-    _sortAudioLst(
-      lstToSort: playableAudioLst,
-      audioSortCriterion: audioSortCriteriomn,
-      isSortAscending: isSortAscending,
-    );
-  }
-
-  void _sortAudioLst({
-    required List<Audio> lstToSort,
-    required AudioSortCriterion audioSortCriterion,
-    required bool isSortAscending,
-  }) {
-    lstToSort.sort((a, b) {
-      dynamic aValue;
-      dynamic bValue;
-
-      switch (audioSortCriterion) {
-        case AudioSortCriterion.validVideoTitle:
-          aValue = a.validVideoTitle;
-          bValue = b.validVideoTitle;
-          break;
-        case AudioSortCriterion.audioDownloadDateTime:
-          aValue = a.audioDownloadDateTime;
-          bValue = b.audioDownloadDateTime;
-          break;
-        default:
-          break;
-      }
-
-      int compareResult = aValue.compareTo(bValue);
-
-      return isSortAscending ? compareResult : -compareResult;
-    });
   }
 
   void renameDownloadedAndPlayableAudioFile({
