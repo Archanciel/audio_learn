@@ -15,16 +15,16 @@ enum AudioLearnAppViewType {
 }
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '1.0.6';
-const String kApplicationPath = '/storage/emulated/0/Download/audiolearn';
-const String kApplicationPathTest = '/storage/emulated/0/Download/audiolearn';
+const String kApplicationVersion = '1.0.7';
+const String kApplicationPath = "/storage/emulated/0/Download/audiolearn";
+const String kApplicationPathTest = "/storage/emulated/0/Download/audiolearn";
 const String kPlaylistDownloadRootPath =
-    '/storage/emulated/0/Download/audiolearn/playlists';
+    "/storage/emulated/0/Download/audiolearn/playlists";
 const String kPlaylistDownloadRootPathTest =
-    '/storage/emulated/0/Download/audiolearn/playlists';
+    "/storage/emulated/0/Download/audiolearn/playlists";
 const String kSettingsFileName = 'settings.json';
 // not working: getDownloadedAudioNameLst() returns empty list !
-//const String kDownloadAppDir = '/storage/9016-4EF8/Audio';
+//const String kDownloadAppDir = "/storage/9016-4EF8/Audio';
 
 // Tests are run on Windows only. Files in this local test dir are stored in project test_data dir updated
 // on GitHub
