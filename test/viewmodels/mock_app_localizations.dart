@@ -578,7 +578,7 @@ class MockAppLocalizations extends AppLocalizations {
   String get audioStateTerminated => 'Stopped';
 
   @override
-  String get audioStateNotStarted => 'Not started';
+  String get audioStateNotListened => 'Not started';
 
   @override
   String get audioPausedDateTimeLabel => 'Date/time paused';

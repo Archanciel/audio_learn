@@ -357,128 +357,16 @@ void main() {
         selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
       );
 
-      // Now we want to tap on the lastly downloaded audio of the
-      // playlist in order to open the AudioPlayerView displaying
-      // the currently paused audio
-
-      // First, get the lastly downloaded Audio ListTile Text
-      // widget finder and tap on it to move to audio player view
-      final Finder lastDownloadedAudioListTileTextWidgetFinder =
-          find.text(lastDownloadedAudioTitle);
-
-      await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.play_arrow));
-      await tester.pumpAndSettle();
-
-      await Future.delayed(const Duration(seconds: 2));
-      await tester.pumpAndSettle();
-
-      // Go back to playlist download view without pausing audio
-      final audioPlayerNavButton =
-          find.byKey(const ValueKey('playlistDownloadViewIconButton'));
-      await tester.tap(audioPlayerNavButton);
-      await tester.pumpAndSettle();
-
-      // Now tap on the currently listening audio menu
-
-      // Now we want to tap the popup menu of the Audio ListTile
-      // 'morning _ cinematic video'
-
-      // First, find the Audio sublist ListTile Text widget
-      final Finder targetAudioListTileTextWidgetFinder = find.text(
-        lastDownloadedAudioTitle,
-      );
-
-      // Then obtain the Audio ListTile widget enclosing the Text widget
-      // by finding its ancestor
-      final Finder targetAudioListTileWidgetFinder = find.ancestor(
-        of: targetAudioListTileTextWidgetFinder,
-        matching: find.byType(ListTile),
-      );
-
-      // Now find the leading menu icon button of the Audio ListTile
-      // and tap on it
-      final Finder targetAudioListTileLeadingMenuIconButton = find.descendant(
-        of: targetAudioListTileWidgetFinder,
-        matching: find.byIcon(Icons.menu),
-      );
-
-      // Tap the leading menu icon button to open the popup menu
-      await tester.tap(targetAudioListTileLeadingMenuIconButton);
-      await tester.pumpAndSettle(); // Wait for popup menu to appear
-
-      // Now find the display audio info popup menu item and tap on it
-      Finder popupDisplayAudioInfoMenuItemFinder =
-          find.byKey(const Key("popup_menu_display_audio_info"));
-
-      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
-      await tester.pumpAndSettle(); // Wait for tap action to complete
-
-      // Now verifying the audio info state
-
-      Text audioStateTextWidget =
-          tester.widget<Text>(find.byKey(const Key('audioStateKey')));
-
-      expect(audioStateTextWidget.data, "En lecture");
-
-      // Now click on Ok button to close the audio info dialog
-      await tester.tap(find.text('Ok'));
-      await tester.pumpAndSettle();
-
-      // Now verifying the audio right button state
-
-      // First, get the currently listening Audio item InkWell widget
-      // finder. The InkWell widget contains the play or pause icon
-      // and tapping on it plays or pauses the audio.
-      Finder lastDownloadedAudioListTileInkWellFinder =
-          findAudioItemInkWellWidget(
-        lastDownloadedAudioTitle,
-      );
-
-      // Find the Icon within the InkWell
-      Finder iconFinder = find.descendant(
-        of: lastDownloadedAudioListTileInkWellFinder,
-        matching: find.byType(Icon),
-      );
-      Icon iconWidget = tester.widget<Icon>(iconFinder);
-
-      // Assert Icon type
-      expect(iconWidget.icon, equals(Icons.pause));
-
-      // Assert Icon color
-      expect(iconWidget.color, equals(Colors.white));
-
-      // Find the CircleAvatar within the InkWell
-      Finder circleAvatarFinder = find.descendant(
-        of: lastDownloadedAudioListTileInkWellFinder,
-        matching: find.byType(CircleAvatar),
-      );
-      CircleAvatar circleAvatarWidget =
-          tester.widget<CircleAvatar>(circleAvatarFinder);
-
-      // Assert CircleAvatar background color
-      expect(circleAvatarWidget.backgroundColor, equals(kDarkAndLightEnabledIconColor));
-
-      // Purge the test playlist directory so that the created test
-      // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(
-          rootPath: kPlaylistDownloadRootPathWindowsTest);
-    });
-    testWidgets(
-        'After starting to play the audio, pause it and go back to playlist download view in order to verify audio info and audio play/pause icon type and state.',
-        (
-      WidgetTester tester,
-    ) async {
-      const String audioPlayerSelectedPlaylistTitle =
-          'audio_player_view_2_shorts_test';
-      const String lastDownloadedAudioTitle = 'morning _ cinematic video';
-
-      await initializeApplicationAndSelectPlaylist(
+      // checking the audio state displayed in audio information
+      // dialog as well as audio right icon before playing
+      // the audio
+      await goBackToPlaylistdownloadViewToCheckAudioStateAndIcon(
         tester: tester,
-        savedTestDataDirName: 'audio_player_view_test',
-        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+        audioTitle: lastDownloadedAudioTitle,
+        audioStateExpectedValue: "Non écouté",
+        expectedAudioRightIcon: Icons.play_arrow,
+        expectedAudioRightIconColor: kDarkAndLightEnabledIconColor,
+        expectedAudioRightIconSurroundedColor: Colors.black,
       );
 
       // Now we want to tap on the lastly downloaded audio of the
@@ -487,7 +375,7 @@ void main() {
 
       // First, get the lastly downloaded Audio ListTile Text
       // widget finder and tap on it to move to audio player view
-      final Finder lastDownloadedAudioListTileTextWidgetFinder =
+      Finder lastDownloadedAudioListTileTextWidgetFinder =
           find.text(lastDownloadedAudioTitle);
 
       await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
@@ -497,97 +385,39 @@ void main() {
       await tester.pumpAndSettle();
 
       await Future.delayed(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
+
+      // checking the audio state displayed in audio information
+      // dialog as well as audio right icon while audio is playing
+      await goBackToPlaylistdownloadViewToCheckAudioStateAndIcon(
+        tester: tester,
+        audioTitle: lastDownloadedAudioTitle,
+        audioStateExpectedValue: "En lecture",
+        expectedAudioRightIcon: Icons.pause,
+        expectedAudioRightIconColor: Colors.white,
+        expectedAudioRightIconSurroundedColor: kDarkAndLightEnabledIconColor,
+      );
+
+      // Go back to audio player view in order to pause the audio
+      Finder audioPlayerNavButton =
+          find.byKey(const ValueKey('audioPlayerViewIconButton'));
+      await tester.tap(audioPlayerNavButton);
       await tester.pumpAndSettle();
 
       // Pause the audio
       await tester.tap(find.byIcon(Icons.pause));
       await tester.pumpAndSettle();
 
-      // Go back to playlist download view without pausing audio
-      final audioPlayerNavButton =
-          find.byKey(const ValueKey('playlistDownloadViewIconButton'));
-      await tester.tap(audioPlayerNavButton);
-      await tester.pumpAndSettle();
-
-      // Now tap on the currently listening audio menu
-
-      // Now we want to tap the popup menu of the Audio ListTile
-      // 'morning _ cinematic video'
-
-      // First, find the Audio sublist ListTile Text widget
-      final Finder targetAudioListTileTextWidgetFinder = find.text(
-        lastDownloadedAudioTitle,
+      // checking the audio state displayed in audio information
+      // dialog as well as audio right icon while audio is playing
+      await goBackToPlaylistdownloadViewToCheckAudioStateAndIcon(
+        tester: tester,
+        audioTitle: lastDownloadedAudioTitle,
+        audioStateExpectedValue: "En pause",
+        expectedAudioRightIcon: Icons.play_arrow,
+        expectedAudioRightIconColor: Colors.white,
+        expectedAudioRightIconSurroundedColor: kDarkAndLightEnabledIconColor,
       );
-
-      // Then obtain the Audio ListTile widget enclosing the Text widget
-      // by finding its ancestor
-      final Finder targetAudioListTileWidgetFinder = find.ancestor(
-        of: targetAudioListTileTextWidgetFinder,
-        matching: find.byType(ListTile),
-      );
-
-      // Now find the leading menu icon button of the Audio ListTile
-      // and tap on it
-      final Finder targetAudioListTileLeadingMenuIconButton = find.descendant(
-        of: targetAudioListTileWidgetFinder,
-        matching: find.byIcon(Icons.menu),
-      );
-
-      // Tap the leading menu icon button to open the popup menu
-      await tester.tap(targetAudioListTileLeadingMenuIconButton);
-      await tester.pumpAndSettle(); // Wait for popup menu to appear
-
-      // Now find the display audio info popup menu item and tap on it
-      Finder popupDisplayAudioInfoMenuItemFinder =
-          find.byKey(const Key("popup_menu_display_audio_info"));
-
-      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
-      await tester.pumpAndSettle(); // Wait for tap action to complete
-
-      // Now verifying the audio info state
-
-      Text audioStateTextWidget =
-          tester.widget<Text>(find.byKey(const Key('audioStateKey')));
-
-      expect(audioStateTextWidget.data, "En pause");
-
-      // Now click on Ok button to close the audio info dialog
-      await tester.tap(find.text('Ok'));
-      await tester.pumpAndSettle();
-
-      // Now verifying the audio right button state
-
-      // First, get the currently listening Audio item InkWell widget
-      // finder. The InkWell widget contains the play or pause icon
-      // and tapping on it plays or pauses the audio.
-      Finder lastDownloadedAudioListTileInkWellFinder =
-          findAudioItemInkWellWidget(
-        lastDownloadedAudioTitle,
-      );
-
-      // Find the Icon within the InkWell
-      Finder iconFinder = find.descendant(
-        of: lastDownloadedAudioListTileInkWellFinder,
-        matching: find.byType(Icon),
-      );
-      Icon iconWidget = tester.widget<Icon>(iconFinder);
-
-      // Assert Icon type
-      expect(iconWidget.icon, equals(Icons.play_arrow));
-
-      // Assert Icon color
-      expect(iconWidget.color, equals(Colors.white));
-
-      // Find the CircleAvatar within the InkWell
-      Finder circleAvatarFinder = find.descendant(
-        of: lastDownloadedAudioListTileInkWellFinder,
-        matching: find.byType(CircleAvatar),
-      );
-      CircleAvatar circleAvatarWidget =
-          tester.widget<CircleAvatar>(circleAvatarFinder);
-
-      // Assert CircleAvatar background color
-      expect(circleAvatarWidget.backgroundColor, equals(kDarkAndLightEnabledIconColor));
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -595,10 +425,14 @@ void main() {
           rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
     testWidgets(
-        'After starting to play and clicking on go to end icon, go back to playlist download view in order to verify audio info and audio play/pause icon type and state.',
+        'After starting to play the audio, click to end icon and go back to playlist download view in order to verify audio info and audio play/pause icon type and state.',
         (
       WidgetTester tester,
     ) async {
+      // PLACING THIS TEST IN THE PREVIOUS testWidgets FUNCTION
+      // MAKES THE TEST TO FAIL. SO, IT IS PLACED IN A SEPARATE
+      // testWidgets FUNCTION. WHY DID IT FAIL ? I DON'T KNOW !
+      // THIS IS A FLUTTER BUG !
       const String audioPlayerSelectedPlaylistTitle =
           'audio_player_view_2_shorts_test';
       const String lastDownloadedAudioTitle = 'morning _ cinematic video';
@@ -611,11 +445,11 @@ void main() {
 
       // Now we want to tap on the lastly downloaded audio of the
       // playlist in order to open the AudioPlayerView displaying
-      // the currently paused audio
+      // the currently not played audio
 
       // First, get the lastly downloaded Audio ListTile Text
       // widget finder and tap on it to move to audio player view
-      final Finder lastDownloadedAudioListTileTextWidgetFinder =
+      Finder lastDownloadedAudioListTileTextWidgetFinder =
           find.text(lastDownloadedAudioTitle);
 
       await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
@@ -627,215 +461,38 @@ void main() {
       await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
-      // Go back to playlist download view without pausing audio
-      final audioPlayerNavButton =
-          find.byKey(const ValueKey('playlistDownloadViewIconButton'));
-      await tester.tap(audioPlayerNavButton);
-      await tester.pumpAndSettle();
-
-      // Now tap on the currently listening audio menu
-
-      // Now we want to tap the popup menu of the Audio ListTile
-      // 'morning _ cinematic video'
-
-      // First, find the Audio sublist ListTile Text widget
-      final Finder targetAudioListTileTextWidgetFinder = find.text(
-        lastDownloadedAudioTitle,
-      );
-
-      // Then obtain the Audio ListTile widget enclosing the Text widget
-      // by finding its ancestor
-      final Finder targetAudioListTileWidgetFinder = find.ancestor(
-        of: targetAudioListTileTextWidgetFinder,
-        matching: find.byType(ListTile),
-      );
-
-      // Now find the leading menu icon button of the Audio ListTile
-      // and tap on it
-      final Finder targetAudioListTileLeadingMenuIconButton = find.descendant(
-        of: targetAudioListTileWidgetFinder,
-        matching: find.byIcon(Icons.menu),
-      );
-
-      // Tap the leading menu icon button to open the popup menu
-      await tester.tap(targetAudioListTileLeadingMenuIconButton);
-      await tester.pumpAndSettle(); // Wait for popup menu to appear
-
-      // Now find the display audio info popup menu item and tap on it
-      Finder popupDisplayAudioInfoMenuItemFinder =
-          find.byKey(const Key("popup_menu_display_audio_info"));
-
-      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
-      await tester.pumpAndSettle(); // Wait for tap action to complete
-
-      // Now verifying the audio info state
-
-      Text audioStateTextWidget =
-          tester.widget<Text>(find.byKey(const Key('audioStateKey')));
-
-      expect(audioStateTextWidget.data, "En lecture");
-
-      // Now click on Ok button to close the audio info dialog
-      await tester.tap(find.text('Ok'));
-      await tester.pumpAndSettle();
-
-      // Now verifying the audio right button state
-
-      // First, get the currently listening Audio item InkWell widget
-      // finder. The InkWell widget contains the play or pause icon
-      // and tapping on it plays or pauses the audio.
-      Finder lastDownloadedAudioListTileInkWellFinder =
-          findAudioItemInkWellWidget(
-        lastDownloadedAudioTitle,
-      );
-
-      // Find the Icon within the InkWell
-      Finder iconFinder = find.descendant(
-        of: lastDownloadedAudioListTileInkWellFinder,
-        matching: find.byType(Icon),
-      );
-      Icon iconWidget = tester.widget<Icon>(iconFinder);
-
-      // Assert Icon type
-      expect(iconWidget.icon, equals(Icons.pause));
-
-      // Assert Icon color
-      expect(iconWidget.color, equals(Colors.white));
-
-      // Find the CircleAvatar within the InkWell
-      Finder circleAvatarFinder = find.descendant(
-        of: lastDownloadedAudioListTileInkWellFinder,
-        matching: find.byType(CircleAvatar),
-      );
-      CircleAvatar circleAvatarWidget =
-          tester.widget<CircleAvatar>(circleAvatarFinder);
-
-      // Assert CircleAvatar background color
-      expect(circleAvatarWidget.backgroundColor, equals(kDarkAndLightEnabledIconColor));
-
-      // Purge the test playlist directory so that the created test
-      // files are not uploaded to GitHub
-      DirUtil.deleteFilesInDirAndSubDirs(
-          rootPath: kPlaylistDownloadRootPathWindowsTest);
-    });
-    testWidgets(
-        'After starting to play the audio, click on go to start icon and then go back to playlist download view in order to verify audio info and audio play/pause icon type and state.',
-        (
-      WidgetTester tester,
-    ) async {
-      const String audioPlayerSelectedPlaylistTitle =
-          'audio_player_view_2_shorts_test';
-      const String lastDownloadedAudioTitle = 'morning _ cinematic video';
-
-      await initializeApplicationAndSelectPlaylist(
+      // checking the audio state displayed in audio information
+      // dialog as well as audio right icon while audio is playing
+      await goBackToPlaylistdownloadViewToCheckAudioStateAndIcon(
         tester: tester,
-        savedTestDataDirName: 'audio_player_view_test',
-        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+        audioTitle: lastDownloadedAudioTitle,
+        audioStateExpectedValue: "En lecture",
+        expectedAudioRightIcon: Icons.pause,
+        expectedAudioRightIconColor: Colors.white,
+        expectedAudioRightIconSurroundedColor: kDarkAndLightEnabledIconColor,
       );
 
-      // Now we want to tap on the lastly downloaded audio of the
-      // playlist in order to open the AudioPlayerView displaying
-      // the currently paused audio
-
-      // First, get the lastly downloaded Audio ListTile Text
-      // widget finder and tap on it to move to audio player view
-      final Finder lastDownloadedAudioListTileTextWidgetFinder =
-          find.text(lastDownloadedAudioTitle);
-
-      await tester.tap(lastDownloadedAudioListTileTextWidgetFinder);
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.play_arrow));
-      await tester.pumpAndSettle();
-
-      await Future.delayed(const Duration(seconds: 2));
-      await tester.pumpAndSettle();
-
-      // Go back to playlist download view without pausing audio
-      final audioPlayerNavButton =
-          find.byKey(const ValueKey('playlistDownloadViewIconButton'));
+      // Go back to audio player view in order to go to end the audio
+      Finder audioPlayerNavButton =
+          find.byKey(const ValueKey('audioPlayerViewIconButton'));
       await tester.tap(audioPlayerNavButton);
       await tester.pumpAndSettle();
 
-      // Now tap on the currently listening audio menu
-
-      // Now we want to tap the popup menu of the Audio ListTile
-      // 'morning _ cinematic video'
-
-      // First, find the Audio sublist ListTile Text widget
-      final Finder targetAudioListTileTextWidgetFinder = find.text(
-        lastDownloadedAudioTitle,
-      );
-
-      // Then obtain the Audio ListTile widget enclosing the Text widget
-      // by finding its ancestor
-      final Finder targetAudioListTileWidgetFinder = find.ancestor(
-        of: targetAudioListTileTextWidgetFinder,
-        matching: find.byType(ListTile),
-      );
-
-      // Now find the leading menu icon button of the Audio ListTile
-      // and tap on it
-      final Finder targetAudioListTileLeadingMenuIconButton = find.descendant(
-        of: targetAudioListTileWidgetFinder,
-        matching: find.byIcon(Icons.menu),
-      );
-
-      // Tap the leading menu icon button to open the popup menu
-      await tester.tap(targetAudioListTileLeadingMenuIconButton);
-      await tester.pumpAndSettle(); // Wait for popup menu to appear
-
-      // Now find the display audio info popup menu item and tap on it
-      Finder popupDisplayAudioInfoMenuItemFinder =
-          find.byKey(const Key("popup_menu_display_audio_info"));
-
-      await tester.tap(popupDisplayAudioInfoMenuItemFinder);
-      await tester.pumpAndSettle(); // Wait for tap action to complete
-
-      // Now verifying the audio info state
-
-      Text audioStateTextWidget =
-          tester.widget<Text>(find.byKey(const Key('audioStateKey')));
-
-      expect(audioStateTextWidget.data, "En lecture");
-
-      // Now click on Ok button to close the audio info dialog
-      await tester.tap(find.text('Ok'));
+      // Tap on the |> button to go to the end of the audio
+      await tester.tap(find.byKey(const Key('audioPlayerViewSkipToEndButton')));
       await tester.pumpAndSettle();
 
-      // Now verifying the audio right button state
-
-      // First, get the currently listening Audio item InkWell widget
-      // finder. The InkWell widget contains the play or pause icon
-      // and tapping on it plays or pauses the audio.
-      Finder lastDownloadedAudioListTileInkWellFinder =
-          findAudioItemInkWellWidget(
-        lastDownloadedAudioTitle,
+      // checking the audio state displayed in audio information
+      // dialog as well as audio right icon when audio was played
+      // to the end
+      await goBackToPlaylistdownloadViewToCheckAudioStateAndIcon(
+        tester: tester,
+        audioTitle: lastDownloadedAudioTitle,
+        audioStateExpectedValue: "Terminé",
+        expectedAudioRightIcon: Icons.play_arrow,
+        expectedAudioRightIconColor: kDarkAndLightEnabledIconColor,
+        expectedAudioRightIconSurroundedColor: Colors.black,
       );
-
-      // Find the Icon within the InkWell
-      Finder iconFinder = find.descendant(
-        of: lastDownloadedAudioListTileInkWellFinder,
-        matching: find.byType(Icon),
-      );
-      Icon iconWidget = tester.widget<Icon>(iconFinder);
-
-      // Assert Icon type
-      expect(iconWidget.icon, equals(Icons.pause));
-
-      // Assert Icon color
-      expect(iconWidget.color, equals(Colors.white));
-
-      // Find the CircleAvatar within the InkWell
-      Finder circleAvatarFinder = find.descendant(
-        of: lastDownloadedAudioListTileInkWellFinder,
-        matching: find.byType(CircleAvatar),
-      );
-      CircleAvatar circleAvatarWidget =
-          tester.widget<CircleAvatar>(circleAvatarFinder);
-
-      // Assert CircleAvatar background color
-      expect(circleAvatarWidget.backgroundColor, equals(kDarkAndLightEnabledIconColor));
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -1435,7 +1092,10 @@ void main() {
       await tester.tap(firstDownloadedAudioListTileTextWidgetFinder);
       await tester.pumpAndSettle();
 
-      // Now play the audio and wait 5 seconds
+      // The audio position is 2 seconds before end. Now play
+      // the audio and wait 5 seconds so that the next audio
+      // will start to play
+
       await tester.tap(find.byIcon(Icons.play_arrow));
       await tester.pumpAndSettle();
 
@@ -2624,6 +2284,100 @@ void main() {
   });
 }
 
+Future<void> goBackToPlaylistdownloadViewToCheckAudioStateAndIcon({
+  required WidgetTester tester,
+  required String audioTitle,
+  required String audioStateExpectedValue,
+  required IconData expectedAudioRightIcon,
+  required Color expectedAudioRightIconColor,
+  required Color expectedAudioRightIconSurroundedColor,
+}) async {
+  // Go back to playlist download view without pausing audio
+  final Finder audioPlayerNavButtonFinder =
+      find.byKey(const ValueKey('playlistDownloadViewIconButton'));
+  await tester.tap(audioPlayerNavButtonFinder);
+  await tester.pumpAndSettle();
+
+  // Now we want to tap the popup menu of the Audio audioTitle
+  // ListTile
+
+  // First, find the Audio sublist ListTile Text widget
+  final Finder targetAudioListTileTextWidgetFinder = find.text(
+    audioTitle,
+  );
+
+  // Then obtain the Audio ListTile widget enclosing the Text widget
+  // by finding its ancestor
+  final Finder targetAudioListTileWidgetFinder = find.ancestor(
+    of: targetAudioListTileTextWidgetFinder,
+    matching: find.byType(ListTile),
+  );
+
+  // Now find the leading menu icon button of the Audio ListTile
+  // and tap on it
+  final Finder targetAudioListTileLeadingMenuIconButtonFinder = find.descendant(
+    of: targetAudioListTileWidgetFinder,
+    matching: find.byIcon(Icons.menu),
+  );
+
+  // Tap the leading menu icon button to open the popup menu items
+  await tester.tap(targetAudioListTileLeadingMenuIconButtonFinder);
+  await tester.pumpAndSettle(); // Wait for popup menu to appear
+
+  // Now find the display audio info popup menu item and tap on it
+  Finder popupDisplayAudioInfoMenuItemFinder =
+      find.byKey(const Key("popup_menu_display_audio_info"));
+
+  await tester.tap(popupDisplayAudioInfoMenuItemFinder);
+  await tester.pumpAndSettle();
+
+  // Now verifying the audio info state
+
+  Text audioStateTextWidget =
+      tester.widget<Text>(find.byKey(const Key('audioStateKey')));
+
+  expect(audioStateTextWidget.data, audioStateExpectedValue);
+
+  // Now click on Ok button to close the audio info dialog
+  await tester.tap(find.text('Ok'));
+  await tester.pumpAndSettle();
+
+  // Now verifying the audio right button state
+
+  // First, get the currently listening Audio item InkWell widget
+  // finder. The InkWell widget contains the play or pause icon
+  // and tapping on it plays or pauses the audio.
+  Finder lastDownloadedAudioListTileInkWellFinder = findAudioItemInkWellWidget(
+    audioTitle,
+  );
+
+  // Find the Icon within the InkWell
+  Finder iconFinder = find.descendant(
+    of: lastDownloadedAudioListTileInkWellFinder,
+    matching: find.byType(Icon),
+  );
+  Icon iconWidget = tester.widget<Icon>(iconFinder);
+
+  // Assert Icon type
+  expect(iconWidget.icon, equals(expectedAudioRightIcon));
+
+  // Assert Icon color
+  expect(iconWidget.color, equals(expectedAudioRightIconColor));
+
+  // Find the CircleAvatar within the InkWell which surround the
+  // audio right icon
+  Finder circleAvatarFinder = find.descendant(
+    of: lastDownloadedAudioListTileInkWellFinder,
+    matching: find.byType(CircleAvatar),
+  );
+  CircleAvatar circleAvatarWidget =
+      tester.widget<CircleAvatar>(circleAvatarFinder);
+
+  // Assert CircleAvatar background color
+  expect(circleAvatarWidget.backgroundColor,
+      equals(expectedAudioRightIconSurroundedColor));
+}
+
 Finder findAudioItemInkWellWidget(String lastDownloadedAudioTitle) {
   // First, get the previously downloaded Audio item ListTile Text
   // widget finder
@@ -2727,7 +2481,8 @@ Future<void> initializeApplicationAndSelectPlaylist({
 
   // load settings from file which does not exist. This
   // will ensure that the default playlist root path is set
-  await settingsDataService.loadSettingsFromFile(jsonPathFileName: 'temp\wrong.json');
+  await settingsDataService.loadSettingsFromFile(
+      jsonPathFileName: 'temp\wrong.json');
 
   // Load the settings from the json file. This is necessary
   // otherwise the ordered playlist titles will remain empty

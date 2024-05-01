@@ -213,7 +213,7 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
     required Audio audio,
   }) {
     if (audio.audioPositionSeconds == 0) {
-      return AppLocalizations.of(context)!.audioStateNotStarted;
+      return AppLocalizations.of(context)!.audioStateNotListened;
     } else if (audio.wasFullyListened()) {
       return AppLocalizations.of(context)!.audioStateTerminated;
     } else if (audio.isPaused) {

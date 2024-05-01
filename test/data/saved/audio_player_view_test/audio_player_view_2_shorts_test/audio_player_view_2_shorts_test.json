@@ -67,7 +67,7 @@
             "copiedToPlaylistTitle": null,
             "isAudioMusicQuality": false,
             "isPaused": true,
-            "isPlayingOrPausedWithPositionBetweenAudioStartAndEnd": true,
+            "isPlayingOrPausedWithPositionBetweenAudioStartAndEnd": false,
             "movedFromPlaylistTitle": null,
             "movedToPlaylistTitle": null,
             "originalVideoTitle": "morning | cinematic video",
