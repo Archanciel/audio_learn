@@ -404,6 +404,22 @@ class SettingsDataService {
     // You can adjust the condition as needed.
     return value.contains('\\') || value.contains('/');
   }
+
+  static Future<void> removePlaylistSettingsFromJsonFile({
+    required String filePath,
+  }) async {
+    File file = File(filePath);
+    String content = await file.readAsString();
+    Map<String, dynamic> jsonData = jsonDecode(content);
+
+    (jsonData['SettingType.playlists'] as Map<String, dynamic>)
+        .remove('Playlists.defaultAudioSort');
+    (jsonData['SettingType.playlists'] as Map<String, dynamic>)
+        .remove('Playlists.pathLst');
+
+    String modifiedContent = jsonEncode(jsonData);
+    await file.writeAsString(modifiedContent);
+  }
 }
 
 Future<void> main() async {
@@ -418,7 +434,7 @@ Future<void> main() async {
 
   for (String oldFilePath in oldFilePathLst
       .where((oldFilePath) => oldFilePath.contains('settings.json'))) {
-    await removePlaylistSettingsFromJsonFile(
+    await removePlaylistSettingsFromTestJsonFile(
       filePath: oldFilePath,
     );
   }
@@ -468,7 +484,7 @@ void convertOldJsonFileToNewJsonFile({
   File(newFilePath ?? oldFilePath).writeAsStringSync(jsonEncode(newSettings));
 }
 
-Future<void> removePlaylistSettingsFromJsonFile({
+Future<void> removePlaylistSettingsFromTestJsonFile({
   required String filePath,
 }) async {
   // Read the file
