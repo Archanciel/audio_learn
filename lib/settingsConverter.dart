@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 
+/// Commando generate the apk:
+/// 
+/// flutter build apk --release --target=lib/settingsConverter.dart
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
