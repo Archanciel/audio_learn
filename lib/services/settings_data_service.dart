@@ -3,6 +3,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../constants.dart';
 import '../utils/dir_util.dart';
 import 'sort_filter_parameters.dart';
@@ -185,6 +187,8 @@ class SettingsDataService {
   }) async {
     final File file = File(jsonPathFileName);
 
+    _checkFirstRun();
+
     try {
       if (file.existsSync()) {
         // if settings json file not exist, then the default Settings values
@@ -249,6 +253,22 @@ class SettingsDataService {
         settingSubType: DataLocation.playlistRootPath,
         value: await DirUtil.getPlaylistDownloadRootPath(isTest: _isTest),
       );
+    }
+  }
+
+  Future<void> _checkFirstRun() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstRun = (prefs.getBool('isFirstRun') ?? true);
+
+    if (isFirstRun) {
+      String applicationPath = await DirUtil.getApplicationPath();
+      String appSettingsFilePathName =
+          '${applicationPath}${Platform.pathSeparator}$kSettingsFileName';
+
+      await SettingsDataService.removePlaylistSettingsFromJsonFile(
+          filePath: appSettingsFilePathName);
+
+      await prefs.setBool('isFirstRun', false);
     }
   }
 
