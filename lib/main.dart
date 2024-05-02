@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:window_size/window_size.dart';
 
@@ -52,11 +53,13 @@ Future<void> main(List<String> args) async {
   }
 
   // Setup SettingsDataService
-  final SettingsDataService settingsDataService =
-      SettingsDataService(isTest: isTest);
+  final SettingsDataService settingsDataService = SettingsDataService(
+    sharedPreferences: await SharedPreferences.getInstance(),
+    isTest: isTest,
+  );
 
   await settingsDataService.loadSettingsFromFile(
-    jsonPathFileName:
+    settingsJsonPathFileName:
         '${applicationPath}${Platform.pathSeparator}$kSettingsFileName',
   );
 

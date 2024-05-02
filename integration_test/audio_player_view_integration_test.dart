@@ -9,6 +9,7 @@ import 'package:audiolearn/constants.dart';
 import 'package:audiolearn/services/settings_data_service.dart';
 import 'package:audiolearn/utils/dir_util.dart';
 import 'package:audiolearn/main.dart' as app;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../test/util/test_utility.dart';
 
@@ -2477,19 +2478,22 @@ Future<void> initializeApplicationAndSelectPlaylist({
     );
   }
 
-  SettingsDataService settingsDataService = SettingsDataService(isTest: true);
+  final SettingsDataService settingsDataService = SettingsDataService(
+    sharedPreferences: await SharedPreferences.getInstance(),
+    isTest: true,
+  );
 
   // load settings from file which does not exist. This
   // will ensure that the default playlist root path is set
   await settingsDataService.loadSettingsFromFile(
-      jsonPathFileName: 'temp\wrong.json');
+      settingsJsonPathFileName: 'temp\wrong.json');
 
   // Load the settings from the json file. This is necessary
   // otherwise the ordered playlist titles will remain empty
   // and the playlist list will not be filled with the
   // playlists available in the download app test dir
   await settingsDataService.loadSettingsFromFile(
-      jsonPathFileName:
+      settingsJsonPathFileName:
           "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
   await app.main(['test']);

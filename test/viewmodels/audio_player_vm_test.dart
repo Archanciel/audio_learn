@@ -10,10 +10,14 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:audiolearn/viewmodels/audio_download_vm.dart';
 import 'package:audiolearn/viewmodels/warning_message_vm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/mock_shared_preferences.dart';
 import 'audio_player_vm_test_version.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('AudioPlayerVM changeAudioPlayPosition undo/redo', () {
     test('Test single undo/redo of forward position change', () async {
       AudioPlayerVM audioPlayerVM = await createAudioPlayerVM();
@@ -1620,14 +1624,17 @@ Future<SettingsDataService> initializeTestDataAndLoadSettingsDataService({
     );
   }
 
-  SettingsDataService settingsDataService = SettingsDataService(isTest: true);
+      SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
   // Load the settings from the json file. This is necessary
   // otherwise the ordered playlist titles will remain empty
   // and the playlist list will not be filled with the
   // playlists available in the download app test dir
   await settingsDataService.loadSettingsFromFile(
-      jsonPathFileName:
+      settingsJsonPathFileName:
           "$kPlaylistDownloadRootPathWindowsTest${Platform.pathSeparator}$kSettingsFileName");
 
   return settingsDataService;

@@ -2,7 +2,9 @@ import 'package:audiolearn/models/playlist.dart';
 import 'package:audiolearn/services/settings_data_service.dart';
 import 'package:audiolearn/viewmodels/single_video_audio_download_vm.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/mock_shared_preferences.dart';
 import 'custom_mock_youtube_explode.dart';
 
 void main() {
@@ -10,11 +12,14 @@ void main() {
     late SingleVideoAudioDownloadVM singleVideoAudioDownloadVM;
     late CustomMockYoutubeExplode mockYoutubeExplode;
 
-    setUp(() {
+    setUp(() async {
       mockYoutubeExplode = CustomMockYoutubeExplode();
-      singleVideoAudioDownloadVM =
-          SingleVideoAudioDownloadVM(youtubeExplode: mockYoutubeExplode,
-          settingsDataService: SettingsDataService(isTest: true));
+      singleVideoAudioDownloadVM = SingleVideoAudioDownloadVM(
+          youtubeExplode: mockYoutubeExplode,
+          settingsDataService: SettingsDataService(
+            sharedPreferences: MockSharedPreferences(),
+            isTest: true,
+          ));
     });
 
     test('Test download failure when the Youtube service returns an error',

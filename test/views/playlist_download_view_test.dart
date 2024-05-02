@@ -13,6 +13,8 @@ import 'package:audiolearn/viewmodels/language_provider_vm.dart';
 import 'package:audiolearn/viewmodels/theme_provider_vm.dart';
 import 'package:audiolearn/viewmodels/warning_message_vm.dart';
 import 'package:audiolearn/views/playlist_download_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../services/mock_shared_preferences.dart';
 import '../viewmodels/mock_app_localizations.dart';
 
 class MockAppLocalizationsDelegate
@@ -33,12 +35,17 @@ void main() async {
   group(
       'Testing expandable playlist list located in PlaylistDownloadView functions',
       () {
+        setUp(() {
+          TestWidgetsFlutterBinding.ensureInitialized();
+        });
     testWidgets(
         'should render ListView widget, not using MyApp but ListView widget',
         (WidgetTester tester) async {
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -54,6 +61,11 @@ void main() async {
       );
 
       expect(find.byType(PlaylistDownloadView), findsOneWidget);
+
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
 
     testWidgets('should toggle list on press', (WidgetTester tester) async {
@@ -72,15 +84,17 @@ void main() async {
       );
 
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -139,15 +153,17 @@ void main() async {
       );
 
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -255,15 +271,17 @@ void main() async {
       );
 
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -390,15 +408,17 @@ void main() async {
       );
 
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -537,15 +557,17 @@ void main() async {
       );
 
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -722,15 +744,17 @@ void main() async {
       );
 
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -819,15 +843,17 @@ void main() async {
       );
 
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -917,15 +943,17 @@ void main() async {
       );
 
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -1015,15 +1043,17 @@ void main() async {
       );
 
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
@@ -1112,15 +1142,17 @@ void main() async {
       );
 
       SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
+
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();

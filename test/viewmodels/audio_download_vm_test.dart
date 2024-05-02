@@ -3,15 +3,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:audiolearn/viewmodels/audio_download_vm.dart';
 import 'package:audiolearn/viewmodels/warning_message_vm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/mock_shared_preferences.dart';
 
 void main() {
   group('AudioDownloadVM video description', () {
-    test('Test extract video chapters time position', () {
+    test('Test extract video chapters time position', () async {
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
-        settingsDataService: SettingsDataService(isTest: true),
+        settingsDataService: SettingsDataService(
+            sharedPreferences: MockSharedPreferences(),
+            isTest: true),
       );
 
       String videoDescription = '''Ma chaîne YouTube principale

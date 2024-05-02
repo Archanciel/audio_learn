@@ -1,12 +1,7 @@
-import 'dart:io';
-
-import 'package:audiolearn/utils/dir_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../constants.dart';
 import '../services/sort_filter_parameters.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/theme_provider_vm.dart';
@@ -85,10 +80,8 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
   final List<StatefulWidget> _screenWidgetLst = [];
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
-
-    // await _checkFirstRun();
 
     _appBarTitleWidgetLst
       ..add(
@@ -240,21 +233,5 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
     setState(() {
       _currentIndex = index;
     });
-  }
-
-  Future<void> _checkFirstRun() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isFirstRun = (prefs.getBool('isFirstRun') ?? true);
-
-    if (isFirstRun) {
-      String applicationPath = await DirUtil.getApplicationPath();
-      String appSettingsFilePathName =
-          '${applicationPath}${Platform.pathSeparator}$kSettingsFileName';
-
-      await SettingsDataService.removePlaylistSettingsFromJsonFile(
-          filePath: appSettingsFilePathName);
-
-      await prefs.setBool('isFirstRun', false);
-    }
   }
 }

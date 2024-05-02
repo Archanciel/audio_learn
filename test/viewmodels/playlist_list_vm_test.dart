@@ -10,8 +10,13 @@ import 'package:audiolearn/constants.dart';
 import 'package:audiolearn/models/audio.dart';
 import 'package:audiolearn/services/settings_data_service.dart';
 import 'package:audiolearn/viewmodels/playlist_list_vm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../services/mock_shared_preferences.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('Copy/move audio to target playlist', () {
     late PlaylistListVM playlistListVM;
 
@@ -30,15 +35,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
@@ -232,15 +239,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
@@ -312,15 +321,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
@@ -395,15 +406,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
@@ -475,15 +488,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
@@ -531,7 +546,8 @@ void main() {
 
       // Since the first downloaded audio is not fully played, it
       // is the next playable audio and so there is no next playableaudio
-      expect(nextaudioIslastdownloaded!.validVideoTitle, 'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
+      expect(nextaudioIslastdownloaded!.validVideoTitle,
+          'Le Secret de la RÉSILIENCE révélé par Boris Cyrulnik');
 
       // Purge the test playlist directory so that the created test
       // files are not uploaded to GitHub
@@ -559,15 +575,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
@@ -639,15 +657,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
@@ -723,15 +743,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the

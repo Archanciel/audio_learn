@@ -85,9 +85,13 @@ class SettingsDataService {
       get searchHistoryAudioSortFilterParametersLst =>
           _searchHistoryAudioSortFilterParametersLst;
 
+  final SharedPreferences _sharedPreferences;
+
   SettingsDataService({
+    required SharedPreferences sharedPreferences,
     bool isTest = false,
-  }) : _isTest = isTest;
+  })  : _sharedPreferences = sharedPreferences,
+        _isTest = isTest;
 
   dynamic get({
     required SettingType settingType,
@@ -183,14 +187,16 @@ class SettingsDataService {
 
   /// Load settings from a JSON file
   Future<void> loadSettingsFromFile({
-    required String jsonPathFileName,
+    required String settingsJsonPathFileName,
   }) async {
-    final File file = File(jsonPathFileName);
+    final File file = File(settingsJsonPathFileName);
 
-    _checkFirstRun();
+    bool settingsJsonFileExist = await _checkFirstRun(
+      settingsJsonFile: file,
+    );
 
     try {
-      if (file.existsSync()) {
+      if (settingsJsonFileExist) {
         // if settings json file not exist, then the default Settings values
         // set in the Settings constructor are used ...
         final String jsonString = file.readAsStringSync();
@@ -256,20 +262,22 @@ class SettingsDataService {
     }
   }
 
-  Future<void> _checkFirstRun() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isFirstRun = (prefs.getBool('isFirstRun') ?? true);
+  Future<bool> _checkFirstRun({
+    required File settingsJsonFile,
+  }) async {
+    bool isFirstRun = (_sharedPreferences.getBool('isFirstRun') ?? true);
+    bool settingsJsonFileExist = settingsJsonFile.existsSync();
 
     if (isFirstRun) {
-      String applicationPath = await DirUtil.getApplicationPath();
-      String appSettingsFilePathName =
-          '${applicationPath}${Platform.pathSeparator}$kSettingsFileName';
+      if (settingsJsonFileExist) {
+        await SettingsDataService.removePlaylistSettingsFromJsonFile(
+            settingsJsonFile: settingsJsonFile);
+      }
 
-      await SettingsDataService.removePlaylistSettingsFromJsonFile(
-          filePath: appSettingsFilePathName);
-
-      await prefs.setBool('isFirstRun', false);
+      await _sharedPreferences.setBool('isFirstRun', false);
     }
+
+    return settingsJsonFileExist;
   }
 
   void addOrReplaceNamedAudioSortFilterParameters({
@@ -426,10 +434,9 @@ class SettingsDataService {
   }
 
   static Future<void> removePlaylistSettingsFromJsonFile({
-    required String filePath,
+    required File settingsJsonFile,
   }) async {
-    File file = File(filePath);
-    String content = await file.readAsString();
+    String content = await settingsJsonFile.readAsString();
     Map<String, dynamic> jsonData = jsonDecode(content);
 
     (jsonData['SettingType.playlists'] as Map<String, dynamic>)
@@ -438,7 +445,7 @@ class SettingsDataService {
         .remove('Playlists.pathLst');
 
     String modifiedContent = jsonEncode(jsonData);
-    await file.writeAsString(modifiedContent);
+    await settingsJsonFile.writeAsString(modifiedContent);
   }
 }
 
@@ -532,7 +539,9 @@ Future<void> removePlaylistSettingsFromTestJsonFile({
 }
 
 Future<void> usageExample() async {
-  SettingsDataService initialSettings = SettingsDataService();
+  final SettingsDataService initialSettings = SettingsDataService(
+    sharedPreferences: await SharedPreferences.getInstance(),
+  );
 
   // print initialSettings created with Settings initial values
   print('**** InitialSettings created with Settings initial values\n');
@@ -596,8 +605,10 @@ Future<void> usageExample() async {
 
   initialSettings.saveSettingsToFile(jsonPathFileName: 'settings.json');
 
-  SettingsDataService loadedSettings = await SettingsDataService();
-  loadedSettings.loadSettingsFromFile(jsonPathFileName: 'settings.json');
+  SettingsDataService loadedSettings = await SettingsDataService(
+      sharedPreferences: await SharedPreferences.getInstance());
+  loadedSettings.loadSettingsFromFile(
+      settingsJsonPathFileName: 'settings.json');
 
   print('\n**** Reloaded modified initialSettings\n');
 

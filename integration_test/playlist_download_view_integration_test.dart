@@ -25,6 +25,7 @@ import 'package:audiolearn/views/widgets/playlist_list_item_widget.dart';
 import 'package:audiolearn/services/settings_data_service.dart';
 import 'package:audiolearn/utils/dir_util.dart';
 import 'package:audiolearn/main.dart' as app;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../test/util/test_utility.dart';
 import '../test/viewmodels/custom_mock_youtube_explode.dart';
@@ -65,14 +66,15 @@ void main() {
       // and we don't want to make the main.dart file dependent
       // of a mock class. So we have to start the app by hand.
 
-      SettingsDataService settingsDataService = SettingsDataService(
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
         isTest: true,
       );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
@@ -321,14 +323,15 @@ void main() {
       // and we don't want to make the main.dart file dependent
       // of a mock class. So we have to start the app by hand.
 
-      SettingsDataService settingsDataService = SettingsDataService(
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
         isTest: true,
       );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -573,14 +576,15 @@ void main() {
       // and we don't want to make the main.dart file dependent
       // of a mock class. So we have to start the app by hand.
 
-      SettingsDataService settingsDataService = SettingsDataService(
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
         isTest: true,
       );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -833,7 +837,8 @@ void main() {
       expect(loadedNewPlaylist.isSelected, false);
       expect(loadedNewPlaylist.downloadPath, newPlaylistPath);
 
-      SettingsDataService settingsDataService = SettingsDataService(
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
         isTest: true,
       );
 
@@ -843,7 +848,7 @@ void main() {
       );
 
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: settingsPathFileName);
+          settingsJsonPathFileName: settingsPathFileName);
 
       // Check that the ordered playlist titles list in the settings
       // data service contains the added playlist title
@@ -895,7 +900,7 @@ void main() {
 
       // Reload the settings data service from the settings json file
       await settingsDataService.loadSettingsFromFile(
-        jsonPathFileName: settingsPathFileName,
+        settingsJsonPathFileName: settingsPathFileName,
       );
 
       expect(
@@ -1031,14 +1036,15 @@ void main() {
       // and we don't want to make the main.dart file dependent
       // of a mock class. So we have to start the app by hand.
 
-      SettingsDataService settingsDataService = SettingsDataService(
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
         isTest: true,
       );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -1479,14 +1485,15 @@ void main() {
 
       // Adding the Youtube playlist
 
-      SettingsDataService settingsDataService = SettingsDataService(
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
         isTest: true,
       );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -1653,14 +1660,15 @@ void main() {
       // and we don't want to make the main.dart file dependent
       // of a mock class. So we have to start the app by hand.
 
-      SettingsDataService settingsDataService = SettingsDataService(
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
         isTest: true,
       );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -1797,14 +1805,15 @@ void main() {
       // and we don't want to make the main.dart file dependent
       // of a mock class. So we have to start the app by hand.
 
-      SettingsDataService settingsDataService = SettingsDataService(
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
         isTest: true,
       );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -1934,15 +1943,17 @@ void main() {
 
       const String localAudioPlaylistTitle = 'local_audio_playlist_2';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
@@ -2093,11 +2104,14 @@ void main() {
     late SingleVideoAudioDownloadVM singleVideoAudioDownloadVM;
     late CustomMockYoutubeExplode mockYoutubeExplode;
 
-    setUp(() {
+    setUp(() async {
       mockYoutubeExplode = CustomMockYoutubeExplode();
       singleVideoAudioDownloadVM = SingleVideoAudioDownloadVM(
           youtubeExplode: mockYoutubeExplode,
-          settingsDataService: SettingsDataService(isTest: true));
+          settingsDataService: SettingsDataService(
+            sharedPreferences: await SharedPreferences.getInstance(),
+            isTest: true,
+          ));
     });
 
     test('Test download failure when the Youtube service returns an error',
@@ -2133,15 +2147,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Since we have to use a mock AudioDownloadVM to add the
@@ -2379,15 +2395,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       expect(
@@ -2493,7 +2511,7 @@ void main() {
       // updated correctly
 
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       expect(
@@ -2533,7 +2551,7 @@ void main() {
       // updated correctly
 
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       expect(
@@ -2577,15 +2595,17 @@ void main() {
       const String localAudioTargetPlaylistTitleThree = 'local_3';
       const String copiedAudioTitle = 'audio learn test short video one';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -3037,15 +3057,17 @@ void main() {
       const String localAudioTargetPlaylistTitleThree = 'local_3';
       const String copiedAudioTitle = 'audio learn test short video one';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -3495,18 +3517,19 @@ void main() {
       const String youtubeAudioSourcePlaylistTitle =
           'audio_learn_test_download_2_small_videos';
       const String localAudioTargetPlaylistTitleTwo = 'local_audio_playlist_2';
-      const String localAudioTargetPlaylistTitleThree = 'local_3';
       const String copiedAudioTitle = 'audio learn test short video one';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -3851,18 +3874,19 @@ void main() {
       const String youtubeAudioSourcePlaylistTitle =
           'audio_learn_test_download_2_small_videos';
       const String localAudioTargetPlaylistTitleTwo = 'local_audio_playlist_2';
-      const String localAudioTargetPlaylistTitleThree = 'local_3';
       const String copiedAudioTitle = 'audio learn test short video one';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -4209,15 +4233,17 @@ void main() {
       const String localAudioPlaylistTitle = 'local_audio_playlist_2';
       const String movedAudioTitle = 'audio learn test short video one';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -4474,15 +4500,17 @@ void main() {
       const String localAudioPlaylistTitle = 'local_audio_playlist_2';
       const String movedAudioTitle = 'audio learn test short video one';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -4623,15 +4651,17 @@ void main() {
       const String youtubeAudioTargetPlaylistTitle =
           'audio_player_view_2_shorts_test';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -5016,15 +5046,17 @@ void main() {
       const String youtubeAudioTargetPlaylistTitle =
           'audio_player_view_2_shorts_test';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -5380,15 +5412,17 @@ void main() {
 
       const String youtubePlaylistTitle = 'S8 audio';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -5530,15 +5564,17 @@ void main() {
 
       const String localPlaylistTitle = 'Local_2_audios';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -5684,15 +5720,17 @@ void main() {
 
       const String s8AudioYoutubePlaylistTitle = 'S8 audio';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -5836,15 +5874,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -5963,15 +6003,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -6112,15 +6154,17 @@ void main() {
 
       const String s8AudioYoutubePlaylistTitle = 'S8 audio';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -6240,15 +6284,17 @@ void main() {
 
       const String s8AudioYoutubePlaylistTitle = 'S8 audio';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -6374,15 +6420,17 @@ void main() {
 
       const String s8AudioYoutubeEmptyPlaylistTitle = 'S8 audio';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -6502,15 +6550,17 @@ void main() {
 
       const String s8AudioYoutubeEmptyPlaylistTitle = 'S8 audio';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -6639,15 +6689,17 @@ void main() {
       const String localAudioPlaylistTitle = 'local_audio_playlist_2';
       const String uniqueAudioTitle = 'audio learn test short video one';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -6797,15 +6849,17 @@ void main() {
       const String localAudioPlaylistTitle = 'local_audio_playlist_2';
       const String uniqueAudioTitle = 'audio learn test short video one';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -6956,15 +7010,17 @@ void main() {
 
       String singleVideoUrl = 'https://youtu.be/uv3VQoWSjBE';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -7018,15 +7074,17 @@ void main() {
       const String audioToDeleteTitle =
           '15 minutes de Janco pour retourner un climatosceptique';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -7180,15 +7238,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -7281,15 +7341,17 @@ void main() {
       const String youtubePlaylistToDeleteTitle =
           'audio_learn_test_download_2_small_videos';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -7362,7 +7424,7 @@ void main() {
 
       // Reload the settings from the json file.
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Check that the deleted playlist title is no longer in the
@@ -7452,15 +7514,17 @@ void main() {
       const String youtubePlaylistToDeleteTitle =
           'audio_learn_test_download_2_small_videos';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -7525,7 +7589,7 @@ void main() {
 
       // Reload the settings from the json file.
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Check that the deleted playlist title is still in the
@@ -7615,15 +7679,17 @@ void main() {
 
       const String localPlaylistToDeleteTitle = 'local_audio_playlist_2';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -7696,7 +7762,7 @@ void main() {
 
       // Reload the settings from the json file.
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Check that the deleted playlist title is no longer in the
@@ -7785,15 +7851,17 @@ void main() {
 
       const String localPlaylistToDeleteTitle = 'local_audio_playlist_2';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -7858,7 +7926,7 @@ void main() {
 
       // Reload the settings from the json file.
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Check that the cancelled deleting playlist title is still in the
@@ -7954,15 +8022,17 @@ void main() {
       const String youtubePlaylistToSelectTitle =
           'audio_player_view_2_shorts_test';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -8048,7 +8118,7 @@ void main() {
 
       // Reload the settings from the json file.
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Check that the deleted playlist title is no longer in the
@@ -8123,15 +8193,17 @@ void main() {
 
       const String localPlaylistToSelectTitle = 'local_audio_playlist_2';
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -8217,7 +8289,7 @@ void main() {
 
       // Reload the settings from the json file.
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       // Check that the deleted playlist title is no longer in the
@@ -8302,15 +8374,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -8348,15 +8422,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -8449,15 +8525,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -8550,15 +8628,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -8642,15 +8722,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -8734,15 +8816,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -8872,15 +8956,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -9008,15 +9094,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -9142,15 +9230,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -9282,15 +9372,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);
@@ -9362,15 +9454,17 @@ void main() {
         destinationRootPath: kPlaylistDownloadRootPathWindowsTest,
       );
 
-      SettingsDataService settingsDataService =
-          SettingsDataService(isTest: true);
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        isTest: true,
+      );
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
       // playlists available in the download app test dir
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName:
+          settingsJsonPathFileName:
               "$kPlaylistDownloadRootPathWindowsTest${path.separator}$kSettingsFileName");
 
       app.main(['test']);

@@ -4,7 +4,7 @@ import 'package:audiolearn/services/settings_data_service.dart';
 import 'package:flutter/material.dart';
 
 /// Commando generate the apk:
-/// 
+///
 /// flutter build apk --release --target=lib/settingsConverter.dart
 void main() => runApp(MyApp());
 
@@ -62,13 +62,17 @@ class _JsonModifierState extends State<JsonModifier> {
   Future<void> _modifyJsonFile() async {
     String filePath = _controller.text;
     try {
-      await SettingsDataService.removePlaylistSettingsFromJsonFile(filePath: filePath);
+      await SettingsDataService.removePlaylistSettingsFromJsonFile(
+        settingsJsonFile: File(filePath),
+      );
       setState(() {
-        _status = 'settings.json modified successfully ! Now, install the new version of audioLearn.apk.';
+        _status =
+            'settings.json modified successfully ! Now, install the new version of audioLearn.apk.';
       });
     } catch (e) {
       setState(() {
-        _status = 'Error modifying settings.json: $e. Do not install the new version of audioLearn.apk';
+        _status =
+            'Error modifying settings.json: $e. Do not install the new version of audioLearn.apk';
       });
     }
   }

@@ -15,6 +15,7 @@ import 'package:audiolearn/models/playlist.dart';
 import 'package:audiolearn/utils/dir_util.dart';
 import 'package:audiolearn/viewmodels/audio_download_vm.dart';
 import 'package:audiolearn/viewmodels/warning_message_vm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const int secondsDelay = 15; // 7 works, but 10 is safer and 15 solves
 //                              the problems of running the integr tests
@@ -46,12 +47,14 @@ void main() {
 
       final WarningMessageVM warningMessageVM = WarningMessageVM();
 
-      final SettingsDataService settingsDataService = SettingsDataService();
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+      );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
 
       final AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -79,12 +82,14 @@ void main() {
       DirUtil.deleteFilesInDirAndSubDirs(
           rootPath: kPlaylistDownloadRootPathWindowsTest);
 
-      final SettingsDataService settingsDataService = SettingsDataService();
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+      );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
 
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
@@ -193,12 +198,14 @@ void main() {
         targetFileName: '$globalTestPlaylistTitle.json',
       );
 
-      final SettingsDataService settingsDataService = SettingsDataService();
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+      );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
 
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(
@@ -351,12 +358,14 @@ void main() {
         targetDirectoryPath: localTestPlaylistDir,
       );
 
-      final SettingsDataService settingsDataService = SettingsDataService();
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+      );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
 
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
@@ -480,12 +489,14 @@ void main() {
         destinationRootPath: localTestPlaylistDir,
       );
 
-      final SettingsDataService settingsDataService = SettingsDataService();
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+      );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
 
       // await tester.pumpWidget(MyApp());
       await tester.pumpWidget(ChangeNotifierProvider(
@@ -627,12 +638,14 @@ void main() {
         targetDirectoryPath: globalTestPlaylistDir,
       );
 
-      final SettingsDataService settingsDataService = SettingsDataService();
+      final SettingsDataService settingsDataService = SettingsDataService(
+        sharedPreferences: await SharedPreferences.getInstance(),
+      );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          jsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: 'temp\wrong.json');
 
       final WarningMessageVM warningMessageVM = WarningMessageVM();
       final AudioDownloadVM audioDownloadVMbeforeDownload = AudioDownloadVM(

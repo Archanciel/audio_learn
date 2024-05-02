@@ -6,10 +6,15 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:audiolearn/constants.dart';
 import 'package:audiolearn/services/settings_data_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'mock_shared_preferences.dart';
 
 enum UnsupportedSettingsEnum { unsupported }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   const String testSettingsDir =
       '$kPlaylistDownloadRootPathWindowsTest\\audiolearn_test_settings';
 
@@ -21,12 +26,15 @@ void main() {
         directory.deleteSync(recursive: true);
       }
 
-      SettingsDataService settings = SettingsDataService(isTest: true);
+      final SettingsDataService settings = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settings.loadSettingsFromFile(
-          jsonPathFileName: 'test/settings.json');
+          settingsJsonPathFileName: 'not_exist/settings.json');
 
       settings.addOrReplaceNamedAudioSortFilterParameters(
         audioSortFilterParametersName: 'Default',
@@ -122,9 +130,11 @@ void main() {
       );
 
       // Load from file
-      final SettingsDataService loadedSettings = SettingsDataService();
+      final SettingsDataService loadedSettings = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+      );
       await loadedSettings.loadSettingsFromFile(
-        jsonPathFileName: testSettingsPathFileName,
+        settingsJsonPathFileName: testSettingsPathFileName,
       );
 
       // Check loaded values
@@ -174,9 +184,9 @@ void main() {
           true);
 
       // Cleanup the test data directory
-      if (directory.existsSync()) {
-        directory.deleteSync(recursive: true);
-      }
+      // if (directory.existsSync()) {
+      //   directory.deleteSync(recursive: true);
+      // }
     });
     test(
         'Test initial, modified, saved and loaded values with 2 AudioSortFilterParameters in collections',
@@ -187,12 +197,15 @@ void main() {
         directory.deleteSync(recursive: true);
       }
 
-      SettingsDataService settings = SettingsDataService(isTest: true);
+      final SettingsDataService settings = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settings.loadSettingsFromFile(
-          jsonPathFileName: 'test/settings.json');
+          settingsJsonPathFileName: 'test/settings.json');
 
       settings.addOrReplaceNamedAudioSortFilterParameters(
         audioSortFilterParametersName: 'Default',
@@ -231,9 +244,11 @@ void main() {
       );
 
       // Load from file
-      final SettingsDataService loadedSettings = SettingsDataService();
+      final SettingsDataService loadedSettings = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+      );
       await loadedSettings.loadSettingsFromFile(
-        jsonPathFileName: testSettingsPathFileName,
+        settingsJsonPathFileName: testSettingsPathFileName,
       );
 
       // Check loaded values
@@ -297,16 +312,19 @@ void main() {
         () async {
       final Directory directory = Directory(testSettingsDir);
 
-      if (directory.existsSync()) {
-        directory.deleteSync(recursive: true);
-      }
+      // if (directory.existsSync()) {
+      //   directory.deleteSync(recursive: true);
+      // }
 
-      SettingsDataService settings = SettingsDataService(isTest: true);
+      final SettingsDataService settings = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settings.loadSettingsFromFile(
-          jsonPathFileName: 'test/settings.json');
+          settingsJsonPathFileName: 'test/settings.json');
 
       settings.addOrReplaceNamedAudioSortFilterParameters(
         audioSortFilterParametersName: 'Default',
@@ -355,9 +373,11 @@ void main() {
       );
 
       // Load from file
-      final SettingsDataService loadedSettings = SettingsDataService();
+      final SettingsDataService loadedSettings = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+      );
       await loadedSettings.loadSettingsFromFile(
-        jsonPathFileName: testSettingsPathFileName,
+        settingsJsonPathFileName: testSettingsPathFileName,
       );
 
       // Check loaded values
@@ -433,9 +453,9 @@ void main() {
           true);
 
       // Cleanup the test data directory
-      if (directory.existsSync()) {
-        directory.deleteSync(recursive: true);
-      }
+      // if (directory.existsSync()) {
+      //   directory.deleteSync(recursive: true);
+      // }
     });
     test(
         'Test initial, modified, saved and loaded values with empty AudioSortFilterParameters collections',
@@ -446,7 +466,10 @@ void main() {
         directory.deleteSync(recursive: true);
       }
 
-      SettingsDataService settings = SettingsDataService(isTest: true);
+      final SettingsDataService settings = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+        isTest: true,
+      );
 
       // Save to file
       await DirUtil.createDirIfNotExist(pathStr: testSettingsDir);
@@ -458,9 +481,12 @@ void main() {
       );
 
       // Load from file
-      final SettingsDataService loadedSettings = SettingsDataService();
+      final SettingsDataService loadedSettings = SettingsDataService(
+        sharedPreferences: MockSharedPreferences(),
+      );
+      
       await loadedSettings.loadSettingsFromFile(
-        jsonPathFileName: testSettingsPathFileName,
+        settingsJsonPathFileName: testSettingsPathFileName,
       );
 
       // Check loaded values
@@ -474,9 +500,9 @@ void main() {
           true);
 
       // Cleanup the test data directory
-      if (directory.existsSync()) {
-        directory.deleteSync(recursive: true);
-      }
+      // if (directory.existsSync()) {
+      //   directory.deleteSync(recursive: true);
+      // }
     });
   });
 }

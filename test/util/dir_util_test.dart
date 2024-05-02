@@ -8,6 +8,8 @@ import 'package:path/path.dart' as path;
 import 'package:audiolearn/utils/duration_expansion.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('DirUtil replacePlaylistRootPathInSettingsJsonFiles test)', () {
     test(
       'replacing "/storage/emulated/0/Download/audiolear" by "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audiolearn\\test\\data\\audio"',
