@@ -63,11 +63,11 @@ class _JsonModifierState extends State<JsonModifier> {
     try {
       await removePlaylistSettingsFromJsonFile(filePath: filePath);
       setState(() {
-        _status = 'settings.json modified successfully!';
+        _status = 'settings.json modified successfully ! Now, install the new version of audioLearn.apk.';
       });
     } catch (e) {
       setState(() {
-        _status = 'Error modifying settings.json: $e';
+        _status = 'Error modifying settings.json: $e. Do not install the new version of audioLearn.apk';
       });
     }
   }
