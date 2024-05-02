@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:audiolearn/services/settings_data_service.dart';
 import 'package:flutter/material.dart';
 
 /// Commando generate the apk:
@@ -61,7 +62,7 @@ class _JsonModifierState extends State<JsonModifier> {
   Future<void> _modifyJsonFile() async {
     String filePath = _controller.text;
     try {
-      await removePlaylistSettingsFromJsonFile(filePath: filePath);
+      await SettingsDataService.removePlaylistSettingsFromJsonFile(filePath: filePath);
       setState(() {
         _status = 'settings.json modified successfully ! Now, install the new version of audioLearn.apk.';
       });
@@ -71,16 +72,4 @@ class _JsonModifierState extends State<JsonModifier> {
       });
     }
   }
-}
-
-Future<void> removePlaylistSettingsFromJsonFile({required String filePath}) async {
-  File file = File(filePath);
-  String content = await file.readAsString();
-  Map<String, dynamic> jsonData = jsonDecode(content);
-
-  (jsonData['SettingType.playlists'] as Map<String, dynamic>).remove('Playlists.defaultAudioSort');
-  (jsonData['SettingType.playlists'] as Map<String, dynamic>).remove('Playlists.pathLst');
-
-  String modifiedContent = jsonEncode(jsonData);
-  await file.writeAsString(modifiedContent);
 }
