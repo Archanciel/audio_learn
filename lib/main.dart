@@ -20,21 +20,17 @@ import 'views/my_home_page.dart';
 import 'views/screen_mixin.dart';
 
 Future<void> main(List<String> args) async {
-  WidgetsFlutterBinding.ensureInitialized();  // Ensure Flutter bindings are initialized.
-  
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensure Flutter bindings are initialized.
+
   List<String> myArgs = args.isNotEmpty ? args : [];
 
   bool deleteAppDir = kDeleteAppDirOnEmulator;
   bool isTest = false;
 
   // Parse command line arguments
-  if (myArgs.isNotEmpty) {
-    if (myArgs.contains("delAppDir")) {
-      deleteAppDir = true;
-    } else if (myArgs.contains("test")) {
-      isTest = true;
-    }
-  }
+  deleteAppDir = myArgs.contains("delAppDir");
+  isTest = myArgs.contains("test");
 
   // Handle deletion of application directory if required
   if (deleteAppDir) {
@@ -45,9 +41,10 @@ Future<void> main(List<String> args) async {
   String applicationPath = '';
 
   // Request permissions and then create/get the application directory
-  await PermissionRequesterService.requestMultiplePermissions().then(
-    (_) async => applicationPath = await DirUtil.getApplicationPath(isTest: isTest)
-  );
+  await PermissionRequesterService.requestMultiplePermissions();
+
+  // Obtain or create the application directory
+  applicationPath = await DirUtil.getApplicationPath(isTest: isTest);
 
   // Now proceed with setting up the app window size and position if needed
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
@@ -55,7 +52,8 @@ Future<void> main(List<String> args) async {
   }
 
   // Setup SettingsDataService
-  final SettingsDataService settingsDataService = SettingsDataService(isTest: isTest);
+  final SettingsDataService settingsDataService =
+      SettingsDataService(isTest: isTest);
 
   await settingsDataService.loadSettingsFromFile(
     jsonPathFileName:

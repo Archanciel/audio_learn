@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:audiolearn/services/settings_data_service.dart';
 import 'package:flutter/material.dart';
 
+/// Commando generate the apk:
+/// 
+/// flutter build apk --release --target=lib/settingsConverter.dart
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -29,7 +32,7 @@ class _JsonModifierState extends State<JsonModifier> {
     _controller.text = "/storage/emulated/0/Download/audiolearn/settings.json";
     return Scaffold(
       appBar: AppBar(
-        title: Text('Modify JSON'),
+        title: const Text('Modify JSON'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -39,17 +42,17 @@ class _JsonModifierState extends State<JsonModifier> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _controller,
-              decoration: InputDecoration(
-                labelText: 'Enter root path',
+              decoration: const InputDecoration(
+                labelText: 'Enter application root path',
                 border: OutlineInputBorder(),
               ),
             ),
           ),
           ElevatedButton(
             onPressed: _modifyJsonFile,
-            child: Text('Remove Playlist Settings'),
+            child: const Text('Update settings.json'),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(_status),
         ],
       ),
@@ -61,11 +64,11 @@ class _JsonModifierState extends State<JsonModifier> {
     try {
       await SettingsDataService.removePlaylistSettingsFromJsonFile(filePath: filePath);
       setState(() {
-        _status = 'File Modified Successfully!';
+        _status = 'settings.json modified successfully ! Now, install the new version of audioLearn.apk.';
       });
     } catch (e) {
       setState(() {
-        _status = 'Error modifying file: $e';
+        _status = 'Error modifying settings.json: $e. Do not install the new version of audioLearn.apk';
       });
     }
   }
