@@ -35,9 +35,9 @@ void main() async {
   group(
       'Testing expandable playlist list located in PlaylistDownloadView functions',
       () {
-        setUp(() {
-          TestWidgetsFlutterBinding.ensureInitialized();
-        });
+    setUp(() {
+      TestWidgetsFlutterBinding.ensureInitialized();
+    });
     testWidgets(
         'should render ListView widget, not using MyApp but ListView widget',
         (WidgetTester tester) async {
@@ -87,7 +87,6 @@ void main() async {
         sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
-
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -156,7 +155,6 @@ void main() async {
         sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
-
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -274,7 +272,6 @@ void main() async {
         sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
-
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -411,7 +408,6 @@ void main() async {
         sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
-
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -560,7 +556,6 @@ void main() async {
         sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
-
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -748,7 +743,6 @@ void main() async {
         isTest: true,
       );
 
-
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
@@ -846,7 +840,6 @@ void main() async {
         sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
-
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
@@ -947,7 +940,6 @@ void main() async {
         isTest: true,
       );
 
-
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
@@ -1047,7 +1039,6 @@ void main() async {
         isTest: true,
       );
 
-
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
       // and the playlist list will not be filled with the
@@ -1145,7 +1136,6 @@ void main() async {
         sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
-
 
       // Load the settings from the json file. This is necessary
       // otherwise the ordered playlist titles will remain empty
