@@ -269,7 +269,14 @@ class SettingsDataService {
     bool settingsJsonFileExist = settingsJsonFile.existsSync();
 
     if (isFirstRun) {
-x      if (settingsJsonFileExist) {
+      // this test enables to avoid that the supportedLocales.dart unit
+      // tests fail due to the fact that flutter_test.exe remains active
+      // and blocks the possibility for DirUtil to delete the test data
+      // once a unit test is completed.
+      if (_isTest) {
+        return true;
+      }
+      if (settingsJsonFileExist) {
         await SettingsDataService.removePlaylistSettingsFromJsonFile(
             settingsJsonFile: settingsJsonFile);
       }
