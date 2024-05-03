@@ -190,10 +190,18 @@ class SettingsDataService {
     required String settingsJsonPathFileName,
   }) async {
     final File file = File(settingsJsonPathFileName);
+    final bool settingsJsonFileExist = file.existsSync();
 
-    bool settingsJsonFileExist = await _checkFirstRun(
-      settingsJsonFile: file,
-    );
+    // This test enables to avoid that the supportedLocales.dart unit
+    // tests fail due to the fact that flutter_test.exe remains active
+    // and blocks the possibility for DirUtil to delete the test data
+    // once a unit test is completed.
+    if (!_isTest) {
+      await _checkFirstRun(
+        settingsJsonFile: file,
+        settingsJsonFileExist: settingsJsonFileExist,
+      );
+    }
 
     try {
       if (settingsJsonFileExist) {
@@ -262,29 +270,22 @@ class SettingsDataService {
     }
   }
 
-  Future<bool> _checkFirstRun({
+  Future<void> _checkFirstRun({
     required File settingsJsonFile,
+    required bool settingsJsonFileExist,
   }) async {
     bool isFirstRun = (_sharedPreferences.getBool('isFirstRun') ?? true);
-    bool settingsJsonFileExist = settingsJsonFile.existsSync();
 
     if (isFirstRun) {
-      // this test enables to avoid that the supportedLocales.dart unit
-      // tests fail due to the fact that flutter_test.exe remains active
-      // and blocks the possibility for DirUtil to delete the test data
-      // once a unit test is completed.
-      if (_isTest) {
-        return true;
-      }
       if (settingsJsonFileExist) {
+        // if not, the application is installed for the first time
+        // on a device
         await SettingsDataService.removePlaylistSettingsFromJsonFile(
             settingsJsonFile: settingsJsonFile);
       }
 
       await _sharedPreferences.setBool('isFirstRun', false);
     }
-
-    return settingsJsonFileExist;
   }
 
   void addOrReplaceNamedAudioSortFilterParameters({
