@@ -191,11 +191,8 @@ class SettingsDataService {
   }) async {
     final File file = File(settingsJsonPathFileName);
 
-    bool settingsJsonFileExist = file.existsSync();
-
-    _checkFirstRun(
+    bool settingsJsonFileExist = await _checkFirstRun(
       settingsJsonFile: file,
-      settingsJsonFileExist: settingsJsonFileExist,
     );
 
     try {
@@ -265,11 +262,11 @@ class SettingsDataService {
     }
   }
 
-  Future<void> _checkFirstRun({
+  Future<bool> _checkFirstRun({
     required File settingsJsonFile,
-    required bool settingsJsonFileExist,
   }) async {
     bool isFirstRun = (_sharedPreferences.getBool('isFirstRun') ?? true);
+    bool settingsJsonFileExist = settingsJsonFile.existsSync();
 
     if (isFirstRun) {
       if (settingsJsonFileExist) {
@@ -279,6 +276,8 @@ class SettingsDataService {
 
       await _sharedPreferences.setBool('isFirstRun', false);
     }
+
+    return settingsJsonFileExist;
   }
 
   void addOrReplaceNamedAudioSortFilterParameters({
