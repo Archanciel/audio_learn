@@ -10,29 +10,32 @@ import '../../viewmodels/audio_player_vm.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 import '../../views/screen_mixin.dart';
 
-class SetAudioSpeedDialogWidget extends StatefulWidget {
+class AudioSetSpeedDialogWidget extends StatefulWidget {
   double audioPlaySpeed;
 
-  bool displayApplyToAudioAlreadyDownloaded;
+  bool displayApplyToExistingPlaylistCheckbox;
+  bool displayApplyToAudioAlreadyDownloadedCheckbox;
 
   bool updateCurrentPlayAudioSpeed;
 
-  SetAudioSpeedDialogWidget({
+  AudioSetSpeedDialogWidget({
     super.key,
     required this.audioPlaySpeed,
-    this.displayApplyToAudioAlreadyDownloaded = false,
+    this.displayApplyToExistingPlaylistCheckbox = false,
+    this.displayApplyToAudioAlreadyDownloadedCheckbox = false,
     this.updateCurrentPlayAudioSpeed = true,
   });
 
   @override
-  _SetAudioSpeedDialogWidgetState createState() =>
-      _SetAudioSpeedDialogWidgetState();
+  _AudioSetSpeedDialogWidgetState createState() =>
+      _AudioSetSpeedDialogWidgetState();
 }
 
-class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
+class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
     with ScreenMixin {
   double _audioPlaySpeed = 1.0;
   bool _applyToAudioAlreadyDownloaded = false;
+  bool _applyToExistingPlaylist = false;
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -99,7 +102,10 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
                     : kTextButtonStyleLightMode),
             _buildSlider(audioGlobalPlayerVM),
             _buildSpeedButtons(audioGlobalPlayerVM, themeProviderVM),
-            (widget.displayApplyToAudioAlreadyDownloaded)
+            (widget.displayApplyToExistingPlaylistCheckbox)
+                ? _buildApplyToExistingPlaylistRow(context)
+                : Container(),
+            (widget.displayApplyToAudioAlreadyDownloadedCheckbox)
                 ? _buildApplyToAudioAlreadyDownloadedRow(context)
                 : Container(),
           ],
@@ -116,6 +122,7 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
             onPressed: () {
               Navigator.of(context).pop([
                 _audioPlaySpeed,
+                _applyToExistingPlaylist,
                 _applyToAudioAlreadyDownloaded,
               ]);
             },
@@ -146,6 +153,28 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
     );
   }
 
+  Widget _buildApplyToExistingPlaylistRow(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 20,
+        ),
+        createCheckboxRowFunction(
+          context: context,
+          label: AppLocalizations.of(context)!.applyToExistingPlaylist,
+          labelTooltip:
+              AppLocalizations.of(context)!.applyToExistingPlaylistTooltip,
+          value: _applyToExistingPlaylist,
+          onChangedFunction: (bool? value) {
+            setState(() {
+              _applyToExistingPlaylist = value ?? false;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
   Widget _buildApplyToAudioAlreadyDownloadedRow(BuildContext context) {
     return Column(
       children: [
@@ -154,11 +183,33 @@ class _SetAudioSpeedDialogWidgetState extends State<SetAudioSpeedDialogWidget>
         ),
         createCheckboxRowFunction(
           context: context,
-          label: AppLocalizations.of(context)!.applyToAudioAlreadyDownloaded,
+          label: AppLocalizations.of(context)!.applyToAlreadyDownloadedAudio,
+          labelTooltip: (widget.displayApplyToExistingPlaylistCheckbox)
+              ? AppLocalizations.of(context)!
+                  .applyToAlreadyDownloadedAudioTooltip
+              : AppLocalizations.of(context)!
+                  .applyToAlreadyDownloadedAudioOfCurrentPlaylistTooltip,
           value: _applyToAudioAlreadyDownloaded,
-          onChanged: (bool? value) {
+          onChangedFunction: (bool? value) {
             setState(() {
               _applyToAudioAlreadyDownloaded = value ?? false;
+
+              if (widget.displayApplyToExistingPlaylistCheckbox) {
+                if (_applyToAudioAlreadyDownloaded) {
+                  // If this dialog was opened due to updating application
+                  // settings, in this case the two checkbox are displayed.
+                  //
+                  // In this situation, if the user chooses to apply the
+                  // modified audio play speed to the already dowmnloaded
+                  // audios, then it makes sence that the apply to existing
+                  // checkbox is set to true. The user can uncheck the apply
+                  // to existing checkbox without the fact that the apply
+                  // to already downloaded audio check box is implied.
+                  setState(() {
+                    _applyToExistingPlaylist = true;
+                  });
+                }
+              }
             });
           },
         ),

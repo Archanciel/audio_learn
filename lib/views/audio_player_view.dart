@@ -12,11 +12,11 @@ import '../viewmodels/playlist_list_vm.dart';
 import '../viewmodels/warning_message_vm.dart';
 import '../viewmodels/theme_provider_vm.dart';
 import 'screen_mixin.dart';
-import 'widgets/confirm_action_dialog_widget.dart';
-import 'widgets/list_playable_audios_dialog_widget.dart';
-import 'widgets/save_sort_filter_options_to_playlist_dialog.dart';
-import 'widgets/set_audio_speed_dialog_widget.dart';
-import 'widgets/sort_filter_audio_dialog_widget.dart';
+import 'widgets/action_confirm_dialog_widget.dart';
+import 'widgets/audios_playable_list_dialog_widget.dart';
+import 'widgets/playlist_sort_filter_options_save_to_dialog_widget.dart';
+import 'widgets/audio_set_speed_dialog_widget.dart';
+import 'widgets/audio_sort_filter_dialog_widget.dart';
 
 /// Screen enabling the user to play an audio, change the playing
 /// position or go to a previous, next or selected audio.
@@ -266,7 +266,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                             context: context,
                             barrierDismissible: true,
                             builder: (BuildContext context) {
-                              return SetAudioSpeedDialogWidget(
+                              return AudioSetSpeedDialogWidget(
                                 audioPlaySpeed: _audioPlaySpeed,
                               );
                             },
@@ -362,7 +362,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 barrierDismissible:
                     false, // This line prevents the dialog from closing when tapping outside
                 builder: (BuildContext context) {
-                  return SortFilterAudioDialogWidget(
+                  return AudioSortFilterDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
                         .getSelectedPlaylistPlayableAudiosApplyingSortFilterParameters(
                       audioLearnAppViewType:
@@ -407,7 +407,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 context: context,
                 barrierDismissible: true,
                 builder: (BuildContext context) {
-                  return ConfirmActionDialogWidget(
+                  return ActionConfirmDialogWidget(
                     actionFunction: playlistListVMlistenFalse
                         .clearAudioSortFilterSettingsSearchHistory,
                     actionFunctionArgs: const [],
@@ -434,7 +434,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                 barrierDismissible:
                     false, // This line prevents the dialog from closing when tapping outside
                 builder: (BuildContext context) {
-                  return SaveSortFilterOptionsToPlaylistDialogWidget(
+                  return PlaylistSortFilterOptionsSaveToDialogWidget(
                     playlistTitle:
                         playlistListVMlistenFalse.uniqueSelectedPlaylist!.title,
                     applicationViewType: AudioLearnAppViewType.audioPlayerView,
@@ -789,7 +789,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   void _displayOtherAudiosDialog() {
     showDialog(
       context: context,
-      builder: (context) => const ListPlayableAudiosDialogWidget(),
+      builder: (context) => const AudioPlayableListDialogWidget(),
     ).then((selectedAudio) {
       // TODO: why nothing is done there ?
       print(selectedAudio);

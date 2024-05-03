@@ -9,9 +9,9 @@ import '../../services/settings_data_service.dart';
 import '../../viewmodels/playlist_list_vm.dart';
 import '../../viewmodels/warning_message_vm.dart';
 import '../screen_mixin.dart';
-import 'confirm_action_dialog_widget.dart';
+import 'action_confirm_dialog_widget.dart';
 import 'playlist_info_dialog_widget.dart';
-import 'set_audio_speed_dialog_widget.dart';
+import 'audio_set_speed_dialog_widget.dart';
 
 enum PlaylistPopupMenuAction {
   openYoutubePlaylist,
@@ -164,14 +164,18 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                         context: context,
                         barrierDismissible: true,
                         builder: (BuildContext context) {
-                          return SetAudioSpeedDialogWidget(
-                            audioPlaySpeed: (playlist.audioPlaySpeed != 0)
-                                ? playlist.audioPlaySpeed
-                                : settingsDataService.get(
-                                        settingType: SettingType.playlists,
-                                        settingSubType: Playlists.playSpeed) ??
-                                    1.0,
-                            displayApplyToAudioAlreadyDownloaded: true,
+                          double playlistAudioPlaySpeed = (playlist
+                                      .audioPlaySpeed !=
+                                  0)
+                              ? playlist
+                                  .audioPlaySpeed // audio play speed is defined for the playlist
+                              : settingsDataService.get(
+                                      settingType: SettingType.playlists,
+                                      settingSubType: Playlists.playSpeed) ??
+                                  1.0;
+                          return AudioSetSpeedDialogWidget(
+                            audioPlaySpeed: playlistAudioPlaySpeed,
+                            displayApplyToAudioAlreadyDownloadedCheckbox: true,
                             updateCurrentPlayAudioSpeed: false,
                           );
                         },
@@ -208,7 +212,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                         context: context,
                         barrierDismissible: true,
                         builder: (BuildContext context) {
-                          return ConfirmActionDialogWidget(
+                          return ActionConfirmDialogWidget(
                             actionFunction: deletePlaylist,
                             actionFunctionArgs: [
                               expandablePlaylistListVM,

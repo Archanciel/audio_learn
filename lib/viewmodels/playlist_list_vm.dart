@@ -1087,4 +1087,38 @@ class PlaylistListVM extends ChangeNotifier {
 
     return playableAudioLst[currentAudioIndex + 1];
   }
+  
+  /// this method updates the playlists audio play speed or/and
+  /// the audio play speed of the playable audios contained in 
+  /// the playlists.
+  /// 
+  /// Updating the playlist audio play speed only implies the
+  /// next downloaded audios of this playlist.
+  void updatePlaylistAndOrAudioPlaySpeed({
+    required double audioPlaySpeed,
+    required bool applyAudioPlaySpeedToExistingPlaylists,
+    required bool applyAudioPlaySpeedToAlreadyDownloadedAudios,
+  }) {
+    for (Playlist playlist in _listOfSelectablePlaylists) {
+      // updating the playlist audio play speed. This will imply the
+      // next downloaded audios of this playlist.
+      if (applyAudioPlaySpeedToExistingPlaylists) {
+        playlist.audioPlaySpeed = audioPlaySpeed;
+      }
+
+      if (applyAudioPlaySpeedToAlreadyDownloadedAudios) {
+        // updating the audio play speed of the playable audios
+        // contained in the playlist.
+        for (Audio audio in playlist.playableAudioLst) {
+          audio.audioPlaySpeed = audioPlaySpeed;
+        }
+      }
+
+      // saving the playlist in its json file
+      JsonDataService.saveToFile(
+        model: playlist,
+        path: playlist.getPlaylistDownloadFilePathName(),
+      );
+    }
+  }
 }

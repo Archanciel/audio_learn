@@ -114,7 +114,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                 context: context,
                 label: AppLocalizations.of(context)!.isMusicQualityLabel,
                 value: _isChecked,
-                onChanged: (bool? value) {
+                onChangedFunction: (bool? value) {
                   setState(() {
                     _isChecked = value ?? false;
                   });

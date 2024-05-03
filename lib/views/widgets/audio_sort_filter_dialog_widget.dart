@@ -13,7 +13,7 @@ import '../../models/audio.dart';
 import '../../services/audio_sort_filter_service.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
-import 'confirm_action_dialog_widget.dart';
+import 'action_confirm_dialog_widget.dart';
 
 enum CalledFrom {
   playlistDownloadView,
@@ -22,7 +22,7 @@ enum CalledFrom {
   audioPlayerViewAudioMenu,
 }
 
-class SortFilterAudioDialogWidget extends StatefulWidget {
+class AudioSortFilterDialogWidget extends StatefulWidget {
   final List<Audio> selectedPlaylistAudioLst;
   String audioSortFilterParametersName;
   AudioSortFilterParameters audioSortFilterParameters;
@@ -32,7 +32,7 @@ class SortFilterAudioDialogWidget extends StatefulWidget {
   final WarningMessageVM warningMessageVM;
   final CalledFrom calledFrom;
 
-  SortFilterAudioDialogWidget({
+  AudioSortFilterDialogWidget({
     super.key,
     required this.selectedPlaylistAudioLst,
     this.audioSortFilterParametersName = '',
@@ -45,12 +45,12 @@ class SortFilterAudioDialogWidget extends StatefulWidget {
   });
 
   @override
-  _SortFilterAudioDialogWidgetState createState() =>
-      _SortFilterAudioDialogWidgetState();
+  _AudioSortFilterDialogWidgetState createState() =>
+      _AudioSortFilterDialogWidgetState();
 }
 
-class _SortFilterAudioDialogWidgetState
-    extends State<SortFilterAudioDialogWidget> with ScreenMixin {
+class _AudioSortFilterDialogWidgetState
+    extends State<AudioSortFilterDialogWidget> with ScreenMixin {
   final InputDecoration _dialogTextFieldDecoration = const InputDecoration(
     isDense: true, //  better aligns the text vertically
     contentPadding: EdgeInsets.all(5),
@@ -1393,7 +1393,7 @@ class _SortFilterAudioDialogWidgetState
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return ConfirmActionDialogWidget(
+        return ActionConfirmDialogWidget(
           actionFunction: _clearAudioSortFilterSettingsSearchHistory,
           actionFunctionArgs: [
             Provider.of<PlaylistListVM>(context, listen: false),

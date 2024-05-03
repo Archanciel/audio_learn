@@ -8,7 +8,7 @@ import '../../views/screen_mixin.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 
-class ConfirmActionDialogWidget extends StatefulWidget {
+class ActionConfirmDialogWidget extends StatefulWidget {
   final Function actionFunction; // The action to execute on confirmation
   final List<dynamic> actionFunctionArgs; // Arguments for the action function
   final String dialogTitle; // Title of the dialog
@@ -17,7 +17,7 @@ class ConfirmActionDialogWidget extends StatefulWidget {
   final Function? warningFunction; // The action to execute on confirmation
   final List<dynamic> warningFunctionArgs; // Arguments for the action function
 
-  const ConfirmActionDialogWidget({
+  const ActionConfirmDialogWidget({
     required this.actionFunction,
     required this.actionFunctionArgs,
     required this.dialogTitle,
@@ -29,11 +29,11 @@ class ConfirmActionDialogWidget extends StatefulWidget {
   });
 
   @override
-  State<ConfirmActionDialogWidget> createState() =>
-      _ConfirmActionDialogWidgetState();
+  State<ActionConfirmDialogWidget> createState() =>
+      _ActionConfirmDialogWidgetState();
 }
 
-class _ConfirmActionDialogWidgetState extends State<ConfirmActionDialogWidget>
+class _ActionConfirmDialogWidgetState extends State<ActionConfirmDialogWidget>
     with ScreenMixin {
   @override
   void initState() {

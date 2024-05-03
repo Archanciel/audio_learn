@@ -11,23 +11,23 @@ import '../../utils/ui_util.dart';
 import '../../viewmodels/audio_download_vm.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 
-class RenameAudioFileDialogWidget extends StatefulWidget {
+class AudioFileRenameDialogWidget extends StatefulWidget {
   final Audio audio;
   final FocusNode focusNode;
 
-  const RenameAudioFileDialogWidget({
+  const AudioFileRenameDialogWidget({
     required this.audio,
     required this.focusNode,
     super.key,
   });
 
   @override
-  State<RenameAudioFileDialogWidget> createState() =>
-      _RenameAudioFileDialogWidgetState();
+  State<AudioFileRenameDialogWidget> createState() =>
+      _AudioFileRenameDialogWidgetState();
 }
 
-class _RenameAudioFileDialogWidgetState
-    extends State<RenameAudioFileDialogWidget> with ScreenMixin {
+class _AudioFileRenameDialogWidgetState
+    extends State<AudioFileRenameDialogWidget> with ScreenMixin {
   final TextEditingController _audioFileNameTextEditingController =
       TextEditingController();
   final FocusNode _audioFileNameFocusNode = FocusNode();

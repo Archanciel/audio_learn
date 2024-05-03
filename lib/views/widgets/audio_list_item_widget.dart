@@ -16,7 +16,7 @@ import '../../viewmodels/warning_message_vm.dart';
 import '../screen_mixin.dart';
 import 'audio_info_dialog_widget.dart';
 import 'playlist_one_selectable_dialog_widget.dart';
-import 'rename_audio_file_dialog_widget.dart';
+import 'audio_file_rename_dialog_widget.dart';
 
 enum AudioPopupMenuAction {
   openYoutubeVideo,
@@ -153,7 +153,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                     context: context,
                     barrierDismissible: true,
                     builder: (BuildContext context) {
-                      return RenameAudioFileDialogWidget(
+                      return AudioFileRenameDialogWidget(
                         audio: audio,
                         focusNode: focusNode,
                       );

@@ -939,8 +939,23 @@ class MockAppLocalizations extends AppLocalizations {
   String get setAudioPlaySpeed => "Set audio play speed ...";
 
   @override
-  String get applyToAudioAlreadyDownloaded =>
+  String get applyToAlreadyDownloadedAudio =>
       "Apply to audio already downloaded";
+
+  @override
+  String get applyToAlreadyDownloadedAudioTooltip =>
+      "If set, the playback speed is applied to the playable audios of all the existing playlists. If not set and if the apply to the existing playlist checkbox is set, then the playback speed will be applied to the next downloaded audios of the existing playlists.";
+
+  @override
+  String get applyToAlreadyDownloadedAudioOfCurrentPlaylistTooltip =>
+      "If set, the playback speed is applied to the playable audios of the playlist. If not set, then the playback speed will be applied to the next downloaded audios of the playlist.";
+
+  @override
+  String get applyToExistingPlaylist => "apply to existing\nplaylists";
+
+  @override
+  String get applyToExistingPlaylistTooltip =>
+      "If set, the playback speed is applied to all the existing playlists. If not set, the playback speed will be applied only to the next added playlists.";
 
   @override
   String get playlistRootpathLabel => "Playlists root path";

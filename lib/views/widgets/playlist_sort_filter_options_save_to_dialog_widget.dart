@@ -8,12 +8,12 @@ import '../../views/screen_mixin.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 
-class SaveSortFilterOptionsToPlaylistDialogWidget extends StatefulWidget {
+class PlaylistSortFilterOptionsSaveToDialogWidget extends StatefulWidget {
   final String playlistTitle;
   final AudioLearnAppViewType applicationViewType;
   final FocusNode focusNode;
 
-  const SaveSortFilterOptionsToPlaylistDialogWidget({
+  const PlaylistSortFilterOptionsSaveToDialogWidget({
     required this.playlistTitle,
     required this.applicationViewType,
     required this.focusNode,
@@ -21,12 +21,12 @@ class SaveSortFilterOptionsToPlaylistDialogWidget extends StatefulWidget {
   });
 
   @override
-  State<SaveSortFilterOptionsToPlaylistDialogWidget> createState() =>
-      _SaveSortFilterOptionsToPlaylistDialogWidgetState();
+  State<PlaylistSortFilterOptionsSaveToDialogWidget> createState() =>
+      _PlaylistSortFilterOptionsSaveToDialogWidgetState();
 }
 
-class _SaveSortFilterOptionsToPlaylistDialogWidgetState
-    extends State<SaveSortFilterOptionsToPlaylistDialogWidget>
+class _PlaylistSortFilterOptionsSaveToDialogWidgetState
+    extends State<PlaylistSortFilterOptionsSaveToDialogWidget>
     with ScreenMixin {
   final FocusNode _localPlaylistTitleFocusNode = FocusNode();
 
@@ -127,7 +127,7 @@ class _SaveSortFilterOptionsToPlaylistDialogWidgetState
                   label: AppLocalizations.of(context)!
                       .saveSortFilterOptionsAutomaticApplication,
                   value: _isAutomaticApplicationChecked,
-                  onChanged: (bool? value) {
+                  onChangedFunction: (bool? value) {
                     setState(() {
                       _isAutomaticApplicationChecked = value ?? false;
                     });

@@ -8,7 +8,7 @@ import '../services/settings_data_service.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/theme_provider_vm.dart';
 import '../viewmodels/warning_message_vm.dart';
-import 'widgets/display_warning_message_widget.dart';
+import 'widgets/warning_message_display_widget.dart';
 
 enum MultipleIconType {
   iconOne,
@@ -430,20 +430,26 @@ mixin ScreenMixin {
     Key? checkBoxWidgetKey, // key set to the CheckBox widget
     required BuildContext context,
     required String label,
+    String labelTooltip = '',
     required bool value,
-    required ValueChanged<bool?> onChanged,
+    required ValueChanged<bool?> onChangedFunction,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(label),
+          labelTooltip.isNotEmpty
+              ? Tooltip(
+                  message: labelTooltip,
+                  child: Text(label),
+                )
+              : Text(label),
           Checkbox(
             key: checkBoxWidgetKey,
             value: value,
-            onChanged: onChanged,
-          ),
+            onChanged: onChangedFunction,
+          )
         ],
       ),
     );
@@ -462,7 +468,7 @@ mixin ScreenMixin {
         // warningMessageVM calls notifyListners(), which
         // happens when an other view model sets a warning
         // message on the warningMessageVM
-        return DisplayWarningMessageWidget(
+        return WarningMessageDisplayWidget(
           warningMessageVM: warningMessageVM,
           parentContext: context,
           urlController: urlController, // required only for 2 warning types ...

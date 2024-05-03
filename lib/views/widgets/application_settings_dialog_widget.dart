@@ -12,7 +12,7 @@ import '../../views/screen_mixin.dart';
 import '../../constants.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/theme_provider_vm.dart';
-import 'set_audio_speed_dialog_widget.dart';
+import 'audio_set_speed_dialog_widget.dart';
 
 class ApplicationSettingsDialogWidget extends StatefulWidget {
   final SettingsDataService settingsDataService;
@@ -34,6 +34,8 @@ class _ApplicationSettingsDialogWidgetState
   final TextEditingController _playlistRootpathTextEditingController =
       TextEditingController();
   late double _audioPlaySpeed;
+  late bool _applyAudioPlaySpeedToExistingPlaylists;
+  late bool _applyAudioPlaySpeedToAlreadyDownloadedAudios;
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -98,7 +100,7 @@ class _ApplicationSettingsDialogWidgetState
               event.logicalKey == LogicalKeyboardKey.numpadEnter) {
             // executing the same code as in the 'Save' TextButton
             // onPressed callback
-            _updateAndSaveSettings(context);
+            _handleSaveButton(context);
             Navigator.of(context).pop();
           }
         }
@@ -146,7 +148,7 @@ class _ApplicationSettingsDialogWidgetState
           TextButton(
             key: const Key('saveButton'),
             onPressed: () {
-              _updateAndSaveSettings(context);
+              _handleSaveButton(context);
               Navigator.of(context).pop();
             },
             child: Text(
@@ -171,6 +173,24 @@ class _ApplicationSettingsDialogWidgetState
         ],
       ),
     );
+  }
+
+  void _handleSaveButton(BuildContext context) {
+    if (_applyAudioPlaySpeedToExistingPlaylists ||
+        _applyAudioPlaySpeedToAlreadyDownloadedAudios) {
+      Provider.of<PlaylistListVM>(
+        context,
+        listen: false,
+      ).updatePlaylistAndOrAudioPlaySpeed(
+        audioPlaySpeed: _audioPlaySpeed,
+        applyAudioPlaySpeedToExistingPlaylists:
+            _applyAudioPlaySpeedToExistingPlaylists,
+        applyAudioPlaySpeedToAlreadyDownloadedAudios:
+            _applyAudioPlaySpeedToAlreadyDownloadedAudios,
+      );
+    }
+
+    _updateAndSaveSettings(context);
   }
 
   void _updateAndSaveSettings(BuildContext context) {
@@ -246,8 +266,10 @@ class _ApplicationSettingsDialogWidgetState
                       context: context,
                       barrierDismissible: true,
                       builder: (BuildContext context) {
-                        return SetAudioSpeedDialogWidget(
+                        return AudioSetSpeedDialogWidget(
                           audioPlaySpeed: _audioPlaySpeed,
+                          displayApplyToExistingPlaylistCheckbox: true,
+                          displayApplyToAudioAlreadyDownloadedCheckbox: true,
                           updateCurrentPlayAudioSpeed: false,
                         );
                       },
@@ -258,6 +280,9 @@ class _ApplicationSettingsDialogWidgetState
                         // is dismissed by clicking outside the dialog.
 
                         _audioPlaySpeed = value[0] as double;
+                        _applyAudioPlaySpeedToExistingPlaylists = value[1];
+                        _applyAudioPlaySpeedToAlreadyDownloadedAudios =
+                            value[2];
 
                         setState(() {}); // required, otherwise the TextButton
                         // text in the application settings dialog is not

@@ -305,6 +305,10 @@
   "appBarMenuOpenSettingsDialog": "Paramètres de l'application ...",
   "appSettingsDialogTitle": "Paramètres de l'application",
   "setAudioPlaySpeed": "Définir la vitesse de lecture ...",
-  "applyToAudioAlreadyDownloaded": "Appliquer aux audios déjà\ntéléchargés",
+  "applyToAlreadyDownloadedAudio": "Appliquer aux audios déjà\ntéléchargés",
+  "applyToAlreadyDownloadedAudioTooltip": "Si activé, la vitesse de lecture est appliquée aux audios jouables de toutes les playlists existantes. Si non activé et si la case à cocher appliquer aux playlists existantes est cochée, alors la vitesse de lecture sera appliquée aux prochains audios téléchargés des playlists existantes et prochainement ajoutées.",
+  "applyToAlreadyDownloadedAudioOfCurrentPlaylistTooltip":  "Si activé, la vitesse de lecture est appliquée aux audios jouables de la playlist. Si non activé, la vitesse de lecture sera appliquée aux prochains audios téléchargés de la playlist.",
+  "applyToExistingPlaylist": "Appliquer aux playlists\nexistantes",
+  "applyToExistingPlaylistTooltip": "Si activé, la vitesse de lecture est appliquée à toutes les playlists existantes. Si non activé, la vitesse de lecture sera appliquée uniquement aux prochaines playlists ajoutées.",
   "playlistRootpathLabel": "Répertoire racine des playlists"
 }
