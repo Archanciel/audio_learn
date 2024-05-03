@@ -13,7 +13,6 @@ import 'package:audiolearn/viewmodels/language_provider_vm.dart';
 import 'package:audiolearn/viewmodels/theme_provider_vm.dart';
 import 'package:audiolearn/viewmodels/warning_message_vm.dart';
 import 'package:audiolearn/views/playlist_download_view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../services/mock_shared_preferences.dart';
 import '../viewmodels/mock_app_localizations.dart';
 
@@ -45,7 +44,6 @@ void main() async {
         sharedPreferences: MockSharedPreferences(),
         isTest: true,
       );
-
       WarningMessageVM warningMessageVM = WarningMessageVM();
       AudioDownloadVM audioDownloadVM = AudioDownloadVM(
         warningMessageVM: warningMessageVM,

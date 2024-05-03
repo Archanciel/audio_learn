@@ -2,7 +2,6 @@ import 'package:audiolearn/models/playlist.dart';
 import 'package:audiolearn/services/settings_data_service.dart';
 import 'package:audiolearn/viewmodels/single_video_audio_download_vm.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/mock_shared_preferences.dart';
 import 'custom_mock_youtube_explode.dart';

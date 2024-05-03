@@ -1,10 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
 import '../services/settings_data_service.dart';
-import '../utils/dir_util.dart';
 
 /// This VM (View Model) class is part of the MVVM architecture.
 ///

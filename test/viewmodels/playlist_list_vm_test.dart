@@ -10,7 +10,6 @@ import 'package:audiolearn/constants.dart';
 import 'package:audiolearn/models/audio.dart';
 import 'package:audiolearn/services/settings_data_service.dart';
 import 'package:audiolearn/viewmodels/playlist_list_vm.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/mock_shared_preferences.dart';
 

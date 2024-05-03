@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:audiolearn/constants.dart';
 import 'package:audiolearn/services/settings_data_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'mock_shared_preferences.dart';
 

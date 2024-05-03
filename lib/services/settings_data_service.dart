@@ -269,7 +269,7 @@ class SettingsDataService {
     bool settingsJsonFileExist = settingsJsonFile.existsSync();
 
     if (isFirstRun) {
-      if (settingsJsonFileExist) {
+x      if (settingsJsonFileExist) {
         await SettingsDataService.removePlaylistSettingsFromJsonFile(
             settingsJsonFile: settingsJsonFile);
       }
@@ -605,7 +605,7 @@ Future<void> usageExample() async {
 
   initialSettings.saveSettingsToFile(jsonPathFileName: 'settings.json');
 
-  SettingsDataService loadedSettings = await SettingsDataService(
+  SettingsDataService loadedSettings = SettingsDataService(
       sharedPreferences: await SharedPreferences.getInstance());
   loadedSettings.loadSettingsFromFile(
       settingsJsonPathFileName: 'settings.json');

@@ -60,7 +60,7 @@ Future<void> main(List<String> args) async {
 
   await settingsDataService.loadSettingsFromFile(
     settingsJsonPathFileName:
-        '${applicationPath}${Platform.pathSeparator}$kSettingsFileName',
+        '$applicationPath${Platform.pathSeparator}$kSettingsFileName',
   );
 
   // Run the app

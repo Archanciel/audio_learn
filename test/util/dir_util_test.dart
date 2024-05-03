@@ -5,7 +5,6 @@ import 'package:audiolearn/utils/dir_util.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 
-import 'package:audiolearn/utils/duration_expansion.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

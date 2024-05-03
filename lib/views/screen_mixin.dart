@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io';
 
 import '../constants.dart';
 import '../services/settings_data_service.dart';
-import '../utils/dir_util.dart';
 import '../viewmodels/audio_player_vm.dart';
 import '../viewmodels/theme_provider_vm.dart';
 import '../viewmodels/warning_message_vm.dart';

@@ -410,7 +410,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   return ConfirmActionDialogWidget(
                     actionFunction: playlistListVMlistenFalse
                         .clearAudioSortFilterSettingsSearchHistory,
-                    actionFunctionArgs: [],
+                    actionFunctionArgs: const [],
                     dialogTitle: AppLocalizations.of(context)!
                         .clearSortFilterAudiosParmsHistoryMenu,
                     dialogContent: AppLocalizations.of(context)!

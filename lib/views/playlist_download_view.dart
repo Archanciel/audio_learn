@@ -7,7 +7,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../constants.dart';
 import '../models/audio.dart';
 import '../models/playlist.dart';
-import '../services/permission_requester_service.dart';
 import '../services/settings_data_service.dart';
 import '../services/sort_filter_parameters.dart';
 import '../utils/ui_util.dart';
@@ -899,7 +898,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   return ConfirmActionDialogWidget(
                     actionFunction: playlistListVMlistenFalse
                         .clearAudioSortFilterSettingsSearchHistory,
-                    actionFunctionArgs: [],
+                    actionFunctionArgs: const [],
                     dialogTitle: AppLocalizations.of(context)!
                         .clearSortFilterAudiosParmsHistoryMenu,
                     dialogContent: AppLocalizations.of(context)!

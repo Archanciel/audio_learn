@@ -2486,7 +2486,7 @@ Future<void> initializeApplicationAndSelectPlaylist({
   // load settings from file which does not exist. This
   // will ensure that the default playlist root path is set
   await settingsDataService.loadSettingsFromFile(
-      settingsJsonPathFileName: 'temp\wrong.json');
+      settingsJsonPathFileName: "temp\\wrong.json");
 
   // Load the settings from the json file. This is necessary
   // otherwise the ordered playlist titles will remain empty

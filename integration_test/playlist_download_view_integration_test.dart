@@ -74,7 +74,7 @@ void main() {
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          settingsJsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: "temp\\wrong.json");
 
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
@@ -331,7 +331,7 @@ void main() {
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          settingsJsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: "temp\\wrong.json");
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -584,7 +584,7 @@ void main() {
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          settingsJsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: "temp\\wrong.json");
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -1044,7 +1044,7 @@ void main() {
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          settingsJsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: "temp\\wrong.json");
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -1493,7 +1493,7 @@ void main() {
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          settingsJsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: "temp\\wrong.json");
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -1668,7 +1668,7 @@ void main() {
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          settingsJsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: "temp\\wrong.json");
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
@@ -1813,7 +1813,7 @@ void main() {
       // load settings from file which does not exist. This
       // will ensure that the default playlist root path is set
       await settingsDataService.loadSettingsFromFile(
-          settingsJsonPathFileName: 'temp\wrong.json');
+          settingsJsonPathFileName: "temp\\wrong.json");
       WarningMessageVM warningMessageVM = WarningMessageVM();
       MockAudioDownloadVM mockAudioDownloadVM = MockAudioDownloadVM(
         warningMessageVM: warningMessageVM,
