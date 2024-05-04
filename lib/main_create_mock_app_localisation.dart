@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+/// Executing in vs code Terminal:
+/// 
+/// dart run ./lib/main_create_mock_app_localisation.dart
 void main() {
   // Simulated content of an ARB file as a JSON string, including a parameterized string
   var arbContent = '''
