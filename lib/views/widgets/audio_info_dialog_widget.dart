@@ -176,7 +176,7 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
           TextButton(
             key: const Key('audioInfoOkButtonKey'),
             child: Text(
-              'Ok',
+              AppLocalizations.of(context)!.closeTextButton,
               style: (themeProviderVM.currentTheme == AppTheme.dark)
                   ? kTextButtonStyleDarkMode
                   : kTextButtonStyleLightMode,

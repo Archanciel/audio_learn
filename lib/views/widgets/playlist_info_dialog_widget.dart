@@ -140,7 +140,7 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
         actions: <Widget>[
           TextButton(
             child: Text(
-              'Ok',
+              AppLocalizations.of(context)!.closeTextButton,
               style: (themeProviderVM.currentTheme == AppTheme.dark)
                   ? kTextButtonStyleDarkMode
                   : kTextButtonStyleLightMode,

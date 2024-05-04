@@ -310,5 +310,7 @@
   "applyToAlreadyDownloadedAudioOfCurrentPlaylistTooltip": "If set, the playback speed is applied to the playable audios of the playlist. If not set, then the playback speed will be applied to the next downloaded audios of the playlist.",
   "applyToExistingPlaylist": "Apply to existing\nplaylists",
   "applyToExistingPlaylistTooltip": "If set, the playback speed is applied to all the existing playlists. If not set, the playback speed will be applied only to the next added playlists.",
-  "playlistRootpathLabel": "Playlists root path"
+  "playlistRootpathLabel": "Playlists root path",
+  "closeTextButton": "Close",
+  "helpDialogTitle": "Help"
 }

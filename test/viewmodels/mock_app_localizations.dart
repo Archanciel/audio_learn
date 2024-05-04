@@ -959,4 +959,10 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get playlistRootpathLabel => "Playlists root path";
+
+  @override
+  String get closeTextButton => "Close";
+
+  @override
+  String get helpDialogTitle => "Help";
 }
