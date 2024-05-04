@@ -27,7 +27,7 @@ class HelpDialog extends StatelessWidget with ScreenMixin {
       content: SingleChildScrollView(
         child: ListBody(
           children: <Widget>[
-            for (var item in helpItems) ...[
+            for (HelpItem helpItem in helpItems) ...[
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Row(
@@ -35,7 +35,7 @@ class HelpDialog extends StatelessWidget with ScreenMixin {
                   children: [
                     Expanded(
                       child: Text(
-                        "${number++}. ${item.titleLocalKey}",
+                        "${number++}. ${helpItem.helpTitle}",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -46,7 +46,7 @@ class HelpDialog extends StatelessWidget with ScreenMixin {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
-                child: Text(item.contentLocalKey),
+                child: Text(helpItem.helpContent),
               ),
             ],
           ],

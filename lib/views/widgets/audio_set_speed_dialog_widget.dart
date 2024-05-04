@@ -106,13 +106,29 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
                   builder: (context) => HelpDialog(
                     helpItems: [
                       HelpItem(
-                          titleLocalKey: 'Default Application',
-                          contentLocalKey:
-                              'If no option is selected, the default playback speed will apply only to newly created playlists.'),
+                        helpTitle: AppLocalizations.of(context)!
+                            .defaultApplicationHelpTitle,
+                        helpContent: AppLocalizations.of(context)!
+                            .defaultApplicationHelpContent,
+                      ),
                       HelpItem(
-                          titleLocalKey: 'Modifying Existing Playlists',
-                          contentLocalKey:
-                              'By selecting this option, all existing playlists will use the new playback speed.'),
+                        helpTitle: AppLocalizations.of(context)!
+                            .modifyingExistingPlaylistsHelpTitle,
+                        helpContent: AppLocalizations.of(context)!
+                            .modifyingExistingPlaylistsHelpContent,
+                      ),
+                      HelpItem(
+                        helpTitle: AppLocalizations.of(context)!
+                            .alreadyDownloadedAudiosHelpTitle,
+                        helpContent: AppLocalizations.of(context)!
+                            .alreadyDownloadedAudiosHelpContent,
+                      ),
+                      HelpItem(
+                        helpTitle: AppLocalizations.of(context)!
+                            .excludingFutureDownloadsHelpTitle,
+                        helpContent: AppLocalizations.of(context)!
+                            .excludingFutureDownloadsHelpContent,
+                      ),
                     ],
                   ),
                 );

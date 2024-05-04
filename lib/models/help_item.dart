@@ -1,13 +1,11 @@
-/// Contains the title local key and content local key of a help item.
-/// 
-/// The local key is the key of the element of the help item defined
-/// in the app_en.arb or app_fr.arb localization files.
+/// Contains the correctly translated title and content of
+/// a help item.
 class HelpItem {
-  final String titleLocalKey;
-  final String contentLocalKey;
+  final String helpTitle;
+  final String helpContent;
 
   HelpItem({
-    required this.titleLocalKey,
-    required this.contentLocalKey,
+    required this.helpTitle,
+    required this.helpContent,
   });
 }

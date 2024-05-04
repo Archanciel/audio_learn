@@ -965,4 +965,33 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get helpDialogTitle => "Help";
+
+  @override
+  String get defaultApplicationHelpTitle => "Default Application";
+
+  @override
+  String get defaultApplicationHelpContent =>
+      "If no option is selected, the defined playback speed will only apply to newly created playlists.";
+
+  @override
+  String get modifyingExistingPlaylistsHelpTitle =>
+      "Modifying Existing Playlists";
+
+  @override
+  String get modifyingExistingPlaylistsHelpContent =>
+      "By selecting the first checkbox, all existing playlists will be set to use the new playback speed. However, this change will only affect audio files that are downloaded after this option is enabled.";
+
+  @override
+  String get alreadyDownloadedAudiosHelpTitle => "Already Downloaded Audios";
+
+  @override
+  String get alreadyDownloadedAudiosHelpContent =>
+      "Selecting the second checkbox allows you to change the playback speed for audio files already present on the device.";
+
+  @override
+  String get excludingFutureDownloadsHelpTitle => "Excluding Future Downloads";
+
+  @override
+  String get excludingFutureDownloadsHelpContent =>
+      "If only the second checkbox is checked, the playback speed will not be modified for audios that will be downloaded later in existing playlists. However, as mentioned previously, new playlists will use the newly defined playback speed for all downloaded audios.";
 }
