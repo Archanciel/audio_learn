@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
+import '../../constants.dart';
 import '../../models/help_item.dart';
+import '../../services/settings_data_service.dart';
+import '../../viewmodels/theme_provider_vm.dart';
+import '../screen_mixin.dart';
 
-class HelpDialog extends StatelessWidget {
+class HelpDialog extends StatelessWidget with ScreenMixin {
   final List<HelpItem> helpItems;
 
-  const HelpDialog({
-    Key? key,
+  HelpDialog({
+    super.key,
     required this.helpItems,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
+    ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
+
     int number = 1;
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+    return AlertDialog(
+      title: Text(AppLocalizations.of(context)!.helpDialogTitle),
+      actionsPadding: kDialogActionsPadding,
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
             for (var item in helpItems) ...[
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
@@ -41,13 +49,23 @@ class HelpDialog extends StatelessWidget {
                 child: Text(item.contentLocalKey),
               ),
             ],
-            ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Close'),
-            )
           ],
         ),
       ),
+      actions: <Widget>[
+        TextButton(
+          key: const Key('audioInfoOkButtonKey'),
+          child: Text(
+            AppLocalizations.of(context)!.closeTextButton,
+            style: (themeProviderVM.currentTheme == AppTheme.dark)
+                ? kTextButtonStyleDarkMode
+                : kTextButtonStyleLightMode,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 }

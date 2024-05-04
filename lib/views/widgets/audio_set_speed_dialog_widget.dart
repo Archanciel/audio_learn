@@ -5,10 +5,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../constants.dart';
 import '../../models/audio.dart';
+import '../../models/help_item.dart';
 import '../../services/settings_data_service.dart';
 import '../../viewmodels/audio_player_vm.dart';
 import '../../viewmodels/theme_provider_vm.dart';
 import '../../views/screen_mixin.dart';
+import 'help_dialog_widget.dart';
 
 class AudioSetSpeedDialogWidget extends StatefulWidget {
   double audioPlaySpeed;
@@ -90,25 +92,52 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
       },
       child: AlertDialog(
         // executing the same code as in the 'Ok' TextButton
-        title: Text(
-          AppLocalizations.of(context)!.setAudioPlaySpeedDialogTitle,
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text('${_audioPlaySpeed.toStringAsFixed(2)}x',
-                style: (themeProviderVM.currentTheme == AppTheme.dark)
-                    ? kTextButtonStyleDarkMode
-                    : kTextButtonStyleLightMode),
-            _buildSlider(audioGlobalPlayerVM),
-            _buildSpeedButtons(audioGlobalPlayerVM, themeProviderVM),
-            (widget.displayApplyToExistingPlaylistCheckbox)
-                ? _buildApplyToExistingPlaylistRow(context)
-                : Container(),
-            (widget.displayApplyToAudioAlreadyDownloadedCheckbox)
-                ? _buildApplyToAudioAlreadyDownloadedRow(context)
-                : Container(),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.setAudioPlaySpeedDialogTitle,
+            ),
+            IconButton(
+              icon: const Icon(Icons.help_outline),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => HelpDialog(
+                    helpItems: [
+                      HelpItem(
+                          titleLocalKey: 'Default Application',
+                          contentLocalKey:
+                              'If no option is selected, the default playback speed will apply only to newly created playlists.'),
+                      HelpItem(
+                          titleLocalKey: 'Modifying Existing Playlists',
+                          contentLocalKey:
+                              'By selecting this option, all existing playlists will use the new playback speed.'),
+                    ],
+                  ),
+                );
+              },
+            ),
           ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('${_audioPlaySpeed.toStringAsFixed(2)}x',
+                  style: (themeProviderVM.currentTheme == AppTheme.dark)
+                      ? kTextButtonStyleDarkMode
+                      : kTextButtonStyleLightMode),
+              _buildSlider(audioGlobalPlayerVM),
+              _buildSpeedButtons(audioGlobalPlayerVM, themeProviderVM),
+              (widget.displayApplyToExistingPlaylistCheckbox)
+                  ? _buildApplyToExistingPlaylistRow(context)
+                  : Container(),
+              (widget.displayApplyToAudioAlreadyDownloadedCheckbox)
+                  ? _buildApplyToAudioAlreadyDownloadedRow(context)
+                  : Container(),
+            ],
+          ),
         ),
         actions: <Widget>[
           TextButton(

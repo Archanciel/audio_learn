@@ -112,7 +112,8 @@ class _ApplicationSettingsDialogWidgetState
         ),
         actionsPadding: kDialogActionsPadding,
         content: SingleChildScrollView(
-          child: ListBody(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5.0),
