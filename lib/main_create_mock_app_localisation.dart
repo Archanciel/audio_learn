@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 void main() {
-  // Simulated content of an ARB file as a JSON string
+  // Simulated content of an ARB file as a JSON string, including a parameterized string
   var arbContent = '''
   {
     "defaultApplicationHelpTitle": "Default Application",
@@ -11,7 +11,8 @@ void main() {
     "alreadyDownloadedAudiosHelpTitle": "Already Downloaded Audios",
     "alreadyDownloadedAudiosHelpContent": "Selecting the second checkbox allows you to change the playback speed for audio files already present on the device.",
     "excludingFutureDownloadsHelpTitle": "Excluding Future Downloads",
-    "excludingFutureDownloadsHelpContent": "If only the second checkbox is checked, the playback speed will not be modified for audios that will be downloaded later in existing playlists. However, as mentioned previously, new playlists will use the newly defined playback speed for all downloaded audios."
+    "excludingFutureDownloadsHelpContent": "If only the second checkbox is checked, the playback speed will not be modified for audios that will be downloaded later in existing playlists. However, as mentioned previously, new playlists will use the newly defined playback speed for all downloaded audios.",
+    "audioNotCopiedFromYoutubePlaylistToLocalPlaylist": "Audio \\"{audioTitle}\\" NOT copied from Youtube playlist \\"{fromPlaylistTitle}\\" to local playlist \\"{toPlaylistTitle}\\" since it is already present in the destination playlist."
   }
   ''';
 
@@ -31,12 +32,31 @@ String generateLocalizationClass(Map<String, dynamic> arbData) {
   // Begin class definition
   // sb.writeln('class MockAppLocalizations {');
 
-  // Generate getters for each key in the JSON
+  // Generate getters or methods for each key in the JSON
   arbData.forEach((key, value) {
-    String getterName = toCamelCase(key);  // Converting key to camelCase for the method name
-    sb.writeln('  @override');
-    sb.writeln('  String get $getterName => "$value";');
-    sb.writeln();
+    // Check if the value contains parameters
+    RegExp exp = RegExp(r'\{([^}]+)\}');
+    var matches = exp.allMatches(value);
+
+    if (matches.isEmpty) {
+      // Generate a simple getter if there are no parameters
+      String getterName = toCamelCase(key);
+      sb.writeln('  @override');
+      sb.writeln('  String get $getterName => "$value";');
+      sb.writeln();
+    } else {
+      // Generate a method if there are parameters
+      String methodName = toCamelCase(key);
+      String methodParameters =
+          matches.map((m) => 'Object ${m.group(1)}').join(', ');
+      String formattedString =
+          value.replaceAllMapped(exp, (m) => '\${${m.group(1)}}');
+
+      sb.writeln('  @override');
+      sb.writeln('  String $methodName($methodParameters,) =>');
+      sb.writeln('      "$formattedString";');
+      sb.writeln();
+    }
   });
 
   // End class definition
