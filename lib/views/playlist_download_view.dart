@@ -308,7 +308,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 playlistListVMlistenFalse,
               )
             : (playlistListVMlistenTrue.isOnePlaylistSelected)
-                ? _buildSortFilterParametersDropdownButton(
+                ? _buildSortFilterParmsDropdownButton(
                     playlistListVMlistenFalse: playlistListVMlistenFalse,
                     warningMessageVMlistenFalse: warningMessageVMlistenFalse,
                   )
@@ -435,7 +435,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   /// dropdown button. This button contains the list of sort
   /// filter parameters dropdown items which were saved by the
   /// user.
-  Row _buildSortFilterParametersDropdownButton({
+  Row _buildSortFilterParmsDropdownButton({
     required PlaylistListVM playlistListVMlistenFalse,
     required WarningMessageVM warningMessageVMlistenFalse,
   }) {
@@ -494,7 +494,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
         .sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
 
     List<DropdownMenuItem<String>> dropdownMenuItems =
-        _buildDropdownMenuItemsLst(
+        _buildSortFilterParmsDropdownMenuItemsLst(
       audioSortFilterParametersNamesLst: audioSortFilterParametersNamesLst,
       playlistListVMlistenFalse: playlistListVMlistenFalse,
       audioSortFilterParametersMap: audioSortFilterParametersMap,
@@ -550,7 +550,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
     _wasSortFilterAudioSettingsApplied = true;
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownMenuItemsLst({
+  List<DropdownMenuItem<String>> _buildSortFilterParmsDropdownMenuItemsLst({
     required List<String> audioSortFilterParametersNamesLst,
     required PlaylistListVM playlistListVMlistenFalse,
     required Map<String, AudioSortFilterParameters>
@@ -576,7 +576,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         ),
                         (audioSortFilterParametersName ==
                                 _selectedSortFilterParametersName)
-                            ? _buildDropdownItemEditIconButton(
+                            ? _buildSortFilterParmsDropdownItemEditIconButton(
                                 playlistListVMlistenFalse,
                                 audioSortFilterParametersName,
                                 audioSortFilterParametersMap,
@@ -601,7 +601,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
   /// dialog. The user can then modify the sort and filter parameters
   /// and then save them to a the existing name or to new name or
   /// delete them.
-  Widget _buildDropdownItemEditIconButton(
+  Widget _buildSortFilterParmsDropdownItemEditIconButton(
       PlaylistListVM playlistListVMlistenFalse,
       String audioSortFilterParametersName,
       Map<String, AudioSortFilterParameters> audioSortFilterParametersMap,
