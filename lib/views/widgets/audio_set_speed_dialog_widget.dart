@@ -108,7 +108,10 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.help_outline),
+              icon: IconTheme(
+                data: ScreenMixin.themeDataDark.iconTheme,
+                child: const Icon(Icons.help_outline),
+              ),
               onPressed: () {
                 showDialog(
                   context: context,
