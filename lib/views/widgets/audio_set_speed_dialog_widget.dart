@@ -109,7 +109,10 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
             ),
             IconButton(
               icon: IconTheme(
-                data: ScreenMixin.themeDataDark.iconTheme,
+                data: (themeProviderVM.currentTheme == AppTheme.dark
+                        ? ScreenMixin.themeDataDark
+                        : ScreenMixin.themeDataLight)
+                    .iconTheme,
                 child: const Icon(Icons.help_outline),
               ),
               onPressed: () {
