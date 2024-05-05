@@ -127,16 +127,12 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   Clipboard.setData(ClipboardData(text: audio.videoUrl));
                   break;
                 case AudioPopupMenuAction.displayAudioInfo:
-                  // Using FocusNode to enable clicking on Enter to close
-                  // the dialog
-                  final FocusNode focusNode = FocusNode();
                   showDialog<void>(
                     context: context,
                     barrierDismissible: true,
                     builder: (BuildContext context) {
                       return AudioInfoDialogWidget(
                         audio: audio,
-                        focusNode: focusNode,
                       );
                     },
                   );
@@ -199,7 +195,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       usedFor: PlaylistOneSelectableDialogUsedFor
                           .copyAudioToPlaylist,
                       warningMessageVM: warningMessageVM,
-                      focusNode: focusNode,
                       excludedPlaylist: audio.enclosingPlaylist!,
                     ),
                   ).then((resultMap) {
@@ -221,10 +216,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                       targetPlaylist: targetPlaylist,
                     );
                   });
-                  // required so that clicking on Enter to close the dialog
-                  // works. This intruction must be located after the
-                  // .then() method of the showDialog() method !
-                  focusNode.requestFocus();
                   break;
                 case AudioPopupMenuAction.deleteAudio:
                   Provider.of<PlaylistListVM>(

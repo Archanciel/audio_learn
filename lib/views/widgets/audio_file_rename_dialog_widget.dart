@@ -13,11 +13,9 @@ import '../../viewmodels/theme_provider_vm.dart';
 
 class AudioFileRenameDialogWidget extends StatefulWidget {
   final Audio audio;
-  final FocusNode focusNode;
 
   const AudioFileRenameDialogWidget({
     required this.audio,
-    required this.focusNode,
     super.key,
   });
 
@@ -30,7 +28,7 @@ class _AudioFileRenameDialogWidgetState
     extends State<AudioFileRenameDialogWidget> with ScreenMixin {
   final TextEditingController _audioFileNameTextEditingController =
       TextEditingController();
-  final FocusNode _audioFileNameFocusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -39,9 +37,7 @@ class _AudioFileRenameDialogWidgetState
     // Add this line to request focus on the TextField after the build
     // method has been called
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(
-        _audioFileNameFocusNode,
-      );
+      _focusNode.requestFocus();
       _audioFileNameTextEditingController.text = widget.audio.audioFileName;
     });
   }
@@ -60,7 +56,7 @@ class _AudioFileRenameDialogWidgetState
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: widget.focusNode,
+      focusNode: _focusNode,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
@@ -88,12 +84,13 @@ class _AudioFileRenameDialogWidgetState
                     AppLocalizations.of(context)!.renameAudioFileDialogComment,
               ),
               createEditableRowFunction(
-                  valueTextFieldWidgetKey:
-                      const Key('renameAudioFileDialogTextField'),
-                  context: context,
-                  label: AppLocalizations.of(context)!.renameAudioFileLabel,
-                  controller: _audioFileNameTextEditingController,
-                  textFieldFocusNode: _audioFileNameFocusNode),
+                valueTextFieldWidgetKey:
+                    const Key('renameAudioFileDialogTextField'),
+                context: context,
+                label: AppLocalizations.of(context)!.renameAudioFileLabel,
+                controller: _audioFileNameTextEditingController,
+                // textFieldFocusNode: _focusNode,
+              ),
             ],
           ),
         ),

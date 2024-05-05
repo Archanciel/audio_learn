@@ -15,16 +15,20 @@ import '../../utils/ui_util.dart';
 /// in the AudioListItemWidget left (leading:) menu.
 class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
   final Audio audio;
-  final FocusNode focusNode;
+  final FocusNode focusNode = FocusNode();
 
   AudioInfoDialogWidget({
     required this.audio,
-    required this.focusNode,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Required so that clicking on Enter closes the dialog
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      focusNode.requestFocus();
+    });
+
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
 
     return KeyboardListener(

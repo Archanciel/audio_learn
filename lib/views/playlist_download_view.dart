@@ -1061,7 +1061,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 usedFor:
                     PlaylistOneSelectableDialogUsedFor.downloadSingleVideoAudio,
                 warningMessageVM: warningMessageVMlistenFalse,
-                focusNode: focusNode,
               ),
             ).then((value) {
               if (value is String && value == 'cancel') {

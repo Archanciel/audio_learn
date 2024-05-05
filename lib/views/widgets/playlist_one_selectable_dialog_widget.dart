@@ -38,13 +38,10 @@ class PlaylistOneSelectableDialogWidget extends StatefulWidget {
 
   final WarningMessageVM warningMessageVM;
 
-  final FocusNode focusNode;
-
   const PlaylistOneSelectableDialogWidget({
     super.key,
     required this.usedFor,
     required this.warningMessageVM,
-    required this.focusNode,
     this.excludedPlaylist,
     this.isAudioOnlyCheckboxDisplayed = false,
   });
@@ -58,14 +55,21 @@ class _PlaylistOneSelectableDialogWidgetState
     extends State<PlaylistOneSelectableDialogWidget> with ScreenMixin {
   Playlist? _selectedPlaylist;
   bool _keepAudioDataInSourcePlaylist = true;
+  FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+
     super.initState();
   }
 
   @override
   void dispose() {
+    _focusNode.dispose();
+
     super.dispose();
   }
 
@@ -91,7 +95,7 @@ class _PlaylistOneSelectableDialogWidgetState
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: widget.focusNode,
+      focusNode: _focusNode,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
