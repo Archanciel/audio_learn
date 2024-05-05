@@ -40,6 +40,10 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
   bool _applyToExistingPlaylist = false;
   final FocusNode _focusNode = FocusNode();
 
+  // Using FocusNode to enable clicking on Enter to close
+  // the dialog
+  final FocusNode _helpDialogWidgetFocusNode = FocusNode();
+
   @override
   void initState() {
     _audioPlaySpeed = widget.audioPlaySpeed;
@@ -55,6 +59,8 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
   @override
   void dispose() {
     _focusNode.dispose();
+    _helpDialogWidgetFocusNode.dispose();
+    
     super.dispose();
   }
 
@@ -136,8 +142,13 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
                             .excludingFutureDownloadsHelpContent,
                       ),
                     ],
+                    focusNode: _helpDialogWidgetFocusNode,
                   ),
                 );
+                // required so that clicking on Enter to close the dialog
+                // works. This intruction must be located after the
+                // .then() method of the showDialog() method !
+                _helpDialogWidgetFocusNode.requestFocus();
               },
             ),
           ],
