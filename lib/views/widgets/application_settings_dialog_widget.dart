@@ -16,10 +16,8 @@ import 'audio_set_speed_dialog_widget.dart';
 
 class ApplicationSettingsDialogWidget extends StatefulWidget {
   final SettingsDataService settingsDataService;
-  final FocusNode focusNode;
 
   const ApplicationSettingsDialogWidget({
-    required this.focusNode,
     required this.settingsDataService,
     super.key,
   });
@@ -36,11 +34,16 @@ class _ApplicationSettingsDialogWidgetState
   late double _audioPlaySpeed;
   bool _applyAudioPlaySpeedToExistingPlaylists = false;
   bool _applyAudioPlaySpeedToAlreadyDownloadedAudios = false;
-  final FocusNode _focusNode = FocusNode();
+  final FocusNode _applicationSettingsDialogWidgetFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+
+    // Request focus when the widget is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _applicationSettingsDialogWidgetFocusNode.requestFocus();
+    });
 
     _audioPlaySpeed = widget.settingsDataService.get(
             settingType: SettingType.playlists,
@@ -61,10 +64,6 @@ class _ApplicationSettingsDialogWidgetState
           offset: _playlistRootpathTextEditingController.text.length,
         ),
       );
-
-      FocusScope.of(context).requestFocus(
-        _focusNode,
-      );
     });
 
     // Add this line to request focus on the TextField after the build
@@ -81,6 +80,7 @@ class _ApplicationSettingsDialogWidgetState
 
   @override
   void dispose() {
+    _applicationSettingsDialogWidgetFocusNode.dispose();
     _playlistRootpathTextEditingController.dispose();
 
     super.dispose();
@@ -93,7 +93,7 @@ class _ApplicationSettingsDialogWidgetState
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: widget.focusNode,
+      focusNode: _applicationSettingsDialogWidgetFocusNode,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
@@ -136,12 +136,11 @@ class _ApplicationSettingsDialogWidgetState
                 ),
               ),
               createEditableRowFunction(
-                  valueTextFieldWidgetKey:
-                      const Key('playlistRootpathTextField'),
-                  context: context,
-                  label: AppLocalizations.of(context)!.playlistRootpathLabel,
-                  controller: _playlistRootpathTextEditingController,
-                  textFieldFocusNode: _focusNode),
+                valueTextFieldWidgetKey: const Key('playlistRootpathTextField'),
+                context: context,
+                label: AppLocalizations.of(context)!.playlistRootpathLabel,
+                controller: _playlistRootpathTextEditingController,
+              ),
             ],
           ),
         ),

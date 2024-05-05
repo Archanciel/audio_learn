@@ -31,7 +31,8 @@ class AppBarLeadingPopupMenuWidget extends StatelessWidget {
           PopupMenuItem<AppBarPopupMenu>(
             key: const Key('appBarMenuOpenSettingsDialog'),
             value: AppBarPopupMenu.openSettingsDialog,
-            child: Text(AppLocalizations.of(context)!.appBarMenuOpenSettingsDialog),
+            child: Text(
+                AppLocalizations.of(context)!.appBarMenuOpenSettingsDialog),
           ),
         ];
       },
@@ -39,23 +40,15 @@ class AppBarLeadingPopupMenuWidget extends StatelessWidget {
       onSelected: (AppBarPopupMenu value) {
         switch (value) {
           case AppBarPopupMenu.openSettingsDialog:
-                  // Using FocusNode to enable clicking on Enter to close
-                  // the dialog
-                  final FocusNode focusNode = FocusNode();
-                  showDialog<void>(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (BuildContext context) {
-                      return ApplicationSettingsDialogWidget(
-                        settingsDataService: settingsDataService,
-                        focusNode: focusNode,
-                      );
-                    },
-                  );
-                  // required so that clicking on Enter to close the dialog
-                  // works. This intruction must be located after the
-                  // .then() method of the showDialog() method !
-                  focusNode.requestFocus();
+            showDialog<void>(
+              context: context,
+              barrierDismissible: true,
+              builder: (BuildContext context) {
+                return ApplicationSettingsDialogWidget(
+                  settingsDataService: settingsDataService,
+                );
+              },
+            );
             break;
           default:
             break;
