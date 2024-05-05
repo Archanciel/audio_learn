@@ -38,11 +38,7 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
   double _audioPlaySpeed = 1.0;
   bool _applyToAudioAlreadyDownloaded = false;
   bool _applyToExistingPlaylist = false;
-  final FocusNode _focusNode = FocusNode();
-
-  // Using FocusNode to enable clicking on Enter to close
-  // the dialog
-  final FocusNode _helpDialogWidgetFocusNode = FocusNode();
+  final FocusNode _audioSetSpeedDialodWidgetFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -50,7 +46,7 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
 
     // Request focus when the widget is initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
+      _audioSetSpeedDialodWidgetFocusNode.requestFocus();
     });
 
     super.initState();
@@ -58,9 +54,8 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
 
   @override
   void dispose() {
-    _focusNode.dispose();
-    _helpDialogWidgetFocusNode.dispose();
-    
+    _audioSetSpeedDialodWidgetFocusNode.dispose();
+
     super.dispose();
   }
 
@@ -86,7 +81,9 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
     }
 
     return KeyboardListener(
-      focusNode: _focusNode,
+      // Using FocusNode to enable clicking on Enter to close
+      // the dialog
+      focusNode: _audioSetSpeedDialodWidgetFocusNode,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
@@ -142,13 +139,8 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
                             .excludingFutureDownloadsHelpContent,
                       ),
                     ],
-                    focusNode: _helpDialogWidgetFocusNode,
                   ),
                 );
-                // required so that clicking on Enter to close the dialog
-                // works. This intruction must be located after the
-                // .then() method of the showDialog() method !
-                _helpDialogWidgetFocusNode.requestFocus();
               },
             ),
           ],
