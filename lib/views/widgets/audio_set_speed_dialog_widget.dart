@@ -86,7 +86,11 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
           if (event.logicalKey == LogicalKeyboardKey.enter ||
               event.logicalKey == LogicalKeyboardKey.numpadEnter) {
             // onPressed callback
-            Navigator.of(context).pop(_audioPlaySpeed);
+            Navigator.of(context).pop([
+              _audioPlaySpeed,
+              _applyToExistingPlaylist,
+              _applyToAudioAlreadyDownloaded,
+            ]);
           }
         }
       },
@@ -95,8 +99,10 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              AppLocalizations.of(context)!.setAudioPlaySpeedDialogTitle,
+            Expanded(
+              child: Text(
+                AppLocalizations.of(context)!.setAudioPlaySpeedDialogTitle,
+              ),
             ),
             IconButton(
               icon: const Icon(Icons.help_outline),
