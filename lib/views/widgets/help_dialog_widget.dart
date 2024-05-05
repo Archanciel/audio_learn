@@ -11,7 +11,7 @@ import '../screen_mixin.dart';
 
 class HelpDialog extends StatelessWidget with ScreenMixin {
   final List<HelpItem> helpItems;
-  final FocusNode helpDialogWidgetFocusNode = FocusNode();
+  final FocusNode focusNode = FocusNode();
 
   HelpDialog({
     super.key,
@@ -22,7 +22,7 @@ class HelpDialog extends StatelessWidget with ScreenMixin {
   Widget build(BuildContext context) {
     // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      helpDialogWidgetFocusNode.requestFocus();
+      focusNode.requestFocus();
     });
 
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
@@ -31,7 +31,7 @@ class HelpDialog extends StatelessWidget with ScreenMixin {
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: helpDialogWidgetFocusNode,
+      focusNode: focusNode,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
