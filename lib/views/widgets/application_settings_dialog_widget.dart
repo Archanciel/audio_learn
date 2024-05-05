@@ -34,8 +34,8 @@ class _ApplicationSettingsDialogWidgetState
   final TextEditingController _playlistRootpathTextEditingController =
       TextEditingController();
   late double _audioPlaySpeed;
-  late bool _applyAudioPlaySpeedToExistingPlaylists;
-  late bool _applyAudioPlaySpeedToAlreadyDownloadedAudios;
+  bool _applyAudioPlaySpeedToExistingPlaylists = false;
+  bool _applyAudioPlaySpeedToAlreadyDownloadedAudios = false;
   final FocusNode _focusNode = FocusNode();
 
   @override
