@@ -5474,6 +5474,12 @@ void main() {
         widgetTester: tester,
       );
 
+      // Tap the 'Toggle List' button to hide the list of
+      // playlists so that enough space is awailable to
+      // display the audios
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
       // Test that the Youtube playlist is still showing the
       // deleted audios
 
@@ -5491,8 +5497,15 @@ void main() {
       // Now update the playable audio list of the Youtube
       // playlist
 
-      // Now find the leading menu icon button of the Playlist ListTile
-      // and tap on it
+      // Re-tap the 'Toggle List' button to show the list of
+      // playlists so that it will be possible to tap on the
+      // playlist leading menu icon button
+
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // Now find the leading menu icon button of the Playlist 
+      // ListTile and tap on it
       final Finder youtubePlaylistListTileLeadingMenuIconButton =
           find.descendant(
         of: youtubePlaylistListTileWidgetFinder,
