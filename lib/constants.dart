@@ -15,7 +15,7 @@ enum AudioLearnAppViewType {
 }
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '1.0.12';
+const String kApplicationVersion = '1.0.13';
 const String kApplicationPath = "/storage/emulated/0/Download/audiolearn";
 const String kApplicationPathTest = "/storage/emulated/0/Download/audiolearn";
 const String kPlaylistDownloadRootPath =
@@ -63,7 +63,7 @@ const String kTranslationFileDirWindows =
 // usefull to delete all files in the audio dir of the emulator
 const bool kDeleteAppDirOnEmulator = false;
 
-const double kAudioDefaultPlaySpeed = 1.25;
+const double kAudioDefaultPlaySpeed = 1.0;
 
 const String kSecretClientCodeJsonFileName =
     'code_secret_client_923487935936-po8d733kjvrnee3l3ik3r5mebe8ebhr7.apps.googleusercontent.com.json';
