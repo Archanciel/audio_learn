@@ -1,15 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
-/// Executing in vs code Terminal:
-///
-/// dart run ./lib/main_create_mock_app_localisation.dart
-void main() {
-  // Simulated content of an ARB file as a JSON string,
-  // including a parameterized string
+void main() async {
+  // Simulated content of an ARB file as a JSON string, including a parameterized string
   var arbContent = '''
   {
-  "alreadyDownloadedAudiosPlaylistHelpTitle": "Already Downloaded Audios",
-  "alreadyDownloadedAudiosPlaylistHelpContent": "Selecting the checkbox allows you to change the playback speed for playlist audio files already present on the device."
+    "audioNotCopiedFromYoutubePlaylistToLocalPlaylist": "Audio \\"{audioTitle}\\" NOT copied from Youtube playlist \\"{fromPlaylistTitle}\\" to local playlist \\"{toPlaylistTitle}\\" since it is already present in the destination playlist."
   }
   ''';
 
@@ -19,15 +15,17 @@ void main() {
   // Generating the Dart class
   String dartClass = generateLocalizationClass(arbData);
 
-  // Printing the generated Dart class code
-  print(dartClass);
+  // Define the path to the file in the test directory
+  String filePath = 'test/mock_app_localizations.dart';
+
+  // Insert the generated class into the file
+  await insertIntoFile(filePath, dartClass);
+
+  print('Localization class has been inserted into $filePath');
 }
 
 String generateLocalizationClass(Map<String, dynamic> arbData) {
   StringBuffer sb = StringBuffer();
-
-  // Begin class definition
-  // sb.writeln('class MockAppLocalizations {');
 
   // Generate getters or methods for each key in the JSON
   arbData.forEach((key, value) {
@@ -56,14 +54,25 @@ String generateLocalizationClass(Map<String, dynamic> arbData) {
     }
   });
 
-  // End class definition
-  // sb.writeln('}');
-
   return sb.toString();
 }
 
+Future<void> insertIntoFile(String filePath, String contentToInsert) async {
+  var file = File(filePath);
+  if (await file.exists()) {
+    String originalContent = await file.readAsString();
+    int insertPosition = originalContent.lastIndexOf('}');
+
+    if (insertPosition != -1) {
+      String newContent = originalContent.substring(0, insertPosition) +
+          contentToInsert +
+          originalContent.substring(insertPosition);
+      await file.writeAsString(newContent);
+    }
+  }
+}
+
 String toCamelCase(String text) {
-  // Splitting text on underscores and capitalizing each part except the first one
   List<String> parts = text.split('_');
   for (int i = 1; i < parts.length; i++) {
     parts[i] = parts[i][0].toUpperCase() + parts[i].substring(1);
