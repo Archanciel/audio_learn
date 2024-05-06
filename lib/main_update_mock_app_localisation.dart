@@ -5,7 +5,8 @@ void main() async {
   // Simulated content of an ARB file as a JSON string, including a parameterized string
   var arbContent = '''
   {
-    "audioNotCopiedFromYoutubePlaylistToLocalPlaylist": "Audio \\"{audioTitle}\\" NOT copied from Youtube playlist \\"{fromPlaylistTitle}\\" to local playlist \\"{toPlaylistTitle}\\" since it is already present in the destination playlist."
+  "alreadyDownloadedAudiosPlaylistHelpTitle": "Already Downloaded Audios",
+  "alreadyDownloadedAudiosPlaylistHelpContent": "Selecting the checkbox allows you to change the playback speed for playlist audio files already present on the device."
   }
   ''';
 
@@ -16,7 +17,8 @@ void main() async {
   String dartClass = generateLocalizationClass(arbData);
 
   // Define the path to the file in the test directory
-  String filePath = 'test/mock_app_localizations.dart';
+  String filePath =
+      "C:\\Users\\Jean-Pierre\\Development\\Flutter\\audio_learn\\test\\viewmodels\\mock_app_localizations.dart";
 
   // Insert the generated class into the file
   await insertIntoFile(filePath, dartClass);
@@ -57,16 +59,20 @@ String generateLocalizationClass(Map<String, dynamic> arbData) {
   return sb.toString();
 }
 
-Future<void> insertIntoFile(String filePath, String contentToInsert) async {
+Future<void> insertIntoFile(
+  String filePath,
+  String contentToInsert,
+) async {
   var file = File(filePath);
   if (await file.exists()) {
     String originalContent = await file.readAsString();
     int insertPosition = originalContent.lastIndexOf('}');
 
+    contentToInsert = contentToInsert.trimRight();
+
     if (insertPosition != -1) {
-      String newContent = originalContent.substring(0, insertPosition) +
-          contentToInsert +
-          originalContent.substring(insertPosition);
+      String newContent =
+          '${originalContent.substring(0, insertPosition)}\n$contentToInsert\n${originalContent.substring(insertPosition)}';
       await file.writeAsString(newContent);
     }
   }
