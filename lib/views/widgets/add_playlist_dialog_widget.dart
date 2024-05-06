@@ -14,11 +14,9 @@ import '../../viewmodels/theme_provider_vm.dart';
 
 class AddPlaylistDialogWidget extends StatefulWidget {
   final String playlistUrl;
-  final FocusNode focusNode;
 
   const AddPlaylistDialogWidget({
     required this.playlistUrl,
-    required this.focusNode,
     super.key,
   });
 
@@ -31,6 +29,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
     with ScreenMixin {
   final TextEditingController _localPlaylistTitleTextEditingController =
       TextEditingController();
+  final FocusNode _dialogFocusNode = FocusNode();
   final FocusNode _localPlaylistTitleFocusNode = FocusNode();
 
   bool _isChecked = false;
@@ -39,17 +38,17 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
   void initState() {
     super.initState();
 
-    // Add this line to request focus on the TextField after the build
-    // method has been called
+    // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(
-        _localPlaylistTitleFocusNode,
+        _dialogFocusNode,
       );
     });
   }
 
   @override
   void dispose() {
+    _dialogFocusNode.dispose();
     _localPlaylistTitleTextEditingController.dispose();
 
     super.dispose();
@@ -58,13 +57,22 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
   @override
   Widget build(BuildContext context) {
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
-    PlaylistListVM expandablePlaylistListVM =
-        Provider.of<PlaylistListVM>(context, listen: false);
+
+    if (widget.playlistUrl.isEmpty) {
+      // If the playlist URL is empty, a local playlist is
+      // created. Then, focus on the local playlist TextField.
+      // If this test does not exist, then when creating a
+      // Youtube playlist, clicking on Enter does not close
+      // the dialog.
+      FocusScope.of(context).requestFocus(
+        _localPlaylistTitleFocusNode,
+      );
+    }
 
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: widget.focusNode,
+      focusNode: _dialogFocusNode,
       onKeyEvent: (event) async {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
@@ -106,7 +114,8 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                       label:
                           AppLocalizations.of(context)!.localPlaylistTitleLabel,
                       controller: _localPlaylistTitleTextEditingController,
-                      textFieldFocusNode: _localPlaylistTitleFocusNode),
+                      textFieldFocusNode: _localPlaylistTitleFocusNode,
+                    ),
               createCheckboxRowFunction(
                 // displaying music quality checkbox
                 checkBoxWidgetKey:
