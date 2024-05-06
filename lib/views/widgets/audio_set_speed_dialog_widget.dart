@@ -17,8 +17,8 @@ class AudioSetSpeedDialogWidget extends StatefulWidget {
 
   bool displayApplyToExistingPlaylistCheckbox;
   bool displayApplyToAudioAlreadyDownloadedCheckbox;
-
   bool updateCurrentPlayAudioSpeed;
+  List<HelpItem> helpItemsLst;
 
   AudioSetSpeedDialogWidget({
     super.key,
@@ -26,6 +26,7 @@ class AudioSetSpeedDialogWidget extends StatefulWidget {
     this.displayApplyToExistingPlaylistCheckbox = false,
     this.displayApplyToAudioAlreadyDownloadedCheckbox = false,
     this.updateCurrentPlayAudioSpeed = true,
+    this.helpItemsLst = const [],
   });
 
   @override
@@ -107,48 +108,30 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
                 AppLocalizations.of(context)!.setAudioPlaySpeedDialogTitle,
               ),
             ),
-            IconButton(
-              icon: IconTheme(
-                data: (themeProviderVM.currentTheme == AppTheme.dark
-                        ? ScreenMixin.themeDataDark
-                        : ScreenMixin.themeDataLight)
-                    .iconTheme,
-                child: const Icon(Icons.help_outline),
-              ),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => HelpDialog(
-                    helpItems: [
-                      HelpItem(
-                        helpTitle: AppLocalizations.of(context)!
-                            .defaultApplicationHelpTitle,
-                        helpContent: AppLocalizations.of(context)!
-                            .defaultApplicationHelpContent,
-                      ),
-                      HelpItem(
-                        helpTitle: AppLocalizations.of(context)!
-                            .modifyingExistingPlaylistsHelpTitle,
-                        helpContent: AppLocalizations.of(context)!
-                            .modifyingExistingPlaylistsHelpContent,
-                      ),
-                      HelpItem(
-                        helpTitle: AppLocalizations.of(context)!
-                            .alreadyDownloadedAudiosHelpTitle,
-                        helpContent: AppLocalizations.of(context)!
-                            .alreadyDownloadedAudiosHelpContent,
-                      ),
-                      HelpItem(
-                        helpTitle: AppLocalizations.of(context)!
-                            .excludingFutureDownloadsHelpTitle,
-                        helpContent: AppLocalizations.of(context)!
-                            .excludingFutureDownloadsHelpContent,
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+            (!widget.updateCurrentPlayAudioSpeed)
+                // Help icon button is displayed only when the dialog is
+                // used to set the audio play speed in the application
+                // settings view or launched from the playlist set audio
+                // play speed item menu. In the audio player view, the help
+                // icon button is not displayed.
+                ? IconButton(
+                    icon: IconTheme(
+                      data: (themeProviderVM.currentTheme == AppTheme.dark
+                              ? ScreenMixin.themeDataDark
+                              : ScreenMixin.themeDataLight)
+                          .iconTheme,
+                      child: const Icon(Icons.help_outline),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => HelpDialog(
+                          helpItemsLst: widget.helpItemsLst,
+                        ),
+                      );
+                    },
+                  )
+                : Container(),
           ],
         ),
         content: SingleChildScrollView(

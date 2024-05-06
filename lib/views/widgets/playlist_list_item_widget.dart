@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/help_item.dart';
 import '../../models/playlist.dart';
 import '../../services/json_data_service.dart';
 import '../../services/settings_data_service.dart';
@@ -42,6 +43,14 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
 
   @override
   Widget build(BuildContext context) {
+    List<HelpItem> helpItemsLst = [
+      HelpItem(
+          helpTitle:
+              AppLocalizations.of(context)!.alreadyDownloadedAudiosPlaylistHelpTitle,
+          helpContent:
+              AppLocalizations.of(context)!.alreadyDownloadedAudiosPlaylistHelpContent,
+      ),
+    ];
     return Consumer<PlaylistListVM>(
       builder: (context, expandablePlaylistListVM, child) {
         return ListTile(
@@ -177,6 +186,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                             audioPlaySpeed: playlistAudioPlaySpeed,
                             displayApplyToAudioAlreadyDownloadedCheckbox: true,
                             updateCurrentPlayAudioSpeed: false,
+                            helpItemsLst: helpItemsLst,
                           );
                         },
                       ).then((value) {

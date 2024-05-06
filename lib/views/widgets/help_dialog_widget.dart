@@ -10,12 +10,12 @@ import '../../viewmodels/theme_provider_vm.dart';
 import '../screen_mixin.dart';
 
 class HelpDialog extends StatelessWidget with ScreenMixin {
-  final List<HelpItem> helpItems;
+  final List<HelpItem> helpItemsLst;
   final FocusNode focusNode = FocusNode();
 
   HelpDialog({
     super.key,
-    required this.helpItems,
+    required this.helpItemsLst,
   });
 
   @override
@@ -42,13 +42,13 @@ class HelpDialog extends StatelessWidget with ScreenMixin {
           }
         }
       },
-    child: AlertDialog(
+      child: AlertDialog(
         title: Text(AppLocalizations.of(context)!.helpDialogTitle),
         actionsPadding: kDialogActionsPadding,
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              for (HelpItem helpItem in helpItems) ...[
+              for (HelpItem helpItem in helpItemsLst) ...[
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Row(

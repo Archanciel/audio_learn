@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audiolearn/models/help_item.dart';
 import 'package:audiolearn/viewmodels/audio_download_vm.dart';
 import 'package:audiolearn/viewmodels/playlist_list_vm.dart';
 import 'package:flutter/material.dart';
@@ -36,15 +37,11 @@ class _ApplicationSettingsDialogWidgetState
   bool _applyAudioPlaySpeedToAlreadyDownloadedAudios = false;
   final FocusNode _focusNode = FocusNode();
   final FocusNode _focusNodePlaylistRootPath = FocusNode();
+  late final List<HelpItem> _helpItemsLst;
 
   @override
   void initState() {
     super.initState();
-
-    // Request focus when the widget is initialized
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
-    });
 
     _audioPlaySpeed = widget.settingsDataService.get(
             settingType: SettingType.playlists,
@@ -52,6 +49,8 @@ class _ApplicationSettingsDialogWidgetState
         1.0;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Request focus when the widget is initialized
+      _focusNode.requestFocus();
       _playlistRootpathTextEditingController.text = widget.settingsDataService
               .get(
                   settingType: SettingType.dataLocation,
@@ -65,18 +64,33 @@ class _ApplicationSettingsDialogWidgetState
           offset: _playlistRootpathTextEditingController.text.length,
         ),
       );
-    });
 
-    // Add this line to request focus on the TextField after the build
-    // method has been called
-    // Add this line to request focus on the TextField after the build
-    // method has been called
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   FocusScope.of(context).requestFocus(
-    //     _audioFileNameFocusNode,
-    //   );
-    //   _audioFileNameTextEditingController.text = '';
-    // });
+      _helpItemsLst = [
+        HelpItem(
+          helpTitle: AppLocalizations.of(context)!.defaultApplicationHelpTitle,
+          helpContent:
+              AppLocalizations.of(context)!.defaultApplicationHelpContent,
+        ),
+        HelpItem(
+          helpTitle:
+              AppLocalizations.of(context)!.modifyingExistingPlaylistsHelpTitle,
+          helpContent: AppLocalizations.of(context)!
+              .modifyingExistingPlaylistsHelpContent,
+        ),
+        HelpItem(
+          helpTitle:
+              AppLocalizations.of(context)!.alreadyDownloadedAudiosHelpTitle,
+          helpContent:
+              AppLocalizations.of(context)!.alreadyDownloadedAudiosHelpContent,
+        ),
+        HelpItem(
+          helpTitle:
+              AppLocalizations.of(context)!.excludingFutureDownloadsHelpTitle,
+          helpContent:
+              AppLocalizations.of(context)!.excludingFutureDownloadsHelpContent,
+        ),
+      ];
+    });
   }
 
   @override
@@ -278,6 +292,7 @@ class _ApplicationSettingsDialogWidgetState
                           displayApplyToExistingPlaylistCheckbox: true,
                           displayApplyToAudioAlreadyDownloadedCheckbox: true,
                           updateCurrentPlayAudioSpeed: false,
+                          helpItemsLst: _helpItemsLst,
                         );
                       },
                     ).then((value) {

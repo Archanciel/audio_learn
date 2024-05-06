@@ -994,4 +994,10 @@ class MockAppLocalizations extends AppLocalizations {
   @override
   String get excludingFutureDownloadsHelpContent =>
       "If only the second checkbox is checked, the playback speed will not be modified for audios that will be downloaded later in existing playlists. However, as mentioned previously, new playlists will use the newly defined playback speed for all downloaded audios.";
+
+  @override
+  String get alreadyDownloadedAudiosPlaylistHelpTitle => "Already Downloaded Audios";
+
+  @override
+  String get alreadyDownloadedAudiosPlaylistHelpContent => "Selecting the checkbox allows you to change the playback speed for playlist audio files already present on the device.";
 }
