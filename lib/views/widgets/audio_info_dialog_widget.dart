@@ -25,12 +25,9 @@ class AudioInfoDialogWidget extends StatelessWidget with ScreenMixin {
   @override
   Widget build(BuildContext context) {
     // Required so that clicking on Enter closes the dialog
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // dialogFocusNode.requestFocus();
-      FocusScope.of(context).requestFocus(
-        dialogFocusNode,
-      );
-    });
+    FocusScope.of(context).requestFocus(
+      dialogFocusNode,
+    );
 
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
 

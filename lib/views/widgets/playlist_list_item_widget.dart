@@ -131,7 +131,6 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                     case PlaylistPopupMenuAction.displayPlaylistInfo:
                       // Using FocusNode to enable clicking on Enter to close
                       // the dialog
-                      final FocusNode focusNode = FocusNode();
                       showDialog<void>(
                         context: context,
                         barrierDismissible: true,
@@ -141,14 +140,9 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                             playlist: playlist,
                             playlistJsonFileSize: expandablePlaylistListVM
                                 .getPlaylistJsonFileSize(playlist: playlist),
-                            focusNode: focusNode,
                           );
                         },
                       );
-                      // required so that clicking on Enter to close the dialog
-                      // works. This intruction must be located after the
-                      // .then() method of the showDialog() method !
-                      focusNode.requestFocus();
                       break;
                     case PlaylistPopupMenuAction.updatePlaylistPlayableAudios:
                       int removedPlayableAudioNumber =

@@ -15,13 +15,12 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
   final SettingsDataService settingsDataService;
   final Playlist playlist;
   final int playlistJsonFileSize;
-  final FocusNode focusNode;
+  final FocusNode dialogFocusNode = FocusNode();
 
   PlaylistInfoDialogWidget({
     required this.settingsDataService,
     required this.playlist,
     required this.playlistJsonFileSize,
-    required this.focusNode,
     super.key,
   });
 
@@ -32,10 +31,16 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
     String lastDownloadDateTimeStr = (lastDownloadDateTime != null)
         ? frenchDateTimeFormat.format(lastDownloadDateTime)
         : '';
+
+    // Required so that clicking on Enter closes the dialog
+    FocusScope.of(context).requestFocus(
+      dialogFocusNode,
+    );
+
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: focusNode,
+      focusNode: dialogFocusNode,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
@@ -88,13 +93,16 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
                       : AppLocalizations.of(context)!.playlistQualityAudio),
               createInfoRowFunction(
                 context: context,
-                label: AppLocalizations.of(context)!.playlistAudioPlaySpeedLabel,
+                label:
+                    AppLocalizations.of(context)!.playlistAudioPlaySpeedLabel,
                 value: (playlist.audioPlaySpeed != 0)
                     ? playlist.audioPlaySpeed.toString()
-                    : settingsDataService.get(
-                        settingType: SettingType.playlists,
-                        settingSubType: Playlists.playSpeed,
-                      ).toString(),
+                    : settingsDataService
+                        .get(
+                          settingType: SettingType.playlists,
+                          settingSubType: Playlists.playSpeed,
+                        )
+                        .toString(),
               ),
               createInfoRowFunction(
                   context: context,

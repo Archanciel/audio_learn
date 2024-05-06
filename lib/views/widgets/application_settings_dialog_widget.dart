@@ -50,7 +50,6 @@ class _ApplicationSettingsDialogWidgetState
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Required so that clicking on Enter closes the dialog
-      //  _dialogFocusNode.requestFocus();
       FocusScope.of(context).requestFocus(
         _dialogFocusNode,
       );

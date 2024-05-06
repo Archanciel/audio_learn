@@ -61,7 +61,6 @@ class _PlaylistOneSelectableDialogWidgetState
   void initState() {
     // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // _dialogFocusNode.requestFocus();
       FocusScope.of(context).requestFocus(
         _dialogFocusNode,
       );
