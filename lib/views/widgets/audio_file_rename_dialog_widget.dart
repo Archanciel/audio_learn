@@ -29,6 +29,7 @@ class _AudioFileRenameDialogWidgetState
   final TextEditingController _audioFileNameTextEditingController =
       TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNodeAudioFileTextField = FocusNode();
 
   @override
   void initState() {
@@ -45,6 +46,8 @@ class _AudioFileRenameDialogWidgetState
   @override
   void dispose() {
     _audioFileNameTextEditingController.dispose();
+    _focusNode.dispose();
+    _focusNodeAudioFileTextField.dispose();
 
     super.dispose();
   }
@@ -52,6 +55,10 @@ class _AudioFileRenameDialogWidgetState
   @override
   Widget build(BuildContext context) {
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
+
+    FocusScope.of(context).requestFocus(
+      _focusNodeAudioFileTextField,
+    );
 
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
@@ -89,7 +96,7 @@ class _AudioFileRenameDialogWidgetState
                 context: context,
                 label: AppLocalizations.of(context)!.renameAudioFileLabel,
                 controller: _audioFileNameTextEditingController,
-                // textFieldFocusNode: _focusNode,
+                textFieldFocusNode: _focusNodeAudioFileTextField,
               ),
             ],
           ),

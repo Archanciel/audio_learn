@@ -35,6 +35,7 @@ class _ApplicationSettingsDialogWidgetState
   bool _applyAudioPlaySpeedToExistingPlaylists = false;
   bool _applyAudioPlaySpeedToAlreadyDownloadedAudios = false;
   final FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNodePlaylistRootPath = FocusNode();
 
   @override
   void initState() {
@@ -81,6 +82,7 @@ class _ApplicationSettingsDialogWidgetState
   @override
   void dispose() {
     _focusNode.dispose();
+    _focusNodePlaylistRootPath.dispose();
     _playlistRootpathTextEditingController.dispose();
 
     super.dispose();
@@ -89,6 +91,10 @@ class _ApplicationSettingsDialogWidgetState
   @override
   Widget build(BuildContext context) {
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
+
+    FocusScope.of(context).requestFocus(
+      _focusNodePlaylistRootPath,
+    );
 
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
@@ -140,7 +146,7 @@ class _ApplicationSettingsDialogWidgetState
                 context: context,
                 label: AppLocalizations.of(context)!.playlistRootpathLabel,
                 controller: _playlistRootpathTextEditingController,
-                // textFieldFocusNode: _focusNode,
+                textFieldFocusNode: _focusNodePlaylistRootPath,
               ),
             ],
           ),
