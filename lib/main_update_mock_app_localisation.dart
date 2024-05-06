@@ -3,12 +3,14 @@ import 'dart:io';
 
 void main() async {
   // Simulated content of an ARB file as a JSON string, including a parameterized string
-  String arbContent = '''
-  {
-  "alreadyDownloadedAudiosPlaylistHelpTitle": "Already Downloaded Audios",
-  "alreadyDownloadedAudiosPlaylistHelpContent": "Selecting the checkbox allows you to change the playback speed for playlist audio files already present on the device."
-  }
-  ''';
+  // String arbContent = '''
+  // {
+  // "tryAlreadyDownloadedAudiosPlaylistHelpTitle": "Audios déjà téléchargés",
+  // "tryAlreadyDownloadedAudiosPlaylistHelpContent": "La sélection de la case à cocher permet de modifier la vitesse de lecture pour les fichiers audio de la playlist déjà présents sur l'appareil."
+  // }
+  // ''';
+
+ String arbContent = "\{${await getClipboardContent()}\}";
 
   // Parsing the ARB content into a Map
   Map<String, dynamic> arbData = json.decode(arbContent);
@@ -84,4 +86,26 @@ String toCamelCase(String text) {
     parts[i] = parts[i][0].toUpperCase() + parts[i].substring(1);
   }
   return parts.join();
+}
+
+Future<String> getClipboardContent() async {
+  ProcessResult result;
+  if (Platform.isMacOS) {
+    result = await Process.run('pbpaste', []);
+  } else if (Platform.isLinux) {
+    // Ensure xclip or xsel is installed
+    result = await Process.run('xclip', ['-selection', 'clipboard', '-o']);
+    // Alternatively: result = await Process.run('xsel', ['--clipboard', '--output']);
+  } else if (Platform.isWindows) {
+    result =
+        await Process.run('powershell', ['Get-Clipboard'], runInShell: true);
+  } else {
+    throw Exception('Clipboard not supported on this platform');
+  }
+
+  if (result.exitCode != 0) {
+    throw Exception('Failed to access clipboard: ${result.stderr}');
+  }
+
+  return result.stdout.toString().trim();
 }
