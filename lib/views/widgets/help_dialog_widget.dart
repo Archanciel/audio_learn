@@ -28,6 +28,8 @@ class HelpDialog extends StatelessWidget with ScreenMixin {
     ThemeProviderVM themeProviderVM = Provider.of<ThemeProviderVM>(context);
 
     int number = 1;
+    int helpItemsLstLength = helpItemsLst.length;
+
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
@@ -56,7 +58,9 @@ class HelpDialog extends StatelessWidget with ScreenMixin {
                     children: [
                       Expanded(
                         child: Text(
-                          "${number++}. ${helpItem.helpTitle}",
+                          (helpItemsLstLength > 1)
+                              ? "${number++}. ${helpItem.helpTitle}"
+                              : "${helpItem.helpTitle}",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
