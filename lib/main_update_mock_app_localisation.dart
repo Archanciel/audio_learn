@@ -10,7 +10,17 @@ void main() async {
   // }
   // ''';
 
- String arbContent = "\{${await getClipboardContent()}\}";
+  final String clipboardData = await getClipboardContent();
+  String arbContent;
+
+  final String clipboardDataTrimmed = clipboardData.trim();
+
+  if (clipboardDataTrimmed.startsWith('{') &&
+      clipboardDataTrimmed.endsWith('}')) {
+    arbContent = clipboardData;
+  } else {
+    arbContent = "{${clipboardData}}";
+  }
 
   // Parsing the ARB content into a Map
   Map<String, dynamic> arbData = json.decode(arbContent);
