@@ -28,17 +28,19 @@ class _AudioFileRenameDialogWidgetState
     extends State<AudioFileRenameDialogWidget> with ScreenMixin {
   final TextEditingController _audioFileNameTextEditingController =
       TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+  final FocusNode _dialogFocusNode = FocusNode();
   final FocusNode _focusNodeAudioFileTextField = FocusNode();
 
   @override
   void initState() {
     super.initState();
 
-    // Add this line to request focus on the TextField after the build
-    // method has been called
+    // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
+      // _dialogFocusNode.requestFocus();
+      FocusScope.of(context).requestFocus(
+        _dialogFocusNode,
+      );
       _audioFileNameTextEditingController.text = widget.audio.audioFileName;
     });
   }
@@ -46,7 +48,7 @@ class _AudioFileRenameDialogWidgetState
   @override
   void dispose() {
     _audioFileNameTextEditingController.dispose();
-    _focusNode.dispose();
+    _dialogFocusNode.dispose();
     _focusNodeAudioFileTextField.dispose();
 
     super.dispose();
@@ -63,7 +65,7 @@ class _AudioFileRenameDialogWidgetState
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: _focusNode,
+      focusNode: _dialogFocusNode,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||

@@ -28,7 +28,7 @@ class PlaylistSortFilterOptionsSaveToDialogWidget extends StatefulWidget {
 class _PlaylistSortFilterOptionsSaveToDialogWidgetState
     extends State<PlaylistSortFilterOptionsSaveToDialogWidget>
     with ScreenMixin {
-  final FocusNode _localPlaylistTitleFocusNode = FocusNode();
+  final FocusNode _dialogFocusNode = FocusNode();
 
   bool _isAutomaticApplicationChecked = false;
 
@@ -39,8 +39,9 @@ class _PlaylistSortFilterOptionsSaveToDialogWidgetState
     // Add this line to request focus on the TextField after the build
     // method has been called
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Required so that clicking on Enter closes the dialog
       FocusScope.of(context).requestFocus(
-        _localPlaylistTitleFocusNode,
+        _dialogFocusNode,
       );
     });
   }

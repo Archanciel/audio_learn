@@ -1277,7 +1277,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               builder: (BuildContext context) {
                 return AddPlaylistDialogWidget(
                   playlistUrl: playlistUrl,
-                  focusNode: focusNode,
                 );
               },
             ).then((value) {

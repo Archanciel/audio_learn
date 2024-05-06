@@ -55,12 +55,16 @@ class _PlaylistOneSelectableDialogWidgetState
     extends State<PlaylistOneSelectableDialogWidget> with ScreenMixin {
   Playlist? _selectedPlaylist;
   bool _keepAudioDataInSourcePlaylist = true;
-  FocusNode _focusNode = FocusNode();
+  FocusNode _dialogFocusNode = FocusNode();
 
   @override
   void initState() {
+    // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
+      // _dialogFocusNode.requestFocus();
+      FocusScope.of(context).requestFocus(
+        _dialogFocusNode,
+      );
     });
 
     super.initState();
@@ -68,7 +72,7 @@ class _PlaylistOneSelectableDialogWidgetState
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    _dialogFocusNode.dispose();
 
     super.dispose();
   }
@@ -95,7 +99,7 @@ class _PlaylistOneSelectableDialogWidgetState
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: _focusNode,
+      focusNode: _dialogFocusNode,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
