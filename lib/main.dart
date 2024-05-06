@@ -49,7 +49,7 @@ Future<void> main(List<String> args) async {
 
   // Now proceed with setting up the app window size and position if needed
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-    await setWindowsAppSizeAndPosition();
+    await setWindowsAppSizeAndPosition(isTest: isTest);
   }
 
   // Setup SettingsDataService
@@ -72,7 +72,9 @@ Future<void> main(List<String> args) async {
 
 /// If app runs on Windows, Linux or MacOS, set the app size
 /// and position.
-Future<void> setWindowsAppSizeAndPosition() async {
+Future<void> setWindowsAppSizeAndPosition({
+  required bool isTest,
+}) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
@@ -82,7 +84,7 @@ Future<void> setWindowsAppSizeAndPosition() async {
       final Rect screenRect = screen.visibleFrame;
 
       // Définissez la largeur et la hauteur de votre fenêtre
-      const double windowWidth = 640;
+      double windowWidth = (isTest) ? 900 : 640;
       const double windowHeight = 1300;
 
       // Calculez la position X pour placer la fenêtre sur le côté droit de l'écran
