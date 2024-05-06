@@ -3,7 +3,7 @@ import 'dart:io';
 
 void main() async {
   // Simulated content of an ARB file as a JSON string, including a parameterized string
-  var arbContent = '''
+  String arbContent = '''
   {
   "alreadyDownloadedAudiosPlaylistHelpTitle": "Already Downloaded Audios",
   "alreadyDownloadedAudiosPlaylistHelpContent": "Selecting the checkbox allows you to change the playback speed for playlist audio files already present on the device."
