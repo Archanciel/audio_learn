@@ -144,6 +144,7 @@ class _MyHomePageState extends State<MyHomePage> with ScreenMixin {
       appBar: AppBar(
         title: _appBarTitleWidgetLst[_currentIndex],
         leading: AppBarLeadingPopupMenuWidget(
+            key: const Key('appBarLeadingPopupMenuWidget'),
             themeProvider: themeProviderVM,
             settingsDataService: widget.settingsDataService),
         actions: appBarApplicationActionLst,
