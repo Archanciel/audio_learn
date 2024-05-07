@@ -124,9 +124,15 @@ class _AudioPlayableListDialogWidgetState
             Tooltip(
               message:
                   AppLocalizations.of(context)!.audioPlayedInThisOrderTooltip,
-              child: const Icon(
-                Icons.arrow_drop_up,
-                size: 80.0,
+              child: IconTheme(
+                data: (themeProviderVM.currentTheme == AppTheme.dark
+                        ? ScreenMixin.themeDataDark
+                        : ScreenMixin.themeDataLight)
+                    .iconTheme,
+                child: const Icon(
+                  Icons.arrow_drop_up,
+                  size: 80.0,
+                ),
               ),
             ),
           ],
