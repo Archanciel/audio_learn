@@ -10,16 +10,26 @@ void main() async {
   // }
   // ''';
 
-  final String clipboardData = await getClipboardContent();
-  String arbContent;
+  const String emptyArbContent = '''
+  {
+  }
+  ''';
 
-  final String clipboardDataTrimmed = clipboardData.trim();
+  String arbContent = '''
+  {
+  }
+  ''';
 
-  if (clipboardDataTrimmed.startsWith('{') &&
-      clipboardDataTrimmed.endsWith('}')) {
-    arbContent = clipboardData;
-  } else {
-    arbContent = "{${clipboardData}}";
+  if (arbContent == emptyArbContent) {
+    final String clipboardData = await getClipboardContent();
+    final String clipboardDataTrimmed = clipboardData.trim();
+
+    if (clipboardDataTrimmed.startsWith('{') &&
+        clipboardDataTrimmed.endsWith('}')) {
+      arbContent = clipboardData;
+    } else {
+      arbContent = "{${clipboardData}}";
+    }
   }
 
   // Parsing the ARB content into a Map
