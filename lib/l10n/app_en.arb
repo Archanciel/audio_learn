@@ -322,5 +322,10 @@
   "excludingFutureDownloadsHelpTitle": "Excluding Future Downloads",
   "excludingFutureDownloadsHelpContent": "If only the second checkbox is checked, the playback speed will not be modified for audios that will be downloaded later in existing playlists. However, as mentioned previously, new playlists will use the newly defined playback speed for all downloaded audios.",
   "alreadyDownloadedAudiosPlaylistHelpTitle": "Apply to already downloaded audios",
-  "alreadyDownloadedAudiosPlaylistHelpContent": "Selecting this checkbox allows you to change the playback speed for the playlist audio files already present on the device."
+  "alreadyDownloadedAudiosPlaylistHelpContent": "Selecting this checkbox allows you to change the playback speed for the playlist audio files already present on the device.",
+  "commentsIconButtonTooltip": "Show or insert comments at specific points in the audio.",
+  "commentDialogTitle": "Comments",
+  "addPositionedCommentTooltip": "Add a comment at the current position in the audio.",
+  "commentTitle": "Title",
+  "commentText": "Comment"
 }

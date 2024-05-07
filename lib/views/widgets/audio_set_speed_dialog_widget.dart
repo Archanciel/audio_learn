@@ -122,12 +122,15 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
                               ? ScreenMixin.themeDataDark
                               : ScreenMixin.themeDataLight)
                           .iconTheme,
-                      child: const Icon(Icons.help_outline),
+                      child: const Icon(
+                        Icons.help_outline,
+                        size: 40.0,
+                      ),
                     ),
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (context) => HelpDialog(
+                        builder: (context) => HelpDialogWidget(
                           helpItemsLst: widget.helpItemsLst,
                         ),
                       );

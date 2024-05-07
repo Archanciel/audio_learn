@@ -389,7 +389,7 @@ class _AudioSortFilterDialogWidgetState
                   children: [
                     _buildSaveAsFields(context),
                     const SizedBox(
-                      height: 10,
+                      height: kDialogTextFieldVerticalSeparation,
                     ),
                     Text(
                       AppLocalizations.of(context)!.sortBy,
@@ -398,7 +398,7 @@ class _AudioSortFilterDialogWidgetState
                     _buildSortingChoiceList(context),
                     _buildSelectedSortingOptionsList(),
                     const SizedBox(
-                      height: 10,
+                      height: kDialogTextFieldVerticalSeparation,
                     ),
                     _buildFilterOptionTitleSearchHistoryButtons(context),
                     const SizedBox(
@@ -511,15 +511,15 @@ class _AudioSortFilterDialogWidgetState
                     _buildAudioStateCheckboxes(context),
                     _buildAudioDateFields(context, now),
                     const SizedBox(
-                      height: 10,
+                      height: kDialogTextFieldVerticalSeparation,
                     ),
                     _buildAudioFileSizeFields(context),
                     const SizedBox(
-                      height: 10,
+                      height: kDialogTextFieldVerticalSeparation,
                     ),
                     _buildAudioDurationFields(context),
                     const SizedBox(
-                      height: 10,
+                      height: kDialogTextFieldVerticalSeparation,
                     ),
                     _buildApplySortFilterToViewCheckboxes(
                       context,

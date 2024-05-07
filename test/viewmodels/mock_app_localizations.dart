@@ -1000,4 +1000,19 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get alreadyDownloadedAudiosPlaylistHelpContent => "Selecting the checkbox allows you to change the playback speed for playlist audio files already present on the device.";
+
+  @override
+  String get commentsIconButtonTooltip => "Show or insert comments at specific points in the audio.";
+
+  @override
+  String get commentDialogTitle => "Comment";
+
+  @override
+  String get addPositionedCommentTooltip => "Add a comment at the current position in the audio.";
+
+  @override
+  String get commentTitle => "Title";
+
+  @override
+  String get commentText => "Comment";
 }

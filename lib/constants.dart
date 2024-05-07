@@ -127,6 +127,8 @@ const TextStyle kDialogTextFieldStyle = TextStyle(
 
 const double kDialogTextFieldHeight = 32.0;
 
+const double kDialogTextFieldVerticalSeparation = 10.0;
+
 const String kYoutubeUrl = 'https://www.youtube.com/';
 
 // true makes sense if audios are played in

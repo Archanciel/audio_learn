@@ -1,9 +1,11 @@
+import 'package:audiolearn/views/widgets/comment_list_add_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants.dart';
 import '../models/audio.dart';
+import '../models/comment.dart';
 import '../services/sort_filter_parameters.dart';
 import '../services/settings_data_service.dart';
 import '../utils/duration_expansion.dart';
@@ -137,6 +139,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               width: kRowButtonGroupWidthSeparator,
             ),
             _buildSetAudioSpeedTextButton(
+              context: context,
+              areAudioButtonsEnabled: areAudioButtonsEnabled,
+            ),
+            _buildCommentsIconButton(
               context: context,
               areAudioButtonsEnabled: areAudioButtonsEnabled,
             ),
@@ -302,6 +308,54 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget _buildCommentsIconButton({
+    required BuildContext context,
+    required bool areAudioButtonsEnabled,
+  }) {
+    return Consumer<ThemeProviderVM>(
+      builder: (context, themeProviderVM, child) {
+        return Tooltip(
+          message: AppLocalizations.of(context)!.commentsIconButtonTooltip,
+          child: SizedBox(
+            width: kSmallButtonWidth,
+            child: IconButton(
+              icon: const Icon(Icons.bookmark_outline_outlined),
+              iconSize: kUpDownButtonSize - 15,
+              onPressed: (!areAudioButtonsEnabled)
+                  ? null // Disable the button if no audio selected
+                  : () {
+                      List<Comment> commentLst = [
+                        Comment(
+                          playlistId: 'q8q736',
+                          audioFileName: "240701-163521-Jancovici m'explique l’importance des ordres de grandeur face au changement climatique 22-06-12",
+                          title: 'Bonne explication',
+                          content: 'Janco justifie pourquoi il est important de prendre en compte les ordres de grandeur pour comprendre le changement climatique.',
+                          audioPositionSeconds: 300,
+                          creationDateTime: DateTime.now(),
+                        ),
+                        Comment(
+                          playlistId: 'wu813t8uwrep',
+                          audioFileName: "240701-163521-Jancovici m'explique l’importance des ordres de grandeur face au changement climatique 22-06-12",
+                          title: 'Energie nuclaire',
+                          content: 'Janco justifie pourquoi les énergies renouvelables ne peuvent pas remplacer l’énergie nucléaire.',
+                          audioPositionSeconds: 500,
+                          creationDateTime: DateTime.now(),
+                        ),
+                      ];
+                      showDialog(
+                        context: context,
+                        builder: (context) => CommentListAddDialogWidget(
+                          commentsLst: commentLst,
+                        ),
+                      );
+                    },
+            ),
+          ),
         );
       },
     );

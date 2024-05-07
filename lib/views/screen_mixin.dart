@@ -455,6 +455,46 @@ mixin ScreenMixin {
     );
   }
 
+  Widget createEditableColumnFunction({
+    Key? valueTextFieldWidgetKey, // key set to the TextField widget
+    // containing the value
+    required BuildContext context,
+    required String label,
+    required TextEditingController controller,
+    FocusNode? textFieldFocusNode,
+  }) {
+    // Set the cursor position at the start of the TextField
+    controller.value = controller.value.copyWith(
+      selection: const TextSelection.collapsed(offset: 0),
+    );
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Text(label),
+          ),
+          Expanded(
+            child: SizedBox(
+              height: 37,
+              child: TextField(
+                key: valueTextFieldWidgetKey,
+                controller: controller,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(8),
+                ),
+                focusNode: textFieldFocusNode,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   /// This consumer<WarningMessageVM> must be installed on every
   /// view, otherwise the warning message will not be displayed
   /// on the view in which it was created.
