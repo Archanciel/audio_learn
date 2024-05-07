@@ -1087,14 +1087,15 @@ class PlaylistListVM extends ChangeNotifier {
 
     return playableAudioLst[currentAudioIndex + 1];
   }
-  
-  /// this method updates the playlists audio play speed or/and
-  /// the audio play speed of the playable audios contained in 
+
+  /// This method updates the playlists audio play speed or/and
+  /// the audio play speed of the playable audios contained in
   /// the playlists.
-  /// 
-  /// Updating the playlist audio play speed only implies the
-  /// next downloaded audios of this playlist.
-  void updatePlaylistAndOrAudioPlaySpeed({
+  ///
+  /// Updating the playlists audio play speed only implies that
+  /// the next downloaded audios of this playlist will be set
+  /// to the audioPlaySpeed value.
+  void updateExistingPlaylistsAndOrAudiosPlaySpeed({
     required double audioPlaySpeed,
     required bool applyAudioPlaySpeedToExistingPlaylists,
     required bool applyAudioPlaySpeedToAlreadyDownloadedAudios,
@@ -1109,9 +1110,9 @@ class PlaylistListVM extends ChangeNotifier {
       if (applyAudioPlaySpeedToAlreadyDownloadedAudios) {
         // updating the audio play speed of the playable audios
         // contained in the playlist.
-        for (Audio audio in playlist.playableAudioLst) {
-          audio.audioPlaySpeed = audioPlaySpeed;
-        }
+        playlist.setAudioPlaySpeedToAllPlayableAudios(
+          audioPlaySpeed: audioPlaySpeed,
+        );
       }
 
       // saving the playlist in its json file
@@ -1120,5 +1121,30 @@ class PlaylistListVM extends ChangeNotifier {
         path: playlist.getPlaylistDownloadFilePathName(),
       );
     }
+  }
+
+  void updateIndividualPlaylistAndOrPlaylistAudiosPlaySpeed({
+    required double audioPlaySpeed,
+    required int playlistIndex,
+    required bool applyAudioPlaySpeedToPlayableAudios,
+  }) {
+    Playlist playlist = _listOfSelectablePlaylists[playlistIndex];
+    // updating the playlist audio play speed. This will imply the
+    // next downloaded audios of this playlist.
+    playlist.audioPlaySpeed = audioPlaySpeed;
+
+    if (applyAudioPlaySpeedToPlayableAudios) {
+      // updating the audio play speed of the playable audios
+      // contained in the playlist.
+      playlist.setAudioPlaySpeedToAllPlayableAudios(
+        audioPlaySpeed: audioPlaySpeed,
+      );
+    }
+
+    // saving the playlist in its json file
+    JsonDataService.saveToFile(
+      model: playlist,
+      path: playlist.getPlaylistDownloadFilePathName(),
+    );
   }
 }

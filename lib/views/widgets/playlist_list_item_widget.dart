@@ -1,3 +1,4 @@
+import 'package:audiolearn/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -45,10 +46,10 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
   Widget build(BuildContext context) {
     List<HelpItem> helpItemsLst = [
       HelpItem(
-          helpTitle:
-              AppLocalizations.of(context)!.alreadyDownloadedAudiosPlaylistHelpTitle,
-          helpContent:
-              AppLocalizations.of(context)!.alreadyDownloadedAudiosPlaylistHelpContent,
+        helpTitle: AppLocalizations.of(context)!
+            .alreadyDownloadedAudiosPlaylistHelpTitle,
+        helpContent: AppLocalizations.of(context)!
+            .alreadyDownloadedAudiosPlaylistHelpContent,
       ),
     ];
     return Consumer<PlaylistListVM>(
@@ -175,7 +176,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                               : settingsDataService.get(
                                       settingType: SettingType.playlists,
                                       settingSubType: Playlists.playSpeed) ??
-                                  1.0;
+                                  kAudioDefaultPlaySpeed;
                           return AudioSetSpeedDialogWidget(
                             audioPlaySpeed: playlistAudioPlaySpeed,
                             displayApplyToAudioAlreadyDownloadedCheckbox: true,
@@ -189,17 +190,12 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                           // value is null if clicking on Cancel or if the dialog
                           // is dismissed by clicking outside the dialog.
 
-                          if (value[1]) {
-                            playlist.setAudioPlaySpeedToAllAudios(
-                              audioPlaySpeed: value[0] as double,
-                            );
-                          } else {
-                            playlist.audioPlaySpeed = value[0] as double;
-                          }
-
-                          JsonDataService.saveToFile(
-                            model: playlist,
-                            path: playlist.getPlaylistDownloadFilePathName(),
+                          expandablePlaylistListVM
+                              .updateIndividualPlaylistAndOrPlaylistAudiosPlaySpeed(
+                            audioPlaySpeed: value[0] as double,
+                            playlistIndex: index,
+                            applyAudioPlaySpeedToPlayableAudios:
+                                value[2] as bool,
                           );
                         }
                       });

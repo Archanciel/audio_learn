@@ -519,7 +519,7 @@ class Playlist {
     return other is Playlist && other.id == id;
   }
 
-  void setAudioPlaySpeedToAllAudios({
+  void setAudioPlaySpeedToAllPlayableAudios({
     required double audioPlaySpeed,
   }) {
     for (Audio audio in playableAudioLst) {

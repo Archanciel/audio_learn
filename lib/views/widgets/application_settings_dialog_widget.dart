@@ -204,7 +204,7 @@ class _ApplicationSettingsDialogWidgetState
       Provider.of<PlaylistListVM>(
         context,
         listen: false,
-      ).updatePlaylistAndOrAudioPlaySpeed(
+      ).updateExistingPlaylistsAndOrAudiosPlaySpeed(
         audioPlaySpeed: _audioPlaySpeed,
         applyAudioPlaySpeedToExistingPlaylists:
             _applyAudioPlaySpeedToExistingPlaylists,
