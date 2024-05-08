@@ -327,5 +327,7 @@
   "commentDialogTitle": "Comments",
   "addPositionedCommentTooltip": "Add a comment at the current position in the audio.",
   "commentTitle": "Title",
-  "commentText": "Comment"
+  "commentText": "Comment",
+  "commentsIconButtonTooltip": "Show or insert comments at specific points in the audio.",
+  "addPositionedCommentTooltip": "Add a comment at the current position in the audio."
 }

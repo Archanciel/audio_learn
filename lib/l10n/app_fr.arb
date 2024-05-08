@@ -327,5 +327,7 @@
   "commentDialogTitle": "Commentaires",
   "addPositionedCommentTooltip": "Ajouter un commentaire à l'emplacement actuel de l'audio.",
   "commentTitle": "Titre",
-  "commentText": "Commentaire"
+  "commentText": "Commentaire",
+  "commentsIconButtonTooltip": "Afficher ou insérer des commentaires à des points précis dans l'audio.",
+  "addPositionedCommentTooltip": "Ajouter un commentaire à l'emplacement actuel de l'audio."
 }
