@@ -270,6 +270,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                             builder: (BuildContext context) {
                               return AudioSetSpeedDialogWidget(
                                 audioPlaySpeed: _audioPlaySpeed,
+                                updateCurrentPlayAudioSpeed: true,
                               );
                             },
                           ).then((value) {

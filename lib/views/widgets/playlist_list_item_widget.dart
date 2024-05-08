@@ -172,8 +172,8 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                                   kAudioDefaultPlaySpeed;
                           return AudioSetSpeedDialogWidget(
                             audioPlaySpeed: playlistAudioPlaySpeed,
-                            displayApplyToAudioAlreadyDownloadedCheckbox: true,
                             updateCurrentPlayAudioSpeed: false,
+                            displayApplyToAudioAlreadyDownloadedCheckbox: true,
                             helpItemsLst: helpItemsLst,
                           );
                         },

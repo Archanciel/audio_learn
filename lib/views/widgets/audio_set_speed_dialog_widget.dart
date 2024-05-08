@@ -23,9 +23,9 @@ class AudioSetSpeedDialogWidget extends StatefulWidget {
   AudioSetSpeedDialogWidget({
     super.key,
     required this.audioPlaySpeed,
+    required this.updateCurrentPlayAudioSpeed,
     this.displayApplyToExistingPlaylistCheckbox = false,
     this.displayApplyToAudioAlreadyDownloadedCheckbox = false,
-    this.updateCurrentPlayAudioSpeed = true,
     this.helpItemsLst = const [],
   });
 
@@ -367,8 +367,10 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
 
     if (widget.updateCurrentPlayAudioSpeed) {
       // Here, using the set audio speed dialog in the audio player
-      // view
-
+      // view. In this case, each time the audio play speed is
+      // changed in the dialog, the audio play speed value
+      // of the audio play speed button at top of the audio
+      // player view is also updated.
       audioGlobalPlayerVM.changeAudioPlaySpeed(_audioPlaySpeed);
     }
   }

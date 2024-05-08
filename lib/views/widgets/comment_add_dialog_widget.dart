@@ -225,9 +225,9 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
                       builder: (BuildContext context) {
                         return AudioSetSpeedDialogWidget(
                           audioPlaySpeed: _audioPlaySpeed,
+                          updateCurrentPlayAudioSpeed: false,
                           displayApplyToExistingPlaylistCheckbox: true,
                           displayApplyToAudioAlreadyDownloadedCheckbox: true,
-                          updateCurrentPlayAudioSpeed: false,
                           helpItemsLst: _helpItemsLst,
                         );
                       },
