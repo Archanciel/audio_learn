@@ -42,7 +42,6 @@ class AppBarLeadingPopupMenuWidget extends StatelessWidget {
           case AppBarPopupMenu.openSettingsDialog:
             showDialog<void>(
               context: context,
-              barrierDismissible: true,
               builder: (BuildContext context) {
                 return ApplicationSettingsDialogWidget(
                   settingsDataService: settingsDataService,

@@ -287,7 +287,6 @@ class _ApplicationSettingsDialogWidgetState
                     final FocusNode focusNode = FocusNode();
                     showDialog(
                       context: context,
-                      barrierDismissible: true,
                       builder: (BuildContext context) {
                         return AudioSetSpeedDialogWidget(
                           audioPlaySpeed: _audioPlaySpeed,

@@ -220,12 +220,8 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
                         textButtonTapModification, // Tap feedback color
                   ),
                   onPressed: () {
-                    // Using FocusNode to enable clicking on Enter to close
-                    // the dialog
-                    final FocusNode focusNode = FocusNode();
                     showDialog(
                       context: context,
-                      barrierDismissible: true,
                       builder: (BuildContext context) {
                         return AudioSetSpeedDialogWidget(
                           audioPlaySpeed: _audioPlaySpeed,
@@ -251,7 +247,6 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
                         // updated
                       }
                     });
-                    focusNode.requestFocus();
                   },
                   child: Tooltip(
                     message:

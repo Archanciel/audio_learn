@@ -265,12 +265,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   ),
                   onPressed: areAudioButtonsEnabled
                       ? () {
-                          // Using FocusNode to enable clicking on Enter to close
-                          // the dialog
-                          final FocusNode focusNode = FocusNode();
                           showDialog(
                             context: context,
-                            barrierDismissible: true,
                             builder: (BuildContext context) {
                               return AudioSetSpeedDialogWidget(
                                 audioPlaySpeed: _audioPlaySpeed,
@@ -284,7 +280,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                               _audioPlaySpeed = value[0] as double;
                             }
                           });
-                          focusNode.requestFocus();
                         }
                       : null,
                   child: Tooltip(
@@ -454,12 +449,8 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               focusNode.requestFocus();
               break;
             case PopupMenuButtonType.clearSortFilterAudioParmsHistory:
-              // Using FocusNode to enable clicking on Enter to close
-              // the dialog
-              final FocusNode focusNode = FocusNode();
               showDialog<void>(
                 context: context,
-                barrierDismissible: true,
                 builder: (BuildContext context) {
                   return ActionConfirmDialogWidget(
                     actionFunction: playlistListVMlistenFalse
@@ -469,7 +460,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                         .clearSortFilterAudiosParmsHistoryMenu,
                     dialogContent: AppLocalizations.of(context)!
                         .allHistoricalSortFilterParametersDeleteConfirmation,
-                    focusNode: focusNode,
                     // Displaying a warning message after having cleared
                     // the sort and filter audio settings search history
                     // is not necessary
@@ -480,9 +470,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               );
               break;
             case PopupMenuButtonType.saveSortFilterAudioParmsToPlaylist:
-              // Using FocusNode to enable clicking on Enter to close
-              // the dialog
-              final FocusNode focusNode = FocusNode();
               showDialog(
                 context: context,
                 barrierDismissible:
@@ -492,7 +479,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                     playlistTitle:
                         playlistListVMlistenFalse.uniqueSelectedPlaylist!.title,
                     applicationViewType: AudioLearnAppViewType.audioPlayerView,
-                    focusNode: focusNode,
                   );
                 },
               ).then((isSortFilterParmsApplicationAutomatic) {
@@ -505,7 +491,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   );
                 }
               });
-              focusNode.requestFocus();
               break;
             default:
               break;

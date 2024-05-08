@@ -888,12 +888,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               focusNode.requestFocus();
               break;
             case PopupMenuButtonType.clearSortFilterAudioParmsHistory:
-              // Using FocusNode to enable clicking on Enter to close
-              // the dialog
-              final FocusNode focusNode = FocusNode();
               showDialog<void>(
                 context: context,
-                barrierDismissible: true,
                 builder: (BuildContext context) {
                   return ActionConfirmDialogWidget(
                     actionFunction: playlistListVMlistenFalse
@@ -903,15 +899,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         .clearSortFilterAudiosParmsHistoryMenu,
                     dialogContent: AppLocalizations.of(context)!
                         .allHistoricalSortFilterParametersDeleteConfirmation,
-                    focusNode: focusNode,
                   );
                 },
               );
               break;
             case PopupMenuButtonType.saveSortFilterAudioParmsToPlaylist:
-              // Using FocusNode to enable clicking on Enter to close
-              // the dialog
-              final FocusNode focusNode = FocusNode();
               showDialog(
                 context: context,
                 barrierDismissible:
@@ -922,7 +914,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         playlistListVMlistenFalse.uniqueSelectedPlaylist!.title,
                     applicationViewType:
                         AudioLearnAppViewType.playlistDownloadView,
-                    focusNode: focusNode,
                   );
                 },
               ).then((isSortFilterParmsApplicationAutomatic) {
@@ -935,7 +926,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   );
                 }
               });
-              focusNode.requestFocus();
               break;
             case PopupMenuButtonType.updatePlaylistJson:
               playlistListVMlistenFalse.updateSettingsAndPlaylistJsonFiles();
@@ -1049,10 +1039,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
             // list.
             playlistListVMlistenFalse.disableSortedFilteredPlayableAudioLst();
 
-            // Using FocusNode to enable clicking on Enter to close
-            // the dialog
-            final FocusNode focusNode = FocusNode();
-
             Playlist? selectedTargetPlaylist;
 
             showDialog(
@@ -1107,7 +1093,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         const EdgeInsets.fromLTRB(
                             10, 0, 10, 10), // Adjust the value as needed
                     content: Text(
-                      key: const Key('confirmationDialogMessageKey'),
+                      key: const Key('§'),
                       AppLocalizations.of(context)!
                           .confirmSingleVideoAudioPlaylistTitle(
                         selectedTargetPlaylist!.title,
@@ -1163,10 +1149,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               // .then() method of the showDialog() method !
               newFocusNode.requestFocus();
             });
-            // required so that clicking on Enter to close the dialog
-            // works. This intruction must be located after the
-            // .then() method of the showDialog() method !
-            focusNode.requestFocus();
           },
           child: Row(
             mainAxisSize:
@@ -1268,12 +1250,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           ),
           onPressed: () {
             final String playlistUrl = _playlistUrlController.text.trim();
-            // Using FocusNode to enable clicking on Enter to close
-            // the dialog
-            final FocusNode focusNode = FocusNode();
             showDialog(
               context: context,
-              barrierDismissible: true,
               builder: (BuildContext context) {
                 return AddPlaylistDialogWidget(
                   playlistUrl: playlistUrl,
@@ -1291,7 +1269,6 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 _playlistUrlController.clear();
               }
             });
-            focusNode.requestFocus();
           },
           child: Text(
             AppLocalizations.of(context)!.addPlaylist,

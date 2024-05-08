@@ -129,7 +129,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                 case AudioPopupMenuAction.displayAudioInfo:
                   showDialog<void>(
                     context: context,
-                    barrierDismissible: true,
                     builder: (BuildContext context) {
                       return AudioInfoDialogWidget(
                         audio: audio,
@@ -140,7 +139,6 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                 case AudioPopupMenuAction.renameAudioFile:
                   showDialog<void>(
                     context: context,
-                    barrierDismissible: true,
                     builder: (BuildContext context) {
                       return AudioFileRenameDialogWidget(
                         audio: audio,

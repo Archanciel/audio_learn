@@ -1388,10 +1388,8 @@ class _AudioSortFilterDialogWidgetState
   ) {
     // Using FocusNode to enable clicking on Enter to close
     // the dialog
-    final FocusNode focusNode = FocusNode();
     showDialog<void>(
       context: context,
-      barrierDismissible: true,
       builder: (BuildContext context) {
         return ActionConfirmDialogWidget(
           actionFunction: _clearAudioSortFilterSettingsSearchHistory,
@@ -1403,7 +1401,6 @@ class _AudioSortFilterDialogWidgetState
               .clearSortFilterAudiosParmsHistoryMenu,
           dialogContent: AppLocalizations.of(context)!
               .allHistoricalSortFilterParametersDeleteConfirmation,
-          focusNode: focusNode,
         );
       },
     );

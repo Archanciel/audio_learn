@@ -13,7 +13,6 @@ class ActionConfirmDialogWidget extends StatefulWidget {
   final List<dynamic> actionFunctionArgs; // Arguments for the action function
   final String dialogTitle; // Title of the dialog
   final String dialogContent; // Content of the dialog
-  final FocusNode focusNode;
   final Function? warningFunction; // The action to execute on confirmation
   final List<dynamic> warningFunctionArgs; // Arguments for the action function
 
@@ -22,7 +21,6 @@ class ActionConfirmDialogWidget extends StatefulWidget {
     required this.actionFunctionArgs,
     required this.dialogTitle,
     required this.dialogContent,
-    required this.focusNode,
     this.warningFunction,
     this.warningFunctionArgs = const [],
     super.key,
@@ -35,9 +33,22 @@ class ActionConfirmDialogWidget extends StatefulWidget {
 
 class _ActionConfirmDialogWidgetState extends State<ActionConfirmDialogWidget>
     with ScreenMixin {
+  final FocusNode _dialogFocusNode = FocusNode();
+
   @override
   void initState() {
+    // Required so that clicking on Enter closes the dialog
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _dialogFocusNode.requestFocus();
+    });
+
     super.initState();
+  }
+
+  dispose() {
+    _dialogFocusNode.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -47,7 +58,7 @@ class _ActionConfirmDialogWidgetState extends State<ActionConfirmDialogWidget>
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: widget.focusNode,
+      focusNode: _dialogFocusNode,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||

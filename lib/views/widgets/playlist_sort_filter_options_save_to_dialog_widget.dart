@@ -11,12 +11,10 @@ import '../../viewmodels/theme_provider_vm.dart';
 class PlaylistSortFilterOptionsSaveToDialogWidget extends StatefulWidget {
   final String playlistTitle;
   final AudioLearnAppViewType applicationViewType;
-  final FocusNode focusNode;
 
   const PlaylistSortFilterOptionsSaveToDialogWidget({
     required this.playlistTitle,
     required this.applicationViewType,
-    required this.focusNode,
     super.key,
   });
 
@@ -74,7 +72,7 @@ class _PlaylistSortFilterOptionsSaveToDialogWidgetState
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: widget.focusNode,
+      focusNode: _dialogFocusNode,
       onKeyEvent: (event) async {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
