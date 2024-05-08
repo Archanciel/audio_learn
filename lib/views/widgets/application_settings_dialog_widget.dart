@@ -282,17 +282,14 @@ class _ApplicationSettingsDialogWidgetState
                         textButtonTapModification, // Tap feedback color
                   ),
                   onPressed: () {
-                    // Using FocusNode to enable clicking on Enter to close
-                    // the dialog
-                    final FocusNode focusNode = FocusNode();
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AudioSetSpeedDialogWidget(
                           audioPlaySpeed: _audioPlaySpeed,
+                          updateCurrentPlayAudioSpeed: false,
                           displayApplyToExistingPlaylistCheckbox: true,
                           displayApplyToAudioAlreadyDownloadedCheckbox: true,
-                          updateCurrentPlayAudioSpeed: false,
                           helpItemsLst: _helpItemsLst,
                         );
                       },
@@ -312,7 +309,6 @@ class _ApplicationSettingsDialogWidgetState
                         // updated
                       }
                     });
-                    focusNode.requestFocus();
                   },
                   child: Tooltip(
                     message:
