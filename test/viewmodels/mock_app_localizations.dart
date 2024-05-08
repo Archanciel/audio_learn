@@ -1015,4 +1015,10 @@ class MockAppLocalizations extends AppLocalizations {
 
   @override
   String get commentText => "Comment";
+
+  @override
+  String get commentsIconButtonTooltip => "Show or insert comments at specific points in the audio.";
+
+  @override
+  String get addPositionedCommentTooltip => "Add a comment at the current position in the audio.";
 }
