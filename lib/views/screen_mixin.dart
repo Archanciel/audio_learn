@@ -280,6 +280,17 @@ mixin ScreenMixin {
     }
   }
 
+  InputDecoration getDialogTextFieldInputDecoration({
+    String hintText = '',
+  }) {
+    return InputDecoration(
+      hintText: hintText,
+      border: OutlineInputBorder(),
+      isDense: true,
+      contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
+    );
+  }
+
   /// Create a comment displayed under the title of the dialog.
   Widget createTitleCommentRowFunction({
     Key? titleTextWidgetKey, // key set to the Text widget displaying the title
@@ -412,11 +423,7 @@ mixin ScreenMixin {
               child: TextField(
                 key: valueTextFieldWidgetKey,
                 controller: controller,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(8),
-                ),
+                decoration: getDialogTextFieldInputDecoration(),
                 focusNode: textFieldFocusNode,
               ),
             ),
@@ -450,46 +457,6 @@ mixin ScreenMixin {
             value: value,
             onChanged: onChangedFunction,
           )
-        ],
-      ),
-    );
-  }
-
-  Widget createEditableColumnFunction({
-    Key? valueTextFieldWidgetKey, // key set to the TextField widget
-    // containing the value
-    required BuildContext context,
-    required String label,
-    required TextEditingController controller,
-    FocusNode? textFieldFocusNode,
-  }) {
-    // Set the cursor position at the start of the TextField
-    controller.value = controller.value.copyWith(
-      selection: const TextSelection.collapsed(offset: 0),
-    );
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Text(label),
-          ),
-          Expanded(
-            child: SizedBox(
-              height: 37,
-              child: TextField(
-                key: valueTextFieldWidgetKey,
-                controller: controller,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(8),
-                ),
-                focusNode: textFieldFocusNode,
-              ),
-            ),
-          ),
         ],
       ),
     );

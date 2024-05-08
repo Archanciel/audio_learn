@@ -2340,7 +2340,7 @@ Future<void> goBackToPlaylistdownloadViewToCheckAudioStateAndIcon({
   expect(audioStateTextWidget.data, audioStateExpectedValue);
 
   // Now click on Ok button to close the audio info dialog
-  await tester.tap(find.text('Ok'));
+  await tester.tap(find.byKey(const Key('audioInfoOkButtonKey')));
   await tester.pumpAndSettle();
 
   // Now verifying the audio right button state

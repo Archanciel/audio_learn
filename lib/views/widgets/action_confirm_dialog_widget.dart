@@ -76,7 +76,10 @@ class _ActionConfirmDialogWidgetState extends State<ActionConfirmDialogWidget>
           widget.dialogTitle,
           key: const Key('confirmDialogTitleKey'),
         ),
-        content: Text(widget.dialogContent),
+        content: Text(
+          widget.dialogContent,
+          key: const Key('confirmationDialogMessageKey'),
+        ),
         actions: <Widget>[
           TextButton(
             key: const Key('confirmButtonKey'),

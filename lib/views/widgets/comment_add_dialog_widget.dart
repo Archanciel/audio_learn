@@ -1,19 +1,11 @@
-import 'dart:io';
-
-import 'package:audiolearn/models/help_item.dart';
-import 'package:audiolearn/viewmodels/audio_download_vm.dart';
-import 'package:audiolearn/viewmodels/playlist_list_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '../../viewmodels/warning_message_vm.dart';
-import '../../views/screen_mixin.dart';
 import '../../constants.dart';
-import '../../services/settings_data_service.dart';
+import '../../views/screen_mixin.dart';
 import '../../viewmodels/theme_provider_vm.dart';
-import 'audio_set_speed_dialog_widget.dart';
 
 class CommentAddDialogWidget extends StatefulWidget {
   const CommentAddDialogWidget({
@@ -26,14 +18,10 @@ class CommentAddDialogWidget extends StatefulWidget {
 
 class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
     with ScreenMixin {
-  final TextEditingController _playlistRootpathTextEditingController =
-      TextEditingController();
-  late double _audioPlaySpeed;
-  bool _applyAudioPlaySpeedToExistingPlaylists = false;
-  bool _applyAudioPlaySpeedToAlreadyDownloadedAudios = false;
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController commentController = TextEditingController();
   final FocusNode _dialogFocusNode = FocusNode();
   final FocusNode _focusNodePlaylistRootPath = FocusNode();
-  late final List<HelpItem> _helpItemsLst;
 
   @override
   void initState() {
@@ -44,41 +32,6 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
       FocusScope.of(context).requestFocus(
         _dialogFocusNode,
       );
-      _playlistRootpathTextEditingController.text = 'Rootpath';
-
-      // Setting cursor at the end of the text. Does not work !
-      _playlistRootpathTextEditingController.selection =
-          TextSelection.fromPosition(
-        TextPosition(
-          offset: _playlistRootpathTextEditingController.text.length,
-        ),
-      );
-
-      _helpItemsLst = [
-        HelpItem(
-          helpTitle: AppLocalizations.of(context)!.defaultApplicationHelpTitle,
-          helpContent:
-              AppLocalizations.of(context)!.defaultApplicationHelpContent,
-        ),
-        HelpItem(
-          helpTitle:
-              AppLocalizations.of(context)!.modifyingExistingPlaylistsHelpTitle,
-          helpContent: AppLocalizations.of(context)!
-              .modifyingExistingPlaylistsHelpContent,
-        ),
-        HelpItem(
-          helpTitle:
-              AppLocalizations.of(context)!.alreadyDownloadedAudiosHelpTitle,
-          helpContent:
-              AppLocalizations.of(context)!.alreadyDownloadedAudiosHelpContent,
-        ),
-        HelpItem(
-          helpTitle:
-              AppLocalizations.of(context)!.excludingFutureDownloadsHelpTitle,
-          helpContent:
-              AppLocalizations.of(context)!.excludingFutureDownloadsHelpContent,
-        ),
-      ];
     });
   }
 
@@ -86,7 +39,8 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
   void dispose() {
     _dialogFocusNode.dispose();
     _focusNodePlaylistRootPath.dispose();
-    _playlistRootpathTextEditingController.dispose();
+    titleController.dispose();
+    commentController.dispose();
 
     super.dispose();
   }
@@ -109,162 +63,98 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
               event.logicalKey == LogicalKeyboardKey.numpadEnter) {
             // executing the same code as in the 'Save' TextButton
             // onPressed callback
-            _handleSaveButton(context);
             Navigator.of(context).pop();
           }
         }
       },
       child: AlertDialog(
-        title: Text(
-          key: const Key('appSettingsDialogTitleKey'),
-          AppLocalizations.of(context)!.appSettingsDialogTitle,
-        ),
-        actionsPadding: kDialogActionsPadding,
+        title: Text(AppLocalizations.of(context)!.commentDialogTitle),
         content: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              createEditableColumnFunction(
-                valueTextFieldWidgetKey: const Key('playlistRootpathTextField'),
-                context: context,
-                label: AppLocalizations.of(context)!.commentTitle,
-                controller: _playlistRootpathTextEditingController,
-                textFieldFocusNode: _focusNodePlaylistRootPath,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // TextField for Title
+              SizedBox(
+                height: kDialogTextFieldHeight,
+                child: TextField(
+                  controller: titleController,
+                  decoration: getDialogTextFieldInputDecoration(
+                    hintText: AppLocalizations.of(context)!.commentTitle,
+                  ),
+                ),
               ),
-              const SizedBox(
-                height: kDialogTextFieldVerticalSeparation,
+              const SizedBox(height: 10),
+              // Multiline TextField for Comments
+              TextField(
+                controller: commentController,
+                minLines: 2,
+                maxLines: 3,
+                decoration: getDialogTextFieldInputDecoration(
+                  hintText: AppLocalizations.of(context)!.commentText,
+                ),
               ),
-              createEditableColumnFunction(
-                valueTextFieldWidgetKey: const Key('playlistRootpathTextField'),
-                context: context,
-                label: AppLocalizations.of(context)!.commentText,
-                controller: _playlistRootpathTextEditingController,
-                textFieldFocusNode: _focusNodePlaylistRootPath,
+              const SizedBox(height: 30),
+              // Non-editable Text for Audio File Details
+              // Audio Playback Controls
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 120,
+                    child: Text(
+                      '231127-001208-Jancovici - débat avec Bernard Friot - Aix en Provence - 16_11_2023\n23-11-23.mp3',
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.fast_rewind),
+                            onPressed: null,
+                          ),
+                          Text('2:20:45'),
+                          IconButton(
+                            icon: Icon(Icons.fast_forward),
+                            onPressed: null,
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.play_arrow),
+                        onPressed: null,
+                        padding: EdgeInsets.all(0), // Remove extra padding
+                        constraints:
+                            BoxConstraints(), // Ensure the button takes minimal space
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
         ),
         actions: [
           TextButton(
-            key: const Key('saveButton'),
             onPressed: () {
-              _handleSaveButton(context);
+              // Logique de confirmation (sauvegarder les commentaires, etc.)
+              print('Titre: ${titleController.text}');
+              print('Commentaire: ${commentController.text}');
               Navigator.of(context).pop();
             },
             child: Text(
-              AppLocalizations.of(context)!.saveButton,
-              style: (themeProviderVM.currentTheme == AppTheme.dark)
-                  ? kTextButtonStyleDarkMode
-                  : kTextButtonStyleLightMode,
+              AppLocalizations.of(context)!.add,
             ),
           ),
           TextButton(
-            key: const Key('cancelButton'),
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(
-              AppLocalizations.of(context)!.cancelButton,
-              style: (themeProviderVM.currentTheme == AppTheme.dark)
-                  ? kTextButtonStyleDarkMode
-                  : kTextButtonStyleLightMode,
-            ),
+            child: Text(AppLocalizations.of(context)!.cancelButton),
           ),
         ],
       ),
-    );
-  }
-
-  void _handleSaveButton(BuildContext context) {
-    if (_applyAudioPlaySpeedToExistingPlaylists ||
-        _applyAudioPlaySpeedToAlreadyDownloadedAudios) {
-      Provider.of<PlaylistListVM>(
-        context,
-        listen: false,
-      ).updateExistingPlaylistsAndOrAudiosPlaySpeed(
-        audioPlaySpeed: _audioPlaySpeed,
-        applyAudioPlaySpeedToExistingPlaylists:
-            _applyAudioPlaySpeedToExistingPlaylists,
-        applyAudioPlaySpeedToAlreadyDownloadedAudios:
-            _applyAudioPlaySpeedToAlreadyDownloadedAudios,
-      );
-    }
-  }
-
-  Widget _buildSetAudioSpeedTextButton(
-    BuildContext context,
-  ) {
-    return Consumer<ThemeProviderVM>(
-      builder: (context, themeProviderVM, child) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              // sets the rounded TextButton size improving the distance
-              // between the button text and its boarder
-              width: kNormalButtonWidth - 18.0,
-              height: kNormalButtonHeight,
-              child: Tooltip(
-                message: AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
-                child: TextButton(
-                  key: const Key('setAudioSpeedTextButton'),
-                  style: ButtonStyle(
-                    shape: getButtonRoundedShape(
-                        currentTheme: themeProviderVM.currentTheme),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(
-                          horizontal: kSmallButtonInsidePadding, vertical: 0),
-                    ),
-                    overlayColor:
-                        textButtonTapModification, // Tap feedback color
-                  ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AudioSetSpeedDialogWidget(
-                          audioPlaySpeed: _audioPlaySpeed,
-                          updateCurrentPlayAudioSpeed: false,
-                          displayApplyToExistingPlaylistCheckbox: true,
-                          displayApplyToAudioAlreadyDownloadedCheckbox: true,
-                          helpItemsLst: _helpItemsLst,
-                        );
-                      },
-                    ).then((value) {
-                      // not null value is boolean
-                      if (value != null) {
-                        // value is null if clicking on Cancel or if the dialog
-                        // is dismissed by clicking outside the dialog.
-
-                        _audioPlaySpeed = value[0] as double;
-                        _applyAudioPlaySpeedToExistingPlaylists = value[1];
-                        _applyAudioPlaySpeedToAlreadyDownloadedAudios =
-                            value[2];
-
-                        setState(() {}); // required, otherwise the TextButton
-                        // text in the application settings dialog is not
-                        // updated
-                      }
-                    });
-                  },
-                  child: Tooltip(
-                    message:
-                        AppLocalizations.of(context)!.setAudioPlaySpeedTooltip,
-                    child: Text(
-                      '${_audioPlaySpeed.toStringAsFixed(2)}x',
-                      textAlign: TextAlign.center,
-                      style: (themeProviderVM.currentTheme == AppTheme.dark)
-                          ? kTextButtonStyleDarkMode
-                          : kTextButtonStyleLightMode,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

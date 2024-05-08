@@ -51,11 +51,7 @@ class AudioSortFilterDialogWidget extends StatefulWidget {
 
 class _AudioSortFilterDialogWidgetState
     extends State<AudioSortFilterDialogWidget> with ScreenMixin {
-  final InputDecoration _dialogTextFieldDecoration = const InputDecoration(
-    isDense: true, //  better aligns the text vertically
-    contentPadding: EdgeInsets.all(5),
-    border: OutlineInputBorder(),
-  );
+  late InputDecoration _dialogTextFieldDecoration;
 
   late final List<String> _audioTitleFilterSentencesLst = [];
 
@@ -121,6 +117,8 @@ class _AudioSortFilterDialogWidgetState
   @override
   void initState() {
     super.initState();
+
+    _dialogTextFieldDecoration = getDialogTextFieldInputDecoration();
 
     // Add this line to request focus on the TextField after the build
     // method has been called

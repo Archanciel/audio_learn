@@ -12,7 +12,7 @@ import 'comment_add_dialog_widget.dart';
 
 /// This widget displays a dialog with the list of positionned
 /// comment added to the current audio.
-/// 
+///
 /// Additionally, it displays a button to add a new positionned
 /// comment.
 class CommentListAddDialogWidget extends StatefulWidget {
@@ -74,7 +74,8 @@ class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
         title: Row(
           children: [
             Text(
-                AppLocalizations.of(context)!.commentDialogTitle),
+              AppLocalizations.of(context)!.commentsDialogTitle,
+            ),
             const SizedBox(width: 40),
             Tooltip(
               message:
@@ -91,13 +92,12 @@ class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
                   ),
                 ),
                 onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => CommentAddDialogWidget(),
-                      );
+                  showDialog(
+                    context: context,
+                    builder: (context) => CommentAddDialogWidget(),
+                  );
                 },
               ),
-              
             ),
           ],
         ),

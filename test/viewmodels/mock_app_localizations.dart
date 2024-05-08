@@ -1,3 +1,4 @@
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// This mock class is necessary in order to define two getters
@@ -1005,7 +1006,7 @@ class MockAppLocalizations extends AppLocalizations {
   String get commentsIconButtonTooltip => "Show or insert comments at specific points in the audio.";
 
   @override
-  String get commentDialogTitle => "Comment";
+  String get commentsDialogTitle => "Comment";
 
   @override
   String get addPositionedCommentTooltip => "Add a comment at the current position in the audio.";
@@ -1017,8 +1018,5 @@ class MockAppLocalizations extends AppLocalizations {
   String get commentText => "Comment";
 
   @override
-  String get commentsIconButtonTooltip => "Show or insert comments at specific points in the audio.";
-
-  @override
-  String get addPositionedCommentTooltip => "Add a comment at the current position in the audio.";
+  String get commentDialogTitle => "Comment";
 }

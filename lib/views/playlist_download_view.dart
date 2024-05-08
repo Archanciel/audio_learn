@@ -1084,8 +1084,8 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   },
                   child: AlertDialog(
                     title: Text(
-                      key: const Key('confirmationDialogTitleKey'),
                       AppLocalizations.of(context)!.confirmDialogTitle,
+                      key: const Key('confirmationDialogTitleKey'),
                     ),
                     actionsPadding:
                         // reduces the top vertical space between the buttons
@@ -1093,7 +1093,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                         const EdgeInsets.fromLTRB(
                             10, 0, 10, 10), // Adjust the value as needed
                     content: Text(
-                      key: const Key('§'),
+                      key: const Key('confirmationDialogMessageKey'),
                       AppLocalizations.of(context)!
                           .confirmSingleVideoAudioPlaylistTitle(
                         selectedTargetPlaylist!.title,
