@@ -33,20 +33,20 @@ class ActionConfirmDialogWidget extends StatefulWidget {
 
 class _ActionConfirmDialogWidgetState extends State<ActionConfirmDialogWidget>
     with ScreenMixin {
-  final FocusNode _dialogFocusNode = FocusNode();
+  final FocusNode _focusNodeDialog = FocusNode();
 
   @override
   void initState() {
     // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _dialogFocusNode.requestFocus();
+      _focusNodeDialog.requestFocus();
     });
 
     super.initState();
   }
 
   dispose() {
-    _dialogFocusNode.dispose();
+    _focusNodeDialog.dispose();
 
     super.dispose();
   }
@@ -58,7 +58,7 @@ class _ActionConfirmDialogWidgetState extends State<ActionConfirmDialogWidget>
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: _dialogFocusNode,
+      focusNode: _focusNodeDialog,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||

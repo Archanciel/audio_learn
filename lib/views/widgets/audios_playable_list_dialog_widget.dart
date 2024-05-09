@@ -32,7 +32,7 @@ class _AudioPlayableListDialogWidgetState
     extends State<AudioPlayableListDialogWidget> with ScreenMixin {
   // Using FocusNode to enable clicking on Enter to close
   // the dialog
-  final FocusNode _dialogFocusNode = FocusNode();
+  final FocusNode _focusNodeDialog = FocusNode();
 
   Audio? _selectedAudio;
   bool _excludeFullyPlayedAudios = false;
@@ -53,7 +53,7 @@ class _AudioPlayableListDialogWidgetState
     // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(
-        _dialogFocusNode,
+        _focusNodeDialog,
       );
       _scrollToItem();
     });
@@ -62,7 +62,7 @@ class _AudioPlayableListDialogWidgetState
   @override
   void dispose() {
     // Dispose the focus node when the widget is disposed
-    _dialogFocusNode.dispose();
+    _focusNodeDialog.dispose();
     _scrollController.dispose();
 
     super.dispose();
@@ -99,7 +99,7 @@ class _AudioPlayableListDialogWidgetState
     }
 
     return KeyboardListener(
-      focusNode: _dialogFocusNode,
+      focusNode: _focusNodeDialog,
       onKeyEvent: (event) async {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||

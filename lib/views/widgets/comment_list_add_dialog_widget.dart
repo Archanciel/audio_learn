@@ -30,13 +30,13 @@ class CommentListAddDialogWidget extends StatefulWidget {
 
 class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
     with ScreenMixin {
-  final FocusNode _dialogFocusNode = FocusNode();
+  final FocusNode _focusNodeDialog = FocusNode();
 
   @override
   void initState() {
     // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _dialogFocusNode.requestFocus();
+      _focusNodeDialog.requestFocus();
     });
 
     super.initState();
@@ -44,7 +44,7 @@ class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
 
   @override
   void dispose() {
-    _dialogFocusNode.dispose();
+    _focusNodeDialog.dispose();
 
     super.dispose();
   }
@@ -59,7 +59,7 @@ class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: _dialogFocusNode,
+      focusNode: _focusNodeDialog,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||

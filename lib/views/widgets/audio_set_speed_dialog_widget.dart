@@ -39,7 +39,7 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
   double _audioPlaySpeed = 1.0;
   bool _applyToAudioAlreadyDownloaded = false;
   bool _applyToExistingPlaylist = false;
-  final FocusNode _dialogFocusNode = FocusNode();
+  final FocusNode _focusNodeDialog = FocusNode();
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
     // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(
-        _dialogFocusNode,
+        _focusNodeDialog,
       );
     });
 
@@ -57,7 +57,7 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
 
   @override
   void dispose() {
-    _dialogFocusNode.dispose();
+    _focusNodeDialog.dispose();
 
     super.dispose();
   }
@@ -86,7 +86,7 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: _dialogFocusNode,
+      focusNode: _focusNodeDialog,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||

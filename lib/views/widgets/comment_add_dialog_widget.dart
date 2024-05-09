@@ -20,7 +20,7 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
     with ScreenMixin {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController commentController = TextEditingController();
-  final FocusNode _dialogFocusNode = FocusNode();
+  final FocusNode _focusNodeDialog = FocusNode();
   final FocusNode _focusNodePlaylistRootPath = FocusNode();
 
   @override
@@ -30,14 +30,14 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Required so that clicking on Enter closes the dialog
       FocusScope.of(context).requestFocus(
-        _dialogFocusNode,
+        _focusNodeDialog,
       );
     });
   }
 
   @override
   void dispose() {
-    _dialogFocusNode.dispose();
+    _focusNodeDialog.dispose();
     _focusNodePlaylistRootPath.dispose();
     titleController.dispose();
     commentController.dispose();
@@ -56,7 +56,7 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: _dialogFocusNode,
+      focusNode: _focusNodeDialog,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||

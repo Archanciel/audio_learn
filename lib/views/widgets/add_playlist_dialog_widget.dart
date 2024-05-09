@@ -29,7 +29,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
     with ScreenMixin {
   final TextEditingController _localPlaylistTitleTextEditingController =
       TextEditingController();
-  final FocusNode _dialogFocusNode = FocusNode();
+  final FocusNode _focusNodeDialog = FocusNode();
   final FocusNode _localPlaylistTitleFocusNode = FocusNode();
 
   bool _isChecked = false;
@@ -41,14 +41,14 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
     // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(
-        _dialogFocusNode,
+        _focusNodeDialog,
       );
     });
   }
 
   @override
   void dispose() {
-    _dialogFocusNode.dispose();
+    _focusNodeDialog.dispose();
     _localPlaylistTitleTextEditingController.dispose();
 
     super.dispose();
@@ -72,7 +72,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: _dialogFocusNode,
+      focusNode: _focusNodeDialog,
       onKeyEvent: (event) async {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||

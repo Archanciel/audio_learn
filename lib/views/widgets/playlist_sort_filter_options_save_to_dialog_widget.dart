@@ -26,7 +26,7 @@ class PlaylistSortFilterOptionsSaveToDialogWidget extends StatefulWidget {
 class _PlaylistSortFilterOptionsSaveToDialogWidgetState
     extends State<PlaylistSortFilterOptionsSaveToDialogWidget>
     with ScreenMixin {
-  final FocusNode _dialogFocusNode = FocusNode();
+  final FocusNode _focusNodeDialog = FocusNode();
 
   bool _isAutomaticApplicationChecked = false;
 
@@ -39,7 +39,7 @@ class _PlaylistSortFilterOptionsSaveToDialogWidgetState
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Required so that clicking on Enter closes the dialog
       FocusScope.of(context).requestFocus(
-        _dialogFocusNode,
+        _focusNodeDialog,
       );
     });
   }
@@ -72,7 +72,7 @@ class _PlaylistSortFilterOptionsSaveToDialogWidgetState
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: _dialogFocusNode,
+      focusNode: _focusNodeDialog,
       onKeyEvent: (event) async {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||

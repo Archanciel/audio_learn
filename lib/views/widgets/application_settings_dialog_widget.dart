@@ -35,7 +35,7 @@ class _ApplicationSettingsDialogWidgetState
   late double _audioPlaySpeed;
   bool _applyAudioPlaySpeedToExistingPlaylists = false;
   bool _applyAudioPlaySpeedToAlreadyDownloadedAudios = false;
-  final FocusNode _dialogFocusNode = FocusNode();
+  final FocusNode _focusNodeDialog = FocusNode();
   final FocusNode _focusNodePlaylistRootPath = FocusNode();
   late final List<HelpItem> _helpItemsLst;
 
@@ -51,7 +51,7 @@ class _ApplicationSettingsDialogWidgetState
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Required so that clicking on Enter closes the dialog
       FocusScope.of(context).requestFocus(
-        _dialogFocusNode,
+        _focusNodeDialog,
       );
       _playlistRootpathTextEditingController.text = widget.settingsDataService
               .get(
@@ -97,7 +97,7 @@ class _ApplicationSettingsDialogWidgetState
 
   @override
   void dispose() {
-    _dialogFocusNode.dispose();
+    _focusNodeDialog.dispose();
     _focusNodePlaylistRootPath.dispose();
     _playlistRootpathTextEditingController.dispose();
 
@@ -115,7 +115,7 @@ class _ApplicationSettingsDialogWidgetState
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: _dialogFocusNode,
+      focusNode: _focusNodeDialog,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
