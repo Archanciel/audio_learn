@@ -15,7 +15,7 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
   final SettingsDataService settingsDataService;
   final Playlist playlist;
   final int playlistJsonFileSize;
-  final FocusNode dialogFocusNode = FocusNode();
+  final FocusNode focusNodeDialog = FocusNode();
 
   PlaylistInfoDialogWidget({
     required this.settingsDataService,
@@ -34,13 +34,13 @@ class PlaylistInfoDialogWidget extends StatelessWidget with ScreenMixin {
 
     // Required so that clicking on Enter closes the dialog
     FocusScope.of(context).requestFocus(
-      dialogFocusNode,
+      focusNodeDialog,
     );
 
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog
-      focusNode: dialogFocusNode,
+      focusNode: focusNodeDialog,
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||

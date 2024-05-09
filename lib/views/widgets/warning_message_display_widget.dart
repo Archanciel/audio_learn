@@ -622,7 +622,7 @@ class WarningMessageDisplayWidget extends StatelessWidget with ScreenMixin {
   }) {
     // The focus node must be created here, otherwise displaying
     // the dialog will cause an error.
-    final dialogFocusNode = FocusNode();
+    final focusNodeDialog = FocusNode();
     String alertDialogTitle = '';
 
     switch (warningMode) {
@@ -641,7 +641,7 @@ class WarningMessageDisplayWidget extends StatelessWidget with ScreenMixin {
       builder: (context) => KeyboardListener(
         // Using FocusNode to enable clicking on Enter to close
         // the dialog
-        focusNode: dialogFocusNode,
+        focusNode: focusNodeDialog,
         onKeyEvent: (event) {
           if (event is KeyDownEvent) {
             if (event.logicalKey == LogicalKeyboardKey.enter ||
@@ -685,6 +685,6 @@ class WarningMessageDisplayWidget extends StatelessWidget with ScreenMixin {
 
     // To automatically focus on the dialog when it appears. If commented,
     // clicking on Enter will not close the dialog.
-    dialogFocusNode.requestFocus();
+    focusNodeDialog.requestFocus();
   }
 }
