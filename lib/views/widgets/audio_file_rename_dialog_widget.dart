@@ -35,11 +35,7 @@ class _AudioFileRenameDialogWidgetState
   void initState() {
     super.initState();
 
-    // Required so that clicking on Enter closes the dialog
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(
-        _dialogFocusNode,
-      );
       _audioFileNameTextEditingController.text = widget.audio.audioFileName;
     });
   }
