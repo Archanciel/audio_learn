@@ -811,10 +811,10 @@ class PlaylistListVM extends ChangeNotifier {
     return removedPlayableAudioNumber;
   }
 
-  void savePlaylistAudioSortFilterParmsToPlaylist(
-    AudioLearnAppViewType audioLearnAppView,
-    bool isSortFilterParmsApplicationAutomatic,
-  ) {
+  void savePlaylistAudioSortFilterParmsToPlaylist({
+    required AudioLearnAppViewType audioLearnAppView,
+    required bool isSortFilterParmsApplicationAutomatic,
+  }) {
     Playlist playlist = getSelectedPlaylists()[0];
 
     if (audioLearnAppView == AudioLearnAppViewType.playlistDownloadView) {

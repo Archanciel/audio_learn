@@ -128,7 +128,7 @@ class _AudioSetSpeedDialogWidgetState extends State<AudioSetSpeedDialogWidget>
                       ),
                     ),
                     onPressed: () {
-                      showDialog(
+                      showDialog<void>(
                         context: context,
                         builder: (context) => HelpDialogWidget(
                           helpItemsLst: widget.helpItemsLst,

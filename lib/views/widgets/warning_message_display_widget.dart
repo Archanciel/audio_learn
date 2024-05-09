@@ -636,7 +636,7 @@ class WarningMessageDisplayWidget extends StatelessWidget with ScreenMixin {
         break;
     }
 
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => KeyboardListener(
         // Using FocusNode to enable clicking on Enter to close

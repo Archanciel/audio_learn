@@ -282,7 +282,7 @@ class _ApplicationSettingsDialogWidgetState
                         textButtonTapModification, // Tap feedback color
                   ),
                   onPressed: () {
-                    showDialog(
+                    showDialog<List<dynamic>>(
                       context: context,
                       builder: (BuildContext context) {
                         return AudioSetSpeedDialogWidget(

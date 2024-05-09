@@ -150,7 +150,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   PlaylistListVM expandablePlaylistVM =
                       getAndInitializeExpandablePlaylistListVM(context);
 
-                  showDialog(
+                  showDialog<dynamic>(
                     context: context,
                     builder: (context) => PlaylistOneSelectableDialogWidget(
                       usedFor: PlaylistOneSelectableDialogUsedFor
@@ -187,7 +187,7 @@ class AudioListItemWidget extends StatelessWidget with ScreenMixin {
                   PlaylistListVM expandablePlaylistVM =
                       getAndInitializeExpandablePlaylistListVM(context);
 
-                  showDialog(
+                  showDialog<dynamic>(
                     context: context,
                     builder: (context) => PlaylistOneSelectableDialogWidget(
                       usedFor: PlaylistOneSelectableDialogUsedFor

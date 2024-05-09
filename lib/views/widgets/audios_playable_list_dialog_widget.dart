@@ -104,10 +104,8 @@ class _AudioPlayableListDialogWidgetState
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
               event.logicalKey == LogicalKeyboardKey.numpadEnter) {
-            // executing the same code as in the 'Confirm' TextButton
-            // onPressed callback
-            // await audioGlobalPlayerVM.setCurrentAudio(_selectedAudio!);
-            Navigator.of(context).pop(_selectedAudio);
+            // executing the same code as in the 'Cancel' TextButton
+            Navigator.of(context).pop();
           }
         }
       },
@@ -154,7 +152,7 @@ class _AudioPlayableListDialogWidgetState
                       title: GestureDetector(
                         onTap: () async {
                           await audioGlobalPlayerVM.setCurrentAudio(audio);
-                          Navigator.of(context).pop(audio);
+                          Navigator.of(context).pop();
                         },
                         child: _buildAudioTitleTextWidget(
                           audio,

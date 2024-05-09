@@ -158,7 +158,7 @@ class PlaylistListItemWidget extends StatelessWidget with ScreenMixin {
                       }
                       break;
                     case PlaylistPopupMenuAction.setPlaylistAudioPlaySpeed:
-                      showDialog(
+                      showDialog<List<dynamic>>(
                         context: context,
                         builder: (BuildContext context) {
                           double playlistAudioPlaySpeed = (playlist

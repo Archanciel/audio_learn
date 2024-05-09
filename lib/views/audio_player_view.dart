@@ -265,7 +265,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   ),
                   onPressed: areAudioButtonsEnabled
                       ? () {
-                          showDialog(
+                          showDialog<List<dynamic>>(
                             context: context,
                             builder: (BuildContext context) {
                               return AudioSetSpeedDialogWidget(
@@ -274,11 +274,11 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                               );
                             },
                           ).then((value) {
-                            // not null value is boolean
+                            // not null value is double
                             if (value != null) {
                               // value is null if clicking on Cancel or if the dialog
                               // is dismissed by clicking outside the dialog.
-                              _audioPlaySpeed = value[0] as double;
+                              _audioPlaySpeed = value[0];
                             }
                           });
                         }
@@ -328,22 +328,26 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                       List<Comment> commentLst = [
                         Comment(
                           playlistId: 'q8q736',
-                          audioFileName: "240701-163521-Jancovici m'explique l’importance des ordres de grandeur face au changement climatique 22-06-12",
+                          audioFileName:
+                              "240701-163521-Jancovici m'explique l’importance des ordres de grandeur face au changement climatique 22-06-12",
                           title: 'Bonne explication',
-                          content: 'Janco justifie pourquoi il est important de prendre en compte les ordres de grandeur pour comprendre le changement climatique.',
+                          content:
+                              'Janco justifie pourquoi il est important de prendre en compte les ordres de grandeur pour comprendre le changement climatique.',
                           audioPositionSeconds: 300,
                           creationDateTime: DateTime.now(),
                         ),
                         Comment(
                           playlistId: 'wu813t8uwrep',
-                          audioFileName: "240701-163521-Jancovici m'explique l’importance des ordres de grandeur face au changement climatique 22-06-12",
+                          audioFileName:
+                              "240701-163521-Jancovici m'explique l’importance des ordres de grandeur face au changement climatique 22-06-12",
                           title: 'Energie nuclaire',
-                          content: 'Janco justifie pourquoi les énergies renouvelables ne peuvent pas remplacer l’énergie nucléaire.',
+                          content:
+                              'Janco justifie pourquoi les énergies renouvelables ne peuvent pas remplacer l’énergie nucléaire.',
                           audioPositionSeconds: 500,
                           creationDateTime: DateTime.now(),
                         ),
                       ];
-                      showDialog(
+                      showDialog<void>(
                         context: context,
                         builder: (context) => CommentListAddDialogWidget(
                           commentsLst: commentLst,
@@ -407,7 +411,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
-              showDialog(
+              showDialog<List<dynamic>>(
                 context: context,
                 barrierDismissible:
                     false, // This line prevents the dialog from closing when tapping outside
@@ -471,10 +475,10 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               );
               break;
             case PopupMenuButtonType.saveSortFilterAudioParmsToPlaylist:
-              showDialog(
+              showDialog<bool>(
                 context: context,
-                barrierDismissible:
-                    false, // This line prevents the dialog from closing when tapping outside
+                barrierDismissible: false, // This line prevents the dialog from
+                // closing when tapping outside the dialog
                 builder: (BuildContext context) {
                   return PlaylistSortFilterOptionsSaveToDialogWidget(
                     playlistTitle:
@@ -487,8 +491,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
                   // if the user clicked on Save, not on Cancel button
                   playlistListVMlistenFalse
                       .savePlaylistAudioSortFilterParmsToPlaylist(
-                    AudioLearnAppViewType.audioPlayerView,
-                    isSortFilterParmsApplicationAutomatic,
+                    audioLearnAppView: AudioLearnAppViewType.audioPlayerView,
+                    isSortFilterParmsApplicationAutomatic:
+                        isSortFilterParmsApplicationAutomatic,
                   );
                 }
               });
@@ -827,12 +832,9 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
   }
 
   void _displayOtherAudiosDialog() {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => const AudioPlayableListDialogWidget(),
-    ).then((selectedAudio) {
-      // TODO: why nothing is done there ?
-      print(selectedAudio);
-    });
+    );
   }
 }

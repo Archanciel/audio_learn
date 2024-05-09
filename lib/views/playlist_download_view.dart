@@ -616,10 +616,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           // the dialog
           final FocusNode focusNode = FocusNode();
 
-          showDialog(
+          showDialog<List<dynamic>>(
             context: context,
-            barrierDismissible:
-                false, // This line prevents the dialog from closing when tapping outside
+            barrierDismissible: false, // This line prevents the dialog from
+            // closing when tapping outside the dialog
             builder: (BuildContext context) {
               return AudioSortFilterDialogWidget(
                 selectedPlaylistAudioLst: playlistListVMlistenFalse
@@ -842,10 +842,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               // Using FocusNode to enable clicking on Enter to close
               // the dialog
               final FocusNode focusNode = FocusNode();
-              showDialog(
+              showDialog<List<dynamic>>(
                 context: context,
-                barrierDismissible:
-                    false, // This line prevents the dialog from closing when tapping outside
+                barrierDismissible: false, // This line prevents the dialog from
+                // closing when tapping outside the dialog
                 builder: (BuildContext context) {
                   return AudioSortFilterDialogWidget(
                     selectedPlaylistAudioLst: playlistListVMlistenFalse
@@ -904,10 +904,11 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
               );
               break;
             case PopupMenuButtonType.saveSortFilterAudioParmsToPlaylist:
-              showDialog(
+              showDialog<bool>(
                 context: context,
                 barrierDismissible:
-                    false, // This line prevents the dialog from closing when tapping outside
+                    false, // This line prevents the dialog from closing
+                // when tapping outside the dialog
                 builder: (BuildContext context) {
                   return PlaylistSortFilterOptionsSaveToDialogWidget(
                     playlistTitle:
@@ -921,8 +922,10 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                   // if the user clicked on Save, not on Cancel button
                   playlistListVMlistenFalse
                       .savePlaylistAudioSortFilterParmsToPlaylist(
-                    AudioLearnAppViewType.playlistDownloadView,
-                    isSortFilterParmsApplicationAutomatic,
+                    audioLearnAppView:
+                        AudioLearnAppViewType.playlistDownloadView,
+                    isSortFilterParmsApplicationAutomatic:
+                        isSortFilterParmsApplicationAutomatic,
                   );
                 }
               });
@@ -1041,7 +1044,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
             Playlist? selectedTargetPlaylist;
 
-            showDialog(
+            showDialog<dynamic>(
               context: context,
               builder: (context) => PlaylistOneSelectableDialogWidget(
                 usedFor:
@@ -1049,7 +1052,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
                 warningMessageVM: warningMessageVMlistenFalse,
               ),
             ).then((value) {
-              if (value is String && value == 'cancel') {
+              if (value == 'cancel') {
                 // Fixes bug which happened when downloading a single
                 // video audio and clicking on the cancel button of
                 // the single selection playlist dialog. Without
@@ -1066,7 +1069,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
 
               // confirming or not the addition of the single video
               // audio to the selected playlist
-              showDialog(
+              showDialog<String>(
                 context: context,
                 builder: (context) => KeyboardListener(
                   // Using FocusNode to enable clicking on Enter to close
@@ -1250,7 +1253,7 @@ class _PlaylistDownloadViewState extends State<PlaylistDownloadView>
           ),
           onPressed: () {
             final String playlistUrl = _playlistUrlController.text.trim();
-            showDialog(
+            showDialog<bool>(
               context: context,
               builder: (BuildContext context) {
                 return AddPlaylistDialogWidget(

@@ -43,7 +43,7 @@ class AppBarApplicationRightPopupMenuWidget extends StatelessWidget {
             });
             break;
           case AppBarPopupMenu.about:
-            showDialog(
+            showDialog<void>(
               context: context,
               builder: (BuildContext context) {
                 bool isDarkTheme = themeProvider.currentTheme == AppTheme.dark;

@@ -92,7 +92,7 @@ class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
                   ),
                 ),
                 onPressed: () {
-                  showDialog(
+                  showDialog<void>(
                     context: context,
                     builder: (context) => CommentAddDialogWidget(),
                   );
