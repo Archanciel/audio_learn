@@ -96,30 +96,23 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
               const SizedBox(height: 30),
               // Non-editable Text for Audio File Details
               // Audio Playback Controls
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 120,
-                    child: Text(
-                      '231127-001208-Jancovici - débat avec Bernard Friot - Aix en Provence - 16_11_2023\n23-11-23.mp3',
-                    ),
+                  Text(
+                    'Jancovici - débat avec Bernard Friot - Aix en Provence',
                   ),
-                  Column(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.fast_rewind),
-                            onPressed: null,
-                          ),
-                          Text('2:20:45'),
-                          IconButton(
-                            icon: Icon(Icons.fast_forward),
-                            onPressed: null,
-                          ),
-                        ],
+                      IconButton(
+                        icon: Icon(Icons.fast_rewind),
+                        onPressed: null,
+                      ),
+                      Text('2:20:45'),
+                      IconButton(
+                        icon: Icon(Icons.fast_forward),
+                        onPressed: null,
                       ),
                       IconButton(
                         icon: Icon(Icons.play_arrow),
