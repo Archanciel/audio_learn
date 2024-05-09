@@ -30,21 +30,9 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
   final TextEditingController _localPlaylistTitleTextEditingController =
       TextEditingController();
   final FocusNode _focusNodeDialog = FocusNode();
-  final FocusNode _localPlaylistTitleFocusNode = FocusNode();
+  final FocusNode _focusNodeLocalPlaylistTitle = FocusNode();
 
   bool _isChecked = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Required so that clicking on Enter closes the dialog
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(
-        _focusNodeDialog,
-      );
-    });
-  }
 
   @override
   void dispose() {
@@ -65,7 +53,14 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
       // Youtube playlist, clicking on Enter does not close
       // the dialog.
       FocusScope.of(context).requestFocus(
-        _localPlaylistTitleFocusNode,
+        _focusNodeLocalPlaylistTitle,
+      );
+    } else {
+      // If the playlist URL is not empty, focus on the
+      // _focusNodeDialog to enable clicking on Enter to
+      // close the dialog.
+      FocusScope.of(context).requestFocus(
+        _focusNodeDialog,
       );
     }
 
@@ -114,7 +109,7 @@ class _AddPlaylistDialogWidgetState extends State<AddPlaylistDialogWidget>
                       label:
                           AppLocalizations.of(context)!.localPlaylistTitleLabel,
                       controller: _localPlaylistTitleTextEditingController,
-                      textFieldFocusNode: _localPlaylistTitleFocusNode,
+                      textFieldFocusNode: _focusNodeLocalPlaylistTitle,
                     ),
               createCheckboxRowFunction(
                 // displaying music quality checkbox

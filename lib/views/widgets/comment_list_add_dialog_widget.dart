@@ -33,16 +33,6 @@ class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
   final FocusNode _focusNodeDialog = FocusNode();
 
   @override
-  void initState() {
-    // Required so that clicking on Enter closes the dialog
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNodeDialog.requestFocus();
-    });
-
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _focusNodeDialog.dispose();
 
@@ -56,6 +46,11 @@ class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
     int number = 1;
     int helpItemsLstLength = widget.commentsLst.length;
 
+    // Required so that clicking on Enter closes the dialog
+    FocusScope.of(context).requestFocus(
+      _focusNodeDialog,
+    );
+    
     return KeyboardListener(
       // Using FocusNode to enable clicking on Enter to close
       // the dialog

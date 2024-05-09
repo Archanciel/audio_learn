@@ -47,19 +47,6 @@ class _AudioPlayableListDialogWidgetState
   bool _backToAllAudios = false;
 
   @override
-  void initState() {
-    super.initState();
-
-    // Required so that clicking on Enter closes the dialog
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(
-        _focusNodeDialog,
-      );
-      _scrollToItem();
-    });
-  }
-
-  @override
   void dispose() {
     // Dispose the focus node when the widget is disposed
     _focusNodeDialog.dispose();
@@ -97,6 +84,11 @@ class _AudioPlayableListDialogWidgetState
     } else {
       _currentAudioIndex = playableAudioLst.indexOf(currentAudio);
     }
+
+    // Required so that clicking on Enter closes the dialog
+    FocusScope.of(context).requestFocus(
+      _focusNodeDialog,
+    );
 
     return KeyboardListener(
       focusNode: _focusNodeDialog,

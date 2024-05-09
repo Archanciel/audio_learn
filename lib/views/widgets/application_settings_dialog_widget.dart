@@ -49,10 +49,6 @@ class _ApplicationSettingsDialogWidgetState
         1.0;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Required so that clicking on Enter closes the dialog
-      FocusScope.of(context).requestFocus(
-        _focusNodeDialog,
-      );
       _playlistRootpathTextEditingController.text = widget.settingsDataService
               .get(
                   settingType: SettingType.dataLocation,

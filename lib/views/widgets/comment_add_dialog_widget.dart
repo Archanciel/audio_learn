@@ -24,18 +24,6 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
   final FocusNode _focusNodePlaylistRootPath = FocusNode();
 
   @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Required so that clicking on Enter closes the dialog
-      FocusScope.of(context).requestFocus(
-        _focusNodeDialog,
-      );
-    });
-  }
-
-  @override
   void dispose() {
     _focusNodeDialog.dispose();
     _focusNodePlaylistRootPath.dispose();
@@ -81,6 +69,7 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
                   decoration: getDialogTextFieldInputDecoration(
                     hintText: AppLocalizations.of(context)!.commentTitle,
                   ),
+                  focusNode: _focusNodePlaylistRootPath,
                 ),
               ),
               const SizedBox(height: 10),
