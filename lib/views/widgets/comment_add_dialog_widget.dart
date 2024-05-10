@@ -65,7 +65,9 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
               SizedBox(
                 height: kDialogTextFieldHeight,
                 child: TextField(
+                  key: const Key('commentTitleTextField'),
                   controller: titleController,
+                  style: kDialogTextFieldStyle,
                   decoration: getDialogTextFieldInputDecoration(
                     hintText: AppLocalizations.of(context)!.commentTitle,
                   ),

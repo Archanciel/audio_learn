@@ -2283,6 +2283,69 @@ void main() {
           rootPath: kPlaylistDownloadRootPathWindowsTest);
     });
   });
+  group('Audio comment tests', () {
+    testWidgets('Temporary creating add comment dialog.',
+        (WidgetTester tester) async {
+      const String audioPlayerSelectedPlaylistTitle =
+          'S8 audio'; // Youtube playlist
+      const String toSelectAudioTitle =
+          "Jancovici m'explique l’importance des ordres de grandeur face au changement climatique";
+
+      await initializeApplicationAndSelectPlaylist(
+        tester: tester,
+        savedTestDataDirName: 'audio_comment_test',
+        selectedPlaylistTitle: audioPlayerSelectedPlaylistTitle,
+      );
+
+      // Now we want to tap on the first downloaded audio of the
+      // playlist in order to open the AudioPlayerView displaying
+      // the audio
+
+      // Tap the 'Toggle List' button to avoid displaying the list
+      // of playlists which may hide the audio title we want to
+      // tap on
+      await tester.tap(find.byKey(const Key('playlist_toggle_button')));
+      await tester.pumpAndSettle();
+
+      // First, get the ListTile Text widget finder of the audio
+      // to be selected and tap on it
+      await tester.tap(find.text(toSelectAudioTitle));
+      await tester.pumpAndSettle();
+
+      // Tap on the comment icon button to open the comment list
+      // dialog
+      await tester.tap(find.byKey(const Key('commentsIconButton')));
+      await tester.pumpAndSettle();
+
+      // Verify that the comment dialog is displayed
+      expect(find.text('Comments'), findsOneWidget);
+
+      // Now tap on the Add comment icon button to open the add
+      // comment dialog
+      await tester
+          .tap(find.byKey(const Key('addPositionedCommentIconButtonKey')));
+      await tester.pumpAndSettle();
+
+      // Find the TextField using the Key
+      final textFieldFinder = find.byKey(Key('commentTitleTextField'));
+
+      // Ensure that the TextField is found in the widget tree
+      expect(textFieldFinder, findsOneWidget);
+
+      // Retrieve the TextField widget
+      final textField = tester.widget<TextField>(textFieldFinder);
+
+      // Extract the TextStyle used in the TextField
+      final textStyle = textField.style ?? const TextStyle();
+
+      // Check the font size of the TextField
+      expect(textStyle.fontSize, 16);
+      // Purge the test playlist directory so that the created test
+      // files are not uploaded to GitHub
+      DirUtil.deleteFilesInDirAndSubDirs(
+          rootPath: kPlaylistDownloadRootPathWindowsTest);
+    });
+  });
 }
 
 Future<void> goBackToPlaylistdownloadViewToCheckAudioStateAndIcon({

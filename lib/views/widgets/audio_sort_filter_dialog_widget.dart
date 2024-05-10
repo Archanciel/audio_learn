@@ -891,30 +891,18 @@ class _AudioSortFilterDialogWidgetState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(AppLocalizations.of(context)!.start),
-            SizedBox(
-              width: 80,
-              height: kDialogTextFieldHeight,
-              child: TextField(
-                key: const Key('audioDurationRangeStartTextField'),
-                style: kDialogTextFieldStyle,
-                decoration: _dialogTextFieldDecoration,
-                controller: _startAudioDurationController,
-                keyboardType: TextInputType.number,
-              ),
+            _buildLabelTextField(
+              key: const Key('startAudioDurationTextField'),
+              context: context,
+              controller: _startAudioDurationController,
+              label: AppLocalizations.of(context)!.start,
             ),
             const SizedBox(width: 10),
-            Text(AppLocalizations.of(context)!.end),
-            SizedBox(
-              width: 80,
-              height: kDialogTextFieldHeight,
-              child: TextField(
-                key: const Key('audioDurationRangeEndTextField'),
-                style: kDialogTextFieldStyle,
-                decoration: _dialogTextFieldDecoration,
-                controller: _endAudioDurationController,
-                keyboardType: TextInputType.number,
-              ),
+            _buildLabelTextField(
+              key: const Key('endAudioDurationTextField'),
+              context: context,
+              controller: _endAudioDurationController,
+              label: AppLocalizations.of(context)!.end,
             ),
           ],
         ),
@@ -936,32 +924,51 @@ class _AudioSortFilterDialogWidgetState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(AppLocalizations.of(context)!.start),
-            SizedBox(
-              width: 80,
-              height: kDialogTextFieldHeight,
-              child: TextField(
-                key: const Key('startFileSizeTextField'),
-                style: kDialogTextFieldStyle,
-                decoration: _dialogTextFieldDecoration,
-                controller: _startFileSizeController,
-                keyboardType: TextInputType.number,
-              ),
+            _buildLabelTextField(
+              key: const Key('startFileSizeTextField'),
+              context: context,
+              controller: _startFileSizeController,
+              label: AppLocalizations.of(context)!.start,
             ),
             const SizedBox(width: 10),
-            Text(AppLocalizations.of(context)!.end),
-            SizedBox(
-              width: 80,
-              height: kDialogTextFieldHeight,
-              child: TextField(
-                key: const Key('endFileSizeTextField'),
-                style: kDialogTextFieldStyle,
-                decoration: _dialogTextFieldDecoration,
-                controller: _endFileSizeController,
-                keyboardType: TextInputType.number,
-              ),
+            _buildLabelTextField(
+              key: const Key('endFileSizeTextField'),
+              context: context,
+              controller: _endFileSizeController,
+              label: AppLocalizations.of(context)!.end,
             ),
           ],
+        ),
+      ],
+    );
+  }
+
+  Row _buildLabelTextField({
+    required Key key,
+    required BuildContext context,
+    required TextEditingController controller,
+    required String label,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 40,
+          child: Text(
+            label,
+            style: kDialogLabelStyle,
+          ),
+        ),
+        SizedBox(
+          width: 80,
+          child: TextField(
+            key: key,
+            style: kDialogTextFieldStyle,
+            decoration: _dialogTextFieldDecoration,
+            controller: controller,
+            keyboardType: TextInputType.number,
+          ),
         ),
       ],
     );
@@ -973,169 +980,83 @@ class _AudioSortFilterDialogWidgetState
   ) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 104,
-              child: Text(AppLocalizations.of(context)!.startDownloadDate),
-            ),
-            IconButton(
-              key: const Key('startDownloadDateIconButton'),
-              icon: const Icon(Icons.calendar_month_rounded),
-              onPressed: () async {
-                DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: now,
-                  firstDate: DateTime(2000),
-                  lastDate: now,
-                );
-
-                // Add this check
-                _startDownloadDateTime = pickedDate;
-                _startDownloadDateTimeController.text =
-                    DateFormat('dd-MM-yyyy').format(_startDownloadDateTime!);
-
-                // now clicking on Enter works since the
-                // Checkbox is not focused anymore
-                _audioTitleSearchSentenceFocusNode.requestFocus();
-              },
-            ),
-            SizedBox(
-              width: 80,
-              height: kDialogTextFieldHeight,
-              child: TextField(
-                key: const Key('startDownloadDateTextField'),
-                style: kDialogTextFieldStyle,
-                decoration: _dialogTextFieldDecoration,
-                controller: _startDownloadDateTimeController,
-                keyboardType: TextInputType.number,
-              ),
-            ),
-          ],
+        _buildLabelDateIconTextField(
+          dateIconButtondKey: const Key('startDownloadDateIconButton'),
+          textFieldKey: const Key('startDownloadDateTextField'),
+          context: context,
+          controller: _startDownloadDateTimeController,
+          label: AppLocalizations.of(context)!.startDownloadDate,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 104,
-              child: Text(AppLocalizations.of(context)!.endDownloadDate),
-            ),
-            IconButton(
-              key: const Key('endDownloadDateIconButton'),
-              icon: const Icon(Icons.calendar_month_rounded),
-              onPressed: () async {
-                DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: now,
-                  firstDate: DateTime(2000),
-                  lastDate: now,
-                );
-
-                // Add this check
-                _endDownloadDateTime = pickedDate;
-                _endDownloadDateTimeController.text =
-                    DateFormat('dd-MM-yyyy').format(_endDownloadDateTime!);
-
-                // now clicking on Enter works since the
-                // Checkbox is not focused anymore
-                _audioTitleSearchSentenceFocusNode.requestFocus();
-              },
-            ),
-            SizedBox(
-              width: 80,
-              height: kDialogTextFieldHeight,
-              child: TextField(
-                key: const Key('endDownloadDateTextField'),
-                style: kDialogTextFieldStyle,
-                decoration: _dialogTextFieldDecoration,
-                controller: _endDownloadDateTimeController,
-                keyboardType: TextInputType.number,
-              ),
-            ),
-          ],
+        _buildLabelDateIconTextField(
+          dateIconButtondKey: const Key('endDownloadDateIconButton'),
+          textFieldKey: const Key('endDownloadDateTextField'),
+          context: context,
+          controller: _endDownloadDateTimeController,
+          label: AppLocalizations.of(context)!.endDownloadDate,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 104,
-              child: Text(AppLocalizations.of(context)!.startUploadDate),
-            ),
-            IconButton(
-              key: const Key('startUploadDateIconButton'),
-              icon: const Icon(Icons.calendar_month_rounded),
-              onPressed: () async {
-                DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: now,
-                  firstDate: DateTime(2000),
-                  lastDate: now,
-                );
-
-                // Add this check
-                _startUploadDateTime = pickedDate;
-                _startUploadDateTimeController.text =
-                    DateFormat('dd-MM-yyyy').format(_startUploadDateTime!);
-
-                // now clicking on Enter works since the
-                // Checkbox is not focused anymore
-                _audioTitleSearchSentenceFocusNode.requestFocus();
-              },
-            ),
-            SizedBox(
-              width: 80,
-              height: kDialogTextFieldHeight,
-              child: TextField(
-                key: const Key('startUploadDateTextField'),
-                style: kDialogTextFieldStyle,
-                decoration: _dialogTextFieldDecoration,
-                controller: _startUploadDateTimeController,
-                keyboardType: TextInputType.number,
-              ),
-            ),
-          ],
+        _buildLabelDateIconTextField(
+          dateIconButtondKey: const Key('startUploadDateIconButton'),
+          textFieldKey: const Key('startUploadDateTextField'),
+          context: context,
+          controller: _startUploadDateTimeController,
+          label: AppLocalizations.of(context)!.startUploadDate,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 104,
-              child: Text(AppLocalizations.of(context)!.endUploadDate),
-            ),
-            IconButton(
-              key: const Key('endUploadDateIconButton'),
-              icon: const Icon(Icons.calendar_month_rounded),
-              onPressed: () async {
-                DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: now,
-                  firstDate: DateTime(2000),
-                  lastDate: now,
-                );
+        _buildLabelDateIconTextField(
+          dateIconButtondKey: const Key('endUploadDateIconButton'),
+          textFieldKey: const Key('endUploadDateTextField'),
+          context: context,
+          controller: _endUploadDateTimeController,
+          label: AppLocalizations.of(context)!.endUploadDate,
+        ),
+      ],
+    );
+  }
 
-                // Add this check
-                _endUploadDateTime = pickedDate;
-                _endUploadDateTimeController.text =
-                    DateFormat('dd-MM-yyyy').format(_endUploadDateTime!);
+  Row _buildLabelDateIconTextField({
+    required Key dateIconButtondKey,
+    required Key textFieldKey,
+    required BuildContext context,
+    required TextEditingController controller,
+    required String label,
+  }) {
+    DateTime now = DateTime.now();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(
+          width: 104,
+          child: Text(AppLocalizations.of(context)!.startDownloadDate),
+        ),
+        IconButton(
+          key: dateIconButtondKey,
+          icon: const Icon(Icons.calendar_month_rounded),
+          onPressed: () async {
+            DateTime? pickedDate = await showDatePicker(
+              context: context,
+              initialDate: now,
+              firstDate: DateTime(2000),
+              lastDate: now,
+            );
 
-                // now clicking on Enter works since the
-                // Checkbox is not focused anymore
-                _audioTitleSearchSentenceFocusNode.requestFocus();
-              },
-            ),
-            SizedBox(
-              key: const Key('endUploadDateTextField'),
-              width: 80,
-              height: kDialogTextFieldHeight,
-              child: TextField(
-                style: kDialogTextFieldStyle,
-                decoration: _dialogTextFieldDecoration,
-                controller: _endUploadDateTimeController,
-                keyboardType: TextInputType.number,
-              ),
-            ),
-          ],
+            // Add this check
+            _startDownloadDateTime = pickedDate;
+            controller.text =
+                DateFormat('dd-MM-yyyy').format(_startDownloadDateTime!);
+
+            // now clicking on Enter works since the
+            // Checkbox is not focused anymore
+            _audioTitleSearchSentenceFocusNode.requestFocus();
+          },
+        ),
+        SizedBox(
+          width: 80,
+          child: TextField(
+            key: textFieldKey,
+            style: kDialogTextFieldStyle,
+            decoration: _dialogTextFieldDecoration,
+            controller: controller,
+            keyboardType: TextInputType.number,
+          ),
         ),
       ],
     );
@@ -1666,6 +1587,12 @@ class _AudioSortFilterDialogWidgetState
       _buildListOfSortingOptionDropdownMenuItems(
     BuildContext context,
   ) {
+    // Retrieve the screen width using MediaQuery
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Set a reasonable proportion of the screen width for the dropdown items
+    double maxDropdownWidth = screenWidth * 0.6;
+
     return SortingOption.values.where((SortingOption value) {
       // Exclude certain options based on the app view type
       return !(widget.audioLearnAppViewType ==
@@ -1682,10 +1609,13 @@ class _AudioSortFilterDialogWidgetState
     }).map<DropdownMenuItem<SortingOption>>((SortingOption value) {
       return DropdownMenuItem<SortingOption>(
         value: value,
-        child: Text(
-          _sortingOptionToString(value, context),
-          style: const TextStyle(fontSize: kDropdownMenuItemFontSize),
-          maxLines: 2,
+        child: SizedBox(
+          width: maxDropdownWidth,
+          child: Text(
+            _sortingOptionToString(value, context),
+            style: const TextStyle(fontSize: kDropdownMenuItemFontSize),
+            maxLines: 2,
+          ),
         ),
       );
     }).toList();

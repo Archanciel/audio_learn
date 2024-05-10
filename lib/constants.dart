@@ -15,7 +15,7 @@ enum AudioLearnAppViewType {
 }
 
 const String kApplicationName = "Audio Learn";
-const String kApplicationVersion = '1.0.14.1';
+const String kApplicationVersion = '1.0.14.2';
 const String kApplicationPath = "/storage/emulated/0/Download/audiolearn";
 const String kApplicationPathTest = "/storage/emulated/0/Download/audiolearn";
 const String kPlaylistDownloadRootPath =
@@ -117,12 +117,12 @@ const TextStyle kDialogTitlesStyle = TextStyle(
 );
 
 const TextStyle kDialogLabelStyle = TextStyle(
-  fontSize: 14,
-  fontWeight: FontWeight.bold,
+  fontSize: 15,
+  fontWeight: FontWeight.normal,
 );
 
 const TextStyle kDialogTextFieldStyle = TextStyle(
-  fontSize: 13,
+  fontSize: 16,
 );
 
 const double kDialogTextFieldHeight = 32.0;

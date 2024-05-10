@@ -76,6 +76,7 @@ class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
               message:
                   AppLocalizations.of(context)!.addPositionedCommentTooltip,
               child: IconButton(
+                key: const Key('addPositionedCommentIconButtonKey'),
                 icon: IconTheme(
                   data: (themeProviderVM.currentTheme == AppTheme.dark
                           ? ScreenMixin.themeDataDark

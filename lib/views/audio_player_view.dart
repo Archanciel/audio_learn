@@ -320,6 +320,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
           child: SizedBox(
             width: kSmallButtonWidth,
             child: IconButton(
+              key: const Key('commentsIconButton'),
               icon: const Icon(Icons.bookmark_outline_outlined),
               iconSize: kUpDownButtonSize - 15,
               onPressed: (!areAudioButtonsEnabled)

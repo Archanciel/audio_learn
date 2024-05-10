@@ -415,17 +415,17 @@ mixin ScreenMixin {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: Text(label),
+            child: Text(
+              label,
+              style: kDialogLabelStyle,
+            ),
           ),
           Expanded(
-            child: SizedBox(
-              height: 37,
-              child: TextField(
-                key: valueTextFieldWidgetKey,
-                controller: controller,
-                decoration: getDialogTextFieldInputDecoration(),
-                focusNode: textFieldFocusNode,
-              ),
+            child: TextField(
+              key: valueTextFieldWidgetKey,
+              controller: controller,
+              decoration: getDialogTextFieldInputDecoration(),
+              focusNode: textFieldFocusNode,
             ),
           ),
         ],
