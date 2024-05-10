@@ -821,6 +821,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               iconSize: _audioIconSizeSmall,
               onPressed: globalAudioPlayerVM.isRedoListEmpty()
                   ? null // Disable the button if the volume is min
+                  ? null // Disable the button if the redo list is empty
                   : () {
                       globalAudioPlayerVM.redo();
                     },
