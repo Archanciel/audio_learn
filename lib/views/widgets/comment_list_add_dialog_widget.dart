@@ -71,7 +71,7 @@ class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
             Text(
               AppLocalizations.of(context)!.commentsDialogTitle,
             ),
-            const SizedBox(width: 40),
+            const SizedBox(width: 15),
             Tooltip(
               message:
                   AppLocalizations.of(context)!.addPositionedCommentTooltip,
@@ -84,7 +84,7 @@ class _CommentListAddDialogWidgetState extends State<CommentListAddDialogWidget>
                       .iconTheme,
                   child: const Icon(
                     Icons.add_circle_outline,
-                    size: 50.0,
+                    size: 40.0,
                   ),
                 ),
                 onPressed: () {

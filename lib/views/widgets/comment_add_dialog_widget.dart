@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -87,27 +89,36 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
               const SizedBox(height: 30),
               // Non-editable Text for Audio File Details
               // Audio Playback Controls
-              const Column(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Jancovici - débat avec Bernard Friot - Aix en Provence',
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.fast_rewind),
-                        onPressed: null,
+                        icon: const Icon(Icons.fast_rewind),
+                        onPressed: () {
+                          rewindOneSecondAndPlay();
+                        },
+                        iconSize: kSmallestButtonWidth,
                       ),
-                      Text('2:20:45'),
+                      const Text('2:20:45'),
                       IconButton(
                         icon: Icon(Icons.fast_forward),
-                        onPressed: null,
+                        onPressed: () {
+                          forwardOneSecondAndPlay();
+                        },
+                        iconSize: kSmallestButtonWidth,
                       ),
                       IconButton(
                         icon: Icon(Icons.play_arrow),
-                        onPressed: null,
+                        onPressed: () {
+                          playFromCommentPosition();
+                        },
+                        iconSize: kUpDownButtonSize - 10,
                         padding: EdgeInsets.all(0), // Remove extra padding
                         constraints:
                             BoxConstraints(), // Ensure the button takes minimal space
@@ -140,5 +151,17 @@ class _CommentAddDialogWidgetState extends State<CommentAddDialogWidget>
         ],
       ),
     );
+  }
+
+  void rewindOneSecondAndPlay() {
+    print('Rewind 1 second');
+  }
+
+  void forwardOneSecondAndPlay() {
+    print('Forward 1 second');
+  }
+
+  void playFromCommentPosition() {
+    print('Play from comment position');
   }
 }

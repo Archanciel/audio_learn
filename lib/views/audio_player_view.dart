@@ -810,7 +810,7 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               key: const Key('audioPlayerViewUndoButton'),
               iconSize: _audioIconSizeSmall,
               onPressed: globalAudioPlayerVM.isUndoListEmpty()
-                  ? null // Disable the button if the volume is min
+                  ? null // Disable the button if the undo list is empty
                   : () {
                       globalAudioPlayerVM.undo();
                     },
@@ -820,7 +820,6 @@ class _AudioPlayerViewState extends State<AudioPlayerView>
               key: const Key('audioPlayerViewRedoButton'),
               iconSize: _audioIconSizeSmall,
               onPressed: globalAudioPlayerVM.isRedoListEmpty()
-                  ? null // Disable the button if the volume is min
                   ? null // Disable the button if the redo list is empty
                   : () {
                       globalAudioPlayerVM.redo();
