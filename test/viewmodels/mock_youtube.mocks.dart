@@ -438,4 +438,14 @@ class MockVideoClient extends _i1.Mock implements _i4.VideoClient {
           ),
         )),
       ) as _i6.Future<_i2.Video>);
+
+  @override
+  _i6.Future<_i2.RelatedVideosList?> getRelatedVideos(_i2.Video? video) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getRelatedVideos,
+          [video],
+        ),
+        returnValue: _i6.Future<_i2.RelatedVideosList?>.value(),
+      ) as _i6.Future<_i2.RelatedVideosList?>);
 }
